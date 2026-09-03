@@ -1,0 +1,1 @@
+import{i as t,aa as o,ai as n,aE as s,ae as i}from"./Dn2n2_7u.js";const m=t({__name:"HoxiContainer",props:{width:{default:"wide"}},setup(a){return(e,p)=>(i(),o("div",{class:s(a.width==="prose"?"max-w-[720px] mx-auto px-4 md:px-6":"max-w-[1280px] mx-auto px-4 md:px-6")},[n(e.$slots,"default")],2))}}),x=Object.assign(m,{__name:"HoxiContainer"});export{x as default};

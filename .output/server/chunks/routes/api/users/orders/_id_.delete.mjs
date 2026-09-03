@@ -1,0 +1,91 @@
+import { d as defineEventHandler, c as getRequestLocale, bi as requireUserSession, e as createError, b as db, o as orders } from '../../../../nitro/nitro.mjs';
+import { and, eq } from 'drizzle-orm';
+import 'crypto';
+import 'fs';
+import 'path';
+import 'node:http';
+import 'node:https';
+import 'node:crypto';
+import 'node:events';
+import 'node:buffer';
+import 'node:fs';
+import 'node:path';
+import 'node:async_hooks';
+import 'postgres';
+import 'drizzle-orm/postgres-js';
+import 'drizzle-orm/d1';
+import '@libsql/client';
+import 'drizzle-orm/libsql';
+import 'mysql2/promise';
+import 'drizzle-orm/mysql2';
+import 'drizzle-orm/pg-core';
+import 'drizzle-orm/sqlite-core';
+import 'drizzle-orm/mysql-core';
+import 'maxmind';
+import 'node:url';
+import '@iconify/utils';
+import 'consola';
+import 'ioredis';
+import 'zod';
+import 'http';
+import 'https';
+import 'zlib';
+import 'stream';
+import 'buffer';
+import 'util';
+import 'url';
+import 'net';
+import 'node:fs/promises';
+import 'node:dns/promises';
+import 'node:net';
+import '@adonisjs/hash';
+import '@adonisjs/hash/drivers/scrypt';
+
+const _id__delete = defineEventHandler(async (event) => {
+  var _a;
+  const locale = getRequestLocale(event);
+  const messages = locale === "zh" ? {
+    invalidRequest: "\u8BF7\u6C42\u65E0\u6548",
+    orderNotFound: "\u8BA2\u5355\u4E0D\u5B58\u5728",
+    onlyCancelled: "\u53EA\u6709\u5DF2\u53D6\u6D88\u8BA2\u5355\u53EF\u4EE5\u5220\u9664",
+    deleted: "\u8BA2\u5355\u5DF2\u6210\u529F\u5220\u9664"
+  } : {
+    invalidRequest: "Invalid request",
+    orderNotFound: "Order not found",
+    onlyCancelled: "Only cancelled orders can be deleted",
+    deleted: "Order deleted successfully"
+  };
+  const session = await requireUserSession(event);
+  const userId = session.user.id;
+  const orderId = (_a = event.context.params) == null ? void 0 : _a.id;
+  if (!userId || !orderId) {
+    throw createError({
+      statusCode: 400,
+      message: messages.invalidRequest
+    });
+  }
+  const existing = await db.select({
+    id: orders.id,
+    payStatus: orders.payStatus
+  }).from(orders).where(and(eq(orders.id, orderId), eq(orders.userId, userId))).limit(1);
+  if (!existing || existing.length === 0) {
+    throw createError({
+      statusCode: 404,
+      message: messages.orderNotFound
+    });
+  }
+  const order = existing[0];
+  if (order.payStatus !== "cancelled") {
+    throw createError({
+      statusCode: 400,
+      message: messages.onlyCancelled
+    });
+  }
+  await db.update(orders).set({ payStatus: "deleted" }).where(eq(orders.id, orderId));
+  return {
+    success: true,
+    message: messages.deleted
+  };
+});
+
+export { _id__delete as default };

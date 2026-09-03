@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <rect width="64" height="64" rx="14" fill="#FFFFFF" />
+  <rect x="0.75" y="0.75" width="62.5" height="62.5" rx="13.25" stroke="#F1F5F9" stroke-width="1.5" />
+
+  <g transform="translate(6, 5) scale(0.8125)">
+    <!-- 左巨柱与左飞翼 -->
+    <path d="M12 56V26L30 14V23L19 30.5V56H12Z" fill="#0F172A" />
+    <!-- 右巨柱与右飞翼 -->
+    <path d="M52 56V26L34 14V23L45 30.5V56H52Z" fill="#0F172A" />
+    <!-- 微弧笑脸横梁 -->
+    <path d="M19 36Q32 42.5 45 36V42.5Q32 49 19 42.5Z" fill="#0F172A" />
+  </g>
+</svg>

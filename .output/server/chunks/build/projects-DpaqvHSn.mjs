@@ -1,0 +1,82 @@
+const defaultHoxiProjects = [
+  {
+    id: "hoxi-ai",
+    name: "\u5408\u559C AI (hoxi.ai)",
+    tagline: "\u4E2D\u6587 AI \u6A21\u578B\u6392\u884C\u4E0E\u4E00\u4EBA\u516C\u53F8\u5168\u6808\u9009\u578B\u7AD9",
+    description: "\u4E13\u6CE8\u4E8E\u89E3\u51B3\u4E00\u4EBA\u516C\u53F8\u6210\u957F\u8DEF\u4E0A\u7684\u7B97\u529B\u6210\u672C\u5931\u63A7\u3001\u5DE5\u5177\u94FE\u81C3\u80BF\u4E0E\u9009\u578B\u8FF7\u832B\u3002\u516C\u5F00\u5B98\u65B9\u4EF7 vs \u4E13\u7EBF\u4EF7\uFF0C\u63D0\u4F9B\u53EF\u6838\u9A8C\u7684\u6A21\u578B\u7EFC\u5408\u4F53\u611F\u5929\u68AF\u4E0E\u964D\u672C\u5E73\u66FF\u8DEF\u7EBF\u3002",
+    category: "ai-infra",
+    categoryLabel: "AI \u9009\u578B\u4E0E\u5DE5\u5177",
+    status: "active",
+    statusLabel: "\u5546\u4E1A\u5316\u8FD0\u884C",
+    modelUsed: "DeepSeek-V3 \xB7 Claude 3.7",
+    monthlyCost: "\xA535/\u6708 (\u9759\u6001\u4F18\u5148+\u8FB9\u7F18\u7F13\u5B58)",
+    techStack: ["Nuxt 3", "Tailwind CSS", "Cloudflare Pages", "SQLite"],
+    author: "\u53EF\u4E50 (Coller)",
+    authorUrl: "https://github.com/hoxiai",
+    badge: "\u7AD9\u957F\u51FA\u54C1",
+    badgeTone: "positive",
+    icon: "ph:compass-tool-bold",
+    url: "https://hoxi.ai",
+    githubUrl: "https://github.com/hoxiai",
+    storyUrl: "/about",
+    highlights: [
+      "\u6536\u5F55 20+ \u6B3E\u6838\u5FC3\u5927\u6A21\u578B\u57FA\u7EBF\u6570\u636E\u4E0E\u6BCF\u65E5\u8C03\u4EF7\u6D41\u6C34",
+      "\u72EC\u5BB6\u81EA\u6D4B\u56FD\u5185\u514D\u7FFB\u76F4\u8FDE\u4E13\u7EBF\u4E2D\u8F6C\u5929\u68AF",
+      "\u4E00\u4EBA\u6210\u519B\u5168\u6808\u6781\u7B80\u8BBE\u8BA1\uFF0C90% \u7559\u767D 10% \u8272\u5F69"
+    ],
+    order: 10,
+    hidden: false
+  },
+  {
+    id: "ainode",
+    name: "ainode (AI \u4E13\u7EBF\u7F51\u5173)",
+    tagline: "\u7A33\u5B9A\u5E73\u4EF7\u3001\u56FD\u5185\u76F4\u8FDE\u7684\u9AD8\u5E76\u53D1 AI \u7B97\u529B\u4E2D\u8F6C\u7AD9",
+    description: "\u4E3A\u4E00\u4EBA\u516C\u53F8\u4E0E\u72EC\u7ACB\u5F00\u53D1\u8005\u6253\u9020\u7684\u81EA\u8425 API \u7F51\u5173\uFF0C\u805A\u5408\u4E3B\u6D41\u9876\u7EA7\u6A21\u578B\uFF0C\u652F\u6301\u9AD8\u5E76\u53D1\u91CD\u8BD5\u4E0E\u667A\u80FD\u6545\u969C\u5254\u9664\uFF0C\u7B97\u529B\u6210\u672C\u4F4E\u81F3\u5B98\u65B9 1~3 \u6298\u3002",
+    category: "gateway",
+    categoryLabel: "\u7B97\u529B\u57FA\u5EFA",
+    status: "active",
+    statusLabel: "\u7A33\u5B9A\u8FD0\u884C\u4E2D",
+    modelUsed: "\u805A\u5408\u8DEF\u7531 DeepSeek / Claude / GPT / Gemini",
+    monthlyCost: "\u7EAF\u6309\u91CF\u8BA1\u8D39 \xB7 Pay-as-you-go",
+    techStack: ["Golang", "OpenAI \u517C\u5BB9\u534F\u8BAE", "\u5168\u7403\u667A\u80FD CDN"],
+    author: "\u53EF\u4E50 (Coller)",
+    badge: "\u7B97\u529B\u5E95\u5EA7",
+    badgeTone: "info",
+    icon: "ph:broadcast-bold",
+    url: "https://ainode.top",
+    highlights: [
+      "100% \u517C\u5BB9 OpenAI SDK\uFF0C\u4E00\u952E\u65E0\u611F\u5E73\u66FF\u63A5\u5165",
+      "\u56FD\u5185\u4F01\u4E1A\u4E13\u7EBF\u76F4\u8FDE\uFF0C\u8D85\u4F4E\u9996\u5B57\u54CD\u5E94\u5EF6\u8FDF",
+      "\u4E25\u683C\u771F\u6A21\u578B\u4FDD\u8BC1\uFF0C\u4E0D\u63BA\u5047\u6C34\u4E0D\u964D\u914D"
+    ],
+    order: 20,
+    hidden: false
+  },
+  {
+    id: "apay",
+    name: "apay (\u72EC\u7ACB\u5F00\u53D1\u5546\u4E1A\u95ED\u73AF\u5957\u4EF6)",
+    tagline: "\u8F7B\u91CF\u5168\u6808\u72EC\u7ACB\u5F00\u53D1\u3001\u51FA\u6D77\u5168\u7403\u6536\u6B3E\u4E0E\u4E3B\u9898\u7CFB\u7EDF",
+    description: "\u5F00\u7BB1\u5373\u7528\u7684\u8F7B\u91CF\u5168\u6808\u5546\u57CE\u4E0E\u4E3B\u9898\u6846\u67B6\uFF0C\u65E0\u7F1D\u652F\u6301\u5FAE\u4FE1\u3001\u652F\u4ED8\u5B9D\u3001Stripe \u4E0E\u865A\u62DF\u5E01\u6536\u6B3E\uFF0C\u62B9\u5E73\u4ECE\u5199\u51FA\u4EE3\u7801\u5230\u8D5A\u5230\u7B2C\u4E00\u5757\u94B1\u7684\u4EA4\u4ED8\u9E3F\u6C9F\u3002",
+    category: "saas",
+    categoryLabel: "\u5546\u4E1A\u53D8\u73B0",
+    status: "active",
+    statusLabel: "\u6301\u7EED\u8FED\u4EE3",
+    modelUsed: "Claude Code \u8F85\u52A9\u5168\u6808\u91CD\u6784",
+    monthlyCost: "\u96F6\u8FD0\u7EF4\u6258\u7BA1",
+    techStack: ["Nuxt 3", "Drizzle ORM", "Stripe", "WeChat Pay", "Alipay"],
+    author: "\u5408\u559C\u56E2\u961F",
+    badge: "\u5546\u4E1A\u95ED\u73AF",
+    badgeTone: "positive",
+    icon: "ph:credit-card-bold",
+    url: "https://apay.ai",
+    highlights: [
+      "\u591A\u5957\u524D\u53F0\u4E3B\u9898\u70ED\u63D2\u62D4\u5207\u6362\uFF0C\u96F6\u4FB5\u5165\u6269\u5C55",
+      "\u6253\u901A\u5168\u7403\u6CD5\u5B9A\u8D27\u5E01\u4E0E\u4E3B\u6D41\u7B2C\u4E09\u65B9\u805A\u5408\u901A\u9053",
+      "\u6781\u7B80\u6570\u636E\u5E93\u8BBE\u8BA1\uFF0C\u4E13\u4E3A\u8D85\u7EA7\u4E2A\u4F53\u4E0E\u4E00\u4EBA\u516C\u53F8\u4F18\u5316"
+    ],
+    order: 30,
+    hidden: false
+  }
+];
+
+export { defaultHoxiProjects as d };

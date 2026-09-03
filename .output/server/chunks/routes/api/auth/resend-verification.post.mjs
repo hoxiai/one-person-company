@@ -1,0 +1,142 @@
+import { d as defineEventHandler, a2 as requireTrustedRequestOrigin, c as getRequestLocale, r as readBody, aD as getUserSession, b as db, u as users, e as createError, b5 as userTokens, b6 as EMAIL_VERIFY_TOKEN_NAME, I as getLocalizedSettingValue, J as sendEmail } from '../../../nitro/nitro.mjs';
+import { eq, and, desc } from 'drizzle-orm';
+import 'crypto';
+import 'fs';
+import 'path';
+import 'node:http';
+import 'node:https';
+import 'node:crypto';
+import 'node:events';
+import 'node:buffer';
+import 'node:fs';
+import 'node:path';
+import 'node:async_hooks';
+import 'postgres';
+import 'drizzle-orm/postgres-js';
+import 'drizzle-orm/d1';
+import '@libsql/client';
+import 'drizzle-orm/libsql';
+import 'mysql2/promise';
+import 'drizzle-orm/mysql2';
+import 'drizzle-orm/pg-core';
+import 'drizzle-orm/sqlite-core';
+import 'drizzle-orm/mysql-core';
+import 'maxmind';
+import 'node:url';
+import '@iconify/utils';
+import 'consola';
+import 'ioredis';
+import 'zod';
+import 'http';
+import 'https';
+import 'zlib';
+import 'stream';
+import 'buffer';
+import 'util';
+import 'url';
+import 'net';
+import 'node:fs/promises';
+import 'node:dns/promises';
+import 'node:net';
+import '@adonisjs/hash';
+import '@adonisjs/hash/drivers/scrypt';
+
+const COOLDOWN_SECONDS = 60;
+const resendVerification_post = defineEventHandler(async (event) => {
+  var _a;
+  const siteUrl = requireTrustedRequestOrigin(event);
+  const locale = getRequestLocale(event);
+  const body = await readBody(event).catch(() => ({}));
+  const messages = locale === "zh" ? {
+    unauthorized: "\u8BF7\u5148\u767B\u5F55\u6216\u63D0\u4F9B\u6CE8\u518C\u90AE\u7BB1",
+    userNotFound: "\u672A\u627E\u5230\u8BE5\u90AE\u7BB1\u5BF9\u5E94\u7684\u8D26\u53F7",
+    alreadyVerified: "\u8BE5\u90AE\u7BB1\u5DF2\u7ECF\u901A\u8FC7\u9A8C\u8BC1\uFF0C\u65E0\u9700\u91CD\u590D\u53D1\u9001",
+    cooldown: (sec) => `\u53D1\u9001\u592A\u9891\u7E41\uFF0C\u8BF7\u5728 ${sec} \u79D2\u540E\u518D\u8BD5`,
+    sendFailed: "\u90AE\u4EF6\u53D1\u9001\u5931\u8D25\uFF0C\u8BF7\u7A0D\u540E\u91CD\u8BD5"
+  } : {
+    unauthorized: "Please log in or provide your registered email",
+    userNotFound: "No user found with this email address",
+    alreadyVerified: "This email is already verified",
+    cooldown: (sec) => `Please wait ${sec} seconds before requesting again`,
+    sendFailed: "Failed to send verification email. Please try again later"
+  };
+  const session = await getUserSession(event).catch(() => ({ user: void 0 }));
+  let targetUserId = (_a = session.user) == null ? void 0 : _a.id;
+  let targetEmail = ((body == null ? void 0 : body.email) || "").trim().toLowerCase();
+  let userRecord;
+  if (targetUserId) {
+    const userRows = await db.select().from(users).where(eq(users.id, targetUserId)).limit(1);
+    userRecord = userRows[0];
+  } else if (targetEmail) {
+    const userRows = await db.select().from(users).where(eq(users.email, targetEmail)).limit(1);
+    userRecord = userRows[0];
+  }
+  if (!userRecord) {
+    throw createError({
+      statusCode: targetUserId || targetEmail ? 404 : 400,
+      message: targetUserId || targetEmail ? messages.userNotFound : messages.unauthorized
+    });
+  }
+  if (userRecord.emailVerifiedAt) {
+    return {
+      success: true,
+      alreadyVerified: true,
+      message: messages.alreadyVerified
+    };
+  }
+  const recentTokens = await db.select().from(userTokens).where(
+    and(
+      eq(userTokens.userId, userRecord.id),
+      eq(userTokens.name, EMAIL_VERIFY_TOKEN_NAME)
+    )
+  ).orderBy(desc(userTokens.createdAt)).limit(1);
+  const latestToken = recentTokens[0];
+  if (latestToken && latestToken.createdAt) {
+    const elapsedSeconds = Math.floor((Date.now() - new Date(latestToken.createdAt).getTime()) / 1e3);
+    if (elapsedSeconds < COOLDOWN_SECONDS) {
+      const remaining = COOLDOWN_SECONDS - elapsedSeconds;
+      throw createError({
+        statusCode: 429,
+        message: messages.cooldown(remaining)
+      });
+    }
+  }
+  if (latestToken && !latestToken.revoked) {
+    await db.update(userTokens).set({ revoked: true }).where(eq(userTokens.id, latestToken.id)).catch(() => {
+    });
+  }
+  const verifyToken = crypto.randomUUID();
+  const verifyExpiresAt = Math.floor(Date.now() / 1e3) + 86400;
+  await db.insert(userTokens).values({
+    userId: userRecord.id,
+    token: verifyToken,
+    name: EMAIL_VERIFY_TOKEN_NAME,
+    expiresAt: new Date(verifyExpiresAt * 1e3),
+    createdAt: /* @__PURE__ */ new Date()
+  });
+  const verifyLink = `${siteUrl}/api/auth/verify-email?token=${verifyToken}&lang=${locale}`;
+  const siteName = await getLocalizedSettingValue("site_name", locale, "APay");
+  const emailPromise = sendEmail({
+    to: userRecord.email,
+    templateCode: "verify_email",
+    locale,
+    variables: {
+      nickname: userRecord.nickname || userRecord.email.split("@")[0],
+      site_name: siteName,
+      site_url: siteUrl,
+      verify_link: verifyLink
+    }
+  }).catch((err) => {
+    console.error("[ResendVerification] Failed to send email:", err);
+  });
+  if (typeof (event == null ? void 0 : event.waitUntil) === "function") {
+    event.waitUntil(emailPromise);
+  }
+  return {
+    success: true,
+    email: userRecord.email,
+    cooldownSeconds: COOLDOWN_SECONDS
+  };
+});
+
+export { resendVerification_post as default };

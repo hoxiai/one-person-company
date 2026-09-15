@@ -1,11 +1,11 @@
 import { d as defineEventHandler, c as getRequestLocale, f as getRouterParam, e as createError, r as readBody, b as db, p as products, s as setAuditMeta } from '../../../../nitro/nitro.mjs';
 import { eq } from 'drizzle-orm';
+import 'node:crypto';
 import 'crypto';
 import 'fs';
 import 'path';
 import 'node:http';
 import 'node:https';
-import 'node:crypto';
 import 'node:events';
 import 'node:buffer';
 import 'node:fs';
@@ -27,14 +27,8 @@ import '@iconify/utils';
 import 'consola';
 import 'ioredis';
 import 'zod';
-import 'http';
-import 'https';
-import 'zlib';
-import 'stream';
-import 'buffer';
-import 'util';
-import 'url';
-import 'net';
+import 'node:child_process';
+import 'node:os';
 import 'node:fs/promises';
 import 'node:dns/promises';
 import 'node:net';
@@ -95,9 +89,8 @@ const _id_ = defineEventHandler(async (event) => {
     updateData.metaData = normalizeMetaData(updateData.metaData);
     if (updateData.status) {
       updateData.isActive = updateData.status !== "inactive";
-      delete updateData.status;
     } else if (updateData.isActive !== void 0) {
-      delete updateData.status;
+      updateData.status = updateData.isActive ? "active" : "inactive";
     }
     Object.keys(updateData).forEach((key) => {
       if (updateData[key] === void 0 || updateData[key] === null) {

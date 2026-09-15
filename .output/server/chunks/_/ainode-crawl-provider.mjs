@@ -1,12 +1,12 @@
-import { cm as getListingModelSettingsByUser, cn as getQingpuAINodeBaseUrl, co as normalizeAinodeCrawl1688Product, cp as extract1688OfferId } from '../nitro/nitro.mjs';
+import { cB as getListingModelSettingsByUser, cC as getQingpuAINodeBaseUrl, cD as normalizeAinodeCrawl1688Product, cE as extract1688OfferId } from '../nitro/nitro.mjs';
 import { registerCollectProvider } from './registry.mjs';
+import 'node:crypto';
 import 'drizzle-orm';
 import 'crypto';
 import 'fs';
 import 'path';
 import 'node:http';
 import 'node:https';
-import 'node:crypto';
 import 'node:events';
 import 'node:buffer';
 import 'node:fs';
@@ -28,14 +28,8 @@ import '@iconify/utils';
 import 'consola';
 import 'ioredis';
 import 'zod';
-import 'http';
-import 'https';
-import 'zlib';
-import 'stream';
-import 'buffer';
-import 'util';
-import 'url';
-import 'net';
+import 'node:child_process';
+import 'node:os';
 import 'node:fs/promises';
 import 'node:dns/promises';
 import 'node:net';
@@ -104,6 +98,126 @@ const callAinodeCrawl1688 = async (userId, numIid) => {
   }
   return { data: crawlData, error: null };
 };
+const DEFAULT_FALLBACK_PACKAGING = {
+  grossWeight: "0.2",
+  packageSize: {
+    length: "15",
+    width: "10",
+    height: "5"
+  }
+};
+const sanitizeAinodeCrawlTitle = (rawTitle, sourceProductId) => {
+  let text = cleanScalarText(rawTitle);
+  text = text.replace(/[\u0000-\u001F\u007F-\u009F\u200B-\u200D\uFEFF]/g, "");
+  text = text.replace(/\s+/g, " ").trim();
+  if (!text) {
+    return sourceProductId ? `\u5546\u54C1_${sourceProductId}` : "\u5546\u54C1";
+  }
+  if (/^\d+$/.test(text)) {
+    return `\u5546\u54C1 ${text}`;
+  }
+  if (/^[\p{P}\p{S}]+$/u.test(text)) {
+    return sourceProductId ? `\u5546\u54C1_${sourceProductId}` : "\u5546\u54C1";
+  }
+  return text;
+};
+const hasValidPackaging = (pkg) => {
+  if (!pkg || typeof pkg !== "object") return false;
+  const p = pkg;
+  const weight = Number(p.grossWeight);
+  const size = p.packageSize;
+  const l = Number(size == null ? void 0 : size.length);
+  const w = Number(size == null ? void 0 : size.width);
+  const h = Number(size == null ? void 0 : size.height);
+  const hasWeight = Number.isFinite(weight) && weight > 0;
+  const hasSize = Number.isFinite(l) && l > 0 && Number.isFinite(w) && w > 0 && Number.isFinite(h) && h > 0;
+  return hasWeight || hasSize;
+};
+const sanitizeAinodeCrawlItem = (item, sourceProductId) => {
+  var _a, _b, _c, _d, _e, _f;
+  if (!item || typeof item !== "object") return item;
+  const raw = asRecord(item.raw) || {};
+  const product = asRecord(raw.product) || {};
+  const resolvedOriginId = cleanScalarText((_c = (_b = (_a = item.origin_id) != null ? _a : item.sourceProductId) != null ? _b : product.sourceProductId) != null ? _c : sourceProductId);
+  const cleanTitle = sanitizeAinodeCrawlTitle((_d = item.title) != null ? _d : product.title, resolvedOriginId);
+  item.title = cleanTitle;
+  if (product.title !== void 0) {
+    product.title = cleanTitle;
+  }
+  const rawSkuList = Array.isArray(raw.skuList) ? raw.skuList : [];
+  const skus = Array.isArray(item.skus) ? item.skus : [];
+  const itemHasPkg = hasValidPackaging(item.packaging);
+  const prodHasPkg = hasValidPackaging(product.packaging);
+  const skuListHasPkg = rawSkuList.some((s) => {
+    var _a2;
+    return hasValidPackaging((_a2 = asRecord(s)) == null ? void 0 : _a2.packaging);
+  });
+  const skusHasPkg = skus.some((s) => hasValidPackaging(s == null ? void 0 : s.packaging));
+  const anyPackagingExists = itemHasPkg || prodHasPkg || skuListHasPkg || skusHasPkg;
+  if (!anyPackagingExists) {
+    item.packaging = { ...DEFAULT_FALLBACK_PACKAGING };
+    product.packaging = { ...DEFAULT_FALLBACK_PACKAGING };
+  }
+  const basePrice = Number((_e = item.price) != null ? _e : product.price) || 1;
+  const baseStock = Number((_f = item.stock) != null ? _f : product.stock) || 999;
+  if (skus.length === 0) {
+    item.skus = [
+      {
+        sku_id: resolvedOriginId || "default",
+        skuId: resolvedOriginId || "default",
+        price: basePrice,
+        stock: baseStock,
+        spec_combination: "\u9ED8\u8BA4:\u5355\u54C1",
+        specCombination: "\u9ED8\u8BA4:\u5355\u54C1",
+        packaging: item.packaging
+      }
+    ];
+  } else {
+    item.skus = skus.map((sku, idx) => {
+      var _a2, _b2;
+      const skuRecord = asRecord(sku) || {};
+      const skuId = cleanScalarText((_a2 = skuRecord.sku_id) != null ? _a2 : skuRecord.skuId) || `${resolvedOriginId || "sku"}_${idx}`;
+      const skuPrice = Number(skuRecord.price) > 0 ? skuRecord.price : basePrice;
+      const skuStock = Number(skuRecord.stock) > 0 ? Number(skuRecord.stock) : baseStock;
+      const specComb = cleanScalarText((_b2 = skuRecord.spec_combination) != null ? _b2 : skuRecord.specCombination) || `\u89C4\u683C:${idx + 1}`;
+      return {
+        ...skuRecord,
+        sku_id: skuId,
+        skuId,
+        price: skuPrice,
+        stock: skuStock,
+        spec_combination: specComb,
+        specCombination: specComb,
+        packaging: skuRecord.packaging || item.packaging
+      };
+    });
+  }
+  const cleanUrl = (u) => {
+    if (typeof u !== "string") return "";
+    const trimmed = u.trim();
+    if (trimmed.startsWith("//")) return `https:${trimmed}`;
+    return /^https?:\/\//.test(trimmed) ? trimmed : "";
+  };
+  const images = (Array.isArray(item.images) ? item.images : []).map(cleanUrl).filter(Boolean);
+  const seenImages = /* @__PURE__ */ new Set();
+  const dedupedImages = [];
+  for (const img of images) {
+    if (!seenImages.has(img)) {
+      seenImages.add(img);
+      dedupedImages.push(img);
+    }
+  }
+  const mainImage = cleanUrl(item.main_image) || dedupedImages[0] || "";
+  if (mainImage && !seenImages.has(mainImage)) {
+    dedupedImages.unshift(mainImage);
+    seenImages.add(mainImage);
+  }
+  item.images = dedupedImages;
+  item.main_image = mainImage || dedupedImages[0] || "";
+  raw.product = product;
+  item.raw = raw;
+  return item;
+};
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 const isWarmupError = (error) => {
   const text = (error || "").toLowerCase();
@@ -129,7 +243,8 @@ const fetchAinodeCrawl1688Item = async (userId, numIid) => {
       lastError = "AINode empty item";
       continue;
     }
-    return { item: data, error: null };
+    const sanitized = sanitizeAinodeCrawlItem(data, numIid);
+    return { item: sanitized, error: null };
   }
   return { item: null, error: `${lastError || "AINode crawl failed"} (warmup)` };
 };
@@ -142,16 +257,18 @@ registerCollectProvider({
     var _a, _b;
     const { item, error } = await fetchAinodeCrawl1688Item(userId, sourceProductId);
     if (!item || error) return { ok: false, error: error || "empty item" };
-    const canonical = normalizeAinodeCrawl1688Product(item, url, { productId });
+    const sanitizedItem = sanitizeAinodeCrawlItem(item, sourceProductId);
+    const canonical = normalizeAinodeCrawl1688Product(sanitizedItem, url, { productId });
     const mainImage = ((_a = canonical.media.images.find((image) => image.role === "main")) == null ? void 0 : _a.originalUrl) || ((_b = canonical.media.images[0]) == null ? void 0 : _b.originalUrl) || null;
+    const title = canonical.basic.title || `\u5546\u54C1_${sourceProductId}`;
     const input = {
       productId,
       sourcePlatform: "1688",
       sourceUrl: url,
       sourceProductId,
-      title: canonical.basic.title,
+      title,
       mainImageUrl: mainImage,
-      skuCount: canonical.variants.length,
+      skuCount: Math.max(1, canonical.variants.length),
       preprocessStatus: "pending",
       canonical,
       schemaVersion: 1,

@@ -1,5 +1,7 @@
 FROM node:20-alpine
 
+RUN apk add --no-cache zip
+
 # 2. 设置容器内的工作目录
 WORKDIR /var/www/apay
 

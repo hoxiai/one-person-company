@@ -1,9 +1,15 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
-  <!-- 合喜 (Hoxi) 极速双翼 + 欢喜笑颜单色纯标 -->
+  <style>
+    .hoxi-shape { fill: #0F172A; }
+    @media (prefers-color-scheme: dark) {
+      .hoxi-shape { fill: #F8FAFC; }
+    }
+  </style>
+  <!-- 合喜 (Hoxi) 极速双翼 + 欢喜笑颜单色标 (支持暗黑模式自适应) -->
   <!-- 左巨柱与左飞翼 (质量柱) -->
-  <path d="M12 56V26L30 14V23L19 30.5V56H12Z" fill="#0F172A" />
+  <path class="hoxi-shape" d="M12 56V26L30 14V23L19 30.5V56H12Z" />
   <!-- 右巨柱与右飞翼 (成本柱) -->
-  <path d="M52 56V26L34 14V23L45 30.5V56H52Z" fill="#0F172A" />
+  <path class="hoxi-shape" d="M52 56V26L34 14V23L45 30.5V56H52Z" />
   <!-- 微弧笑脸横梁 (从容微笑，锁合大写 H) -->
-  <path d="M19 36Q32 42.5 45 36V42.5Q32 49 19 42.5Z" fill="#0F172A" />
+  <path class="hoxi-shape" d="M19 36Q32 42.5 45 36V42.5Q32 49 19 42.5Z" />
 </svg>

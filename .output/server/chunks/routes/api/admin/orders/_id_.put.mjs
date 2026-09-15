@@ -1,11 +1,11 @@
-import { d as defineEventHandler, c as getRequestLocale, f as getRouterParam, e as createError, r as readBody, b as db, o as orders, s as setAuditMeta, O as ORDER_PAY_STATUS, T as isMinimalCheckoutRelayOrder, U as readMinimalCheckoutBridgeMeta, V as createOrderAttribution, W as settlePaidTopup, X as recoverCreditedApayTopup, Y as fulfillMinimalCheckoutRelay, Z as fulfillOrder, _ as settlePromoCommission, $ as emitEvent, a0 as refundTopup } from '../../../../nitro/nitro.mjs';
+import { d as defineEventHandler, c as getRequestLocale, f as getRouterParam, e as createError, r as readBody, b as db, o as orders, s as setAuditMeta, O as ORDER_PAY_STATUS, Z as isMinimalCheckoutRelayOrder, _ as readMinimalCheckoutBridgeMeta, $ as createOrderAttribution, a0 as settlePaidTopup, a1 as recoverCreditedApayTopup, a2 as fulfillMinimalCheckoutRelay, a3 as fulfillOrder, a4 as settlePromoCommission, a5 as emitEvent, a6 as cancelPromoCommission, a7 as refundTopup } from '../../../../nitro/nitro.mjs';
 import { eq } from 'drizzle-orm';
+import 'node:crypto';
 import 'crypto';
 import 'fs';
 import 'path';
 import 'node:http';
 import 'node:https';
-import 'node:crypto';
 import 'node:events';
 import 'node:buffer';
 import 'node:fs';
@@ -27,14 +27,8 @@ import '@iconify/utils';
 import 'consola';
 import 'ioredis';
 import 'zod';
-import 'http';
-import 'https';
-import 'zlib';
-import 'stream';
-import 'buffer';
-import 'util';
-import 'url';
-import 'net';
+import 'node:child_process';
+import 'node:os';
 import 'node:fs/promises';
 import 'node:dns/promises';
 import 'node:net';
@@ -83,9 +77,10 @@ const _id__put = defineEventHandler(async (event) => {
       }
     }
   }
-  if (body.payStatus === ORDER_PAY_STATUS.REFUNDED) {
+  if (body.payStatus === ORDER_PAY_STATUS.REFUNDED || body.payStatus === ORDER_PAY_STATUS.CANCELLED) {
     const refundedOrder = result[0];
-    if (refundedOrder == null ? void 0 : refundedOrder.userId) {
+    await cancelPromoCommission(id, `admin_${body.payStatus}`);
+    if (body.payStatus === ORDER_PAY_STATUS.REFUNDED && (refundedOrder == null ? void 0 : refundedOrder.userId)) {
       try {
         const clawback = await refundTopup(id);
         if (clawback.shortfall > 0) {

@@ -1,11 +1,11 @@
-import { d as defineEventHandler, c as getRequestLocale, f as getRouterParam, c2 as readRawBody, r as readBody, g as getQuery, bI as getRequestHeaders, bc as logger, e as createError, b as db, o as orders, O as ORDER_PAY_STATUS, c3 as markOrderPaid, ad as paymentMethods, c4 as executeCallbackScript, bN as setResponseStatus, aa as ORDER_STATUS, bu as getAffectedRows, c5 as markTopupPaymentFailed, c6 as setHeader } from '../../../nitro/nitro.mjs';
+import { d as defineEventHandler, c as getRequestLocale, f as getRouterParam, ch as readRawBody, r as readBody, g as getQuery, bX as getRequestHeaders, bo as logger, e as createError, b as db, o as orders, O as ORDER_PAY_STATUS, ci as markOrderPaid, ak as paymentMethods, cj as executeCallbackScript, c0 as setResponseStatus, ah as ORDER_STATUS, bJ as getAffectedRows, ck as markTopupPaymentFailed, a6 as cancelPromoCommission, a7 as refundTopup, cl as setHeader } from '../../../nitro/nitro.mjs';
 import { eq, and, ne } from 'drizzle-orm';
 import fs from 'fs';
 import path from 'path';
+import 'node:crypto';
 import 'crypto';
 import 'node:http';
 import 'node:https';
-import 'node:crypto';
 import 'node:events';
 import 'node:buffer';
 import 'node:fs';
@@ -27,14 +27,8 @@ import '@iconify/utils';
 import 'consola';
 import 'ioredis';
 import 'zod';
-import 'http';
-import 'https';
-import 'zlib';
-import 'stream';
-import 'buffer';
-import 'util';
-import 'url';
-import 'net';
+import 'node:child_process';
+import 'node:os';
 import 'node:fs/promises';
 import 'node:dns/promises';
 import 'node:net';
@@ -211,6 +205,23 @@ const _order_id__post = defineEventHandler(async (event) => {
           const failedUpdate = await db.update(orders).set(updateData).where(and(eq(orders.id, result.orderId), ne(orders.payStatus, ORDER_PAY_STATUS.PAID)));
           if (getAffectedRows(failedUpdate) > 0) {
             await markTopupPaymentFailed(order2.id, `\u652F\u4ED8\u7F51\u5173 ${realMethodCode} \u8FD4\u56DE\u5931\u8D25`);
+          }
+        } else if (result.status === "refunded" || result.status === "cancelled") {
+          await logger.warn(`Order ${order2.id} ${result.status} via ${realMethodCode}`, {
+            source: "webhook",
+            details: { tradeNo: result.tradeNo, amount: result.amount }
+          });
+          const targetPayStatus = result.status === "refunded" ? ORDER_PAY_STATUS.REFUNDED : ORDER_PAY_STATUS.CANCELLED;
+          const updateData = {
+            payStatus: targetPayStatus,
+            status: ORDER_STATUS.FAILED,
+            payMethod: realMethodCode
+          };
+          if (result.tradeNo) updateData.tradeNo = result.tradeNo;
+          await db.update(orders).set(updateData).where(eq(orders.id, result.orderId));
+          await cancelPromoCommission(result.orderId, `webhook_${result.status}`);
+          if (result.status === "refunded" && order2.userId) {
+            await refundTopup(result.orderId).catch((err) => console.error("[Webhook] refundTopup failed:", err));
           }
         }
       } else {

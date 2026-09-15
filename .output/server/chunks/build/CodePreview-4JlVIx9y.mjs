@@ -1,0 +1,117 @@
+import { useSlots, computed, mergeProps, unref, useSSRContext } from 'vue';
+import { ssrRenderAttrs, ssrRenderClass, ssrRenderSlot } from 'vue/server-renderer';
+import { as as useAppConfig, aC as useComponentUI, aE as tv } from './server.mjs';
+import '../nitro/nitro.mjs';
+import 'node:crypto';
+import 'drizzle-orm';
+import 'crypto';
+import 'fs';
+import 'path';
+import 'node:http';
+import 'node:https';
+import 'node:events';
+import 'node:buffer';
+import 'node:fs';
+import 'node:path';
+import 'node:async_hooks';
+import 'postgres';
+import 'drizzle-orm/postgres-js';
+import 'drizzle-orm/d1';
+import '@libsql/client';
+import 'drizzle-orm/libsql';
+import 'mysql2/promise';
+import 'drizzle-orm/mysql2';
+import 'drizzle-orm/pg-core';
+import 'drizzle-orm/sqlite-core';
+import 'drizzle-orm/mysql-core';
+import 'maxmind';
+import 'node:url';
+import '@iconify/utils';
+import 'consola';
+import 'ioredis';
+import 'zod';
+import 'node:child_process';
+import 'node:os';
+import 'node:fs/promises';
+import 'node:dns/promises';
+import 'node:net';
+import '@adonisjs/hash';
+import '@adonisjs/hash/drivers/scrypt';
+import 'vue-router';
+import '@iconify/vue';
+import '@iconify/utils/lib/css/icon';
+import 'perfect-debounce';
+import 'tailwind-variants';
+import '@vue/shared';
+import 'embla-carousel-vue';
+import 'aria-hidden';
+import '@floating-ui/vue';
+import '@tanstack/vue-table';
+import '@tanstack/vue-virtual';
+import 'framesync';
+import 'popmotion';
+import 'style-value-types';
+import 'tailwindcss/colors';
+import '../routes/renderer.mjs';
+import 'vue-bundle-renderer/runtime';
+import 'unhead/server';
+import 'devalue';
+import 'unhead/plugins';
+import 'unhead/utils';
+
+const theme = {
+  "slots": {
+    "root": "my-5",
+    "preview": "flex justify-center border border-muted relative p-4 rounded-md",
+    "code": "[&>div>pre]:rounded-t-none [&>div]:my-0"
+  },
+  "variants": {
+    "code": {
+      "true": {
+        "preview": "border-b-0 rounded-b-none"
+      }
+    }
+  }
+};
+const _sfc_main = {
+  __name: "ProseCodePreview",
+  __ssrInlineRender: true,
+  props: {
+    class: { type: null, required: false },
+    ui: { type: Object, required: false }
+  },
+  setup(__props) {
+    const props = __props;
+    const slots = useSlots();
+    const appConfig = useAppConfig();
+    const uiProp = useComponentUI("prose.codePreview", props);
+    const ui = computed(() => {
+      var _a, _b;
+      return tv({ extend: tv(theme), ...((_b = (_a = appConfig.ui) == null ? void 0 : _a.prose) == null ? void 0 : _b.codePreview) || {} })({ code: !!slots.code });
+    });
+    return (_ctx, _push, _parent, _attrs) => {
+      var _a, _b, _c;
+      _push(`<div${ssrRenderAttrs(mergeProps({
+        class: ui.value.root({ class: [(_a = unref(uiProp)) == null ? void 0 : _a.root, props.class] })
+      }, _attrs))}><div class="${ssrRenderClass(ui.value.preview({ class: [(_b = unref(uiProp)) == null ? void 0 : _b.preview] }))}">`);
+      ssrRenderSlot(_ctx.$slots, "default", {}, null, _push, _parent);
+      _push(`</div>`);
+      if (!!slots.code) {
+        _push(`<div class="${ssrRenderClass(ui.value.code({ class: [(_c = unref(uiProp)) == null ? void 0 : _c.code] }))}">`);
+        ssrRenderSlot(_ctx.$slots, "code", {}, null, _push, _parent);
+        _push(`</div>`);
+      } else {
+        _push(`<!---->`);
+      }
+      _push(`</div>`);
+    };
+  }
+};
+const _sfc_setup = _sfc_main.setup;
+_sfc_main.setup = (props, ctx) => {
+  const ssrContext = useSSRContext();
+  (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("../node_modules/@nuxt/ui/dist/runtime/components/prose/CodePreview.vue");
+  return _sfc_setup ? _sfc_setup(props, ctx) : void 0;
+};
+
+export { _sfc_main as default };

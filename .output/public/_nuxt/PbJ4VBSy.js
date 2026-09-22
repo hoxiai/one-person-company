@@ -1,0 +1,1 @@
+import{bg as o}from"./Cn8ehF2O.js";const u=()=>{const e=o("hoxi-community-modal-open",()=>!1);return{isOpen:e,open:()=>{e.value=!0},close:()=>{e.value=!1},toggle:()=>{e.value=!e.value}}};export{u};

@@ -23375,7 +23375,7 @@ const corePageModules = /* @__PURE__ */ Object.assign({
   "../core/pages/user/tokens/index.vue": __vite_glob_0_10
 });
 const themePageModules = {
-  .../* @__PURE__ */ Object.assign({ "../themes/hoxi/pages/about.vue": () => import('./about-BXh1NcDb.mjs'), "../themes/hoxi/pages/blog/[slug].vue": () => import('./_slug_-CepoXwvX.mjs'), "../themes/hoxi/pages/blog/index.vue": () => import('./index-DRJp-jfu.mjs'), "../themes/hoxi/pages/coding-plans/[slug].vue": () => import('./_slug_-Bq31bapL.mjs'), "../themes/hoxi/pages/coding-plans/index.vue": () => import('./index-M8o13dvF.mjs'), "../themes/hoxi/pages/compare.vue": () => import('./compare-CYJOgqeK.mjs'), "../themes/hoxi/pages/gateways/[slug].vue": () => import('./_slug_-D1-1cftK.mjs'), "../themes/hoxi/pages/gateways/index.vue": () => import('./index-Tpsr2UaG.mjs'), "../themes/hoxi/pages/index.vue": () => import('./index-DEsmZdqi.mjs'), "../themes/hoxi/pages/models/[slug].vue": () => import('./_slug_-BlfwUBi5.mjs'), "../themes/hoxi/pages/models/index.vue": () => import('./index-ctmHyqeH.mjs'), "../themes/hoxi/pages/projects.vue": () => import('./projects-rFY6K3nP.mjs'), "../themes/hoxi/pages/readiness.vue": () => import('./readiness-on5hPsXU.mjs'), "../themes/hoxi/pages/refactoring-the-self.vue": () => import('./refactoring-the-self-BQg8Vo7e.mjs'), "../themes/hoxi/pages/savings.vue": () => import('./savings-COTzeF-Y.mjs'), "../themes/hoxi/pages/tools.vue": () => import('./tools-BQd4DwIP.mjs') })
+  .../* @__PURE__ */ Object.assign({ "../themes/hoxi/pages/about.vue": () => import('./about-g_kJlJtd.mjs'), "../themes/hoxi/pages/blog/[slug].vue": () => import('./_slug_-CepoXwvX.mjs'), "../themes/hoxi/pages/blog/index.vue": () => import('./index-DRJp-jfu.mjs'), "../themes/hoxi/pages/coding-plans/[slug].vue": () => import('./_slug_-Bq31bapL.mjs'), "../themes/hoxi/pages/coding-plans/index.vue": () => import('./index-DKja0apl.mjs'), "../themes/hoxi/pages/compare.vue": () => import('./compare-CYJOgqeK.mjs'), "../themes/hoxi/pages/gateways/[slug].vue": () => import('./_slug_-D1-1cftK.mjs'), "../themes/hoxi/pages/gateways/index.vue": () => import('./index-Tpsr2UaG.mjs'), "../themes/hoxi/pages/index.vue": () => import('./index-hjCE2oUz.mjs'), "../themes/hoxi/pages/models/[slug].vue": () => import('./_slug_-BlfwUBi5.mjs'), "../themes/hoxi/pages/models/index.vue": () => import('./index-5ajVxW_k.mjs'), "../themes/hoxi/pages/projects.vue": () => import('./projects-CF2S-1GQ.mjs'), "../themes/hoxi/pages/readiness.vue": () => import('./readiness-BeAJnojU.mjs'), "../themes/hoxi/pages/refactoring-the-self.vue": () => import('./refactoring-the-self-BQg8Vo7e.mjs'), "../themes/hoxi/pages/savings.vue": () => import('./savings-COTzeF-Y.mjs'), "../themes/hoxi/pages/tools.vue": () => import('./tools-BQd4DwIP.mjs') })
 };
 const themeAdminManifestModules = {
   .../* @__PURE__ */ Object.assign({
@@ -23396,7 +23396,7 @@ const themeAdminLocaleZhModules = {
   })
 };
 const themeLayoutLoaders = {
-  "hoxi": () => import('./default-Caxb_oVP.mjs')
+  "hoxi": () => import('./default-BlbybjNY.mjs')
 };
 const schemaVersion$3 = 1;
 const id$3 = "apps";
@@ -29081,10 +29081,10 @@ const plugin_MeUvTuoKUi51yb_kBguab6hdcExVXeTtZtTg9TZZBB8 = /* @__PURE__ */ defin
   // For type portability
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
 });
-const LazyHoxiCommunityModal = defineAsyncComponent(() => import('./HoxiCommunityModal-CVBI0lpd.mjs').then((r) => r["default"] || r.default || r));
+const LazyHoxiCommunityModal = defineAsyncComponent(() => import('./HoxiCommunityModal-CXyD0n2r.mjs').then((r) => r["default"] || r.default || r));
 const LazyHoxiContainer = defineAsyncComponent(() => import('./HoxiContainer-DDAEb0_Y.mjs').then((r) => r["default"] || r.default || r));
 const LazyHoxiHairlineLink = defineAsyncComponent(() => import('./HoxiHairlineLink-6_pMzXOE.mjs').then((r) => r["default"] || r.default || r));
-const LazyHoxiHeroCard = defineAsyncComponent(() => import('./HoxiHeroCard-C6fWokSV.mjs').then((r) => r["default"] || r.default || r));
+const LazyHoxiHeroCard = defineAsyncComponent(() => import('./HoxiHeroCard-Dt_JsC4D.mjs').then((r) => r["default"] || r.default || r));
 const LazyHoxiHomeReadiness = defineAsyncComponent(() => import('./HoxiHomeReadiness-Puy910we.mjs').then((r) => r["default"] || r.default || r));
 const LazyHoxiHomeSavingsCard = defineAsyncComponent(() => import('./HoxiHomeSavingsCard-CuKyH8nI.mjs').then((r) => r["default"] || r.default || r));
 const LazyHoxiHomeTools = defineAsyncComponent(() => import('./HoxiHomeTools-7lPndgUx.mjs').then((r) => r["default"] || r.default || r));
@@ -29102,7 +29102,7 @@ const LazyHoxiPostItem = defineAsyncComponent(() => import('./HoxiPostItem-1nOO6
 const LazyHoxiReadinessProgress = defineAsyncComponent(() => import('./HoxiReadinessProgress-B7kKAIud.mjs').then((r) => r["default"] || r.default || r));
 const LazyHoxiReadinessQuestion = defineAsyncComponent(() => import('./HoxiReadinessQuestion-6TFxMj2B.mjs').then((n) => n.H).then((r) => r["default"] || r.default || r));
 const LazyHoxiReadinessRadar = defineAsyncComponent(() => import('./HoxiReadinessRadar-DF8OyK5K.mjs').then((r) => r["default"] || r.default || r));
-const LazyHoxiReadinessReport = defineAsyncComponent(() => import('./HoxiReadinessReport-Byp-2iCI.mjs').then((r) => r["default"] || r.default || r));
+const LazyHoxiReadinessReport = defineAsyncComponent(() => import('./HoxiReadinessReport-Bh2SVpz6.mjs').then((r) => r["default"] || r.default || r));
 const LazyHoxiSectionLabel = defineAsyncComponent(() => import('./HoxiSectionLabel-BlLbr3V0.mjs').then((r) => r["default"] || r.default || r));
 const LazyHoxiTag = defineAsyncComponent(() => import('./HoxiTag-BAz_5lMM.mjs').then((r) => r["default"] || r.default || r));
 const LazyHoxiValueBar = defineAsyncComponent(() => import('./HoxiValueBar-nKN9Q0nQ.mjs').then((r) => r["default"] || r.default || r));

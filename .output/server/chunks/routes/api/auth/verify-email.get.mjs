@@ -1,11 +1,13 @@
-import { d as defineEventHandler, g as getQuery, c as getRequestLocale, bP as normalizeSupportedLocale, bx as sendLocalizedRedirect, b as db, bg as userTokens, bk as EMAIL_VERIFY_TOKEN_NAME, u as users, o as orders, aO as getUserSession, U as setUserSession } from '../../../nitro/nitro.mjs';
+import { d as defineEventHandler, g as getQuery, c as getRequestLocale, bO as normalizeSupportedLocale, bw as sendLocalizedRedirect, b as db, bf as userTokens, bj as EMAIL_VERIFY_TOKEN_NAME, u as users, o as orders, aN as getUserSession, U as setUserSession } from '../../../nitro/nitro.mjs';
 import { eq, and, isNull } from 'drizzle-orm';
+import '@adonisjs/hash';
+import '@adonisjs/hash/drivers/scrypt';
+import 'node:crypto';
 import 'crypto';
 import 'fs';
 import 'path';
 import 'node:http';
 import 'node:https';
-import 'node:crypto';
 import 'node:events';
 import 'node:buffer';
 import 'node:fs';
@@ -25,15 +27,7 @@ import 'maxmind';
 import 'node:url';
 import '@iconify/utils';
 import 'consola';
-import 'ioredis';
 import 'zod';
-import 'node:child_process';
-import 'node:os';
-import 'node:fs/promises';
-import 'node:dns/promises';
-import 'node:net';
-import '@adonisjs/hash';
-import '@adonisjs/hash/drivers/scrypt';
 
 const verifyEmail_get = defineEventHandler(async (event) => {
   const query = getQuery(event);

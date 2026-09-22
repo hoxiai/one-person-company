@@ -1,6 +1,6 @@
 import process from 'node:process';globalThis._importMeta_=globalThis._importMeta_||{url:"file:///_entry.js",env:process.env};import * as vue from 'vue';
 import { hasInjectionContext, inject, computed, defineComponent, h, useSlots, useTemplateRef, watch, nextTick, unref, mergeProps, withCtx, createVNode, renderSlot, openBlock, createBlock, createCommentVNode, watchPostEffect, createElementBlock, normalizeStyle, ref, getCurrentInstance, watchEffect, customRef, toValue, reactive, mergeDefaults, getCurrentScope, provide, useModel, createTextVNode, toDisplayString as toDisplayString$1, mergeModels, markRaw, toRefs, toRef as toRef$1, camelize as camelize$1, Teleport, toHandlerKey, shallowRef, resolveDynamicComponent, onScopeDispose, shallowReadonly, cloneVNode, normalizeProps, guardReactiveProps, readonly, isRef, useId as useId$1, Fragment, renderList, toHandlers, onServerPrefetch, resolveComponent, Comment, defineAsyncComponent, withModifiers, withAsyncContext, withKeys, resolveDirective, createElementVNode, effectScope, useSSRContext, toRaw, shallowReactive, Suspense, createApp, Text, onErrorCaptured, isReadonly, isShallow, isReactive } from 'vue';
-import { dC as serialize, ce as setResponseStatus$1, dD as getRequestURL, dE as defu, dF as isEqual$1, e as createError$1, dG as upperFirst, dH as defuFn, dI as appendResponseHeader, dJ as resolveLocalizedSetting, dK as parse$1, dL as getRequestHeader, dM as sanitizeStatusCode, c9 as getRequestHeaders, dN as getContext, dO as setCookie, b_ as getCookie, dP as deleteCookie, dQ as SEO_LOCALE_LANGUAGE, dy as $fetch$1, dR as baseURL, dS as hash, dT as createHooks, dU as executeAsync, dV as normalizeSiteOrigin, dW as stripLocalePrefix$1, cH as classifySeoRoute, cG as seoRouteRegistry, dX as localePathForSeo, dY as safeJsonLd, dZ as getRequestProtocol } from '../nitro/nitro.mjs';
+import { c_ as serialize, cd as setResponseStatus$1, c$ as getRequestURL, d0 as defu, d1 as isEqual$1, e as createError$1, d2 as upperFirst, d3 as defuFn, d4 as appendResponseHeader, d5 as resolveLocalizedSetting, d6 as parse$1, d7 as getRequestHeader, d8 as sanitizeStatusCode, c8 as getRequestHeaders, d9 as getContext, da as setCookie, bZ as getCookie, db as deleteCookie, dc as SEO_LOCALE_LANGUAGE, cT as $fetch$1, dd as baseURL, de as hash, df as createHooks, dg as executeAsync, dh as normalizeSiteOrigin, di as stripLocalePrefix$1, cG as classifySeoRoute, cF as seoRouteRegistry, dj as localePathForSeo, dk as safeJsonLd, dl as getRequestProtocol } from '../nitro/nitro.mjs';
 import { useRoute as useRoute$1, useRouter as useRouter$1, RouterView, isNavigationFailure, createMemoryHistory, createRouter, START_LOCATION } from 'vue-router';
 import { Icon, getIcon, loadIcon as loadIcon$1, _api, addAPIProvider, setCustomIconsLoader } from '@iconify/vue';
 import { getIconCSS } from '@iconify/utils/lib/css/icon';
@@ -18,13 +18,15 @@ import { inertia, animate, velocityPerSecond, cubicBezier, bounceOut, bounceInOu
 import { number as number$1, complex, alpha, filter, px, progressPercentage, degrees, scale, color } from 'style-value-types';
 import colors from 'tailwindcss/colors';
 import { u as useSeoMeta$1, a as useHead$1, h as headSymbol } from '../routes/renderer.mjs';
+import '@adonisjs/hash';
+import '@adonisjs/hash/drivers/scrypt';
+import 'node:crypto';
 import 'drizzle-orm';
 import 'crypto';
 import 'fs';
 import 'path';
 import 'node:http';
 import 'node:https';
-import 'node:crypto';
 import 'node:events';
 import 'node:buffer';
 import 'node:fs';
@@ -44,15 +46,7 @@ import 'maxmind';
 import 'node:url';
 import '@iconify/utils';
 import 'consola';
-import 'ioredis';
 import 'zod';
-import 'node:child_process';
-import 'node:os';
-import 'node:fs/promises';
-import 'node:dns/promises';
-import 'node:net';
-import '@adonisjs/hash';
-import '@adonisjs/hash/drivers/scrypt';
 import 'vue-bundle-renderer/runtime';
 import 'unhead/server';
 import 'devalue';
@@ -887,13 +881,13 @@ const _routes = [
   },
   {
     name: "admin-plugins-slug___en",
-    path: "/en/admin/plugins/:slug(.*)*",
+    path: "/admin/plugins/:slug(.*)*",
     meta: __nuxt_page_meta$i || {},
     component: () => import('./_...slug_-BzQ9r-KE.mjs')
   },
   {
     name: "admin-plugins-slug___zh",
-    path: "/admin/plugins/:slug(.*)*",
+    path: "/zh/admin/plugins/:slug(.*)*",
     meta: __nuxt_page_meta$i || {},
     component: () => import('./_...slug_-BzQ9r-KE.mjs')
   },
@@ -911,12 +905,12 @@ const _routes = [
   },
   {
     name: "user-plugins-slug___en",
-    path: "/en/user/plugins/:slug(.*)*",
+    path: "/user/plugins/:slug(.*)*",
     component: () => import('./_...slug_-BmiBo9Sx.mjs')
   },
   {
     name: "user-plugins-slug___zh",
-    path: "/user/plugins/:slug(.*)*",
+    path: "/zh/user/plugins/:slug(.*)*",
     component: () => import('./_...slug_-BmiBo9Sx.mjs')
   },
   {
@@ -1003,13 +997,13 @@ const _routes = [
   },
   {
     name: "admin-setup___en",
-    path: "/en/admin/setup",
+    path: "/admin/setup",
     meta: __nuxt_page_meta$5 || {},
     component: () => import('./setup-By2rDZOh.mjs')
   },
   {
     name: "admin-setup___zh",
-    path: "/admin/setup",
+    path: "/zh/admin/setup",
     meta: __nuxt_page_meta$5 || {},
     component: () => import('./setup-By2rDZOh.mjs')
   },
@@ -1057,12 +1051,12 @@ const _routes = [
   },
   {
     name: "slug___en",
-    path: "/en/:slug(.*)*",
+    path: "/:slug(.*)*",
     component: () => import('./_...slug_-CT7-B7PA.mjs')
   },
   {
     name: "slug___zh",
-    path: "/:slug(.*)*",
+    path: "/zh/:slug(.*)*",
     component: () => import('./_...slug_-CT7-B7PA.mjs')
   },
   {
@@ -5502,7 +5496,7 @@ const cfg0 = defineAppConfig({
   }
 });
 const inlineConfig = {
-  "appVersion": "1.0.2",
+  "appVersion": "1.0.0",
   "nuxt": {},
   "ui": {
     "colors": {
@@ -23573,7 +23567,7 @@ const themeAdminLocaleZhModules = {
   })
 };
 const themeLayoutLoaders = {
-  "hoxi": () => import('./default-C47KebOJ.mjs')
+  "hoxi": () => import('./default-DBEfegUB.mjs')
 };
 const schemaVersion$3 = 1;
 const id$3 = "apps";
@@ -29258,7 +29252,7 @@ const plugin_MeUvTuoKUi51yb_kBguab6hdcExVXeTtZtTg9TZZBB8 = /* @__PURE__ */ defin
   // For type portability
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
 });
-const LazyHoxiCommunityModal = defineAsyncComponent(() => import('./HoxiCommunityModal-Yb8OlxAW.mjs').then((r) => r["default"] || r.default || r));
+const LazyHoxiCommunityModal = defineAsyncComponent(() => import('./HoxiCommunityModal-DMOU7_Oa.mjs').then((r) => r["default"] || r.default || r));
 const LazyHoxiContainer = defineAsyncComponent(() => import('./HoxiContainer-DDAEb0_Y.mjs').then((r) => r["default"] || r.default || r));
 const LazyHoxiHairlineLink = defineAsyncComponent(() => import('./HoxiHairlineLink-6_pMzXOE.mjs').then((r) => r["default"] || r.default || r));
 const LazyHoxiHomeReadiness = defineAsyncComponent(() => import('./HoxiHomeReadiness-Puy910we.mjs').then((r) => r["default"] || r.default || r));

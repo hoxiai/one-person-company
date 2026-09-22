@@ -1,7 +1,9 @@
-import { d as defineEventHandler, c as getRequestLocale, be as readFormData, e as createError } from '../../../nitro/nitro.mjs';
+import { d as defineEventHandler, c as getRequestLocale, bd as readFormData, e as createError } from '../../../nitro/nitro.mjs';
 import fs from 'node:fs';
 import path from 'node:path';
 import crypto from 'node:crypto';
+import '@adonisjs/hash';
+import '@adonisjs/hash/drivers/scrypt';
 import 'drizzle-orm';
 import 'crypto';
 import 'fs';
@@ -25,15 +27,7 @@ import 'maxmind';
 import 'node:url';
 import '@iconify/utils';
 import 'consola';
-import 'ioredis';
 import 'zod';
-import 'node:child_process';
-import 'node:os';
-import 'node:fs/promises';
-import 'node:dns/promises';
-import 'node:net';
-import '@adonisjs/hash';
-import '@adonisjs/hash/drivers/scrypt';
 
 const index_post = defineEventHandler(async (event) => {
   var _a;

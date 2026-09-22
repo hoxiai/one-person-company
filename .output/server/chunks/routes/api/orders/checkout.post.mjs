@@ -1,12 +1,14 @@
-import { d as defineEventHandler, ab as requireTrustedRequestOrigin, bH as mergePromoTracking, bJ as readPromoTracking, bI as capturePromoTracking, bU as getRequestIP, e as createError, r as readBody, bF as requireUserSession, b as db, u as users, X as clearUserSession, aG as settings, bC as ensureVisitorId, p as products, ae as resolveRequestLocale, ad as getSiteLocaleConfig, y as buildLocaleCurrencyQuote, ah as getMinimalCheckoutAdminConfig, bV as stripReservedOrderMeta, ai as buildMinimalCheckoutBridgeMeta, aj as mergeMinimalCheckoutMeta, _ as isMinimalCheckoutRelayOrder, bW as MINIMAL_CHECKOUT_SOURCE, a3 as fulfillMinimalCheckoutRelay, a4 as fulfillOrder, a6 as emitEvent, b8 as userWallets, o as orders, O as ORDER_PAY_STATUS, ak as prepareOrderMetaForInsert, am as ensureTopupRecordForOrder, a0 as createOrderAttribution, bm as trackVisitorEvent, al as ORDER_STATUS, bX as getAffectedRows, a1 as settlePaidTopup, c as getRequestLocale, J as getLocalizedSettingValue, K as sendEmail, bY as createNotification } from '../../../nitro/nitro.mjs';
+import { d as defineEventHandler, ab as requireTrustedRequestOrigin, bG as mergePromoTracking, bI as readPromoTracking, bH as capturePromoTracking, bT as getRequestIP, e as createError, r as readBody, bE as requireUserSession, b as db, u as users, X as clearUserSession, aF as settings, bB as ensureVisitorId, p as products, ae as resolveRequestLocale, ad as getSiteLocaleConfig, y as buildLocaleCurrencyQuote, ah as getMinimalCheckoutAdminConfig, bU as stripReservedOrderMeta, ai as buildMinimalCheckoutBridgeMeta, aj as mergeMinimalCheckoutMeta, _ as isMinimalCheckoutRelayOrder, bV as MINIMAL_CHECKOUT_SOURCE, a3 as fulfillMinimalCheckoutRelay, a4 as fulfillOrder, a6 as emitEvent, b7 as userWallets, o as orders, O as ORDER_PAY_STATUS, ak as prepareOrderMetaForInsert, am as ensureTopupRecordForOrder, a0 as createOrderAttribution, bl as trackVisitorEvent, al as ORDER_STATUS, bW as getAffectedRows, a1 as settlePaidTopup, c as getRequestLocale, J as getLocalizedSettingValue, K as sendEmail, bX as createNotification } from '../../../nitro/nitro.mjs';
 import { eq, and, gte, desc } from 'drizzle-orm';
 import crypto from 'crypto';
 import { z } from 'zod';
+import '@adonisjs/hash';
+import '@adonisjs/hash/drivers/scrypt';
+import 'node:crypto';
 import 'fs';
 import 'path';
 import 'node:http';
 import 'node:https';
-import 'node:crypto';
 import 'node:events';
 import 'node:buffer';
 import 'node:fs';
@@ -26,14 +28,6 @@ import 'maxmind';
 import 'node:url';
 import '@iconify/utils';
 import 'consola';
-import 'ioredis';
-import 'node:child_process';
-import 'node:os';
-import 'node:fs/promises';
-import 'node:dns/promises';
-import 'node:net';
-import '@adonisjs/hash';
-import '@adonisjs/hash/drivers/scrypt';
 
 const METADATA_MAX_BYTES = 16 * 1024;
 const metaDataSchema = z.record(z.string(), z.any()).refine((obj) => Buffer.byteLength(JSON.stringify(obj), "utf8") <= METADATA_MAX_BYTES, {

@@ -1,5 +1,7 @@
-import { d as defineEventHandler, c as getRequestLocale, g as getQuery, cd as normalizeImageProxyUrl, bR as getHeader, ce as setResponseStatus, cf as setResponseHeader, cg as getImageProxyReferer, e as createError } from '../../../nitro/nitro.mjs';
+import { d as defineEventHandler, c as getRequestLocale, g as getQuery, cc as normalizeImageProxyUrl, bQ as getHeader, cd as setResponseStatus, ce as setResponseHeader, cf as getImageProxyReferer, e as createError } from '../../../nitro/nitro.mjs';
 import { createHash } from 'node:crypto';
+import '@adonisjs/hash';
+import '@adonisjs/hash/drivers/scrypt';
 import 'drizzle-orm';
 import 'crypto';
 import 'fs';
@@ -25,15 +27,7 @@ import 'maxmind';
 import 'node:url';
 import '@iconify/utils';
 import 'consola';
-import 'ioredis';
 import 'zod';
-import 'node:child_process';
-import 'node:os';
-import 'node:fs/promises';
-import 'node:dns/promises';
-import 'node:net';
-import '@adonisjs/hash';
-import '@adonisjs/hash/drivers/scrypt';
 
 const MAX_CACHE_ENTRIES = 500;
 const CACHE_TTL_MS = 24 * 60 * 60 * 1e3;

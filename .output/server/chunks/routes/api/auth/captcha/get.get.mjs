@@ -1,11 +1,13 @@
-import { d as defineEventHandler, N as resolveClientIp, P as checkIpRateLimit, e as createError, bp as createCaptchaChallengeToken, bq as generateCaptchaBackgroundWithSlot, br as generateCaptchaPiece, bs as PUZZLE_PATH, bt as CAPTCHA_BACKGROUNDS } from '../../../../nitro/nitro.mjs';
+import { d as defineEventHandler, N as resolveClientIp, P as checkIpRateLimit, e as createError, bo as createCaptchaChallengeToken, bp as generateCaptchaBackgroundWithSlot, bq as generateCaptchaPiece, br as PUZZLE_PATH, bs as CAPTCHA_BACKGROUNDS } from '../../../../nitro/nitro.mjs';
+import '@adonisjs/hash';
+import '@adonisjs/hash/drivers/scrypt';
+import 'node:crypto';
 import 'drizzle-orm';
 import 'crypto';
 import 'fs';
 import 'path';
 import 'node:http';
 import 'node:https';
-import 'node:crypto';
 import 'node:events';
 import 'node:buffer';
 import 'node:fs';
@@ -25,15 +27,7 @@ import 'maxmind';
 import 'node:url';
 import '@iconify/utils';
 import 'consola';
-import 'ioredis';
 import 'zod';
-import 'node:child_process';
-import 'node:os';
-import 'node:fs/promises';
-import 'node:dns/promises';
-import 'node:net';
-import '@adonisjs/hash';
-import '@adonisjs/hash/drivers/scrypt';
 
 const get_get = defineEventHandler((event) => {
   const ip = resolveClientIp(event);

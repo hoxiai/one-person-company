@@ -1,11 +1,14 @@
-import { d as defineEventHandler, c as getRequestLocale, r as readBody, bZ as resolveOrderAccess, ad as getSiteLocaleConfig, ae as resolveRequestLocale, c4 as lockLegacyPendingOrderCurrency, b as db, ao as paymentMethods, aq as applyLocalPaymentPluginDefaults, c5 as isPaymentMethodAvailableForLocale, c6 as resolvePaymentPluginConfig, c7 as isPaymentMethodCurrencySupported } from '../../../nitro/nitro.mjs';
+import { d as defineEventHandler, c as getRequestLocale, r as readBody, bY as resolveOrderAccess, ad as getSiteLocaleConfig, ae as resolveRequestLocale, c3 as lockLegacyPendingOrderCurrency, b as db, ao as paymentMethods, c4 as isPaymentMethodAvailableForLocale, c5 as resolvePaymentPluginConfig, c6 as isPaymentMethodCurrencySupported } from '../../../nitro/nitro.mjs';
 import { eq } from 'drizzle-orm';
 import fs from 'fs';
 import path from 'path';
+import { a as applyLocalPaymentPluginDefaults } from '../../../_/meta.mjs';
+import '@adonisjs/hash';
+import '@adonisjs/hash/drivers/scrypt';
+import 'node:crypto';
 import 'crypto';
 import 'node:http';
 import 'node:https';
-import 'node:crypto';
 import 'node:events';
 import 'node:buffer';
 import 'node:fs';
@@ -25,15 +28,7 @@ import 'maxmind';
 import 'node:url';
 import '@iconify/utils';
 import 'consola';
-import 'ioredis';
 import 'zod';
-import 'node:child_process';
-import 'node:os';
-import 'node:fs/promises';
-import 'node:dns/promises';
-import 'node:net';
-import '@adonisjs/hash';
-import '@adonisjs/hash/drivers/scrypt';
 
 const info_post = defineEventHandler(async (event) => {
   const locale = getRequestLocale(event);

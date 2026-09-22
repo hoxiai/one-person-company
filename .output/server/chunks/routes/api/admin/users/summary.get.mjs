@@ -1,11 +1,13 @@
-import { d as defineEventHandler, c as getRequestLocale, g as getQuery, bl as proxyExternalRequest, u as users, b as db, b8 as userWallets, bg as userTokens, e as createError } from '../../../../nitro/nitro.mjs';
+import { d as defineEventHandler, c as getRequestLocale, g as getQuery, bk as proxyExternalRequest, u as users, b as db, b7 as userWallets, bf as userTokens, e as createError } from '../../../../nitro/nitro.mjs';
 import { sql, eq, or, like, count, and } from 'drizzle-orm';
+import '@adonisjs/hash';
+import '@adonisjs/hash/drivers/scrypt';
+import 'node:crypto';
 import 'crypto';
 import 'fs';
 import 'path';
 import 'node:http';
 import 'node:https';
-import 'node:crypto';
 import 'node:events';
 import 'node:buffer';
 import 'node:fs';
@@ -25,15 +27,7 @@ import 'maxmind';
 import 'node:url';
 import '@iconify/utils';
 import 'consola';
-import 'ioredis';
 import 'zod';
-import 'node:child_process';
-import 'node:os';
-import 'node:fs/promises';
-import 'node:dns/promises';
-import 'node:net';
-import '@adonisjs/hash';
-import '@adonisjs/hash/drivers/scrypt';
 
 const summary_get = defineEventHandler(async (event) => {
   var _a, _b;

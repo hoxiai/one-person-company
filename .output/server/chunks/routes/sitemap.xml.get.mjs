@@ -1,11 +1,13 @@
-import { d as defineEventHandler, cE as resolveServerSeoContext, cF as collectSitemapEntries, cG as seoRouteRegistry, cH as classifySeoRoute, cI as renderSitemapXml, cD as setHeader, e as createError } from '../nitro/nitro.mjs';
+import { d as defineEventHandler, cD as resolveServerSeoContext, cE as collectSitemapEntries, cF as seoRouteRegistry, cG as classifySeoRoute, cH as renderSitemapXml, cC as setHeader, e as createError } from '../nitro/nitro.mjs';
+import '@adonisjs/hash';
+import '@adonisjs/hash/drivers/scrypt';
+import 'node:crypto';
 import 'drizzle-orm';
 import 'crypto';
 import 'fs';
 import 'path';
 import 'node:http';
 import 'node:https';
-import 'node:crypto';
 import 'node:events';
 import 'node:buffer';
 import 'node:fs';
@@ -25,15 +27,7 @@ import 'maxmind';
 import 'node:url';
 import '@iconify/utils';
 import 'consola';
-import 'ioredis';
 import 'zod';
-import 'node:child_process';
-import 'node:os';
-import 'node:fs/promises';
-import 'node:dns/promises';
-import 'node:net';
-import '@adonisjs/hash';
-import '@adonisjs/hash/drivers/scrypt';
 
 const sitemap_xml_get = defineEventHandler(async (event) => {
   try {

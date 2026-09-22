@@ -1,11 +1,13 @@
-import { d as defineEventHandler, aA as ensureDefaultPromoTiers, b as db, aG as settings, aJ as promoAgentTiers } from '../../../nitro/nitro.mjs';
+import { d as defineEventHandler, az as ensureDefaultPromoTiers, b as db, aF as settings, aI as promoAgentTiers } from '../../../nitro/nitro.mjs';
 import { inArray, eq, desc } from 'drizzle-orm';
+import '@adonisjs/hash';
+import '@adonisjs/hash/drivers/scrypt';
+import 'node:crypto';
 import 'crypto';
 import 'fs';
 import 'path';
 import 'node:http';
 import 'node:https';
-import 'node:crypto';
 import 'node:events';
 import 'node:buffer';
 import 'node:fs';
@@ -25,15 +27,7 @@ import 'maxmind';
 import 'node:url';
 import '@iconify/utils';
 import 'consola';
-import 'ioredis';
 import 'zod';
-import 'node:child_process';
-import 'node:os';
-import 'node:fs/promises';
-import 'node:dns/promises';
-import 'node:net';
-import '@adonisjs/hash';
-import '@adonisjs/hash/drivers/scrypt';
 
 const promoSettingKeys = [
   "promo_default_commission_rate",

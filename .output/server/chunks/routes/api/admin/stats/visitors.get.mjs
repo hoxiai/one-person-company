@@ -1,11 +1,13 @@
-import { d as defineEventHandler, c as getRequestLocale, g as getQuery, w as getConfiguredTimezone, aX as parseStatsRange, b0 as clampStatsPage, b1 as clampStatsPageSize, aY as getRequestHost, b as db, aZ as visitorEvents, v as visitorProfiles, u as users } from '../../../../nitro/nitro.mjs';
+import { d as defineEventHandler, c as getRequestLocale, g as getQuery, w as getConfiguredTimezone, aW as parseStatsRange, a$ as clampStatsPage, b0 as clampStatsPageSize, aX as getRequestHost, b as db, aY as visitorEvents, v as visitorProfiles, u as users } from '../../../../nitro/nitro.mjs';
 import { and, gte, lt, eq, sql, inArray, count, desc } from 'drizzle-orm';
+import '@adonisjs/hash';
+import '@adonisjs/hash/drivers/scrypt';
+import 'node:crypto';
 import 'crypto';
 import 'fs';
 import 'path';
 import 'node:http';
 import 'node:https';
-import 'node:crypto';
 import 'node:events';
 import 'node:buffer';
 import 'node:fs';
@@ -25,15 +27,7 @@ import 'maxmind';
 import 'node:url';
 import '@iconify/utils';
 import 'consola';
-import 'ioredis';
 import 'zod';
-import 'node:child_process';
-import 'node:os';
-import 'node:fs/promises';
-import 'node:dns/promises';
-import 'node:net';
-import '@adonisjs/hash';
-import '@adonisjs/hash/drivers/scrypt';
 
 const visitors_get = defineEventHandler(async (event) => {
   const locale = getRequestLocale(event);

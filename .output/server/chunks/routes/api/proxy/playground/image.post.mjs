@@ -1,4 +1,4 @@
-import { d as defineEventHandler, c as getRequestLocale, aN as getUserSession, e as createError, r as readBody, cb as getAIGatewayUrl } from '../../../../nitro/nitro.mjs';
+import { d as defineEventHandler, c as getRequestLocale, aN as getUserSession, e as createError, r as readBody, cc as getAIGatewayUrl } from '../../../../nitro/nitro.mjs';
 import '@adonisjs/hash';
 import '@adonisjs/hash/drivers/scrypt';
 import 'node:crypto';

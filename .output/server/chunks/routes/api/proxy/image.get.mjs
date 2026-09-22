@@ -1,4 +1,4 @@
-import { d as defineEventHandler, c as getRequestLocale, g as getQuery, cc as normalizeImageProxyUrl, bQ as getHeader, cd as setResponseStatus, ce as setResponseHeader, cf as getImageProxyReferer, e as createError } from '../../../nitro/nitro.mjs';
+import { d as defineEventHandler, c as getRequestLocale, g as getQuery, cd as normalizeImageProxyUrl, bR as getHeader, ce as setResponseStatus, cf as setResponseHeader, cg as getImageProxyReferer, e as createError } from '../../../nitro/nitro.mjs';
 import { createHash } from 'node:crypto';
 import '@adonisjs/hash';
 import '@adonisjs/hash/drivers/scrypt';

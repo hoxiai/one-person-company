@@ -1,4 +1,4 @@
-import { d as defineEventHandler, bE as requireUserSession, b as db, u as users, bF as overwriteSessionUser } from '../../../nitro/nitro.mjs';
+import { d as defineEventHandler, bF as requireUserSession, b as db, u as users, bG as overwriteSessionUser } from '../../../nitro/nitro.mjs';
 import { eq } from 'drizzle-orm';
 import '@adonisjs/hash';
 import '@adonisjs/hash/drivers/scrypt';

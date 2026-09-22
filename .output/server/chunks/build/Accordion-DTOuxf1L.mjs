@@ -4,7 +4,7 @@ import { as as useAppConfig, aC as useComponentUI, aE as tv, ba as transformUI, 
 import { i as isValueEqualOrExist } from './isValueEqualOrExist-BVczPdKj.mjs';
 import { u as useArrowNavigation } from './useArrowNavigation-C4FOBlvk.mjs';
 import { C as CollapsibleRoot_default, a as CollapsibleTrigger_default, b as CollapsibleContent_default } from './CollapsibleTrigger-Do7wT6VK.mjs';
-import { d1 as isEqual } from '../nitro/nitro.mjs';
+import { d2 as isEqual } from '../nitro/nitro.mjs';
 import 'vue-router';
 import '@iconify/vue';
 import '@iconify/utils/lib/css/icon';

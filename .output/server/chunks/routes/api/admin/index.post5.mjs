@@ -1,4 +1,4 @@
-import { d as defineEventHandler, c as getRequestLocale, r as readBody, e as createError, bg as validateEmail, b as db, u as users, j as hashPassword } from '../../../nitro/nitro.mjs';
+import { d as defineEventHandler, c as getRequestLocale, r as readBody, e as createError, bh as validateEmail, b as db, u as users, j as hashPassword } from '../../../nitro/nitro.mjs';
 import { eq } from 'drizzle-orm';
 import '@adonisjs/hash';
 import '@adonisjs/hash/drivers/scrypt';

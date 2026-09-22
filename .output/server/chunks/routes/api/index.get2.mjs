@@ -1,4 +1,4 @@
-import { ca as defineCachedEventHandler, g as getQuery, p as products, b as db } from '../../nitro/nitro.mjs';
+import { cb as defineCachedEventHandler, g as getQuery, p as products, b as db } from '../../nitro/nitro.mjs';
 import { and, eq, count, desc } from 'drizzle-orm';
 import '@adonisjs/hash';
 import '@adonisjs/hash/drivers/scrypt';

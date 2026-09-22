@@ -1,4 +1,4 @@
-import { d as defineEventHandler, cC as setHeader, cD as resolveServerSeoContext } from '../nitro/nitro.mjs';
+import { d as defineEventHandler, cD as setHeader, cE as resolveServerSeoContext } from '../nitro/nitro.mjs';
 import '@adonisjs/hash';
 import '@adonisjs/hash/drivers/scrypt';
 import 'node:crypto';

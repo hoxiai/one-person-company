@@ -1,5 +1,5 @@
 import { eq, and, inArray, desc } from 'drizzle-orm';
-import { b as db, aF as settings, e as createError, cT as $fetch$1, z as subscriptions, p as products, cU as markTrialPaymentReceived, cV as beginTrialFulfillment, cW as completeTrialOrder, cX as failTrialOrder, cY as markTrialWalletEligible, u as users, bX as createNotification, cZ as formatTrialErrorMessage, bv as logger, o as orders } from '../nitro/nitro.mjs';
+import { b as db, aF as settings, e as createError, cU as $fetch$1, z as subscriptions, p as products, cV as markTrialPaymentReceived, cW as beginTrialFulfillment, cX as completeTrialOrder, cY as failTrialOrder, cZ as markTrialWalletEligible, u as users, bY as createNotification, c_ as formatTrialErrorMessage, bw as logger, o as orders } from '../nitro/nitro.mjs';
 import postgres from 'postgres';
 import '@adonisjs/hash';
 import '@adonisjs/hash/drivers/scrypt';
@@ -811,6 +811,20 @@ const completeQingpuTrialOrder = (orderId) => completeTrialOrder(orderId, "qingp
 const failQingpuTrialOrder = (orderId, error) => failTrialOrder(orderId, error, "qingpuTrial");
 const markQingpuTrialWalletEligible = (orderId) => markTrialWalletEligible(orderId, "qingpuTrial");
 
+const asRecord = (value) => value && typeof value === "object" && !Array.isArray(value) ? value : null;
+const requireFulfillableTrialPolicy = (orderId, policy) => {
+  const fail = (label) => {
+    throw new Error(`\u8BD5\u7528\u8BA2\u5355 ${orderId} \u5FEB\u7167\u7F3A\u5C11${label}\uFF0C\u65E0\u6CD5\u5F00\u901A\u6743\u76CA\uFF0C\u8BF7\u4EBA\u5DE5\u6838\u5BF9\u540E\u5904\u7406`);
+  };
+  const features = asRecord(policy.features);
+  if (!features || ["listing", "studio", "ops"].some((key) => typeof features[key] !== "boolean")) fail("\u529F\u80FD\u5F00\u5173");
+  const limits = asRecord(policy.limits);
+  if (!limits || ["stores", "employees"].some((key) => !Number.isSafeInteger(limits[key]) || Number(limits[key]) < 0)) fail("\u989D\u5EA6\u4E0A\u9650");
+  const grantAmount = policy.grantAmount;
+  if (typeof grantAmount !== "number" || !Number.isFinite(grantAmount) || grantAmount < 0) fail("\u8D60\u9001\u91D1\u5E01\u6570");
+  return policy;
+};
+
 const AINODE_SITE_TIMEOUT_MS = 15e3;
 async function getAINodeProxyHeaders(userId) {
   const rows = await db.select().from(users).where(eq(users.id, userId)).limit(1);
@@ -1022,11 +1036,12 @@ const deliverQingpuTrialGrant = async (order) => {
 };
 async function fulfillTrialOrder(order, adminId) {
   try {
+    const checked = { ...order, policy: requireFulfillableTrialPolicy(order.id, order.policy) };
     await assertTrialEligibility(order.userId);
     const credentials = await provisionAINodeCredentials(order.userId, order.email);
-    await assertAINodeTrialWalletEligible(order);
-    await deliverQingpuTrialGrant(order);
-    await grantTrialEntitlements(order, adminId);
+    await assertAINodeTrialWalletEligible(checked);
+    await deliverQingpuTrialGrant(checked);
+    await grantTrialEntitlements(checked, adminId);
     await completeQingpuTrialOrder(order.id);
     try {
       const durationDays = order.policy.durationDays || 1;
@@ -1207,6 +1222,176 @@ const creditAINodeCustomerBalance = async (input) => {
   });
 };
 
+const AINODE_SYNC_MAX_ATTEMPTS = 12;
+const grantEventId = (orderId) => `subscription:grant:${orderId}`;
+const revokeEventId = (subscriptionId) => `sub:cancel:${subscriptionId}`;
+const nextAINodeSyncRetryDelayMinutes = (attempts) => Math.min(2 ** Math.max(1, attempts), 360);
+const buildAINodeSyncEvent = (record, ainodeUserId) => {
+  if (record.kind === "subscription_grant") {
+    const { orderId, grantAmount, expiresAt, tier } = record.payload;
+    return {
+      event: "subscription.apply",
+      timestamp: (/* @__PURE__ */ new Date()).toISOString(),
+      data: {
+        eventId: record.eventId,
+        userId: ainodeUserId,
+        email: record.email,
+        paidAmount: 0,
+        grantAmount,
+        expiresAt,
+        tier,
+        sourceId: orderId,
+        remark: `\u8F7B\u94FA\u8BA2\u9605\u5957\u9910\u8D60\u9001\u7B97\u529B: ${grantAmount} \u91D1\u5E01`
+      }
+    };
+  }
+  const { subscriptionId, reason } = record.payload;
+  return {
+    event: "subscription.cancel",
+    timestamp: (/* @__PURE__ */ new Date()).toISOString(),
+    data: {
+      eventId: record.eventId,
+      userId: ainodeUserId,
+      sourceId: subscriptionId,
+      remark: `\u8F7B\u94FA\u8BA2\u9605\u9000\u6B3E\u64A4\u9500: ${reason}`
+    }
+  };
+};
+
+const CLAIM_LEASE_MINUTES = 5;
+const toRecord = (row) => ({
+  eventId: row.event_id,
+  kind: row.kind,
+  email: row.email,
+  payload: row.payload
+});
+const readableError = (err) => {
+  var _a, _b, _c, _d, _e;
+  return String(
+    ((_b = (_a = err == null ? void 0 : err.data) == null ? void 0 : _a.error) == null ? void 0 : _b.message) || ((_c = err == null ? void 0 : err.data) == null ? void 0 : _c.error) || ((_d = err == null ? void 0 : err.data) == null ? void 0 : _d.message) || ((_e = err == null ? void 0 : err.data) == null ? void 0 : _e.msg) || (err == null ? void 0 : err.message) || err || "AINode \u540C\u6B65\u5931\u8D25"
+  ).slice(0, 500);
+};
+const hasEarlierPending = async (row) => {
+  var _a;
+  const rows = await qingpuSql`
+    select exists (
+      select 1 from qingpu_ainode_sync_outbox earlier, qingpu_ainode_sync_outbox self
+      where self.event_id = ${row.event_id}
+        and earlier.user_id = self.user_id
+        and earlier.status = 'pending'
+        and earlier.event_id <> self.event_id
+        and earlier.created_at < self.created_at
+    ) as blocked
+  `;
+  return ((_a = rows[0]) == null ? void 0 : _a.blocked) === true;
+};
+const deliver = async (userId, record) => {
+  const [gatewayUrl, token] = await Promise.all([getQingpuAINodeBaseUrl(), getQingpuAINodeTenantToken()]);
+  if (!gatewayUrl || !token) throw new Error("AINode \u7F51\u5173\u5730\u5740\u6216\u79DF\u6237 Token \u672A\u914D\u7F6E");
+  if (record.kind === "subscription_grant") {
+    try {
+      const creds = await ensureAINodeApiKey(userId, record.email);
+      await persistModelCredentials(userId, creds.apiKey, creds.baseUrl);
+    } catch (err) {
+      console.warn(`[AINodeSyncOutbox] ensureAINodeApiKey warning for ${record.email}:`, (err == null ? void 0 : err.message) || err);
+    }
+  }
+  const ainodeUserId = await resolveAINodeUserId(gatewayUrl, record.email);
+  if (!ainodeUserId) throw new Error(`AINode \u4E2D\u627E\u4E0D\u5230\u7528\u6237 ${record.email}`);
+  return $fetch$1(`${gatewayUrl}/api/webhooks/events`, {
+    method: "POST",
+    headers: { Authorization: `Bearer ${token}` },
+    body: buildAINodeSyncEvent(record, ainodeUserId),
+    retry: 2,
+    retryStatusCodes: [408, 409, 425, 429, 500, 502, 503, 504],
+    signal: AbortSignal.timeout(15e3)
+  });
+};
+const markSucceeded = async (eventId) => {
+  await qingpuSql`
+    update qingpu_ainode_sync_outbox
+    set status = 'succeeded', attempts = attempts + 1, last_error = null,
+      succeeded_at = now(), updated_at = now()
+    where event_id = ${eventId}
+  `;
+};
+const markAttemptFailed = async (row, message) => {
+  const attempts = row.attempts + 1;
+  const exhausted = attempts >= AINODE_SYNC_MAX_ATTEMPTS;
+  const delayMinutes = nextAINodeSyncRetryDelayMinutes(attempts);
+  await qingpuSql`
+    update qingpu_ainode_sync_outbox
+    set status = ${exhausted ? "failed" : "pending"},
+      attempts = ${attempts},
+      last_error = ${message},
+      next_attempt_at = now() + make_interval(mins => ${delayMinutes}),
+      updated_at = now()
+    where event_id = ${row.event_id}
+  `;
+  return exhausted ? "failed" : "pending";
+};
+const processClaimed = async (row) => {
+  if (await hasEarlierPending(row)) {
+    return { ok: false, status: "deferred", errorMessage: "\u7B49\u5F85\u540C\u4E00\u7528\u6237\u66F4\u65E9\u7684\u540C\u6B65\u4E8B\u4EF6\u9001\u8FBE" };
+  }
+  const record = toRecord(row);
+  const userId = Number(row.user_id);
+  try {
+    const response = await deliver(userId, record);
+    await markSucceeded(row.event_id);
+    await logger.info(`AINode \u540C\u6B65\u6210\u529F: ${record.kind} ${record.email}`, {
+      source: "qingpu_ainode_sync",
+      details: { eventId: row.event_id, userId, attempts: row.attempts + 1, response }
+    });
+    return { ok: true, status: "succeeded" };
+  } catch (err) {
+    const message = readableError(err);
+    const status = await markAttemptFailed(row, message);
+    const log = status === "failed" ? logger.error.bind(logger) : logger.warn.bind(logger);
+    await log(`AINode \u540C\u6B65${status === "failed" ? "\u6700\u7EC8\u5931\u8D25" : "\u5931\u8D25\uFF0C\u7A0D\u540E\u91CD\u8BD5"}: ${record.kind} ${record.email}`, {
+      source: "qingpu_ainode_sync",
+      details: { eventId: row.event_id, userId, attempts: row.attempts + 1, error: message }
+    });
+    return { ok: false, status, errorMessage: message };
+  }
+};
+const enqueueAndDeliverAINodeSync = async (userId, record) => {
+  var _a, _b;
+  let claimed;
+  try {
+    const rows = await qingpuSql`
+      insert into qingpu_ainode_sync_outbox (event_id, kind, user_id, email, payload, next_attempt_at)
+      values (
+        ${record.eventId}, ${record.kind}, ${userId}, ${record.email},
+        ${qingpuSql.json(record.payload)},
+        now() + make_interval(mins => ${CLAIM_LEASE_MINUTES})
+      )
+      on conflict (event_id) do nothing
+      returning event_id, kind, user_id, email, payload, attempts, created_at
+    `;
+    claimed = rows[0];
+  } catch (err) {
+    const message = readableError(err);
+    console.error("[AINodeSyncOutbox] enqueue failed, delivering without retry ledger:", message);
+    await logger.error(`AINode \u540C\u6B65 outbox \u4E0D\u53EF\u7528\uFF0C\u6539\u4E3A\u76F4\u63A5\u6295\u9012\uFF08\u5931\u8D25\u5C06\u65E0\u6CD5\u81EA\u52A8\u91CD\u8BD5\uFF09: ${record.kind} ${record.email}`, {
+      source: "qingpu_ainode_sync",
+      details: { eventId: record.eventId, userId, error: message }
+    });
+    try {
+      await deliver(userId, record);
+      return { ok: true, status: "succeeded" };
+    } catch (deliverErr) {
+      return { ok: false, status: "failed", errorMessage: readableError(deliverErr) };
+    }
+  }
+  if (claimed) return processClaimed(claimed);
+  const existing = await qingpuSql`
+    select status, last_error from qingpu_ainode_sync_outbox where event_id = ${record.eventId}
+  `;
+  const status = ((_a = existing[0]) == null ? void 0 : _a.status) || "pending";
+  return status === "succeeded" ? { ok: true, status } : { ok: false, status, errorMessage: ((_b = existing[0]) == null ? void 0 : _b.last_error) || "\u540C\u6B65\u4E8B\u4EF6\u5DF2\u767B\u8BB0\uFF0C\u7B49\u5F85\u91CD\u8BD5" };
+};
+
 function parseJsonMeta(value) {
   if (!value) return {};
   if (typeof value === "string") {
@@ -1354,7 +1539,7 @@ async function handleQingpuTopupPaid(payload) {
   return { ok: true };
 }
 async function handleQingpuSubscriptionPaid(payload) {
-  var _a, _b, _c, _d, _e, _f, _g;
+  var _a, _b;
   const orderId = String((payload == null ? void 0 : payload.id) || (payload == null ? void 0 : payload.orderId) || "").trim();
   if (!orderId) return { ok: true };
   const rows = await db.select({
@@ -1372,127 +1557,48 @@ async function handleQingpuSubscriptionPaid(payload) {
   if (!userId) return { ok: true };
   const meta = parseJsonMeta(row.productMeta);
   const grantAmount = Number(meta.grant_amount || 0);
-  if (grantAmount > 0) {
-    const userRows = await db.select({ email: users.email }).from(users).where(eq(users.id, userId)).limit(1);
-    const email = String(((_a = userRows[0]) == null ? void 0 : _a.email) || "").trim().toLowerCase();
-    if (!email) return { ok: true };
-    try {
-      const ainodeCreds = await ensureAINodeApiKey(userId, email);
-      await persistModelCredentials(userId, ainodeCreds.apiKey, ainodeCreds.baseUrl);
-    } catch (err) {
-      console.warn(`[QingpuSubscriptionEvent] ensureAINodeApiKey warning for ${email}:`, (err == null ? void 0 : err.message) || err);
-    }
-    const [gatewayUrl, token] = await Promise.all([
-      getQingpuAINodeBaseUrl(),
-      getQingpuAINodeTenantToken()
-    ]);
-    if (!gatewayUrl || !token) {
-      const msg = "AINode tenant token or gateway URL not configured";
-      console.warn(`[QingpuSubscriptionEvent] ${msg}, skipping grant delivery`);
-      return { ok: true };
-    }
-    try {
-      const ainodeUserId = await resolveAINodeUserId(gatewayUrl, email);
-      if (!ainodeUserId) {
-        throw new Error(`Could not resolve AINode user ID for ${email}`);
-      }
-      const subRows = await db.select({ currentPeriodEnd: subscriptions.currentPeriodEnd }).from(subscriptions).where(and(eq(subscriptions.userId, userId), eq(subscriptions.status, "active"))).orderBy(desc(subscriptions.createdAt)).limit(1);
-      const expiresAt = ((_b = subRows[0]) == null ? void 0 : _b.currentPeriodEnd) ? new Date(subRows[0].currentPeriodEnd).toISOString() : new Date(Date.now() + 30 * 24 * 60 * 60 * 1e3).toISOString();
-      const eventPayload = {
-        event: "subscription.apply",
-        timestamp: (/* @__PURE__ */ new Date()).toISOString(),
-        data: {
-          eventId: `subscription:grant:${orderId}`,
-          userId: ainodeUserId,
-          email,
-          paidAmount: 0,
-          grantAmount,
-          expiresAt,
-          tier: Number(meta.level) || 1,
-          sourceId: orderId,
-          remark: `\u8F7B\u94FA\u8BA2\u9605\u5957\u9910\u8D60\u9001\u7B97\u529B: ${grantAmount} \u91D1\u5E01`
-        }
-      };
-      const response = await $fetch$1(`${gatewayUrl}/api/webhooks/events`, {
-        method: "POST",
-        headers: { Authorization: `Bearer ${token}` },
-        body: eventPayload,
-        retry: 2,
-        retryStatusCodes: [408, 409, 425, 429, 500, 502, 503, 504],
-        signal: AbortSignal.timeout(15e3)
-      });
-      console.log(`[QingpuSubscriptionEvent] Successfully delivered ${grantAmount} grant credits for ${email} (Order ${orderId})`);
-      await logger.info(`\u8BA2\u9605\u8D60\u9001\u7B97\u529B\u540C\u6B65 AINode \u6210\u529F: ${email} (+${grantAmount} grant)`, {
-        source: "qingpu_subscription_sync",
-        details: { orderId, userId, email, grantAmount, response }
-      });
-    } catch (err) {
-      const rawError = ((_d = (_c = err == null ? void 0 : err.data) == null ? void 0 : _c.error) == null ? void 0 : _d.message) || ((_e = err == null ? void 0 : err.data) == null ? void 0 : _e.error) || ((_f = err == null ? void 0 : err.data) == null ? void 0 : _f.message) || ((_g = err == null ? void 0 : err.data) == null ? void 0 : _g.msg) || (err == null ? void 0 : err.message) || "\u5145\u503C\u53D1\u653E\u5931\u8D25";
-      console.error(`[QingpuSubscriptionEvent] Failed to credit subscription grant for ${email}:`, rawError, (err == null ? void 0 : err.data) || "");
-      await logger.error(`\u8BA2\u9605\u8D60\u9001\u7B97\u529B\u540C\u6B65 AINode \u5931\u8D25: ${email}`, {
-        source: "qingpu_subscription_sync",
-        details: { orderId, userId, email, grantAmount, error: rawError }
-      });
-    }
+  if (!(grantAmount > 0)) return { ok: true };
+  const userRows = await db.select({ email: users.email }).from(users).where(eq(users.id, userId)).limit(1);
+  const email = String(((_a = userRows[0]) == null ? void 0 : _a.email) || "").trim().toLowerCase();
+  if (!email) {
+    const msg = `\u8BA2\u9605\u8BA2\u5355 ${orderId} \u7684\u7528\u6237 ${userId} \u6CA1\u6709\u90AE\u7BB1\uFF0C\u8D60\u9001\u7B97\u529B\u65E0\u6CD5\u540C\u6B65 AINode`;
+    await logger.error(msg, { source: "qingpu_subscription_sync", details: { orderId, userId, grantAmount } });
+    return { ok: false, errorMessage: msg };
   }
-  return { ok: true };
+  const subRows = await db.select({ currentPeriodEnd: subscriptions.currentPeriodEnd }).from(subscriptions).where(and(eq(subscriptions.userId, userId), eq(subscriptions.status, "active"))).orderBy(desc(subscriptions.createdAt)).limit(1);
+  const expiresAt = ((_b = subRows[0]) == null ? void 0 : _b.currentPeriodEnd) ? new Date(subRows[0].currentPeriodEnd).toISOString() : new Date(Date.now() + 30 * 24 * 60 * 60 * 1e3).toISOString();
+  const result = await enqueueAndDeliverAINodeSync(userId, {
+    eventId: grantEventId(orderId),
+    kind: "subscription_grant",
+    email,
+    payload: { orderId, grantAmount, expiresAt, tier: Number(meta.level) || 1 }
+  });
+  return { ok: result.ok, errorMessage: result.errorMessage };
 }
 async function handleQingpuSubscriptionRevoked(payload) {
-  var _a, _b, _c, _d, _e;
+  var _a;
   const userId = Number((payload == null ? void 0 : payload.userId) || 0);
   const subscriptionId = String((payload == null ? void 0 : payload.subscriptionId) || "").trim();
   const reason = String((payload == null ? void 0 : payload.reason) || "subscription_revoked").trim();
-  if (!userId || !subscriptionId) return { ok: true };
+  if (!userId || !subscriptionId) {
+    const msg = "\u8BA2\u9605\u64A4\u9500\u4E8B\u4EF6\u7F3A\u5C11 userId \u6216 subscriptionId\uFF0C\u65E0\u6CD5\u540C\u6B65 AINode";
+    await logger.error(msg, { source: "qingpu_subscription_revoke", details: { payload } });
+    return { ok: false, errorMessage: msg };
+  }
   const userRows = await db.select({ email: users.email }).from(users).where(eq(users.id, userId)).limit(1);
   const email = String(((_a = userRows[0]) == null ? void 0 : _a.email) || "").trim().toLowerCase();
-  if (!email) return { ok: true };
-  const [gatewayUrl, token] = await Promise.all([
-    getQingpuAINodeBaseUrl(),
-    getQingpuAINodeTenantToken()
-  ]);
-  if (!gatewayUrl || !token) {
-    console.warn(`[QingpuSubscriptionRevoke] AINode token or gateway URL not configured, skipping revoke sync`);
-    return { ok: true };
+  if (!email) {
+    const msg = `\u8BA2\u9605 ${subscriptionId} \u7684\u7528\u6237 ${userId} \u6CA1\u6709\u90AE\u7BB1\uFF0C\u64A4\u9500\u65E0\u6CD5\u540C\u6B65 AINode`;
+    await logger.error(msg, { source: "qingpu_subscription_revoke", details: { subscriptionId, userId, reason } });
+    return { ok: false, errorMessage: msg };
   }
-  try {
-    const ainodeUserId = await resolveAINodeUserId(gatewayUrl, email);
-    if (!ainodeUserId) {
-      console.warn(`[QingpuSubscriptionRevoke] Could not resolve AINode user ID for ${email}`);
-      return { ok: true };
-    }
-    const eventPayload = {
-      event: "subscription.cancel",
-      timestamp: (/* @__PURE__ */ new Date()).toISOString(),
-      data: {
-        eventId: `sub:cancel:${subscriptionId}:${Date.now()}`,
-        userId: ainodeUserId,
-        sourceId: subscriptionId,
-        remark: `\u8F7B\u94FA\u8BA2\u9605\u9000\u6B3E\u64A4\u9500: ${reason}`
-      }
-    };
-    const response = await $fetch$1(`${gatewayUrl}/api/webhooks/events`, {
-      method: "POST",
-      headers: { Authorization: `Bearer ${token}` },
-      body: eventPayload,
-      retry: 2,
-      retryStatusCodes: [408, 409, 425, 429, 500, 502, 503, 504],
-      signal: AbortSignal.timeout(15e3)
-    });
-    console.log(`[QingpuSubscriptionRevoke] Successfully revoked subscription ${subscriptionId} for ${email}`);
-    await logger.info(`\u8BA2\u9605\u64A4\u9500\u540C\u6B65 AINode \u6210\u529F: ${email}`, {
-      source: "qingpu_subscription_revoke",
-      details: { subscriptionId, userId, email, reason, response }
-    });
-    return { ok: true };
-  } catch (err) {
-    const rawError = ((_c = (_b = err == null ? void 0 : err.data) == null ? void 0 : _b.error) == null ? void 0 : _c.message) || ((_d = err == null ? void 0 : err.data) == null ? void 0 : _d.error) || ((_e = err == null ? void 0 : err.data) == null ? void 0 : _e.message) || (err == null ? void 0 : err.message) || "\u64A4\u9500\u540C\u6B65\u5931\u8D25";
-    console.error(`[QingpuSubscriptionRevoke] Failed to revoke subscription ${subscriptionId} for ${email}:`, rawError);
-    await logger.error(`\u8BA2\u9605\u64A4\u9500\u540C\u6B65 AINode \u5931\u8D25: ${email}`, {
-      source: "qingpu_subscription_revoke",
-      details: { subscriptionId, userId, email, reason, error: rawError }
-    });
-    return { ok: false, errorMessage: rawError };
-  }
+  const result = await enqueueAndDeliverAINodeSync(userId, {
+    eventId: revokeEventId(subscriptionId),
+    kind: "subscription_revoke",
+    email,
+    payload: { subscriptionId, reason }
+  });
+  return { ok: result.ok, errorMessage: result.errorMessage };
 }
 function getThemeEventRules() {
   return [

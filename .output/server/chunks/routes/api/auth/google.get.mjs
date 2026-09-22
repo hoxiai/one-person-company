@@ -1,4 +1,4 @@
-import { bx as defineOAuthGoogleEventHandler, bu as handleOAuthLogin, bv as logger, bw as sendLocalizedRedirect } from '../../../nitro/nitro.mjs';
+import { by as defineOAuthGoogleEventHandler, bv as handleOAuthLogin, bw as logger, bx as sendLocalizedRedirect } from '../../../nitro/nitro.mjs';
 import '@adonisjs/hash';
 import '@adonisjs/hash/drivers/scrypt';
 import 'node:crypto';

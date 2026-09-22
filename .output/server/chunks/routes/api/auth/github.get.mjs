@@ -1,4 +1,4 @@
-import { bt as defineOAuthGitHubEventHandler, bu as handleOAuthLogin, bv as logger, bw as sendLocalizedRedirect } from '../../../nitro/nitro.mjs';
+import { bu as defineOAuthGitHubEventHandler, bv as handleOAuthLogin, bw as logger, bx as sendLocalizedRedirect } from '../../../nitro/nitro.mjs';
 import '@adonisjs/hash';
 import '@adonisjs/hash/drivers/scrypt';
 import 'node:crypto';

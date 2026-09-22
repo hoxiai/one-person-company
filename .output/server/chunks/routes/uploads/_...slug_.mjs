@@ -1,6 +1,6 @@
 import fs from 'node:fs';
 import path from 'node:path';
-import { d as defineEventHandler, e as createError, cC as setHeader, bQ as getHeader, cd as setResponseStatus, cI as sendStream } from '../../nitro/nitro.mjs';
+import { d as defineEventHandler, e as createError, cD as setHeader, bR as getHeader, ce as setResponseStatus, cJ as sendStream } from '../../nitro/nitro.mjs';
 import '@adonisjs/hash';
 import '@adonisjs/hash/drivers/scrypt';
 import 'node:crypto';

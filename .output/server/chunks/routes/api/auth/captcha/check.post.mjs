@@ -1,4 +1,4 @@
-import { d as defineEventHandler, N as resolveClientIp, P as checkIpRateLimit, e as createError, r as readBody, bm as verifyCaptchaChallengeToken, bn as issueCaptchaTicket } from '../../../../nitro/nitro.mjs';
+import { d as defineEventHandler, N as resolveClientIp, P as checkIpRateLimit, e as createError, r as readBody, bn as verifyCaptchaChallengeToken, bo as issueCaptchaTicket } from '../../../../nitro/nitro.mjs';
 import '@adonisjs/hash';
 import '@adonisjs/hash/drivers/scrypt';
 import 'node:crypto';

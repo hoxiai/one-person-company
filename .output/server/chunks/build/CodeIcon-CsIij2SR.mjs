@@ -1,6 +1,6 @@
 import { computed, mergeProps, useSSRContext } from 'vue';
 import { ssrRenderComponent } from 'vue/server-renderer';
-import { d0 as defu } from '../nitro/nitro.mjs';
+import { d1 as defu } from '../nitro/nitro.mjs';
 import { as as useAppConfig, b as _sfc_main$G } from './server.mjs';
 import '@adonisjs/hash';
 import '@adonisjs/hash/drivers/scrypt';

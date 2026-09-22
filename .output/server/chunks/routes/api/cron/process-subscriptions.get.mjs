@@ -1,5 +1,5 @@
-import { d as defineEventHandler, c as getRequestLocale, bP as useRuntimeConfig, bQ as getHeader, bv as logger, e as createError, b as db, z as subscriptions, o as orders, al as ORDER_STATUS, b2 as getWebhookSubscriptionUrl, b3 as getIntegrationToken, b4 as sendHttpWebhook } from '../../../nitro/nitro.mjs';
-import { and, eq, lt } from 'drizzle-orm';
+import { d as defineEventHandler, c as getRequestLocale, bQ as useRuntimeConfig, bR as getHeader, bw as logger, e as createError, b as db, u as users, z as subscriptions, o as orders, al as ORDER_STATUS, b2 as syncWalletTierFromRemaining, b3 as getWebhookSubscriptionUrl, b4 as getIntegrationToken, b5 as sendHttpWebhook } from '../../../nitro/nitro.mjs';
+import { eq, and, lt } from 'drizzle-orm';
 import '@adonisjs/hash';
 import '@adonisjs/hash/drivers/scrypt';
 import 'node:crypto';
@@ -43,11 +43,21 @@ const processSubscriptions_get = defineEventHandler(async (event) => {
   let expiredCount = 0;
   let errorCount = 0;
   try {
-    const dueSubscriptions = await db.select().from(subscriptions).where(and(eq(subscriptions.status, "active"), lt(subscriptions.currentPeriodEnd, now)));
+    const dueSubscriptions = await db.select({
+      id: subscriptions.id,
+      userId: subscriptions.userId,
+      status: subscriptions.status,
+      cancelAtPeriodEnd: subscriptions.cancelAtPeriodEnd,
+      currentPeriodEnd: subscriptions.currentPeriodEnd,
+      userEmail: users.email
+    }).from(subscriptions).leftJoin(users, eq(subscriptions.userId, users.id)).where(and(eq(subscriptions.status, "active"), lt(subscriptions.currentPeriodEnd, now)));
     for (const sub of dueSubscriptions) {
       try {
         await db.update(subscriptions).set({ status: "expired", updatedAt: now }).where(eq(subscriptions.id, sub.id));
         await db.update(orders).set({ status: ORDER_STATUS.EXPIRED }).where(and(eq(orders.subscriptionId, sub.id), eq(orders.status, ORDER_STATUS.ACTIVE)));
+        if (sub.userId) {
+          await syncWalletTierFromRemaining(Number(sub.userId), now);
+        }
         if (sub.cancelAtPeriodEnd && sub.userId) {
           const [webhookUrl, ainodeToken] = await Promise.all([getWebhookSubscriptionUrl(), getIntegrationToken()]);
           if (webhookUrl && ainodeToken) {
@@ -59,6 +69,7 @@ const processSubscriptions_get = defineEventHandler(async (event) => {
                 data: {
                   eventId: `sub:cancel:${sub.id}`,
                   userId: Number(sub.userId),
+                  email: String(sub.userEmail || ""),
                   sourceId: sub.id,
                   remark: "User cancelled subscription (period ended)"
                 }

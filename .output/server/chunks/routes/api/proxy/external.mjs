@@ -1,4 +1,4 @@
-import { d as defineEventHandler, bk as proxyExternalRequest } from '../../../nitro/nitro.mjs';
+import { d as defineEventHandler, bl as proxyExternalRequest } from '../../../nitro/nitro.mjs';
 import '@adonisjs/hash';
 import '@adonisjs/hash/drivers/scrypt';
 import 'node:crypto';

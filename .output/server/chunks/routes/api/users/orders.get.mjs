@@ -1,4 +1,4 @@
-import { d as defineEventHandler, c as getRequestLocale, bE as requireUserSession, e as createError, g as getQuery, o as orders, b as db, p as products } from '../../../nitro/nitro.mjs';
+import { d as defineEventHandler, c as getRequestLocale, bF as requireUserSession, e as createError, g as getQuery, o as orders, b as db, p as products } from '../../../nitro/nitro.mjs';
 import { and, eq, ne, count, desc } from 'drizzle-orm';
 import '@adonisjs/hash';
 import '@adonisjs/hash/drivers/scrypt';

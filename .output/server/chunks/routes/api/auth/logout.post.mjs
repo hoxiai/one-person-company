@@ -1,4 +1,4 @@
-import { d as defineEventHandler, c as getRequestLocale, aN as getUserSession, bD as endWebSession, X as clearUserSession } from '../../../nitro/nitro.mjs';
+import { d as defineEventHandler, c as getRequestLocale, aN as getUserSession, bE as endWebSession, X as clearUserSession } from '../../../nitro/nitro.mjs';
 import '@adonisjs/hash';
 import '@adonisjs/hash/drivers/scrypt';
 import 'node:crypto';

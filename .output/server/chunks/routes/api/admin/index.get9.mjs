@@ -1,4 +1,4 @@
-import { d as defineEventHandler, g as getQuery, b5 as tickets, u as users, b as db } from '../../../nitro/nitro.mjs';
+import { d as defineEventHandler, g as getQuery, b6 as tickets, u as users, b as db } from '../../../nitro/nitro.mjs';
 import { eq, or, like, and, desc, count } from 'drizzle-orm';
 import '@adonisjs/hash';
 import '@adonisjs/hash/drivers/scrypt';

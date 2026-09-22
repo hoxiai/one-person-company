@@ -1,4 +1,4 @@
-import { d as defineEventHandler, N as resolveClientIp, P as checkIpRateLimit, e as createError, bo as createCaptchaChallengeToken, bp as generateCaptchaBackgroundWithSlot, bq as generateCaptchaPiece, br as PUZZLE_PATH, bs as CAPTCHA_BACKGROUNDS } from '../../../../nitro/nitro.mjs';
+import { d as defineEventHandler, N as resolveClientIp, P as checkIpRateLimit, e as createError, bp as createCaptchaChallengeToken, bq as generateCaptchaBackgroundWithSlot, br as generateCaptchaPiece, bs as PUZZLE_PATH, bt as CAPTCHA_BACKGROUNDS } from '../../../../nitro/nitro.mjs';
 import '@adonisjs/hash';
 import '@adonisjs/hash/drivers/scrypt';
 import 'node:crypto';

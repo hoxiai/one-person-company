@@ -1,4 +1,4 @@
-import { d as defineEventHandler, c as getRequestLocale, f as getRouterParam, e as createError, b as db, z as subscriptions, o as orders, al as ORDER_STATUS, b2 as getWebhookSubscriptionUrl, b3 as getIntegrationToken, b4 as sendHttpWebhook } from '../../../../nitro/nitro.mjs';
+import { d as defineEventHandler, c as getRequestLocale, f as getRouterParam, e as createError, b as db, u as users, z as subscriptions, o as orders, al as ORDER_STATUS, b2 as syncWalletTierFromRemaining, b3 as getWebhookSubscriptionUrl, b4 as getIntegrationToken, b5 as sendHttpWebhook } from '../../../../nitro/nitro.mjs';
 import { eq } from 'drizzle-orm';
 import '@adonisjs/hash';
 import '@adonisjs/hash/drivers/scrypt';
@@ -33,7 +33,12 @@ const _id__delete = defineEventHandler(async (event) => {
   const locale = getRequestLocale(event);
   const id = getRouterParam(event, "id");
   if (!id) throw createError({ statusCode: 400, message: locale === "zh" ? "\u7F3A\u5C11\u8BA2\u9605 ID" : "Missing subscription id" });
-  const existing = await db.select().from(subscriptions).where(eq(subscriptions.id, id)).limit(1);
+  const existing = await db.select({
+    id: subscriptions.id,
+    userId: subscriptions.userId,
+    status: subscriptions.status,
+    userEmail: users.email
+  }).from(subscriptions).leftJoin(users, eq(subscriptions.userId, users.id)).where(eq(subscriptions.id, id)).limit(1);
   if (!existing.length) {
     throw createError({ statusCode: 404, message: locale === "zh" ? "\u8BA2\u9605\u4E0D\u5B58\u5728" : "Subscription not found" });
   }
@@ -47,10 +52,13 @@ const _id__delete = defineEventHandler(async (event) => {
   for (const order of relatedOrders) {
     await db.update(orders).set({ status: ORDER_STATUS.EXPIRED }).where(eq(orders.id, order.id));
   }
+  if (sub.userId) {
+    await syncWalletTierFromRemaining(Number(sub.userId), /* @__PURE__ */ new Date());
+  }
   const [webhookUrl, ainodeToken] = await Promise.all([getWebhookSubscriptionUrl(), getIntegrationToken()]);
   if (webhookUrl && ainodeToken && sub.userId) {
     const eventId = `sub:cancel:${id}:${Date.now()}`;
-    sendHttpWebhook(
+    await sendHttpWebhook(
       webhookUrl,
       {
         event: "subscription.cancel",
@@ -58,6 +66,7 @@ const _id__delete = defineEventHandler(async (event) => {
         data: {
           eventId,
           userId: Number(sub.userId),
+          email: String(sub.userEmail || ""),
           sourceId: id,
           remark: locale === "zh" ? "\u7BA1\u7406\u5458\u53D6\u6D88\u4E86\u8BA2\u9605" : "Admin cancelled subscription"
         }

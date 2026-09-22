@@ -1,4 +1,4 @@
-import { d as defineEventHandler, cD as resolveServerSeoContext, cE as collectSitemapEntries, cF as seoRouteRegistry, cG as classifySeoRoute, cH as renderSitemapXml, cC as setHeader, e as createError } from '../nitro/nitro.mjs';
+import { d as defineEventHandler, cE as resolveServerSeoContext, cF as collectSitemapEntries, cG as seoRouteRegistry, cH as classifySeoRoute, cI as renderSitemapXml, cD as setHeader, e as createError } from '../nitro/nitro.mjs';
 import '@adonisjs/hash';
 import '@adonisjs/hash/drivers/scrypt';
 import 'node:crypto';

@@ -1,6 +1,6 @@
 import process from 'node:process';globalThis._importMeta_={url:import.meta.url,env:process.env};import 'node:http';
 import 'node:https';
-export { dm as default } from './chunks/nitro/nitro.mjs';
+export { dn as default } from './chunks/nitro/nitro.mjs';
 import '@adonisjs/hash';
 import '@adonisjs/hash/drivers/scrypt';
 import 'node:crypto';

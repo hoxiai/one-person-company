@@ -1,15 +1,18 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
   <style>
-    .hoxi-shape { fill: #0F172A; }
+    .hoxi-fill { fill: #0F172A; }
+    .hoxi-stroke { stroke: #0F172A; }
     @media (prefers-color-scheme: dark) {
-      .hoxi-shape { fill: #F8FAFC; }
+      .hoxi-fill { fill: #F8FAFC; }
+      .hoxi-stroke { stroke: #F8FAFC; }
     }
   </style>
-  <!-- 可喜 (Hoxi) 极速双翼 + 欢喜笑颜单色标 (支持暗黑模式自适应) -->
-  <!-- 左巨柱与左飞翼 (质量柱) -->
-  <path class="hoxi-shape" d="M12 56V26L30 14V23L19 30.5V56H12Z" />
-  <!-- 右巨柱与右飞翼 (成本柱) -->
-  <path class="hoxi-shape" d="M52 56V26L34 14V23L45 30.5V56H52Z" />
-  <!-- 微弧笑脸横梁 (从容微笑，锁合大写 H) -->
-  <path class="hoxi-shape" d="M19 36Q32 42.5 45 36V42.5Q32 49 19 42.5Z" />
+  <!-- 合喜 (Hoxi) 科技笑颜单色标 (合之檐 + H之目 + 喜之弧) -->
+  <!-- 1. 人字顶檐 (合) -->
+  <path class="hoxi-fill" d="M32 8L52 21H44L32 13L20 21H12L32 8Z" />
+  <!-- 2. 双立柱专注之眸 (H 骨架) -->
+  <rect class="hoxi-fill" x="20" y="25" width="6.5" height="12" rx="3.25" />
+  <rect class="hoxi-fill" x="37.5" y="25" width="6.5" height="12" rx="3.25" />
+  <!-- 3. 科技微笑弧线 (喜) -->
+  <path class="hoxi-stroke" d="M19 42.5C23 50 41 50 45 42.5" stroke-width="5.5" stroke-linecap="round" />
 </svg>

@@ -1,21 +1,24 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
   <style>
     .fav-bg { fill: #FFFFFF; stroke: #F1F5F9; }
-    .fav-shape { fill: #0F172A; }
+    .fav-fill { fill: #0F172A; }
+    .fav-stroke { stroke: #0F172A; }
     @media (prefers-color-scheme: dark) {
       .fav-bg { fill: #0F172A; stroke: #1E293B; }
-      .fav-shape { fill: #F8FAFC; }
+      .fav-fill { fill: #F8FAFC; }
+      .fav-stroke { stroke: #F8FAFC; }
     }
   </style>
 
   <rect class="fav-bg" width="64" height="64" rx="14" stroke-width="1.5" />
 
   <g transform="translate(6, 5) scale(0.8125)">
-    <!-- 左巨柱与左飞翼 -->
-    <path class="fav-shape" d="M12 56V26L30 14V23L19 30.5V56H12Z" />
-    <!-- 右巨柱与右飞翼 -->
-    <path class="fav-shape" d="M52 56V26L34 14V23L45 30.5V56H52Z" />
-    <!-- 微弧笑脸横梁 -->
-    <path class="fav-shape" d="M19 36Q32 42.5 45 36V42.5Q32 49 19 42.5Z" />
+    <!-- 1. 人字顶檐 (合) -->
+    <path class="fav-fill" d="M32 8L52 21H44L32 13L20 21H12L32 8Z" />
+    <!-- 2. 双立柱专注之眸 (H 骨架) -->
+    <rect class="fav-fill" x="20" y="25" width="6.5" height="12" rx="3.25" />
+    <rect class="fav-fill" x="37.5" y="25" width="6.5" height="12" rx="3.25" />
+    <!-- 3. 科技微笑弧线 (喜) -->
+    <path class="fav-stroke" d="M19 42.5C23 50 41 50 45 42.5" stroke-width="5.5" stroke-linecap="round" />
   </g>
 </svg>

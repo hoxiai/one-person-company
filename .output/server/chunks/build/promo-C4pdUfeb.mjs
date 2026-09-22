@@ -1,15 +1,15 @@
-import { e as useI18n, g as useToast, f as useFormatTime, I as useCurrencyFormat, t as useSettings, h as useAdminPermissions, y as useFetch, k as _sfc_main$z, b as _sfc_main$E, n as _sfc_main$v, d as _sfc_main$i, o as _sfc_main$h, l as _sfc_main$f, c as _sfc_main$j, p as _sfc_main$q, O as _sfc_main$e } from './server.mjs';
+import { e as useI18n, g as useToast, f as useFormatTime, I as useCurrencyFormat, t as useSettings, h as useAdminPermissions, y as useFetch, k as _sfc_main$B, b as _sfc_main$G, n as _sfc_main$x, d as _sfc_main$k, o as _sfc_main$j, l as _sfc_main$h, c as _sfc_main$l, p as _sfc_main$s, O as _sfc_main$g } from './server.mjs';
 import { _ as _sfc_main$1 } from './Switch-fZeXww_c.mjs';
 import { defineComponent, withAsyncContext, computed, ref, reactive, watchEffect, mergeProps, unref, withCtx, createTextVNode, toDisplayString, createVNode, openBlock, createBlock, createCommentVNode, useSSRContext } from 'vue';
 import { ssrRenderAttrs, ssrInterpolate, ssrRenderComponent, ssrRenderList, ssrRenderClass } from 'vue/server-renderer';
 import '../nitro/nitro.mjs';
-import 'node:crypto';
 import 'drizzle-orm';
 import 'crypto';
 import 'fs';
 import 'path';
 import 'node:http';
 import 'node:https';
+import 'node:crypto';
 import 'node:events';
 import 'node:buffer';
 import 'node:fs';
@@ -546,16 +546,16 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
     }
     return (_ctx, _push, _parent, _attrs) => {
       var _a, _b, _c, _d, _e, _f, _g, _h, _i;
-      const _component_UButton = _sfc_main$z;
-      const _component_UIcon = _sfc_main$E;
-      const _component_UBadge = _sfc_main$v;
-      const _component_UInput = _sfc_main$i;
-      const _component_USelect = _sfc_main$h;
-      const _component_UTable = _sfc_main$f;
-      const _component_UFormField = _sfc_main$j;
-      const _component_UModal = _sfc_main$q;
+      const _component_UButton = _sfc_main$B;
+      const _component_UIcon = _sfc_main$G;
+      const _component_UBadge = _sfc_main$x;
+      const _component_UInput = _sfc_main$k;
+      const _component_USelect = _sfc_main$j;
+      const _component_UTable = _sfc_main$h;
+      const _component_UFormField = _sfc_main$l;
+      const _component_UModal = _sfc_main$s;
       const _component_USwitch = _sfc_main$1;
-      const _component_UTextarea = _sfc_main$e;
+      const _component_UTextarea = _sfc_main$g;
       _push(`<div${ssrRenderAttrs(mergeProps({ class: "min-h-[calc(100vh-7rem)] flex flex-col gap-6" }, _attrs))}><div class="flex flex-col gap-4 md:flex-row md:items-end md:justify-between shrink-0"><div><h1 class="text-3xl font-bold text-gray-900 dark:text-white tracking-tight">${ssrInterpolate(_ctx.$t("admin.promo.title"))}</h1><p class="text-gray-500 dark:text-gray-400 mt-2 text-sm">${ssrInterpolate(_ctx.$t("admin.promo.subtitle"))}</p></div><div class="flex items-center gap-3">`);
       if (activeTab.value === "settings" && unref(hasAdminPerm)("promo:edit")) {
         _push(ssrRenderComponent(_component_UButton, {

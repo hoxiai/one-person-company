@@ -1,11 +1,11 @@
-import { d as defineEventHandler, bx as requireUserSession, b as db, ba as userTokens, bb as EMAIL_VERIFY_TOKEN_NAME } from '../../../nitro/nitro.mjs';
-import { and, eq, or, isNull, ne, desc } from 'drizzle-orm';
-import 'node:crypto';
+import { d as defineEventHandler, bF as requireUserSession, b as db, bg as userTokens, ct as apiTokenScope } from '../../../nitro/nitro.mjs';
+import { desc } from 'drizzle-orm';
 import 'crypto';
 import 'fs';
 import 'path';
 import 'node:http';
 import 'node:https';
+import 'node:crypto';
 import 'node:events';
 import 'node:buffer';
 import 'node:fs';
@@ -45,12 +45,7 @@ const index_get = defineEventHandler(async (event) => {
     expiresAt: userTokens.expiresAt,
     revoked: userTokens.revoked,
     createdAt: userTokens.createdAt
-  }).from(userTokens).where(and(
-    eq(userTokens.userId, userId),
-    // ne() against a NULL name is NULL (not true) in SQL, which would
-    // silently exclude un-named rows — explicitly allow NULL through.
-    or(isNull(userTokens.name), ne(userTokens.name, EMAIL_VERIFY_TOKEN_NAME))
-  )).orderBy(desc(userTokens.createdAt));
+  }).from(userTokens).where(apiTokenScope(userId)).orderBy(desc(userTokens.createdAt));
   return { data: rows };
 });
 

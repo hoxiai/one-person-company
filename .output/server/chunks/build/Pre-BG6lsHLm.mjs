@@ -1,15 +1,15 @@
 import { computed, mergeProps, unref, useSSRContext } from 'vue';
 import { ssrRenderAttrs, ssrRenderClass, ssrRenderComponent, ssrInterpolate, ssrRenderSlot } from 'vue/server-renderer';
-import { ar as useLocale, bi as useClipboard, as as useAppConfig, aC as useComponentUI, aE as tv, k as _sfc_main$z } from './server.mjs';
+import { ar as useLocale, bi as useClipboard, as as useAppConfig, aC as useComponentUI, aE as tv, k as _sfc_main$B } from './server.mjs';
 import _sfc_main$1 from './CodeIcon-CsIij2SR.mjs';
 import '../nitro/nitro.mjs';
-import 'node:crypto';
 import 'drizzle-orm';
 import 'crypto';
 import 'fs';
 import 'path';
 import 'node:http';
 import 'node:https';
+import 'node:crypto';
 import 'node:events';
 import 'node:buffer';
 import 'node:fs';
@@ -117,7 +117,7 @@ const _sfc_main = {
       } else {
         _push(`<!---->`);
       }
-      _push(ssrRenderComponent(_sfc_main$z, {
+      _push(ssrRenderComponent(_sfc_main$B, {
         icon: unref(copied) ? unref(appConfig).ui.icons.copyCheck : unref(appConfig).ui.icons.copy,
         color: "neutral",
         variant: "outline",

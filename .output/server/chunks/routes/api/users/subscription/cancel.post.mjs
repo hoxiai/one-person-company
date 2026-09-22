@@ -1,11 +1,11 @@
-import { d as defineEventHandler, c as getRequestLocale, bx as requireUserSession, e as createError, b as db, z as subscriptions, o as orders, ah as ORDER_STATUS, aZ as getWebhookSubscriptionUrl, a_ as getIntegrationToken, a$ as sendHttpWebhook } from '../../../../nitro/nitro.mjs';
-import { and, eq } from 'drizzle-orm';
-import 'node:crypto';
+import { d as defineEventHandler, c as getRequestLocale, bF as requireUserSession, e as createError, b as db, z as subscriptions } from '../../../../nitro/nitro.mjs';
+import { and, eq, or, isNull, gt, desc } from 'drizzle-orm';
 import 'crypto';
 import 'fs';
 import 'path';
 import 'node:http';
 import 'node:https';
+import 'node:crypto';
 import 'node:events';
 import 'node:buffer';
 import 'node:fs';
@@ -40,13 +40,11 @@ const cancel_post = defineEventHandler(async (event) => {
   const messages = locale === "zh" ? {
     unauthorized: "\u672A\u767B\u5F55",
     noActiveSubscription: "\u672A\u627E\u5230\u6709\u6548\u8BA2\u9605",
-    cancelled: "\u8BA2\u9605\u5DF2\u53D6\u6D88",
-    cancelRemark: "\u7528\u6237\u53D6\u6D88\u4E86\u8BA2\u9605"
+    cancelled: "\u8BA2\u9605\u5DF2\u53D6\u6D88"
   } : {
     unauthorized: "Unauthorized",
     noActiveSubscription: "No active subscription found",
-    cancelled: "Subscription cancelled",
-    cancelRemark: "User cancelled subscription"
+    cancelled: "Subscription cancelled"
   };
   const session = await requireUserSession(event);
   if (!session.user) {
@@ -55,40 +53,18 @@ const cancel_post = defineEventHandler(async (event) => {
   const userId = session.user.id;
   const existing = await db.select().from(subscriptions).where(and(
     eq(subscriptions.userId, userId),
-    eq(subscriptions.status, "active")
-  )).limit(1);
+    eq(subscriptions.status, "active"),
+    or(isNull(subscriptions.currentPeriodEnd), gt(subscriptions.currentPeriodEnd, /* @__PURE__ */ new Date()))
+  )).orderBy(desc(subscriptions.currentPeriodEnd)).limit(1);
   if (!existing.length) {
     throw createError({ statusCode: 404, message: messages.noActiveSubscription });
   }
   const sub = existing[0];
-  await db.update(subscriptions).set({
-    status: "canceled",
-    cancelAtPeriodEnd: true,
-    updatedAt: /* @__PURE__ */ new Date()
-  }).where(eq(subscriptions.id, sub.id));
-  const relatedOrders = await db.select({ id: orders.id }).from(orders).where(eq(orders.subscriptionId, sub.id));
-  for (const order of relatedOrders) {
-    await db.update(orders).set({ status: ORDER_STATUS.EXPIRED }).where(eq(orders.id, order.id));
-  }
-  if (sub.userId) {
-    const [webhookUrl, ainodeToken] = await Promise.all([getWebhookSubscriptionUrl(), getIntegrationToken()]);
-    if (webhookUrl && ainodeToken) {
-      const eventId = `sub:cancel:${sub.id}:${Date.now()}`;
-      await sendHttpWebhook(
-        webhookUrl,
-        {
-          event: "subscription.cancel",
-          timestamp: (/* @__PURE__ */ new Date()).toISOString(),
-          data: {
-            eventId,
-            userId: Number(sub.userId),
-            sourceId: sub.id,
-            remark: messages.cancelRemark
-          }
-        },
-        { headers: { Authorization: `Bearer ${ainodeToken}` } }
-      );
-    }
+  if (!sub.cancelAtPeriodEnd) {
+    await db.update(subscriptions).set({
+      cancelAtPeriodEnd: true,
+      updatedAt: /* @__PURE__ */ new Date()
+    }).where(eq(subscriptions.id, sub.id));
   }
   return { success: true, message: messages.cancelled };
 });

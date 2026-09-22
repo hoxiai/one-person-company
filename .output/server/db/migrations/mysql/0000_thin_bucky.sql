@@ -52,7 +52,7 @@ CREATE TABLE `oauth_accounts` (
 );
 --> statement-breakpoint
 CREATE TABLE `orders` (
-	`id` text NOT NULL,
+	`id` varchar(191) NOT NULL,
 	`amount` real NOT NULL,
 	`product_id` int NOT NULL,
 	`user_id` int,
@@ -88,7 +88,7 @@ CREATE TABLE `posts` (
 	`id` int AUTO_INCREMENT NOT NULL,
 	`key` text,
 	`sort` int,
-	`slug` text NOT NULL,
+	`slug` varchar(191) NOT NULL,
 	`title` text NOT NULL,
 	`description` text,
 	`content` text,
@@ -105,7 +105,7 @@ CREATE TABLE `posts` (
 --> statement-breakpoint
 CREATE TABLE `products` (
 	`id` int AUTO_INCREMENT NOT NULL,
-	`slug` text,
+	`slug` varchar(191),
 	`name` text NOT NULL,
 	`price` real NOT NULL,
 	`description` text,
@@ -124,7 +124,7 @@ CREATE TABLE `products` (
 );
 --> statement-breakpoint
 CREATE TABLE `settings` (
-	`key` text NOT NULL,
+	`key` varchar(191) NOT NULL,
 	`value` text NOT NULL,
 	`description` text,
 	`updated_at` timestamp DEFAULT (now()),
@@ -132,7 +132,7 @@ CREATE TABLE `settings` (
 );
 --> statement-breakpoint
 CREATE TABLE `subscriptions` (
-	`id` text NOT NULL,
+	`id` varchar(191) NOT NULL,
 	`gateway_sub_id` text,
 	`user_id` int,
 	`product_id` int NOT NULL,
@@ -153,7 +153,7 @@ CREATE TABLE `subscriptions` (
 --> statement-breakpoint
 CREATE TABLE `users` (
 	`id` int AUTO_INCREMENT NOT NULL,
-	`email` text NOT NULL,
+	`email` varchar(191) NOT NULL,
 	`password_hash` text,
 	`nickname` text,
 	`avatar_url` text,
@@ -173,7 +173,7 @@ CREATE TABLE `visitor_events` (
 	`id` int AUTO_INCREMENT NOT NULL,
 	`visitor_id` text NOT NULL,
 	`user_id` int,
-	`order_id` text,
+	`order_id` varchar(191),
 	`product_id` int,
 	`event_name` text NOT NULL,
 	`event_action` text,
@@ -199,7 +199,7 @@ CREATE TABLE `visitor_events` (
 );
 --> statement-breakpoint
 CREATE TABLE `visitor_profiles` (
-	`visitor_id` text NOT NULL,
+	`visitor_id` varchar(191) NOT NULL,
 	`user_id` int,
 	`first_seen_at` timestamp NOT NULL DEFAULT (now()),
 	`last_seen_at` timestamp NOT NULL DEFAULT (now()),

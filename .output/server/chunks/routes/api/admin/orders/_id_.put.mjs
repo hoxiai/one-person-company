@@ -1,11 +1,11 @@
-import { d as defineEventHandler, c as getRequestLocale, f as getRouterParam, e as createError, r as readBody, b as db, o as orders, s as setAuditMeta, O as ORDER_PAY_STATUS, Z as isMinimalCheckoutRelayOrder, _ as readMinimalCheckoutBridgeMeta, $ as createOrderAttribution, a0 as settlePaidTopup, a1 as recoverCreditedApayTopup, a2 as fulfillMinimalCheckoutRelay, a3 as fulfillOrder, a4 as settlePromoCommission, a5 as emitEvent, a6 as cancelPromoCommission, a7 as refundTopup } from '../../../../nitro/nitro.mjs';
+import { d as defineEventHandler, c as getRequestLocale, f as getRouterParam, e as createError, r as readBody, b as db, o as orders, s as setAuditMeta, O as ORDER_PAY_STATUS, _ as isMinimalCheckoutRelayOrder, $ as readMinimalCheckoutBridgeMeta, a0 as createOrderAttribution, a1 as settlePaidTopup, a2 as recoverCreditedApayTopup, a3 as fulfillMinimalCheckoutRelay, a4 as fulfillOrder, a5 as settlePromoCommission, a6 as emitEvent, a7 as cancelPromoCommission, a8 as revokeSubscriptionForOrder, a9 as refundTopup } from '../../../../nitro/nitro.mjs';
 import { eq } from 'drizzle-orm';
-import 'node:crypto';
 import 'crypto';
 import 'fs';
 import 'path';
 import 'node:http';
 import 'node:https';
+import 'node:crypto';
 import 'node:events';
 import 'node:buffer';
 import 'node:fs';
@@ -80,6 +80,11 @@ const _id__put = defineEventHandler(async (event) => {
   if (body.payStatus === ORDER_PAY_STATUS.REFUNDED || body.payStatus === ORDER_PAY_STATUS.CANCELLED) {
     const refundedOrder = result[0];
     await cancelPromoCommission(id, `admin_${body.payStatus}`);
+    try {
+      await revokeSubscriptionForOrder(String(id), `admin_${body.payStatus}`);
+    } catch (error) {
+      console.error(`[Subscription] failed to revoke for refunded order ${id}:`, error);
+    }
     if (body.payStatus === ORDER_PAY_STATUS.REFUNDED && (refundedOrder == null ? void 0 : refundedOrder.userId)) {
       try {
         const clawback = await refundTopup(id);

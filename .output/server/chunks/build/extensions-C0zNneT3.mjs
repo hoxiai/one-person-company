@@ -1,16 +1,16 @@
-import { g as useToast, e as useI18n, h as useAdminPermissions, t as useSettings, v as useAsyncData, b as _sfc_main$E, n as _sfc_main$v, k as _sfc_main$z, q as navigateTo } from './server.mjs';
+import { g as useToast, e as useI18n, h as useAdminPermissions, t as useSettings, v as useAsyncData, b as _sfc_main$G, n as _sfc_main$x, k as _sfc_main$B, q as navigateTo } from './server.mjs';
 import { _ as __nuxt_component_2, i as isSettingsTabId } from './Nav-DQUTv58w.mjs';
 import { _ as _sfc_main$1 } from './Switch-fZeXww_c.mjs';
 import { defineComponent, ref, withAsyncContext, computed, mergeProps, unref, withCtx, createTextVNode, toDisplayString, useSSRContext } from 'vue';
 import { ssrRenderAttrs, ssrRenderComponent, ssrInterpolate, ssrRenderList } from 'vue/server-renderer';
 import '../nitro/nitro.mjs';
-import 'node:crypto';
 import 'drizzle-orm';
 import 'crypto';
 import 'fs';
 import 'path';
 import 'node:http';
 import 'node:https';
+import 'node:crypto';
 import 'node:events';
 import 'node:buffer';
 import 'node:fs';
@@ -151,10 +151,10 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
       }
     };
     return (_ctx, _push, _parent, _attrs) => {
-      const _component_UIcon = _sfc_main$E;
+      const _component_UIcon = _sfc_main$G;
       const _component_AdminSettingsNav = __nuxt_component_2;
-      const _component_UBadge = _sfc_main$v;
-      const _component_UButton = _sfc_main$z;
+      const _component_UBadge = _sfc_main$x;
+      const _component_UButton = _sfc_main$B;
       const _component_USwitch = _sfc_main$1;
       _push(`<div${ssrRenderAttrs(mergeProps({ class: "mx-auto pb-12" }, _attrs))}><div class="mb-8"><h1 class="flex items-center gap-3 text-3xl font-bold tracking-tight text-gray-900 dark:text-white">`);
       _push(ssrRenderComponent(_component_UIcon, {

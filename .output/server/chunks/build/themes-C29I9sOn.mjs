@@ -1,15 +1,15 @@
-import { e as useI18n, t as useSettings, g as useToast, h as useAdminPermissions, B as publishedOptionalThemes, b as _sfc_main$E, k as _sfc_main$z, q as navigateTo } from './server.mjs';
+import { e as useI18n, t as useSettings, g as useToast, h as useAdminPermissions, B as publishedOptionalThemes, b as _sfc_main$G, k as _sfc_main$B, q as navigateTo } from './server.mjs';
 import { _ as __nuxt_component_2 } from './Nav-DQUTv58w.mjs';
 import { defineComponent, ref, computed, mergeProps, unref, withCtx, createTextVNode, toDisplayString, useSSRContext } from 'vue';
 import { ssrRenderAttrs, ssrRenderComponent, ssrInterpolate, ssrRenderList, ssrRenderClass, ssrRenderAttr } from 'vue/server-renderer';
 import '../nitro/nitro.mjs';
-import 'node:crypto';
 import 'drizzle-orm';
 import 'crypto';
 import 'fs';
 import 'path';
 import 'node:http';
 import 'node:https';
+import 'node:crypto';
 import 'node:events';
 import 'node:buffer';
 import 'node:fs';
@@ -200,9 +200,9 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
       }
     };
     return (_ctx, _push, _parent, _attrs) => {
-      const _component_UIcon = _sfc_main$E;
+      const _component_UIcon = _sfc_main$G;
       const _component_AdminSettingsNav = __nuxt_component_2;
-      const _component_UButton = _sfc_main$z;
+      const _component_UButton = _sfc_main$B;
       _push(`<div${ssrRenderAttrs(mergeProps({ class: "mx-auto pb-12" }, _attrs))}><div class="mb-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4"><div><h1 class="text-3xl font-bold text-gray-900 dark:text-white tracking-tight flex items-center gap-3">`);
       _push(ssrRenderComponent(_component_UIcon, {
         name: "ph:sparkle-duotone",

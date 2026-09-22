@@ -1,6 +1,6 @@
 import { useSlots, computed, ref, unref, mergeProps, withCtx, renderSlot, openBlock, createBlock, createCommentVNode, createTextVNode, toDisplayString, createVNode, Fragment, renderList, useSSRContext } from 'vue';
 import { ssrRenderComponent, ssrRenderSlot, ssrRenderList, ssrRenderClass, ssrInterpolate } from 'vue/server-renderer';
-import { as as useAppConfig, aC as useComponentUI, aj as useForwardPropsEmits, aD as reactivePick, aE as tv, ax as get, b as _sfc_main$E, aw as _sfc_main$C, n as _sfc_main$v } from './server.mjs';
+import { as as useAppConfig, aC as useComponentUI, aj as useForwardPropsEmits, aD as reactivePick, aE as tv, ax as get, b as _sfc_main$G, aw as _sfc_main$E, n as _sfc_main$x } from './server.mjs';
 import { T as TabsRoot_default, a as TabsList_default, b as TabsIndicator_default, c as TabsTrigger_default, d as TabsContent_default } from './TabsTrigger-Debt6F5y.mjs';
 
 const theme = {
@@ -324,13 +324,13 @@ const _sfc_main = {
                           }, () => {
                             var _a6, _b5, _c3, _d2, _e, _f;
                             if (item.icon) {
-                              _push4(ssrRenderComponent(_sfc_main$E, {
+                              _push4(ssrRenderComponent(_sfc_main$G, {
                                 name: item.icon,
                                 "data-slot": "leadingIcon",
                                 class: ui.value.leadingIcon({ class: [(_a6 = unref(uiProp)) == null ? void 0 : _a6.leadingIcon, (_b5 = item.ui) == null ? void 0 : _b5.leadingIcon] })
                               }, null, _parent4, _scopeId3));
                             } else if (item.avatar) {
-                              _push4(ssrRenderComponent(_sfc_main$C, mergeProps({
+                              _push4(ssrRenderComponent(_sfc_main$E, mergeProps({
                                 size: ((_c3 = item.ui) == null ? void 0 : _c3.leadingAvatarSize) || ((_d2 = unref(uiProp)) == null ? void 0 : _d2.leadingAvatarSize) || ui.value.leadingAvatarSize()
                               }, { ref_for: true }, item.avatar, {
                                 "data-slot": "leadingAvatar",
@@ -359,7 +359,7 @@ const _sfc_main = {
                           }, () => {
                             var _a6, _b5, _c3, _d2;
                             if (item.badge || item.badge === 0) {
-                              _push4(ssrRenderComponent(_sfc_main$v, mergeProps({
+                              _push4(ssrRenderComponent(_sfc_main$x, mergeProps({
                                 color: "neutral",
                                 variant: "outline",
                                 size: ((_a6 = item.ui) == null ? void 0 : _a6.trailingBadgeSize) || ((_b5 = unref(uiProp)) == null ? void 0 : _b5.trailingBadgeSize) || ui.value.trailingBadgeSize()
@@ -380,12 +380,12 @@ const _sfc_main = {
                             }, () => {
                               var _a6, _b5, _c3, _d2, _e, _f;
                               return [
-                                item.icon ? (openBlock(), createBlock(_sfc_main$E, {
+                                item.icon ? (openBlock(), createBlock(_sfc_main$G, {
                                   key: 0,
                                   name: item.icon,
                                   "data-slot": "leadingIcon",
                                   class: ui.value.leadingIcon({ class: [(_a6 = unref(uiProp)) == null ? void 0 : _a6.leadingIcon, (_b5 = item.ui) == null ? void 0 : _b5.leadingIcon] })
-                                }, null, 8, ["name", "class"])) : item.avatar ? (openBlock(), createBlock(_sfc_main$C, mergeProps({
+                                }, null, 8, ["name", "class"])) : item.avatar ? (openBlock(), createBlock(_sfc_main$E, mergeProps({
                                   key: 1,
                                   size: ((_c3 = item.ui) == null ? void 0 : _c3.leadingAvatarSize) || ((_d2 = unref(uiProp)) == null ? void 0 : _d2.leadingAvatarSize) || ui.value.leadingAvatarSize()
                                 }, { ref_for: true }, item.avatar, {
@@ -413,7 +413,7 @@ const _sfc_main = {
                             }, () => {
                               var _a6, _b5, _c3, _d2;
                               return [
-                                item.badge || item.badge === 0 ? (openBlock(), createBlock(_sfc_main$v, mergeProps({
+                                item.badge || item.badge === 0 ? (openBlock(), createBlock(_sfc_main$x, mergeProps({
                                   key: 0,
                                   color: "neutral",
                                   variant: "outline",
@@ -460,12 +460,12 @@ const _sfc_main = {
                             }, () => {
                               var _a6, _b5, _c2, _d, _e, _f;
                               return [
-                                item.icon ? (openBlock(), createBlock(_sfc_main$E, {
+                                item.icon ? (openBlock(), createBlock(_sfc_main$G, {
                                   key: 0,
                                   name: item.icon,
                                   "data-slot": "leadingIcon",
                                   class: ui.value.leadingIcon({ class: [(_a6 = unref(uiProp)) == null ? void 0 : _a6.leadingIcon, (_b5 = item.ui) == null ? void 0 : _b5.leadingIcon] })
-                                }, null, 8, ["name", "class"])) : item.avatar ? (openBlock(), createBlock(_sfc_main$C, mergeProps({
+                                }, null, 8, ["name", "class"])) : item.avatar ? (openBlock(), createBlock(_sfc_main$E, mergeProps({
                                   key: 1,
                                   size: ((_c2 = item.ui) == null ? void 0 : _c2.leadingAvatarSize) || ((_d = unref(uiProp)) == null ? void 0 : _d.leadingAvatarSize) || ui.value.leadingAvatarSize()
                                 }, { ref_for: true }, item.avatar, {
@@ -493,7 +493,7 @@ const _sfc_main = {
                             }, () => {
                               var _a6, _b5, _c2, _d;
                               return [
-                                item.badge || item.badge === 0 ? (openBlock(), createBlock(_sfc_main$v, mergeProps({
+                                item.badge || item.badge === 0 ? (openBlock(), createBlock(_sfc_main$x, mergeProps({
                                   key: 0,
                                   color: "neutral",
                                   variant: "outline",
@@ -588,12 +588,12 @@ const _sfc_main = {
                             }, () => {
                               var _a6, _b4, _c2, _d, _e, _f;
                               return [
-                                item.icon ? (openBlock(), createBlock(_sfc_main$E, {
+                                item.icon ? (openBlock(), createBlock(_sfc_main$G, {
                                   key: 0,
                                   name: item.icon,
                                   "data-slot": "leadingIcon",
                                   class: ui.value.leadingIcon({ class: [(_a6 = unref(uiProp)) == null ? void 0 : _a6.leadingIcon, (_b4 = item.ui) == null ? void 0 : _b4.leadingIcon] })
-                                }, null, 8, ["name", "class"])) : item.avatar ? (openBlock(), createBlock(_sfc_main$C, mergeProps({
+                                }, null, 8, ["name", "class"])) : item.avatar ? (openBlock(), createBlock(_sfc_main$E, mergeProps({
                                   key: 1,
                                   size: ((_c2 = item.ui) == null ? void 0 : _c2.leadingAvatarSize) || ((_d = unref(uiProp)) == null ? void 0 : _d.leadingAvatarSize) || ui.value.leadingAvatarSize()
                                 }, { ref_for: true }, item.avatar, {
@@ -621,7 +621,7 @@ const _sfc_main = {
                             }, () => {
                               var _a6, _b4, _c2, _d;
                               return [
-                                item.badge || item.badge === 0 ? (openBlock(), createBlock(_sfc_main$v, mergeProps({
+                                item.badge || item.badge === 0 ? (openBlock(), createBlock(_sfc_main$x, mergeProps({
                                   key: 0,
                                   color: "neutral",
                                   variant: "outline",

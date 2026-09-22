@@ -1,11 +1,11 @@
 import { d as defineEventHandler, c as getRequestLocale, e as createError, f as getRouterParam, b as db, h as admins, i as isSuperAdmin, r as readBody, j as hashPassword, n as normalizePermissions, s as setAuditMeta } from '../../../../nitro/nitro.mjs';
 import { eq, and, ne } from 'drizzle-orm';
-import 'node:crypto';
 import 'crypto';
 import 'fs';
 import 'path';
 import 'node:http';
 import 'node:https';
+import 'node:crypto';
 import 'node:events';
 import 'node:buffer';
 import 'node:fs';

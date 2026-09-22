@@ -1,11 +1,11 @@
 import { d as defineEventHandler, g as getQuery, w as getConfiguredTimezone, x as getStartOfDayUtc, o as orders, b as db, O as ORDER_PAY_STATUS, y as buildLocaleCurrencyQuote, u as users, p as products, z as subscriptions, B as topups, q as aggregateOrderAccountingTotals, m as cards, C as resolveOrderCurrencyAmounts, D as getCurrentHour, E as getCurrencyTotal } from '../../../nitro/nitro.mjs';
-import { sql, eq, and, inArray, desc } from 'drizzle-orm';
-import 'node:crypto';
+import { sql, eq, and, or, isNull, gt, inArray, desc } from 'drizzle-orm';
 import 'crypto';
 import 'fs';
 import 'path';
 import 'node:http';
 import 'node:https';
+import 'node:crypto';
 import 'node:events';
 import 'node:buffer';
 import 'node:fs';
@@ -97,7 +97,11 @@ const dashboard_get = defineEventHandler(async (event) => {
     buildLocaleCurrencyQuote(0),
     db.select({ count: sql`count(*)` }).from(users),
     db.select({ count: sql`count(*)` }).from(products).where(eq(products.isActive, true)),
-    db.select({ count: sql`count(*)` }).from(subscriptions).where(eq(subscriptions.status, "active")),
+    db.select({ count: sql`count(*)` }).from(subscriptions).where(and(
+      eq(subscriptions.status, "active"),
+      // 到期由定时任务改状态，漏跑时库里仍是 active；只数 status 会虚高。
+      or(isNull(subscriptions.currentPeriodEnd), gt(subscriptions.currentPeriodEnd, /* @__PURE__ */ new Date()))
+    )),
     db.select({ count: sql`count(*)` }).from(orders).where(and(eq(orders.payStatus, ORDER_PAY_STATUS.PAID), eq(orders.status, "pending"))),
     db.select({ count: sql`count(*)` }).from(topups).where(inArray(topups.status, ["paid", "crediting", "credit_failed", "review_required"])),
     db.select(selectFields).from(orders).orderBy(desc(orders.createdAt)).limit(6),

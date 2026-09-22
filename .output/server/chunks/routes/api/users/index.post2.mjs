@@ -1,12 +1,12 @@
-import { d as defineEventHandler, c as getRequestLocale, bx as requireUserSession, e as createError, r as readBody, b as db, ba as userTokens, bb as EMAIL_VERIFY_TOKEN_NAME } from '../../../nitro/nitro.mjs';
+import { d as defineEventHandler, c as getRequestLocale, bF as requireUserSession, e as createError, r as readBody, b as db, bg as userTokens, ct as apiTokenScope, cu as API_TOKEN_PREFIX } from '../../../nitro/nitro.mjs';
 import crypto from 'crypto';
 import { z } from 'zod';
-import { count, and, eq, or, isNull, ne } from 'drizzle-orm';
-import 'node:crypto';
+import { count, and, eq } from 'drizzle-orm';
 import 'fs';
 import 'path';
 import 'node:http';
 import 'node:https';
+import 'node:crypto';
 import 'node:events';
 import 'node:buffer';
 import 'node:fs';
@@ -60,18 +60,14 @@ const index_post = defineEventHandler(async (event) => {
     });
   }
   const { name, expiresInDays } = parsed.data;
-  const [{ value: activeCount }] = await db.select({ value: count() }).from(userTokens).where(and(
-    eq(userTokens.userId, userId),
-    eq(userTokens.revoked, false),
-    or(isNull(userTokens.name), ne(userTokens.name, EMAIL_VERIFY_TOKEN_NAME))
-  ));
+  const [{ value: activeCount }] = await db.select({ value: count() }).from(userTokens).where(and(apiTokenScope(userId), eq(userTokens.revoked, false)));
   if (activeCount >= MAX_ACTIVE_TOKENS) {
     throw createError({
       statusCode: 400,
       message: locale === "zh" ? `\u6700\u591A\u53EA\u80FD\u521B\u5EFA ${MAX_ACTIVE_TOKENS} \u4E2A\u6709\u6548 Token\uFF0C\u8BF7\u5148\u540A\u9500\u4E00\u4E9B` : `You can have at most ${MAX_ACTIVE_TOKENS} active tokens \u2014 revoke one first`
     });
   }
-  const rawToken = `apay_${crypto.randomBytes(32).toString("base64url")}`;
+  const rawToken = `${API_TOKEN_PREFIX}${crypto.randomBytes(32).toString("base64url")}`;
   const expiresAt = expiresInDays ? new Date(Date.now() + expiresInDays * 86400 * 1e3) : null;
   const inserted = await db.insert(userTokens).values({
     userId,

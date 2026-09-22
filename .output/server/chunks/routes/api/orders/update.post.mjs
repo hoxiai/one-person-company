@@ -1,11 +1,11 @@
-import { d as defineEventHandler, c as getRequestLocale, r as readBody, bL as requireOrderOwnership, O as ORDER_PAY_STATUS, b as db, o as orders } from '../../../nitro/nitro.mjs';
+import { d as defineEventHandler, c as getRequestLocale, r as readBody, bZ as resolveOrderAccess, O as ORDER_PAY_STATUS, b as db, o as orders } from '../../../nitro/nitro.mjs';
 import { eq } from 'drizzle-orm';
-import 'node:crypto';
 import 'crypto';
 import 'fs';
 import 'path';
 import 'node:http';
 import 'node:https';
+import 'node:crypto';
 import 'node:events';
 import 'node:buffer';
 import 'node:fs';
@@ -54,7 +54,7 @@ const update_post = defineEventHandler(async (event) => {
     if (!orderId || !tradeNo) {
       return { code: 1, message: messages.required };
     }
-    const order = await requireOrderOwnership(event, String(orderId));
+    const { order } = await resolveOrderAccess(event, String(orderId));
     if (order.payStatus === ORDER_PAY_STATUS.PAID) {
       return { code: 1, message: messages.alreadyPaid };
     }

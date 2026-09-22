@@ -1,12 +1,12 @@
-import { d as defineEventHandler, a9 as requireTrustedRequestOrigin, c as getRequestLocale, r as readBody, bL as requireOrderOwnership, O as ORDER_PAY_STATUS, b as db, ak as paymentMethods, ab as getSiteLocaleConfig, ac as resolveRequestLocale, bU as resolvePaymentPluginConfig, bW as resolvePaymentMethodCurrencies, bV as isPaymentMethodCurrencySupported, bG as getRequestIP, bX as getRequestHeaders, bY as executeCreateScript, o as orders, a8 as reconcileOrder } from '../../../nitro/nitro.mjs';
+import { d as defineEventHandler, ab as requireTrustedRequestOrigin, c as getRequestLocale, r as readBody, bZ as resolveOrderAccess, O as ORDER_PAY_STATUS, b as db, ao as paymentMethods, ad as getSiteLocaleConfig, ae as resolveRequestLocale, c6 as resolvePaymentPluginConfig, c8 as resolvePaymentMethodCurrencies, c7 as isPaymentMethodCurrencySupported, bU as getRequestIP, c9 as getRequestHeaders, ca as executeCreateScript, o as orders, aa as reconcileOrder } from '../../../nitro/nitro.mjs';
 import fs from 'fs';
 import path from 'path';
 import { z } from 'zod';
 import { eq, and, ne } from 'drizzle-orm';
-import 'node:crypto';
 import 'crypto';
 import 'node:http';
 import 'node:https';
+import 'node:crypto';
 import 'node:events';
 import 'node:buffer';
 import 'node:fs';
@@ -75,7 +75,7 @@ const initiate_post = defineEventHandler(async (event) => {
       return { code: 1, message: messages.invalidPayload };
     }
     const body = parsedBody.data;
-    const order = await requireOrderOwnership(event, body.orderId);
+    const { order } = await resolveOrderAccess(event, body.orderId);
     if (order.payStatus === ORDER_PAY_STATUS.PAID) {
       return { code: 1, message: messages.alreadyPaid };
     }

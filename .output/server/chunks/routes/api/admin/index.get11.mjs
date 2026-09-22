@@ -1,11 +1,11 @@
-import { d as defineEventHandler, c as getRequestLocale, g as getQuery, u as users, bc as proxyExternalRequest, b as db, b2 as userWallets, ba as userTokens, e as createError } from '../../../nitro/nitro.mjs';
+import { d as defineEventHandler, c as getRequestLocale, g as getQuery, u as users, bl as proxyExternalRequest, b as db, b8 as userWallets, bg as userTokens, e as createError } from '../../../nitro/nitro.mjs';
 import { sql, eq, or, like, desc, count, and } from 'drizzle-orm';
-import 'node:crypto';
 import 'crypto';
 import 'fs';
 import 'path';
 import 'node:http';
 import 'node:https';
+import 'node:crypto';
 import 'node:events';
 import 'node:buffer';
 import 'node:fs';
@@ -44,6 +44,8 @@ const index_get = defineEventHandler(async (event) => {
   const offset = (page - 1) * pageSize;
   const keyword = String(query.search || query.q || query.keyword || "").trim();
   const hasSpending = String(query.hasSpending || "").trim();
+  const sortBy = String(query.sortBy || query.sort || "").trim();
+  const sortOrder = String(query.sortOrder || query.order || "desc").trim().toLowerCase() === "asc" ? "asc" : "desc";
   const likePattern = keyword ? `%${keyword.toLowerCase()}%` : "";
   const emailLower = sql`lower(${users.email})`;
   const nicknameLower = sql`lower(coalesce(${users.nickname}, ''))`;
@@ -117,6 +119,15 @@ const index_get = defineEventHandler(async (event) => {
       filteredUsers = mergedUsers.filter((u) => u.totalSpend > 0);
     } else if (hasSpending === "false") {
       filteredUsers = mergedUsers.filter((u) => u.totalSpend === 0);
+    }
+    if (sortBy === "spend" || sortBy === "totalSpend") {
+      filteredUsers.sort((a, b) => sortOrder === "asc" ? a.totalSpend - b.totalSpend : b.totalSpend - a.totalSpend);
+    } else if (sortBy === "balance" || sortBy === "availableBalance") {
+      filteredUsers.sort((a, b) => sortOrder === "asc" ? a.availableBalance - b.availableBalance : b.availableBalance - a.availableBalance);
+    } else if (sortBy === "usage" || sortBy === "totalTokens") {
+      filteredUsers.sort((a, b) => sortOrder === "asc" ? a.totalTokens - b.totalTokens : b.totalTokens - a.totalTokens);
+    } else if (sortBy === "requests" || sortBy === "totalRequests") {
+      filteredUsers.sort((a, b) => sortOrder === "asc" ? a.totalRequests - b.totalRequests : b.totalRequests - a.totalRequests);
     }
     const total = filteredUsers.length;
     const paginatedUsers = filteredUsers.slice(offset, offset + pageSize);

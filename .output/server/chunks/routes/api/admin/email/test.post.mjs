@@ -1,11 +1,11 @@
-import { d as defineEventHandler, c as getRequestLocale, r as readBody, e as createError, J as getLocalizedSettingValue, I as sendEmail } from '../../../../nitro/nitro.mjs';
-import 'node:crypto';
+import { d as defineEventHandler, c as getRequestLocale, r as readBody, e as createError, J as getLocalizedSettingValue, K as sendEmail } from '../../../../nitro/nitro.mjs';
 import 'drizzle-orm';
 import 'crypto';
 import 'fs';
 import 'path';
 import 'node:http';
 import 'node:https';
+import 'node:crypto';
 import 'node:events';
 import 'node:buffer';
 import 'node:fs';

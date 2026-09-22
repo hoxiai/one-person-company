@@ -1,11 +1,11 @@
-import { d as defineEventHandler, b as db, aC as settings, r as readBody, s as setAuditMeta } from '../../../nitro/nitro.mjs';
+import { d as defineEventHandler, b as db, aG as settings, r as readBody, s as setAuditMeta, aV as EMAIL_VERIFY_POLICY_KEY, aW as invalidateEmailVerifyPolicyCache } from '../../../nitro/nitro.mjs';
 import { eq } from 'drizzle-orm';
-import 'node:crypto';
 import 'crypto';
 import 'fs';
 import 'path';
 import 'node:http';
 import 'node:https';
+import 'node:crypto';
 import 'node:events';
 import 'node:buffer';
 import 'node:fs';
@@ -54,6 +54,9 @@ const index = defineEventHandler(async (event) => {
       if (before !== String(value)) {
         changes[key] = { before, after: String(value) };
       }
+    }
+    if (EMAIL_VERIFY_POLICY_KEY in body) {
+      invalidateEmailVerifyPolicyCache();
     }
     setAuditMeta(event, {
       action: "update",

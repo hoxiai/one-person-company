@@ -1,15 +1,15 @@
 import { computed, mergeProps, unref, withCtx, renderSlot, createVNode, toDisplayString, useSlots, openBlock, createBlock, createCommentVNode, useSSRContext } from 'vue';
 import { ssrRenderComponent, ssrRenderSlot, ssrRenderClass, ssrInterpolate } from 'vue/server-renderer';
-import { ar as useLocale, as as useAppConfig, aC as useComponentUI, aE as tv, ba as transformUI, b as _sfc_main$E, aj as useForwardPropsEmits, aD as reactivePick } from './server.mjs';
+import { ar as useLocale, as as useAppConfig, aC as useComponentUI, aE as tv, ba as transformUI, b as _sfc_main$G, aj as useForwardPropsEmits, aD as reactivePick } from './server.mjs';
 import { C as CollapsibleRoot_default, a as CollapsibleTrigger_default, b as CollapsibleContent_default } from './CollapsibleTrigger-Do7wT6VK.mjs';
 import '../nitro/nitro.mjs';
-import 'node:crypto';
 import 'drizzle-orm';
 import 'crypto';
 import 'fs';
 import 'path';
 import 'node:http';
 import 'node:https';
+import 'node:crypto';
 import 'node:events';
 import 'node:buffer';
 import 'node:fs';
@@ -206,7 +206,7 @@ const _sfc_main = {
           var _a, _b, _c, _d, _e, _f;
           if (_push2) {
             _push2(`<button class="${ssrRenderClass(ui.value.trigger({ class: (_a = unref(uiProp)) == null ? void 0 : _a.trigger }))}"${_scopeId}>`);
-            _push2(ssrRenderComponent(_sfc_main$E, {
+            _push2(ssrRenderComponent(_sfc_main$G, {
               name: __props.icon || unref(appConfig).ui.icons.chevronDown,
               class: ui.value.triggerIcon({ class: (_b = unref(uiProp)) == null ? void 0 : _b.triggerIcon })
             }, null, _parent2, _scopeId));
@@ -216,7 +216,7 @@ const _sfc_main = {
               createVNode("button", {
                 class: ui.value.trigger({ class: (_d = unref(uiProp)) == null ? void 0 : _d.trigger })
               }, [
-                createVNode(_sfc_main$E, {
+                createVNode(_sfc_main$G, {
                   name: __props.icon || unref(appConfig).ui.icons.chevronDown,
                   class: ui.value.triggerIcon({ class: (_e = unref(uiProp)) == null ? void 0 : _e.triggerIcon })
                 }, null, 8, ["name", "class"]),

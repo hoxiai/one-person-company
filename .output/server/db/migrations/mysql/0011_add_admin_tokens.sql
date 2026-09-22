@@ -1,7 +1,7 @@
 CREATE TABLE `admin_tokens` (
 	`id` int AUTO_INCREMENT NOT NULL,
 	`admin_id` int NOT NULL,
-	`token` text NOT NULL,
+	`token` varchar(191) NOT NULL,
 	`name` text,
 	`permissions` json,
 	`expires_at` timestamp,

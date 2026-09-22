@@ -1,11 +1,11 @@
-import { d as defineEventHandler, c as getRequestLocale, bx as requireUserSession, e as createError, g as getQuery, c3 as getOrCreateUserWallet, b as db, b2 as userWallets, o as orders, q as aggregateOrderAccountingTotals, p as products, t as toIsoTimestamp } from '../../../nitro/nitro.mjs';
+import { d as defineEventHandler, c as getRequestLocale, bF as requireUserSession, e as createError, g as getQuery, ci as getOrCreateUserWallet, b as db, b8 as userWallets, o as orders, q as aggregateOrderAccountingTotals, p as products, t as toIsoTimestamp } from '../../../nitro/nitro.mjs';
 import { eq, and, gte, ne, desc, inArray } from 'drizzle-orm';
-import 'node:crypto';
 import 'crypto';
 import 'fs';
 import 'path';
 import 'node:http';
 import 'node:https';
+import 'node:crypto';
 import 'node:events';
 import 'node:buffer';
 import 'node:fs';
@@ -90,7 +90,7 @@ const billing_get = defineEventHandler(async (event) => {
     const product = productMap.get(order.productId);
     let displayType = "purchase";
     if ((product == null ? void 0 : product.type) === "subscription") displayType = "subscription";
-    if ((product == null ? void 0 : product.type) === "recharge") displayType = "recharge";
+    if ((product == null ? void 0 : product.type) === "topup") displayType = "recharge";
     return {
       id: order.id,
       time: toIsoTimestamp(order.paidAt || order.createdAt),

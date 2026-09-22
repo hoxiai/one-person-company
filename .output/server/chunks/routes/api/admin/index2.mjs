@@ -1,12 +1,12 @@
-import { d as defineEventHandler, c as getRequestLocale, g as getQuery, o as orders, p as products, u as users, b as db, r as readBody, e as createError, a9 as requireTrustedRequestOrigin, aa as ensurePromoMember, ab as getSiteLocaleConfig, ac as resolveRequestLocale, y as buildLocaleCurrencyQuote, ad as getMinimalCheckoutAdminConfig, ae as buildMinimalCheckoutBridgeMeta, af as mergeMinimalCheckoutMeta, O as ORDER_PAY_STATUS, ag as prepareOrderMetaForInsert, ah as ORDER_STATUS, $ as createOrderAttribution, ai as ensureTopupRecordForOrder, a0 as settlePaidTopup, Z as isMinimalCheckoutRelayOrder, a2 as fulfillMinimalCheckoutRelay, a3 as fulfillOrder, a4 as settlePromoCommission, a5 as emitEvent, J as getLocalizedSettingValue, I as sendEmail, s as setAuditMeta } from '../../../nitro/nitro.mjs';
+import { d as defineEventHandler, c as getRequestLocale, g as getQuery, o as orders, p as products, u as users, b as db, r as readBody, e as createError, ab as requireTrustedRequestOrigin, ac as ensurePromoMember, ad as getSiteLocaleConfig, ae as resolveRequestLocale, af as resolveCurrencyRate, ag as roundCurrencyAmount, ah as getMinimalCheckoutAdminConfig, ai as buildMinimalCheckoutBridgeMeta, aj as mergeMinimalCheckoutMeta, O as ORDER_PAY_STATUS, ak as prepareOrderMetaForInsert, al as ORDER_STATUS, a0 as createOrderAttribution, am as ensureTopupRecordForOrder, a1 as settlePaidTopup, _ as isMinimalCheckoutRelayOrder, a3 as fulfillMinimalCheckoutRelay, a4 as fulfillOrder, a5 as settlePromoCommission, a6 as emitEvent, J as getLocalizedSettingValue, K as sendEmail, s as setAuditMeta } from '../../../nitro/nitro.mjs';
 import { or, eq, and, ne, like, sql, count, desc } from 'drizzle-orm';
 import crypto from 'crypto';
 import { z } from 'zod';
-import 'node:crypto';
 import 'fs';
 import 'path';
 import 'node:http';
 import 'node:https';
+import 'node:crypto';
 import 'node:events';
 import 'node:buffer';
 import 'node:fs';
@@ -216,18 +216,29 @@ const index = defineEventHandler(async (event) => {
     }
     const product = productList[0];
     const quantity = Math.max(1, body.quantity || 1);
-    const defaultTotal = Number(product.price || 0) * quantity;
-    const actualAmount = body.amount !== void 0 && body.amount !== null && Number.isFinite(Number(body.amount)) ? Math.max(0, Number(body.amount)) : defaultTotal;
+    const defaultBaseTotal = Number(product.price || 0) * quantity;
+    const hasCustomAmount = body.amount !== void 0 && body.amount !== null && Number.isFinite(Number(body.amount));
     const siteLocaleConfig = await getSiteLocaleConfig();
     const orderLocale = resolveRequestLocale(event, body.locale || void 0, siteLocaleConfig);
-    const currencyQuote = await buildLocaleCurrencyQuote(actualAmount, orderLocale);
-    const finalCurrency = String(body.currency || currencyQuote.currency || "USD").trim().toUpperCase();
+    const currencyInfo = await resolveCurrencyRate(body.currency, orderLocale);
+    const finalCurrency = currencyInfo.targetCurrency;
+    const exchangeRate = currencyInfo.rate;
+    const baseCurrency = currencyInfo.baseCurrency;
+    let actualAmount;
+    let baseAmount;
+    if (hasCustomAmount) {
+      actualAmount = Math.max(0, Number(body.amount));
+      baseAmount = exchangeRate > 0 ? roundCurrencyAmount(actualAmount / exchangeRate, baseCurrency) : roundCurrencyAmount(actualAmount, baseCurrency);
+    } else {
+      baseAmount = roundCurrencyAmount(defaultBaseTotal, baseCurrency);
+      actualAmount = roundCurrencyAmount(baseAmount * exchangeRate, finalCurrency);
+    }
     const currencySnapshot = {
-      locale: currencyQuote.locale,
-      baseCurrency: currencyQuote.baseCurrency,
-      baseAmount: currencyQuote.baseAmount,
+      locale: currencyInfo.locale,
+      baseCurrency,
+      baseAmount,
       currency: finalCurrency,
-      exchangeRate: currencyQuote.rate,
+      exchangeRate,
       amount: actualAmount,
       source: "admin_manual"
     };
@@ -250,17 +261,17 @@ const index = defineEventHandler(async (event) => {
     }
     const minimalCheckoutConfig = await getMinimalCheckoutAdminConfig();
     const configuredRechargeAmount = Number(productMetaData.recharge_amount || 0);
-    const rechargeAmount = configuredRechargeAmount > 0 ? configuredRechargeAmount : currencyQuote.baseAmount;
+    const rechargeAmount = configuredRechargeAmount > 0 ? configuredRechargeAmount : baseAmount;
     const bridgeMeta = buildMinimalCheckoutBridgeMeta({
       externalOrderId: orderId,
       sourceProductId: product.id,
       amount: actualAmount,
       currency: finalCurrency,
-      sourceAmount: currencyQuote.baseAmount,
-      sourceCurrency: currencyQuote.baseCurrency,
-      exchangeRate: currencyQuote.rate,
+      sourceAmount: baseAmount,
+      sourceCurrency: baseCurrency,
+      exchangeRate,
       rechargeAmount,
-      rechargeCurrency: String(productMetaData.display_unit || currencyQuote.baseCurrency).trim().toUpperCase(),
+      rechargeCurrency: String(productMetaData.display_unit || baseCurrency).trim().toUpperCase(),
       balanceType: String(productMetaData.balance_type || "").trim().toLowerCase() === "grant" ? "grant" : "cash",
       notifyUrl: minimalCheckoutConfig.defaultNotifyUrl || void 0,
       returnUrl: minimalCheckoutConfig.defaultReturnUrl || void 0,

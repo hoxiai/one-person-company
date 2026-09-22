@@ -1,15 +1,15 @@
-import { e as useI18n, a as __nuxt_component_3$1, b as _sfc_main$E } from './server.mjs';
+import { e as useI18n, a as __nuxt_component_3$1, b as _sfc_main$G } from './server.mjs';
 import { defineComponent, mergeProps, unref, withCtx, createVNode, useSSRContext } from 'vue';
 import { ssrRenderAttrs, ssrInterpolate, ssrRenderComponent } from 'vue/server-renderer';
 import { A as AdminSubscriptionsPanel } from './AdminSubscriptionsPanel-Dx3i-tlH.mjs';
 import '../nitro/nitro.mjs';
-import 'node:crypto';
 import 'drizzle-orm';
 import 'crypto';
 import 'fs';
 import 'path';
 import 'node:http';
 import 'node:https';
+import 'node:crypto';
 import 'node:events';
 import 'node:buffer';
 import 'node:fs';
@@ -67,7 +67,7 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
     const { t } = useI18n();
     return (_ctx, _push, _parent, _attrs) => {
       const _component_NuxtLink = __nuxt_component_3$1;
-      const _component_UIcon = _sfc_main$E;
+      const _component_UIcon = _sfc_main$G;
       _push(`<div${ssrRenderAttrs(mergeProps({ class: "flex h-[calc(100vh-10rem)] flex-col" }, _attrs))}><div class="mb-6 flex shrink-0 items-end justify-between gap-4"><div><h1 class="text-3xl font-bold tracking-tight text-gray-900 dark:text-white">${ssrInterpolate(unref(t)("admin.subscriptions.title", "\u8BA2\u9605\u7BA1\u7406"))}</h1><p class="mt-1.5 text-sm text-gray-500 dark:text-gray-400">${ssrInterpolate(unref(t)("admin.subscriptions.subtitle", "\u67E5\u770B\u4E0E\u7BA1\u7406\u5BA2\u6237\u5468\u671F\u6027\u8BA2\u9605\u8BA1\u5212"))}</p></div>`);
       _push(ssrRenderComponent(_component_NuxtLink, {
         to: "/admin/products",

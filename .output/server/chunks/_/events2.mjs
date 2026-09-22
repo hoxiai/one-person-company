@@ -1,11 +1,11 @@
 import { eq, and, desc } from 'drizzle-orm';
-import { cY as ensureAINodeApiKey, cZ as persistModelCredentials, c_ as markQingpuTrialPaymentReceived, c$ as fulfillPaidTrialOrder, d0 as formatTrialErrorMessage, b as db, p as products, o as orders, u as users, cC as getQingpuAINodeBaseUrl, d1 as getQingpuAINodeTenantToken, d2 as resolveAINodeUserId, z as subscriptions, d3 as $fetch, bo as logger, d4 as creditAINodeCustomerBalance } from '../nitro/nitro.mjs';
-import 'node:crypto';
+import { dr as ensureAINodeApiKey, ds as persistModelCredentials, dt as markQingpuTrialPaymentReceived, du as fulfillPaidTrialOrder, dv as formatTrialErrorMessage, b as db, p as products, o as orders, u as users, cU as getQingpuAINodeBaseUrl, dw as getQingpuAINodeTenantToken, dx as resolveAINodeUserId, z as subscriptions, dy as $fetch, bw as logger, dz as creditAINodeCustomerBalance } from '../nitro/nitro.mjs';
 import 'crypto';
 import 'fs';
 import 'path';
 import 'node:http';
 import 'node:https';
+import 'node:crypto';
 import 'node:events';
 import 'node:buffer';
 import 'node:fs';
@@ -265,6 +265,63 @@ async function handleQingpuSubscriptionPaid(payload) {
   }
   return { ok: true };
 }
+async function handleQingpuSubscriptionRevoked(payload) {
+  var _a, _b, _c, _d, _e;
+  const userId = Number((payload == null ? void 0 : payload.userId) || 0);
+  const subscriptionId = String((payload == null ? void 0 : payload.subscriptionId) || "").trim();
+  const reason = String((payload == null ? void 0 : payload.reason) || "subscription_revoked").trim();
+  if (!userId || !subscriptionId) return { ok: true };
+  const userRows = await db.select({ email: users.email }).from(users).where(eq(users.id, userId)).limit(1);
+  const email = String(((_a = userRows[0]) == null ? void 0 : _a.email) || "").trim().toLowerCase();
+  if (!email) return { ok: true };
+  const [gatewayUrl, token] = await Promise.all([
+    getQingpuAINodeBaseUrl(),
+    getQingpuAINodeTenantToken()
+  ]);
+  if (!gatewayUrl || !token) {
+    console.warn(`[QingpuSubscriptionRevoke] AINode token or gateway URL not configured, skipping revoke sync`);
+    return { ok: true };
+  }
+  try {
+    const ainodeUserId = await resolveAINodeUserId(gatewayUrl, email);
+    if (!ainodeUserId) {
+      console.warn(`[QingpuSubscriptionRevoke] Could not resolve AINode user ID for ${email}`);
+      return { ok: true };
+    }
+    const eventPayload = {
+      event: "subscription.cancel",
+      timestamp: (/* @__PURE__ */ new Date()).toISOString(),
+      data: {
+        eventId: `sub:cancel:${subscriptionId}:${Date.now()}`,
+        userId: ainodeUserId,
+        sourceId: subscriptionId,
+        remark: `\u8F7B\u94FA\u8BA2\u9605\u9000\u6B3E\u64A4\u9500: ${reason}`
+      }
+    };
+    const response = await $fetch(`${gatewayUrl}/api/webhooks/events`, {
+      method: "POST",
+      headers: { Authorization: `Bearer ${token}` },
+      body: eventPayload,
+      retry: 2,
+      retryStatusCodes: [408, 409, 425, 429, 500, 502, 503, 504],
+      signal: AbortSignal.timeout(15e3)
+    });
+    console.log(`[QingpuSubscriptionRevoke] Successfully revoked subscription ${subscriptionId} for ${email}`);
+    await logger.info(`\u8BA2\u9605\u64A4\u9500\u540C\u6B65 AINode \u6210\u529F: ${email}`, {
+      source: "qingpu_subscription_revoke",
+      details: { subscriptionId, userId, email, reason, response }
+    });
+    return { ok: true };
+  } catch (err) {
+    const rawError = ((_c = (_b = err == null ? void 0 : err.data) == null ? void 0 : _b.error) == null ? void 0 : _c.message) || ((_d = err == null ? void 0 : err.data) == null ? void 0 : _d.error) || ((_e = err == null ? void 0 : err.data) == null ? void 0 : _e.message) || (err == null ? void 0 : err.message) || "\u64A4\u9500\u540C\u6B65\u5931\u8D25";
+    console.error(`[QingpuSubscriptionRevoke] Failed to revoke subscription ${subscriptionId} for ${email}:`, rawError);
+    await logger.error(`\u8BA2\u9605\u64A4\u9500\u540C\u6B65 AINode \u5931\u8D25: ${email}`, {
+      source: "qingpu_subscription_revoke",
+      details: { subscriptionId, userId, email, reason, error: rawError }
+    });
+    return { ok: false, errorMessage: rawError };
+  }
+}
 function getThemeEventRules() {
   return [
     {
@@ -337,6 +394,17 @@ function getThemeEventRules() {
       mode: "async",
       handler: async (payload) => {
         return await handleQingpuTopupPaid(payload);
+      }
+    },
+    {
+      key: "qingpu:revoke_subscription",
+      event: "subscription.revoked",
+      theme: "qingpu",
+      label: "\u8F7B\u94FA\uFF1A\u8BA2\u9605\u64A4\u9500\u540E\u540C\u6B65\u6E05\u7406 AINode \u8D60\u9001\u7B97\u529B",
+      description: "\u5F53\u8BA2\u5355\u9000\u6B3E\u5BFC\u81F4\u8BA2\u9605\u4F5C\u5E9F\u65F6\uFF0C\u5411 AINode \u6D3E\u53D1 subscription.cancel \u4E8B\u4EF6\u6E05\u7A7A\u672A\u4F7F\u7528\u7684\u8D60\u9001\u7B97\u529B",
+      mode: "async",
+      handler: async (payload) => {
+        return await handleQingpuSubscriptionRevoked(payload);
       }
     }
   ];

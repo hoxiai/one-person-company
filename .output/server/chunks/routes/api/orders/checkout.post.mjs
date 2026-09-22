@@ -1,12 +1,12 @@
-import { d as defineEventHandler, a9 as requireTrustedRequestOrigin, by as mergePromoTracking, bA as readPromoTracking, bz as capturePromoTracking, bG as getRequestIP, e as createError, r as readBody, bx as requireUserSession, b as db, u as users, W as clearUserSession, aC as settings, bu as ensureVisitorId, p as products, ac as resolveRequestLocale, ab as getSiteLocaleConfig, y as buildLocaleCurrencyQuote, ad as getMinimalCheckoutAdminConfig, bH as stripReservedOrderMeta, ae as buildMinimalCheckoutBridgeMeta, af as mergeMinimalCheckoutMeta, Z as isMinimalCheckoutRelayOrder, bI as MINIMAL_CHECKOUT_SOURCE, a2 as fulfillMinimalCheckoutRelay, a3 as fulfillOrder, a5 as emitEvent, b2 as userWallets, o as orders, O as ORDER_PAY_STATUS, ag as prepareOrderMetaForInsert, ai as ensureTopupRecordForOrder, $ as createOrderAttribution, be as trackVisitorEvent, ah as ORDER_STATUS, bJ as getAffectedRows, a0 as settlePaidTopup, c as getRequestLocale, J as getLocalizedSettingValue, I as sendEmail, bK as createNotification } from '../../../nitro/nitro.mjs';
+import { d as defineEventHandler, ab as requireTrustedRequestOrigin, bH as mergePromoTracking, bJ as readPromoTracking, bI as capturePromoTracking, bU as getRequestIP, e as createError, r as readBody, bF as requireUserSession, b as db, u as users, X as clearUserSession, aG as settings, bC as ensureVisitorId, p as products, ae as resolveRequestLocale, ad as getSiteLocaleConfig, y as buildLocaleCurrencyQuote, ah as getMinimalCheckoutAdminConfig, bV as stripReservedOrderMeta, ai as buildMinimalCheckoutBridgeMeta, aj as mergeMinimalCheckoutMeta, _ as isMinimalCheckoutRelayOrder, bW as MINIMAL_CHECKOUT_SOURCE, a3 as fulfillMinimalCheckoutRelay, a4 as fulfillOrder, a6 as emitEvent, b8 as userWallets, o as orders, O as ORDER_PAY_STATUS, ak as prepareOrderMetaForInsert, am as ensureTopupRecordForOrder, a0 as createOrderAttribution, bm as trackVisitorEvent, al as ORDER_STATUS, bX as getAffectedRows, a1 as settlePaidTopup, c as getRequestLocale, J as getLocalizedSettingValue, K as sendEmail, bY as createNotification } from '../../../nitro/nitro.mjs';
 import { eq, and, gte, desc } from 'drizzle-orm';
 import crypto from 'crypto';
 import { z } from 'zod';
-import 'node:crypto';
 import 'fs';
 import 'path';
 import 'node:http';
 import 'node:https';
+import 'node:crypto';
 import 'node:events';
 import 'node:buffer';
 import 'node:fs';
@@ -126,7 +126,7 @@ const checkout_post = defineEventHandler(async (event) => {
       productUnavailable: "\u5546\u54C1\u5F53\u524D\u4E0D\u53EF\u552E",
       topupLoginRequired: "\u8BF7\u5148\u767B\u5F55\u540E\u518D\u5145\u503C",
       invalidTopupAmount: "\u5145\u503C\u5230\u8D26\u91D1\u989D\u5FC5\u987B\u5927\u4E8E 0",
-      activeSubscriptionExists: "\u60A8\u5F53\u524D\u5DF2\u62E5\u6709\u540C\u7EA7\u6709\u6548\u8BA2\u9605\uFF0C\u8BF7\u5347\u7EA7\u5230\u66F4\u9AD8\u7B49\u7EA7\u7684\u5957\u9910\u3002",
+      activeSubscriptionExists: "\u60A8\u5F53\u524D\u5DF2\u62E5\u6709\u66F4\u9AD8\u7B49\u7EA7\u7684\u6709\u6548\u8BA2\u9605\uFF0C\u6682\u4E0D\u652F\u6301\u964D\u7EA7\u8D2D\u4E70\u3002",
       purchaseLimitExceeded: "\u60A8\u5DF2\u8FBE\u5230\u8BE5\u5546\u54C1\u7684\u8D2D\u4E70\u4E0A\u9650\uFF0C\u65E0\u6CD5\u518D\u6B21\u8D2D\u4E70\u3002",
       purchaseLimitExceededWithCount: "\u8BE5\u5546\u54C1\u6BCF\u4EBA\u6700\u591A\u53EF\u8D2D\u4E70 {limit} \u6B21\uFF0C\u60A8\u5DF2\u8D2D\u4E70\u8FC7 {count} \u6B21\u3002",
       orderCreated: "\u8BA2\u5355\u521B\u5EFA\u6210\u529F",
@@ -140,7 +140,7 @@ const checkout_post = defineEventHandler(async (event) => {
       productUnavailable: "Product is not available for sale",
       topupLoginRequired: "Please log in before topping up",
       invalidTopupAmount: "Top-up credit amount must be greater than 0",
-      activeSubscriptionExists: "You already have an active subscription at this tier. Please upgrade to a higher plan.",
+      activeSubscriptionExists: "You already have an active higher-tier subscription. Downgrades are not supported.",
       purchaseLimitExceeded: "You have reached the purchase limit for this product.",
       purchaseLimitExceededWithCount: "This product can only be purchased {limit} time(s) per user. You have already purchased it {count} time(s).",
       orderCreated: "Order created successfully",
@@ -251,6 +251,7 @@ const checkout_post = defineEventHandler(async (event) => {
       ...promoTracking.inviteCode ? { inviteCode: promoTracking.inviteCode } : {},
       ...promoTracking.promoCode ? { promoCode: promoTracking.promoCode } : {},
       ...promoTracking.agentCode ? { agentCode: promoTracking.agentCode } : {},
+      order_quantity: productNum,
       currencySnapshot
     };
     const buildRelayOrderMeta = (externalOrderId) => {
@@ -288,8 +289,8 @@ const checkout_post = defineEventHandler(async (event) => {
       });
       return mergeMinimalCheckoutMeta(finalMetaData, bridgeMeta);
     };
-    const fulfillFreeRelayOrder = async (targetOrderId) => {
-      const isMinimalRelay = isMinimalCheckoutRelayOrder({ source: MINIMAL_CHECKOUT_SOURCE, metaData: relayOrderMeta });
+    const fulfillFreeRelayOrder = async (targetOrderId, metaData) => {
+      const isMinimalRelay = isMinimalCheckoutRelayOrder({ source: MINIMAL_CHECKOUT_SOURCE, metaData });
       const fulfilled = isMinimalRelay ? await fulfillMinimalCheckoutRelay(targetOrderId) : await fulfillOrder(targetOrderId);
       if (!fulfilled) return;
       await emitEvent("order.paid", fulfilled);
@@ -297,9 +298,11 @@ const checkout_post = defineEventHandler(async (event) => {
     if (product.type === "subscription" && userId) {
       const productLevel = productMetaData == null ? void 0 : productMetaData.level;
       if (productLevel !== void 0) {
-        const walletRecord = await db.select({ tierLevel: userWallets.tierLevel }).from(userWallets).where(eq(userWallets.userId, userId)).limit(1);
-        const currentLevel = walletRecord.length > 0 ? walletRecord[0].tierLevel || 0 : 0;
-        if (Number(productLevel) <= Number(currentLevel)) {
+        const walletRecord = await db.select({ tierLevel: userWallets.tierLevel, subExpiresAt: userWallets.subExpiresAt }).from(userWallets).where(eq(userWallets.userId, userId)).limit(1);
+        const wallet = walletRecord[0];
+        const walletActive = Boolean((wallet == null ? void 0 : wallet.subExpiresAt) && new Date(wallet.subExpiresAt).getTime() > Date.now());
+        const currentLevel = walletActive ? wallet.tierLevel || 0 : 0;
+        if (Number(productLevel) < Number(currentLevel)) {
           throw createError({
             statusCode: 409,
             message: messages.activeSubscriptionExists
@@ -382,7 +385,7 @@ const checkout_post = defineEventHandler(async (event) => {
           ));
           if (getAffectedRows(claim) > 0) {
             if (product.type === "topup") await settlePaidTopup(pendingOrder.id);
-            await fulfillFreeRelayOrder(pendingOrder.id).catch(
+            await fulfillFreeRelayOrder(pendingOrder.id, relayOrderMeta2).catch(
               (e) => console.error("[Checkout] Free relay order reuse fulfillment failed:", pendingOrder.id, e)
             );
           }
@@ -467,7 +470,7 @@ const checkout_post = defineEventHandler(async (event) => {
     });
     if (isFreeOrder) {
       if (product.type === "topup") await settlePaidTopup(orderId);
-      await fulfillFreeRelayOrder(orderId).catch(
+      await fulfillFreeRelayOrder(orderId, relayOrderMeta).catch(
         (e) => console.error("[Checkout] Free relay order fulfillment failed:", orderId, e)
       );
     } else {
@@ -504,7 +507,12 @@ const checkout_post = defineEventHandler(async (event) => {
   } catch (error) {
     const locale = getPreferredLocale(event);
     const failedPrefix = locale === "zh" ? "\u521B\u5EFA\u8BA2\u5355\u5931\u8D25\uFF1A" : "Failed to create order: ";
-    return { code: 1, message: `${failedPrefix}${error.message}` };
+    const isAuthRequired = (error == null ? void 0 : error.statusCode) === 401;
+    return {
+      code: isAuthRequired ? 401 : 1,
+      authRequired: isAuthRequired,
+      message: `${failedPrefix}${error.message}`
+    };
   }
 });
 

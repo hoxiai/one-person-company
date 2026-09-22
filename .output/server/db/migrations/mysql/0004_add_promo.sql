@@ -65,7 +65,7 @@ CREATE TABLE `promo_agent_relations` (
 --> statement-breakpoint
 CREATE TABLE `promo_order_attributions` (
   `id` int AUTO_INCREMENT NOT NULL PRIMARY KEY,
-  `order_id` text NOT NULL,
+  `order_id` varchar(191) NOT NULL,
   `buyer_user_id` int,
   `buyer_promo_member_id` int,
   `invite_user_id` int,
@@ -81,7 +81,7 @@ CREATE TABLE `promo_order_attributions` (
   CONSTRAINT `promo_order_attributions_order_id_idx` UNIQUE(`order_id`),
   CONSTRAINT `promo_order_attributions_order_id_orders_id_fk` FOREIGN KEY (`order_id`) REFERENCES `orders`(`id`) ON DELETE no action ON UPDATE no action,
   CONSTRAINT `promo_order_attributions_buyer_user_id_users_id_fk` FOREIGN KEY (`buyer_user_id`) REFERENCES `users`(`id`) ON DELETE no action ON UPDATE no action,
-  CONSTRAINT `promo_order_attributions_buyer_promo_member_id_promo_members_id_fk` FOREIGN KEY (`buyer_promo_member_id`) REFERENCES `promo_members`(`id`) ON DELETE no action ON UPDATE no action,
+  CONSTRAINT `promo_order_attr_buyer_member_fk` FOREIGN KEY (`buyer_promo_member_id`) REFERENCES `promo_members`(`id`) ON DELETE no action ON UPDATE no action,
   CONSTRAINT `promo_order_attributions_invite_user_id_users_id_fk` FOREIGN KEY (`invite_user_id`) REFERENCES `users`(`id`) ON DELETE no action ON UPDATE no action,
   CONSTRAINT `promo_order_attributions_agent_user_id_users_id_fk` FOREIGN KEY (`agent_user_id`) REFERENCES `users`(`id`) ON DELETE no action ON UPDATE no action,
   CONSTRAINT `promo_order_attributions_parent_agent_user_id_users_id_fk` FOREIGN KEY (`parent_agent_user_id`) REFERENCES `users`(`id`) ON DELETE no action ON UPDATE no action,
@@ -90,7 +90,7 @@ CREATE TABLE `promo_order_attributions` (
 --> statement-breakpoint
 CREATE TABLE `promo_commissions` (
   `id` int AUTO_INCREMENT NOT NULL PRIMARY KEY,
-  `order_id` text NOT NULL,
+  `order_id` varchar(191) NOT NULL,
   `owner_user_id` int NOT NULL,
   `owner_promo_member_id` int,
   `type` varchar(64) NOT NULL,
@@ -102,6 +102,7 @@ CREATE TABLE `promo_commissions` (
   `meta_data` json,
   `created_at` timestamp NOT NULL DEFAULT now(),
   `updated_at` timestamp NOT NULL DEFAULT now(),
+  CONSTRAINT `promo_commissions_order_type_idx` UNIQUE(`order_id`,`type`),
   CONSTRAINT `promo_commissions_order_id_orders_id_fk` FOREIGN KEY (`order_id`) REFERENCES `orders`(`id`) ON DELETE no action ON UPDATE no action,
   CONSTRAINT `promo_commissions_owner_user_id_users_id_fk` FOREIGN KEY (`owner_user_id`) REFERENCES `users`(`id`) ON DELETE no action ON UPDATE no action,
   CONSTRAINT `promo_commissions_owner_promo_member_id_promo_members_id_fk` FOREIGN KEY (`owner_promo_member_id`) REFERENCES `promo_members`(`id`) ON DELETE no action ON UPDATE no action

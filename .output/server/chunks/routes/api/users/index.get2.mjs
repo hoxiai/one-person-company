@@ -1,11 +1,11 @@
-import { d as defineEventHandler, c as getRequestLocale, bx as requireUserSession, e as createError, b as db, p as products, z as subscriptions } from '../../../nitro/nitro.mjs';
-import { eq, and, desc } from 'drizzle-orm';
-import 'node:crypto';
+import { d as defineEventHandler, c as getRequestLocale, bF as requireUserSession, e as createError, b as db, p as products, z as subscriptions } from '../../../nitro/nitro.mjs';
+import { eq, and, or, isNull, gt, desc } from 'drizzle-orm';
 import 'crypto';
 import 'fs';
 import 'path';
 import 'node:http';
 import 'node:https';
+import 'node:crypto';
 import 'node:events';
 import 'node:buffer';
 import 'node:fs';
@@ -60,8 +60,9 @@ const index_get = defineEventHandler(async (event) => {
     productMetaData: products.metaData
   }).from(subscriptions).leftJoin(products, eq(subscriptions.productId, products.id)).where(and(
     eq(subscriptions.userId, userId),
-    eq(subscriptions.status, "active")
-  )).orderBy(desc(subscriptions.createdAt)).limit(1);
+    eq(subscriptions.status, "active"),
+    or(isNull(subscriptions.currentPeriodEnd), gt(subscriptions.currentPeriodEnd, /* @__PURE__ */ new Date()))
+  )).orderBy(desc(subscriptions.currentPeriodEnd)).limit(1);
   if (!subRows.length) {
     return { data: null };
   }

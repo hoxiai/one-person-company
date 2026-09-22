@@ -1,11 +1,11 @@
-import { d as defineEventHandler, c as getRequestLocale, M as resolveClientIp, N as checkIpRateLimit, e as createError, r as readBody, j as hashPassword, b as db, h as admins, U as recordOperationFromEvent } from '../../../nitro/nitro.mjs';
-import 'node:crypto';
+import { d as defineEventHandler, c as getRequestLocale, N as resolveClientIp, P as checkIpRateLimit, e as createError, b as db, h as admins, r as readBody, j as hashPassword, V as recordOperationFromEvent } from '../../../nitro/nitro.mjs';
 import 'drizzle-orm';
 import 'crypto';
 import 'fs';
 import 'path';
 import 'node:http';
 import 'node:https';
+import 'node:crypto';
 import 'node:events';
 import 'node:buffer';
 import 'node:fs';
@@ -70,6 +70,10 @@ const setup_post = defineEventHandler(async (event) => {
       statusMessage: "Too Many Requests",
       message: locale === "zh" ? "\u8BF7\u6C42\u8FC7\u4E8E\u9891\u7E41\uFF0C\u8BF7\u7A0D\u540E\u518D\u8BD5" : "Too many requests, please try later"
     });
+  }
+  const existingAdmins = await db.select({ id: admins.id }).from(admins).limit(1);
+  if (existingAdmins.length > 0) {
+    throw createError({ statusCode: 403, message: locale === "zh" ? "\u7BA1\u7406\u5458\u5DF2\u521D\u59CB\u5316" : "Admin already initialized" });
   }
   const body = await readBody(event);
   const { username, password } = body || {};

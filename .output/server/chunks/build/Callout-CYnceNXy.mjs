@@ -1,15 +1,15 @@
 import { computed, mergeProps, unref, withCtx, createVNode, useSSRContext } from 'vue';
 import { ssrRenderAttrs, ssrRenderComponent } from 'vue/server-renderer';
 import { s as ssrRenderSlot } from './ssrSlot-D0eYVb8V.mjs';
-import { as as useAppConfig, aC as useComponentUI, aE as tv, ay as _sfc_main$A, b as _sfc_main$E } from './server.mjs';
+import { as as useAppConfig, aC as useComponentUI, aE as tv, ay as _sfc_main$C, b as _sfc_main$G } from './server.mjs';
 import '../nitro/nitro.mjs';
-import 'node:crypto';
 import 'drizzle-orm';
 import 'crypto';
 import 'fs';
 import 'path';
 import 'node:http';
 import 'node:https';
+import 'node:crypto';
 import 'node:events';
 import 'node:buffer';
 import 'node:fs';
@@ -208,7 +208,7 @@ const _sfc_main = /* @__PURE__ */ Object.assign({ inheritAttrs: false }, {
         class: ui.value.base({ class: [(_a = unref(uiProp)) == null ? void 0 : _a.base, props.class] })
       }, _attrs))}>`);
       if (__props.to) {
-        _push(ssrRenderComponent(_sfc_main$A, mergeProps({ to: __props.to, target: target.value, ..._ctx.$attrs }, {
+        _push(ssrRenderComponent(_sfc_main$C, mergeProps({ to: __props.to, target: target.value, ..._ctx.$attrs }, {
           class: "focus:outline-none",
           raw: ""
         }), {
@@ -230,7 +230,7 @@ const _sfc_main = /* @__PURE__ */ Object.assign({ inheritAttrs: false }, {
         _push(`<!---->`);
       }
       if (__props.icon) {
-        _push(ssrRenderComponent(_sfc_main$E, {
+        _push(ssrRenderComponent(_sfc_main$G, {
           name: __props.icon,
           class: ui.value.icon({ class: (_b = unref(uiProp)) == null ? void 0 : _b.icon })
         }, null, _parent));
@@ -238,7 +238,7 @@ const _sfc_main = /* @__PURE__ */ Object.assign({ inheritAttrs: false }, {
         _push(`<!---->`);
       }
       if (!!__props.to && target.value === "_blank") {
-        _push(ssrRenderComponent(_sfc_main$E, {
+        _push(ssrRenderComponent(_sfc_main$G, {
           name: unref(appConfig).ui.icons.external,
           class: ui.value.externalIcon({ class: (_c = unref(uiProp)) == null ? void 0 : _c.externalIcon })
         }, null, _parent));

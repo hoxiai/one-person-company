@@ -1,6 +1,6 @@
 import { useSlots, computed, unref, mergeProps, withCtx, renderSlot, openBlock, createBlock, createCommentVNode, createVNode, createTextVNode, toDisplayString, Fragment, renderList, useSSRContext } from 'vue';
 import { ssrRenderComponent, ssrRenderSlot, ssrRenderClass, ssrInterpolate, ssrRenderList } from 'vue/server-renderer';
-import { ar as useLocale, as as useAppConfig, aC as useComponentUI, aE as tv, ab as Primitive, aw as _sfc_main$C, b as _sfc_main$E, k as _sfc_main$z } from './server.mjs';
+import { ar as useLocale, as as useAppConfig, aC as useComponentUI, aE as tv, ab as Primitive, aw as _sfc_main$E, b as _sfc_main$G, k as _sfc_main$B } from './server.mjs';
 
 const theme = {
   "slots": {
@@ -298,14 +298,14 @@ const _sfc_main = {
             ssrRenderSlot(_ctx.$slots, "leading", { ui: ui.value }, () => {
               var _a3, _b2, _c2;
               if (__props.avatar) {
-                _push2(ssrRenderComponent(_sfc_main$C, mergeProps({
+                _push2(ssrRenderComponent(_sfc_main$E, mergeProps({
                   size: ((_a3 = unref(uiProp)) == null ? void 0 : _a3.avatarSize) || ui.value.avatarSize()
                 }, __props.avatar, {
                   "data-slot": "avatar",
                   class: ui.value.avatar({ class: (_b2 = unref(uiProp)) == null ? void 0 : _b2.avatar })
                 }), null, _parent2, _scopeId));
               } else if (__props.icon) {
-                _push2(ssrRenderComponent(_sfc_main$E, {
+                _push2(ssrRenderComponent(_sfc_main$G, {
                   name: __props.icon,
                   "data-slot": "icon",
                   class: ui.value.icon({ class: (_c2 = unref(uiProp)) == null ? void 0 : _c2.icon })
@@ -338,7 +338,7 @@ const _sfc_main = {
               ssrRenderSlot(_ctx.$slots, "actions", {}, () => {
                 _push2(`<!--[-->`);
                 ssrRenderList(__props.actions, (action, index) => {
-                  _push2(ssrRenderComponent(_sfc_main$z, mergeProps({
+                  _push2(ssrRenderComponent(_sfc_main$B, mergeProps({
                     key: index,
                     size: "xs"
                   }, { ref_for: true }, action), null, _parent2, _scopeId));
@@ -356,7 +356,7 @@ const _sfc_main = {
                 ssrRenderSlot(_ctx.$slots, "actions", {}, () => {
                   _push2(`<!--[-->`);
                   ssrRenderList(__props.actions, (action, index) => {
-                    _push2(ssrRenderComponent(_sfc_main$z, mergeProps({
+                    _push2(ssrRenderComponent(_sfc_main$B, mergeProps({
                       key: index,
                       size: "xs"
                     }, { ref_for: true }, action), null, _parent2, _scopeId));
@@ -369,7 +369,7 @@ const _sfc_main = {
               ssrRenderSlot(_ctx.$slots, "close", { ui: ui.value }, () => {
                 var _a3;
                 if (__props.close) {
-                  _push2(ssrRenderComponent(_sfc_main$z, mergeProps({
+                  _push2(ssrRenderComponent(_sfc_main$B, mergeProps({
                     icon: __props.closeIcon || unref(appConfig).ui.icons.close,
                     color: "neutral",
                     variant: "link",
@@ -392,13 +392,13 @@ const _sfc_main = {
               renderSlot(_ctx.$slots, "leading", { ui: ui.value }, () => {
                 var _a3, _b2, _c2;
                 return [
-                  __props.avatar ? (openBlock(), createBlock(_sfc_main$C, mergeProps({
+                  __props.avatar ? (openBlock(), createBlock(_sfc_main$E, mergeProps({
                     key: 0,
                     size: ((_a3 = unref(uiProp)) == null ? void 0 : _a3.avatarSize) || ui.value.avatarSize()
                   }, __props.avatar, {
                     "data-slot": "avatar",
                     class: ui.value.avatar({ class: (_b2 = unref(uiProp)) == null ? void 0 : _b2.avatar })
-                  }), null, 16, ["size", "class"])) : __props.icon ? (openBlock(), createBlock(_sfc_main$E, {
+                  }), null, 16, ["size", "class"])) : __props.icon ? (openBlock(), createBlock(_sfc_main$G, {
                     key: 1,
                     name: __props.icon,
                     "data-slot": "icon",
@@ -435,7 +435,7 @@ const _sfc_main = {
                 }, [
                   renderSlot(_ctx.$slots, "actions", {}, () => [
                     (openBlock(true), createBlock(Fragment, null, renderList(__props.actions, (action, index) => {
-                      return openBlock(), createBlock(_sfc_main$z, mergeProps({
+                      return openBlock(), createBlock(_sfc_main$B, mergeProps({
                         key: index,
                         size: "xs"
                       }, { ref_for: true }, action), null, 16);
@@ -450,7 +450,7 @@ const _sfc_main = {
               }, [
                 __props.orientation === "horizontal" && (((_p = __props.actions) == null ? void 0 : _p.length) || !!slots.actions) ? renderSlot(_ctx.$slots, "actions", { key: 0 }, () => [
                   (openBlock(true), createBlock(Fragment, null, renderList(__props.actions, (action, index) => {
-                    return openBlock(), createBlock(_sfc_main$z, mergeProps({
+                    return openBlock(), createBlock(_sfc_main$B, mergeProps({
                       key: index,
                       size: "xs"
                     }, { ref_for: true }, action), null, 16);
@@ -459,7 +459,7 @@ const _sfc_main = {
                 renderSlot(_ctx.$slots, "close", { ui: ui.value }, () => {
                   var _a3;
                   return [
-                    __props.close ? (openBlock(), createBlock(_sfc_main$z, mergeProps({
+                    __props.close ? (openBlock(), createBlock(_sfc_main$B, mergeProps({
                       key: 0,
                       icon: __props.closeIcon || unref(appConfig).ui.icons.close,
                       color: "neutral",

@@ -1,11 +1,11 @@
-import { d as defineEventHandler, c as getRequestLocale, g as getQuery, e as createError, bL as requireOrderOwnership, b as db, p as products } from '../../../nitro/nitro.mjs';
+import { d as defineEventHandler, c as getRequestLocale, g as getQuery, e as createError, bZ as resolveOrderAccess, b as db, p as products } from '../../../nitro/nitro.mjs';
 import { eq } from 'drizzle-orm';
-import 'node:crypto';
 import 'crypto';
 import 'fs';
 import 'path';
 import 'node:http';
 import 'node:https';
+import 'node:crypto';
 import 'node:events';
 import 'node:buffer';
 import 'node:fs';
@@ -41,7 +41,7 @@ const detail_get = defineEventHandler(async (event) => {
   if (!orderId) {
     throw createError({ statusCode: 400, message: locale === "zh" ? "\u7F3A\u5C11\u8BA2\u5355 ID" : "Missing order id" });
   }
-  const order = await requireOrderOwnership(event, orderId);
+  const { order, owned } = await resolveOrderAccess(event, orderId);
   let product = null;
   if (order.productId) {
     const productRows = await db.select({
@@ -59,6 +59,27 @@ const detail_get = defineEventHandler(async (event) => {
     } catch (e) {
       console.error("Failed to parse metaData JSON", e);
     }
+  }
+  if (!owned) {
+    const { checkoutBridge, currencySnapshot } = parsedMetaData || {};
+    return {
+      id: order.id,
+      amount: order.amount,
+      currency: order.currency,
+      status: order.status,
+      payStatus: order.payStatus,
+      createdAt: order.createdAt,
+      paidAt: order.paidAt,
+      tradeNo: null,
+      payMethod: order.payMethod,
+      contactEmail: null,
+      deliveryInfo: null,
+      metaData: { checkoutBridge, currencySnapshot },
+      productName: (product == null ? void 0 : product.name) || null,
+      productImageUrl: (product == null ? void 0 : product.imageUrl) || null,
+      productType: (product == null ? void 0 : product.type) || null,
+      productSlug: (product == null ? void 0 : product.slug) || null
+    };
   }
   return {
     id: order.id,

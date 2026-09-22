@@ -1,11 +1,11 @@
-import { d as defineEventHandler, c as getRequestLocale, bE as useRuntimeConfig, bF as getHeader, bo as logger, e as createError, b as db, z as subscriptions, o as orders, ah as ORDER_STATUS } from '../../../nitro/nitro.mjs';
+import { d as defineEventHandler, c as getRequestLocale, bQ as useRuntimeConfig, bR as getHeader, bw as logger, e as createError, b as db, z as subscriptions, o as orders, al as ORDER_STATUS, b3 as getWebhookSubscriptionUrl, b4 as getIntegrationToken, b5 as sendHttpWebhook } from '../../../nitro/nitro.mjs';
 import { and, eq, lt } from 'drizzle-orm';
-import 'node:crypto';
 import 'crypto';
 import 'fs';
 import 'path';
 import 'node:http';
 import 'node:https';
+import 'node:crypto';
 import 'node:events';
 import 'node:buffer';
 import 'node:fs';
@@ -54,6 +54,25 @@ const processSubscriptions_get = defineEventHandler(async (event) => {
       try {
         await db.update(subscriptions).set({ status: "expired", updatedAt: now }).where(eq(subscriptions.id, sub.id));
         await db.update(orders).set({ status: ORDER_STATUS.EXPIRED }).where(and(eq(orders.subscriptionId, sub.id), eq(orders.status, ORDER_STATUS.ACTIVE)));
+        if (sub.cancelAtPeriodEnd && sub.userId) {
+          const [webhookUrl, ainodeToken] = await Promise.all([getWebhookSubscriptionUrl(), getIntegrationToken()]);
+          if (webhookUrl && ainodeToken) {
+            await sendHttpWebhook(
+              webhookUrl,
+              {
+                event: "subscription.cancel",
+                timestamp: now.toISOString(),
+                data: {
+                  eventId: `sub:cancel:${sub.id}`,
+                  userId: Number(sub.userId),
+                  sourceId: sub.id,
+                  remark: "User cancelled subscription (period ended)"
+                }
+              },
+              { headers: { Authorization: `Bearer ${ainodeToken}` } }
+            );
+          }
+        }
         await logger.info(`[Cron] Subscription ${sub.id} expired.`);
         expiredCount++;
       } catch (err) {

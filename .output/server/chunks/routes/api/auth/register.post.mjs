@@ -1,11 +1,11 @@
-import { d as defineEventHandler, a9 as requireTrustedRequestOrigin, c as getRequestLocale, r as readBody, by as mergePromoTracking, bz as capturePromoTracking, bA as readPromoTracking, e as createError, bd as validateEmail, b as db, u as users, j as hashPassword, aa as ensurePromoMember, bB as bindInviteRelation, bC as requestPromoAgentJoin, o as orders, a5 as emitEvent, bt as issueWebSession, be as trackVisitorEvent, bu as ensureVisitorId, ba as userTokens, bb as EMAIL_VERIFY_TOKEN_NAME, J as getLocalizedSettingValue, I as sendEmail } from '../../../nitro/nitro.mjs';
+import { d as defineEventHandler, ab as requireTrustedRequestOrigin, c as getRequestLocale, r as readBody, bH as mergePromoTracking, bI as capturePromoTracking, bJ as readPromoTracking, e as createError, bh as validateEmail, b as db, u as users, j as hashPassword, ac as ensurePromoMember, bK as bindInviteRelation, bL as requestPromoAgentJoin, a6 as emitEvent, bB as issueWebSession, bm as trackVisitorEvent, bC as ensureVisitorId, bg as userTokens, bk as EMAIL_VERIFY_TOKEN_NAME, J as getLocalizedSettingValue, K as sendEmail } from '../../../nitro/nitro.mjs';
 import { eq } from 'drizzle-orm';
-import 'node:crypto';
 import 'crypto';
 import 'fs';
 import 'path';
 import 'node:http';
 import 'node:https';
+import 'node:crypto';
 import 'node:events';
 import 'node:buffer';
 import 'node:fs';
@@ -98,7 +98,6 @@ const register_post = defineEventHandler(async (event) => {
       userId: user.id,
       agentCode: promoTracking.agentCode});
   }
-  await db.update(orders).set({ userId: user.id }).where(eq(orders.contactEmail, user.email));
   try {
     await emitEvent("user.registered", {
       id: user.id,

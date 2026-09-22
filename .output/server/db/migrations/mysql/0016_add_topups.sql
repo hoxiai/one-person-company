@@ -70,4 +70,5 @@ WHERE COALESCE(products.`slug`, '') <> 'minimal-checkout-recharge'
   OR JSON_UNQUOTE(JSON_EXTRACT(orders.`meta_data`, '$.checkoutBridge.attach.walletOwner')) = 'apay';
 --> statement-breakpoint
 CREATE INDEX `idx_topups_user_created_at` ON `topups` (`user_id`, `created_at`);
+--> statement-breakpoint
 CREATE INDEX `idx_topups_status_updated_at` ON `topups` (`status`, `updated_at`);

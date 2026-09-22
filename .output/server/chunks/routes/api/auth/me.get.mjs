@@ -1,11 +1,11 @@
-import { d as defineEventHandler, bx as requireUserSession, b as db, u as users, T as setUserSession } from '../../../nitro/nitro.mjs';
+import { d as defineEventHandler, bF as requireUserSession, b as db, u as users, bG as overwriteSessionUser } from '../../../nitro/nitro.mjs';
 import { eq } from 'drizzle-orm';
-import 'node:crypto';
 import 'crypto';
 import 'fs';
 import 'path';
 import 'node:http';
 import 'node:https';
+import 'node:crypto';
 import 'node:events';
 import 'node:buffer';
 import 'node:fs';
@@ -64,10 +64,7 @@ const me_get = defineEventHandler(async (event) => {
     emailVerified,
     emailVerifiedAt: dbUser.emailVerifiedAt || null
   };
-  await setUserSession(event, {
-    ...session,
-    user: updatedUser
-  });
+  await overwriteSessionUser(event, session, updatedUser);
   return {
     user: updatedUser
   };

@@ -1,16 +1,16 @@
-import { e as useI18n, f as useFormatTime, g as useToast, s as useConfirm, h as useAdminPermissions, i as useAdminExtensions, A as ADMIN_PERMISSIONS, m as moduleViewCode, j as moduleEditCode, b as _sfc_main$E, k as _sfc_main$z, l as _sfc_main$f, n as _sfc_main$v, c as _sfc_main$j, d as _sfc_main$i, o as _sfc_main$h, p as _sfc_main$q, q as navigateTo, r as useRouter } from './server.mjs';
+import { e as useI18n, f as useFormatTime, g as useToast, s as useConfirm, h as useAdminPermissions, i as useAdminExtensions, A as ADMIN_PERMISSIONS, m as moduleViewCode, j as moduleEditCode, b as _sfc_main$G, k as _sfc_main$B, l as _sfc_main$h, n as _sfc_main$x, c as _sfc_main$l, d as _sfc_main$k, o as _sfc_main$j, p as _sfc_main$s, q as navigateTo, r as useRouter } from './server.mjs';
 import { _ as __nuxt_component_2, i as isSettingsTabId } from './Nav-DQUTv58w.mjs';
 import { defineComponent, computed, reactive, ref, mergeProps, unref, withCtx, createTextVNode, toDisplayString, openBlock, createBlock, createCommentVNode, createVNode, withModifiers, Fragment, renderList, useSSRContext } from 'vue';
 import { ssrRenderAttrs, ssrRenderComponent, ssrInterpolate, ssrRenderList, ssrIncludeBooleanAttr } from 'vue/server-renderer';
 import { _ as __nuxt_component_7 } from './FullScreenModal-C_oQJW_c.mjs';
 import '../nitro/nitro.mjs';
-import 'node:crypto';
 import 'drizzle-orm';
 import 'crypto';
 import 'fs';
 import 'path';
 import 'node:http';
 import 'node:https';
+import 'node:crypto';
 import 'node:events';
 import 'node:buffer';
 import 'node:fs';
@@ -69,9 +69,9 @@ const _sfc_main$1 = /* @__PURE__ */ defineComponent({
   },
   setup(__props) {
     return (_ctx, _push, _parent, _attrs) => {
-      const _component_UIcon = _sfc_main$E;
-      const _component_UFormField = _sfc_main$j;
-      const _component_UInput = _sfc_main$i;
+      const _component_UIcon = _sfc_main$G;
+      const _component_UFormField = _sfc_main$l;
+      const _component_UInput = _sfc_main$k;
       _push(`<div${ssrRenderAttrs(mergeProps({ class: "bg-white dark:bg-[#121214] border border-gray-200 dark:border-gray-800/60 shadow-xl rounded-2xl overflow-hidden" }, _attrs))}><div class="px-6 py-5 border-b border-gray-200 dark:border-gray-800/60 bg-gray-100 dark:bg-gray-900/20 flex items-center gap-3"><div class="w-8 h-8 rounded-lg bg-green-500/20 flex items-center justify-center text-green-400">`);
       _push(ssrRenderComponent(_component_UIcon, {
         name: "ph:plugs-fill",
@@ -410,17 +410,17 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
       }
     };
     return (_ctx, _push, _parent, _attrs) => {
-      const _component_UIcon = _sfc_main$E;
+      const _component_UIcon = _sfc_main$G;
       const _component_AdminSettingsNav = __nuxt_component_2;
-      const _component_UButton = _sfc_main$z;
+      const _component_UButton = _sfc_main$B;
       const _component_AdminSettingsIntegrationTab = __nuxt_component_3;
-      const _component_UTable = _sfc_main$f;
-      const _component_UBadge = _sfc_main$v;
+      const _component_UTable = _sfc_main$h;
+      const _component_UBadge = _sfc_main$x;
       const _component_FullScreenModal = __nuxt_component_7;
-      const _component_UFormField = _sfc_main$j;
-      const _component_UInput = _sfc_main$i;
-      const _component_USelect = _sfc_main$h;
-      const _component_UModal = _sfc_main$q;
+      const _component_UFormField = _sfc_main$l;
+      const _component_UInput = _sfc_main$k;
+      const _component_USelect = _sfc_main$j;
+      const _component_UModal = _sfc_main$s;
       _push(`<div${ssrRenderAttrs(mergeProps({ class: "mx-auto pb-12" }, _attrs))}><div class="mb-8"><h1 class="text-3xl font-bold text-gray-900 dark:text-white tracking-tight flex items-center gap-3">`);
       _push(ssrRenderComponent(_component_UIcon, {
         name: "ph:key-fill",

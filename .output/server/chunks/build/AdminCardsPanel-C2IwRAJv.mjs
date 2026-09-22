@@ -1,4 +1,4 @@
-import { e as useI18n, f as useFormatTime, g as useToast, h as useAdminPermissions, x as usePagination, y as useFetch, o as _sfc_main$h, k as _sfc_main$z, l as _sfc_main$f, n as _sfc_main$v, z as _sfc_main$l, p as _sfc_main$q, O as _sfc_main$e } from './server.mjs';
+import { e as useI18n, f as useFormatTime, g as useToast, h as useAdminPermissions, x as usePagination, y as useFetch, o as _sfc_main$j, k as _sfc_main$B, l as _sfc_main$h, n as _sfc_main$x, z as _sfc_main$n, p as _sfc_main$s, O as _sfc_main$g } from './server.mjs';
 import { _ as _sfc_main$1 } from './Card-jMFP8cqX.mjs';
 import { defineComponent, ref, withAsyncContext, computed, watch, mergeProps, unref, withCtx, createTextVNode, toDisplayString, createVNode, openBlock, createBlock, isRef, withModifiers, useSSRContext } from 'vue';
 import { ssrRenderAttrs, ssrRenderComponent, ssrInterpolate } from 'vue/server-renderer';
@@ -129,14 +129,14 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
       }
     };
     return (_ctx, _push, _parent, _attrs) => {
-      const _component_USelect = _sfc_main$h;
-      const _component_UButton = _sfc_main$z;
-      const _component_UTable = _sfc_main$f;
-      const _component_UBadge = _sfc_main$v;
-      const _component_UPagination = _sfc_main$l;
-      const _component_UModal = _sfc_main$q;
+      const _component_USelect = _sfc_main$j;
+      const _component_UButton = _sfc_main$B;
+      const _component_UTable = _sfc_main$h;
+      const _component_UBadge = _sfc_main$x;
+      const _component_UPagination = _sfc_main$n;
+      const _component_UModal = _sfc_main$s;
       const _component_UCard = _sfc_main$1;
-      const _component_UTextarea = _sfc_main$e;
+      const _component_UTextarea = _sfc_main$g;
       _push(`<div${ssrRenderAttrs(mergeProps({ class: "flex min-h-0 flex-1 flex-col" }, _attrs))}><div class="mb-4 flex shrink-0 items-center justify-between gap-4"><div class="flex items-center gap-3">`);
       _push(ssrRenderComponent(_component_USelect, {
         modelValue: selectedProduct.value,

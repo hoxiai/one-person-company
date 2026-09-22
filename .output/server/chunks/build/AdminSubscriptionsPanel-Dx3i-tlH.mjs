@@ -1,4 +1,4 @@
-import { e as useI18n, g as useToast, x as usePagination, y as useFetch, d as _sfc_main$i, k as _sfc_main$z, l as _sfc_main$f, n as _sfc_main$v, z as _sfc_main$l } from './server.mjs';
+import { e as useI18n, g as useToast, x as usePagination, y as useFetch, d as _sfc_main$k, k as _sfc_main$B, l as _sfc_main$h, n as _sfc_main$x, z as _sfc_main$n } from './server.mjs';
 import { defineComponent, ref, withAsyncContext, computed, watch, mergeProps, unref, withCtx, createVNode, toDisplayString, openBlock, createBlock, createCommentVNode, createTextVNode, isRef, useSSRContext } from 'vue';
 import { ssrRenderAttrs, ssrRenderComponent, ssrInterpolate, ssrRenderAttr } from 'vue/server-renderer';
 
@@ -62,11 +62,11 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
       });
     };
     return (_ctx, _push, _parent, _attrs) => {
-      const _component_UInput = _sfc_main$i;
-      const _component_UButton = _sfc_main$z;
-      const _component_UTable = _sfc_main$f;
-      const _component_UBadge = _sfc_main$v;
-      const _component_UPagination = _sfc_main$l;
+      const _component_UInput = _sfc_main$k;
+      const _component_UButton = _sfc_main$B;
+      const _component_UTable = _sfc_main$h;
+      const _component_UBadge = _sfc_main$x;
+      const _component_UPagination = _sfc_main$n;
       _push(`<div${ssrRenderAttrs(mergeProps({ class: "flex min-h-0 flex-1 flex-col" }, _attrs))}><div class="mb-4 flex shrink-0 items-center justify-between gap-4"><div class="flex items-center gap-3">`);
       _push(ssrRenderComponent(_component_UInput, {
         modelValue: searchQuery.value,

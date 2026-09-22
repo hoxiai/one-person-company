@@ -1,10 +1,10 @@
 import { useSlots, useId, useAttrs, computed, unref, mergeProps, withCtx, openBlock, createBlock, createVNode, resolveDynamicComponent, renderSlot, createTextVNode, toDisplayString, createCommentVNode, defineComponent, withKeys, withModifiers, useSSRContext } from 'vue';
 import { ssrRenderComponent, ssrRenderClass, ssrRenderVNode, ssrRenderSlot, ssrInterpolate } from 'vue/server-renderer';
-import { as as useAppConfig, aC as useComponentUI, aj as useForwardPropsEmits, aD as reactivePick, aO as useFormField, aE as tv, ab as Primitive, aW as Label_default, b as _sfc_main$E, Y as useForwardExpose, V as useVModel, aY as isNullish, aV as useFormControl, ae as Presence_default, U as createContext } from './server.mjs';
+import { as as useAppConfig, aC as useComponentUI, aj as useForwardPropsEmits, aD as reactivePick, aO as useFormField, aE as tv, ab as Primitive, aW as Label_default, b as _sfc_main$G, Y as useForwardExpose, V as useVModel, aY as isNullish, aV as useFormControl, ae as Presence_default, U as createContext } from './server.mjs';
 import { i as isValueEqualOrExist } from './isValueEqualOrExist-BVczPdKj.mjs';
 import { V as VisuallyHiddenInput_default } from './VisuallyHiddenInput-32bCuzTQ.mjs';
 import { R as RovingFocusItem_default } from './RovingFocusItem-DyHBwisL.mjs';
-import { d8 as isEqual } from '../nitro/nitro.mjs';
+import { dF as isEqual } from '../nitro/nitro.mjs';
 
 const [injectCheckboxGroupRootContext] = createContext("CheckboxGroupRoot");
 function isIndeterminate(checked) {
@@ -504,13 +504,13 @@ const _sfc_main = /* @__PURE__ */ Object.assign({ inheritAttrs: false }, {
                       var _a5, _b3, _c2, _d2;
                       if (_push4) {
                         if (state === "indeterminate") {
-                          _push4(ssrRenderComponent(_sfc_main$E, {
+                          _push4(ssrRenderComponent(_sfc_main$G, {
                             name: __props.indeterminateIcon || unref(appConfig).ui.icons.minus,
                             "data-slot": "icon",
                             class: ui.value.icon({ class: (_a5 = unref(uiProp)) == null ? void 0 : _a5.icon })
                           }, null, _parent4, _scopeId3));
                         } else {
-                          _push4(ssrRenderComponent(_sfc_main$E, {
+                          _push4(ssrRenderComponent(_sfc_main$G, {
                             name: __props.icon || unref(appConfig).ui.icons.check,
                             "data-slot": "icon",
                             class: ui.value.icon({ class: (_b3 = unref(uiProp)) == null ? void 0 : _b3.icon })
@@ -518,12 +518,12 @@ const _sfc_main = /* @__PURE__ */ Object.assign({ inheritAttrs: false }, {
                         }
                       } else {
                         return [
-                          state === "indeterminate" ? (openBlock(), createBlock(_sfc_main$E, {
+                          state === "indeterminate" ? (openBlock(), createBlock(_sfc_main$G, {
                             key: 0,
                             name: __props.indeterminateIcon || unref(appConfig).ui.icons.minus,
                             "data-slot": "icon",
                             class: ui.value.icon({ class: (_c2 = unref(uiProp)) == null ? void 0 : _c2.icon })
-                          }, null, 8, ["name", "class"])) : (openBlock(), createBlock(_sfc_main$E, {
+                          }, null, 8, ["name", "class"])) : (openBlock(), createBlock(_sfc_main$G, {
                             key: 1,
                             name: __props.icon || unref(appConfig).ui.icons.check,
                             "data-slot": "icon",
@@ -543,12 +543,12 @@ const _sfc_main = /* @__PURE__ */ Object.assign({ inheritAttrs: false }, {
                       default: withCtx(() => {
                         var _a5, _b3;
                         return [
-                          state === "indeterminate" ? (openBlock(), createBlock(_sfc_main$E, {
+                          state === "indeterminate" ? (openBlock(), createBlock(_sfc_main$G, {
                             key: 0,
                             name: __props.indeterminateIcon || unref(appConfig).ui.icons.minus,
                             "data-slot": "icon",
                             class: ui.value.icon({ class: (_a5 = unref(uiProp)) == null ? void 0 : _a5.icon })
-                          }, null, 8, ["name", "class"])) : (openBlock(), createBlock(_sfc_main$E, {
+                          }, null, 8, ["name", "class"])) : (openBlock(), createBlock(_sfc_main$G, {
                             key: 1,
                             name: __props.icon || unref(appConfig).ui.icons.check,
                             "data-slot": "icon",
@@ -626,12 +626,12 @@ const _sfc_main = /* @__PURE__ */ Object.assign({ inheritAttrs: false }, {
                         default: withCtx(() => {
                           var _a5, _b2;
                           return [
-                            state === "indeterminate" ? (openBlock(), createBlock(_sfc_main$E, {
+                            state === "indeterminate" ? (openBlock(), createBlock(_sfc_main$G, {
                               key: 0,
                               name: __props.indeterminateIcon || unref(appConfig).ui.icons.minus,
                               "data-slot": "icon",
                               class: ui.value.icon({ class: (_a5 = unref(uiProp)) == null ? void 0 : _a5.icon })
-                            }, null, 8, ["name", "class"])) : (openBlock(), createBlock(_sfc_main$E, {
+                            }, null, 8, ["name", "class"])) : (openBlock(), createBlock(_sfc_main$G, {
                               key: 1,
                               name: __props.icon || unref(appConfig).ui.icons.check,
                               "data-slot": "icon",

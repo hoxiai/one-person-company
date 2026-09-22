@@ -1,4 +1,4 @@
-import { e as useI18n, f as useFormatTime, I as useCurrencyFormat, g as useToast, s as useConfirm, t as useSettings, h as useAdminPermissions, y as useFetch, r as useRouter, k as _sfc_main$z, l as _sfc_main$f, n as _sfc_main$v, b as _sfc_main$E, c as _sfc_main$j, d as _sfc_main$i, O as _sfc_main$e, p as _sfc_main$q } from './server.mjs';
+import { e as useI18n, f as useFormatTime, I as useCurrencyFormat, g as useToast, s as useConfirm, t as useSettings, h as useAdminPermissions, y as useFetch, r as useRouter, k as _sfc_main$B, l as _sfc_main$h, n as _sfc_main$x, b as _sfc_main$G, c as _sfc_main$l, d as _sfc_main$k, O as _sfc_main$g, p as _sfc_main$s } from './server.mjs';
 import { _ as _sfc_main$1 } from './Tabs-Dgl8hfR3.mjs';
 import { _ as _sfc_main$2 } from './Switch-fZeXww_c.mjs';
 import { _ as __nuxt_component_7 } from './FullScreenModal-C_oQJW_c.mjs';
@@ -6,13 +6,13 @@ import { _ as _sfc_main$3 } from './Checkbox-BmTSvkxP.mjs';
 import { defineComponent, ref, withAsyncContext, computed, reactive, watch, unref, withCtx, createTextVNode, toDisplayString, createVNode, openBlock, createBlock, createCommentVNode, Fragment, renderList, withModifiers, useSSRContext } from 'vue';
 import { ssrRenderAttrs, ssrInterpolate, ssrRenderComponent, ssrRenderAttr, ssrRenderList, ssrRenderClass } from 'vue/server-renderer';
 import '../nitro/nitro.mjs';
-import 'node:crypto';
 import 'drizzle-orm';
 import 'crypto';
 import 'fs';
 import 'path';
 import 'node:http';
 import 'node:https';
+import 'node:crypto';
 import 'node:events';
 import 'node:buffer';
 import 'node:fs';
@@ -359,18 +359,18 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
       }
     };
     return (_ctx, _push, _parent, _attrs) => {
-      const _component_UButton = _sfc_main$z;
+      const _component_UButton = _sfc_main$B;
       const _component_UTabs = _sfc_main$1;
-      const _component_UTable = _sfc_main$f;
-      const _component_UIcon = _sfc_main$E;
-      const _component_UBadge = _sfc_main$v;
+      const _component_UTable = _sfc_main$h;
+      const _component_UIcon = _sfc_main$G;
+      const _component_UBadge = _sfc_main$x;
       const _component_USwitch = _sfc_main$2;
       const _component_FullScreenModal = __nuxt_component_7;
-      const _component_UFormField = _sfc_main$j;
-      const _component_UInput = _sfc_main$i;
+      const _component_UFormField = _sfc_main$l;
+      const _component_UInput = _sfc_main$k;
       const _component_UCheckbox = _sfc_main$3;
-      const _component_UTextarea = _sfc_main$e;
-      const _component_UModal = _sfc_main$q;
+      const _component_UTextarea = _sfc_main$g;
+      const _component_UModal = _sfc_main$s;
       _push(`<div${ssrRenderAttrs(_attrs)}><div class="flex justify-between items-end mb-8"><div><h1 class="text-3xl font-bold text-gray-900 dark:text-white tracking-tight">${ssrInterpolate(_ctx.$t("admin.payments.page.title"))}</h1><p class="text-gray-500 dark:text-gray-400 mt-2 text-sm">${ssrInterpolate(_ctx.$t("admin.payments.page.subtitle"))}</p></div>`);
       if (activeTab.value === "methods" && unref(hasAdminPerm)("payments:edit")) {
         _push(ssrRenderComponent(_component_UButton, {

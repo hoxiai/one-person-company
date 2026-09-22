@@ -1,4 +1,4 @@
-import { bn as useUserSession, t as useSettings, g as useToast, e as useI18n, aM as useLocaleRouter, b as _sfc_main$E, k as _sfc_main$z } from './server.mjs';
+import { bn as useUserSession, t as useSettings, g as useToast, e as useI18n, aM as useLocaleRouter, b as _sfc_main$G, k as _sfc_main$B } from './server.mjs';
 import { defineComponent, ref, computed, withCtx, createVNode, toDisplayString, useSSRContext } from 'vue';
 import { ssrRenderAttrs, ssrRenderComponent, ssrInterpolate, ssrIncludeBooleanAttr } from 'vue/server-renderer';
 
@@ -112,8 +112,8 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
       }
     };
     return (_ctx, _push, _parent, _attrs) => {
-      const _component_UIcon = _sfc_main$E;
-      const _component_UButton = _sfc_main$z;
+      const _component_UIcon = _sfc_main$G;
+      const _component_UButton = _sfc_main$B;
       _push(`<div${ssrRenderAttrs(_attrs)}>`);
       if (showSoftBanner.value) {
         _push(`<div class="w-full bg-amber-500/10 dark:bg-amber-950/40 border-b border-amber-500/20 dark:border-amber-800/40 px-4 py-2 transition-all duration-300 relative z-30"><div class="max-w-7xl mx-auto flex items-center justify-between gap-3 text-xs sm:text-sm"><div class="flex items-center gap-2 text-amber-700 dark:text-amber-300 font-medium truncate">`);

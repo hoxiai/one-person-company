@@ -1,11 +1,11 @@
-import { d as defineEventHandler, g as getQuery, c as getRequestLocale, bD as normalizeSupportedLocale, bp as sendLocalizedRedirect, b as db, ba as userTokens, bb as EMAIL_VERIFY_TOKEN_NAME, u as users, aK as getUserSession, T as setUserSession } from '../../../nitro/nitro.mjs';
-import { eq } from 'drizzle-orm';
-import 'node:crypto';
+import { d as defineEventHandler, g as getQuery, c as getRequestLocale, bP as normalizeSupportedLocale, bx as sendLocalizedRedirect, b as db, bg as userTokens, bk as EMAIL_VERIFY_TOKEN_NAME, u as users, o as orders, aO as getUserSession, U as setUserSession } from '../../../nitro/nitro.mjs';
+import { eq, and, isNull } from 'drizzle-orm';
 import 'crypto';
 import 'fs';
 import 'path';
 import 'node:http';
 import 'node:https';
+import 'node:crypto';
 import 'node:events';
 import 'node:buffer';
 import 'node:fs';
@@ -64,6 +64,7 @@ const verifyEmail_get = defineEventHandler(async (event) => {
   }
   await db.update(users).set({ emailVerifiedAt: now }).where(eq(users.id, user.id));
   await db.update(userTokens).set({ revoked: true, lastUsedAt: now }).where(eq(userTokens.id, tokenRecord.id));
+  await db.update(orders).set({ userId: user.id }).where(and(eq(orders.contactEmail, user.email), isNull(orders.userId)));
   const session = await getUserSession(event).catch(() => null);
   if ((session == null ? void 0 : session.user) && Number(session.user.id) === user.id) {
     await setUserSession(event, {

@@ -1,11 +1,11 @@
-import { d as defineEventHandler, c as getRequestLocale, g as getQuery, e as createError, bL as requireOrderOwnership, b as db, p as products } from '../../../nitro/nitro.mjs';
+import { d as defineEventHandler, c as getRequestLocale, g as getQuery, e as createError, bZ as resolveOrderAccess, b as db, p as products } from '../../../nitro/nitro.mjs';
 import { eq } from 'drizzle-orm';
-import 'node:crypto';
 import 'crypto';
 import 'fs';
 import 'path';
 import 'node:http';
 import 'node:https';
+import 'node:crypto';
 import 'node:events';
 import 'node:buffer';
 import 'node:fs';
@@ -42,7 +42,7 @@ const status_get = defineEventHandler(async (event) => {
   if (!orderId) {
     throw createError({ statusCode: 400, message: locale === "zh" ? "\u8BA2\u5355 ID \u4E0D\u80FD\u4E3A\u7A7A" : "Order ID is required" });
   }
-  const order = await requireOrderOwnership(event, orderId);
+  const { order, owned } = await resolveOrderAccess(event, orderId);
   let product = null;
   if (order.productId) {
     const productRows = await db.select({
@@ -53,7 +53,7 @@ const status_get = defineEventHandler(async (event) => {
     }).from(products).where(eq(products.id, order.productId)).limit(1);
     product = productRows[0] || null;
   }
-  const deliveryInfo = order.payStatus === "paid" ? order.deliveryInfo : null;
+  const deliveryInfo = owned && order.payStatus === "paid" ? order.deliveryInfo : null;
   return {
     code: 0,
     data: {

@@ -1,11 +1,11 @@
-import { d as defineEventHandler, c as getRequestLocale, f as getRouterParam, ch as readRawBody, r as readBody, g as getQuery, bX as getRequestHeaders, bo as logger, e as createError, b as db, o as orders, O as ORDER_PAY_STATUS, ci as markOrderPaid, ak as paymentMethods, cj as executeCallbackScript, c0 as setResponseStatus, ah as ORDER_STATUS, bJ as getAffectedRows, ck as markTopupPaymentFailed, a6 as cancelPromoCommission, a7 as refundTopup, cl as setHeader } from '../../../nitro/nitro.mjs';
+import { d as defineEventHandler, c as getRequestLocale, f as getRouterParam, cz as readRawBody, r as readBody, g as getQuery, c9 as getRequestHeaders, bw as logger, e as createError, b as db, o as orders, O as ORDER_PAY_STATUS, cA as markOrderPaid, ao as paymentMethods, cB as executeCallbackScript, ce as setResponseStatus, al as ORDER_STATUS, bX as getAffectedRows, cC as markTopupPaymentFailed, a7 as cancelPromoCommission, a8 as revokeSubscriptionForOrder, a9 as refundTopup, cD as setHeader } from '../../../nitro/nitro.mjs';
 import { eq, and, ne } from 'drizzle-orm';
 import fs from 'fs';
 import path from 'path';
-import 'node:crypto';
 import 'crypto';
 import 'node:http';
 import 'node:https';
+import 'node:crypto';
 import 'node:events';
 import 'node:buffer';
 import 'node:fs';
@@ -220,6 +220,7 @@ const _order_id__post = defineEventHandler(async (event) => {
           if (result.tradeNo) updateData.tradeNo = result.tradeNo;
           await db.update(orders).set(updateData).where(eq(orders.id, result.orderId));
           await cancelPromoCommission(result.orderId, `webhook_${result.status}`);
+          await revokeSubscriptionForOrder(String(result.orderId), `webhook_${result.status}`).catch((err) => console.error("[Webhook] revokeSubscriptionForOrder failed:", err));
           if (result.status === "refunded" && order2.userId) {
             await refundTopup(result.orderId).catch((err) => console.error("[Webhook] refundTopup failed:", err));
           }

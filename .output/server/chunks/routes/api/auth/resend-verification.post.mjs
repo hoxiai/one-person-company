@@ -1,11 +1,11 @@
-import { d as defineEventHandler, a9 as requireTrustedRequestOrigin, c as getRequestLocale, r as readBody, aK as getUserSession, b as db, u as users, e as createError, ba as userTokens, bb as EMAIL_VERIFY_TOKEN_NAME, J as getLocalizedSettingValue, I as sendEmail } from '../../../nitro/nitro.mjs';
-import { eq, and, desc } from 'drizzle-orm';
-import 'node:crypto';
+import { d as defineEventHandler, ab as requireTrustedRequestOrigin, c as getRequestLocale, r as readBody, aO as getUserSession, b as db, u as users, e as createError, bM as getEmailVerifySendCooldown, bj as revokeEmailVerifyTokens, bN as issueEmailVerification, bO as EMAIL_VERIFY_SEND_COOLDOWN_SECONDS } from '../../../nitro/nitro.mjs';
+import { eq } from 'drizzle-orm';
 import 'crypto';
 import 'fs';
 import 'path';
 import 'node:http';
 import 'node:https';
+import 'node:crypto';
 import 'node:events';
 import 'node:buffer';
 import 'node:fs';
@@ -35,7 +35,6 @@ import 'node:net';
 import '@adonisjs/hash';
 import '@adonisjs/hash/drivers/scrypt';
 
-const COOLDOWN_SECONDS = 60;
 const resendVerification_post = defineEventHandler(async (event) => {
   var _a;
   const siteUrl = requireTrustedRequestOrigin(event);
@@ -78,58 +77,24 @@ const resendVerification_post = defineEventHandler(async (event) => {
       message: messages.alreadyVerified
     };
   }
-  const recentTokens = await db.select().from(userTokens).where(
-    and(
-      eq(userTokens.userId, userRecord.id),
-      eq(userTokens.name, EMAIL_VERIFY_TOKEN_NAME)
-    )
-  ).orderBy(desc(userTokens.createdAt)).limit(1);
-  const latestToken = recentTokens[0];
-  if (latestToken && latestToken.createdAt) {
-    const elapsedSeconds = Math.floor((Date.now() - new Date(latestToken.createdAt).getTime()) / 1e3);
-    if (elapsedSeconds < COOLDOWN_SECONDS) {
-      const remaining = COOLDOWN_SECONDS - elapsedSeconds;
-      throw createError({
-        statusCode: 429,
-        message: messages.cooldown(remaining)
-      });
-    }
-  }
-  if (latestToken && !latestToken.revoked) {
-    await db.update(userTokens).set({ revoked: true }).where(eq(userTokens.id, latestToken.id)).catch(() => {
+  const remaining = await getEmailVerifySendCooldown(userRecord.id);
+  if (remaining > 0) {
+    throw createError({
+      statusCode: 429,
+      message: messages.cooldown(remaining)
     });
   }
-  const verifyToken = crypto.randomUUID();
-  const verifyExpiresAt = Math.floor(Date.now() / 1e3) + 86400;
-  await db.insert(userTokens).values({
-    userId: userRecord.id,
-    token: verifyToken,
-    name: EMAIL_VERIFY_TOKEN_NAME,
-    expiresAt: new Date(verifyExpiresAt * 1e3),
-    createdAt: /* @__PURE__ */ new Date()
-  });
-  const verifyLink = `${siteUrl}/api/auth/verify-email?token=${verifyToken}&lang=${locale}`;
-  const siteName = await getLocalizedSettingValue("site_name", locale, "APay");
-  const emailPromise = sendEmail({
-    to: userRecord.email,
-    templateCode: "verify_email",
+  await revokeEmailVerifyTokens(userRecord.id);
+  await issueEmailVerification({
+    event,
     locale,
-    variables: {
-      nickname: userRecord.nickname || userRecord.email.split("@")[0],
-      site_name: siteName,
-      site_url: siteUrl,
-      verify_link: verifyLink
-    }
-  }).catch((err) => {
-    console.error("[ResendVerification] Failed to send email:", err);
+    siteUrl,
+    user: userRecord
   });
-  if (typeof (event == null ? void 0 : event.waitUntil) === "function") {
-    event.waitUntil(emailPromise);
-  }
   return {
     success: true,
     email: userRecord.email,
-    cooldownSeconds: COOLDOWN_SECONDS
+    cooldownSeconds: EMAIL_VERIFY_SEND_COOLDOWN_SECONDS
   };
 });
 

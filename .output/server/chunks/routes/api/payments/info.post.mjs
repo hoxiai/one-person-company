@@ -1,11 +1,11 @@
-import { d as defineEventHandler, c as getRequestLocale, r as readBody, bL as requireOrderOwnership, ab as getSiteLocaleConfig, ac as resolveRequestLocale, bS as lockLegacyPendingOrderCurrency, b as db, ak as paymentMethods, am as applyLocalPaymentPluginDefaults, bT as isPaymentMethodAvailableForLocale, bU as resolvePaymentPluginConfig, bV as isPaymentMethodCurrencySupported } from '../../../nitro/nitro.mjs';
+import { d as defineEventHandler, c as getRequestLocale, r as readBody, bZ as resolveOrderAccess, ad as getSiteLocaleConfig, ae as resolveRequestLocale, c4 as lockLegacyPendingOrderCurrency, b as db, ao as paymentMethods, aq as applyLocalPaymentPluginDefaults, c5 as isPaymentMethodAvailableForLocale, c6 as resolvePaymentPluginConfig, c7 as isPaymentMethodCurrencySupported } from '../../../nitro/nitro.mjs';
 import { eq } from 'drizzle-orm';
 import fs from 'fs';
 import path from 'path';
-import 'node:crypto';
 import 'crypto';
 import 'node:http';
 import 'node:https';
+import 'node:crypto';
 import 'node:events';
 import 'node:buffer';
 import 'node:fs';
@@ -56,7 +56,7 @@ const info_post = defineEventHandler(async (event) => {
     if (!orderId) {
       return { code: 1, message: messages.orderIdRequired };
     }
-    let order = await requireOrderOwnership(event, String(orderId));
+    let { order } = await resolveOrderAccess(event, String(orderId));
     const localeConfig = await getSiteLocaleConfig();
     const requestLocale = resolveRequestLocale(event, inputLocale, localeConfig);
     order = await lockLegacyPendingOrderCurrency(order, requestLocale);

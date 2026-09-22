@@ -3,7 +3,7 @@ ALTER TABLE `users` ADD COLUMN `current_session_id` text;
 CREATE TABLE `user_tokens` (
         `id` int AUTO_INCREMENT NOT NULL,
         `user_id` int NOT NULL,
-        `token` text NOT NULL,
+        `token` varchar(191) NOT NULL,
         `name` text,
         `expires_at` timestamp,
         `last_used_at` timestamp,

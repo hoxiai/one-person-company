@@ -1,11 +1,11 @@
-import { d as defineEventHandler, c as getRequestLocale, r as readBody, e as createError, b as db, G as emailLogs, I as sendEmail } from '../../../../nitro/nitro.mjs';
+import { d as defineEventHandler, c as getRequestLocale, r as readBody, e as createError, b as db, G as emailLogs, I as deliverEmail } from '../../../../nitro/nitro.mjs';
 import { eq } from 'drizzle-orm';
-import 'node:crypto';
 import 'crypto';
 import 'fs';
 import 'path';
 import 'node:http';
 import 'node:https';
+import 'node:crypto';
 import 'node:events';
 import 'node:buffer';
 import 'node:fs';
@@ -59,10 +59,16 @@ const resend_post = defineEventHandler(async (event) => {
       message: locale === "zh" ? "\u6536\u4EF6\u4EBA\u5730\u5740\u65E0\u6548" : "Invalid recipient email"
     });
   }
-  const sendResult = await sendEmail({
+  if (!targetLog.html) {
+    throw createError({
+      statusCode: 400,
+      message: locale === "zh" ? "\u8BE5\u90AE\u4EF6\u672A\u7559\u5B58\u6B63\u6587\uFF0C\u65E0\u6CD5\u91CD\u65B0\u53D1\u9001" : "Email body was not retained, cannot resend"
+    });
+  }
+  const sendResult = await deliverEmail({
     to: targetLog.to,
     subject: targetLog.subject || "Notification",
-    html: targetLog.html || "",
+    html: targetLog.html,
     templateCode: targetLog.templateCode || void 0
   });
   if (!sendResult.ok) {

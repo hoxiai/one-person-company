@@ -1,11 +1,11 @@
-import { d as defineEventHandler, c as getRequestLocale, r as readBody, e as createError, b as db, u as users, ar as assignPromoAgentByUserId } from '../../../../nitro/nitro.mjs';
+import { d as defineEventHandler, c as getRequestLocale, r as readBody, e as createError, b as db, u as users, av as assignPromoAgentByUserId } from '../../../../nitro/nitro.mjs';
 import { eq } from 'drizzle-orm';
-import 'node:crypto';
 import 'crypto';
 import 'fs';
 import 'path';
 import 'node:http';
 import 'node:https';
+import 'node:crypto';
 import 'node:events';
 import 'node:buffer';
 import 'node:fs';

@@ -1,7 +1,5 @@
-import { d as defineEventHandler, ab as requireTrustedRequestOrigin, c as getRequestLocale, f as getRouterParam, e as createError, b as db, u as users, bg as userTokens, bk as EMAIL_VERIFY_TOKEN_NAME, J as getLocalizedSettingValue, K as sendEmail } from '../../../../../nitro/nitro.mjs';
+import { d as defineEventHandler, ai as requireTrustedRequestOrigin, c as getRequestLocale, f as getRouterParam, e as createError, b as db, u as users, bp as userTokens, bt as EMAIL_VERIFY_TOKEN_NAME, N as getLocalizedSettingValue, P as sendEmail } from '../../../../../nitro/nitro.mjs';
 import { eq } from 'drizzle-orm';
-import '@adonisjs/hash';
-import '@adonisjs/hash/drivers/scrypt';
 import 'node:crypto';
 import 'crypto';
 import 'fs';
@@ -27,7 +25,15 @@ import 'maxmind';
 import 'node:url';
 import '@iconify/utils';
 import 'consola';
+import 'ioredis';
 import 'zod';
+import 'node:child_process';
+import 'node:os';
+import 'node:fs/promises';
+import 'node:dns/promises';
+import 'node:net';
+import '@adonisjs/hash';
+import '@adonisjs/hash/drivers/scrypt';
 
 const resendVerify_post = defineEventHandler(async (event) => {
   const siteUrl = requireTrustedRequestOrigin(event);

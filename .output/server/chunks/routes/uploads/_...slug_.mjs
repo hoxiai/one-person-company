@@ -1,10 +1,8 @@
 import fs from 'node:fs';
 import path from 'node:path';
-import { d as defineEventHandler, e as createError, cD as setHeader, bR as getHeader, ce as setResponseStatus, cJ as sendStream } from '../../nitro/nitro.mjs';
-import '@adonisjs/hash';
-import '@adonisjs/hash/drivers/scrypt';
-import 'node:crypto';
+import { d as defineEventHandler, e as createError, cN as setHeader, bh as getHeader, cs as setResponseStatus, cX as sendStream } from '../../nitro/nitro.mjs';
 import 'drizzle-orm';
+import 'node:crypto';
 import 'crypto';
 import 'fs';
 import 'path';
@@ -27,7 +25,15 @@ import 'maxmind';
 import 'node:url';
 import '@iconify/utils';
 import 'consola';
+import 'ioredis';
 import 'zod';
+import 'node:child_process';
+import 'node:os';
+import 'node:fs/promises';
+import 'node:dns/promises';
+import 'node:net';
+import '@adonisjs/hash';
+import '@adonisjs/hash/drivers/scrypt';
 
 const CONTENT_TYPES = {
   ".avif": "image/avif",

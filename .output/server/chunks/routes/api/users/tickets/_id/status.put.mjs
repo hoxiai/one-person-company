@@ -1,7 +1,5 @@
-import { d as defineEventHandler, aN as getUserSession, e as createError, f as getRouterParam, b as db, b6 as tickets, r as readBody, b7 as ticketMessages } from '../../../../../nitro/nitro.mjs';
+import { d as defineEventHandler, aV as getUserSession, e as createError, f as getRouterParam, b as db, F as tickets, r as readBody, bd as ticketMessages } from '../../../../../nitro/nitro.mjs';
 import { and, eq } from 'drizzle-orm';
-import '@adonisjs/hash';
-import '@adonisjs/hash/drivers/scrypt';
 import 'node:crypto';
 import 'crypto';
 import 'fs';
@@ -27,7 +25,15 @@ import 'maxmind';
 import 'node:url';
 import '@iconify/utils';
 import 'consola';
+import 'ioredis';
 import 'zod';
+import 'node:child_process';
+import 'node:os';
+import 'node:fs/promises';
+import 'node:dns/promises';
+import 'node:net';
+import '@adonisjs/hash';
+import '@adonisjs/hash/drivers/scrypt';
 
 const status_put = defineEventHandler(async (event) => {
   const session = await getUserSession(event).catch(() => null);

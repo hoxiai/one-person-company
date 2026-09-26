@@ -1,7 +1,5 @@
-import { d as defineEventHandler, f as getRouterParam, e as createError, b as db, b6 as tickets, r as readBody, b7 as ticketMessages, bb as notifications } from '../../../../../nitro/nitro.mjs';
+import { d as defineEventHandler, f as getRouterParam, e as createError, b as db, F as tickets, r as readBody, bd as ticketMessages, bk as notifications } from '../../../../../nitro/nitro.mjs';
 import { eq } from 'drizzle-orm';
-import '@adonisjs/hash';
-import '@adonisjs/hash/drivers/scrypt';
 import 'node:crypto';
 import 'crypto';
 import 'fs';
@@ -27,7 +25,15 @@ import 'maxmind';
 import 'node:url';
 import '@iconify/utils';
 import 'consola';
+import 'ioredis';
 import 'zod';
+import 'node:child_process';
+import 'node:os';
+import 'node:fs/promises';
+import 'node:dns/promises';
+import 'node:net';
+import '@adonisjs/hash';
+import '@adonisjs/hash/drivers/scrypt';
 
 const reply_post = defineEventHandler(async (event) => {
   const admin = event.context.admin;

@@ -1,7 +1,5 @@
-import { d as defineEventHandler, f as getRouterParam, e as createError, b as db, b6 as tickets, u as users, b7 as ticketMessages, b8 as userWallets, o as orders, b9 as fromScaled } from '../../../../nitro/nitro.mjs';
+import { d as defineEventHandler, f as getRouterParam, e as createError, b as db, F as tickets, u as users, bd as ticketMessages, be as userWallets, v as orders, bf as fromScaled, bg as getWalletBackend } from '../../../../nitro/nitro.mjs';
 import { eq, asc, desc } from 'drizzle-orm';
-import '@adonisjs/hash';
-import '@adonisjs/hash/drivers/scrypt';
 import 'node:crypto';
 import 'crypto';
 import 'fs';
@@ -27,7 +25,15 @@ import 'maxmind';
 import 'node:url';
 import '@iconify/utils';
 import 'consola';
+import 'ioredis';
 import 'zod';
+import 'node:child_process';
+import 'node:os';
+import 'node:fs/promises';
+import 'node:dns/promises';
+import 'node:net';
+import '@adonisjs/hash';
+import '@adonisjs/hash/drivers/scrypt';
 
 const _id__get = defineEventHandler(async (event) => {
   const idParam = getRouterParam(event, "id");
@@ -81,7 +87,9 @@ const _id__get = defineEventHandler(async (event) => {
       ticket,
       messages,
       userFinance,
-      recentOrders
+      recentOrders,
+      // 钱包归属：AINode 钱包站点补偿只能发充值余额（后台据此限定补偿类型）
+      walletBackend: getWalletBackend()
     }
   };
 });

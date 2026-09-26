@@ -1,7 +1,5 @@
-import { d as defineEventHandler, g as getQuery, ar as posts, b as db } from '../../../nitro/nitro.mjs';
-import { eq, or, like, and, count, desc, sql } from 'drizzle-orm';
-import '@adonisjs/hash';
-import '@adonisjs/hash/drivers/scrypt';
+import { d as defineEventHandler, g as getQuery, a1 as operationLogs, b as db, t as toIsoTimestamp } from '../../../nitro/nitro.mjs';
+import { sql, count, desc } from 'drizzle-orm';
 import 'node:crypto';
 import 'crypto';
 import 'fs';
@@ -27,59 +25,83 @@ import 'maxmind';
 import 'node:url';
 import '@iconify/utils';
 import 'consola';
+import 'ioredis';
 import 'zod';
+import 'node:child_process';
+import 'node:os';
+import 'node:fs/promises';
+import 'node:dns/promises';
+import 'node:net';
+import '@adonisjs/hash';
+import '@adonisjs/hash/drivers/scrypt';
 
 const index_get = defineEventHandler(async (event) => {
-  var _a;
   const query = getQuery(event);
-  const page = Math.max(1, parseInt(query.page) || 1);
-  const pageSize = Math.min(100, Math.max(1, parseInt(query.pageSize) || 15));
+  const page = parseInt(query.page) || 1;
+  const pageSize = Math.min(parseInt(query.pageSize) || 50, 200);
+  const actorTypeFilter = typeof query.actorType === "string" ? query.actorType.trim() : "";
+  const actionFilter = typeof query.action === "string" ? query.action.trim() : "";
+  const resourceFilter = typeof query.resource === "string" ? query.resource.trim() : "";
+  const search = typeof query.search === "string" ? query.search.trim() : "";
   const offset = (page - 1) * pageSize;
-  const type = String(query.type || "").trim();
-  const status = String(query.status || "").trim();
-  const search = String(query.search || "").trim();
   const conditions = [];
-  if (type && type !== "all") {
-    conditions.push(eq(posts.type, type));
+  if (actorTypeFilter) {
+    conditions.push(sql`${operationLogs.actorType} = ${actorTypeFilter}`);
   }
-  if (status === "published") {
-    conditions.push(eq(posts.isActive, true));
-  } else if (status === "draft") {
-    conditions.push(eq(posts.isActive, false));
+  if (actionFilter) {
+    conditions.push(sql`${operationLogs.action} = ${actionFilter}`);
+  }
+  if (resourceFilter) {
+    conditions.push(sql`${operationLogs.resource} = ${resourceFilter}`);
   }
   if (search) {
-    const pattern = `%${search}%`;
-    conditions.push(
-      or(
-        like(posts.title, pattern),
-        like(posts.slug, pattern),
-        like(posts.key, pattern),
-        like(posts.description, pattern)
-      )
-    );
+    conditions.push(sql`(
+      ${operationLogs.actorName} LIKE ${`%${search}%`}
+      OR ${operationLogs.resourceId} LIKE ${`%${search}%`}
+      OR ${operationLogs.path} LIKE ${`%${search}%`}
+      OR ${operationLogs.summary} LIKE ${`%${search}%`}
+    )`);
   }
-  const whereClause = conditions.length > 0 ? and(...conditions) : void 0;
-  const [totalResult, result] = await Promise.all([
-    db.select({ value: count() }).from(posts).where(whereClause),
-    db.select().from(posts).where(whereClause).orderBy(desc(posts.createdAt)).limit(pageSize).offset(offset)
+  const where = conditions.length > 0 ? conditions.reduce((acc, c) => sql`${acc} AND ${c}`) : void 0;
+  const countResult = where ? await db.select({ value: count() }).from(operationLogs).where(where) : await db.select({ value: count() }).from(operationLogs);
+  const [{ value: total }] = countResult;
+  let queryBuilder = db.select({
+    id: operationLogs.id,
+    actorType: operationLogs.actorType,
+    actorId: operationLogs.actorId,
+    actorName: operationLogs.actorName,
+    action: operationLogs.action,
+    resource: operationLogs.resource,
+    resourceId: operationLogs.resourceId,
+    summary: operationLogs.summary,
+    details: operationLogs.details,
+    path: operationLogs.path,
+    method: operationLogs.method,
+    statusCode: operationLogs.statusCode,
+    ip: operationLogs.ip,
+    userAgent: operationLogs.userAgent,
+    createdAt: operationLogs.createdAt
+  }).from(operationLogs).orderBy(desc(operationLogs.createdAt), desc(operationLogs.id)).limit(pageSize).offset(offset);
+  if (where) {
+    queryBuilder = queryBuilder.where(where);
+  }
+  const result = await queryBuilder;
+  const normalizedLogs = result.map((log) => ({
+    ...log,
+    createdAt: toIsoTimestamp(log.createdAt)
+  }));
+  const [resources, actions] = await Promise.all([
+    db.selectDistinct({ value: operationLogs.resource }).from(operationLogs),
+    db.selectDistinct({ value: operationLogs.action }).from(operationLogs)
   ]);
-  const total = ((_a = totalResult[0]) == null ? void 0 : _a.value) || 0;
-  const [statsResult] = await db.select({
-    totalAll: count(),
-    publishedCount: sql`SUM(CASE WHEN ${posts.isActive} = true THEN 1 ELSE 0 END)`,
-    draftCount: sql`SUM(CASE WHEN ${posts.isActive} = false THEN 1 ELSE 0 END)`,
-    totalViews: sql`COALESCE(SUM(${posts.views}), 0)`
-  }).from(posts);
   return {
-    data: result,
+    logs: normalizedLogs,
     total,
     page,
     pageSize,
-    stats: {
-      total: Number((statsResult == null ? void 0 : statsResult.totalAll) || 0),
-      published: Number((statsResult == null ? void 0 : statsResult.publishedCount) || 0),
-      draft: Number((statsResult == null ? void 0 : statsResult.draftCount) || 0),
-      totalViews: Number((statsResult == null ? void 0 : statsResult.totalViews) || 0)
+    facets: {
+      resources: resources.map((r) => r.value).filter(Boolean).sort(),
+      actions: actions.map((a) => a.value).filter(Boolean).sort()
     }
   };
 });

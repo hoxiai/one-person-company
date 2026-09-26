@@ -1,7 +1,5 @@
-import { d as defineEventHandler, f as getRouterParam, e as createError, r as readBody, b as db, av as promoApplications, ac as ensurePromoMember, aw as PROMO_ROLE } from '../../../../../../nitro/nitro.mjs';
+import { d as defineEventHandler, f as getRouterParam, e as createError, r as readBody, b as db, aE as promoApplications, aj as ensurePromoMember, aB as PROMO_ROLE } from '../../../../../../nitro/nitro.mjs';
 import { eq } from 'drizzle-orm';
-import '@adonisjs/hash';
-import '@adonisjs/hash/drivers/scrypt';
 import 'node:crypto';
 import 'crypto';
 import 'fs';
@@ -27,7 +25,15 @@ import 'maxmind';
 import 'node:url';
 import '@iconify/utils';
 import 'consola';
+import 'ioredis';
 import 'zod';
+import 'node:child_process';
+import 'node:os';
+import 'node:fs/promises';
+import 'node:dns/promises';
+import 'node:net';
+import '@adonisjs/hash';
+import '@adonisjs/hash/drivers/scrypt';
 
 const audit_post = defineEventHandler(async (event) => {
   const admin = event.context.admin;

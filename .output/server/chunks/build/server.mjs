@@ -1,11 +1,11 @@
 import process from 'node:process';globalThis._importMeta_=globalThis._importMeta_||{url:"file:///_entry.js",env:process.env};import * as vue from 'vue';
-import { hasInjectionContext, inject, computed, defineComponent, h, useSlots, useTemplateRef, watch, nextTick, unref, mergeProps, withCtx, createVNode, renderSlot, openBlock, createBlock, createCommentVNode, watchPostEffect, createElementBlock, normalizeStyle, ref, getCurrentInstance, watchEffect, customRef, toValue, reactive, mergeDefaults, getCurrentScope, provide, useModel, createTextVNode, toDisplayString as toDisplayString$1, mergeModels, markRaw, toRefs, toRef as toRef$1, camelize as camelize$1, Teleport, toHandlerKey, shallowRef, resolveDynamicComponent, onScopeDispose, shallowReadonly, cloneVNode, isRef, normalizeProps, guardReactiveProps, readonly, useId as useId$1, Fragment, renderList, toHandlers, onServerPrefetch, resolveComponent, Comment, defineAsyncComponent, withModifiers, withAsyncContext, withKeys, resolveDirective, createElementVNode, effectScope, useSSRContext, toRaw, shallowReactive, Suspense, createApp, Text, onErrorCaptured, isReadonly, isShallow, isReactive } from 'vue';
-import { c$ as serialize, ce as setResponseStatus$1, d0 as getRequestURL, d1 as defu, d2 as isEqual$1, e as createError$1, d3 as upperFirst, d4 as defuFn, d5 as appendResponseHeader, d6 as resolveLocalizedSetting, d7 as parse$1, d8 as getRequestHeader, d9 as sanitizeStatusCode, c9 as getRequestHeaders, da as getContext, db as setCookie, b_ as getCookie, dc as deleteCookie, dd as SEO_LOCALE_LANGUAGE, cU as $fetch$1, de as baseURL, df as hash, dg as createHooks, dh as executeAsync, di as normalizeSiteOrigin, dj as stripLocalePrefix$1, cH as classifySeoRoute, cG as seoRouteRegistry, dk as localePathForSeo, dl as safeJsonLd, dm as getRequestProtocol } from '../nitro/nitro.mjs';
+import { useSlots, computed, unref, mergeProps, withCtx, renderSlot, createVNode, openBlock, createBlock, createCommentVNode, Fragment, renderList, hasInjectionContext, inject, defineComponent, h, watchPostEffect, createElementBlock, normalizeStyle, ref, getCurrentInstance, watch, nextTick, watchEffect, customRef, toValue, reactive, mergeDefaults, getCurrentScope, provide, useModel, createTextVNode, toDisplayString as toDisplayString$1, mergeModels, markRaw, toRefs, toRef as toRef$1, camelize as camelize$1, Teleport, toHandlerKey, shallowRef, resolveDynamicComponent, onScopeDispose, shallowReadonly, cloneVNode, isRef, normalizeProps, guardReactiveProps, readonly, useId as useId$1, useTemplateRef, toHandlers, onServerPrefetch, resolveComponent, Comment, defineAsyncComponent, withModifiers, withAsyncContext, withKeys, resolveDirective, createElementVNode, effectScope, useSSRContext, toRaw, shallowReactive, Suspense, createApp, Text, onErrorCaptured, isReadonly, isShallow, isReactive } from 'vue';
+import { dT as serialize, cs as setResponseStatus$1, dU as getRequestURL, dV as defu, dW as isEqual$1, e as createError$1, dX as upperFirst, dY as defuFn, dZ as appendResponseHeader, d_ as resolveLocalizedSetting, d$ as parse$1, c2 as getRequestHeader, e0 as sanitizeStatusCode, cn as getRequestHeaders, e1 as getContext, e2 as setCookie, cc as getCookie, e3 as deleteCookie, e4 as SEO_LOCALE_LANGUAGE, e5 as $fetch$1, e6 as baseURL, e7 as hash, e8 as createHooks, e9 as executeAsync, ea as normalizeSiteOrigin, eb as stripLocalePrefix$1, cV as classifySeoRoute, cU as seoRouteRegistry, ec as localePathForSeo, ed as safeJsonLd, ee as getRequestProtocol } from '../nitro/nitro.mjs';
 import { useRoute as useRoute$1, useRouter as useRouter$1, RouterView, isNavigationFailure, createMemoryHistory, createRouter, START_LOCATION } from 'vue-router';
 import { Icon, getIcon, loadIcon as loadIcon$1, _api, addAPIProvider, setCustomIconsLoader } from '@iconify/vue';
 import { getIconCSS } from '@iconify/utils/lib/css/icon';
 import { debounce } from 'perfect-debounce';
-import { ssrRenderComponent, ssrRenderAttrs, ssrInterpolate, ssrRenderSlot, ssrRenderClass, ssrRenderVNode, ssrRenderAttr, ssrRenderStyle, ssrRenderList, ssrGetDirectiveProps, ssrRenderSuspense } from 'vue/server-renderer';
+import { ssrRenderComponent, ssrRenderSlot, ssrRenderList, ssrRenderClass, ssrInterpolate, ssrRenderVNode, ssrRenderAttr, ssrRenderAttrs, ssrRenderStyle, ssrGetDirectiveProps, ssrRenderSuspense } from 'vue/server-renderer';
 import { createTV } from 'tailwind-variants';
 import { isPlainObject as isPlainObject$1 } from '@vue/shared';
 import useEmblaCarousel from 'embla-carousel-vue';
@@ -18,10 +18,8 @@ import { inertia, animate, velocityPerSecond, cubicBezier, bounceOut, bounceInOu
 import { number as number$1, complex, alpha, filter, px, progressPercentage, degrees, scale, color } from 'style-value-types';
 import colors from 'tailwindcss/colors';
 import { u as useSeoMeta$1, a as useHead$1, h as headSymbol } from '../routes/renderer.mjs';
-import '@adonisjs/hash';
-import '@adonisjs/hash/drivers/scrypt';
-import 'node:crypto';
 import 'drizzle-orm';
+import 'node:crypto';
 import 'crypto';
 import 'fs';
 import 'path';
@@ -46,7 +44,15 @@ import 'maxmind';
 import 'node:url';
 import '@iconify/utils';
 import 'consola';
+import 'ioredis';
 import 'zod';
+import 'node:child_process';
+import 'node:os';
+import 'node:fs/promises';
+import 'node:dns/promises';
+import 'node:net';
+import '@adonisjs/hash';
+import '@adonisjs/hash/drivers/scrypt';
 import 'vue-bundle-renderer/runtime';
 import 'unhead/server';
 import 'devalue';
@@ -806,14 +812,18 @@ function getRouteRules(arg) {
     return {};
   }
 }
-const __nuxt_page_meta$o = { title: "Authorization", layout: "admin" };
-const __nuxt_page_meta$n = { title: "Extensions", layout: "admin" };
-const __nuxt_page_meta$m = { title: "Users Management", layout: "admin" };
-const __nuxt_page_meta$l = { title: "Product Meta Presets", layout: "admin" };
-const __nuxt_page_meta$k = { title: "Themes", layout: "admin" };
+const __nuxt_page_meta$p = { title: "Authorization", layout: "admin" };
+const __nuxt_page_meta$o = { title: "Extensions", layout: "admin" };
+const __nuxt_page_meta$n = { title: "Users Management", layout: "admin" };
+const __nuxt_page_meta$m = { title: "Product Meta Presets", layout: "admin" };
+const __nuxt_page_meta$l = { title: "Themes", layout: "admin" };
+const __nuxt_page_meta$k = { layout: "admin" };
 const __nuxt_page_meta$j = { layout: "admin" };
-const __nuxt_page_meta$i = { layout: "admin" };
-const __nuxt_page_meta$h = { title: "Cards Management", layout: "admin" };
+const __nuxt_page_meta$i = { title: "Cards Management", layout: "admin" };
+const __nuxt_page_meta$h = {
+  title: "评论审核管理",
+  layout: "admin"
+};
 const __nuxt_page_meta$g = { title: "Customers & Users", layout: "admin" };
 const __nuxt_page_meta$f = { title: "Dashboard", layout: "admin" };
 const __nuxt_page_meta$e = {
@@ -846,151 +856,226 @@ const _routes = [
   {
     name: "admin-settings-authorization",
     path: "/admin/settings/authorization",
-    meta: __nuxt_page_meta$o || {},
-    component: () => import('./authorization-B-QHHXjU.mjs')
+    meta: __nuxt_page_meta$p || {},
+    component: () => import('./authorization-BEJuDQvq.mjs')
   },
   {
     name: "admin-settings-extensions",
     path: "/admin/settings/extensions",
-    meta: __nuxt_page_meta$n || {},
-    component: () => import('./extensions-C0zNneT3.mjs')
+    meta: __nuxt_page_meta$o || {},
+    component: () => import('./extensions-dZ-ePJpy.mjs')
   },
   {
     name: "admin-settings-manages",
     path: "/admin/settings/manages",
-    meta: __nuxt_page_meta$m || {},
-    component: () => import('./manages-MDDbF3Po.mjs')
+    meta: __nuxt_page_meta$n || {},
+    component: () => import('./manages-CT2ldZtV.mjs')
   },
   {
     name: "admin-settings-product-presets",
     path: "/admin/settings/product-presets",
-    meta: __nuxt_page_meta$l || {},
-    component: () => import('./product-presets-BRxW5LuZ.mjs')
+    meta: __nuxt_page_meta$m || {},
+    component: () => import('./product-presets-CoqlmC_l.mjs')
   },
   {
     name: "admin-settings-themes",
     path: "/admin/settings/themes",
-    meta: __nuxt_page_meta$k || {},
-    component: () => import('./themes-C29I9sOn.mjs')
+    meta: __nuxt_page_meta$l || {},
+    component: () => import('./themes-Dtd2ohw-.mjs')
   },
   {
     name: "admin-extensions-slug",
     path: "/admin/extensions/:slug(.*)*",
+    meta: __nuxt_page_meta$k || {},
+    component: () => import('./_...slug_-C3cSwur2.mjs')
+  },
+  {
+    name: "admin-plugins-slug___en",
+    path: "/en/admin/plugins/:slug(.*)*",
     meta: __nuxt_page_meta$j || {},
-    component: () => import('./_...slug_-C-qfYAdE.mjs')
+    component: () => import('./_...slug_-DmMUIsge.mjs')
   },
   {
     name: "admin-plugins-slug___zh",
     path: "/admin/plugins/:slug(.*)*",
-    meta: __nuxt_page_meta$i || {},
-    component: () => import('./_...slug_-BzQ9r-KE.mjs')
+    meta: __nuxt_page_meta$j || {},
+    component: () => import('./_...slug_-DmMUIsge.mjs')
+  },
+  {
+    name: "admin-plugins-slug___zh-HK",
+    path: "/zh-HK/admin/plugins/:slug(.*)*",
+    meta: __nuxt_page_meta$j || {},
+    component: () => import('./_...slug_-DmMUIsge.mjs')
+  },
+  {
+    name: "admin-plugins-slug___ru",
+    path: "/ru/admin/plugins/:slug(.*)*",
+    meta: __nuxt_page_meta$j || {},
+    component: () => import('./_...slug_-DmMUIsge.mjs')
+  },
+  {
+    name: "user-plugins-slug___en",
+    path: "/en/user/plugins/:slug(.*)*",
+    component: () => import('./_...slug_-0nj4btA4.mjs')
   },
   {
     name: "user-plugins-slug___zh",
     path: "/user/plugins/:slug(.*)*",
-    component: () => import('./_...slug_-BmiBo9Sx.mjs')
+    component: () => import('./_...slug_-0nj4btA4.mjs')
+  },
+  {
+    name: "user-plugins-slug___zh-HK",
+    path: "/zh-HK/user/plugins/:slug(.*)*",
+    component: () => import('./_...slug_-0nj4btA4.mjs')
+  },
+  {
+    name: "user-plugins-slug___ru",
+    path: "/ru/user/plugins/:slug(.*)*",
+    component: () => import('./_...slug_-0nj4btA4.mjs')
   },
   {
     name: "admin-cards",
     path: "/admin/cards",
+    meta: __nuxt_page_meta$i || {},
+    component: () => import('./cards-BaW8lfJP.mjs')
+  },
+  {
+    name: "admin-comments___en",
+    path: "/en/admin/comments",
     meta: __nuxt_page_meta$h || {},
-    component: () => import('./cards-BKPvuYf9.mjs')
+    component: () => import('./comments-BSd-4EV5.mjs')
+  },
+  {
+    name: "admin-comments___zh",
+    path: "/admin/comments",
+    meta: __nuxt_page_meta$h || {},
+    component: () => import('./comments-BSd-4EV5.mjs')
+  },
+  {
+    name: "admin-comments___zh-HK",
+    path: "/zh-HK/admin/comments",
+    meta: __nuxt_page_meta$h || {},
+    component: () => import('./comments-BSd-4EV5.mjs')
+  },
+  {
+    name: "admin-comments___ru",
+    path: "/ru/admin/comments",
+    meta: __nuxt_page_meta$h || {},
+    component: () => import('./comments-BSd-4EV5.mjs')
   },
   {
     name: "admin-customers",
     path: "/admin/customers",
     meta: __nuxt_page_meta$g || {},
-    component: () => import('./customers-DnB5QqVs.mjs')
+    component: () => import('./customers-j_iVWwEl.mjs')
   },
   {
     name: "admin-dashboard",
     path: "/admin/dashboard",
     meta: __nuxt_page_meta$f || {},
-    component: () => import('./dashboard-CdjShIjp.mjs')
+    component: () => import('./dashboard-e04cxm45.mjs')
   },
   {
     name: "admin-login",
     path: "/admin/login",
     meta: __nuxt_page_meta$e || {},
-    component: () => import('./login-BUoFNjtZ.mjs')
+    component: () => import('./login-CN9Agq30.mjs')
   },
   {
     name: "admin-logs",
     path: "/admin/logs",
     meta: __nuxt_page_meta$d || {},
-    component: () => import('./logs-BqOO5Q1a.mjs')
+    component: () => import('./logs-D7v-xG6T.mjs')
   },
   {
     name: "admin-orders",
     path: "/admin/orders",
     meta: __nuxt_page_meta$c || {},
-    component: () => import('./orders-Ii5fnsi1.mjs')
+    component: () => import('./orders-D-gPysiV.mjs')
   },
   {
     name: "admin-payments",
     path: "/admin/payments",
     meta: __nuxt_page_meta$b || {},
-    component: () => import('./payments-DfiLAx8t.mjs')
+    component: () => import('./payments-Ciik0KB_.mjs')
   },
   {
     name: "admin-posts",
     path: "/admin/posts",
     meta: __nuxt_page_meta$a || {},
-    component: () => import('./posts-C0HCa465.mjs')
+    component: () => import('./posts-C9Hjcwvb.mjs')
   },
   {
     name: "admin-products",
     path: "/admin/products",
     meta: __nuxt_page_meta$9 || {},
-    component: () => import('./products-5PiZ5KPl.mjs')
+    component: () => import('./products-C1-1WQA3.mjs')
   },
   {
     name: "admin-profile",
     path: "/admin/profile",
     meta: __nuxt_page_meta$8 || {},
-    component: () => import('./profile-D1DQzpQF.mjs')
+    component: () => import('./profile-zYfQbrYn.mjs')
   },
   {
     name: "admin-promo",
     path: "/admin/promo",
     meta: __nuxt_page_meta$7 || {},
-    component: () => import('./promo-C4pdUfeb.mjs')
+    component: () => import('./promo-Cl-RNcX3.mjs')
   },
   {
     name: "admin-settings",
     path: "/admin/settings",
     meta: __nuxt_page_meta$6 || {},
-    component: () => import('./index-DGs6CYHQ.mjs')
+    component: () => import('./index-DNHSaZn6.mjs')
+  },
+  {
+    name: "admin-setup___en",
+    path: "/en/admin/setup",
+    meta: __nuxt_page_meta$5 || {},
+    component: () => import('./setup-D41FYzOC.mjs')
   },
   {
     name: "admin-setup___zh",
     path: "/admin/setup",
     meta: __nuxt_page_meta$5 || {},
-    component: () => import('./setup-By2rDZOh.mjs')
+    component: () => import('./setup-D41FYzOC.mjs')
+  },
+  {
+    name: "admin-setup___zh-HK",
+    path: "/zh-HK/admin/setup",
+    meta: __nuxt_page_meta$5 || {},
+    component: () => import('./setup-D41FYzOC.mjs')
+  },
+  {
+    name: "admin-setup___ru",
+    path: "/ru/admin/setup",
+    meta: __nuxt_page_meta$5 || {},
+    component: () => import('./setup-D41FYzOC.mjs')
   },
   {
     name: "admin-stats",
     path: "/admin/stats",
     meta: __nuxt_page_meta$4 || {},
-    component: () => import('./stats-B42_Ag7r.mjs')
+    component: () => import('./stats-B33gt15H.mjs')
   },
   {
     name: "admin-subscriptions",
     path: "/admin/subscriptions",
     meta: __nuxt_page_meta$3 || {},
-    component: () => import('./subscriptions-Bf0OvUUJ.mjs')
+    component: () => import('./subscriptions-BKW484YP.mjs')
   },
   {
     name: "admin-tickets",
     path: "/admin/tickets",
     meta: __nuxt_page_meta$2 || {},
-    component: () => import('./tickets-BxubglzU.mjs')
+    component: () => import('./tickets-qjJLZzlf.mjs')
   },
   {
     name: "admin-topups",
     path: "/admin/topups",
     meta: __nuxt_page_meta$1 || {},
-    component: () => import('./topups-DQC2nBqv.mjs')
+    component: () => import('./topups-CbsQu4sc.mjs')
   },
   {
     name: "admin",
@@ -999,9 +1084,24 @@ const _routes = [
     component: () => import('./index-Dwm_67fK.mjs')
   },
   {
+    name: "slug___en",
+    path: "/en/:slug(.*)*",
+    component: () => import('./_...slug_-DAi1GSim.mjs')
+  },
+  {
     name: "slug___zh",
     path: "/:slug(.*)*",
-    component: () => import('./_...slug_-CT7-B7PA.mjs')
+    component: () => import('./_...slug_-DAi1GSim.mjs')
+  },
+  {
+    name: "slug___zh-HK",
+    path: "/zh-HK/:slug(.*)*",
+    component: () => import('./_...slug_-DAi1GSim.mjs')
+  },
+  {
+    name: "slug___ru",
+    path: "/ru/:slug(.*)*",
+    component: () => import('./_...slug_-DAi1GSim.mjs')
   }
 ];
 const _wrapInTransition = (props, children) => {
@@ -5430,7 +5530,7 @@ const cfg0 = defineAppConfig({
   }
 });
 const inlineConfig = {
-  "appVersion": "1.0.4",
+  "appVersion": "1.0.5",
   "nuxt": {},
   "ui": {
     "colors": {
@@ -13828,9 +13928,30 @@ _sfc_main$B.setup = (props, ctx) => {
   return _sfc_setup$B ? _sfc_setup$B(props, ctx) : void 0;
 };
 const localeCodes = [
-  "zh"
+  "en",
+  "zh",
+  "zh-HK",
+  "ru"
 ];
 const localeLoaders = {
+  en: [
+    {
+      key: "locale_common_46json_d9ff944b",
+      load: () => import(
+        './common-ChaHHNUr.mjs'
+        /* webpackChunkName: "locale_common_46json_d9ff944b" */
+      ),
+      cache: true
+    },
+    {
+      key: "locale_site_46json_28d78c77",
+      load: () => import(
+        './site-C3vRaYAS.mjs'
+        /* webpackChunkName: "locale_site_46json_28d78c77" */
+      ),
+      cache: true
+    }
+  ],
   zh: [
     {
       key: "locale_common_46json_a17ebeb8",
@@ -13843,8 +13964,44 @@ const localeLoaders = {
     {
       key: "locale_site_46json_3077d684",
       load: () => import(
-        './site-Bimxl6oN.mjs'
+        './site-CtYdvHz8.mjs'
         /* webpackChunkName: "locale_site_46json_3077d684" */
+      ),
+      cache: true
+    }
+  ],
+  "zh-HK": [
+    {
+      key: "locale_common_46json_f71e1f73",
+      load: () => import(
+        './common-DZID0X5w.mjs'
+        /* webpackChunkName: "locale_common_46json_f71e1f73" */
+      ),
+      cache: true
+    },
+    {
+      key: "locale_site_46json_3e67f01a",
+      load: () => import(
+        './site-uAubCRn2.mjs'
+        /* webpackChunkName: "locale_site_46json_3e67f01a" */
+      ),
+      cache: true
+    }
+  ],
+  ru: [
+    {
+      key: "locale_common_46json_ecee316f",
+      load: () => import(
+        './common-D_i5oE2d.mjs'
+        /* webpackChunkName: "locale_common_46json_ecee316f" */
+      ),
+      cache: true
+    },
+    {
+      key: "locale_site_46json_f65cc97e",
+      load: () => import(
+        './site-DdBHAbq8.mjs'
+        /* webpackChunkName: "locale_site_46json_f65cc97e" */
       ),
       cache: true
     }
@@ -13852,6 +14009,22 @@ const localeLoaders = {
 };
 const vueI18nConfigs = [];
 const normalizedLocales = [
+  {
+    code: "en",
+    iso: "en-US",
+    files: [
+      {
+        path: "/Users/hugh/code/hoxi/apay/locales/en/common.json",
+        cache: void 0
+      },
+      {
+        path: "/Users/hugh/code/hoxi/apay/locales/en/site.json",
+        cache: void 0
+      }
+    ],
+    name: "English",
+    language: "en-US"
+  },
   {
     code: "zh",
     iso: "zh-CN",
@@ -13867,6 +14040,38 @@ const normalizedLocales = [
     ],
     name: "简体中文",
     language: "zh-CN"
+  },
+  {
+    code: "zh-HK",
+    iso: "zh-HK",
+    files: [
+      {
+        path: "/Users/hugh/code/hoxi/apay/locales/zh-HK/common.json",
+        cache: void 0
+      },
+      {
+        path: "/Users/hugh/code/hoxi/apay/locales/zh-HK/site.json",
+        cache: void 0
+      }
+    ],
+    name: "香港繁體",
+    language: "zh-HK"
+  },
+  {
+    code: "ru",
+    iso: "ru-RU",
+    files: [
+      {
+        path: "/Users/hugh/code/hoxi/apay/locales/ru/common.json",
+        cache: void 0
+      },
+      {
+        path: "/Users/hugh/code/hoxi/apay/locales/ru/site.json",
+        cache: void 0
+      }
+    ],
+    name: "Русский",
+    language: "ru-RU"
   }
 ];
 const NUXT_I18N_MODULE_ID = "@nuxtjs/i18n";
@@ -16316,7 +16521,8 @@ const _sfc_main$w = /* @__PURE__ */ defineComponent({
     currency: {},
     quantity: { default: 1 },
     closable: { type: Boolean, default: false },
-    redirectOnSuccess: { type: Boolean, default: false }
+    redirectOnSuccess: { type: Boolean, default: false },
+    preferredMethodCode: {}
   },
   emits: ["close", "success"],
   setup(__props, { emit: __emit }) {
@@ -16332,6 +16538,29 @@ const _sfc_main$w = /* @__PURE__ */ defineComponent({
     const displayCurrency = computed(() => authoritativeCurrency.value || String(props.currency || "USD").trim().toUpperCase() || "USD");
     const formattedPayableAmount = computed(() => {
       const amount = Number(displayAmount.value || 0);
+      try {
+        return new Intl.NumberFormat(locale.value, {
+          style: "currency",
+          currency: displayCurrency.value
+        }).format(amount);
+      } catch {
+        return `${displayCurrency.value} ${amount.toFixed(2)}`;
+      }
+    });
+    const orderDiscountDetails = ref(null);
+    const formattedSubtotalAmount = computed(() => {
+      const amount = Number(orderDiscountDetails.value?.originalBaseAmount || 0);
+      try {
+        return new Intl.NumberFormat(locale.value, {
+          style: "currency",
+          currency: displayCurrency.value
+        }).format(amount);
+      } catch {
+        return `${displayCurrency.value} ${amount.toFixed(2)}`;
+      }
+    });
+    const formattedDiscountAmount = computed(() => {
+      const amount = Number(orderDiscountDetails.value?.discountBaseAmount || 0);
       try {
         return new Intl.NumberFormat(locale.value, {
           style: "currency",
@@ -16411,11 +16640,13 @@ const _sfc_main$w = /* @__PURE__ */ defineComponent({
           throw new Error(res?.message || t("site.payment.workspaceLoadGatewayFailed"));
         }
         const methods = res?.data?.methods || [];
+        orderDiscountDetails.value = res?.data?.discountDetails || null;
         authoritativeAmount.value = Number(res?.data?.amount ?? props.amount);
         authoritativeCurrency.value = String(res?.data?.currency || props.currency || "USD").trim().toUpperCase();
         availablePaymentMethods.value = methods;
         if (methods.length > 0) {
-          switchPaymentMethod(methods[0].code);
+          const preferred = methods.find((method) => method.code === props.preferredMethodCode);
+          switchPaymentMethod((preferred || methods[0]).code);
         }
       } catch (error) {
         console.error("Failed to fetch payment info:", error);
@@ -16449,12 +16680,12 @@ const _sfc_main$w = /* @__PURE__ */ defineComponent({
     return (_ctx, _push, _parent, _attrs) => {
       const _component_UIcon = _sfc_main$G;
       const _component_UButton = _sfc_main$B;
-      _push(`<div${ssrRenderAttrs(mergeProps({ class: "relative overflow-hidden p-4 sm:p-6 lg:p-8 group" }, _attrs))} data-v-e14d255f><div class="absolute -right-20 -top-20 w-64 h-64 bg-[#6d4cff]/5 rounded-full blur-[100px] pointer-events-none transition-colors duration-1000 group-hover:bg-[#6d4cff]/10" data-v-e14d255f></div><div class="relative z-10 mb-6 flex items-center justify-between sm:mb-8 lg:mb-10" data-v-e14d255f><div class="flex items-center gap-4" data-v-e14d255f><div class="w-12 h-12 rounded-2xl bg-[#6d4cff]/10 flex items-center justify-center text-[#6d4cff] shadow-inner border border-[#6d4cff]/20 group-hover:rotate-12 transition-transform" data-v-e14d255f>`);
+      _push(`<div${ssrRenderAttrs(mergeProps({ class: "relative overflow-hidden p-4 sm:p-6 lg:p-8 group" }, _attrs))} data-v-6c2bc662><div class="absolute -right-20 -top-20 w-64 h-64 bg-[#6d4cff]/5 rounded-full blur-[100px] pointer-events-none transition-colors duration-1000 group-hover:bg-[#6d4cff]/10" data-v-6c2bc662></div><div class="relative z-10 mb-6 flex items-center justify-between sm:mb-8 lg:mb-10" data-v-6c2bc662><div class="flex items-center gap-4" data-v-6c2bc662><div class="w-12 h-12 rounded-2xl bg-[#6d4cff]/10 flex items-center justify-center text-[#6d4cff] shadow-inner border border-[#6d4cff]/20 group-hover:rotate-12 transition-transform" data-v-6c2bc662>`);
       _push(ssrRenderComponent(_component_UIcon, {
         name: "ph:credit-card-duotone",
         class: "w-6 h-6"
       }, null, _parent));
-      _push(`</div><h3 class="text-xl font-bold text-gray-900 dark:text-white tracking-tight sm:text-2xl" data-v-e14d255f>${ssrInterpolate(_ctx.$t("site.payment.workspaceTitle"))}</h3></div>`);
+      _push(`</div><h3 class="text-xl font-bold text-gray-900 dark:text-white tracking-tight sm:text-2xl" data-v-6c2bc662>${ssrInterpolate(_ctx.$t("site.payment.workspaceTitle"))}</h3></div>`);
       if (__props.closable) {
         _push(ssrRenderComponent(_component_UButton, {
           color: "neutral",
@@ -16466,28 +16697,33 @@ const _sfc_main$w = /* @__PURE__ */ defineComponent({
       } else {
         _push(`<!---->`);
       }
-      _push(`</div><div class="grid gap-8 md:grid-cols-[240px,minmax(0,1fr)] relative z-10" data-v-e14d255f><aside class="md:sticky md:top-6 self-start" data-v-e14d255f><div class="bg-gray-50 dark:bg-black/40 rounded-[32px] p-6 border border-gray-100 dark:border-white/5 shadow-inner relative z-10 group/summary" data-v-e14d255f><div class="flex justify-between items-end mb-5" data-v-e14d255f><div data-v-e14d255f><p class="text-[10px] font-bold uppercase tracking-[0.3em] text-gray-400 dark:text-white/20 mb-2" data-v-e14d255f>${ssrInterpolate(_ctx.$t("site.payment.workspaceTotalPayable"))}</p><p class="break-words text-4xl font-bold text-gray-900 dark:text-white group-hover/summary:scale-105 transition-transform origin-left sm:text-5xl" data-v-e14d255f>${ssrInterpolate(formattedPayableAmount.value)}</p></div><div class="text-right" data-v-e14d255f><p class="text-[10px] font-bold uppercase tracking-[0.3em] text-gray-400 dark:text-white/20 mb-2" data-v-e14d255f>${ssrInterpolate(_ctx.$t("site.payment.workspaceQuantity"))}</p><p class="text-xl font-bold text-gray-600 dark:text-white/60" data-v-e14d255f>x${ssrInterpolate(__props.quantity)}</p></div></div>`);
-      if (availablePaymentMethods.value.length > 1) {
-        _push(`<div class="h-px bg-gray-200 dark:bg-white/5 w-full" data-v-e14d255f></div>`);
+      _push(`</div><div class="grid gap-8 md:grid-cols-[240px,minmax(0,1fr)] relative z-10" data-v-6c2bc662><aside class="md:sticky md:top-6 self-start" data-v-6c2bc662><div class="bg-gray-50 dark:bg-black/40 rounded-[32px] p-6 border border-gray-100 dark:border-white/5 shadow-inner relative z-10 group/summary" data-v-6c2bc662><div class="flex justify-between items-end mb-4" data-v-6c2bc662><div data-v-6c2bc662><p class="text-[10px] font-bold uppercase tracking-[0.3em] text-gray-400 dark:text-white/20 mb-2" data-v-6c2bc662>${ssrInterpolate(_ctx.$t("site.payment.workspaceTotalPayable"))}</p><p class="break-words text-4xl font-bold text-gray-900 dark:text-white group-hover/summary:scale-105 transition-transform origin-left sm:text-5xl" data-v-6c2bc662>${ssrInterpolate(formattedPayableAmount.value)}</p></div><div class="text-right" data-v-6c2bc662><p class="text-[10px] font-bold uppercase tracking-[0.3em] text-gray-400 dark:text-white/20 mb-2" data-v-6c2bc662>${ssrInterpolate(_ctx.$t("site.payment.workspaceQuantity"))}</p><p class="text-xl font-bold text-gray-600 dark:text-white/60" data-v-6c2bc662>x${ssrInterpolate(__props.quantity)}</p></div></div>`);
+      if (orderDiscountDetails.value && orderDiscountDetails.value.discountBaseAmount > 0) {
+        _push(`<div class="mb-4 pt-3 border-t border-gray-200/60 dark:border-white/5 text-xs space-y-1" data-v-6c2bc662><div class="flex justify-between text-gray-400 dark:text-white/40" data-v-6c2bc662><span data-v-6c2bc662>${ssrInterpolate(_ctx.$t("site.payment.workspaceSubtotal"))}</span><span class="line-through" data-v-6c2bc662>${ssrInterpolate(formattedSubtotalAmount.value)}</span></div><div class="flex justify-between text-emerald-600 dark:text-emerald-400 font-medium" data-v-6c2bc662><span data-v-6c2bc662>${ssrInterpolate(_ctx.$t("site.payment.workspaceDiscount"))}</span><span data-v-6c2bc662>-${ssrInterpolate(formattedDiscountAmount.value)}</span></div></div>`);
       } else {
         _push(`<!---->`);
       }
       if (availablePaymentMethods.value.length > 1) {
-        _push(`<div class="mt-5" data-v-e14d255f><label class="mb-3 ml-1 block text-[9px] font-bold uppercase tracking-[0.24em] text-gray-400 dark:text-white/20" data-v-e14d255f>${ssrInterpolate(_ctx.$t("site.payment.workspaceSelectMethod"))}</label><div class="grid grid-cols-2 gap-2 md:grid-cols-1" data-v-e14d255f><!--[-->`);
+        _push(`<div class="h-px bg-gray-200 dark:bg-white/5 w-full" data-v-6c2bc662></div>`);
+      } else {
+        _push(`<!---->`);
+      }
+      if (availablePaymentMethods.value.length > 1) {
+        _push(`<div class="mt-5" data-v-6c2bc662><label class="mb-3 ml-1 block text-[9px] font-bold uppercase tracking-[0.24em] text-gray-400 dark:text-white/20" data-v-6c2bc662>${ssrInterpolate(_ctx.$t("site.payment.workspaceSelectMethod"))}</label><div class="grid grid-cols-2 gap-2 md:grid-cols-1" data-v-6c2bc662><!--[-->`);
         ssrRenderList(availablePaymentMethods.value, (method) => {
           _push(`<button type="button" class="${ssrRenderClass([
             "flex min-h-[42px] items-center justify-start gap-2 rounded-2xl border px-3 py-2.5 text-left text-[11px] font-bold leading-none transition-all duration-300",
             selectedPaymentMethod.value === method.code ? "border-[#6d4cff] bg-[#6d4cff]/10 text-[#6d4cff] shadow-[0_10px_30px_rgba(109,76,255,0.16)]" : "border-gray-200 dark:border-white/5 bg-white dark:bg-black/20 text-gray-400 dark:text-white/40 hover:border-[#6d4cff]/50 hover:text-gray-900 dark:hover:text-white hover:bg-white dark:hover:bg-white/5"
-          ])}" data-v-e14d255f>`);
+          ])}" data-v-6c2bc662>`);
           if (method.iconUrl) {
-            _push(`<img${ssrRenderAttr("src", method.iconUrl)}${ssrRenderAttr("alt", method.name)} class="h-4 w-4 shrink-0 rounded-sm bg-white/90 p-0.5 object-contain" data-v-e14d255f>`);
+            _push(`<img${ssrRenderAttr("src", method.iconUrl)}${ssrRenderAttr("alt", method.name)} class="h-4 w-4 shrink-0 rounded-sm bg-white/90 p-0.5 object-contain" data-v-6c2bc662>`);
           } else {
             _push(ssrRenderComponent(_component_UIcon, {
               name: "ph:credit-card-bold",
               class: "h-4 w-4 shrink-0"
             }, null, _parent));
           }
-          _push(`<span class="min-w-0 truncate" data-v-e14d255f>${ssrInterpolate(method.name)}</span></button>`);
+          _push(`<span class="min-w-0 truncate" data-v-6c2bc662>${ssrInterpolate(method.name)}</span></button>`);
         });
         _push(`<!--]--></div></div>`);
       } else {
@@ -16495,52 +16731,52 @@ const _sfc_main$w = /* @__PURE__ */ defineComponent({
       }
       _push(`</div>`);
       if (availablePaymentMethods.value.length <= 1 && selectedPaymentMethod.value) {
-        _push(`<div class="mt-3 inline-flex max-w-full items-center gap-1.5 rounded-full bg-gray-100 px-3 py-1 text-[10px] font-medium text-gray-500 dark:bg-white/5 dark:text-white/40" data-v-e14d255f>`);
+        _push(`<div class="mt-3 inline-flex max-w-full items-center gap-1.5 rounded-full bg-gray-100 px-3 py-1 text-[10px] font-medium text-gray-500 dark:bg-white/5 dark:text-white/40" data-v-6c2bc662>`);
         _push(ssrRenderComponent(_component_UIcon, {
           name: "ph:credit-card-bold",
           class: "h-3.5 w-3.5 shrink-0"
         }, null, _parent));
-        _push(`<span class="min-w-0 truncate" data-v-e14d255f>${ssrInterpolate(selectedMethodLabel.value)}</span></div>`);
+        _push(`<span class="min-w-0 truncate" data-v-6c2bc662>${ssrInterpolate(selectedMethodLabel.value)}</span></div>`);
       } else {
         _push(`<!---->`);
       }
-      _push(`</aside><div id="payment-info-container" class="min-h-[240px]" data-v-e14d255f>`);
+      _push(`</aside><div id="payment-info-container" class="min-h-[240px]" data-v-6c2bc662>`);
       if (isFetchingPaymentInfo.value) {
-        _push(`<div class="flex flex-col items-center justify-center py-12 gap-4" data-v-e14d255f>`);
+        _push(`<div class="flex flex-col items-center justify-center py-12 gap-4" data-v-6c2bc662>`);
         _push(ssrRenderComponent(_component_UIcon, {
           name: "ph:spinner-gap-bold",
           class: "w-10 h-10 animate-spin text-[#6d4cff]"
         }, null, _parent));
-        _push(`<p class="text-[10px] font-bold uppercase tracking-widest text-gray-400 dark:text-white/20" data-v-e14d255f>${ssrInterpolate(_ctx.$t("site.payment.workspaceInitialisingGateway"))}</p></div>`);
+        _push(`<p class="text-[10px] font-bold uppercase tracking-widest text-gray-400 dark:text-white/20" data-v-6c2bc662>${ssrInterpolate(_ctx.$t("site.payment.workspaceInitialisingGateway"))}</p></div>`);
       } else if (!paymentInfoContent.value && !qrCodeImageUrl.value) {
-        _push(`<div class="text-center py-16 px-10 rounded-[32px] border border-dashed border-gray-200 dark:border-white/10" data-v-e14d255f>`);
+        _push(`<div class="text-center py-16 px-10 rounded-[32px] border border-dashed border-gray-200 dark:border-white/10" data-v-6c2bc662>`);
         _push(ssrRenderComponent(_component_UIcon, {
           name: "ph:warning-circle-duotone",
           class: "w-12 h-12 text-gray-300 dark:text-white/10 mx-auto mb-4"
         }, null, _parent));
-        _push(`<p class="text-gray-400 dark:text-white/40 text-sm font-medium" data-v-e14d255f>${ssrInterpolate(_ctx.$t("site.payment.workspaceNoMethods"))}</p></div>`);
+        _push(`<p class="text-gray-400 dark:text-white/40 text-sm font-medium" data-v-6c2bc662>${ssrInterpolate(_ctx.$t("site.payment.workspaceNoMethods"))}</p></div>`);
       } else if (hasQrAndContent.value) {
-        _push(`<div class="space-y-4" data-v-e14d255f><div class="lg:hidden flex rounded-[20px] border border-gray-100 dark:border-white/8 bg-gray-50 dark:bg-black/20 p-1.5" data-v-e14d255f><button type="button" class="${ssrRenderClass([activePanel.value === "qr" ? "bg-white dark:bg-white/10 text-[#6d4cff] dark:text-white shadow-sm" : "text-gray-400 dark:text-white/40 hover:text-gray-900 dark:hover:text-white", "flex-1 rounded-2xl px-3 py-2.5 text-xs font-bold tracking-[0.08em] transition-all"])}" data-v-e14d255f>${ssrInterpolate(_ctx.$t("site.payment.workspaceScanToPay"))}</button><button type="button" class="${ssrRenderClass([activePanel.value === "details" ? "bg-white dark:bg-white/10 text-[#6d4cff] dark:text-white shadow-sm" : "text-gray-400 dark:text-white/40 hover:text-gray-900 dark:hover:text-white", "flex-1 rounded-2xl px-3 py-2.5 text-xs font-bold tracking-[0.08em] transition-all"])}" data-v-e14d255f>${ssrInterpolate(selectedMethodLabel.value)}</button></div><div class="flex flex-col gap-5 lg:grid lg:grid-cols-[280px,minmax(0,1fr)]" data-v-e14d255f><section class="${ssrRenderClass([{ "max-lg:hidden": activePanel.value !== "qr" }, "rounded-[28px] border border-gray-100 dark:border-white/10 bg-white dark:bg-black/30 p-6 shadow-inner"])}" data-v-e14d255f><div class="flex flex-col items-center text-center" data-v-e14d255f><p class="mb-3 text-[10px] font-bold uppercase tracking-[0.24em] text-gray-400 dark:text-white/20" data-v-e14d255f>${ssrInterpolate(_ctx.$t("site.payment.workspaceScanToPay"))}</p><div class="rounded-[24px] bg-white p-4 shadow-sm ring-1 ring-gray-100" data-v-e14d255f><img${ssrRenderAttr("src", qrCodeImageUrl.value)}${ssrRenderAttr("alt", _ctx.$t("site.payment.workspaceScanToPay"))} class="h-52 w-52 object-contain" data-v-e14d255f></div><p class="mt-4 text-sm font-medium text-gray-700 dark:text-white/80" data-v-e14d255f>${ssrInterpolate(qrCodeHint.value || _ctx.$t("site.payment.workspaceQrHint"))}</p>`);
+        _push(`<div class="space-y-4" data-v-6c2bc662><div class="lg:hidden flex rounded-[20px] border border-gray-100 dark:border-white/8 bg-gray-50 dark:bg-black/20 p-1.5" data-v-6c2bc662><button type="button" class="${ssrRenderClass([activePanel.value === "qr" ? "bg-white dark:bg-white/10 text-[#6d4cff] dark:text-white shadow-sm" : "text-gray-400 dark:text-white/40 hover:text-gray-900 dark:hover:text-white", "flex-1 rounded-2xl px-3 py-2.5 text-xs font-bold tracking-[0.08em] transition-all"])}" data-v-6c2bc662>${ssrInterpolate(_ctx.$t("site.payment.workspaceScanToPay"))}</button><button type="button" class="${ssrRenderClass([activePanel.value === "details" ? "bg-white dark:bg-white/10 text-[#6d4cff] dark:text-white shadow-sm" : "text-gray-400 dark:text-white/40 hover:text-gray-900 dark:hover:text-white", "flex-1 rounded-2xl px-3 py-2.5 text-xs font-bold tracking-[0.08em] transition-all"])}" data-v-6c2bc662>${ssrInterpolate(selectedMethodLabel.value)}</button></div><div class="flex flex-col gap-5 lg:grid lg:grid-cols-[280px,minmax(0,1fr)]" data-v-6c2bc662><section class="${ssrRenderClass([{ "max-lg:hidden": activePanel.value !== "qr" }, "rounded-[28px] border border-gray-100 dark:border-white/10 bg-white dark:bg-black/30 p-6 shadow-inner"])}" data-v-6c2bc662><div class="flex flex-col items-center text-center" data-v-6c2bc662><p class="mb-3 text-[10px] font-bold uppercase tracking-[0.24em] text-gray-400 dark:text-white/20" data-v-6c2bc662>${ssrInterpolate(_ctx.$t("site.payment.workspaceScanToPay"))}</p><div class="rounded-[24px] bg-white p-4 shadow-sm ring-1 ring-gray-100" data-v-6c2bc662><img${ssrRenderAttr("src", qrCodeImageUrl.value)}${ssrRenderAttr("alt", _ctx.$t("site.payment.workspaceScanToPay"))} class="h-52 w-52 object-contain" data-v-6c2bc662></div><p class="mt-4 text-sm font-medium text-gray-700 dark:text-white/80" data-v-6c2bc662>${ssrInterpolate(qrCodeHint.value || _ctx.$t("site.payment.workspaceQrHint"))}</p>`);
         if (qrCodeLink.value) {
-          _push(`<a${ssrRenderAttr("href", qrCodeLink.value)} target="_blank" rel="noopener noreferrer" class="mt-3 text-sm font-semibold text-[#6d4cff] transition-colors hover:text-[#5a3fe0]" data-v-e14d255f>${ssrInterpolate(_ctx.$t("site.payment.workspaceOpenPaymentLink"))}</a>`);
+          _push(`<a${ssrRenderAttr("href", qrCodeLink.value)} target="_blank" rel="noopener noreferrer" class="mt-3 text-sm font-semibold text-[#6d4cff] transition-colors hover:text-[#5a3fe0]" data-v-6c2bc662>${ssrInterpolate(_ctx.$t("site.payment.workspaceOpenPaymentLink"))}</a>`);
         } else {
           _push(`<!---->`);
         }
-        _push(`</div></section><section class="${ssrRenderClass([{ "max-lg:hidden": activePanel.value !== "details" }, "rounded-[28px] border border-gray-100 dark:border-white/10 bg-white dark:bg-black/20 p-4 shadow-inner"])}" data-v-e14d255f><div class="mb-3 flex items-center justify-between gap-3 px-2" data-v-e14d255f><div class="min-w-0" data-v-e14d255f><p class="text-[10px] font-bold uppercase tracking-[0.24em] text-gray-400 dark:text-white/20" data-v-e14d255f>${ssrInterpolate(selectedMethodLabel.value)}</p></div></div><div class="payment-html-wrapper payment-html-panel w-full rounded-[24px] overflow-hidden" data-v-e14d255f>${paymentInfoContent.value ?? ""}</div></section></div></div>`);
+        _push(`</div></section><section class="${ssrRenderClass([{ "max-lg:hidden": activePanel.value !== "details" }, "rounded-[28px] border border-gray-100 dark:border-white/10 bg-white dark:bg-black/20 p-4 shadow-inner"])}" data-v-6c2bc662><div class="mb-3 flex items-center justify-between gap-3 px-2" data-v-6c2bc662><div class="min-w-0" data-v-6c2bc662><p class="text-[10px] font-bold uppercase tracking-[0.24em] text-gray-400 dark:text-white/20" data-v-6c2bc662>${ssrInterpolate(selectedMethodLabel.value)}</p></div></div><div class="payment-html-wrapper payment-html-panel w-full rounded-[24px] overflow-hidden" data-v-6c2bc662>${paymentInfoContent.value ?? ""}</div></section></div></div>`);
       } else if (qrCodeImageUrl.value) {
-        _push(`<div class="rounded-[28px] border border-gray-100 dark:border-white/10 bg-white dark:bg-black/30 p-6 shadow-inner" data-v-e14d255f><div class="flex flex-col items-center text-center" data-v-e14d255f><p class="mb-3 text-[10px] font-bold uppercase tracking-[0.24em] text-gray-400 dark:text-white/20" data-v-e14d255f>${ssrInterpolate(_ctx.$t("site.payment.workspaceScanToPay"))}</p><div class="rounded-[24px] bg-white p-4 shadow-sm ring-1 ring-gray-100" data-v-e14d255f><img${ssrRenderAttr("src", qrCodeImageUrl.value)}${ssrRenderAttr("alt", _ctx.$t("site.payment.workspaceScanToPay"))} class="h-52 w-52 object-contain" data-v-e14d255f></div><p class="mt-4 text-sm font-medium text-gray-700 dark:text-white/80" data-v-e14d255f>${ssrInterpolate(qrCodeHint.value || _ctx.$t("site.payment.workspaceQrHint"))}</p>`);
+        _push(`<div class="rounded-[28px] border border-gray-100 dark:border-white/10 bg-white dark:bg-black/30 p-6 shadow-inner" data-v-6c2bc662><div class="flex flex-col items-center text-center" data-v-6c2bc662><p class="mb-3 text-[10px] font-bold uppercase tracking-[0.24em] text-gray-400 dark:text-white/20" data-v-6c2bc662>${ssrInterpolate(_ctx.$t("site.payment.workspaceScanToPay"))}</p><div class="rounded-[24px] bg-white p-4 shadow-sm ring-1 ring-gray-100" data-v-6c2bc662><img${ssrRenderAttr("src", qrCodeImageUrl.value)}${ssrRenderAttr("alt", _ctx.$t("site.payment.workspaceScanToPay"))} class="h-52 w-52 object-contain" data-v-6c2bc662></div><p class="mt-4 text-sm font-medium text-gray-700 dark:text-white/80" data-v-6c2bc662>${ssrInterpolate(qrCodeHint.value || _ctx.$t("site.payment.workspaceQrHint"))}</p>`);
         if (qrCodeLink.value) {
-          _push(`<a${ssrRenderAttr("href", qrCodeLink.value)} target="_blank" rel="noopener noreferrer" class="mt-3 text-sm font-semibold text-[#6d4cff] transition-colors hover:text-[#5a3fe0]" data-v-e14d255f>${ssrInterpolate(_ctx.$t("site.payment.workspaceOpenPaymentLink"))}</a>`);
+          _push(`<a${ssrRenderAttr("href", qrCodeLink.value)} target="_blank" rel="noopener noreferrer" class="mt-3 text-sm font-semibold text-[#6d4cff] transition-colors hover:text-[#5a3fe0]" data-v-6c2bc662>${ssrInterpolate(_ctx.$t("site.payment.workspaceOpenPaymentLink"))}</a>`);
         } else {
           _push(`<!---->`);
         }
         _push(`</div></div>`);
       } else if (paymentInfoContent.value) {
-        _push(`<div class="payment-html-wrapper payment-html-panel w-full rounded-[32px] overflow-hidden" data-v-e14d255f>${paymentInfoContent.value ?? ""}</div>`);
+        _push(`<div class="payment-html-wrapper payment-html-panel w-full rounded-[32px] overflow-hidden" data-v-6c2bc662>${paymentInfoContent.value ?? ""}</div>`);
       } else {
         _push(`<!---->`);
       }
-      _push(`</div></div><div class="relative z-10 mt-8 text-center" data-v-e14d255f><p class="px-2 text-[10px] leading-5 text-gray-400 dark:text-white/18" data-v-e14d255f>${ssrInterpolate(_ctx.$t("site.payment.workspaceSecurityHint"))}</p></div></div>`);
+      _push(`</div></div><div class="relative z-10 mt-8 text-center" data-v-6c2bc662><p class="px-2 text-[10px] leading-5 text-gray-400 dark:text-white/18" data-v-6c2bc662>${ssrInterpolate(_ctx.$t("site.payment.workspaceSecurityHint"))}</p></div></div>`);
     };
   }
 });
@@ -16557,7 +16793,7 @@ _sfc_main$w.setup = (props, ctx) => {
   (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("components/PaymentWorkspace.vue");
   return _sfc_setup$w ? _sfc_setup$w(props, ctx) : void 0;
 };
-const __nuxt_component_1$1 = /* @__PURE__ */ Object.assign(_export_sfc(_sfc_main$w, [["__scopeId", "data-v-e14d255f"]]), { __name: "PaymentWorkspace" });
+const __nuxt_component_1$1 = /* @__PURE__ */ Object.assign(_export_sfc(_sfc_main$w, [["__scopeId", "data-v-6c2bc662"]]), { __name: "PaymentWorkspace" });
 const normalizeCurrencyCode$1 = (value, fallback = "") => {
   const currency = String(value || "").trim().toUpperCase();
   return /^[A-Z]{3}$/.test(currency) ? currency : fallback;
@@ -18690,7 +18926,8 @@ const _sfc_main$r = /* @__PURE__ */ defineComponent({
     quantity: {},
     amount: {},
     orderId: {},
-    metaData: {}
+    metaData: {},
+    preferredMethodCode: {}
   },
   setup(__props, { expose: __expose }) {
     const props = __props;
@@ -18745,6 +18982,7 @@ const _sfc_main$r = /* @__PURE__ */ defineComponent({
                 amount: activeAmount.value,
                 currency: activeCurrency.value,
                 quantity: __props.quantity,
+                "preferred-method-code": __props.preferredMethodCode,
                 closable: "",
                 onClose: unref(closeCheckoutModal),
                 onSuccess: handlePaymentSuccess
@@ -18760,10 +18998,11 @@ const _sfc_main$r = /* @__PURE__ */ defineComponent({
                 amount: activeAmount.value,
                 currency: activeCurrency.value,
                 quantity: __props.quantity,
+                "preferred-method-code": __props.preferredMethodCode,
                 closable: "",
                 onClose: unref(closeCheckoutModal),
                 onSuccess: handlePaymentSuccess
-              }, null, 8, ["order-id", "amount", "currency", "quantity", "onClose"])) : createCommentVNode("", true)
+              }, null, 8, ["order-id", "amount", "currency", "quantity", "preferred-method-code", "onClose"])) : createCommentVNode("", true)
             ];
           }
         }),
@@ -18866,6 +19105,43 @@ const _sfc_main$q = /* @__PURE__ */ defineComponent({
     )), __temp = await __temp, __restore(), __temp);
     const product = computed(() => getLocalizedProduct(productData.value));
     useProductJsonLd("core-product", product);
+    const originalPrice = computed(() => {
+      const meta = product.value?.metaData;
+      const orig = Number(meta?.original_price || meta?.compare_at_price);
+      return Number.isFinite(orig) && orig > (product.value?.price || 0) ? orig : null;
+    });
+    const volumeDiscounts = computed(() => {
+      const meta = product.value?.metaData;
+      const list = meta?.volume_discounts;
+      if (!Array.isArray(list)) return [];
+      return list.filter((tier) => {
+        const q = Number(tier.minQuantity || tier.min_quantity);
+        const r = Number(tier.discountRate || tier.discount_rate);
+        return Number.isFinite(q) && q > 1 && Number.isFinite(r) && r > 0 && r < 1;
+      }).sort((a, b) => Number(a.minQuantity || a.min_quantity) - Number(b.minQuantity || b.min_quantity));
+    });
+    const currentVolumeDiscount = computed(() => {
+      const currentQty = quantity.value;
+      let bestRate = 1;
+      for (const tier of volumeDiscounts.value) {
+        const q = Number(tier.minQuantity || tier.min_quantity);
+        const r = Number(tier.discountRate || tier.discount_rate);
+        if (currentQty >= q && r < bestRate) {
+          bestRate = r;
+        }
+      }
+      return bestRate < 1 ? bestRate : null;
+    });
+    const currentUnitPrice = computed(() => {
+      const basePrice = product.value?.price || 0;
+      if (currentVolumeDiscount.value) {
+        return Number((basePrice * currentVolumeDiscount.value).toFixed(4));
+      }
+      return basePrice;
+    });
+    const totalPayableAmount = computed(() => {
+      return Number((currentUnitPrice.value * quantity.value).toFixed(4));
+    });
     return (_ctx, _push, _parent, _attrs) => {
       const _component_UCarousel = _sfc_main$t;
       const _component_UIcon = _sfc_main$G;
@@ -18910,11 +19186,48 @@ const _sfc_main$q = /* @__PURE__ */ defineComponent({
           }, null, _parent));
           _push(`</div>`);
         }
-        _push(`</div></div><div${ssrRenderAttrs(mergeProps({ class: "flex flex-col justify-center" }, ssrGetDirectiveProps(_ctx, _directive_motion_slide_visible_right)))}><h1 class="text-4xl md:text-5xl font-bold text-white mb-6">${ssrInterpolate(product.value.name)}</h1><div class="border-l-4 border-purple-500 pl-4 mb-8"><div class="text-5xl font-bold text-white">${ssrInterpolate(unref(formatAmount)(product.value.price))}</div></div><div class="flex items-center gap-4 mb-8"><div class="flex items-center border border-gray-700 rounded-lg overflow-hidden"><button class="px-4 py-2 hover:bg-gray-800 text-gray-400 transition-colors">-</button><span class="px-4 py-2 border-x border-gray-700 font-medium">${ssrInterpolate(quantity.value)}</span><button class="px-4 py-2 hover:bg-gray-800 text-gray-400 transition-colors">+</button></div></div>`);
+        _push(`</div></div><div${ssrRenderAttrs(mergeProps({ class: "flex flex-col justify-center" }, ssrGetDirectiveProps(_ctx, _directive_motion_slide_visible_right)))}><h1 class="text-4xl md:text-5xl font-bold text-white mb-6">${ssrInterpolate(product.value.name)}</h1><div class="border-l-4 border-purple-500 pl-4 mb-6"><div class="flex items-baseline gap-3 flex-wrap"><div class="text-4xl md:text-5xl font-bold text-white">${ssrInterpolate(unref(formatAmount)(currentUnitPrice.value))}</div>`);
+        if (originalPrice.value) {
+          _push(`<div class="text-xl md:text-2xl text-gray-500 line-through font-medium">${ssrInterpolate(unref(formatAmount)(originalPrice.value))}</div>`);
+        } else {
+          _push(`<!---->`);
+        }
+        if (originalPrice.value) {
+          _push(`<span class="px-2 py-0.5 rounded text-xs font-bold bg-rose-500/20 text-rose-400 border border-rose-500/30">${ssrInterpolate(_ctx.$t("site.core.product.savePercent", { percent: Math.round((1 - product.value.price / originalPrice.value) * 100) }))}</span>`);
+        } else {
+          _push(`<!---->`);
+        }
+        _push(`</div>`);
+        if (currentVolumeDiscount.value) {
+          _push(`<p class="text-xs text-purple-400 mt-2 font-medium flex items-center gap-1">`);
+          _push(ssrRenderComponent(_component_UIcon, {
+            name: "ph:check-circle-bold",
+            class: "w-3.5 h-3.5"
+          }, null, _parent));
+          _push(` ${ssrInterpolate(_ctx.$t("site.core.product.volumeTierApplied", { discount: Math.round((1 - currentVolumeDiscount.value) * 100) }))}</p>`);
+        } else {
+          _push(`<!---->`);
+        }
+        _push(`</div>`);
+        if (volumeDiscounts.value.length > 0) {
+          _push(`<div class="mb-6 p-4 rounded-2xl bg-purple-950/20 border border-purple-500/20"><div class="text-xs font-semibold uppercase tracking-wider text-purple-300 mb-2.5 flex items-center gap-1.5">`);
+          _push(ssrRenderComponent(_component_UIcon, {
+            name: "ph:tag-bold",
+            class: "w-3.5 h-3.5 text-purple-400"
+          }, null, _parent));
+          _push(` ${ssrInterpolate(_ctx.$t("site.core.product.volumeDiscountsTitle"))}</div><div class="grid grid-cols-2 sm:grid-cols-3 gap-2"><!--[-->`);
+          ssrRenderList(volumeDiscounts.value, (tier) => {
+            _push(`<div class="${ssrRenderClass([quantity.value >= (tier.minQuantity || tier.min_quantity) ? "border-purple-500 bg-purple-500/15 text-white font-medium ring-1 ring-purple-500/50" : "border-gray-800 bg-gray-900/60 text-gray-400 hover:border-gray-700", "p-2.5 rounded-xl text-xs border transition-all cursor-pointer"])}"><div class="font-bold text-gray-200">≥ ${ssrInterpolate(tier.minQuantity || tier.min_quantity)} ${ssrInterpolate(_ctx.$t("site.core.product.units"))}</div><div class="text-purple-400 mt-0.5 font-medium">${ssrInterpolate(unref(formatAmount)(product.value.price * (tier.discountRate || tier.discount_rate)))} <span class="text-[10px] text-purple-300/80">(-${ssrInterpolate(Math.round((1 - (tier.discountRate || tier.discount_rate)) * 100))}%)</span></div></div>`);
+          });
+          _push(`<!--]--></div></div>`);
+        } else {
+          _push(`<!---->`);
+        }
+        _push(`<div class="flex items-center gap-4 mb-8"><div class="flex items-center border border-gray-700 rounded-lg overflow-hidden"><button class="px-4 py-2 hover:bg-gray-800 text-gray-400 transition-colors">-</button><span class="px-4 py-2 border-x border-gray-700 font-medium">${ssrInterpolate(quantity.value)}</span><button class="px-4 py-2 hover:bg-gray-800 text-gray-400 transition-colors">+</button></div></div>`);
         _push(ssrRenderComponent(_component_PaymentModal, {
           "product-id": product.value.id,
           quantity: quantity.value,
-          amount: unref(convertAmount)(product.value.price * quantity.value)
+          amount: unref(convertAmount)(totalPayableAmount.value)
         }, {
           trigger: withCtx(({ loading, open }, _push2, _parent2, _scopeId) => {
             if (_push2) {
@@ -23375,7 +23688,7 @@ const corePageModules = /* @__PURE__ */ Object.assign({
   "../core/pages/user/tokens/index.vue": __vite_glob_0_10
 });
 const themePageModules = {
-  .../* @__PURE__ */ Object.assign({ "../themes/hoxi/pages/about.vue": () => import('./about-BLag21x-.mjs'), "../themes/hoxi/pages/blog/[slug].vue": () => import('./_slug_-ePrto3l-.mjs'), "../themes/hoxi/pages/blog/index.vue": () => import('./index-BH1u9qkN.mjs'), "../themes/hoxi/pages/coding-plans/[slug].vue": () => import('./_slug_-B_LVExB1.mjs'), "../themes/hoxi/pages/coding-plans/index.vue": () => import('./index-HvQ01FU2.mjs'), "../themes/hoxi/pages/compare.vue": () => import('./compare-nmSOALhB.mjs'), "../themes/hoxi/pages/gateways/[slug].vue": () => import('./_slug_-CgypLMuU.mjs'), "../themes/hoxi/pages/gateways/index.vue": () => import('./index-Br1CCbrm.mjs'), "../themes/hoxi/pages/index.vue": () => import('./index-BZiT_Oqr.mjs'), "../themes/hoxi/pages/models/[slug].vue": () => import('./_slug_-DSbY7eRt.mjs'), "../themes/hoxi/pages/models/index.vue": () => import('./index-BhLev_D8.mjs'), "../themes/hoxi/pages/projects.vue": () => import('./projects-BvePkOSL.mjs'), "../themes/hoxi/pages/readiness.vue": () => import('./readiness-BKhwb_Uv.mjs'), "../themes/hoxi/pages/refactoring-the-self.vue": () => import('./refactoring-the-self-CS9Tfiv9.mjs'), "../themes/hoxi/pages/savings.vue": () => import('./savings-CGml1mNE.mjs'), "../themes/hoxi/pages/tools.vue": () => import('./tools-CLG55Pbp.mjs') })
+  .../* @__PURE__ */ Object.assign({ "../themes/hoxi/pages/about.vue": () => import('./about-v-mYyuAm.mjs'), "../themes/hoxi/pages/blog/[slug].vue": () => import('./_slug_-DCvqK7yf.mjs'), "../themes/hoxi/pages/blog/index.vue": () => import('./index-CL_R_2hR.mjs'), "../themes/hoxi/pages/coding-plans/[slug].vue": () => import('./_slug_-PiiEChV_.mjs'), "../themes/hoxi/pages/coding-plans/index.vue": () => import('./index-Dqn2vSTq.mjs'), "../themes/hoxi/pages/compare.vue": () => import('./compare-5zYldfrE.mjs'), "../themes/hoxi/pages/gateways/[slug].vue": () => import('./_slug_-BzsA1cUO.mjs'), "../themes/hoxi/pages/gateways/index.vue": () => import('./index-D7ZXHX0r.mjs'), "../themes/hoxi/pages/index.vue": () => import('./index-B0TQqTFt.mjs'), "../themes/hoxi/pages/models/[slug].vue": () => import('./_slug_-Df1qAiIV.mjs'), "../themes/hoxi/pages/models/index.vue": () => import('./index-B21kcVRg.mjs'), "../themes/hoxi/pages/projects.vue": () => import('./projects-C4efzB4p.mjs'), "../themes/hoxi/pages/readiness.vue": () => import('./readiness-BNZ-GujA.mjs'), "../themes/hoxi/pages/refactoring-the-self.vue": () => import('./refactoring-the-self-CpqQ3vSM.mjs'), "../themes/hoxi/pages/savings.vue": () => import('./savings-Bt9vHlnz.mjs'), "../themes/hoxi/pages/tools.vue": () => import('./tools-CSXRlUM_.mjs') })
 };
 const themeAdminManifestModules = {
   .../* @__PURE__ */ Object.assign({
@@ -23383,7 +23696,7 @@ const themeAdminManifestModules = {
   })
 };
 const themeAdminPageModules = {
-  .../* @__PURE__ */ Object.assign({ "../themes/hoxi/admin/pages/cheap.vue": () => import('./cheap-CFHDXEAr.mjs'), "../themes/hoxi/admin/pages/coding-plans.vue": () => import('./coding-plans-Gze4HGNg.mjs'), "../themes/hoxi/admin/pages/models.vue": () => import('./models-CakfMRlB.mjs'), "../themes/hoxi/admin/pages/projects.vue": () => import('./projects-D1v_GwL5.mjs'), "../themes/hoxi/admin/pages/tools.vue": () => import('./tools-COiXqUrX.mjs') })
+  .../* @__PURE__ */ Object.assign({ "../themes/hoxi/admin/pages/cheap.vue": () => import('./cheap-DgvWLSVR.mjs'), "../themes/hoxi/admin/pages/coding-plans.vue": () => import('./coding-plans-C344D81t.mjs'), "../themes/hoxi/admin/pages/models.vue": () => import('./models-cq_QBUtx.mjs'), "../themes/hoxi/admin/pages/projects.vue": () => import('./projects-YVEzVrwr.mjs'), "../themes/hoxi/admin/pages/tools.vue": () => import('./tools-D3Z-ijaj.mjs') })
 };
 const themeAdminLocaleEnModules = {
   .../* @__PURE__ */ Object.assign({
@@ -23396,7 +23709,7 @@ const themeAdminLocaleZhModules = {
   })
 };
 const themeLayoutLoaders = {
-  "hoxi": () => import('./default-DNgPxVvb.mjs')
+  "hoxi": () => import('./default-CqnMlfvi.mjs')
 };
 const schemaVersion$3 = 1;
 const id$3 = "apps";
@@ -28475,20 +28788,33 @@ const admin_45auth_45global = /* @__PURE__ */ defineNuxtRouteMiddleware(async (t
   let __temp, __restore;
   const path = stripLocalePrefix(to.path);
   const isAdminRoute = path.startsWith("/admin");
-  const isPublicAdminRoute = path === "/admin/login" || path === "/admin/setup" || path === "/admin/logout" || path === "/admin/profile";
+  const isAnonymousAdminRoute = path === "/admin/login" || path === "/admin/setup" || path === "/admin/logout";
   if (!isAdminRoute) return;
   const { admin: adminRef, loadAdmin } = useAdminSession();
   [__temp, __restore] = executeAsync(() => loadAdmin()), await __temp, __restore();
   const admin = adminRef.value;
   if (!admin) {
-    if (isPublicAdminRoute) return;
+    if (isAnonymousAdminRoute) return;
     return navigateTo({
       path: "/admin/login",
       query: { redirect: to.fullPath },
       replace: true
     });
   }
-  if (isPublicAdminRoute) return;
+  if (path === "/admin/login") {
+    const { fetchSettings: fetchSettings2 } = useSettings();
+    [__temp, __restore] = executeAsync(() => fetchSettings2()), await __temp, __restore();
+    const { extensionPermissionDefs: extensionPermissionDefs2 } = useAdminExtensions();
+    const redirectQuery = to.query.redirect;
+    let target = "";
+    if (typeof redirectQuery === "string" && redirectQuery.startsWith("/admin") && !redirectQuery.startsWith("/admin/login") && redirectQuery !== "/admin/logout" && isRouteAllowedForAdmin(redirectQuery.split("?")[0], admin, extensionPermissionDefs2.value)) {
+      target = redirectQuery;
+    } else {
+      target = firstAllowedAdminRoute(admin, extensionPermissionDefs2.value) || (!adminHasAnyRouteAccess(admin) ? "/admin/profile" : "/admin/dashboard");
+    }
+    return navigateTo(target, { replace: true });
+  }
+  if (path === "/admin/profile" || path === "/admin/logout" || path === "/admin/setup") return;
   if (!adminHasAnyRouteAccess(admin)) {
     return navigateTo("/admin/profile", { replace: true });
   }
@@ -29081,65 +29407,66 @@ const plugin_MeUvTuoKUi51yb_kBguab6hdcExVXeTtZtTg9TZZBB8 = /* @__PURE__ */ defin
   // For type portability
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
 });
-const LazyHoxiCommunityModal = defineAsyncComponent(() => import('./HoxiCommunityModal-Bx7XbdmE.mjs').then((r) => r["default"] || r.default || r));
+const LazyHoxiComment = defineAsyncComponent(() => import('./HoxiComment-CEX2CAX5.mjs').then((r) => r["default"] || r.default || r));
+const LazyHoxiCommunityModal = defineAsyncComponent(() => import('./HoxiCommunityModal-Bz6S1jIj.mjs').then((r) => r["default"] || r.default || r));
 const LazyHoxiContainer = defineAsyncComponent(() => import('./HoxiContainer-DDAEb0_Y.mjs').then((r) => r["default"] || r.default || r));
-const LazyHoxiHairlineLink = defineAsyncComponent(() => import('./HoxiHairlineLink-6_pMzXOE.mjs').then((r) => r["default"] || r.default || r));
-const LazyHoxiHomeReadiness = defineAsyncComponent(() => import('./HoxiHomeReadiness-Puy910we.mjs').then((r) => r["default"] || r.default || r));
-const LazyHoxiHomeSavingsCard = defineAsyncComponent(() => import('./HoxiHomeSavingsCard-DBxvtDT8.mjs').then((r) => r["default"] || r.default || r));
-const LazyHoxiHomeTools = defineAsyncComponent(() => import('./HoxiHomeTools-CpKdu8wu.mjs').then((r) => r["default"] || r.default || r));
+const LazyHoxiHairlineLink = defineAsyncComponent(() => import('./HoxiHairlineLink-CkLNDE1a.mjs').then((r) => r["default"] || r.default || r));
+const LazyHoxiHomeReadiness = defineAsyncComponent(() => import('./HoxiHomeReadiness-BOLwZmZC.mjs').then((r) => r["default"] || r.default || r));
+const LazyHoxiHomeSavingsCard = defineAsyncComponent(() => import('./HoxiHomeSavingsCard-D1R8qSHI.mjs').then((r) => r["default"] || r.default || r));
+const LazyHoxiHomeTools = defineAsyncComponent(() => import('./HoxiHomeTools-CD1J38ie.mjs').then((r) => r["default"] || r.default || r));
 const LazyHoxiLogoIcon = defineAsyncComponent(() => import('./HoxiLogoIcon-ApHSqyZj.mjs').then((r) => r["default"] || r.default || r));
 const LazyHoxiMeta = defineAsyncComponent(() => import('./HoxiMeta-BgAl7LvM.mjs').then((r) => r["default"] || r.default || r));
-const LazyHoxiModelCard = defineAsyncComponent(() => import('./HoxiModelCard-DwKfQeS-.mjs').then((r) => r["default"] || r.default || r));
-const LazyHoxiModelFilters = defineAsyncComponent(() => import('./HoxiModelFilters-DXBK5Ooy.mjs').then((r) => r["default"] || r.default || r));
-const LazyHoxiModelMini = defineAsyncComponent(() => import('./HoxiModelMini-BtpAtTWT.mjs').then((r) => r["default"] || r.default || r));
-const LazyHoxiModelTable = defineAsyncComponent(() => import('./HoxiModelTable-Dof6s14v.mjs').then((r) => r["default"] || r.default || r));
+const LazyHoxiModelCard = defineAsyncComponent(() => import('./HoxiModelCard-DxYoFVYM.mjs').then((r) => r["default"] || r.default || r));
+const LazyHoxiModelFilters = defineAsyncComponent(() => import('./HoxiModelFilters-vv7nXdSN.mjs').then((r) => r["default"] || r.default || r));
+const LazyHoxiModelMini = defineAsyncComponent(() => import('./HoxiModelMini-BynQ_p25.mjs').then((r) => r["default"] || r.default || r));
+const LazyHoxiModelTable = defineAsyncComponent(() => import('./HoxiModelTable-DwZJPd_S.mjs').then((r) => r["default"] || r.default || r));
 const LazyHoxiPageHeader = defineAsyncComponent(() => import('./HoxiPageHeader-BFh30DFm.mjs').then((r) => r["default"] || r.default || r));
 const LazyHoxiParticleCanvas = defineAsyncComponent(() => import('./HoxiParticleCanvas-DZb1T7vk.mjs').then((r) => r["default"] || r.default || r));
 const LazyHoxiParticleHero = defineAsyncComponent(() => import('./HoxiParticleHero-C65EeQIv.mjs').then((r) => r["default"] || r.default || r));
-const LazyHoxiPostItem = defineAsyncComponent(() => import('./HoxiPostItem-CH3q02Lx.mjs').then((r) => r["default"] || r.default || r));
+const LazyHoxiPostItem = defineAsyncComponent(() => import('./HoxiPostItem-CqoOwlVj.mjs').then((r) => r["default"] || r.default || r));
 const LazyHoxiReadinessProgress = defineAsyncComponent(() => import('./HoxiReadinessProgress-D7zePPDj.mjs').then((r) => r["default"] || r.default || r));
 const LazyHoxiReadinessQuestion = defineAsyncComponent(() => import('./HoxiReadinessQuestion-CwH_pQJv.mjs').then((n) => n.H).then((r) => r["default"] || r.default || r));
-const LazyHoxiReadinessRadar = defineAsyncComponent(() => import('./HoxiReadinessRadar-DF8OyK5K.mjs').then((r) => r["default"] || r.default || r));
-const LazyHoxiReadinessReport = defineAsyncComponent(() => import('./HoxiReadinessReport-DsLsp3hz.mjs').then((r) => r["default"] || r.default || r));
+const LazyHoxiReadinessRadar = defineAsyncComponent(() => import('./HoxiReadinessRadar-DzvZLZvS.mjs').then((r) => r["default"] || r.default || r));
+const LazyHoxiReadinessReport = defineAsyncComponent(() => import('./HoxiReadinessReport-DBWVzdPW.mjs').then((r) => r["default"] || r.default || r));
 const LazyHoxiSectionLabel = defineAsyncComponent(() => import('./HoxiSectionLabel-BHyUHyFd.mjs').then((r) => r["default"] || r.default || r));
 const LazyHoxiTag = defineAsyncComponent(() => import('./HoxiTag-wDTaVaC3.mjs').then((r) => r["default"] || r.default || r));
 const LazyHoxiValueBar = defineAsyncComponent(() => import('./HoxiValueBar-nKN9Q0nQ.mjs').then((r) => r["default"] || r.default || r));
 const LazyHoxiVendorDot = defineAsyncComponent(() => import('./HoxiVendorDot-BLwK_ZsG.mjs').then((r) => r["default"] || r.default || r));
 const LazyProseA = defineAsyncComponent(() => import('./A-DPQdclw6.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseAccordion = defineAsyncComponent(() => import('./Accordion-qB6YNG-r.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseAccordion = defineAsyncComponent(() => import('./Accordion-03TLvetT.mjs').then((r) => r["default"] || r.default || r));
 const LazyProseAccordionItem = defineAsyncComponent(() => import('./AccordionItem-2ckjRJL4.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseBadge = defineAsyncComponent(() => import('./Badge-D2UkRUBP.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseBadge = defineAsyncComponent(() => import('./Badge-CNHopuSW.mjs').then((r) => r["default"] || r.default || r));
 const LazyProseBlockquote = defineAsyncComponent(() => import('./Blockquote-CMefYKJp.mjs').then((r) => r["default"] || r.default || r));
 const LazyProseCallout = defineAsyncComponent(() => import('./Callout-CYnceNXy.mjs').then((r) => r["default"] || r.default || r));
 const LazyProseCard = defineAsyncComponent(() => import('./Card-B2cRt6_N.mjs').then((r) => r["default"] || r.default || r));
 const LazyProseCardGroup = defineAsyncComponent(() => import('./CardGroup-gEJTm1Qw.mjs').then((r) => r["default"] || r.default || r));
 const LazyProseCode = defineAsyncComponent(() => import('./Code-CQYrIocZ.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseCodeCollapse = defineAsyncComponent(() => import('./CodeCollapse-D-fSflgd.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseCodeCollapse = defineAsyncComponent(() => import('./CodeCollapse-DqseILZm.mjs').then((r) => r["default"] || r.default || r));
 const LazyProseCodeGroup = defineAsyncComponent(() => import('./CodeGroup-Dk_fbO0F.mjs').then((r) => r["default"] || r.default || r));
 const LazyProseCodeIcon = defineAsyncComponent(() => import('./CodeIcon-CsIij2SR.mjs').then((r) => r["default"] || r.default || r));
 const LazyProseCodePreview = defineAsyncComponent(() => import('./CodePreview-4JlVIx9y.mjs').then((r) => r["default"] || r.default || r));
 const LazyProseCodeTree = defineAsyncComponent(() => import('./CodeTree-w33u-qV6.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseCollapsible = defineAsyncComponent(() => import('./Collapsible-5lbEwu1U.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseCollapsible = defineAsyncComponent(() => import('./Collapsible-BogyCH7f.mjs').then((r) => r["default"] || r.default || r));
 const LazyProseEm = defineAsyncComponent(() => import('./Em-CPc-RAyt.mjs').then((r) => r["default"] || r.default || r));
 const LazyProseField = defineAsyncComponent(() => import('./Field-XqA5z7-l.mjs').then((r) => r["default"] || r.default || r));
 const LazyProseFieldGroup = defineAsyncComponent(() => import('./FieldGroup-D0jJ61lN.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseH1 = defineAsyncComponent(() => import('./H1-B7sKPmP5.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseH2 = defineAsyncComponent(() => import('./H2-DCGht3Rt.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseH3 = defineAsyncComponent(() => import('./H3-CEV6Xbpi.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseH4 = defineAsyncComponent(() => import('./H4-CfiPU7Lu.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseH1 = defineAsyncComponent(() => import('./H1-DKrAXeHk.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseH2 = defineAsyncComponent(() => import('./H2-IA81Zj8k.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseH3 = defineAsyncComponent(() => import('./H3-KHqpf0aB.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseH4 = defineAsyncComponent(() => import('./H4-CyRKT49o.mjs').then((r) => r["default"] || r.default || r));
 const LazyProseHr = defineAsyncComponent(() => import('./Hr-DJLFyr5T.mjs').then((r) => r["default"] || r.default || r));
 const LazyProseIcon = defineAsyncComponent(() => import('./Icon-DM4gGOxx.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseImg = defineAsyncComponent(() => import('./Img-DccMmVNi.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseImg = defineAsyncComponent(() => import('./Img-BW3wUVmE.mjs').then((r) => r["default"] || r.default || r));
 const LazyProseKbd = defineAsyncComponent(() => import('./Kbd-CqLnAYe0.mjs').then((r) => r["default"] || r.default || r));
 const LazyProseLi = defineAsyncComponent(() => import('./Li-2CR9xgLr.mjs').then((r) => r["default"] || r.default || r));
 const LazyProseOl = defineAsyncComponent(() => import('./Ol-DzGB3dg2.mjs').then((r) => r["default"] || r.default || r));
 const LazyProseP = defineAsyncComponent(() => import('./P-DLO7a3pC.mjs').then((r) => r["default"] || r.default || r));
-const LazyProsePre = defineAsyncComponent(() => import('./Pre-kN8c8_aV.mjs').then((r) => r["default"] || r.default || r));
+const LazyProsePre = defineAsyncComponent(() => import('./Pre-BWAg_x0H.mjs').then((r) => r["default"] || r.default || r));
 const LazyProseScript = defineAsyncComponent(() => import('./Script-BOX32BRp.mjs').then((r) => r["default"] || r.default || r));
 const LazyProseSteps = defineAsyncComponent(() => import('./Steps-Bo-xWA26.mjs').then((r) => r["default"] || r.default || r));
 const LazyProseStrong = defineAsyncComponent(() => import('./Strong-tlojIYJm.mjs').then((r) => r["default"] || r.default || r));
 const LazyProseTable = defineAsyncComponent(() => import('./Table-DIM4Y_q-.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseTabs = defineAsyncComponent(() => import('./Tabs-C65KTuTg.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseTabs = defineAsyncComponent(() => import('./Tabs-CAfwtp3b.mjs').then((r) => r["default"] || r.default || r));
 const LazyProseTabsItem = defineAsyncComponent(() => import('./TabsItem-Ds1spZI_.mjs').then((r) => r["default"] || r.default || r));
 const LazyProseTbody = defineAsyncComponent(() => import('./Tbody-JJYi0ciu.mjs').then((r) => r["default"] || r.default || r));
 const LazyProseTd = defineAsyncComponent(() => import('./Td-C9rw6Q8D.mjs').then((r) => r["default"] || r.default || r));
@@ -29151,10 +29478,11 @@ const LazyProseCaution = defineAsyncComponent(() => import('./Caution-Bu2dhcWG.m
 const LazyProseNote = defineAsyncComponent(() => import('./Note-DDup8KV9.mjs').then((r) => r["default"] || r.default || r));
 const LazyProseTip = defineAsyncComponent(() => import('./Tip-Dr1x1wth.mjs').then((r) => r["default"] || r.default || r));
 const LazyProseWarning = defineAsyncComponent(() => import('./Warning-FOroKpGf.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseH5 = defineAsyncComponent(() => import('./ProseH5-aAw6sF_S.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseH6 = defineAsyncComponent(() => import('./ProseH6-CTEpmj0S.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseH5 = defineAsyncComponent(() => import('./ProseH5-BTW3_Lsk.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseH6 = defineAsyncComponent(() => import('./ProseH6-DEOALvk4.mjs').then((r) => r["default"] || r.default || r));
 const LazyIcon = defineAsyncComponent(() => Promise.resolve().then(() => index).then((r) => r["default"] || r.default || r));
 const lazyGlobalComponents = [
+  ["HoxiComment", LazyHoxiComment],
   ["HoxiCommunityModal", LazyHoxiCommunityModal],
   ["HoxiContainer", LazyHoxiContainer],
   ["HoxiHairlineLink", LazyHoxiHairlineLink],
@@ -32937,8 +33265,8 @@ const __nuxt_component_1 = defineComponent({
   }
 });
 const layouts = {
-  admin: defineAsyncComponent(() => import('./admin-CAnN9kUE.mjs').then((m) => m.default || m)),
-  default: defineAsyncComponent(() => import('./default-NM35Yx6d.mjs').then((m) => m.default || m)),
+  admin: defineAsyncComponent(() => import('./admin-DOmX-65r.mjs').then((m) => m.default || m)),
+  default: defineAsyncComponent(() => import('./default-BZNrblC-.mjs').then((m) => m.default || m)),
   empty: defineAsyncComponent(() => import('./empty-BEq8-jzm.mjs').then((m) => m.default || m))
 };
 const routeRulesMatcher = _routeRulesMatcher;
@@ -33652,4 +33980,4 @@ let entry;
 }
 const entry_default = ((ssrContext) => entry(ssrContext));
 
-export { getActiveElement as $, ADMIN_PERMISSIONS as A, publishedOptionalThemes as B, useRoute as C, themeAdminLocaleEnModules as D, themeAdminLocaleZhModules as E, useExtensions as F, setResponseStatus as G, stripLocalePrefix as H, useCurrencyFormat as I, useAdminSession as J, firstAllowedAdminRoute as K, __nuxt_component_0$1 as L, useRequestURL as M, useLocaleCurrency as N, _sfc_main$g as O, PopperAnchor_default as P, PopperArrow_default as Q, createSharedComposable as R, useDirection as S, PopperRoot_default as T, createContext as U, useVModel as V, useFocusGuards as W, useBodyScrollLock as X, useForwardExpose as Y, useTypeahead as Z, _export_sfc as _, __nuxt_component_3$1 as a, refAutoReset as a$, FocusScope_default as a0, DismissableLayer_default as a1, PopperContent_default as a2, getOpenState as a3, PopperContentPropsDefaultValue as a4, isPointerInGraceArea as a5, isMouseEvent as a6, FIRST_LAST_KEYS as a7, LAST_KEYS as a8, focusFirst as a9, _sfc_main$D as aA, omit as aB, useComponentUI as aC, reactivePick as aD, tv as aE, formBusInjectionKey as aF, formStateInjectionKey as aG, formErrorsInjectionKey as aH, formInputsInjectionKey as aI, formLoadingInjectionKey as aJ, formOptionsInjectionKey as aK, useEventBus as aL, useLocaleRouter as aM, createEventHook as aN, useFormField as aO, useFieldGroup as aP, useComponentIcons as aQ, compare as aR, _sfc_main$F as aS, looseToNumber as aT, getDisplayValue as aU, useFormControl as aV, Label_default as aW, VisuallyHidden_default as aX, isNullish as aY, useResizeObserver as aZ, useNuxtApp as a_, useCollection as aa, Primitive as ab, SELECTION_KEYS$1 as ac, ITEM_SELECT as ad, Presence_default as ae, isIndeterminate as af, getCheckedState as ag, reactiveOmit as ah, useForwardProps as ai, useForwardPropsEmits as aj, useHideOthers as ak, useId as al, Teleport_default as am, SUB_CLOSE_KEYS as an, SUB_OPEN_KEYS as ao, useEmitAsProps as ap, usePrimitiveElement as aq, useLocale as ar, useAppConfig as as, usePortal as at, createReusableTemplate as au, isArrayOfArray as av, _sfc_main$E as aw, get as ax, _sfc_main$C as ay, pickLinkProps as az, _sfc_main$G as b, handleAndDispatchCustomEvent$1 as b0, useParentElement as b1, getNextMatch as b2, tryOnScopeDispose$1 as b3, injectTooltipProviderContext as b4, useTimeoutFn as b5, corePageModules as b6, themePageModules as b7, useActiveTheme as b8, __nuxt_component_2$2 as b9, themeLayoutLoaders as bA, useState as ba, transformUI as bb, useEventListener$1 as bc, useRuntimeConfig as bd, resolveBaseURL as be, ImageComponent as bf, DialogRoot_default as bg, DialogTrigger_default as bh, DialogPortal_default as bi, useClipboard as bj, useSeoMeta as bk, useJsonLd as bl, createError as bm, useUserSession as bn, refThrottled as bo, useDebounceFn as bp, useActiveElement as bq, _sfc_main$d as br, useLocalizedSettings as bs, useCookie as bt, pointerDownOutside as bu, DialogOverlay_default as bv, DialogContent_default as bw, DialogTitle_default as bx, DialogDescription_default as by, DialogClose_default as bz, _sfc_main$l as c, _sfc_main$k as d, entry_default as default, useI18n as e, useFormatTime as f, useToast as g, useAdminPermissions as h, useAdminExtensions as i, moduleEditCode as j, _sfc_main$B as k, _sfc_main$h as l, moduleViewCode as m, _sfc_main$x as n, _sfc_main$j as o, _sfc_main$s as p, navigateTo as q, useRouter as r, useConfirm as s, useSettings as t, useHead as u, useAsyncData as v, themeExtensionPermissionCode as w, usePagination as x, useFetch as y, _sfc_main$n as z };
+export { getActiveElement as $, ADMIN_PERMISSIONS as A, _sfc_main$n as B, publishedOptionalThemes as C, useRoute as D, themeAdminLocaleEnModules as E, themeAdminLocaleZhModules as F, useExtensions as G, setResponseStatus as H, stripLocalePrefix as I, useCurrencyFormat as J, useAdminSession as K, firstAllowedAdminRoute as L, __nuxt_component_0$1 as M, useRequestURL as N, useLocaleCurrency as O, PopperAnchor_default as P, PopperArrow_default as Q, createSharedComposable as R, useDirection as S, PopperRoot_default as T, createContext as U, useVModel as V, useFocusGuards as W, useBodyScrollLock as X, useForwardExpose as Y, useTypeahead as Z, _export_sfc as _, __nuxt_component_3$1 as a, refAutoReset as a$, FocusScope_default as a0, DismissableLayer_default as a1, PopperContent_default as a2, getOpenState as a3, PopperContentPropsDefaultValue as a4, isPointerInGraceArea as a5, isMouseEvent as a6, FIRST_LAST_KEYS as a7, LAST_KEYS as a8, focusFirst as a9, _sfc_main$D as aA, omit as aB, useComponentUI as aC, reactivePick as aD, tv as aE, formBusInjectionKey as aF, formStateInjectionKey as aG, formErrorsInjectionKey as aH, formInputsInjectionKey as aI, formLoadingInjectionKey as aJ, formOptionsInjectionKey as aK, useEventBus as aL, useLocaleRouter as aM, createEventHook as aN, useFormField as aO, useFieldGroup as aP, useComponentIcons as aQ, compare as aR, _sfc_main$F as aS, looseToNumber as aT, getDisplayValue as aU, useFormControl as aV, Label_default as aW, VisuallyHidden_default as aX, isNullish as aY, useResizeObserver as aZ, useNuxtApp as a_, useCollection as aa, Primitive as ab, SELECTION_KEYS$1 as ac, ITEM_SELECT as ad, Presence_default as ae, isIndeterminate as af, getCheckedState as ag, reactiveOmit as ah, useForwardProps as ai, useForwardPropsEmits as aj, useHideOthers as ak, useId as al, Teleport_default as am, SUB_CLOSE_KEYS as an, SUB_OPEN_KEYS as ao, useEmitAsProps as ap, usePrimitiveElement as aq, useLocale as ar, useAppConfig as as, usePortal as at, createReusableTemplate as au, isArrayOfArray as av, _sfc_main$E as aw, get as ax, _sfc_main$C as ay, pickLinkProps as az, _sfc_main$G as b, handleAndDispatchCustomEvent$1 as b0, useParentElement as b1, getNextMatch as b2, tryOnScopeDispose$1 as b3, injectTooltipProviderContext as b4, useTimeoutFn as b5, corePageModules as b6, themePageModules as b7, useActiveTheme as b8, useUserSession as b9, themeLayoutLoaders as bA, __nuxt_component_2$2 as ba, useState as bb, transformUI as bc, useEventListener$1 as bd, useRuntimeConfig as be, resolveBaseURL as bf, ImageComponent as bg, DialogRoot_default as bh, DialogTrigger_default as bi, DialogPortal_default as bj, useClipboard as bk, useSeoMeta as bl, useJsonLd as bm, createError as bn, refThrottled as bo, useDebounceFn as bp, useActiveElement as bq, _sfc_main$d as br, useLocalizedSettings as bs, useCookie as bt, pointerDownOutside as bu, DialogOverlay_default as bv, DialogContent_default as bw, DialogTitle_default as bx, DialogDescription_default as by, DialogClose_default as bz, _sfc_main$l as c, _sfc_main$k as d, entry_default as default, _sfc_main$g as e, useI18n as f, useFormatTime as g, useToast as h, useAdminPermissions as i, useAdminExtensions as j, moduleEditCode as k, _sfc_main$B as l, moduleViewCode as m, _sfc_main$h as n, _sfc_main$x as o, _sfc_main$j as p, _sfc_main$s as q, navigateTo as r, useRouter as s, useConfirm as t, useHead as u, useSettings as v, useAsyncData as w, themeExtensionPermissionCode as x, usePagination as y, useFetch as z };

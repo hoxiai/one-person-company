@@ -1,7 +1,5 @@
-import { d as defineEventHandler, c as getRequestLocale, N as resolveClientIp, P as checkIpRateLimit, e as createError, r as readBody, bz as getUserLoginSecurityState, R as consumeCaptchaTicket, b as db, u as users, S as verifyPassword, bA as clearUserLoginFailure, bB as issueWebSession, bm as trackVisitorEvent, bC as ensureVisitorId, bD as recordUserLoginFailure } from '../../../nitro/nitro.mjs';
+import { d as defineEventHandler, c as getRequestLocale, S as resolveClientIp, T as checkIpRateLimit, e as createError, r as readBody, bK as getUserLoginSecurityState, V as consumeCaptchaTicket, b as db, u as users, W as verifyPassword, bL as clearUserLoginFailure, bM as issueWebSession, bx as trackVisitorEvent, bN as ensureVisitorId, bO as recordUserLoginFailure } from '../../../nitro/nitro.mjs';
 import { eq } from 'drizzle-orm';
-import '@adonisjs/hash';
-import '@adonisjs/hash/drivers/scrypt';
 import 'node:crypto';
 import 'crypto';
 import 'fs';
@@ -27,7 +25,15 @@ import 'maxmind';
 import 'node:url';
 import '@iconify/utils';
 import 'consola';
+import 'ioredis';
 import 'zod';
+import 'node:child_process';
+import 'node:os';
+import 'node:fs/promises';
+import 'node:dns/promises';
+import 'node:net';
+import '@adonisjs/hash';
+import '@adonisjs/hash/drivers/scrypt';
 
 const login_post = defineEventHandler(async (event) => {
   const locale = getRequestLocale(event);

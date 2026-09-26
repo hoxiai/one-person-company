@@ -1,8 +1,6 @@
-import { d as defineEventHandler, c as getRequestLocale, f as getRouterParam, e as createError, aa as reconcileOrder, s as setAuditMeta } from '../../../../../nitro/nitro.mjs';
-import '@adonisjs/hash';
-import '@adonisjs/hash/drivers/scrypt';
-import 'node:crypto';
+import { d as defineEventHandler, c as getRequestLocale, f as getRouterParam, e as createError, ah as reconcileOrder, s as setAuditMeta } from '../../../../../nitro/nitro.mjs';
 import 'drizzle-orm';
+import 'node:crypto';
 import 'crypto';
 import 'fs';
 import 'path';
@@ -27,7 +25,15 @@ import 'maxmind';
 import 'node:url';
 import '@iconify/utils';
 import 'consola';
+import 'ioredis';
 import 'zod';
+import 'node:child_process';
+import 'node:os';
+import 'node:fs/promises';
+import 'node:dns/promises';
+import 'node:net';
+import '@adonisjs/hash';
+import '@adonisjs/hash/drivers/scrypt';
 
 const reconcile_post = defineEventHandler(async (event) => {
   const locale = getRequestLocale(event);

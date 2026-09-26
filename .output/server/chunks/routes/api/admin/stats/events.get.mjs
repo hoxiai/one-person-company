@@ -1,7 +1,5 @@
-import { d as defineEventHandler, c as getRequestLocale, g as getQuery, w as getConfiguredTimezone, aW as parseStatsRange, a$ as clampStatsPage, b0 as clampStatsPageSize, aY as visitorEvents, b as db, b1 as toIsoTimestampOrEpoch } from '../../../../nitro/nitro.mjs';
+import { d as defineEventHandler, c as getRequestLocale, g as getQuery, y as getConfiguredTimezone, b2 as parseStatsRange, b7 as clampStatsPage, b8 as clampStatsPageSize, B as visitorEvents, b as db, b9 as toIsoTimestampOrEpoch, b6 as formatSourceBrand } from '../../../../nitro/nitro.mjs';
 import { and, gte, lt, sql, count, desc } from 'drizzle-orm';
-import '@adonisjs/hash';
-import '@adonisjs/hash/drivers/scrypt';
 import 'node:crypto';
 import 'crypto';
 import 'fs';
@@ -27,7 +25,15 @@ import 'maxmind';
 import 'node:url';
 import '@iconify/utils';
 import 'consola';
+import 'ioredis';
 import 'zod';
+import 'node:child_process';
+import 'node:os';
+import 'node:fs/promises';
+import 'node:dns/promises';
+import 'node:net';
+import '@adonisjs/hash';
+import '@adonisjs/hash/drivers/scrypt';
 
 const events_get = defineEventHandler(async (event) => {
   const locale = getRequestLocale(event);
@@ -53,6 +59,10 @@ const events_get = defineEventHandler(async (event) => {
     country: sql`MAX(${visitorEvents.country})`,
     region: sql`MAX(${visitorEvents.region})`,
     city: sql`MAX(${visitorEvents.city})`,
+    sourceType: sql`MAX(${visitorEvents.sourceType})`,
+    source: sql`MAX(${visitorEvents.source})`,
+    campaign: sql`MAX(${visitorEvents.campaign})`,
+    referrer: sql`MAX(${visitorEvents.referrer})`,
     deviceType: sql`MAX(${visitorEvents.deviceType})`,
     browser: sql`MAX(${visitorEvents.browser})`,
     os: sql`MAX(${visitorEvents.os})`,
@@ -80,6 +90,10 @@ const events_get = defineEventHandler(async (event) => {
       registeredUserCount: Number(item.registeredUserCount || 0),
       visitCount: item.visitCount,
       isRegistered: !!item.userId,
+      sourceType: item.sourceType || "direct",
+      source: formatSourceBrand(item.source, item.sourceType) || (item.sourceType === "direct" ? locale === "zh" ? "\u76F4\u63A5\u8BBF\u95EE" : "Direct" : item.referrer || unknownLabel),
+      campaign: item.campaign || null,
+      referrer: item.referrer || null,
       country: item.country || unknownLabel,
       region: item.region || null,
       city: item.city || null,

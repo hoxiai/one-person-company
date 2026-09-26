@@ -1,7 +1,5 @@
-import { cb as defineCachedEventHandler, g as getQuery, ar as posts, b as db } from '../../nitro/nitro.mjs';
-import { eq, or, like, and, count, desc, asc } from 'drizzle-orm';
-import '@adonisjs/hash';
-import '@adonisjs/hash/drivers/scrypt';
+import { d as defineEventHandler, g as getQuery, e as createError, b as db, u as users, o as comments, q as getCommentAvatarUrl } from '../../nitro/nitro.mjs';
+import { eq, and, asc } from 'drizzle-orm';
 import 'node:crypto';
 import 'crypto';
 import 'fs';
@@ -27,71 +25,85 @@ import 'maxmind';
 import 'node:url';
 import '@iconify/utils';
 import 'consola';
+import 'ioredis';
 import 'zod';
+import 'node:child_process';
+import 'node:os';
+import 'node:fs/promises';
+import 'node:dns/promises';
+import 'node:net';
+import '@adonisjs/hash';
+import '@adonisjs/hash/drivers/scrypt';
 
-const index_get = defineCachedEventHandler(async (event) => {
-  var _a, _b;
+const index_get = defineEventHandler(async (event) => {
   const query = getQuery(event);
-  const rawType = query.type;
-  const postKey = (_a = query.key) == null ? void 0 : _a.trim();
-  const order = query.order;
-  const includeContent = query.include_content === "1" || query.include_content === "true" || query.content === "1" || query.content === "true";
-  const page = Math.max(parseInt(query.page) || 1, 1);
-  const pageSize = Math.min(Math.max(parseInt(query.pageSize) || 12, 1), 100);
-  const offset = (page - 1) * pageSize;
-  const conditions = [eq(posts.isActive, true)];
-  if (rawType) {
-    conditions.push(eq(posts.type, rawType));
-  } else if (!postKey) {
-    conditions.push(eq(posts.type, "blog"));
+  const targetType = String(query.targetType || "").trim();
+  const targetId = String(query.targetId || "").trim();
+  if (!targetType || !targetId) {
+    throw createError({
+      statusCode: 400,
+      statusMessage: "targetType and targetId are required"
+    });
   }
-  if (postKey) {
-    conditions.push(or(eq(posts.key, postKey), like(posts.key, `${postKey}%`)));
+  const rows = await db.select({
+    id: comments.id,
+    targetType: comments.targetType,
+    targetId: comments.targetId,
+    userId: comments.userId,
+    authorName: comments.authorName,
+    authorEmail: comments.authorEmail,
+    authorUrl: comments.authorUrl,
+    content: comments.content,
+    parentId: comments.parentId,
+    createdAt: comments.createdAt,
+    userNickname: users.nickname,
+    userAvatar: users.avatarUrl
+  }).from(comments).leftJoin(users, eq(comments.userId, users.id)).where(
+    and(
+      eq(comments.targetType, targetType),
+      eq(comments.targetId, targetId),
+      eq(comments.status, "approved")
+    )
+  ).orderBy(asc(comments.createdAt));
+  const commentMap = /* @__PURE__ */ new Map();
+  const rootComments = [];
+  for (const row of rows) {
+    const displayName = row.userNickname || row.authorName || "\u8BBF\u5BA2";
+    const avatarUrl = getCommentAvatarUrl(row.authorEmail, row.userAvatar);
+    const item = {
+      id: row.id,
+      targetType: row.targetType,
+      targetId: row.targetId,
+      userId: row.userId,
+      authorName: displayName,
+      authorUrl: row.authorUrl || null,
+      avatarUrl,
+      content: row.content,
+      parentId: row.parentId,
+      createdAt: row.createdAt,
+      replies: []
+    };
+    commentMap.set(row.id, item);
   }
-  const whereClause = and(...conditions);
-  const totalResult = await db.select({ value: count() }).from(posts).where(whereClause);
-  const total = ((_b = totalResult[0]) == null ? void 0 : _b.value) || 0;
-  let orderClause = desc(posts.createdAt);
-  if (order === "sort_asc") {
-    orderClause = asc(posts.sort);
-  } else if (order === "sort_desc") {
-    orderClause = desc(posts.sort);
-  } else if (order === "asc") {
-    orderClause = asc(posts.createdAt);
+  for (const item of commentMap.values()) {
+    if (item.parentId && commentMap.has(item.parentId)) {
+      const parent = commentMap.get(item.parentId);
+      item.replyToName = parent.authorName;
+      if (parent.parentId && commentMap.has(parent.parentId)) {
+        const rootParent = commentMap.get(parent.parentId);
+        rootParent.replies.push(item);
+      } else {
+        parent.replies.push(item);
+      }
+    } else {
+      rootComments.push(item);
+    }
   }
-  const selectFields = {
-    id: posts.id,
-    key: posts.key,
-    sort: posts.sort,
-    slug: posts.slug,
-    title: posts.title,
-    description: posts.description,
-    imageUrl: posts.imageUrl,
-    type: posts.type,
-    views: posts.views,
-    createdAt: posts.createdAt,
-    updatedAt: posts.updatedAt,
-    metaData: posts.metaData
-  };
-  if (includeContent) {
-    selectFields.content = posts.content;
-  }
-  const result = await db.select(selectFields).from(posts).where(whereClause).orderBy(orderClause).limit(pageSize).offset(offset);
   return {
-    data: result,
-    total,
-    page,
-    pageSize
+    success: true,
+    data: rootComments,
+    total: rows.length
   };
-}, {
-  maxAge: 60,
-  // cache for 60 seconds
-  swr: true,
-  name: "posts-list",
-  getKey: (event) => {
-    const query = getQuery(event);
-    return `posts-${query.type || ""}-k-${query.key || ""}-c-${query.include_content || query.content || "0"}-o-${query.order || ""}-page-${query.page || 1}-size-${query.pageSize || 12}`;
-  }
 });
 
 export { index_get as default };

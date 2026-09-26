@@ -1,7 +1,5 @@
-import { cb as defineCachedEventHandler, b as db, p as products } from '../../../nitro/nitro.mjs';
+import { cp as defineCachedEventHandler, b as db, p as products } from '../../../nitro/nitro.mjs';
 import { and, eq } from 'drizzle-orm';
-import '@adonisjs/hash';
-import '@adonisjs/hash/drivers/scrypt';
 import 'node:crypto';
 import 'crypto';
 import 'fs';
@@ -27,7 +25,15 @@ import 'maxmind';
 import 'node:url';
 import '@iconify/utils';
 import 'consola';
+import 'ioredis';
 import 'zod';
+import 'node:child_process';
+import 'node:os';
+import 'node:fs/promises';
+import 'node:dns/promises';
+import 'node:net';
+import '@adonisjs/hash';
+import '@adonisjs/hash/drivers/scrypt';
 
 const types_get = defineCachedEventHandler(async (event) => {
   const result = await db.select({

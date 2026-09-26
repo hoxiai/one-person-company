@@ -1,8 +1,6 @@
 import { d as defineEventHandler, c as getRequestLocale, e as createError, r as readBody, b as db, l as adminTokens, n as normalizePermissions, s as setAuditMeta } from '../../../../nitro/nitro.mjs';
 import crypto from 'crypto';
 import { count, eq } from 'drizzle-orm';
-import '@adonisjs/hash';
-import '@adonisjs/hash/drivers/scrypt';
 import 'node:crypto';
 import 'fs';
 import 'path';
@@ -27,7 +25,15 @@ import 'maxmind';
 import 'node:url';
 import '@iconify/utils';
 import 'consola';
+import 'ioredis';
 import 'zod';
+import 'node:child_process';
+import 'node:os';
+import 'node:fs/promises';
+import 'node:dns/promises';
+import 'node:net';
+import '@adonisjs/hash';
+import '@adonisjs/hash/drivers/scrypt';
 
 const MAX_ACTIVE_TOKENS = 10;
 const index_post = defineEventHandler(async (event) => {

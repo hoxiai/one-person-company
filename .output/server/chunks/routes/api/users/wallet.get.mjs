@@ -1,7 +1,5 @@
-import { d as defineEventHandler, c as getRequestLocale, bF as requireUserSession, e as createError, ci as getOrCreateUserWallet, b$ as getTopupRules, b as db, b8 as userWallets, B as topups, cv as TOPUP_STATUS, cw as balanceLogs, b9 as fromScaled } from '../../../nitro/nitro.mjs';
+import { d as defineEventHandler, c as getRequestLocale, bQ as requireUserSession, e as createError, cw as getOrCreateUserWallet, cd as getTopupRules, b as db, be as userWallets, E as topups, cJ as TOPUP_STATUS, cK as balanceLogs, bf as fromScaled } from '../../../nitro/nitro.mjs';
 import { eq, sql, and, gte } from 'drizzle-orm';
-import '@adonisjs/hash';
-import '@adonisjs/hash/drivers/scrypt';
 import 'node:crypto';
 import 'crypto';
 import 'fs';
@@ -27,7 +25,15 @@ import 'maxmind';
 import 'node:url';
 import '@iconify/utils';
 import 'consola';
+import 'ioredis';
 import 'zod';
+import 'node:child_process';
+import 'node:os';
+import 'node:fs/promises';
+import 'node:dns/promises';
+import 'node:net';
+import '@adonisjs/hash';
+import '@adonisjs/hash/drivers/scrypt';
 
 const wallet_get = defineEventHandler(async (event) => {
   var _a, _b, _c, _d, _e, _f;

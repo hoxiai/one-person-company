@@ -1,7 +1,5 @@
-import { d as defineEventHandler, g as getQuery, w as getConfiguredTimezone, x as getStartOfDayUtc, o as orders, b as db, O as ORDER_PAY_STATUS, y as buildLocaleCurrencyQuote, u as users, p as products, z as subscriptions, B as topups, q as aggregateOrderAccountingTotals, m as cards, C as resolveOrderCurrencyAmounts, D as getCurrentHour, E as getCurrencyTotal } from '../../../nitro/nitro.mjs';
+import { d as defineEventHandler, g as getQuery, y as getConfiguredTimezone, z as getStartOfDayUtc, v as orders, B as visitorEvents, b as db, O as ORDER_PAY_STATUS, C as buildLocaleCurrencyQuote, u as users, p as products, D as subscriptions, E as topups, F as tickets, w as aggregateOrderAccountingTotals, G as getCurrencyTotal, m as cards, H as resolveOrderCurrencyAmounts, I as getCurrentHour } from '../../../nitro/nitro.mjs';
 import { sql, eq, and, or, isNull, gt, inArray, desc } from 'drizzle-orm';
-import '@adonisjs/hash';
-import '@adonisjs/hash/drivers/scrypt';
 import 'node:crypto';
 import 'crypto';
 import 'fs';
@@ -27,7 +25,15 @@ import 'maxmind';
 import 'node:url';
 import '@iconify/utils';
 import 'consola';
+import 'ioredis';
 import 'zod';
+import 'node:child_process';
+import 'node:os';
+import 'node:fs/promises';
+import 'node:dns/promises';
+import 'node:net';
+import '@adonisjs/hash';
+import '@adonisjs/hash/drivers/scrypt';
 
 const getHourInTimezone = (value, timezone) => {
   var _a;
@@ -50,7 +56,7 @@ const getDateKeyInTimezone = (value, timezone) => {
   }).format(date);
 };
 const dashboard_get = defineEventHandler(async (event) => {
-  var _a, _b, _c, _d, _e, _f, _g, _h, _i;
+  var _a, _b, _c, _d, _e, _f, _g, _h, _i, _j;
   const query = getQuery(event);
   const range = String(query.range || "today");
   const explicitDialect = (_a = process.env.DB_DIALECT) == null ? void 0 : _a.replace(/"/g, "").toLowerCase();
@@ -60,7 +66,18 @@ const dashboard_get = defineEventHandler(async (event) => {
   const timezone = await getConfiguredTimezone();
   const now = /* @__PURE__ */ new Date();
   const startOfDay = getStartOfDayUtc(timezone);
-  const todayCondition = isPostgres ? sql`${orders.createdAt} >= ${startOfDay.iso}::timestamptz` : isMysql ? sql`${orders.createdAt} >= ${startOfDay.mysql}` : sql`${orders.createdAt} >= ${startOfDay.ms} OR (${orders.createdAt} < 1000000000000 AND ${orders.createdAt} >= ${startOfDay.sec})`;
+  let periodStart = new Date(startOfDay.ms);
+  if (range === "7d") {
+    periodStart = new Date(startOfDay.ms - 6 * 24 * 60 * 60 * 1e3);
+  } else if (range === "30d") {
+    periodStart = new Date(startOfDay.ms - 29 * 24 * 60 * 60 * 1e3);
+  }
+  const periodStartMs = periodStart.getTime();
+  const periodStartSec = Math.floor(periodStartMs / 1e3);
+  const periodStartIso = periodStart.toISOString();
+  const periodStartMysql = periodStartIso.slice(0, 19).replace("T", " ");
+  const periodCondition = isPostgres ? sql`${orders.createdAt} >= ${periodStartIso}::timestamptz` : isMysql ? sql`${orders.createdAt} >= ${periodStartMysql}` : sql`${orders.createdAt} >= ${periodStartMs} OR (${orders.createdAt} < 1000000000000 AND ${orders.createdAt} >= ${periodStartSec})`;
+  const periodVisitorCondition = isPostgres ? sql`${visitorEvents.createdAt} >= ${periodStartIso}::timestamptz` : isMysql ? sql`${visitorEvents.createdAt} >= ${periodStartMysql}` : sql`${visitorEvents.createdAt} >= ${periodStartMs} OR (${visitorEvents.createdAt} < 1000000000000 AND ${visitorEvents.createdAt} >= ${periodStartSec})`;
   const selectFields = {
     id: orders.id,
     amount: orders.amount,
@@ -74,7 +91,7 @@ const dashboard_get = defineEventHandler(async (event) => {
   };
   const [
     rawPaidOrderRows,
-    rawTodayOrderRows,
+    rawPeriodOrderRows,
     totalOrderRows,
     baseQuote,
     totalUsersCount,
@@ -83,10 +100,12 @@ const dashboard_get = defineEventHandler(async (event) => {
     pendingFulfillmentsCount,
     pendingTopupsCount,
     recentOrdersResult,
-    keyProducts
+    keyProducts,
+    rawPeriodVisitorRows,
+    pendingTicketsCount
   ] = await Promise.all([
     db.select(selectFields).from(orders).where(eq(orders.payStatus, ORDER_PAY_STATUS.PAID)),
-    db.select(selectFields).from(orders).where(todayCondition),
+    db.select(selectFields).from(orders).where(periodCondition),
     db.select({ count: sql`count(*)` }).from(orders),
     buildLocaleCurrencyQuote(0),
     db.select({ count: sql`count(*)` }).from(users),
@@ -99,14 +118,34 @@ const dashboard_get = defineEventHandler(async (event) => {
     db.select({ count: sql`count(*)` }).from(orders).where(and(eq(orders.payStatus, ORDER_PAY_STATUS.PAID), eq(orders.status, "pending"))),
     db.select({ count: sql`count(*)` }).from(topups).where(inArray(topups.status, ["paid", "crediting", "credit_failed", "review_required"])),
     db.select(selectFields).from(orders).orderBy(desc(orders.createdAt)).limit(6),
-    db.select({ id: products.id, name: products.name }).from(products).where(and(eq(products.type, "key"), eq(products.isActive, true)))
+    db.select({ id: products.id, name: products.name }).from(products).where(and(eq(products.type, "key"), eq(products.isActive, true))),
+    db.select({
+      visitorId: visitorEvents.visitorId,
+      ip: visitorEvents.ip,
+      eventName: visitorEvents.eventName
+    }).from(visitorEvents).where(periodVisitorCondition),
+    db.select({ count: sql`count(*)` }).from(tickets).where(inArray(tickets.status, ["open", "in_progress"]))
   ]);
   const paidOrders = rawPaidOrderRows;
-  const todayOrderRows = rawTodayOrderRows;
-  const paidTodayOrders = todayOrderRows.filter((order) => order.payStatus === ORDER_PAY_STATUS.PAID);
+  const periodOrderRows = rawPeriodOrderRows;
+  const paidPeriodOrders = periodOrderRows.filter((order) => order.payStatus === ORDER_PAY_STATUS.PAID);
   const totalRevenueByCurrency = aggregateOrderAccountingTotals(paidOrders);
-  const todayRevenueByCurrency = aggregateOrderAccountingTotals(paidTodayOrders);
+  const periodRevenueByCurrency = aggregateOrderAccountingTotals(paidPeriodOrders);
   const baseCurrency = baseQuote.baseCurrency;
+  const uniqueVisitorIds = /* @__PURE__ */ new Set();
+  const uniqueIps = /* @__PURE__ */ new Set();
+  let periodPageViews = 0;
+  for (const row of rawPeriodVisitorRows) {
+    if (row.visitorId) uniqueVisitorIds.add(row.visitorId);
+    if (row.ip) uniqueIps.add(row.ip);
+    if (row.eventName === "page_view") periodPageViews++;
+  }
+  const periodVisitors = uniqueVisitorIds.size;
+  const periodIps = uniqueIps.size;
+  const periodRevenueAmount = getCurrencyTotal(periodRevenueByCurrency, baseCurrency);
+  const periodPaidOrdersCount = paidPeriodOrders.length;
+  const periodConversionRate = periodVisitors > 0 ? Number((periodPaidOrdersCount / periodVisitors * 100).toFixed(1)) : 0;
+  const periodAov = periodPaidOrdersCount > 0 ? Number((periodRevenueAmount / periodPaidOrdersCount).toFixed(2)) : 0;
   let lowStockCardsCount = 0;
   if (keyProducts.length > 0) {
     for (const kp of keyProducts) {
@@ -145,7 +184,7 @@ const dashboard_get = defineEventHandler(async (event) => {
     labels = Array.from({ length: 24 }, (_, index) => `${String(index).padStart(2, "0")}:00`);
     ordersSeries = new Array(24).fill(0);
     revenueSeries = new Array(24).fill(0);
-    for (const order of todayOrderRows) {
+    for (const order of periodOrderRows) {
       const hour = Number(getHourInTimezone(order.createdAt, timezone));
       if (!Number.isInteger(hour) || hour < 0 || hour > 23) continue;
       ordersSeries[hour] = (ordersSeries[hour] || 0) + 1;
@@ -196,9 +235,26 @@ const dashboard_get = defineEventHandler(async (event) => {
   }));
   return {
     stats: {
-      todayOrders: todayOrderRows.length,
-      todayRevenue: getCurrencyTotal(todayRevenueByCurrency, baseCurrency),
-      todayRevenueByCurrency,
+      range,
+      periodOrders: periodOrderRows.length,
+      periodPaidOrders: periodPaidOrdersCount,
+      periodRevenue: periodRevenueAmount,
+      periodRevenueByCurrency,
+      periodVisitors,
+      periodIps,
+      periodPageViews,
+      periodConversionRate,
+      periodAov,
+      // 保持 today 字段别名以向后兼容
+      todayOrders: periodOrderRows.length,
+      todayPaidOrders: periodPaidOrdersCount,
+      todayRevenue: periodRevenueAmount,
+      todayRevenueByCurrency: periodRevenueByCurrency,
+      todayVisitors: periodVisitors,
+      todayIps: periodIps,
+      todayPageViews: periodPageViews,
+      todayConversionRate: periodConversionRate,
+      todayAov: periodAov,
       totalOrders: Number(((_d = totalOrderRows[0]) == null ? void 0 : _d.count) || 0),
       totalRevenue: getCurrencyTotal(totalRevenueByCurrency, baseCurrency),
       totalRevenueByCurrency,
@@ -210,7 +266,8 @@ const dashboard_get = defineEventHandler(async (event) => {
     actionItems: {
       pendingFulfillments: Number(((_h = pendingFulfillmentsCount[0]) == null ? void 0 : _h.count) || 0),
       lowStockCards: lowStockCardsCount,
-      pendingTopups: Number(((_i = pendingTopupsCount[0]) == null ? void 0 : _i.count) || 0)
+      pendingTopups: Number(((_i = pendingTopupsCount[0]) == null ? void 0 : _i.count) || 0),
+      pendingTickets: Number(((_j = pendingTicketsCount[0]) == null ? void 0 : _j.count) || 0)
     },
     categoryMix,
     recentOrders: recentOrdersResult,

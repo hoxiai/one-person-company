@@ -1,7 +1,5 @@
-import { d as defineEventHandler, c as getRequestLocale, b as db, ap as failures, o as orders, e as createError } from '../../../../nitro/nitro.mjs';
+import { d as defineEventHandler, c as getRequestLocale, b as db, aw as failures, v as orders, e as createError } from '../../../../nitro/nitro.mjs';
 import { eq, desc } from 'drizzle-orm';
-import '@adonisjs/hash';
-import '@adonisjs/hash/drivers/scrypt';
 import 'node:crypto';
 import 'crypto';
 import 'fs';
@@ -27,7 +25,15 @@ import 'maxmind';
 import 'node:url';
 import '@iconify/utils';
 import 'consola';
+import 'ioredis';
 import 'zod';
+import 'node:child_process';
+import 'node:os';
+import 'node:fs/promises';
+import 'node:dns/promises';
+import 'node:net';
+import '@adonisjs/hash';
+import '@adonisjs/hash/drivers/scrypt';
 
 const failures_get = defineEventHandler(async (event) => {
   const locale = getRequestLocale(event);

@@ -1,7 +1,5 @@
-import { d as defineEventHandler, c as getRequestLocale, g as getQuery, w as getConfiguredTimezone, aW as parseStatsRange, a$ as clampStatsPage, b0 as clampStatsPageSize, aX as getRequestHost, b as db, aY as visitorEvents, v as visitorProfiles, u as users } from '../../../../nitro/nitro.mjs';
+import { d as defineEventHandler, c as getRequestLocale, g as getQuery, y as getConfiguredTimezone, b2 as parseStatsRange, b7 as clampStatsPage, b8 as clampStatsPageSize, b3 as getRequestHost, b as db, B as visitorEvents, x as visitorProfiles, u as users, b6 as formatSourceBrand } from '../../../../nitro/nitro.mjs';
 import { and, gte, lt, eq, sql, inArray, count, desc } from 'drizzle-orm';
-import '@adonisjs/hash';
-import '@adonisjs/hash/drivers/scrypt';
 import 'node:crypto';
 import 'crypto';
 import 'fs';
@@ -27,9 +25,18 @@ import 'maxmind';
 import 'node:url';
 import '@iconify/utils';
 import 'consola';
+import 'ioredis';
 import 'zod';
+import 'node:child_process';
+import 'node:os';
+import 'node:fs/promises';
+import 'node:dns/promises';
+import 'node:net';
+import '@adonisjs/hash';
+import '@adonisjs/hash/drivers/scrypt';
 
 const visitors_get = defineEventHandler(async (event) => {
+  var _a;
   const locale = getRequestLocale(event);
   const unknownLabel = locale === "zh" ? "\u672A\u77E5" : "Unknown";
   const query = getQuery(event);
@@ -40,8 +47,9 @@ const visitors_get = defineEventHandler(async (event) => {
   const offset = (page - 1) * pageSize;
   const eventType = query.type;
   const sourceType = query.sourceType;
+  const source = (_a = query.source) == null ? void 0 : _a.trim();
   const host = getRequestHost(event);
-  let matchingVisitorIds = null;
+  let eventVisitorIds = null;
   if (eventType) {
     if (eventType === "auth") {
       const fromEvents = await db.select({ visitorId: visitorEvents.visitorId }).from(visitorEvents).where(
@@ -62,7 +70,7 @@ const visitors_get = defineEventHandler(async (event) => {
         ...fromEvents.map((r) => r.visitorId),
         ...fromProfiles.map((r) => r.visitorId)
       ]);
-      matchingVisitorIds = Array.from(mergedIds);
+      eventVisitorIds = Array.from(mergedIds);
     } else {
       const rows = await db.select({ visitorId: visitorEvents.visitorId }).from(visitorEvents).where(
         and(
@@ -71,34 +79,110 @@ const visitors_get = defineEventHandler(async (event) => {
           eq(visitorEvents.eventName, eventType)
         )
       ).groupBy(visitorEvents.visitorId);
-      matchingVisitorIds = rows.map((r) => r.visitorId);
+      eventVisitorIds = rows.map((r) => r.visitorId);
     }
-  } else if (sourceType === "external") {
-    const rows = await db.select({ visitorId: visitorEvents.visitorId }).from(visitorEvents).where(
-      and(
-        gte(visitorEvents.createdAt, rangeStart),
-        lt(visitorEvents.createdAt, rangeEnd),
-        // sql.raw() would splice `host` (attacker-controllable via the Host
-        // request header) directly into the query text — a SQL injection
-        // primitive. Interpolating it as a normal template value instead
-        // lets drizzle bind it as a parameter, which is safe regardless of
-        // what characters it contains.
-        sql`${visitorEvents.referrer} IS NOT NULL AND ${visitorEvents.referrer} != '' AND ${visitorEvents.referrer} NOT LIKE ${`%${host}%`}`
-      )
-    ).groupBy(visitorEvents.visitorId);
-    matchingVisitorIds = rows.map((r) => r.visitorId);
+  }
+  let sourceTypeVisitorIds = null;
+  if (sourceType && sourceType !== "all") {
+    if (sourceType === "external") {
+      const rows = await db.select({ visitorId: visitorEvents.visitorId }).from(visitorEvents).where(
+        and(
+          gte(visitorEvents.createdAt, rangeStart),
+          lt(visitorEvents.createdAt, rangeEnd),
+          // sql.raw() would splice `host` (attacker-controllable via the Host
+          // request header) directly into the query text — a SQL injection
+          // primitive. Interpolating it as a normal template value instead
+          // lets drizzle bind it as a parameter, which is safe regardless of
+          // what characters it contains.
+          sql`${visitorEvents.referrer} IS NOT NULL AND ${visitorEvents.referrer} != '' AND ${visitorEvents.referrer} NOT LIKE ${`%${host}%`}`
+        )
+      ).groupBy(visitorEvents.visitorId);
+      sourceTypeVisitorIds = rows.map((r) => r.visitorId);
+    } else if (sourceType === "campaign") {
+      const rows = await db.select({ visitorId: visitorEvents.visitorId }).from(visitorEvents).where(
+        and(
+          gte(visitorEvents.createdAt, rangeStart),
+          lt(visitorEvents.createdAt, rangeEnd),
+          sql`(${visitorEvents.sourceType} = 'campaign' OR ${visitorEvents.campaign} IS NOT NULL)`
+        )
+      ).groupBy(visitorEvents.visitorId);
+      sourceTypeVisitorIds = rows.map((r) => r.visitorId);
+    } else if (sourceType === "direct") {
+      const rows = await db.select({ visitorId: visitorEvents.visitorId }).from(visitorEvents).where(
+        and(
+          gte(visitorEvents.createdAt, rangeStart),
+          lt(visitorEvents.createdAt, rangeEnd),
+          sql`(${visitorEvents.sourceType} = 'direct' OR ${visitorEvents.sourceType} IS NULL)`
+        )
+      ).groupBy(visitorEvents.visitorId);
+      sourceTypeVisitorIds = rows.map((r) => r.visitorId);
+    } else {
+      const rows = await db.select({ visitorId: visitorEvents.visitorId }).from(visitorEvents).where(
+        and(
+          gte(visitorEvents.createdAt, rangeStart),
+          lt(visitorEvents.createdAt, rangeEnd),
+          eq(visitorEvents.sourceType, sourceType)
+        )
+      ).groupBy(visitorEvents.visitorId);
+      sourceTypeVisitorIds = rows.map((r) => r.visitorId);
+    }
+  }
+  let specificSourceVisitorIds = null;
+  if (source) {
+    if (source === "direct") {
+      const rows = await db.select({ visitorId: visitorEvents.visitorId }).from(visitorEvents).where(
+        and(
+          gte(visitorEvents.createdAt, rangeStart),
+          lt(visitorEvents.createdAt, rangeEnd),
+          sql`(${visitorEvents.sourceType} = 'direct' OR ${visitorEvents.source} = 'direct' OR ${visitorEvents.sourceType} IS NULL)`
+        )
+      ).groupBy(visitorEvents.visitorId);
+      specificSourceVisitorIds = rows.map((r) => r.visitorId);
+    } else {
+      const rows = await db.select({ visitorId: visitorEvents.visitorId }).from(visitorEvents).where(
+        and(
+          gte(visitorEvents.createdAt, rangeStart),
+          lt(visitorEvents.createdAt, rangeEnd),
+          sql`(${visitorEvents.source} = ${source} OR ${visitorEvents.campaign} = ${source} OR ${visitorEvents.referrer} LIKE ${`%${source}%`})`
+        )
+      ).groupBy(visitorEvents.visitorId);
+      specificSourceVisitorIds = rows.map((r) => r.visitorId);
+    }
   }
   const profileConditions = [
     gte(visitorProfiles.lastSeenAt, rangeStart),
     lt(visitorProfiles.lastSeenAt, rangeEnd)
   ];
-  if (matchingVisitorIds !== null) {
-    profileConditions.push(inArray(visitorProfiles.visitorId, matchingVisitorIds.length > 0 ? matchingVisitorIds : ["__none__"]));
+  if (eventVisitorIds !== null) {
+    profileConditions.push(inArray(visitorProfiles.visitorId, eventVisitorIds.length > 0 ? eventVisitorIds : ["__none__"]));
   }
-  if (sourceType === "campaign") {
-    profileConditions.push(
-      sql`(${visitorProfiles.firstCampaign} IS NOT NULL OR ${visitorProfiles.lastCampaign} IS NOT NULL)`
-    );
+  if (sourceTypeVisitorIds !== null) {
+    if (sourceType === "direct") {
+      profileConditions.push(
+        sql`(${visitorProfiles.lastSourceType} = 'direct' OR ${visitorProfiles.firstSourceType} = 'direct' OR (${visitorProfiles.lastSourceType} IS NULL AND ${visitorProfiles.firstSourceType} IS NULL)${sourceTypeVisitorIds.length > 0 ? sql` OR ${inArray(visitorProfiles.visitorId, sourceTypeVisitorIds)}` : sql``})`
+      );
+    } else if (sourceType === "campaign") {
+      profileConditions.push(
+        sql`(${visitorProfiles.firstSourceType} = 'campaign' OR ${visitorProfiles.lastSourceType} = 'campaign' OR ${visitorProfiles.firstCampaign} IS NOT NULL OR ${visitorProfiles.lastCampaign} IS NOT NULL${sourceTypeVisitorIds.length > 0 ? sql` OR ${inArray(visitorProfiles.visitorId, sourceTypeVisitorIds)}` : sql``})`
+      );
+    } else if (sourceType === "external") {
+      profileConditions.push(inArray(visitorProfiles.visitorId, sourceTypeVisitorIds.length > 0 ? sourceTypeVisitorIds : ["__none__"]));
+    } else {
+      profileConditions.push(
+        sql`(${visitorProfiles.firstSourceType} = ${sourceType} OR ${visitorProfiles.lastSourceType} = ${sourceType}${sourceTypeVisitorIds.length > 0 ? sql` OR ${inArray(visitorProfiles.visitorId, sourceTypeVisitorIds)}` : sql``})`
+      );
+    }
+  }
+  if (specificSourceVisitorIds !== null) {
+    if (source === "direct") {
+      profileConditions.push(
+        sql`(${visitorProfiles.lastSourceType} = 'direct' OR ${visitorProfiles.firstSourceType} = 'direct' OR (${visitorProfiles.lastSourceType} IS NULL AND ${visitorProfiles.firstSourceType} IS NULL)${specificSourceVisitorIds.length > 0 ? sql` OR ${inArray(visitorProfiles.visitorId, specificSourceVisitorIds)}` : sql``})`
+      );
+    } else {
+      profileConditions.push(
+        sql`(${visitorProfiles.firstSource} = ${source} OR ${visitorProfiles.lastSource} = ${source} OR ${visitorProfiles.firstCampaign} = ${source} OR ${visitorProfiles.lastCampaign} = ${source} OR ${visitorProfiles.firstReferrer} LIKE ${`%${source}%`} OR ${visitorProfiles.lastReferrer} LIKE ${`%${source}%`}${specificSourceVisitorIds.length > 0 ? sql` OR ${inArray(visitorProfiles.visitorId, specificSourceVisitorIds)}` : sql``})`
+      );
+    }
   }
   const profileFilter = and(...profileConditions);
   const [{ value: totalItems }] = await db.select({ value: count() }).from(visitorProfiles).where(profileFilter);
@@ -164,7 +248,13 @@ const visitors_get = defineEventHandler(async (event) => {
         userId: profile.userId,
         user: profile.userId ? userMap.get(profile.userId) || null : null,
         ip: profile.ip,
+        firstSourceType: profile.firstSourceType || "direct",
+        firstSource: formatSourceBrand(profile.firstSource, profile.firstSourceType) || (profile.firstSourceType === "direct" ? locale === "zh" ? "\u76F4\u63A5\u8BBF\u95EE" : "Direct" : profile.firstReferrer || unknownLabel),
+        firstCampaign: profile.firstCampaign || null,
         firstTouch: profile.firstCampaign || profile.firstSource || profile.firstSourceType || "direct",
+        lastSourceType: profile.lastSourceType || "direct",
+        lastSource: formatSourceBrand(profile.lastSource, profile.lastSourceType) || (profile.lastSourceType === "direct" ? locale === "zh" ? "\u76F4\u63A5\u8BBF\u95EE" : "Direct" : profile.lastReferrer || unknownLabel),
+        lastCampaign: profile.lastCampaign || null,
         lastTouch: profile.lastCampaign || profile.lastSource || profile.lastSourceType || "direct",
         country: profile.country || unknownLabel,
         deviceType: profile.deviceType || unknownLabel,

@@ -1,7 +1,5 @@
-import { d as defineEventHandler, c as getRequestLocale, g as getQuery, bl as proxyExternalRequest, u as users, b as db, b8 as userWallets, bg as userTokens, e as createError } from '../../../../nitro/nitro.mjs';
+import { d as defineEventHandler, c as getRequestLocale, g as getQuery, bw as fetchExternalUsersMap, u as users, b as db, be as userWallets, bp as userTokens, e as createError } from '../../../../nitro/nitro.mjs';
 import { sql, eq, or, like, count, and } from 'drizzle-orm';
-import '@adonisjs/hash';
-import '@adonisjs/hash/drivers/scrypt';
 import 'node:crypto';
 import 'crypto';
 import 'fs';
@@ -27,36 +25,24 @@ import 'maxmind';
 import 'node:url';
 import '@iconify/utils';
 import 'consola';
+import 'ioredis';
 import 'zod';
+import 'node:child_process';
+import 'node:os';
+import 'node:fs/promises';
+import 'node:dns/promises';
+import 'node:net';
+import '@adonisjs/hash';
+import '@adonisjs/hash/drivers/scrypt';
 
 const summary_get = defineEventHandler(async (event) => {
-  var _a, _b;
+  var _a;
   const locale = getRequestLocale(event);
   const query = getQuery(event);
   const keyword = String(query.q || query.keyword || "").trim();
   const hasSpending = String(query.hasSpending || "").trim();
   try {
-    let externalUsersMap = /* @__PURE__ */ new Map();
-    try {
-      const externalRes = await proxyExternalRequest(event, {
-        requireSession: true,
-        proxyLabel: "ExternalUsersAPI",
-        userAgent: "APay-Admin/1.0",
-        overrideQuery: {
-          path: "/api/admin/users",
-          page: 1,
-          pageSize: 1e4
-          // 获取所有用户的消费数据用于汇总
-        }
-      });
-      if (((_a = externalRes == null ? void 0 : externalRes.data) == null ? void 0 : _a.list) && Array.isArray(externalRes.data.list)) {
-        externalRes.data.list.forEach((extUser) => {
-          externalUsersMap.set(Number(extUser.id), extUser);
-        });
-      }
-    } catch (externalError) {
-      console.error("[admin/users/summary] Failed to fetch external user data:", externalError);
-    }
+    const externalUsersMap = await fetchExternalUsersMap(event);
     const likePattern = keyword ? `%${keyword.toLowerCase()}%` : "";
     const emailLower = sql`lower(${users.email})`;
     const nicknameLower = sql`lower(coalesce(${users.nickname}, ''))`;
@@ -120,7 +106,7 @@ const summary_get = defineEventHandler(async (event) => {
           )
         )
       );
-      summary.totalActiveKeys = Number(((_b = activeKeysResult[0]) == null ? void 0 : _b.count) || 0);
+      summary.totalActiveKeys = Number(((_a = activeKeysResult[0]) == null ? void 0 : _a.count) || 0);
     }
     return {
       data: summary

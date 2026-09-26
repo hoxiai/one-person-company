@@ -1,7 +1,5 @@
-import { d as defineEventHandler, c as getRequestLocale, f as getRouterParam, e as createError, b as db, v as visitorProfiles, u as users, o as orders, aY as visitorEvents, p as products, t as toIsoTimestamp } from '../../../../../nitro/nitro.mjs';
+import { d as defineEventHandler, c as getRequestLocale, f as getRouterParam, e as createError, b as db, x as visitorProfiles, u as users, v as orders, B as visitorEvents, p as products, t as toIsoTimestamp } from '../../../../../nitro/nitro.mjs';
 import { eq, or, count, desc } from 'drizzle-orm';
-import '@adonisjs/hash';
-import '@adonisjs/hash/drivers/scrypt';
 import 'node:crypto';
 import 'crypto';
 import 'fs';
@@ -27,7 +25,15 @@ import 'maxmind';
 import 'node:url';
 import '@iconify/utils';
 import 'consola';
+import 'ioredis';
 import 'zod';
+import 'node:child_process';
+import 'node:os';
+import 'node:fs/promises';
+import 'node:dns/promises';
+import 'node:net';
+import '@adonisjs/hash';
+import '@adonisjs/hash/drivers/scrypt';
 
 const _visitor_id__get = defineEventHandler(async (event) => {
   var _a, _b;

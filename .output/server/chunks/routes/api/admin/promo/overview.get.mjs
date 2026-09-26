@@ -1,8 +1,6 @@
-import { d as defineEventHandler, aA as getPromoOverview, as as listPromoAgents, aB as listPromoAttributions, ax as listPromoCommissions } from '../../../../nitro/nitro.mjs';
-import '@adonisjs/hash';
-import '@adonisjs/hash/drivers/scrypt';
-import 'node:crypto';
+import { d as defineEventHandler, aI as getPromoOverview, aC as listPromoAgents, aJ as listPromoAttributions, aG as listPromoCommissions } from '../../../../nitro/nitro.mjs';
 import 'drizzle-orm';
+import 'node:crypto';
 import 'crypto';
 import 'fs';
 import 'path';
@@ -27,7 +25,15 @@ import 'maxmind';
 import 'node:url';
 import '@iconify/utils';
 import 'consola';
+import 'ioredis';
 import 'zod';
+import 'node:child_process';
+import 'node:os';
+import 'node:fs/promises';
+import 'node:dns/promises';
+import 'node:net';
+import '@adonisjs/hash';
+import '@adonisjs/hash/drivers/scrypt';
 
 const overview_get = defineEventHandler(async () => {
   const [overview, agents, attributions, commissions] = await Promise.all([

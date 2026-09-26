@@ -1,7 +1,5 @@
-import { d as defineEventHandler, ab as requireTrustedRequestOrigin, c as getRequestLocale, r as readBody, bH as mergePromoTracking, bI as capturePromoTracking, bJ as readPromoTracking, e as createError, bh as validateEmail, b as db, u as users, j as hashPassword, ac as ensurePromoMember, bK as bindInviteRelation, bL as requestPromoAgentJoin, a6 as emitEvent, bB as issueWebSession, bm as trackVisitorEvent, bC as ensureVisitorId, bg as userTokens, bk as EMAIL_VERIFY_TOKEN_NAME, J as getLocalizedSettingValue, K as sendEmail } from '../../../nitro/nitro.mjs';
+import { d as defineEventHandler, ai as requireTrustedRequestOrigin, c as getRequestLocale, r as readBody, bS as mergePromoTracking, bT as capturePromoTracking, bU as readPromoTracking, e as createError, bq as validateEmail, b as db, u as users, j as hashPassword, aj as ensurePromoMember, bV as bindInviteRelation, bW as requestPromoAgentJoin, ac as emitEvent, bM as issueWebSession, bx as trackVisitorEvent, bN as ensureVisitorId, bp as userTokens, bt as EMAIL_VERIFY_TOKEN_NAME, N as getLocalizedSettingValue, P as sendEmail } from '../../../nitro/nitro.mjs';
 import { eq } from 'drizzle-orm';
-import '@adonisjs/hash';
-import '@adonisjs/hash/drivers/scrypt';
 import 'node:crypto';
 import 'crypto';
 import 'fs';
@@ -27,7 +25,15 @@ import 'maxmind';
 import 'node:url';
 import '@iconify/utils';
 import 'consola';
+import 'ioredis';
 import 'zod';
+import 'node:child_process';
+import 'node:os';
+import 'node:fs/promises';
+import 'node:dns/promises';
+import 'node:net';
+import '@adonisjs/hash';
+import '@adonisjs/hash/drivers/scrypt';
 
 const register_post = defineEventHandler(async (event) => {
   const siteUrl = requireTrustedRequestOrigin(event);

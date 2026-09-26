@@ -1,7 +1,5 @@
-import { d as defineEventHandler, c as getRequestLocale, g as getQuery, w as getConfiguredTimezone, aW as parseStatsRange, aX as getRequestHost, b as db, aY as visitorEvents, v as visitorProfiles, aZ as toZonedDateKey, a_ as shiftZonedDay } from '../../../nitro/nitro.mjs';
-import { and, gte, lt, desc, sql } from 'drizzle-orm';
-import '@adonisjs/hash';
-import '@adonisjs/hash/drivers/scrypt';
+import { d as defineEventHandler, c as getRequestLocale, g as getQuery, y as getConfiguredTimezone, b2 as parseStatsRange, b3 as getRequestHost, b as db, B as visitorEvents, x as visitorProfiles, v as orders, b4 as toZonedDateKey, b5 as shiftZonedDay, b6 as formatSourceBrand } from '../../../nitro/nitro.mjs';
+import { and, gte, lt, desc, eq, sql } from 'drizzle-orm';
 import 'node:crypto';
 import 'crypto';
 import 'fs';
@@ -27,7 +25,15 @@ import 'maxmind';
 import 'node:url';
 import '@iconify/utils';
 import 'consola';
+import 'ioredis';
 import 'zod';
+import 'node:child_process';
+import 'node:os';
+import 'node:fs/promises';
+import 'node:dns/promises';
+import 'node:net';
+import '@adonisjs/hash';
+import '@adonisjs/hash/drivers/scrypt';
 
 const toDate = (value) => {
   if (value instanceof Date) return value;
@@ -45,10 +51,31 @@ const formatSourceLabel = (item, mode) => {
   const source = item[mode === "first" ? "firstSource" : "lastSource"] || "direct";
   const medium = item[mode === "first" ? "firstMedium" : "lastMedium"] || "";
   const campaign = item[mode === "first" ? "firstCampaign" : "lastCampaign"] || "";
-  if (campaign) return campaign;
   if (sourceType === "direct") return "Direct";
-  if (medium) return `${source} / ${medium}`;
-  return source;
+  if (sourceType === "affiliate" && campaign) return `Affiliate / ${campaign}`;
+  if (campaign && (sourceType === "campaign" || sourceType === "paid")) {
+    return `${formatSourceBrand(source, sourceType)} \xB7 ${campaign}`;
+  }
+  const brandedSource = formatSourceBrand(source, sourceType);
+  if (medium && medium !== "referral" && medium !== "organic" && medium !== "social" && medium !== "ai_referral" && medium !== "email") {
+    return `${brandedSource} / ${medium}`;
+  }
+  return brandedSource;
+};
+const buildTopCommerceList = (items, total) => {
+  return Object.entries(items).sort((a, b) => {
+    if (b[1].paid !== a[1].paid) return b[1].paid - a[1].paid;
+    return b[1].count - a[1].count;
+  }).slice(0, 15).map(([label, m]) => ({
+    label,
+    count: m.count,
+    visitors: m.count,
+    checkouts: m.checkouts,
+    paid: m.paid,
+    revenue: Number(m.revenue.toFixed(2)),
+    conversionRate: m.count > 0 ? Number((m.paid / m.count * 100).toFixed(1)) : 0,
+    percentage: total > 0 ? Number((m.count / total * 100).toFixed(1)) : 0
+  }));
 };
 const buildTopList = (items, total) => {
   return Object.entries(items).sort((a, b) => b[1] - a[1]).slice(0, 10).map(([label, count]) => ({
@@ -64,39 +91,55 @@ const stats_get = defineEventHandler(async (event) => {
   const tz = await getConfiguredTimezone();
   const { preset, days, rangeStart, rangeEnd } = parseStatsRange(query, tz);
   const host = getRequestHost(event);
-  const events = await db.select({
-    id: visitorEvents.id,
-    visitorId: visitorEvents.visitorId,
-    ip: visitorEvents.ip,
-    userId: visitorEvents.userId,
-    orderId: visitorEvents.orderId,
-    productId: visitorEvents.productId,
-    eventName: visitorEvents.eventName,
-    eventAction: visitorEvents.eventAction,
-    path: visitorEvents.path,
-    referrer: visitorEvents.referrer,
-    sourceType: visitorEvents.sourceType,
-    source: visitorEvents.source,
-    medium: visitorEvents.medium,
-    campaign: visitorEvents.campaign,
-    country: visitorEvents.country,
-    region: visitorEvents.region,
-    city: visitorEvents.city,
-    locale: visitorEvents.locale,
-    currency: visitorEvents.currency,
-    deviceType: visitorEvents.deviceType,
-    browser: visitorEvents.browser,
-    os: visitorEvents.os,
-    createdAt: visitorEvents.createdAt
-  }).from(visitorEvents).where(and(gte(visitorEvents.createdAt, rangeStart), lt(visitorEvents.createdAt, rangeEnd))).orderBy(desc(visitorEvents.createdAt));
+  const [events, profiles, rangeOrders] = await Promise.all([
+    db.select({
+      id: visitorEvents.id,
+      visitorId: visitorEvents.visitorId,
+      ip: visitorEvents.ip,
+      userId: visitorEvents.userId,
+      orderId: visitorEvents.orderId,
+      productId: visitorEvents.productId,
+      eventName: visitorEvents.eventName,
+      eventAction: visitorEvents.eventAction,
+      path: visitorEvents.path,
+      referrer: visitorEvents.referrer,
+      sourceType: visitorEvents.sourceType,
+      source: visitorEvents.source,
+      medium: visitorEvents.medium,
+      campaign: visitorEvents.campaign,
+      country: visitorEvents.country,
+      region: visitorEvents.region,
+      city: visitorEvents.city,
+      locale: visitorEvents.locale,
+      currency: visitorEvents.currency,
+      deviceType: visitorEvents.deviceType,
+      browser: visitorEvents.browser,
+      os: visitorEvents.os,
+      createdAt: visitorEvents.createdAt
+    }).from(visitorEvents).where(and(gte(visitorEvents.createdAt, rangeStart), lt(visitorEvents.createdAt, rangeEnd))).orderBy(desc(visitorEvents.createdAt)),
+    db.select().from(visitorProfiles).where(and(gte(visitorProfiles.lastSeenAt, rangeStart), lt(visitorProfiles.lastSeenAt, rangeEnd))).orderBy(desc(visitorProfiles.lastSeenAt)),
+    db.select({
+      id: orders.id,
+      amount: orders.amount,
+      visitorId: orders.visitorId,
+      userId: orders.userId
+    }).from(orders).where(and(gte(orders.createdAt, rangeStart), lt(orders.createdAt, rangeEnd), eq(orders.payStatus, "paid")))
+  ]);
   const externalEventVisitorIds = /* @__PURE__ */ new Set();
   for (const evt of events) {
     if (evt.referrer && !evt.referrer.includes(host)) {
       externalEventVisitorIds.add(evt.visitorId);
     }
   }
-  const profiles = await db.select().from(visitorProfiles).where(and(gte(visitorProfiles.lastSeenAt, rangeStart), lt(visitorProfiles.lastSeenAt, rangeEnd))).orderBy(desc(visitorProfiles.lastSeenAt));
-  const { rangeStart: todayStart, rangeEnd: todayEnd } = parseStatsRange({ preset: "today" }, tz);
+  const visitorRevenueMap = /* @__PURE__ */ new Map();
+  for (const ord of rangeOrders) {
+    if (ord.visitorId) {
+      const cur = visitorRevenueMap.get(ord.visitorId) || { count: 0, revenue: 0 };
+      cur.count += 1;
+      cur.revenue += Number(ord.amount || 0);
+      visitorRevenueMap.set(ord.visitorId, cur);
+    }
+  }
   const dateKeys = Array.from({ length: days }).map((_, index) => toZonedDateKey(shiftZonedDay(rangeStart, index, tz), tz));
   const trendMap = /* @__PURE__ */ new Map();
   for (const dateKey of dateKeys) {
@@ -117,36 +160,11 @@ const stats_get = defineEventHandler(async (event) => {
   const authVisitors = /* @__PURE__ */ new Set();
   const loginVisitors = /* @__PURE__ */ new Set();
   const registerVisitors = /* @__PURE__ */ new Set();
-  const todayIps = /* @__PURE__ */ new Set();
-  let todayHasUnknownIp = false;
+  const uniqueIps = /* @__PURE__ */ new Set();
+  let hasUnknownIp = false;
   const externalVisitors = /* @__PURE__ */ new Set();
   const campaignVisitors = /* @__PURE__ */ new Set();
-  const firstTouchSourceMap = {};
-  const lastTouchSourceMap = {};
-  const sourceCategoryMap = {};
-  const externalSourceMap = {};
-  const countryMap = {};
-  const deviceMap = {};
   const visitorEventStats = /* @__PURE__ */ new Map();
-  for (const profile of profiles) {
-    const firstTouch = formatSourceLabel(profile, "first");
-    const lastTouch = formatSourceLabel(profile, "last");
-    const sourceCategory = profile.lastSourceType || "direct";
-    firstTouchSourceMap[firstTouch] = (firstTouchSourceMap[firstTouch] || 0) + 1;
-    lastTouchSourceMap[lastTouch] = (lastTouchSourceMap[lastTouch] || 0) + 1;
-    sourceCategoryMap[sourceCategory] = (sourceCategoryMap[sourceCategory] || 0) + 1;
-    if (["search", "social", "referral"].includes(sourceCategory)) {
-      externalSourceMap[lastTouch] = (externalSourceMap[lastTouch] || 0) + 1;
-    }
-    countryMap[profile.country || unknownLabel] = (countryMap[profile.country || unknownLabel] || 0) + 1;
-    deviceMap[profile.deviceType || unknownLabel] = (deviceMap[profile.deviceType || unknownLabel] || 0) + 1;
-    if (externalEventVisitorIds.has(profile.visitorId)) {
-      externalVisitors.add(profile.visitorId);
-    }
-    if (profile.firstCampaign || profile.lastCampaign) {
-      campaignVisitors.add(profile.visitorId);
-    }
-  }
   for (const item of events) {
     const dateKey = toZonedDateKey(toDate(item.createdAt), tz);
     const trendItem = trendMap.get(dateKey);
@@ -205,12 +223,52 @@ const stats_get = defineEventHandler(async (event) => {
         trendItem.authVisitors.add(item.visitorId);
       }
     }
-    const createdAt = toDate(item.createdAt);
-    if (createdAt >= todayStart && createdAt < todayEnd) {
-      if (item.ip) todayIps.add(item.ip);
-      else todayHasUnknownIp = true;
-    }
+    if (item.ip) uniqueIps.add(item.ip);
+    else hasUnknownIp = true;
     visitorEventStats.set(item.visitorId, stats);
+  }
+  const firstTouchSourceMap = {};
+  const lastTouchSourceMap = {};
+  const sourceCategoryMap = {};
+  const externalSourceMap = {};
+  const countryMap = {};
+  const deviceMap = {};
+  const standardCategories = ["direct", "search", "social", "ai", "campaign", "affiliate", "email", "referral"];
+  for (const cat of standardCategories) {
+    sourceCategoryMap[cat] = { count: 0, checkouts: 0, paid: 0, revenue: 0 };
+  }
+  const recordMetric = (map, key, checkouts, paid, revenue) => {
+    if (!map[key]) {
+      map[key] = { count: 0, checkouts: 0, paid: 0, revenue: 0 };
+    }
+    map[key].count += 1;
+    map[key].checkouts += checkouts;
+    map[key].paid += paid;
+    map[key].revenue += revenue;
+  };
+  for (const profile of profiles) {
+    const firstTouch = formatSourceLabel(profile, "first");
+    const lastTouch = formatSourceLabel(profile, "last");
+    const sourceCategory = profile.lastSourceType || "direct";
+    const vStats = visitorEventStats.get(profile.visitorId);
+    const vRev = visitorRevenueMap.get(profile.visitorId);
+    const checkouts = ((vStats == null ? void 0 : vStats.checkouts) || 0) > 0 ? 1 : 0;
+    const paid = ((vStats == null ? void 0 : vStats.paid) || 0) > 0 || ((vRev == null ? void 0 : vRev.count) || 0) > 0 ? 1 : 0;
+    const revenue = (vRev == null ? void 0 : vRev.revenue) || 0;
+    recordMetric(firstTouchSourceMap, firstTouch, checkouts, paid, revenue);
+    recordMetric(lastTouchSourceMap, lastTouch, checkouts, paid, revenue);
+    recordMetric(sourceCategoryMap, sourceCategory, checkouts, paid, revenue);
+    if (sourceCategory !== "direct") {
+      recordMetric(externalSourceMap, lastTouch, checkouts, paid, revenue);
+    }
+    countryMap[profile.country || unknownLabel] = (countryMap[profile.country || unknownLabel] || 0) + 1;
+    deviceMap[profile.deviceType || unknownLabel] = (deviceMap[profile.deviceType || unknownLabel] || 0) + 1;
+    if (externalEventVisitorIds.has(profile.visitorId)) {
+      externalVisitors.add(profile.visitorId);
+    }
+    if (profile.firstCampaign || profile.lastCampaign) {
+      campaignVisitors.add(profile.visitorId);
+    }
   }
   const authProfiles = await db.select({ visitorId: visitorProfiles.visitorId }).from(visitorProfiles).where(
     and(
@@ -246,10 +304,9 @@ const stats_get = defineEventHandler(async (event) => {
     overview: {
       pageViews: events.filter((item) => item.eventName === "page_view").length,
       uniqueVisitors: pageViewVisitors.size,
-      // Field name kept for compatibility with the existing card binding; the
-      // metric is distinct IPs (see todayIps), matching the "今日IP" label and
-      // the GROUP BY ip drill-down.
-      todayVisitors: todayIps.size + (todayHasUnknownIp ? 1 : 0),
+      uniqueIps: uniqueIps.size + (hasUnknownIp ? 1 : 0),
+      // todayVisitors kept for backwards compatibility with existing card binding
+      todayVisitors: uniqueIps.size + (hasUnknownIp ? 1 : 0),
       productVisitors: productVisitors.size,
       checkoutVisitors: checkoutVisitors.size,
       paidVisitors: paidVisitors.size,
@@ -269,10 +326,10 @@ const stats_get = defineEventHandler(async (event) => {
     ],
     trend,
     sources: {
-      categories: buildTopList(sourceCategoryMap, profiles.length),
-      external: buildTopList(externalSourceMap, profiles.length),
-      firstTouch: buildTopList(firstTouchSourceMap, profiles.length),
-      lastTouch: buildTopList(lastTouchSourceMap, profiles.length)
+      categories: buildTopCommerceList(sourceCategoryMap, profiles.length),
+      external: buildTopCommerceList(externalSourceMap, profiles.length),
+      firstTouch: buildTopCommerceList(firstTouchSourceMap, profiles.length),
+      lastTouch: buildTopCommerceList(lastTouchSourceMap, profiles.length)
     },
     geography: buildTopList(countryMap, profiles.length),
     devices: buildTopList(deviceMap, profiles.length)

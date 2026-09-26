@@ -1,7 +1,5 @@
-import { d as defineEventHandler, b as db, u as users, p as products, z as subscriptions, o as orders } from '../../../nitro/nitro.mjs';
-import { eq, desc, inArray } from 'drizzle-orm';
-import '@adonisjs/hash';
-import '@adonisjs/hash/drivers/scrypt';
+import { d as defineEventHandler, g as getQuery, az as posts, b as db } from '../../../nitro/nitro.mjs';
+import { eq, or, like, and, count, desc, sql } from 'drizzle-orm';
 import 'node:crypto';
 import 'crypto';
 import 'fs';
@@ -27,52 +25,69 @@ import 'maxmind';
 import 'node:url';
 import '@iconify/utils';
 import 'consola';
+import 'ioredis';
 import 'zod';
+import 'node:child_process';
+import 'node:os';
+import 'node:fs/promises';
+import 'node:dns/promises';
+import 'node:net';
+import '@adonisjs/hash';
+import '@adonisjs/hash/drivers/scrypt';
 
 const index_get = defineEventHandler(async (event) => {
-  const subs = await db.select({
-    id: subscriptions.id,
-    gatewaySubId: subscriptions.gatewaySubId,
-    amount: subscriptions.amount,
-    currency: subscriptions.currency,
-    interval: subscriptions.interval,
-    intervalCount: subscriptions.intervalCount,
-    status: subscriptions.status,
-    payMethod: subscriptions.payMethod,
-    createdAt: subscriptions.createdAt,
-    currentPeriodStart: subscriptions.currentPeriodStart,
-    currentPeriodEnd: subscriptions.currentPeriodEnd,
-    cancelAtPeriodEnd: subscriptions.cancelAtPeriodEnd,
-    productId: products.id,
-    productName: products.name,
-    userId: users.id,
-    userEmail: users.email,
-    userNickname: users.nickname
-  }).from(subscriptions).leftJoin(products, eq(subscriptions.productId, products.id)).leftJoin(users, eq(subscriptions.userId, users.id)).orderBy(desc(subscriptions.createdAt));
-  if (!subs.length) return [];
-  const subIds = subs.map((s) => s.id).filter(Boolean);
-  const relatedOrders = subIds.length > 0 ? await db.select({
-    id: orders.id,
-    subscriptionId: orders.subscriptionId,
-    contactEmail: orders.contactEmail
-  }).from(orders).where(inArray(orders.subscriptionId, subIds)).orderBy(desc(orders.createdAt)) : [];
-  const orderMap = /* @__PURE__ */ new Map();
-  for (const ord of relatedOrders) {
-    if (ord.subscriptionId && !orderMap.has(ord.subscriptionId)) {
-      orderMap.set(ord.subscriptionId, {
-        id: ord.id,
-        contactEmail: ord.contactEmail
-      });
-    }
+  var _a;
+  const query = getQuery(event);
+  const page = Math.max(1, parseInt(query.page) || 1);
+  const pageSize = Math.min(100, Math.max(1, parseInt(query.pageSize) || 15));
+  const offset = (page - 1) * pageSize;
+  const type = String(query.type || "").trim();
+  const status = String(query.status || "").trim();
+  const search = String(query.search || "").trim();
+  const conditions = [];
+  if (type && type !== "all") {
+    conditions.push(eq(posts.type, type));
   }
-  return subs.map((sub) => {
-    const linked = orderMap.get(sub.id);
-    return {
-      ...sub,
-      orderId: (linked == null ? void 0 : linked.id) || sub.gatewaySubId || sub.id,
-      contactEmail: (linked == null ? void 0 : linked.contactEmail) || sub.userEmail
-    };
-  });
+  if (status === "published") {
+    conditions.push(eq(posts.isActive, true));
+  } else if (status === "draft") {
+    conditions.push(eq(posts.isActive, false));
+  }
+  if (search) {
+    const pattern = `%${search}%`;
+    conditions.push(
+      or(
+        like(posts.title, pattern),
+        like(posts.slug, pattern),
+        like(posts.key, pattern),
+        like(posts.description, pattern)
+      )
+    );
+  }
+  const whereClause = conditions.length > 0 ? and(...conditions) : void 0;
+  const [totalResult, result] = await Promise.all([
+    db.select({ value: count() }).from(posts).where(whereClause),
+    db.select().from(posts).where(whereClause).orderBy(desc(posts.createdAt)).limit(pageSize).offset(offset)
+  ]);
+  const total = ((_a = totalResult[0]) == null ? void 0 : _a.value) || 0;
+  const [statsResult] = await db.select({
+    totalAll: count(),
+    publishedCount: sql`SUM(CASE WHEN ${posts.isActive} = true THEN 1 ELSE 0 END)`,
+    draftCount: sql`SUM(CASE WHEN ${posts.isActive} = false THEN 1 ELSE 0 END)`,
+    totalViews: sql`COALESCE(SUM(${posts.views}), 0)`
+  }).from(posts);
+  return {
+    data: result,
+    total,
+    page,
+    pageSize,
+    stats: {
+      total: Number((statsResult == null ? void 0 : statsResult.totalAll) || 0),
+      published: Number((statsResult == null ? void 0 : statsResult.publishedCount) || 0),
+      draft: Number((statsResult == null ? void 0 : statsResult.draftCount) || 0),
+      totalViews: Number((statsResult == null ? void 0 : statsResult.totalViews) || 0)
+    }
+  };
 });
 
 export { index_get as default };

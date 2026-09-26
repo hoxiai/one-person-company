@@ -1,7 +1,5 @@
-import { d as defineEventHandler, b as db, aF as settings, r as readBody, s as setAuditMeta, aU as EMAIL_VERIFY_POLICY_KEY, aV as invalidateEmailVerifyPolicyCache } from '../../../nitro/nitro.mjs';
+import { d as defineEventHandler, b as db, aN as settings, r as readBody, s as setAuditMeta, b0 as EMAIL_VERIFY_POLICY_KEY, b1 as invalidateEmailVerifyPolicyCache } from '../../../nitro/nitro.mjs';
 import { eq } from 'drizzle-orm';
-import '@adonisjs/hash';
-import '@adonisjs/hash/drivers/scrypt';
 import 'node:crypto';
 import 'crypto';
 import 'fs';
@@ -27,7 +25,15 @@ import 'maxmind';
 import 'node:url';
 import '@iconify/utils';
 import 'consola';
+import 'ioredis';
 import 'zod';
+import 'node:child_process';
+import 'node:os';
+import 'node:fs/promises';
+import 'node:dns/promises';
+import 'node:net';
+import '@adonisjs/hash';
+import '@adonisjs/hash/drivers/scrypt';
 
 const index = defineEventHandler(async (event) => {
   var _a;

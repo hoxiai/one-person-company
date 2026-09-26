@@ -1,9 +1,7 @@
-import { d as defineEventHandler, ab as requireTrustedRequestOrigin, bH as mergePromoTracking, bJ as readPromoTracking, bI as capturePromoTracking, bU as getRequestIP, e as createError, r as readBody, bF as requireUserSession, b as db, u as users, X as clearUserSession, aF as settings, bC as ensureVisitorId, p as products, ae as resolveRequestLocale, ad as getSiteLocaleConfig, y as buildLocaleCurrencyQuote, ah as getMinimalCheckoutAdminConfig, bV as stripReservedOrderMeta, ai as buildMinimalCheckoutBridgeMeta, aj as mergeMinimalCheckoutMeta, _ as isMinimalCheckoutRelayOrder, bW as MINIMAL_CHECKOUT_SOURCE, a3 as fulfillMinimalCheckoutRelay, a4 as fulfillOrder, a6 as emitEvent, b8 as userWallets, o as orders, O as ORDER_PAY_STATUS, ak as prepareOrderMetaForInsert, am as ensureTopupRecordForOrder, a0 as createOrderAttribution, bm as trackVisitorEvent, al as ORDER_STATUS, bX as getAffectedRows, a1 as settlePaidTopup, c as getRequestLocale, J as getLocalizedSettingValue, K as sendEmail, bY as createNotification } from '../../../nitro/nitro.mjs';
-import { eq, and, gte, desc } from 'drizzle-orm';
+import { d as defineEventHandler, ai as requireTrustedRequestOrigin, bS as mergePromoTracking, bU as readPromoTracking, bT as capturePromoTracking, b$ as getRequestIP, e as createError, r as readBody, bQ as requireUserSession, b as db, u as users, $ as clearUserSession, aN as settings, bN as ensureVisitorId, p as products, al as resolveRequestLocale, ak as getSiteLocaleConfig, C as buildLocaleCurrencyQuote, ao as getMinimalCheckoutAdminConfig, c6 as stripReservedOrderMeta, ap as buildMinimalCheckoutBridgeMeta, aq as mergeMinimalCheckoutMeta, a4 as isMinimalCheckoutRelayOrder, c7 as MINIMAL_CHECKOUT_SOURCE, a9 as fulfillMinimalCheckoutRelay, aa as fulfillOrder, ac as emitEvent, c8 as getSubscriptionEntitlement, v as orders, O as ORDER_PAY_STATUS, ar as prepareOrderMetaForInsert, at as ensureTopupRecordForOrder, a6 as createOrderAttribution, bx as trackVisitorEvent, as as ORDER_STATUS, c9 as getAffectedRows, a7 as settlePaidTopup, c as getRequestLocale, N as getLocalizedSettingValue, P as sendEmail, ca as createNotification } from '../../../nitro/nitro.mjs';
+import { eq, and, or, isNull, gte, desc } from 'drizzle-orm';
 import crypto from 'crypto';
 import { z } from 'zod';
-import '@adonisjs/hash';
-import '@adonisjs/hash/drivers/scrypt';
 import 'node:crypto';
 import 'fs';
 import 'path';
@@ -28,6 +26,14 @@ import 'maxmind';
 import 'node:url';
 import '@iconify/utils';
 import 'consola';
+import 'ioredis';
+import 'node:child_process';
+import 'node:os';
+import 'node:fs/promises';
+import 'node:dns/promises';
+import 'node:net';
+import '@adonisjs/hash';
+import '@adonisjs/hash/drivers/scrypt';
 
 const METADATA_MAX_BYTES = 16 * 1024;
 const metaDataSchema = z.record(z.string(), z.any()).refine((obj) => Buffer.byteLength(JSON.stringify(obj), "utf8") <= METADATA_MAX_BYTES, {
@@ -62,9 +68,14 @@ const parseOrderMetaData = (value) => {
   }
 };
 const matchesCurrencySnapshot = (value, snapshot) => {
+  var _a, _b;
   const current = parseOrderMetaData(value).currencySnapshot;
   if (!current || typeof current !== "object") return false;
-  return current.locale === snapshot.locale && current.baseCurrency === snapshot.baseCurrency && Number(current.baseAmount) === Number(snapshot.baseAmount) && current.currency === snapshot.currency && Number(current.exchangeRate) === Number(snapshot.exchangeRate) && Number(current.amount) === Number(snapshot.amount) && current.source === snapshot.source;
+  const basicMatches = current.locale === snapshot.locale && current.baseCurrency === snapshot.baseCurrency && Number(current.baseAmount) === Number(snapshot.baseAmount) && current.currency === snapshot.currency && Number(current.exchangeRate) === Number(snapshot.exchangeRate) && Number(current.amount) === Number(snapshot.amount) && current.source === snapshot.source;
+  if (!basicMatches) return false;
+  const currentRate = Number(((_a = current.discountDetails) == null ? void 0 : _a.combinedDiscountRate) || 1);
+  const targetRate = Number(((_b = snapshot.discountDetails) == null ? void 0 : _b.combinedDiscountRate) || 1);
+  return Math.abs(currentRate - targetRate) < 1e-4;
 };
 const sendPendingOrderEmail = async (input) => {
   if (!isDeliverableEmail(input.email)) return;
@@ -108,6 +119,7 @@ const createPendingOrderNotification = async (event, input) => {
   });
 };
 const checkout_post = defineEventHandler(async (event) => {
+  var _a;
   try {
     const siteUrl = requireTrustedRequestOrigin(event);
     const locale = getPreferredLocale(event);
@@ -218,25 +230,78 @@ const checkout_post = defineEventHandler(async (event) => {
         productMetaData = {};
       }
     }
+    const originalBaseAmount = Number((product.price * productNum).toFixed(4));
+    let effectiveBaseAmount = originalBaseAmount;
+    let volumeDiscountRate = 1;
+    const rawVolumeDiscounts = productMetaData == null ? void 0 : productMetaData.volume_discounts;
+    if (Array.isArray(rawVolumeDiscounts) && rawVolumeDiscounts.length > 0) {
+      const matchedTiers = rawVolumeDiscounts.filter((tier) => {
+        const minQty = Number((tier == null ? void 0 : tier.minQuantity) || (tier == null ? void 0 : tier.min_quantity));
+        const rate = Number((tier == null ? void 0 : tier.discountRate) || (tier == null ? void 0 : tier.discount_rate));
+        return Number.isFinite(minQty) && minQty > 0 && productNum >= minQty && Number.isFinite(rate) && rate > 0 && rate <= 1;
+      }).sort((a, b) => {
+        const rateA = Number(a.discountRate || a.discount_rate);
+        const rateB = Number(b.discountRate || b.discount_rate);
+        return rateA - rateB;
+      });
+      if (matchedTiers.length > 0) {
+        volumeDiscountRate = Number(matchedTiers[0].discountRate || matchedTiers[0].discount_rate);
+      }
+    }
+    let promoDiscountRate = 1;
+    const hasPromoAttribution = Boolean(promoTracking.inviteCode || promoTracking.promoCode || promoTracking.agentCode);
+    if (hasPromoAttribution) {
+      let configuredPromoRate = Number(productMetaData == null ? void 0 : productMetaData.promo_discount_rate);
+      if (!Number.isFinite(configuredPromoRate) || configuredPromoRate <= 0 || configuredPromoRate > 1) {
+        const globalPromoRateSetting = await db.select().from(settings).where(eq(settings.key, "promo_buyer_discount_rate")).limit(1);
+        if (globalPromoRateSetting.length > 0) {
+          const globalVal = Number(globalPromoRateSetting[0].value);
+          if (Number.isFinite(globalVal) && globalVal > 0 && globalVal <= 1) {
+            configuredPromoRate = globalVal;
+          }
+        }
+      }
+      if (Number.isFinite(configuredPromoRate) && configuredPromoRate > 0 && configuredPromoRate < 1) {
+        promoDiscountRate = configuredPromoRate;
+      }
+    }
+    const combinedDiscountRate = Number((volumeDiscountRate * promoDiscountRate).toFixed(4));
+    if (combinedDiscountRate < 1) {
+      effectiveBaseAmount = Number((originalBaseAmount * combinedDiscountRate).toFixed(4));
+    }
+    const discountBaseAmount = Number((originalBaseAmount - effectiveBaseAmount).toFixed(4));
+    const discountDetails = {
+      originalPrice: product.price,
+      quantity: productNum,
+      originalBaseAmount,
+      volumeDiscountRate: volumeDiscountRate < 1 ? volumeDiscountRate : null,
+      promoDiscountRate: promoDiscountRate < 1 ? promoDiscountRate : null,
+      combinedDiscountRate: combinedDiscountRate < 1 ? combinedDiscountRate : 1,
+      discountBaseAmount,
+      finalBaseAmount: effectiveBaseAmount
+    };
     const checkoutLocale = resolveRequestLocale(event, parsedBody.locale, await getSiteLocaleConfig());
     const currencyQuote = await buildLocaleCurrencyQuote(
-      product.price * productNum,
+      effectiveBaseAmount,
       checkoutLocale
     );
     const totalAmount = currencyQuote.amount;
     const configuredRechargeAmount = Number(productMetaData.recharge_amount || 0);
-    const rechargeAmount = configuredRechargeAmount > 0 ? configuredRechargeAmount : currencyQuote.baseAmount;
+    const rechargeAmount = configuredRechargeAmount > 0 ? configuredRechargeAmount * productNum : currencyQuote.baseAmount;
     if (product.type === "topup" && (!(totalAmount > 0) || !(rechargeAmount > 0))) {
       throw createError({ statusCode: 400, message: messages.invalidTopupAmount });
     }
     const currencySnapshot = {
       locale: currencyQuote.locale,
       baseCurrency: currencyQuote.baseCurrency,
+      originalBaseAmount,
       baseAmount: currencyQuote.baseAmount,
+      discountBaseAmount,
       currency: currencyQuote.currency,
       exchangeRate: currencyQuote.rate,
       amount: currencyQuote.amount,
-      source: currencyQuote.source
+      source: currencyQuote.source,
+      ...combinedDiscountRate < 1 ? { discountDetails } : {}
     };
     const minimalCheckoutConfig = await getMinimalCheckoutAdminConfig();
     const finalMetaData = {
@@ -246,6 +311,7 @@ const checkout_post = defineEventHandler(async (event) => {
       ...promoTracking.promoCode ? { promoCode: promoTracking.promoCode } : {},
       ...promoTracking.agentCode ? { agentCode: promoTracking.agentCode } : {},
       order_quantity: productNum,
+      ...combinedDiscountRate < 1 ? { discountDetails } : {},
       currencySnapshot
     };
     const buildRelayOrderMeta = (externalOrderId) => {
@@ -292,10 +358,8 @@ const checkout_post = defineEventHandler(async (event) => {
     if (product.type === "subscription" && userId) {
       const productLevel = productMetaData == null ? void 0 : productMetaData.level;
       if (productLevel !== void 0) {
-        const walletRecord = await db.select({ tierLevel: userWallets.tierLevel, subExpiresAt: userWallets.subExpiresAt }).from(userWallets).where(eq(userWallets.userId, userId)).limit(1);
-        const wallet = walletRecord[0];
-        const walletActive = Boolean((wallet == null ? void 0 : wallet.subExpiresAt) && new Date(wallet.subExpiresAt).getTime() > Date.now());
-        const currentLevel = walletActive ? wallet.tierLevel || 0 : 0;
+        const entitlement = await getSubscriptionEntitlement(Number(userId));
+        const currentLevel = (_a = entitlement == null ? void 0 : entitlement.level) != null ? _a : 0;
         if (Number(productLevel) < Number(currentLevel)) {
           throw createError({
             statusCode: 409,
@@ -334,6 +398,9 @@ const checkout_post = defineEventHandler(async (event) => {
         eq(orders.productId, productId),
         eq(orders.visitorId, visitorId),
         // 必须是同一个访客
+        // 同浏览器切换账号时 visitorId 不变:登录用户只接手自己或匿名时建的单,
+        // 匿名访客只复用匿名单,别人的待支付单不能被改挂到自己名下
+        userId ? or(eq(orders.userId, userId), isNull(orders.userId)) : isNull(orders.userId),
         gte(orders.createdAt, oneHourAgo)
         // 必须是1小时内的订单
       )

@@ -1,7 +1,5 @@
-import { d as defineEventHandler, g as getQuery, ax as listPromoCommissions, b as db, ay as promoCommissions } from '../../../../nitro/nitro.mjs';
+import { d as defineEventHandler, g as getQuery, b as db, aF as promoCommissions, aG as listPromoCommissions } from '../../../../nitro/nitro.mjs';
 import { count } from 'drizzle-orm';
-import '@adonisjs/hash';
-import '@adonisjs/hash/drivers/scrypt';
 import 'node:crypto';
 import 'crypto';
 import 'fs';
@@ -27,20 +25,29 @@ import 'maxmind';
 import 'node:url';
 import '@iconify/utils';
 import 'consola';
+import 'ioredis';
 import 'zod';
+import 'node:child_process';
+import 'node:os';
+import 'node:fs/promises';
+import 'node:dns/promises';
+import 'node:net';
+import '@adonisjs/hash';
+import '@adonisjs/hash/drivers/scrypt';
 
 const commissions_get = defineEventHandler(async (event) => {
   var _a;
   const query = getQuery(event);
-  const page = parseInt(query.page) || 1;
-  const pageSize = parseInt(query.pageSize) || 15;
-  const rows = await listPromoCommissions(500);
-  const totalRows = await db.select({ value: count() }).from(promoCommissions);
-  const total = Number(((_a = totalRows[0]) == null ? void 0 : _a.value) || 0);
-  const start = (page - 1) * pageSize;
+  const page = Math.max(1, parseInt(query.page) || 1);
+  const pageSize = Math.max(1, Math.min(100, parseInt(query.pageSize) || 15));
+  const offset = (page - 1) * pageSize;
+  const [totalRows, data] = await Promise.all([
+    db.select({ value: count() }).from(promoCommissions),
+    listPromoCommissions(pageSize, offset)
+  ]);
   return {
-    data: rows.slice(start, start + pageSize),
-    total,
+    data,
+    total: Number(((_a = totalRows[0]) == null ? void 0 : _a.value) || 0),
     page,
     pageSize
   };

@@ -1,7 +1,5 @@
-import { d as defineEventHandler, c as getRequestLocale, g as getQuery, e as createError, w as getConfiguredTimezone, aW as parseStatsRange, aY as visitorEvents, b as db, p as products, v as visitorProfiles, u as users, b1 as toIsoTimestampOrEpoch } from '../../../../nitro/nitro.mjs';
+import { d as defineEventHandler, c as getRequestLocale, g as getQuery, e as createError, y as getConfiguredTimezone, b2 as parseStatsRange, B as visitorEvents, b as db, p as products, x as visitorProfiles, u as users, b9 as toIsoTimestampOrEpoch, b6 as formatSourceBrand } from '../../../../nitro/nitro.mjs';
 import { sql, eq, and, gte, lt, count, desc, inArray } from 'drizzle-orm';
-import '@adonisjs/hash';
-import '@adonisjs/hash/drivers/scrypt';
 import 'node:crypto';
 import 'crypto';
 import 'fs';
@@ -27,7 +25,15 @@ import 'maxmind';
 import 'node:url';
 import '@iconify/utils';
 import 'consola';
+import 'ioredis';
 import 'zod';
+import 'node:child_process';
+import 'node:os';
+import 'node:fs/promises';
+import 'node:dns/promises';
+import 'node:net';
+import '@adonisjs/hash';
+import '@adonisjs/hash/drivers/scrypt';
 
 const ipDetails_get = defineEventHandler(async (event) => {
   const locale = getRequestLocale(event);
@@ -152,8 +158,8 @@ const ipDetails_get = defineEventHandler(async (event) => {
         eventCount: Number(item.eventCount || 0),
         firstSeenAt: toIsoTimestampOrEpoch(item.firstSeenAt),
         lastSeenAt: toIsoTimestampOrEpoch(item.lastSeenAt),
-        firstTouch: (profile == null ? void 0 : profile.firstCampaign) || (profile == null ? void 0 : profile.firstSource) || (profile == null ? void 0 : profile.firstSourceType) || "direct",
-        lastTouch: (profile == null ? void 0 : profile.lastCampaign) || (profile == null ? void 0 : profile.lastSource) || (profile == null ? void 0 : profile.lastSourceType) || "direct",
+        firstTouch: formatSourceBrand(profile == null ? void 0 : profile.firstSource, profile == null ? void 0 : profile.firstSourceType) || (profile == null ? void 0 : profile.firstCampaign) || ((profile == null ? void 0 : profile.firstSourceType) === "direct" ? locale === "zh" ? "\u76F4\u63A5\u8BBF\u95EE" : "Direct" : (profile == null ? void 0 : profile.firstReferrer) || "direct"),
+        lastTouch: formatSourceBrand(profile == null ? void 0 : profile.lastSource, profile == null ? void 0 : profile.lastSourceType) || (profile == null ? void 0 : profile.lastCampaign) || ((profile == null ? void 0 : profile.lastSourceType) === "direct" ? locale === "zh" ? "\u76F4\u63A5\u8BBF\u95EE" : "Direct" : (profile == null ? void 0 : profile.lastReferrer) || "direct"),
         user: user ? { ...user, createdAt: toIsoTimestampOrEpoch(user.createdAt) } : null
       };
     }),

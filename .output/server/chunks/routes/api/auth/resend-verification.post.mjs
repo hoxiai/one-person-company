@@ -1,7 +1,5 @@
-import { d as defineEventHandler, ab as requireTrustedRequestOrigin, c as getRequestLocale, r as readBody, aN as getUserSession, b as db, u as users, e as createError, bM as getEmailVerifySendCooldown, bj as revokeEmailVerifyTokens, bN as issueEmailVerification, bO as EMAIL_VERIFY_SEND_COOLDOWN_SECONDS } from '../../../nitro/nitro.mjs';
+import { d as defineEventHandler, ai as requireTrustedRequestOrigin, c as getRequestLocale, r as readBody, aV as getUserSession, b as db, u as users, e as createError, bX as getEmailVerifySendCooldown, bs as revokeEmailVerifyTokens, bY as issueEmailVerification, bZ as EMAIL_VERIFY_SEND_COOLDOWN_SECONDS } from '../../../nitro/nitro.mjs';
 import { eq } from 'drizzle-orm';
-import '@adonisjs/hash';
-import '@adonisjs/hash/drivers/scrypt';
 import 'node:crypto';
 import 'crypto';
 import 'fs';
@@ -27,7 +25,15 @@ import 'maxmind';
 import 'node:url';
 import '@iconify/utils';
 import 'consola';
+import 'ioredis';
 import 'zod';
+import 'node:child_process';
+import 'node:os';
+import 'node:fs/promises';
+import 'node:dns/promises';
+import 'node:net';
+import '@adonisjs/hash';
+import '@adonisjs/hash/drivers/scrypt';
 
 const resendVerification_post = defineEventHandler(async (event) => {
   var _a;

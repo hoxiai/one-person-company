@@ -1,7 +1,5 @@
-import { d as defineEventHandler, c as getRequestLocale, bF as requireUserSession, e as createError, g as getQuery, ci as getOrCreateUserWallet, b as db, b8 as userWallets, o as orders, q as aggregateOrderAccountingTotals, p as products, t as toIsoTimestamp } from '../../../nitro/nitro.mjs';
+import { d as defineEventHandler, c as getRequestLocale, bQ as requireUserSession, e as createError, g as getQuery, ba as usesAINodeWallet, cw as getOrCreateUserWallet, b as db, be as userWallets, v as orders, w as aggregateOrderAccountingTotals, p as products, t as toIsoTimestamp } from '../../../nitro/nitro.mjs';
 import { eq, and, gte, ne, desc, inArray } from 'drizzle-orm';
-import '@adonisjs/hash';
-import '@adonisjs/hash/drivers/scrypt';
 import 'node:crypto';
 import 'crypto';
 import 'fs';
@@ -27,7 +25,15 @@ import 'maxmind';
 import 'node:url';
 import '@iconify/utils';
 import 'consola';
+import 'ioredis';
 import 'zod';
+import 'node:child_process';
+import 'node:os';
+import 'node:fs/promises';
+import 'node:dns/promises';
+import 'node:net';
+import '@adonisjs/hash';
+import '@adonisjs/hash/drivers/scrypt';
 
 const billing_get = defineEventHandler(async (event) => {
   var _a, _b, _c;
@@ -45,11 +51,14 @@ const billing_get = defineEventHandler(async (event) => {
   const limit = parseInt(query.pageSize) || 15;
   const offset = (page - 1) * limit;
   const tab = query.tab || "pending";
-  const walletRecord = await getOrCreateUserWallet(Number(userId));
-  const userRecord = await db.select().from(userWallets).where(eq(userWallets.id, walletRecord.id)).limit(1);
-  const cash = Number(((_a = userRecord[0]) == null ? void 0 : _a.cashBalance) || 0) / 1e8;
-  const grant = Number(((_b = userRecord[0]) == null ? void 0 : _b.grantBalance) || 0) / 1e8;
-  const availableBalance = cash + grant;
+  let availableBalance = 0;
+  if (!usesAINodeWallet()) {
+    const walletRecord = await getOrCreateUserWallet(Number(userId));
+    const userRecord = await db.select().from(userWallets).where(eq(userWallets.id, walletRecord.id)).limit(1);
+    const cash = Number(((_a = userRecord[0]) == null ? void 0 : _a.cashBalance) || 0) / 1e8;
+    const grant = Number(((_b = userRecord[0]) == null ? void 0 : _b.grantBalance) || 0) / 1e8;
+    availableBalance = cash + grant;
+  }
   const thirtyDaysAgo = /* @__PURE__ */ new Date();
   thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
   const recentOrders = await db.select({

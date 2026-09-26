@@ -1,7 +1,5 @@
-import { d as defineEventHandler, c as getRequestLocale, aN as getUserSession, bb as notifications, b_ as getCookie, e as createError, b as db } from '../../../../nitro/nitro.mjs';
+import { d as defineEventHandler, c as getRequestLocale, aV as getUserSession, bk as notifications, cc as getCookie, e as createError, b as db } from '../../../../nitro/nitro.mjs';
 import { eq, and } from 'drizzle-orm';
-import '@adonisjs/hash';
-import '@adonisjs/hash/drivers/scrypt';
 import 'node:crypto';
 import 'crypto';
 import 'fs';
@@ -27,7 +25,15 @@ import 'maxmind';
 import 'node:url';
 import '@iconify/utils';
 import 'consola';
+import 'ioredis';
 import 'zod';
+import 'node:child_process';
+import 'node:os';
+import 'node:fs/promises';
+import 'node:dns/promises';
+import 'node:net';
+import '@adonisjs/hash';
+import '@adonisjs/hash/drivers/scrypt';
 
 const clearAll_delete = defineEventHandler(async (event) => {
   var _a;

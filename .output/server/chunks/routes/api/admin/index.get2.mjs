@@ -1,7 +1,5 @@
 import { d as defineEventHandler, c as getRequestLocale, g as getQuery, b as db, h as admins, A as ADMIN_PERMISSIONS, k as hasAllPermissions, e as createError } from '../../../nitro/nitro.mjs';
 import { count, desc } from 'drizzle-orm';
-import '@adonisjs/hash';
-import '@adonisjs/hash/drivers/scrypt';
 import 'node:crypto';
 import 'crypto';
 import 'fs';
@@ -27,7 +25,15 @@ import 'maxmind';
 import 'node:url';
 import '@iconify/utils';
 import 'consola';
+import 'ioredis';
 import 'zod';
+import 'node:child_process';
+import 'node:os';
+import 'node:fs/promises';
+import 'node:dns/promises';
+import 'node:net';
+import '@adonisjs/hash';
+import '@adonisjs/hash/drivers/scrypt';
 
 const index_get = defineEventHandler(async (event) => {
   var _a;

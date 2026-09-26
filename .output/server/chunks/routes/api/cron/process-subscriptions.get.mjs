@@ -1,7 +1,5 @@
-import { d as defineEventHandler, c as getRequestLocale, bQ as useRuntimeConfig, bR as getHeader, bw as logger, e as createError, b as db, u as users, z as subscriptions, o as orders, al as ORDER_STATUS, b2 as syncWalletTierFromRemaining, b3 as getWebhookSubscriptionUrl, b4 as getIntegrationToken, b5 as sendHttpWebhook } from '../../../nitro/nitro.mjs';
+import { d as defineEventHandler, c as getRequestLocale, c3 as useRuntimeConfig, bh as getHeader, bH as logger, e as createError, b as db, u as users, D as subscriptions, v as orders, as as ORDER_STATUS, bc as syncWalletTierFromRemaining, ac as emitEvent } from '../../../nitro/nitro.mjs';
 import { eq, and, lt } from 'drizzle-orm';
-import '@adonisjs/hash';
-import '@adonisjs/hash/drivers/scrypt';
 import 'node:crypto';
 import 'crypto';
 import 'fs';
@@ -27,7 +25,15 @@ import 'maxmind';
 import 'node:url';
 import '@iconify/utils';
 import 'consola';
+import 'ioredis';
 import 'zod';
+import 'node:child_process';
+import 'node:os';
+import 'node:fs/promises';
+import 'node:dns/promises';
+import 'node:net';
+import '@adonisjs/hash';
+import '@adonisjs/hash/drivers/scrypt';
 
 const processSubscriptions_get = defineEventHandler(async (event) => {
   const locale = getRequestLocale(event);
@@ -59,24 +65,12 @@ const processSubscriptions_get = defineEventHandler(async (event) => {
           await syncWalletTierFromRemaining(Number(sub.userId), now);
         }
         if (sub.cancelAtPeriodEnd && sub.userId) {
-          const [webhookUrl, ainodeToken] = await Promise.all([getWebhookSubscriptionUrl(), getIntegrationToken()]);
-          if (webhookUrl && ainodeToken) {
-            await sendHttpWebhook(
-              webhookUrl,
-              {
-                event: "subscription.cancel",
-                timestamp: now.toISOString(),
-                data: {
-                  eventId: `sub:cancel:${sub.id}`,
-                  userId: Number(sub.userId),
-                  email: String(sub.userEmail || ""),
-                  sourceId: sub.id,
-                  remark: "User cancelled subscription (period ended)"
-                }
-              },
-              { headers: { Authorization: `Bearer ${ainodeToken}` } }
-            );
-          }
+          await emitEvent("subscription.revoked", {
+            id: sub.id,
+            userId: Number(sub.userId),
+            subscriptionId: sub.id,
+            reason: "subscription_expired_period_ended"
+          });
         }
         await logger.info(`[Cron] Subscription ${sub.id} expired.`);
         expiredCount++;

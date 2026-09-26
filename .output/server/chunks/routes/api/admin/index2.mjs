@@ -1,9 +1,7 @@
-import { d as defineEventHandler, c as getRequestLocale, g as getQuery, o as orders, p as products, u as users, b as db, r as readBody, e as createError, ab as requireTrustedRequestOrigin, ac as ensurePromoMember, ad as getSiteLocaleConfig, ae as resolveRequestLocale, af as resolveCurrencyRate, ag as roundCurrencyAmount, ah as getMinimalCheckoutAdminConfig, ai as buildMinimalCheckoutBridgeMeta, aj as mergeMinimalCheckoutMeta, O as ORDER_PAY_STATUS, ak as prepareOrderMetaForInsert, al as ORDER_STATUS, a0 as createOrderAttribution, am as ensureTopupRecordForOrder, a1 as settlePaidTopup, _ as isMinimalCheckoutRelayOrder, a3 as fulfillMinimalCheckoutRelay, a4 as fulfillOrder, a5 as settlePromoCommission, a6 as emitEvent, J as getLocalizedSettingValue, K as sendEmail, s as setAuditMeta } from '../../../nitro/nitro.mjs';
+import { d as defineEventHandler, c as getRequestLocale, g as getQuery, v as orders, p as products, u as users, b as db, r as readBody, e as createError, ai as requireTrustedRequestOrigin, aj as ensurePromoMember, ak as getSiteLocaleConfig, al as resolveRequestLocale, am as resolveCurrencyRate, an as roundCurrencyAmount, ao as getMinimalCheckoutAdminConfig, ap as buildMinimalCheckoutBridgeMeta, aq as mergeMinimalCheckoutMeta, O as ORDER_PAY_STATUS, ar as prepareOrderMetaForInsert, as as ORDER_STATUS, a6 as createOrderAttribution, at as ensureTopupRecordForOrder, a7 as settlePaidTopup, a4 as isMinimalCheckoutRelayOrder, a9 as fulfillMinimalCheckoutRelay, aa as fulfillOrder, ab as settlePromoCommission, ac as emitEvent, N as getLocalizedSettingValue, P as sendEmail, s as setAuditMeta } from '../../../nitro/nitro.mjs';
 import { or, eq, and, ne, like, sql, count, desc } from 'drizzle-orm';
 import crypto from 'crypto';
 import { z } from 'zod';
-import '@adonisjs/hash';
-import '@adonisjs/hash/drivers/scrypt';
 import 'node:crypto';
 import 'fs';
 import 'path';
@@ -28,6 +26,14 @@ import 'maxmind';
 import 'node:url';
 import '@iconify/utils';
 import 'consola';
+import 'ioredis';
+import 'node:child_process';
+import 'node:os';
+import 'node:fs/promises';
+import 'node:dns/promises';
+import 'node:net';
+import '@adonisjs/hash';
+import '@adonisjs/hash/drivers/scrypt';
 
 const manualOrderSchema = z.object({
   userId: z.union([z.number(), z.string()]).optional().nullable(),
@@ -255,7 +261,7 @@ const index = defineEventHandler(async (event) => {
     }
     const minimalCheckoutConfig = await getMinimalCheckoutAdminConfig();
     const configuredRechargeAmount = Number(productMetaData.recharge_amount || 0);
-    const rechargeAmount = configuredRechargeAmount > 0 ? configuredRechargeAmount : baseAmount;
+    const rechargeAmount = configuredRechargeAmount > 0 ? configuredRechargeAmount * quantity : baseAmount;
     const bridgeMeta = buildMinimalCheckoutBridgeMeta({
       externalOrderId: orderId,
       sourceProductId: product.id,
@@ -287,6 +293,8 @@ const index = defineEventHandler(async (event) => {
     const finalMetaData = mergeMinimalCheckoutMeta({
       ...body.metaData || {},
       ...productMetaData.plan_ids ? { plan_ids: productMetaData.plan_ids } : {},
+      // 卡密履约按 order_quantity 逐张认领,与前台结算同一个键
+      order_quantity: quantity,
       currencySnapshot
     }, bridgeMeta);
     const isPaid = body.payStatus === ORDER_PAY_STATUS.PAID;

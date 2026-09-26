@@ -1,1 +1,0 @@
-import{bh as n}from"./NeDxoODw.js";const u=()=>{const o=n("hoxi-community-modal-open",()=>!1),e=()=>{o.value=!0,window.dispatchEvent(new CustomEvent("open-community-modal"))},t=()=>{o.value=!1,window.dispatchEvent(new CustomEvent("close-community-modal"))};return{isOpen:o,open:e,close:t,toggle:()=>{o.value?t():e()}}};export{u};

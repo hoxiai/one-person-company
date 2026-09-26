@@ -1,7 +1,5 @@
-import { d as defineEventHandler, r as readBody, b as db, Z as operationLogs, s as setAuditMeta } from '../../../../nitro/nitro.mjs';
+import { d as defineEventHandler, r as readBody, b as db, a1 as operationLogs, s as setAuditMeta } from '../../../../nitro/nitro.mjs';
 import { lt } from 'drizzle-orm';
-import '@adonisjs/hash';
-import '@adonisjs/hash/drivers/scrypt';
 import 'node:crypto';
 import 'crypto';
 import 'fs';
@@ -27,7 +25,15 @@ import 'maxmind';
 import 'node:url';
 import '@iconify/utils';
 import 'consola';
+import 'ioredis';
 import 'zod';
+import 'node:child_process';
+import 'node:os';
+import 'node:fs/promises';
+import 'node:dns/promises';
+import 'node:net';
+import '@adonisjs/hash';
+import '@adonisjs/hash/drivers/scrypt';
 
 const MIN_KEEP_DAYS = 30;
 const MAX_KEEP_DAYS = 730;

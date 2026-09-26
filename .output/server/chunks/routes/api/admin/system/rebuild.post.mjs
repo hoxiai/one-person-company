@@ -1,10 +1,8 @@
 import { d as defineEventHandler, c as getRequestLocale, e as createError } from '../../../../nitro/nitro.mjs';
 import { spawn } from 'child_process';
 import path from 'path';
-import '@adonisjs/hash';
-import '@adonisjs/hash/drivers/scrypt';
-import 'node:crypto';
 import 'drizzle-orm';
+import 'node:crypto';
 import 'crypto';
 import 'fs';
 import 'node:http';
@@ -28,7 +26,15 @@ import 'maxmind';
 import 'node:url';
 import '@iconify/utils';
 import 'consola';
+import 'ioredis';
 import 'zod';
+import 'node:child_process';
+import 'node:os';
+import 'node:fs/promises';
+import 'node:dns/promises';
+import 'node:net';
+import '@adonisjs/hash';
+import '@adonisjs/hash/drivers/scrypt';
 
 const rebuild_post = defineEventHandler(async (event) => {
   const locale = getRequestLocale(event);

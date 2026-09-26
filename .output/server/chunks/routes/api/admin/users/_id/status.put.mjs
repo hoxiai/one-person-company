@@ -1,7 +1,5 @@
-import { d as defineEventHandler, c as getRequestLocale, f as getRouterParam, e as createError, r as readBody, b as db, u as users, bl as proxyExternalRequest } from '../../../../../nitro/nitro.mjs';
+import { d as defineEventHandler, c as getRequestLocale, f as getRouterParam, e as createError, r as readBody, b as db, u as users, bu as proxyExternalRequest, bv as invalidateExternalUsersCache } from '../../../../../nitro/nitro.mjs';
 import { eq } from 'drizzle-orm';
-import '@adonisjs/hash';
-import '@adonisjs/hash/drivers/scrypt';
 import 'node:crypto';
 import 'crypto';
 import 'fs';
@@ -27,7 +25,15 @@ import 'maxmind';
 import 'node:url';
 import '@iconify/utils';
 import 'consola';
+import 'ioredis';
 import 'zod';
+import 'node:child_process';
+import 'node:os';
+import 'node:fs/promises';
+import 'node:dns/promises';
+import 'node:net';
+import '@adonisjs/hash';
+import '@adonisjs/hash/drivers/scrypt';
 
 const status_put = defineEventHandler(async (event) => {
   const locale = getRequestLocale(event);
@@ -65,6 +71,7 @@ const status_put = defineEventHandler(async (event) => {
         requireSession: true,
         proxyLabel: "ExternalUserStatusUpdate",
         userAgent: "APay-Admin/1.0",
+        timeoutMs: 3e3,
         overrideQuery: {
           path: `/api/admin/users/${userId}/status`
         }
@@ -72,6 +79,7 @@ const status_put = defineEventHandler(async (event) => {
     } catch (extErr) {
       console.warn("[admin/users/status] Failed to sync status to external gateway:", (extErr == null ? void 0 : extErr.message) || extErr);
     }
+    invalidateExternalUsersCache();
     return {
       code: 0,
       message: messages.updated,

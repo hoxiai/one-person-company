@@ -1,10 +1,7 @@
-import { d as defineEventHandler, c as getRequestLocale, r as readBody, bZ as resolveOrderAccess, ad as getSiteLocaleConfig, ae as resolveRequestLocale, c4 as lockLegacyPendingOrderCurrency, b as db, ao as paymentMethods, c5 as isPaymentMethodAvailableForLocale, c6 as resolvePaymentPluginConfig, c7 as isPaymentMethodCurrencySupported } from '../../../nitro/nitro.mjs';
+import { d as defineEventHandler, c as getRequestLocale, r as readBody, cb as resolveOrderAccess, ak as getSiteLocaleConfig, al as resolveRequestLocale, ci as lockLegacyPendingOrderCurrency, b as db, av as paymentMethods, ax as applyLocalPaymentPluginDefaults, cj as isPaymentMethodAvailableForLocale, ck as resolvePaymentPluginConfig, cl as isPaymentMethodCurrencySupported } from '../../../nitro/nitro.mjs';
 import { eq } from 'drizzle-orm';
 import fs from 'fs';
 import path from 'path';
-import { a as applyLocalPaymentPluginDefaults } from '../../../_/meta.mjs';
-import '@adonisjs/hash';
-import '@adonisjs/hash/drivers/scrypt';
 import 'node:crypto';
 import 'crypto';
 import 'node:http';
@@ -28,9 +25,18 @@ import 'maxmind';
 import 'node:url';
 import '@iconify/utils';
 import 'consola';
+import 'ioredis';
 import 'zod';
+import 'node:child_process';
+import 'node:os';
+import 'node:fs/promises';
+import 'node:dns/promises';
+import 'node:net';
+import '@adonisjs/hash';
+import '@adonisjs/hash/drivers/scrypt';
 
 const info_post = defineEventHandler(async (event) => {
+  var _a;
   const locale = getRequestLocale(event);
   const messages = locale === "zh" ? {
     orderIdRequired: "\u8BA2\u5355 ID \u4E0D\u80FD\u4E3A\u7A7A",
@@ -113,12 +119,26 @@ const info_post = defineEventHandler(async (event) => {
       return { code: 1, message: messages.emptyContent };
     }
     const combinedContent = availableMethods.map((m) => m.content).join("\n");
+    let parsedMeta = {};
+    if (order.metaData) {
+      if (typeof order.metaData === "string") {
+        try {
+          parsedMeta = JSON.parse(order.metaData);
+        } catch (e) {
+          parsedMeta = {};
+        }
+      } else if (typeof order.metaData === "object" && !Array.isArray(order.metaData)) {
+        parsedMeta = order.metaData;
+      }
+    }
+    const discountDetails = parsedMeta.discountDetails || ((_a = parsedMeta.currencySnapshot) == null ? void 0 : _a.discountDetails) || null;
     return {
       code: 0,
       data: {
         methods: availableMethods,
         amount: order.amount,
         currency: String(order.currency || "USD"),
+        discountDetails,
         content: combinedContent
         // 保留这个字段，确保旧版 UI / 其它地方调用不报错
       }

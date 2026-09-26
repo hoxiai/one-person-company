@@ -1,9 +1,7 @@
-import { d as defineEventHandler, c as getRequestLocale, f as getRouterParam, cz as readRawBody, r as readBody, g as getQuery, c9 as getRequestHeaders, bw as logger, e as createError, b as db, o as orders, O as ORDER_PAY_STATUS, cA as markOrderPaid, ao as paymentMethods, cB as executeCallbackScript, ce as setResponseStatus, al as ORDER_STATUS, bX as getAffectedRows, cC as markTopupPaymentFailed, a7 as cancelPromoCommission, a8 as revokeSubscriptionForOrder, a9 as refundTopup, cD as setHeader } from '../../../nitro/nitro.mjs';
+import { d as defineEventHandler, cN as setHeader, c as getRequestLocale, f as getRouterParam, cO as readRawBody, r as readBody, g as getQuery, cn as getRequestHeaders, bH as logger, e as createError, b as db, v as orders, O as ORDER_PAY_STATUS, cP as markOrderPaid, av as paymentMethods, cQ as executeCallbackScript, cs as setResponseStatus, as as ORDER_STATUS, c9 as getAffectedRows, cR as markTopupPaymentFailed, ad as cancelPromoCommission, ae as revokeSubscriptionForOrder, af as refundTopup } from '../../../nitro/nitro.mjs';
 import { eq, and, ne } from 'drizzle-orm';
 import fs from 'fs';
 import path from 'path';
-import '@adonisjs/hash';
-import '@adonisjs/hash/drivers/scrypt';
 import 'node:crypto';
 import 'crypto';
 import 'node:http';
@@ -27,7 +25,15 @@ import 'maxmind';
 import 'node:url';
 import '@iconify/utils';
 import 'consola';
+import 'ioredis';
 import 'zod';
+import 'node:child_process';
+import 'node:os';
+import 'node:fs/promises';
+import 'node:dns/promises';
+import 'node:net';
+import '@adonisjs/hash';
+import '@adonisjs/hash/drivers/scrypt';
 
 const SENSITIVE_HEADER_KEYS = /* @__PURE__ */ new Set([
   "authorization",
@@ -54,7 +60,8 @@ function sanitizePayloadForLog(payload) {
     rawBodyLength: (payload.rawBody || "").length
   };
 }
-const _order_id__post = defineEventHandler(async (event) => {
+const postHandler = defineEventHandler(async (event) => {
+  setHeader(event, "cache-control", "no-store");
   const locale = getRequestLocale(event);
   const urlOrderId = getRouterParam(event, "order_id");
   let rawBody = "";
@@ -214,7 +221,10 @@ const _order_id__post = defineEventHandler(async (event) => {
           if (result.tradeNo) updateData.tradeNo = result.tradeNo;
           await db.update(orders).set(updateData).where(eq(orders.id, result.orderId));
           await cancelPromoCommission(result.orderId, `webhook_${result.status}`);
-          await revokeSubscriptionForOrder(String(result.orderId), `webhook_${result.status}`).catch((err) => console.error("[Webhook] revokeSubscriptionForOrder failed:", err));
+          const wasCharged = order2.payStatus === ORDER_PAY_STATUS.PAID || order2.payStatus === ORDER_PAY_STATUS.REFUNDED;
+          if (wasCharged) {
+            await revokeSubscriptionForOrder(String(result.orderId), `webhook_${result.status}`).catch((err) => console.error("[Webhook] revokeSubscriptionForOrder failed:", err));
+          }
           if (result.status === "refunded" && order2.userId) {
             await refundTopup(result.orderId).catch((err) => console.error("[Webhook] refundTopup failed:", err));
           }
@@ -242,4 +252,4 @@ const _order_id__post = defineEventHandler(async (event) => {
   }
 });
 
-export { _order_id__post as default };
+export { postHandler as default };

@@ -1,9 +1,7 @@
-import { d as defineEventHandler, c as getRequestLocale, bF as requireUserSession, e as createError, r as readBody, b as db, bg as userTokens, ct as apiTokenScope, cu as API_TOKEN_PREFIX } from '../../../nitro/nitro.mjs';
+import { d as defineEventHandler, c as getRequestLocale, bQ as requireUserSession, e as createError, r as readBody, b as db, bp as userTokens, cH as apiTokenScope, cI as API_TOKEN_PREFIX } from '../../../nitro/nitro.mjs';
 import crypto from 'crypto';
 import { z } from 'zod';
 import { count, and, eq } from 'drizzle-orm';
-import '@adonisjs/hash';
-import '@adonisjs/hash/drivers/scrypt';
 import 'node:crypto';
 import 'fs';
 import 'path';
@@ -28,6 +26,14 @@ import 'maxmind';
 import 'node:url';
 import '@iconify/utils';
 import 'consola';
+import 'ioredis';
+import 'node:child_process';
+import 'node:os';
+import 'node:fs/promises';
+import 'node:dns/promises';
+import 'node:net';
+import '@adonisjs/hash';
+import '@adonisjs/hash/drivers/scrypt';
 
 const bodySchema = z.object({
   name: z.string().trim().min(1).max(100),

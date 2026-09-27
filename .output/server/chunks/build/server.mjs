@@ -866,7 +866,7 @@ const _routes = [
     name: "admin-posts-create",
     path: "/admin/posts/create",
     meta: __nuxt_page_meta$r || {},
-    component: () => import('./create-BSxoT-aa.mjs')
+    component: () => import('./create-Dsq8ao-j.mjs')
   },
   {
     name: "admin-settings-authorization",
@@ -902,7 +902,7 @@ const _routes = [
     name: "admin-posts-id",
     path: "/admin/posts/:id()",
     meta: __nuxt_page_meta$l || {},
-    component: () => import('./_id_-C_bzJF6b.mjs')
+    component: () => import('./_id_-fCqbq_oC.mjs')
   },
   {
     name: "admin-extensions-slug",
@@ -1000,7 +1000,7 @@ const _routes = [
     name: "admin-login",
     path: "/admin/login",
     meta: __nuxt_page_meta$e || {},
-    component: () => import('./login-CJGD9Ygj.mjs')
+    component: () => import('./login-CElwKybD.mjs')
   },
   {
     name: "admin-logs",
@@ -1024,25 +1024,25 @@ const _routes = [
     name: "admin-posts___en",
     path: "/en/admin/posts",
     meta: __nuxt_page_meta$a || {},
-    component: () => import('./index-BHk_gS7m.mjs')
+    component: () => import('./index-KUIYaJbl.mjs')
   },
   {
     name: "admin-posts___zh",
     path: "/admin/posts",
     meta: __nuxt_page_meta$a || {},
-    component: () => import('./index-BHk_gS7m.mjs')
+    component: () => import('./index-KUIYaJbl.mjs')
   },
   {
     name: "admin-posts___zh-HK",
     path: "/zh-HK/admin/posts",
     meta: __nuxt_page_meta$a || {},
-    component: () => import('./index-BHk_gS7m.mjs')
+    component: () => import('./index-KUIYaJbl.mjs')
   },
   {
     name: "admin-posts___ru",
     path: "/ru/admin/posts",
     meta: __nuxt_page_meta$a || {},
-    component: () => import('./index-BHk_gS7m.mjs')
+    component: () => import('./index-KUIYaJbl.mjs')
   },
   {
     name: "admin-products",
@@ -5570,7 +5570,7 @@ const cfg0 = defineAppConfig({
   }
 });
 const inlineConfig = {
-  "appVersion": "1.0.6",
+  "appVersion": "1.0.10",
   "nuxt": {},
   "ui": {
     "colors": {
@@ -23105,11 +23105,23 @@ _sfc_main$j.setup = (props, ctx) => {
 const isOpen = ref(false);
 const title = ref("");
 const description$4 = ref("");
+const confirmText = ref("");
+const cancelText = ref("");
+const confirmColor = ref("error");
 const resolvePromise = ref(null);
+watch(isOpen, (val) => {
+  if (!val && resolvePromise.value) {
+    resolvePromise.value(false);
+    resolvePromise.value = null;
+  }
+});
 const useConfirm = () => {
   const confirm = (opts) => {
     title.value = opts.title || "Confirm";
     description$4.value = opts.description || "Are you sure you want to proceed?";
+    confirmText.value = opts.confirmText || "";
+    cancelText.value = opts.cancelText || "";
+    confirmColor.value = opts.confirmColor || "error";
     isOpen.value = true;
     return new Promise((resolve2) => {
       resolvePromise.value = resolve2;
@@ -23133,6 +23145,9 @@ const useConfirm = () => {
     isOpen,
     title,
     description: description$4,
+    confirmText,
+    cancelText,
+    confirmColor,
     confirm,
     accept,
     cancel
@@ -33304,7 +33319,7 @@ const __nuxt_component_1 = defineComponent({
   }
 });
 const layouts = {
-  admin: defineAsyncComponent(() => import('./admin-DkIhLa7X.mjs').then((m) => m.default || m)),
+  admin: defineAsyncComponent(() => import('./admin-DRArlZCV.mjs').then((m) => m.default || m)),
   default: defineAsyncComponent(() => import('./default-YEZvVPmd.mjs').then((m) => m.default || m)),
   empty: defineAsyncComponent(() => import('./empty-DMy7_SdZ.mjs').then((m) => m.default || m))
 };
@@ -33547,7 +33562,7 @@ const _sfc_main$4 = /* @__PURE__ */ defineComponent({
   __name: "ConfirmModal",
   __ssrInlineRender: true,
   setup(__props) {
-    const { isOpen: isOpen2, title: title2, description: description2, accept, cancel } = useConfirm();
+    const { isOpen: isOpen2, title: title2, description: description2, confirmText: confirmText2, cancelText: cancelText2, confirmColor: confirmColor2, accept, cancel } = useConfirm();
     return (_ctx, _push, _parent, _attrs) => {
       const _component_UModal = _sfc_main$s;
       const _component_UButton = _sfc_main$B;
@@ -33574,26 +33589,26 @@ const _sfc_main$4 = /* @__PURE__ */ defineComponent({
             }, {
               default: withCtx((_2, _push3, _parent3, _scopeId2) => {
                 if (_push3) {
-                  _push3(`Cancel`);
+                  _push3(`${ssrInterpolate(unref(cancelText2) || _ctx.$t("admin.common.cancel", "Cancel"))}`);
                 } else {
                   return [
-                    createTextVNode("Cancel")
+                    createTextVNode(toDisplayString$1(unref(cancelText2) || _ctx.$t("admin.common.cancel", "Cancel")), 1)
                   ];
                 }
               }),
               _: 1
             }, _parent2, _scopeId));
             _push2(ssrRenderComponent(_component_UButton, {
-              color: "error",
+              color: unref(confirmColor2) || "error",
               variant: "solid",
               onClick: unref(accept)
             }, {
               default: withCtx((_2, _push3, _parent3, _scopeId2) => {
                 if (_push3) {
-                  _push3(`Confirm`);
+                  _push3(`${ssrInterpolate(unref(confirmText2) || _ctx.$t("admin.common.confirm", "Confirm"))}`);
                 } else {
                   return [
-                    createTextVNode("Confirm")
+                    createTextVNode(toDisplayString$1(unref(confirmText2) || _ctx.$t("admin.common.confirm", "Confirm")), 1)
                   ];
                 }
               }),
@@ -33621,20 +33636,20 @@ const _sfc_main$4 = /* @__PURE__ */ defineComponent({
                     onClick: unref(cancel)
                   }, {
                     default: withCtx(() => [
-                      createTextVNode("Cancel")
+                      createTextVNode(toDisplayString$1(unref(cancelText2) || _ctx.$t("admin.common.cancel", "Cancel")), 1)
                     ]),
                     _: 1
                   }, 8, ["onClick"]),
                   createVNode(_component_UButton, {
-                    color: "error",
+                    color: unref(confirmColor2) || "error",
                     variant: "solid",
                     onClick: unref(accept)
                   }, {
                     default: withCtx(() => [
-                      createTextVNode("Confirm")
+                      createTextVNode(toDisplayString$1(unref(confirmText2) || _ctx.$t("admin.common.confirm", "Confirm")), 1)
                     ]),
                     _: 1
-                  }, 8, ["onClick"])
+                  }, 8, ["color", "onClick"])
                 ])
               ])
             ];

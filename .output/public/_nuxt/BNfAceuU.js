@@ -1,1 +1,0 @@
-import{be as n}from"./BUB90m_9.js";const u=()=>{const e=n("hoxi-community-modal-open",()=>!1),o=()=>{e.value=!0,window.dispatchEvent(new CustomEvent("open-community-modal"))},t=()=>{e.value=!1,window.dispatchEvent(new CustomEvent("close-community-modal"))};return{isOpen:e,open:o,close:t,toggle:()=>{e.value?t():o()}}};export{u};

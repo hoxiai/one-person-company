@@ -13,8 +13,8 @@ const styles = {
   "components/RichEditor.vue": () => import('./RichEditor-styles.DD6KqjPn.mjs').then(interopDefault),
   "components/RichEditor.vue?vue&type=style&index=0&lang.css": () => import('./RichEditor-styles.DD6KqjPn.mjs').then(interopDefault),
   "components/AdminSidebar.vue": () => import('./AdminSidebar-styles.CaVlJfid.mjs').then(interopDefault),
-  "components/AdminSidebar.vue?vue&type=style&index=0&scoped=1d03f188&lang.css": () => import('./AdminSidebar-styles.CaVlJfid.mjs').then(interopDefault),
   "components/PaymentWorkspace.vue": () => import('./PaymentWorkspace-styles.XZZgmlih.mjs').then(interopDefault),
+  "components/AdminSidebar.vue?vue&type=style&index=0&scoped=1d03f188&lang.css": () => import('./AdminSidebar-styles.CaVlJfid.mjs').then(interopDefault),
   "components/PaymentWorkspace.vue?vue&type=style&index=0&scoped=6c2bc662&lang.css": () => import('./PaymentWorkspace-styles.XZZgmlih.mjs').then(interopDefault)
 };
 

@@ -1,16 +1,17 @@
-import { d as defineEventHandler, ai as requireTrustedRequestOrigin, bS as mergePromoTracking, bU as readPromoTracking, bT as capturePromoTracking, b$ as getRequestIP, e as createError, r as readBody, bQ as requireUserSession, b as db, u as users, $ as clearUserSession, aN as settings, bN as ensureVisitorId, p as products, al as resolveRequestLocale, ak as getSiteLocaleConfig, C as buildLocaleCurrencyQuote, ao as getMinimalCheckoutAdminConfig, c6 as stripReservedOrderMeta, ap as buildMinimalCheckoutBridgeMeta, aq as mergeMinimalCheckoutMeta, a4 as isMinimalCheckoutRelayOrder, c7 as MINIMAL_CHECKOUT_SOURCE, a9 as fulfillMinimalCheckoutRelay, aa as fulfillOrder, ac as emitEvent, c8 as getSubscriptionEntitlement, v as orders, O as ORDER_PAY_STATUS, ar as prepareOrderMetaForInsert, at as ensureTopupRecordForOrder, a6 as createOrderAttribution, bx as trackVisitorEvent, as as ORDER_STATUS, c9 as getAffectedRows, a7 as settlePaidTopup, c as getRequestLocale, N as getLocalizedSettingValue, P as sendEmail, ca as createNotification } from '../../../nitro/nitro.mjs';
+import { d as defineEventHandler, ai as requireTrustedRequestOrigin, bV as mergePromoTracking, bX as readPromoTracking, bW as capturePromoTracking, c3 as getRequestIP, e as createError, r as readBody, bT as requireUserSession, b as db, u as users, $ as clearUserSession, aO as settings, bQ as ensureVisitorId, p as products, al as resolveRequestLocale, ak as getSiteLocaleConfig, C as buildLocaleCurrencyQuote, ao as getMinimalCheckoutAdminConfig, ca as stripReservedOrderMeta, ap as buildMinimalCheckoutBridgeMeta, aq as mergeMinimalCheckoutMeta, a4 as isMinimalCheckoutRelayOrder, cb as MINIMAL_CHECKOUT_SOURCE, a9 as fulfillMinimalCheckoutRelay, aa as fulfillOrder, ac as emitEvent, cc as getSubscriptionEntitlement, v as orders, O as ORDER_PAY_STATUS, ar as prepareOrderMetaForInsert, at as ensureTopupRecordForOrder, a6 as createOrderAttribution, bA as trackVisitorEvent, as as ORDER_STATUS, cd as getAffectedRows, a7 as settlePaidTopup, c as getRequestLocale, N as getLocalizedSettingValue, P as sendEmail, ce as createNotification } from '../../../nitro/nitro.mjs';
 import { eq, and, or, isNull, gte, desc } from 'drizzle-orm';
 import crypto from 'crypto';
 import { z } from 'zod';
 import 'node:crypto';
 import 'fs';
 import 'path';
+import 'node:path';
+import '@nuxthub/blob';
 import 'node:http';
 import 'node:https';
 import 'node:events';
 import 'node:buffer';
 import 'node:fs';
-import 'node:path';
 import 'node:async_hooks';
 import 'postgres';
 import 'drizzle-orm/postgres-js';
@@ -23,12 +24,12 @@ import 'drizzle-orm/pg-core';
 import 'drizzle-orm/sqlite-core';
 import 'drizzle-orm/mysql-core';
 import 'maxmind';
+import 'node:os';
 import 'node:url';
 import '@iconify/utils';
 import 'consola';
 import 'ioredis';
 import 'node:child_process';
-import 'node:os';
 import 'node:fs/promises';
 import 'node:dns/promises';
 import 'node:net';
@@ -494,8 +495,8 @@ const checkout_post = defineEventHandler(async (event) => {
       currency: currencyQuote.currency,
       source: "minimal_checkout",
       externalOrderId: orderId,
-      status: ORDER_STATUS.NONE,
-      // Fulfillment status
+      // 履约状态：0 元单视为已支付、紧接着履约，与复用分支和支付回调同口径先置处理中
+      status: isFreeOrder ? ORDER_STATUS.PROCESSING : ORDER_STATUS.NONE,
       payStatus: isFreeOrder ? ORDER_PAY_STATUS.PAID : ORDER_PAY_STATUS.PENDING,
       // 0 元直接视为已支付
       paidAt: isFreeOrder ? /* @__PURE__ */ new Date() : null,

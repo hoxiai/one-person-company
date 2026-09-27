@@ -1,16 +1,17 @@
-import { d as defineEventHandler, ai as requireTrustedRequestOrigin, c as getRequestLocale, r as readBody, cb as resolveOrderAccess, O as ORDER_PAY_STATUS, b as db, av as paymentMethods, ak as getSiteLocaleConfig, al as resolveRequestLocale, ck as resolvePaymentPluginConfig, cm as resolvePaymentMethodCurrencies, cl as isPaymentMethodCurrencySupported, b$ as getRequestIP, cn as getRequestHeaders, co as executeCreateScript, v as orders, ah as reconcileOrder } from '../../../nitro/nitro.mjs';
+import { d as defineEventHandler, ai as requireTrustedRequestOrigin, c as getRequestLocale, r as readBody, cg as resolveOrderAccess, O as ORDER_PAY_STATUS, b as db, av as paymentMethods, ak as getSiteLocaleConfig, al as resolveRequestLocale, co as isPaymentMethodAvailableForLocale, cp as resolvePaymentPluginConfig, cr as resolvePaymentMethodCurrencies, cq as isPaymentMethodCurrencySupported, c3 as getRequestIP, cs as getRequestHeaders, ct as executeCreateScript, v as orders, ah as reconcileOrder } from '../../../nitro/nitro.mjs';
 import fs from 'fs';
 import path from 'path';
 import { z } from 'zod';
 import { eq, and, ne } from 'drizzle-orm';
 import 'node:crypto';
 import 'crypto';
+import 'node:path';
+import '@nuxthub/blob';
 import 'node:http';
 import 'node:https';
 import 'node:events';
 import 'node:buffer';
 import 'node:fs';
-import 'node:path';
 import 'node:async_hooks';
 import 'postgres';
 import 'drizzle-orm/postgres-js';
@@ -23,12 +24,12 @@ import 'drizzle-orm/pg-core';
 import 'drizzle-orm/sqlite-core';
 import 'drizzle-orm/mysql-core';
 import 'maxmind';
+import 'node:os';
 import 'node:url';
 import '@iconify/utils';
 import 'consola';
 import 'ioredis';
 import 'node:child_process';
-import 'node:os';
 import 'node:fs/promises';
 import 'node:dns/promises';
 import 'node:net';
@@ -91,6 +92,9 @@ const initiate_post = defineEventHandler(async (event) => {
     }
     const localeConfig = await getSiteLocaleConfig();
     const requestLocale = resolveRequestLocale(event, body.locale, localeConfig);
+    if (!isPaymentMethodAvailableForLocale(method, requestLocale, localeConfig)) {
+      return { code: 1, message: messages.methodUnavailableForLocale };
+    }
     let createScript = method.create || "";
     if (!createScript.trim()) {
       const localCreateScriptPath = path.join(process.cwd(), "payments", method.code, "create.js");

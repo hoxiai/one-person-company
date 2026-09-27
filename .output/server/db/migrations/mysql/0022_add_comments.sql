@@ -1,0 +1,20 @@
+CREATE TABLE IF NOT EXISTS `comments` (
+	`id` int AUTO_INCREMENT PRIMARY KEY NOT NULL,
+	`target_type` varchar(32) NOT NULL,
+	`target_id` varchar(191) NOT NULL,
+	`user_id` int,
+	`author_name` varchar(100) NOT NULL,
+	`author_email` varchar(255),
+	`author_url` text,
+	`content` text NOT NULL,
+	`parent_id` int,
+	`status` varchar(32) DEFAULT 'approved' NOT NULL,
+	`ip` varchar(64),
+	`user_agent` text,
+	`created_at` timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL,
+	`updated_at` timestamp DEFAULT CURRENT_TIMESTAMP,
+	CONSTRAINT `comments_user_id_users_id_fk` FOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON DELETE SET NULL,
+	INDEX `comments_target_status_idx` (`target_type`, `target_id`, `status`, `created_at`),
+	INDEX `comments_user_id_idx` (`user_id`),
+	INDEX `comments_parent_id_idx` (`parent_id`)
+);

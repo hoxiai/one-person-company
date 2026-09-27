@@ -1,6 +1,6 @@
 import process from 'node:process';globalThis._importMeta_=globalThis._importMeta_||{url:"file:///_entry.js",env:process.env};import * as vue from 'vue';
-import { useSlots, computed, unref, mergeProps, withCtx, renderSlot, createVNode, openBlock, createBlock, createCommentVNode, Fragment, renderList, hasInjectionContext, inject, defineComponent, h, watchPostEffect, createElementBlock, normalizeStyle, ref, getCurrentInstance, watch, nextTick, watchEffect, customRef, toValue, reactive, mergeDefaults, getCurrentScope, provide, useModel, createTextVNode, toDisplayString as toDisplayString$1, mergeModels, markRaw, toRefs, toRef as toRef$1, camelize as camelize$1, Teleport, toHandlerKey, shallowRef, resolveDynamicComponent, onScopeDispose, shallowReadonly, cloneVNode, isRef, normalizeProps, guardReactiveProps, readonly, useId as useId$1, useTemplateRef, toHandlers, onServerPrefetch, resolveComponent, Comment, defineAsyncComponent, withModifiers, withAsyncContext, withKeys, resolveDirective, createElementVNode, effectScope, useSSRContext, toRaw, shallowReactive, Suspense, createApp, Text, onErrorCaptured, isReadonly, isShallow, isReactive } from 'vue';
-import { dT as serialize, cs as setResponseStatus$1, dU as getRequestURL, dV as defu, dW as isEqual$1, e as createError$1, dX as upperFirst, dY as defuFn, dZ as appendResponseHeader, d_ as resolveLocalizedSetting, d$ as parse$1, c2 as getRequestHeader, e0 as sanitizeStatusCode, cn as getRequestHeaders, e1 as getContext, e2 as setCookie, cc as getCookie, e3 as deleteCookie, e4 as SEO_LOCALE_LANGUAGE, e5 as $fetch$1, e6 as baseURL, e7 as hash, e8 as createHooks, e9 as executeAsync, ea as normalizeSiteOrigin, eb as stripLocalePrefix$1, cV as classifySeoRoute, cU as seoRouteRegistry, ec as localePathForSeo, ed as safeJsonLd, ee as getRequestProtocol } from '../nitro/nitro.mjs';
+import { useSlots, computed, unref, mergeProps, withCtx, renderSlot, createVNode, openBlock, createBlock, createCommentVNode, Fragment, renderList, hasInjectionContext, inject, defineComponent, h, watchPostEffect, createElementBlock, normalizeStyle, ref, getCurrentInstance, watch, nextTick, watchEffect, reactive, mergeDefaults, toValue, provide, useModel, createTextVNode, toDisplayString as toDisplayString$1, mergeModels, customRef, shallowRef, getCurrentScope, onScopeDispose, shallowReadonly, markRaw, toRefs, toRef as toRef$1, camelize as camelize$1, Teleport, toHandlerKey, resolveDynamicComponent, cloneVNode, isRef, normalizeProps, guardReactiveProps, readonly, useId as useId$1, useTemplateRef, toHandlers, onServerPrefetch, resolveComponent, Comment, defineAsyncComponent, withModifiers, withAsyncContext, withKeys, resolveDirective, createElementVNode, effectScope, useSSRContext, toRaw, shallowReactive, Suspense, createApp, Text, onErrorCaptured, isReadonly, isShallow, isReactive } from 'vue';
+import { d_ as serialize, cx as setResponseStatus$1, d$ as getRequestURL, e0 as defu, e1 as isEqual$1, e2 as resolveActiveTheme, e as createError$1, e3 as upperFirst, e4 as defuFn, e5 as appendResponseHeader, e6 as resolveLocalizedSetting, e7 as parse$1, c6 as getRequestHeader, e8 as sanitizeStatusCode, cs as getRequestHeaders, e9 as getContext, ea as setCookie, ch as getCookie, eb as deleteCookie, ec as SEO_LOCALE_LANGUAGE, ed as $fetch$1, ee as baseURL, ef as hash, eg as createHooks, eh as executeAsync, ei as normalizeSiteOrigin, ej as stripLocalePrefix$1, c_ as classifySeoRoute, cZ as seoRouteRegistry, ek as localePathForSeo, el as safeJsonLd, em as getRequestProtocol, en as themeHostConfigs } from '../nitro/nitro.mjs';
 import { useRoute as useRoute$1, useRouter as useRouter$1, RouterView, isNavigationFailure, createMemoryHistory, createRouter, START_LOCATION } from 'vue-router';
 import { Icon, getIcon, loadIcon as loadIcon$1, _api, addAPIProvider, setCustomIconsLoader } from '@iconify/vue';
 import { getIconCSS } from '@iconify/utils/lib/css/icon';
@@ -23,12 +23,13 @@ import 'node:crypto';
 import 'crypto';
 import 'fs';
 import 'path';
+import 'node:path';
+import '@nuxthub/blob';
 import 'node:http';
 import 'node:https';
 import 'node:events';
 import 'node:buffer';
 import 'node:fs';
-import 'node:path';
 import 'node:async_hooks';
 import 'postgres';
 import 'drizzle-orm/postgres-js';
@@ -41,13 +42,13 @@ import 'drizzle-orm/pg-core';
 import 'drizzle-orm/sqlite-core';
 import 'drizzle-orm/mysql-core';
 import 'maxmind';
+import 'node:os';
 import 'node:url';
 import '@iconify/utils';
 import 'consola';
 import 'ioredis';
 import 'zod';
 import 'node:child_process';
-import 'node:os';
 import 'node:fs/promises';
 import 'node:dns/promises';
 import 'node:net';
@@ -812,11 +813,19 @@ function getRouteRules(arg) {
     return {};
   }
 }
-const __nuxt_page_meta$p = { title: "Authorization", layout: "admin" };
-const __nuxt_page_meta$o = { title: "Extensions", layout: "admin" };
-const __nuxt_page_meta$n = { title: "Users Management", layout: "admin" };
-const __nuxt_page_meta$m = { title: "Product Meta Presets", layout: "admin" };
-const __nuxt_page_meta$l = { title: "Themes", layout: "admin" };
+const __nuxt_page_meta$r = {
+  title: "Create Post",
+  layout: "admin"
+};
+const __nuxt_page_meta$q = { title: "Authorization", layout: "admin" };
+const __nuxt_page_meta$p = { title: "Extensions", layout: "admin" };
+const __nuxt_page_meta$o = { title: "Users Management", layout: "admin" };
+const __nuxt_page_meta$n = { title: "Product Meta Presets", layout: "admin" };
+const __nuxt_page_meta$m = { title: "Themes", layout: "admin" };
+const __nuxt_page_meta$l = {
+  title: "Edit Post",
+  layout: "admin"
+};
 const __nuxt_page_meta$k = { layout: "admin" };
 const __nuxt_page_meta$j = { layout: "admin" };
 const __nuxt_page_meta$i = { title: "Cards Management", layout: "admin" };
@@ -854,254 +863,266 @@ const __nuxt_page_meta = {
 };
 const _routes = [
   {
+    name: "admin-posts-create",
+    path: "/admin/posts/create",
+    meta: __nuxt_page_meta$r || {},
+    component: () => import('./create-BSxoT-aa.mjs')
+  },
+  {
     name: "admin-settings-authorization",
     path: "/admin/settings/authorization",
-    meta: __nuxt_page_meta$p || {},
-    component: () => import('./authorization-BEJuDQvq.mjs')
+    meta: __nuxt_page_meta$q || {},
+    component: () => import('./authorization-1TaDnxEL.mjs')
   },
   {
     name: "admin-settings-extensions",
     path: "/admin/settings/extensions",
-    meta: __nuxt_page_meta$o || {},
-    component: () => import('./extensions-dZ-ePJpy.mjs')
+    meta: __nuxt_page_meta$p || {},
+    component: () => import('./extensions-Bh7C3kYX.mjs')
   },
   {
     name: "admin-settings-manages",
     path: "/admin/settings/manages",
-    meta: __nuxt_page_meta$n || {},
-    component: () => import('./manages-CT2ldZtV.mjs')
+    meta: __nuxt_page_meta$o || {},
+    component: () => import('./manages-DyqMpb3h.mjs')
   },
   {
     name: "admin-settings-product-presets",
     path: "/admin/settings/product-presets",
-    meta: __nuxt_page_meta$m || {},
-    component: () => import('./product-presets-CoqlmC_l.mjs')
+    meta: __nuxt_page_meta$n || {},
+    component: () => import('./product-presets-BYUf1FT0.mjs')
   },
   {
     name: "admin-settings-themes",
     path: "/admin/settings/themes",
+    meta: __nuxt_page_meta$m || {},
+    component: () => import('./themes-XRYASUmj.mjs')
+  },
+  {
+    name: "admin-posts-id",
+    path: "/admin/posts/:id()",
     meta: __nuxt_page_meta$l || {},
-    component: () => import('./themes-Dtd2ohw-.mjs')
+    component: () => import('./_id_-C_bzJF6b.mjs')
   },
   {
     name: "admin-extensions-slug",
     path: "/admin/extensions/:slug(.*)*",
     meta: __nuxt_page_meta$k || {},
-    component: () => import('./_...slug_-C3cSwur2.mjs')
+    component: () => import('./_...slug_-DD7ER7pp.mjs')
   },
   {
     name: "admin-plugins-slug___en",
     path: "/en/admin/plugins/:slug(.*)*",
     meta: __nuxt_page_meta$j || {},
-    component: () => import('./_...slug_-DmMUIsge.mjs')
+    component: () => import('./_...slug_-BVcuiduG.mjs')
   },
   {
     name: "admin-plugins-slug___zh",
     path: "/admin/plugins/:slug(.*)*",
     meta: __nuxt_page_meta$j || {},
-    component: () => import('./_...slug_-DmMUIsge.mjs')
+    component: () => import('./_...slug_-BVcuiduG.mjs')
   },
   {
     name: "admin-plugins-slug___zh-HK",
     path: "/zh-HK/admin/plugins/:slug(.*)*",
     meta: __nuxt_page_meta$j || {},
-    component: () => import('./_...slug_-DmMUIsge.mjs')
+    component: () => import('./_...slug_-BVcuiduG.mjs')
   },
   {
     name: "admin-plugins-slug___ru",
     path: "/ru/admin/plugins/:slug(.*)*",
     meta: __nuxt_page_meta$j || {},
-    component: () => import('./_...slug_-DmMUIsge.mjs')
+    component: () => import('./_...slug_-BVcuiduG.mjs')
   },
   {
     name: "user-plugins-slug___en",
     path: "/en/user/plugins/:slug(.*)*",
-    component: () => import('./_...slug_-0nj4btA4.mjs')
+    component: () => import('./_...slug_-Cy1MbyEK.mjs')
   },
   {
     name: "user-plugins-slug___zh",
     path: "/user/plugins/:slug(.*)*",
-    component: () => import('./_...slug_-0nj4btA4.mjs')
+    component: () => import('./_...slug_-Cy1MbyEK.mjs')
   },
   {
     name: "user-plugins-slug___zh-HK",
     path: "/zh-HK/user/plugins/:slug(.*)*",
-    component: () => import('./_...slug_-0nj4btA4.mjs')
+    component: () => import('./_...slug_-Cy1MbyEK.mjs')
   },
   {
     name: "user-plugins-slug___ru",
     path: "/ru/user/plugins/:slug(.*)*",
-    component: () => import('./_...slug_-0nj4btA4.mjs')
+    component: () => import('./_...slug_-Cy1MbyEK.mjs')
   },
   {
     name: "admin-cards",
     path: "/admin/cards",
     meta: __nuxt_page_meta$i || {},
-    component: () => import('./cards-BaW8lfJP.mjs')
+    component: () => import('./cards-BVsUYNLs.mjs')
   },
   {
     name: "admin-comments___en",
     path: "/en/admin/comments",
     meta: __nuxt_page_meta$h || {},
-    component: () => import('./comments-BSd-4EV5.mjs')
+    component: () => import('./comments-Cl8w3ZA4.mjs')
   },
   {
     name: "admin-comments___zh",
     path: "/admin/comments",
     meta: __nuxt_page_meta$h || {},
-    component: () => import('./comments-BSd-4EV5.mjs')
+    component: () => import('./comments-Cl8w3ZA4.mjs')
   },
   {
     name: "admin-comments___zh-HK",
     path: "/zh-HK/admin/comments",
     meta: __nuxt_page_meta$h || {},
-    component: () => import('./comments-BSd-4EV5.mjs')
+    component: () => import('./comments-Cl8w3ZA4.mjs')
   },
   {
     name: "admin-comments___ru",
     path: "/ru/admin/comments",
     meta: __nuxt_page_meta$h || {},
-    component: () => import('./comments-BSd-4EV5.mjs')
+    component: () => import('./comments-Cl8w3ZA4.mjs')
   },
   {
     name: "admin-customers",
     path: "/admin/customers",
     meta: __nuxt_page_meta$g || {},
-    component: () => import('./customers-j_iVWwEl.mjs')
+    component: () => import('./customers-6eWxEWem.mjs')
   },
   {
     name: "admin-dashboard",
     path: "/admin/dashboard",
     meta: __nuxt_page_meta$f || {},
-    component: () => import('./dashboard-e04cxm45.mjs')
+    component: () => import('./dashboard-BBqy2ujq.mjs')
   },
   {
     name: "admin-login",
     path: "/admin/login",
     meta: __nuxt_page_meta$e || {},
-    component: () => import('./login-CN9Agq30.mjs')
+    component: () => import('./login-CJGD9Ygj.mjs')
   },
   {
     name: "admin-logs",
     path: "/admin/logs",
     meta: __nuxt_page_meta$d || {},
-    component: () => import('./logs-D7v-xG6T.mjs')
+    component: () => import('./logs-jdVR0hqq.mjs')
   },
   {
     name: "admin-orders",
     path: "/admin/orders",
     meta: __nuxt_page_meta$c || {},
-    component: () => import('./orders-D-gPysiV.mjs')
+    component: () => import('./orders-DJcvGJB6.mjs')
   },
   {
     name: "admin-payments",
     path: "/admin/payments",
     meta: __nuxt_page_meta$b || {},
-    component: () => import('./payments-Ciik0KB_.mjs')
+    component: () => import('./payments-DpqbcRWf.mjs')
   },
   {
     name: "admin-posts",
     path: "/admin/posts",
     meta: __nuxt_page_meta$a || {},
-    component: () => import('./posts-C9Hjcwvb.mjs')
+    component: () => import('./index-BHk_gS7m.mjs')
   },
   {
     name: "admin-products",
     path: "/admin/products",
     meta: __nuxt_page_meta$9 || {},
-    component: () => import('./products-C1-1WQA3.mjs')
+    component: () => import('./products-CRWjx_DE.mjs')
   },
   {
     name: "admin-profile",
     path: "/admin/profile",
     meta: __nuxt_page_meta$8 || {},
-    component: () => import('./profile-zYfQbrYn.mjs')
+    component: () => import('./profile-BJcYMUOf.mjs')
   },
   {
     name: "admin-promo",
     path: "/admin/promo",
     meta: __nuxt_page_meta$7 || {},
-    component: () => import('./promo-Cl-RNcX3.mjs')
+    component: () => import('./promo-BqrXcZjF.mjs')
   },
   {
     name: "admin-settings",
     path: "/admin/settings",
     meta: __nuxt_page_meta$6 || {},
-    component: () => import('./index-DNHSaZn6.mjs')
+    component: () => import('./index-BaM0WQrX.mjs')
   },
   {
     name: "admin-setup___en",
     path: "/en/admin/setup",
     meta: __nuxt_page_meta$5 || {},
-    component: () => import('./setup-D41FYzOC.mjs')
+    component: () => import('./setup-J64LhWjP.mjs')
   },
   {
     name: "admin-setup___zh",
     path: "/admin/setup",
     meta: __nuxt_page_meta$5 || {},
-    component: () => import('./setup-D41FYzOC.mjs')
+    component: () => import('./setup-J64LhWjP.mjs')
   },
   {
     name: "admin-setup___zh-HK",
     path: "/zh-HK/admin/setup",
     meta: __nuxt_page_meta$5 || {},
-    component: () => import('./setup-D41FYzOC.mjs')
+    component: () => import('./setup-J64LhWjP.mjs')
   },
   {
     name: "admin-setup___ru",
     path: "/ru/admin/setup",
     meta: __nuxt_page_meta$5 || {},
-    component: () => import('./setup-D41FYzOC.mjs')
+    component: () => import('./setup-J64LhWjP.mjs')
   },
   {
     name: "admin-stats",
     path: "/admin/stats",
     meta: __nuxt_page_meta$4 || {},
-    component: () => import('./stats-B33gt15H.mjs')
+    component: () => import('./stats-gz9vPkZ7.mjs')
   },
   {
     name: "admin-subscriptions",
     path: "/admin/subscriptions",
     meta: __nuxt_page_meta$3 || {},
-    component: () => import('./subscriptions-BKW484YP.mjs')
+    component: () => import('./subscriptions-B90hBquv.mjs')
   },
   {
     name: "admin-tickets",
     path: "/admin/tickets",
     meta: __nuxt_page_meta$2 || {},
-    component: () => import('./tickets-qjJLZzlf.mjs')
+    component: () => import('./tickets-BJb3Znfh.mjs')
   },
   {
     name: "admin-topups",
     path: "/admin/topups",
     meta: __nuxt_page_meta$1 || {},
-    component: () => import('./topups-CbsQu4sc.mjs')
+    component: () => import('./topups-C2-zM2Uw.mjs')
   },
   {
     name: "admin",
     path: "/admin",
     meta: __nuxt_page_meta || {},
-    component: () => import('./index-Dwm_67fK.mjs')
+    component: () => import('./index-BS19mYc2.mjs')
   },
   {
     name: "slug___en",
     path: "/en/:slug(.*)*",
-    component: () => import('./_...slug_-DAi1GSim.mjs')
+    component: () => import('./_...slug_-BVGg5Wee.mjs')
   },
   {
     name: "slug___zh",
     path: "/:slug(.*)*",
-    component: () => import('./_...slug_-DAi1GSim.mjs')
+    component: () => import('./_...slug_-BVGg5Wee.mjs')
   },
   {
     name: "slug___zh-HK",
     path: "/zh-HK/:slug(.*)*",
-    component: () => import('./_...slug_-DAi1GSim.mjs')
+    component: () => import('./_...slug_-BVGg5Wee.mjs')
   },
   {
     name: "slug___ru",
     path: "/ru/:slug(.*)*",
-    component: () => import('./_...slug_-DAi1GSim.mjs')
+    component: () => import('./_...slug_-BVGg5Wee.mjs')
   }
 ];
 const _wrapInTransition = (props, children) => {
@@ -7134,47 +7155,6 @@ function useResizeObserver(target, callback, options = {}) {
     stop
   };
 }
-const events = /* @__PURE__ */ new Map();
-// @__NO_SIDE_EFFECTS__
-function useEventBus(key) {
-  const scope = getCurrentScope();
-  function on(listener) {
-    var _scope$cleanups;
-    const listeners = events.get(key) || /* @__PURE__ */ new Set();
-    listeners.add(listener);
-    events.set(key, listeners);
-    const _off = () => off(listener);
-    scope === null || scope === void 0 || (_scope$cleanups = scope.cleanups) === null || _scope$cleanups === void 0 || _scope$cleanups.push(_off);
-    return _off;
-  }
-  function once(listener) {
-    function _listener(...args) {
-      off(_listener);
-      listener(...args);
-    }
-    return on(_listener);
-  }
-  function off(listener) {
-    const listeners = events.get(key);
-    if (!listeners) return;
-    listeners.delete(listener);
-    if (!listeners.size) reset();
-  }
-  function reset() {
-    events.delete(key);
-  }
-  function emit(event, payload) {
-    var _events$get;
-    (_events$get = events.get(key)) === null || _events$get === void 0 || _events$get.forEach((v) => v(event, payload));
-  }
-  return {
-    on,
-    once,
-    off,
-    emit,
-    reset
-  };
-}
 function useParentElement(element = useCurrentElement()) {
   const parentElement = shallowRef();
   const update = () => {
@@ -7257,10 +7237,10 @@ function useDirection(dir) {
 }
 function useEmitAsProps(emit) {
   const vm = getCurrentInstance();
-  const events2 = vm?.type.emits;
+  const events = vm?.type.emits;
   const result = {};
-  if (!events2?.length) console.warn(`No emitted event found. Please check component: ${vm?.type.__name}`);
-  events2?.forEach((ev) => {
+  if (!events?.length) console.warn(`No emitted event found. Please check component: ${vm?.type.__name}`);
+  events?.forEach((ev) => {
     result[toHandlerKey(camelize$1(ev))] = (...arg) => emit(ev, ...arg);
   });
   return result;
@@ -12292,7 +12272,6 @@ function useFieldGroup(props) {
 }
 const formOptionsInjectionKey = /* @__PURE__ */ Symbol("nuxt-ui.form-options");
 const formBusInjectionKey = /* @__PURE__ */ Symbol("nuxt-ui.form-events");
-const formStateInjectionKey = /* @__PURE__ */ Symbol("nuxt-ui.form-state");
 const formFieldInjectionKey = /* @__PURE__ */ Symbol("nuxt-ui.form-field");
 const inputIdInjectionKey = /* @__PURE__ */ Symbol("nuxt-ui.input-id");
 const formInputsInjectionKey = /* @__PURE__ */ Symbol("nuxt-ui.form-inputs");
@@ -16943,7 +16922,7 @@ const _sfc_main$v = /* @__PURE__ */ defineComponent({
       if (payStatus !== "pending" && payStatus !== "") return;
       isCompletingFree.value = true;
       try {
-        const res = await $fetch("/api/minimal/admin/checkout/orders/complete-free", {
+        const res = await $fetch("/api/orders/complete-free", {
           method: "POST",
           body: { orderId: currentOrder.id }
         });
@@ -18036,8 +18015,8 @@ const _sfc_main$s = {
     const contentProps = toRef$1(() => props.content);
     const contentEvents = computed(() => {
       if (!props.dismissible) {
-        const events2 = ["interactOutside", "escapeKeyDown"];
-        return events2.reduce((acc, curr) => {
+        const events = ["interactOutside", "escapeKeyDown"];
+        return events.reduce((acc, curr) => {
           acc[curr] = (e) => {
             e.preventDefault();
             emits("close:prevent");
@@ -18754,7 +18733,7 @@ const useCheckout = () => {
   const completeFreeOrder = async (targetOrderId) => {
     try {
       isCreatingOrder.value = true;
-      const res = await $fetch("/api/minimal/admin/checkout/orders/complete-free", {
+      const res = await $fetch("/api/orders/complete-free", {
         method: "POST",
         body: { orderId: targetOrderId }
       });
@@ -23688,7 +23667,7 @@ const corePageModules = /* @__PURE__ */ Object.assign({
   "../core/pages/user/tokens/index.vue": __vite_glob_0_10
 });
 const themePageModules = {
-  .../* @__PURE__ */ Object.assign({ "../themes/hoxi/pages/about.vue": () => import('./about-v-mYyuAm.mjs'), "../themes/hoxi/pages/blog/[slug].vue": () => import('./_slug_-DCvqK7yf.mjs'), "../themes/hoxi/pages/blog/index.vue": () => import('./index-CL_R_2hR.mjs'), "../themes/hoxi/pages/coding-plans/[slug].vue": () => import('./_slug_-PiiEChV_.mjs'), "../themes/hoxi/pages/coding-plans/index.vue": () => import('./index-Dqn2vSTq.mjs'), "../themes/hoxi/pages/compare.vue": () => import('./compare-5zYldfrE.mjs'), "../themes/hoxi/pages/gateways/[slug].vue": () => import('./_slug_-BzsA1cUO.mjs'), "../themes/hoxi/pages/gateways/index.vue": () => import('./index-D7ZXHX0r.mjs'), "../themes/hoxi/pages/index.vue": () => import('./index-B0TQqTFt.mjs'), "../themes/hoxi/pages/models/[slug].vue": () => import('./_slug_-Df1qAiIV.mjs'), "../themes/hoxi/pages/models/index.vue": () => import('./index-B21kcVRg.mjs'), "../themes/hoxi/pages/projects.vue": () => import('./projects-C4efzB4p.mjs'), "../themes/hoxi/pages/readiness.vue": () => import('./readiness-BNZ-GujA.mjs'), "../themes/hoxi/pages/refactoring-the-self.vue": () => import('./refactoring-the-self-CpqQ3vSM.mjs'), "../themes/hoxi/pages/savings.vue": () => import('./savings-Bt9vHlnz.mjs'), "../themes/hoxi/pages/tools.vue": () => import('./tools-CSXRlUM_.mjs') })
+  .../* @__PURE__ */ Object.assign({ "../themes/hoxi/pages/about.vue": () => import('./about-Ale8PBka.mjs'), "../themes/hoxi/pages/blog/[slug].vue": () => import('./_slug_-D4iNMAN6.mjs'), "../themes/hoxi/pages/blog/index.vue": () => import('./index-DEUVDRfS.mjs'), "../themes/hoxi/pages/coding-plans/[slug].vue": () => import('./_slug_-DmqtK0im.mjs'), "../themes/hoxi/pages/coding-plans/index.vue": () => import('./index-DyinNK3S.mjs'), "../themes/hoxi/pages/compare.vue": () => import('./compare-Cgp9cMnn.mjs'), "../themes/hoxi/pages/gateways/[slug].vue": () => import('./_slug_-Dp5lZSW9.mjs'), "../themes/hoxi/pages/gateways/index.vue": () => import('./index-D6VnVgfF.mjs'), "../themes/hoxi/pages/index.vue": () => import('./index-DCsfIpXp.mjs'), "../themes/hoxi/pages/models/[slug].vue": () => import('./_slug_-yg6R8Frx.mjs'), "../themes/hoxi/pages/models/index.vue": () => import('./index-DojevVaI.mjs'), "../themes/hoxi/pages/projects.vue": () => import('./projects-6Enebgjr.mjs'), "../themes/hoxi/pages/readiness.vue": () => import('./readiness-BGY4bgtw.mjs'), "../themes/hoxi/pages/refactoring-the-self.vue": () => import('./refactoring-the-self-BlacNnb3.mjs'), "../themes/hoxi/pages/savings.vue": () => import('./savings-CRYATitd.mjs'), "../themes/hoxi/pages/tools.vue": () => import('./tools-NXTl_mC-.mjs') })
 };
 const themeAdminManifestModules = {
   .../* @__PURE__ */ Object.assign({
@@ -23696,7 +23675,7 @@ const themeAdminManifestModules = {
   })
 };
 const themeAdminPageModules = {
-  .../* @__PURE__ */ Object.assign({ "../themes/hoxi/admin/pages/cheap.vue": () => import('./cheap-DgvWLSVR.mjs'), "../themes/hoxi/admin/pages/coding-plans.vue": () => import('./coding-plans-C344D81t.mjs'), "../themes/hoxi/admin/pages/models.vue": () => import('./models-cq_QBUtx.mjs'), "../themes/hoxi/admin/pages/projects.vue": () => import('./projects-YVEzVrwr.mjs'), "../themes/hoxi/admin/pages/tools.vue": () => import('./tools-D3Z-ijaj.mjs') })
+  .../* @__PURE__ */ Object.assign({ "../themes/hoxi/admin/pages/cheap.vue": () => import('./cheap-Dd_jwren.mjs'), "../themes/hoxi/admin/pages/coding-plans.vue": () => import('./coding-plans-BQ3OF3IX.mjs'), "../themes/hoxi/admin/pages/models.vue": () => import('./models-6mkwxAHu.mjs'), "../themes/hoxi/admin/pages/projects.vue": () => import('./projects-CGKUGvEf.mjs'), "../themes/hoxi/admin/pages/tools.vue": () => import('./tools-D1axYhIK.mjs') })
 };
 const themeAdminLocaleEnModules = {
   .../* @__PURE__ */ Object.assign({
@@ -23709,7 +23688,7 @@ const themeAdminLocaleZhModules = {
   })
 };
 const themeLayoutLoaders = {
-  "hoxi": () => import('./default-CqnMlfvi.mjs')
+  "hoxi": () => import('./default-CbZIIm79.mjs')
 };
 const schemaVersion$3 = 1;
 const id$3 = "apps";
@@ -28843,19 +28822,29 @@ const extension_45user_45auth_45global = /* @__PURE__ */ defineNuxtRouteMiddlewa
     replace: true
   });
 });
+const useActiveTheme = () => {
+  const { getSetting } = useSettings();
+  const config = /* @__PURE__ */ useRuntimeConfig();
+  return computed(() => {
+    const devTheme = String(config.public.devTheme || "");
+    const configuredTheme = getSetting("active_theme") || "";
+    return resolveActiveTheme(configuredTheme, devTheme, publishedOptionalThemes);
+  });
+};
 const user_45auth_45global = /* @__PURE__ */ defineNuxtRouteMiddleware(async (to) => {
   let __temp, __restore;
   const path = stripLocalePrefix(to.path);
-  if (path !== "/user" && !path.startsWith("/user/")) return;
-  const { fetchSettings, getSetting } = useSettings();
+  if (!Object.values(themeHostConfigs).some(({ userAuth }) => userAuth && (path === userAuth.prefix || path.startsWith(`${userAuth.prefix}/`)))) return;
+  const { fetchSettings } = useSettings();
   [__temp, __restore] = executeAsync(() => fetchSettings()), await __temp, __restore();
-  if (getSetting("active_theme") !== "qingpu") return;
+  const policy = themeHostConfigs[useActiveTheme().value]?.userAuth;
+  if (!policy || path !== policy.prefix && !path.startsWith(`${policy.prefix}/`)) return;
   const { ready, loggedIn, fetch } = useUserSession();
   if (!ready.value) [__temp, __restore] = executeAsync(() => fetch()), __temp = await __temp, __restore();
   if (loggedIn.value) return;
   const localePrefix = to.path.match(/^\/[a-z]{2}(?:-[a-z]{2})?(?=\/|$)/i)?.[0] || "";
   return navigateTo({
-    path: `${localePrefix}/auth/login`,
+    path: `${localePrefix}${policy.login}`,
     query: { redirect: to.fullPath },
     replace: true
   });
@@ -29407,79 +29396,79 @@ const plugin_MeUvTuoKUi51yb_kBguab6hdcExVXeTtZtTg9TZZBB8 = /* @__PURE__ */ defin
   // For type portability
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
 });
-const LazyHoxiComment = defineAsyncComponent(() => import('./HoxiComment-CEX2CAX5.mjs').then((r) => r["default"] || r.default || r));
-const LazyHoxiCommunityModal = defineAsyncComponent(() => import('./HoxiCommunityModal-Bz6S1jIj.mjs').then((r) => r["default"] || r.default || r));
+const LazyHoxiComment = defineAsyncComponent(() => import('./HoxiComment-1IKAspcv.mjs').then((r) => r["default"] || r.default || r));
+const LazyHoxiCommunityModal = defineAsyncComponent(() => import('./HoxiCommunityModal-BSi10Np_.mjs').then((r) => r["default"] || r.default || r));
 const LazyHoxiContainer = defineAsyncComponent(() => import('./HoxiContainer-DDAEb0_Y.mjs').then((r) => r["default"] || r.default || r));
-const LazyHoxiHairlineLink = defineAsyncComponent(() => import('./HoxiHairlineLink-CkLNDE1a.mjs').then((r) => r["default"] || r.default || r));
-const LazyHoxiHomeReadiness = defineAsyncComponent(() => import('./HoxiHomeReadiness-BOLwZmZC.mjs').then((r) => r["default"] || r.default || r));
-const LazyHoxiHomeSavingsCard = defineAsyncComponent(() => import('./HoxiHomeSavingsCard-D1R8qSHI.mjs').then((r) => r["default"] || r.default || r));
-const LazyHoxiHomeTools = defineAsyncComponent(() => import('./HoxiHomeTools-CD1J38ie.mjs').then((r) => r["default"] || r.default || r));
-const LazyHoxiLogoIcon = defineAsyncComponent(() => import('./HoxiLogoIcon-ApHSqyZj.mjs').then((r) => r["default"] || r.default || r));
+const LazyHoxiHairlineLink = defineAsyncComponent(() => import('./HoxiHairlineLink-C237eW8R.mjs').then((r) => r["default"] || r.default || r));
+const LazyHoxiHomeReadiness = defineAsyncComponent(() => import('./HoxiHomeReadiness-Oh0q70O9.mjs').then((r) => r["default"] || r.default || r));
+const LazyHoxiHomeSavingsCard = defineAsyncComponent(() => import('./HoxiHomeSavingsCard-BMKrIT6p.mjs').then((r) => r["default"] || r.default || r));
+const LazyHoxiHomeTools = defineAsyncComponent(() => import('./HoxiHomeTools-BVcshjJT.mjs').then((r) => r["default"] || r.default || r));
+const LazyHoxiLogoIcon = defineAsyncComponent(() => import('./HoxiLogoIcon-Db_N_keo.mjs').then((r) => r["default"] || r.default || r));
 const LazyHoxiMeta = defineAsyncComponent(() => import('./HoxiMeta-BgAl7LvM.mjs').then((r) => r["default"] || r.default || r));
-const LazyHoxiModelCard = defineAsyncComponent(() => import('./HoxiModelCard-DxYoFVYM.mjs').then((r) => r["default"] || r.default || r));
-const LazyHoxiModelFilters = defineAsyncComponent(() => import('./HoxiModelFilters-vv7nXdSN.mjs').then((r) => r["default"] || r.default || r));
-const LazyHoxiModelMini = defineAsyncComponent(() => import('./HoxiModelMini-BynQ_p25.mjs').then((r) => r["default"] || r.default || r));
-const LazyHoxiModelTable = defineAsyncComponent(() => import('./HoxiModelTable-DwZJPd_S.mjs').then((r) => r["default"] || r.default || r));
+const LazyHoxiModelCard = defineAsyncComponent(() => import('./HoxiModelCard-DbweP84k.mjs').then((r) => r["default"] || r.default || r));
+const LazyHoxiModelFilters = defineAsyncComponent(() => import('./HoxiModelFilters-BbzD6HfG.mjs').then((r) => r["default"] || r.default || r));
+const LazyHoxiModelMini = defineAsyncComponent(() => import('./HoxiModelMini-BLCZTp73.mjs').then((r) => r["default"] || r.default || r));
+const LazyHoxiModelTable = defineAsyncComponent(() => import('./HoxiModelTable-O1nnD1BS.mjs').then((r) => r["default"] || r.default || r));
 const LazyHoxiPageHeader = defineAsyncComponent(() => import('./HoxiPageHeader-BFh30DFm.mjs').then((r) => r["default"] || r.default || r));
-const LazyHoxiParticleCanvas = defineAsyncComponent(() => import('./HoxiParticleCanvas-DZb1T7vk.mjs').then((r) => r["default"] || r.default || r));
+const LazyHoxiParticleCanvas = defineAsyncComponent(() => import('./HoxiParticleCanvas-DepI10Sn.mjs').then((r) => r["default"] || r.default || r));
 const LazyHoxiParticleHero = defineAsyncComponent(() => import('./HoxiParticleHero-C65EeQIv.mjs').then((r) => r["default"] || r.default || r));
-const LazyHoxiPostItem = defineAsyncComponent(() => import('./HoxiPostItem-CqoOwlVj.mjs').then((r) => r["default"] || r.default || r));
+const LazyHoxiPostItem = defineAsyncComponent(() => import('./HoxiPostItem-TfdktVJ-.mjs').then((r) => r["default"] || r.default || r));
 const LazyHoxiReadinessProgress = defineAsyncComponent(() => import('./HoxiReadinessProgress-D7zePPDj.mjs').then((r) => r["default"] || r.default || r));
 const LazyHoxiReadinessQuestion = defineAsyncComponent(() => import('./HoxiReadinessQuestion-CwH_pQJv.mjs').then((n) => n.H).then((r) => r["default"] || r.default || r));
 const LazyHoxiReadinessRadar = defineAsyncComponent(() => import('./HoxiReadinessRadar-DzvZLZvS.mjs').then((r) => r["default"] || r.default || r));
-const LazyHoxiReadinessReport = defineAsyncComponent(() => import('./HoxiReadinessReport-DBWVzdPW.mjs').then((r) => r["default"] || r.default || r));
-const LazyHoxiSectionLabel = defineAsyncComponent(() => import('./HoxiSectionLabel-BHyUHyFd.mjs').then((r) => r["default"] || r.default || r));
-const LazyHoxiTag = defineAsyncComponent(() => import('./HoxiTag-wDTaVaC3.mjs').then((r) => r["default"] || r.default || r));
+const LazyHoxiReadinessReport = defineAsyncComponent(() => import('./HoxiReadinessReport-CnycWIj1.mjs').then((r) => r["default"] || r.default || r));
+const LazyHoxiSectionLabel = defineAsyncComponent(() => import('./HoxiSectionLabel-BCPo-KS8.mjs').then((r) => r["default"] || r.default || r));
+const LazyHoxiTag = defineAsyncComponent(() => import('./HoxiTag-BzE-1Gu6.mjs').then((r) => r["default"] || r.default || r));
 const LazyHoxiValueBar = defineAsyncComponent(() => import('./HoxiValueBar-nKN9Q0nQ.mjs').then((r) => r["default"] || r.default || r));
 const LazyHoxiVendorDot = defineAsyncComponent(() => import('./HoxiVendorDot-BLwK_ZsG.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseA = defineAsyncComponent(() => import('./A-DPQdclw6.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseAccordion = defineAsyncComponent(() => import('./Accordion-03TLvetT.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseAccordionItem = defineAsyncComponent(() => import('./AccordionItem-2ckjRJL4.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseBadge = defineAsyncComponent(() => import('./Badge-CNHopuSW.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseBlockquote = defineAsyncComponent(() => import('./Blockquote-CMefYKJp.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseCallout = defineAsyncComponent(() => import('./Callout-CYnceNXy.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseCard = defineAsyncComponent(() => import('./Card-B2cRt6_N.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseCardGroup = defineAsyncComponent(() => import('./CardGroup-gEJTm1Qw.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseCode = defineAsyncComponent(() => import('./Code-CQYrIocZ.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseCodeCollapse = defineAsyncComponent(() => import('./CodeCollapse-DqseILZm.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseCodeGroup = defineAsyncComponent(() => import('./CodeGroup-Dk_fbO0F.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseCodeIcon = defineAsyncComponent(() => import('./CodeIcon-CsIij2SR.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseCodePreview = defineAsyncComponent(() => import('./CodePreview-4JlVIx9y.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseCodeTree = defineAsyncComponent(() => import('./CodeTree-w33u-qV6.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseCollapsible = defineAsyncComponent(() => import('./Collapsible-BogyCH7f.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseEm = defineAsyncComponent(() => import('./Em-CPc-RAyt.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseField = defineAsyncComponent(() => import('./Field-XqA5z7-l.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseFieldGroup = defineAsyncComponent(() => import('./FieldGroup-D0jJ61lN.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseH1 = defineAsyncComponent(() => import('./H1-DKrAXeHk.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseH2 = defineAsyncComponent(() => import('./H2-IA81Zj8k.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseH3 = defineAsyncComponent(() => import('./H3-KHqpf0aB.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseH4 = defineAsyncComponent(() => import('./H4-CyRKT49o.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseHr = defineAsyncComponent(() => import('./Hr-DJLFyr5T.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseIcon = defineAsyncComponent(() => import('./Icon-DM4gGOxx.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseImg = defineAsyncComponent(() => import('./Img-BW3wUVmE.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseKbd = defineAsyncComponent(() => import('./Kbd-CqLnAYe0.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseLi = defineAsyncComponent(() => import('./Li-2CR9xgLr.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseOl = defineAsyncComponent(() => import('./Ol-DzGB3dg2.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseP = defineAsyncComponent(() => import('./P-DLO7a3pC.mjs').then((r) => r["default"] || r.default || r));
-const LazyProsePre = defineAsyncComponent(() => import('./Pre-BWAg_x0H.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseA = defineAsyncComponent(() => import('./A-CPZyQqk9.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseAccordion = defineAsyncComponent(() => import('./Accordion-BBuNOjZ9.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseAccordionItem = defineAsyncComponent(() => import('./AccordionItem-D1qARbnM.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseBadge = defineAsyncComponent(() => import('./Badge-DYbRXaJb.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseBlockquote = defineAsyncComponent(() => import('./Blockquote-BXg_8wSu.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseCallout = defineAsyncComponent(() => import('./Callout-Dk4NZdE9.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseCard = defineAsyncComponent(() => import('./Card-hWQ_XhCW.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseCardGroup = defineAsyncComponent(() => import('./CardGroup-DBWSHbum.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseCode = defineAsyncComponent(() => import('./Code-CGyuBllm.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseCodeCollapse = defineAsyncComponent(() => import('./CodeCollapse-BOWGEbXS.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseCodeGroup = defineAsyncComponent(() => import('./CodeGroup-DMzq2hnf.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseCodeIcon = defineAsyncComponent(() => import('./CodeIcon-C1usPZfA.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseCodePreview = defineAsyncComponent(() => import('./CodePreview-C26Zx9-1.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseCodeTree = defineAsyncComponent(() => import('./CodeTree-BcB5nQQD.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseCollapsible = defineAsyncComponent(() => import('./Collapsible-DxeMBYf0.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseEm = defineAsyncComponent(() => import('./Em-BHVxItrb.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseField = defineAsyncComponent(() => import('./Field-ClyVLwOM.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseFieldGroup = defineAsyncComponent(() => import('./FieldGroup-C6s2WxXk.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseH1 = defineAsyncComponent(() => import('./H1-DAFtxNqb.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseH2 = defineAsyncComponent(() => import('./H2-DYpDgKc6.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseH3 = defineAsyncComponent(() => import('./H3-CoX8j4ag.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseH4 = defineAsyncComponent(() => import('./H4-Br-qx6nz.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseHr = defineAsyncComponent(() => import('./Hr-BDwg7Eee.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseIcon = defineAsyncComponent(() => import('./Icon-C7R6xstG.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseImg = defineAsyncComponent(() => import('./Img-BHY7demR.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseKbd = defineAsyncComponent(() => import('./Kbd-Bgu-CW-z.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseLi = defineAsyncComponent(() => import('./Li-D2-QrsKF.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseOl = defineAsyncComponent(() => import('./Ol-DY95ZO3g.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseP = defineAsyncComponent(() => import('./P-DVanaaDr.mjs').then((r) => r["default"] || r.default || r));
+const LazyProsePre = defineAsyncComponent(() => import('./Pre-B5Sy179U.mjs').then((r) => r["default"] || r.default || r));
 const LazyProseScript = defineAsyncComponent(() => import('./Script-BOX32BRp.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseSteps = defineAsyncComponent(() => import('./Steps-Bo-xWA26.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseStrong = defineAsyncComponent(() => import('./Strong-tlojIYJm.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseTable = defineAsyncComponent(() => import('./Table-DIM4Y_q-.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseTabs = defineAsyncComponent(() => import('./Tabs-CAfwtp3b.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseTabsItem = defineAsyncComponent(() => import('./TabsItem-Ds1spZI_.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseTbody = defineAsyncComponent(() => import('./Tbody-JJYi0ciu.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseTd = defineAsyncComponent(() => import('./Td-C9rw6Q8D.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseTh = defineAsyncComponent(() => import('./Th-C17C3lWh.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseThead = defineAsyncComponent(() => import('./Thead-Dc8ysj2h.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseTr = defineAsyncComponent(() => import('./Tr-BrASYZ0h.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseUl = defineAsyncComponent(() => import('./Ul-Dzgj7maK.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseCaution = defineAsyncComponent(() => import('./Caution-Bu2dhcWG.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseNote = defineAsyncComponent(() => import('./Note-DDup8KV9.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseTip = defineAsyncComponent(() => import('./Tip-Dr1x1wth.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseWarning = defineAsyncComponent(() => import('./Warning-FOroKpGf.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseH5 = defineAsyncComponent(() => import('./ProseH5-BTW3_Lsk.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseH6 = defineAsyncComponent(() => import('./ProseH6-DEOALvk4.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseSteps = defineAsyncComponent(() => import('./Steps-eXeNg9oo.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseStrong = defineAsyncComponent(() => import('./Strong-BiRk4nKi.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseTable = defineAsyncComponent(() => import('./Table-B-syUJl7.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseTabs = defineAsyncComponent(() => import('./Tabs-RcXpq8aA.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseTabsItem = defineAsyncComponent(() => import('./TabsItem-Dnzm-ehk.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseTbody = defineAsyncComponent(() => import('./Tbody-ByHgbULF.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseTd = defineAsyncComponent(() => import('./Td-BNrLupFi.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseTh = defineAsyncComponent(() => import('./Th-B2aT6A8S.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseThead = defineAsyncComponent(() => import('./Thead-D9A9kwUX.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseTr = defineAsyncComponent(() => import('./Tr-C6Q1mweJ.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseUl = defineAsyncComponent(() => import('./Ul-lOBQ8SVX.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseCaution = defineAsyncComponent(() => import('./Caution-Cbq4fGEO.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseNote = defineAsyncComponent(() => import('./Note-DCAE4W8Y.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseTip = defineAsyncComponent(() => import('./Tip-SYBhLrqA.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseWarning = defineAsyncComponent(() => import('./Warning-BIreh2DJ.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseH5 = defineAsyncComponent(() => import('./ProseH5-B7lZCWFC.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseH6 = defineAsyncComponent(() => import('./ProseH6-Cz_pvLnl.mjs').then((r) => r["default"] || r.default || r));
 const LazyIcon = defineAsyncComponent(() => Promise.resolve().then(() => index).then((r) => r["default"] || r.default || r));
 const lazyGlobalComponents = [
   ["HoxiComment", LazyHoxiComment],
@@ -31416,16 +31405,6 @@ const colors_E7kSti5pGZ28QhUUurq6gGRU3l65WuXO_KJC3GQgzFo = /* @__PURE__ */ defin
   };
   useHead(headData);
 });
-const useActiveTheme = () => {
-  const { getSetting } = useSettings();
-  const config = /* @__PURE__ */ useRuntimeConfig();
-  return computed(() => {
-    const devTheme = String(config.public.devTheme || "");
-    if (devTheme && publishedOptionalThemeSet.has(devTheme)) return devTheme;
-    const configuredTheme = getSetting("active_theme") || "";
-    return publishedOptionalThemeSet.has(configuredTheme) ? configuredTheme : "";
-  });
-};
 const i18n_seo_im8SQ1ePLoUivIUo65pX2ilaAPZtc0aGSNATIOvFBFY = /* @__PURE__ */ defineNuxtPlugin({
   name: "apay-domain-locale-seo",
   dependsOn: ["i18n:plugin"],
@@ -33265,9 +33244,9 @@ const __nuxt_component_1 = defineComponent({
   }
 });
 const layouts = {
-  admin: defineAsyncComponent(() => import('./admin-DOmX-65r.mjs').then((m) => m.default || m)),
-  default: defineAsyncComponent(() => import('./default-BZNrblC-.mjs').then((m) => m.default || m)),
-  empty: defineAsyncComponent(() => import('./empty-BEq8-jzm.mjs').then((m) => m.default || m))
+  admin: defineAsyncComponent(() => import('./admin-CEy9k66p.mjs').then((m) => m.default || m)),
+  default: defineAsyncComponent(() => import('./default-D3qxKmvH.mjs').then((m) => m.default || m)),
+  empty: defineAsyncComponent(() => import('./empty-DMy7_SdZ.mjs').then((m) => m.default || m))
 };
 const routeRulesMatcher = _routeRulesMatcher;
 const LayoutLoader = defineComponent({
@@ -33898,8 +33877,8 @@ const _sfc_main$1 = {
     const statusText = _error.statusMessage ?? (is404 ? "Page Not Found" : "Internal Server Error");
     const description2 = _error.message || _error.toString();
     const stack = void 0;
-    const _Error404 = defineAsyncComponent(() => import('./error-404-_9WQAvPq.mjs'));
-    const _Error = defineAsyncComponent(() => import('./error-500-CH9StdfU.mjs'));
+    const _Error404 = defineAsyncComponent(() => import('./error-404-DevlRkVR.mjs'));
+    const _Error = defineAsyncComponent(() => import('./error-500-BwT0m2WY.mjs'));
     const ErrorTemplate = is404 ? _Error404 : _Error;
     return (_ctx, _push, _parent, _attrs) => {
       _push(ssrRenderComponent(unref(ErrorTemplate), mergeProps({ status: unref(status), statusText: unref(statusText), statusCode: unref(status), statusMessage: unref(statusText), description: unref(description2), stack: unref(stack) }, _attrs), null, _parent));
@@ -33980,4 +33959,4 @@ let entry;
 }
 const entry_default = ((ssrContext) => entry(ssrContext));
 
-export { getActiveElement as $, ADMIN_PERMISSIONS as A, _sfc_main$n as B, publishedOptionalThemes as C, useRoute as D, themeAdminLocaleEnModules as E, themeAdminLocaleZhModules as F, useExtensions as G, setResponseStatus as H, stripLocalePrefix as I, useCurrencyFormat as J, useAdminSession as K, firstAllowedAdminRoute as L, __nuxt_component_0$1 as M, useRequestURL as N, useLocaleCurrency as O, PopperAnchor_default as P, PopperArrow_default as Q, createSharedComposable as R, useDirection as S, PopperRoot_default as T, createContext as U, useVModel as V, useFocusGuards as W, useBodyScrollLock as X, useForwardExpose as Y, useTypeahead as Z, _export_sfc as _, __nuxt_component_3$1 as a, refAutoReset as a$, FocusScope_default as a0, DismissableLayer_default as a1, PopperContent_default as a2, getOpenState as a3, PopperContentPropsDefaultValue as a4, isPointerInGraceArea as a5, isMouseEvent as a6, FIRST_LAST_KEYS as a7, LAST_KEYS as a8, focusFirst as a9, _sfc_main$D as aA, omit as aB, useComponentUI as aC, reactivePick as aD, tv as aE, formBusInjectionKey as aF, formStateInjectionKey as aG, formErrorsInjectionKey as aH, formInputsInjectionKey as aI, formLoadingInjectionKey as aJ, formOptionsInjectionKey as aK, useEventBus as aL, useLocaleRouter as aM, createEventHook as aN, useFormField as aO, useFieldGroup as aP, useComponentIcons as aQ, compare as aR, _sfc_main$F as aS, looseToNumber as aT, getDisplayValue as aU, useFormControl as aV, Label_default as aW, VisuallyHidden_default as aX, isNullish as aY, useResizeObserver as aZ, useNuxtApp as a_, useCollection as aa, Primitive as ab, SELECTION_KEYS$1 as ac, ITEM_SELECT as ad, Presence_default as ae, isIndeterminate as af, getCheckedState as ag, reactiveOmit as ah, useForwardProps as ai, useForwardPropsEmits as aj, useHideOthers as ak, useId as al, Teleport_default as am, SUB_CLOSE_KEYS as an, SUB_OPEN_KEYS as ao, useEmitAsProps as ap, usePrimitiveElement as aq, useLocale as ar, useAppConfig as as, usePortal as at, createReusableTemplate as au, isArrayOfArray as av, _sfc_main$E as aw, get as ax, _sfc_main$C as ay, pickLinkProps as az, _sfc_main$G as b, handleAndDispatchCustomEvent$1 as b0, useParentElement as b1, getNextMatch as b2, tryOnScopeDispose$1 as b3, injectTooltipProviderContext as b4, useTimeoutFn as b5, corePageModules as b6, themePageModules as b7, useActiveTheme as b8, useUserSession as b9, themeLayoutLoaders as bA, __nuxt_component_2$2 as ba, useState as bb, transformUI as bc, useEventListener$1 as bd, useRuntimeConfig as be, resolveBaseURL as bf, ImageComponent as bg, DialogRoot_default as bh, DialogTrigger_default as bi, DialogPortal_default as bj, useClipboard as bk, useSeoMeta as bl, useJsonLd as bm, createError as bn, refThrottled as bo, useDebounceFn as bp, useActiveElement as bq, _sfc_main$d as br, useLocalizedSettings as bs, useCookie as bt, pointerDownOutside as bu, DialogOverlay_default as bv, DialogContent_default as bw, DialogTitle_default as bx, DialogDescription_default as by, DialogClose_default as bz, _sfc_main$l as c, _sfc_main$k as d, entry_default as default, _sfc_main$g as e, useI18n as f, useFormatTime as g, useToast as h, useAdminPermissions as i, useAdminExtensions as j, moduleEditCode as k, _sfc_main$B as l, moduleViewCode as m, _sfc_main$h as n, _sfc_main$x as o, _sfc_main$j as p, _sfc_main$s as q, navigateTo as r, useRouter as s, useConfirm as t, useHead as u, useSettings as v, useAsyncData as w, themeExtensionPermissionCode as x, usePagination as y, useFetch as z };
+export { useTypeahead as $, ADMIN_PERMISSIONS as A, _sfc_main$n as B, publishedOptionalThemes as C, useLocaleRouter as D, useRoute as E, themeAdminLocaleEnModules as F, themeAdminLocaleZhModules as G, useExtensions as H, setResponseStatus as I, stripLocalePrefix as J, useCurrencyFormat as K, useAdminSession as L, firstAllowedAdminRoute as M, __nuxt_component_0$1 as N, useRequestURL as O, useLocaleCurrency as P, PopperAnchor_default as Q, PopperArrow_default as R, createSharedComposable as S, useDirection as T, PopperRoot_default as U, createContext as V, useVModel as W, useFocusGuards as X, useBodyScrollLock as Y, useForwardExpose as Z, _export_sfc as _, __nuxt_component_3$1 as a, corePageModules as a$, getActiveElement as a0, FocusScope_default as a1, DismissableLayer_default as a2, PopperContent_default as a3, getOpenState as a4, PopperContentPropsDefaultValue as a5, isPointerInGraceArea as a6, isMouseEvent as a7, FIRST_LAST_KEYS as a8, LAST_KEYS as a9, pickLinkProps as aA, _sfc_main$D as aB, omit as aC, useComponentUI as aD, reactivePick as aE, tv as aF, useFormControl as aG, useFormField as aH, Label_default as aI, createEventHook as aJ, useFieldGroup as aK, useComponentIcons as aL, compare as aM, _sfc_main$F as aN, looseToNumber as aO, getDisplayValue as aP, refAutoReset as aQ, handleAndDispatchCustomEvent$1 as aR, useParentElement as aS, getNextMatch as aT, VisuallyHidden_default as aU, isNullish as aV, useResizeObserver as aW, useNuxtApp as aX, tryOnScopeDispose$1 as aY, injectTooltipProviderContext as aZ, useTimeoutFn as a_, focusFirst as aa, useCollection as ab, Primitive as ac, SELECTION_KEYS$1 as ad, ITEM_SELECT as ae, Presence_default as af, isIndeterminate as ag, getCheckedState as ah, reactiveOmit as ai, useForwardProps as aj, useForwardPropsEmits as ak, useHideOthers as al, useId as am, Teleport_default as an, SUB_CLOSE_KEYS as ao, SUB_OPEN_KEYS as ap, useEmitAsProps as aq, usePrimitiveElement as ar, useLocale as as, useAppConfig as at, usePortal as au, createReusableTemplate as av, isArrayOfArray as aw, _sfc_main$E as ax, get as ay, _sfc_main$C as az, _sfc_main$G as b, themePageModules as b0, useActiveTheme as b1, useUserSession as b2, __nuxt_component_2$2 as b3, useState as b4, transformUI as b5, useEventListener$1 as b6, useRuntimeConfig as b7, resolveBaseURL as b8, ImageComponent as b9, DialogRoot_default as ba, DialogTrigger_default as bb, DialogPortal_default as bc, useClipboard as bd, useSeoMeta as be, useJsonLd as bf, createError as bg, refThrottled as bh, useDebounceFn as bi, useActiveElement as bj, _sfc_main$d as bk, useLocalizedSettings as bl, useCookie as bm, pointerDownOutside as bn, DialogOverlay_default as bo, DialogContent_default as bp, DialogTitle_default as bq, DialogDescription_default as br, DialogClose_default as bs, themeLayoutLoaders as bt, _sfc_main$l as c, _sfc_main$k as d, entry_default as default, _sfc_main$g as e, useI18n as f, useFormatTime as g, useToast as h, useAdminPermissions as i, useAdminExtensions as j, moduleEditCode as k, _sfc_main$B as l, moduleViewCode as m, _sfc_main$h as n, _sfc_main$x as o, _sfc_main$j as p, _sfc_main$s as q, navigateTo as r, useRouter as s, useConfirm as t, useHead as u, useSettings as v, useAsyncData as w, themeExtensionPermissionCode as x, usePagination as y, useFetch as z };

@@ -1,6 +1,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
-import { d as defineEventHandler, e as createError, cN as setHeader, bh as getHeader, cs as setResponseStatus, cX as sendStream } from '../../nitro/nitro.mjs';
+import { d as defineEventHandler, e as createError, cS as setHeader, bj as getHeader, cx as setResponseStatus, d0 as sendStream } from '../../nitro/nitro.mjs';
+import { blob } from '@nuxthub/blob';
 import 'drizzle-orm';
 import 'node:crypto';
 import 'crypto';
@@ -22,13 +23,13 @@ import 'drizzle-orm/pg-core';
 import 'drizzle-orm/sqlite-core';
 import 'drizzle-orm/mysql-core';
 import 'maxmind';
+import 'node:os';
 import 'node:url';
 import '@iconify/utils';
 import 'consola';
 import 'ioredis';
 import 'zod';
 import 'node:child_process';
-import 'node:os';
 import 'node:fs/promises';
 import 'node:dns/promises';
 import 'node:net';
@@ -81,6 +82,9 @@ const ____slug_ = defineEventHandler(async (event) => {
     }
     setHeader(event, "Content-Length", String(size));
     return sendStream(event, fs.createReadStream(filePath));
+  }
+  if (slug.startsWith("tickets/")) {
+    return blob.serve(event, `uploads/${slug}`);
   }
   throw createError({
     statusCode: 404,

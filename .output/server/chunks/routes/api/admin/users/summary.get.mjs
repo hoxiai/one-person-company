@@ -1,15 +1,16 @@
-import { d as defineEventHandler, c as getRequestLocale, g as getQuery, bw as fetchExternalUsersMap, u as users, b as db, be as userWallets, bp as userTokens, e as createError } from '../../../../nitro/nitro.mjs';
-import { sql, eq, or, like, count, and } from 'drizzle-orm';
+import { d as defineEventHandler, c as getRequestLocale, g as getQuery, bz as fetchExternalUsersMap, u as users, b as db, bg as userWallets, bs as userTokens, e as createError } from '../../../../nitro/nitro.mjs';
+import { sql, eq, or, like, count, and, gt } from 'drizzle-orm';
 import 'node:crypto';
 import 'crypto';
 import 'fs';
 import 'path';
+import 'node:path';
+import '@nuxthub/blob';
 import 'node:http';
 import 'node:https';
 import 'node:events';
 import 'node:buffer';
 import 'node:fs';
-import 'node:path';
 import 'node:async_hooks';
 import 'postgres';
 import 'drizzle-orm/postgres-js';
@@ -22,13 +23,13 @@ import 'drizzle-orm/pg-core';
 import 'drizzle-orm/sqlite-core';
 import 'drizzle-orm/mysql-core';
 import 'maxmind';
+import 'node:os';
 import 'node:url';
 import '@iconify/utils';
 import 'consola';
 import 'ioredis';
 import 'zod';
 import 'node:child_process';
-import 'node:os';
 import 'node:fs/promises';
 import 'node:dns/promises';
 import 'node:net';
@@ -102,7 +103,7 @@ const summary_get = defineEventHandler(async (event) => {
           eq(userTokens.revoked, false),
           or(
             sql`${userTokens.expiresAt} IS NULL`,
-            sql`${userTokens.expiresAt} > NOW()`
+            gt(userTokens.expiresAt, /* @__PURE__ */ new Date())
           )
         )
       );

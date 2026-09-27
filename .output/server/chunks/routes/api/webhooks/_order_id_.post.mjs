@@ -1,15 +1,16 @@
-import { d as defineEventHandler, cN as setHeader, c as getRequestLocale, f as getRouterParam, cO as readRawBody, r as readBody, g as getQuery, cn as getRequestHeaders, bH as logger, e as createError, b as db, v as orders, O as ORDER_PAY_STATUS, cP as markOrderPaid, av as paymentMethods, cQ as executeCallbackScript, cs as setResponseStatus, as as ORDER_STATUS, c9 as getAffectedRows, cR as markTopupPaymentFailed, ad as cancelPromoCommission, ae as revokeSubscriptionForOrder, af as refundTopup } from '../../../nitro/nitro.mjs';
-import { eq, and, ne } from 'drizzle-orm';
+import { d as defineEventHandler, cS as setHeader, c as getRequestLocale, f as getRouterParam, cT as readRawBody, r as readBody, g as getQuery, cs as getRequestHeaders, bK as logger, e as createError, b as db, v as orders, av as paymentMethods, cU as executeCallbackScript, cx as setResponseStatus, cV as markOrderPaid, O as ORDER_PAY_STATUS, as as ORDER_STATUS, cd as getAffectedRows, cW as markTopupPaymentFailed, ad as cancelPromoCommission, ae as revokeSubscriptionForOrder, af as refundTopup } from '../../../nitro/nitro.mjs';
+import { eq, and, inArray, ne } from 'drizzle-orm';
 import fs from 'fs';
 import path from 'path';
 import 'node:crypto';
 import 'crypto';
+import 'node:path';
+import '@nuxthub/blob';
 import 'node:http';
 import 'node:https';
 import 'node:events';
 import 'node:buffer';
 import 'node:fs';
-import 'node:path';
 import 'node:async_hooks';
 import 'postgres';
 import 'drizzle-orm/postgres-js';
@@ -22,13 +23,13 @@ import 'drizzle-orm/pg-core';
 import 'drizzle-orm/sqlite-core';
 import 'drizzle-orm/mysql-core';
 import 'maxmind';
+import 'node:os';
 import 'node:url';
 import '@iconify/utils';
 import 'consola';
 import 'ioredis';
 import 'zod';
 import 'node:child_process';
-import 'node:os';
 import 'node:fs/promises';
 import 'node:dns/promises';
 import 'node:net';
@@ -61,6 +62,7 @@ function sanitizePayloadForLog(payload) {
   };
 }
 const postHandler = defineEventHandler(async (event) => {
+  var _a;
   setHeader(event, "cache-control", "no-store");
   const locale = getRequestLocale(event);
   const urlOrderId = getRouterParam(event, "order_id");
@@ -97,10 +99,6 @@ const postHandler = defineEventHandler(async (event) => {
       throw new Error(`Order ${urlOrderId} not found`);
     }
     const order = existingOrders[0];
-    if (order.payStatus === ORDER_PAY_STATUS.PAID) {
-      await markOrderPaid({ orderId: order.id, source: "webhook-retry" });
-      return "success";
-    }
     const payMethod = order.payMethod;
     if (!payMethod) {
       throw new Error(`Order ${urlOrderId} does not have a payment method assigned`);
@@ -191,7 +189,7 @@ const postHandler = defineEventHandler(async (event) => {
             });
             return "Amount Mismatch";
           }
-        } else if (result.status === "failed" && order2.payStatus !== ORDER_PAY_STATUS.PAID) {
+        } else if (result.status === "failed" && (order2.payStatus === ORDER_PAY_STATUS.PENDING || order2.payStatus === ORDER_PAY_STATUS.FAILED)) {
           await logger.warn(`Order ${order2.id} failed via ${realMethodCode}`, {
             source: "webhook",
             details: { tradeNo: result.tradeNo, amount: result.amount }
@@ -203,11 +201,11 @@ const postHandler = defineEventHandler(async (event) => {
             payMethod: realMethodCode
           };
           if (result.tradeNo) updateData.tradeNo = result.tradeNo;
-          const failedUpdate = await db.update(orders).set(updateData).where(and(eq(orders.id, result.orderId), ne(orders.payStatus, ORDER_PAY_STATUS.PAID)));
+          const failedUpdate = await db.update(orders).set(updateData).where(and(eq(orders.id, result.orderId), inArray(orders.payStatus, [ORDER_PAY_STATUS.PENDING, ORDER_PAY_STATUS.FAILED])));
           if (getAffectedRows(failedUpdate) > 0) {
             await markTopupPaymentFailed(order2.id, `\u652F\u4ED8\u7F51\u5173 ${realMethodCode} \u8FD4\u56DE\u5931\u8D25`);
           }
-        } else if (result.status === "refunded" || result.status === "cancelled") {
+        } else if (result.status === "refunded" || result.status === "cancelled" && order2.payStatus !== ORDER_PAY_STATUS.REFUNDED) {
           await logger.warn(`Order ${order2.id} ${result.status} via ${realMethodCode}`, {
             source: "webhook",
             details: { tradeNo: result.tradeNo, amount: result.amount }
@@ -219,14 +217,20 @@ const postHandler = defineEventHandler(async (event) => {
             payMethod: realMethodCode
           };
           if (result.tradeNo) updateData.tradeNo = result.tradeNo;
-          await db.update(orders).set(updateData).where(eq(orders.id, result.orderId));
-          await cancelPromoCommission(result.orderId, `webhook_${result.status}`);
-          const wasCharged = order2.payStatus === ORDER_PAY_STATUS.PAID || order2.payStatus === ORDER_PAY_STATUS.REFUNDED;
-          if (wasCharged) {
-            await revokeSubscriptionForOrder(String(result.orderId), `webhook_${result.status}`).catch((err) => console.error("[Webhook] revokeSubscriptionForOrder failed:", err));
-          }
-          if (result.status === "refunded" && order2.userId) {
-            await refundTopup(result.orderId).catch((err) => console.error("[Webhook] refundTopup failed:", err));
+          const closedUpdate = await db.update(orders).set(updateData).where(and(
+            eq(orders.id, result.orderId),
+            result.status === "cancelled" ? ne(orders.payStatus, ORDER_PAY_STATUS.REFUNDED) : void 0
+          ));
+          const currentPayStatus = getAffectedRows(closedUpdate) > 0 ? targetPayStatus : (_a = (await db.select({ payStatus: orders.payStatus }).from(orders).where(eq(orders.id, result.orderId)).limit(1))[0]) == null ? void 0 : _a.payStatus;
+          if (currentPayStatus === targetPayStatus) {
+            await cancelPromoCommission(result.orderId, `webhook_${result.status}`);
+            const wasCharged = order2.payStatus === ORDER_PAY_STATUS.PAID || order2.payStatus === ORDER_PAY_STATUS.REFUNDED;
+            if (wasCharged) {
+              await revokeSubscriptionForOrder(String(result.orderId), `webhook_${result.status}`).catch((err) => console.error("[Webhook] revokeSubscriptionForOrder failed:", err));
+            }
+            if (result.status === "refunded" && order2.userId) {
+              await refundTopup(result.orderId).catch((err) => console.error("[Webhook] refundTopup failed:", err));
+            }
           }
         }
       } else {

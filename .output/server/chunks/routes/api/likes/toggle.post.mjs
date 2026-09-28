@@ -1,4 +1,4 @@
-import { d as defineEventHandler, r as readBody, e as createError, aY as getUserSession, bS as ensureVisitorId, c5 as getRequestIP, bl as getHeader, b as db, cd as likes, ce as syncLikesCount, ae as emitEvent } from '../../../nitro/nitro.mjs';
+import { d as defineEventHandler, r as readBody, e as createError, b0 as getUserSession, bZ as ensureVisitorId, cc as getRequestIP, br as getHeader, b as db, ck as likes, cl as syncLikesCount, ai as emitEvent } from '../../../nitro/nitro.mjs';
 import { and, eq, or, isNull } from 'drizzle-orm';
 import 'node:crypto';
 import 'crypto';
@@ -6,6 +6,7 @@ import 'fs';
 import 'path';
 import 'node:path';
 import '@nuxthub/blob';
+import '@nuxthub/db';
 import 'node:http';
 import 'node:https';
 import 'node:events';

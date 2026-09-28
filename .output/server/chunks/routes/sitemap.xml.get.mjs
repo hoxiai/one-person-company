@@ -1,4 +1,4 @@
-import { d as defineEventHandler, d0 as resolveServerSeoContext, d1 as collectSitemapEntries, d2 as seoRouteRegistry, d3 as classifySeoRoute, d4 as renderSitemapXml, cX as setHeader, e as createError } from '../nitro/nitro.mjs';
+import { d as defineEventHandler, d7 as resolveServerSeoContext, d8 as collectSitemapEntries, d9 as seoRouteRegistry, da as classifySeoRoute, db as renderSitemapXml, d2 as setHeader, e as createError } from '../nitro/nitro.mjs';
 import 'drizzle-orm';
 import 'node:crypto';
 import 'crypto';
@@ -6,6 +6,7 @@ import 'fs';
 import 'path';
 import 'node:path';
 import '@nuxthub/blob';
+import '@nuxthub/db';
 import 'node:http';
 import 'node:https';
 import 'node:events';

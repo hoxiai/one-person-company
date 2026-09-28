@@ -1,4 +1,4 @@
-import { d as defineEventHandler, bV as requireUserSession, b as db, bu as userTokens, cR as apiTokenScope } from '../../../nitro/nitro.mjs';
+import { d as defineEventHandler, c0 as requireUserSession, b as db, bA as userTokens, cY as apiTokenScope } from '../../../nitro/nitro.mjs';
 import { desc } from 'drizzle-orm';
 import 'node:crypto';
 import 'crypto';
@@ -6,6 +6,7 @@ import 'fs';
 import 'path';
 import 'node:path';
 import '@nuxthub/blob';
+import '@nuxthub/db';
 import 'node:http';
 import 'node:https';
 import 'node:events';

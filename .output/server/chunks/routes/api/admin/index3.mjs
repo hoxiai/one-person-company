@@ -1,4 +1,4 @@
-import { d as defineEventHandler, c as getRequestLocale, b as db, ax as paymentMethods, az as applyLocalPaymentPluginDefaults, r as readBody, e as createError } from '../../../nitro/nitro.mjs';
+import { d as defineEventHandler, c as getRequestLocale, b as db, aB as paymentMethods, aD as applyLocalPaymentPluginDefaults, r as readBody, e as createError } from '../../../nitro/nitro.mjs';
 import fs from 'fs';
 import path from 'path';
 import 'drizzle-orm';
@@ -6,6 +6,7 @@ import 'node:crypto';
 import 'crypto';
 import 'node:path';
 import '@nuxthub/blob';
+import '@nuxthub/db';
 import 'node:http';
 import 'node:https';
 import 'node:events';

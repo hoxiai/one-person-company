@@ -1,4 +1,4 @@
-import { d as defineEventHandler, ak as requireTrustedRequestOrigin, c as getRequestLocale, r as readBody, bX as mergePromoTracking, bY as capturePromoTracking, bZ as readPromoTracking, e as createError, bv as validateEmail, b as db, u as users, j as hashPassword, al as ensurePromoMember, b_ as bindInviteRelation, b$ as requestPromoAgentJoin, ae as emitEvent, c0 as promoAgentRelations, c1 as promoInviteRelations, aD as promoMembers, bR as issueWebSession, bC as trackVisitorEvent, bS as ensureVisitorId, bu as userTokens, by as EMAIL_VERIFY_TOKEN_NAME, Q as getLocalizedSettingValue, R as sendEmail } from '../../../nitro/nitro.mjs';
+import { d as defineEventHandler, ao as requireTrustedRequestOrigin, c as getRequestLocale, r as readBody, c2 as mergePromoTracking, c3 as capturePromoTracking, c4 as readPromoTracking, e as createError, bB as validateEmail, b as db, u as users, j as hashPassword, ap as ensurePromoMember, c5 as bindInviteRelation, c6 as requestPromoAgentJoin, ai as emitEvent, c7 as promoAgentRelations, c8 as promoInviteRelations, aH as promoMembers, bY as issueWebSession, bJ as trackVisitorEvent, bZ as ensureVisitorId, bA as userTokens, bE as EMAIL_VERIFY_TOKEN_NAME, U as getLocalizedSettingValue, V as sendEmail } from '../../../nitro/nitro.mjs';
 import { eq } from 'drizzle-orm';
 import 'node:crypto';
 import 'crypto';
@@ -6,6 +6,7 @@ import 'fs';
 import 'path';
 import 'node:path';
 import '@nuxthub/blob';
+import '@nuxthub/db';
 import 'node:http';
 import 'node:https';
 import 'node:events';

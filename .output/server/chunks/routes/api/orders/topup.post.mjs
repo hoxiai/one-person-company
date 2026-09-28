@@ -1,4 +1,4 @@
-import { d as defineEventHandler, c as getRequestLocale, bV as requireUserSession, e as createError, b as db, u as users, a1 as clearUserSession, c5 as getRequestIP, r as readBody, cn as getTopupRules, co as buildTopupQuote, cp as TopupValidationError, cq as ensureTopupCarrierProduct, bS as ensureVisitorId, bX as mergePromoTracking, bY as capturePromoTracking, bZ as readPromoTracking, aq as getMinimalCheckoutAdminConfig, ar as buildMinimalCheckoutBridgeMeta, as as mergeMinimalCheckoutMeta, x as orders, O as ORDER_PAY_STATUS, au as ORDER_STATUS, at as prepareOrderMetaForInsert, cr as createTopupRecord, a8 as createOrderAttribution, bC as trackVisitorEvent, cj as createNotification } from '../../../nitro/nitro.mjs';
+import { d as defineEventHandler, c as getRequestLocale, c0 as requireUserSession, e as createError, b as db, u as users, a5 as clearUserSession, cc as getRequestIP, r as readBody, cu as getTopupRules, cv as buildTopupQuote, cw as TopupValidationError, cx as ensureTopupCarrierProduct, bZ as ensureVisitorId, c2 as mergePromoTracking, c3 as capturePromoTracking, c4 as readPromoTracking, au as getMinimalCheckoutAdminConfig, av as buildMinimalCheckoutBridgeMeta, aw as mergeMinimalCheckoutMeta, z as orders, O as ORDER_PAY_STATUS, ay as ORDER_STATUS, ax as prepareOrderMetaForInsert, cy as createTopupRecord, ac as createOrderAttribution, bJ as trackVisitorEvent, cq as createNotification } from '../../../nitro/nitro.mjs';
 import crypto from 'crypto';
 import { z } from 'zod';
 import { eq } from 'drizzle-orm';
@@ -7,6 +7,7 @@ import 'fs';
 import 'path';
 import 'node:path';
 import '@nuxthub/blob';
+import '@nuxthub/db';
 import 'node:http';
 import 'node:https';
 import 'node:events';

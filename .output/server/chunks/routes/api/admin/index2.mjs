@@ -1,4 +1,4 @@
-import { d as defineEventHandler, c as getRequestLocale, g as getQuery, x as orders, p as products, u as users, b as db, r as readBody, e as createError, ak as requireTrustedRequestOrigin, al as ensurePromoMember, am as getSiteLocaleConfig, an as resolveRequestLocale, ao as resolveCurrencyRate, ap as roundCurrencyAmount, aq as getMinimalCheckoutAdminConfig, ar as buildMinimalCheckoutBridgeMeta, as as mergeMinimalCheckoutMeta, O as ORDER_PAY_STATUS, at as prepareOrderMetaForInsert, au as ORDER_STATUS, a8 as createOrderAttribution, av as ensureTopupRecordForOrder, a9 as settlePaidTopup, a6 as isMinimalCheckoutRelayOrder, ab as fulfillMinimalCheckoutRelay, ac as fulfillOrder, ad as settlePromoCommission, ae as emitEvent, Q as getLocalizedSettingValue, R as sendEmail, s as setAuditMeta } from '../../../nitro/nitro.mjs';
+import { d as defineEventHandler, c as getRequestLocale, g as getQuery, z as orders, p as products, u as users, b as db, r as readBody, e as createError, ao as requireTrustedRequestOrigin, ap as ensurePromoMember, aq as getSiteLocaleConfig, ar as resolveRequestLocale, as as resolveCurrencyRate, at as roundCurrencyAmount, au as getMinimalCheckoutAdminConfig, av as buildMinimalCheckoutBridgeMeta, aw as mergeMinimalCheckoutMeta, O as ORDER_PAY_STATUS, ax as prepareOrderMetaForInsert, ay as ORDER_STATUS, ac as createOrderAttribution, az as ensureTopupRecordForOrder, ad as settlePaidTopup, aa as isMinimalCheckoutRelayOrder, af as fulfillMinimalCheckoutRelay, ag as fulfillOrder, ah as settlePromoCommission, ai as emitEvent, U as getLocalizedSettingValue, V as sendEmail, s as setAuditMeta } from '../../../nitro/nitro.mjs';
 import { or, eq, and, ne, like, sql, count, desc } from 'drizzle-orm';
 import crypto from 'crypto';
 import { z } from 'zod';
@@ -7,6 +7,7 @@ import 'fs';
 import 'path';
 import 'node:path';
 import '@nuxthub/blob';
+import '@nuxthub/db';
 import 'node:http';
 import 'node:https';
 import 'node:events';

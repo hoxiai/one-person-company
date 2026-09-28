@@ -1,4 +1,4 @@
-import { d as defineEventHandler, c as getRequestLocale, g as getQuery, u as users, b as db, bi as userWallets, bB as fetchExternalUsersMap, bu as userTokens, e as createError } from '../../../nitro/nitro.mjs';
+import { d as defineEventHandler, c as getRequestLocale, g as getQuery, u as users, b as db, bo as userWallets, bH as fetchExternalUsersMap, bA as userTokens, e as createError } from '../../../nitro/nitro.mjs';
 import { sql, or, like, count, desc, eq, and, gt } from 'drizzle-orm';
 import 'node:crypto';
 import 'crypto';
@@ -6,6 +6,7 @@ import 'fs';
 import 'path';
 import 'node:path';
 import '@nuxthub/blob';
+import '@nuxthub/db';
 import 'node:http';
 import 'node:https';
 import 'node:events';

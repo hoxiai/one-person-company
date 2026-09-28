@@ -1,5 +1,6 @@
-import { d as defineEventHandler, c as getRequestLocale, f as getRouterParam, e as createError, b as db, z as visitorProfiles, u as users, x as orders, D as visitorEvents, p as products, t as toIsoTimestamp } from '../../../../../nitro/nitro.mjs';
-import { eq, or, count, desc } from 'drizzle-orm';
+import { d as defineEventHandler, c as getRequestLocale, f as getRouterParam, e as createError, C as visitorProfiles, u as users, z as orders, bd as visitorEvents, p as products, t as toIsoTimestamp } from '../../../../../nitro/nitro.mjs';
+import { eq, or, count, and, gt, desc } from 'drizzle-orm';
+import { db } from '@nuxthub/db';
 import 'node:crypto';
 import 'crypto';
 import 'fs';
@@ -37,7 +38,7 @@ import '@adonisjs/hash';
 import '@adonisjs/hash/drivers/scrypt';
 
 const _visitor_id__get = defineEventHandler(async (event) => {
-  var _a, _b;
+  var _a, _b, _c;
   const locale = getRequestLocale(event);
   const visitorId = String(getRouterParam(event, "visitor_id") || "").trim();
   if (!visitorId || visitorId.length > 500) {
@@ -67,10 +68,15 @@ const _visitor_id__get = defineEventHandler(async (event) => {
     eq(orders.visitorId, visitorId),
     eq(orders.userId, profile.userId)
   ) : eq(orders.visitorId, visitorId);
-  const [eventCountRows, eventSummaryRows, orderCountRows, recentEvents, relatedOrders] = await Promise.all([
+  const [eventCountRows, eventSummaryRows, orderCountRows, paidOrderCountRows, recentEvents, relatedOrders] = await Promise.all([
     db.select({ value: count() }).from(visitorEvents).where(eq(visitorEvents.visitorId, visitorId)),
     db.select({ eventName: visitorEvents.eventName, value: count() }).from(visitorEvents).where(eq(visitorEvents.visitorId, visitorId)).groupBy(visitorEvents.eventName),
     db.select({ value: count() }).from(orders).where(relatedOrderCondition),
+    db.select({ value: count() }).from(orders).where(and(
+      relatedOrderCondition,
+      eq(orders.payStatus, "paid"),
+      gt(orders.amount, 0)
+    )),
     db.select({
       id: visitorEvents.id,
       eventName: visitorEvents.eventName,
@@ -135,9 +141,9 @@ const _visitor_id__get = defineEventHandler(async (event) => {
       pageViews: eventSummary.page_view || 0,
       productViews: eventSummary.product_view || 0,
       checkouts: eventSummary.begin_checkout || 0,
-      paid: eventSummary.order_paid || 0,
+      paid: Number(((_b = paidOrderCountRows[0]) == null ? void 0 : _b.value) || 0),
       auth: eventSummary.auth || 0,
-      orders: Number(((_b = orderCountRows[0]) == null ? void 0 : _b.value) || 0)
+      orders: Number(((_c = orderCountRows[0]) == null ? void 0 : _c.value) || 0)
     },
     orders: relatedOrders.map((order) => ({
       ...order,

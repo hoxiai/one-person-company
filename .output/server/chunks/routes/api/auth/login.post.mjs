@@ -1,4 +1,4 @@
-import { d as defineEventHandler, c as getRequestLocale, U as resolveClientIp, V as checkIpRateLimit, e as createError, r as readBody, bP as getUserLoginSecurityState, X as consumeCaptchaTicket, b as db, u as users, Y as verifyPassword, bQ as clearUserLoginFailure, bR as issueWebSession, bC as trackVisitorEvent, bS as ensureVisitorId, bT as recordUserLoginFailure } from '../../../nitro/nitro.mjs';
+import { d as defineEventHandler, c as getRequestLocale, Y as resolveClientIp, Z as checkIpRateLimit, e as createError, r as readBody, bW as getUserLoginSecurityState, $ as consumeCaptchaTicket, b as db, u as users, a0 as verifyPassword, bX as clearUserLoginFailure, bY as issueWebSession, bJ as trackVisitorEvent, bZ as ensureVisitorId, b_ as recordUserLoginFailure } from '../../../nitro/nitro.mjs';
 import { eq } from 'drizzle-orm';
 import 'node:crypto';
 import 'crypto';
@@ -6,6 +6,7 @@ import 'fs';
 import 'path';
 import 'node:path';
 import '@nuxthub/blob';
+import '@nuxthub/db';
 import 'node:http';
 import 'node:https';
 import 'node:events';

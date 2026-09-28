@@ -1,4 +1,4 @@
-import { d as defineEventHandler, c as getRequestLocale, bV as requireUserSession, e as createError, cG as getOrCreateUserWallet, cn as getTopupRules, b as db, bi as userWallets, G as topups, cT as TOPUP_STATUS, cU as balanceLogs, bj as fromScaled } from '../../../nitro/nitro.mjs';
+import { d as defineEventHandler, c as getRequestLocale, c0 as requireUserSession, e as createError, cN as getOrCreateUserWallet, cu as getTopupRules, b as db, bo as userWallets, I as topups, c_ as TOPUP_STATUS, c$ as balanceLogs, bp as fromScaled } from '../../../nitro/nitro.mjs';
 import { eq, sql, and, gte } from 'drizzle-orm';
 import 'node:crypto';
 import 'crypto';
@@ -6,6 +6,7 @@ import 'fs';
 import 'path';
 import 'node:path';
 import '@nuxthub/blob';
+import '@nuxthub/db';
 import 'node:http';
 import 'node:https';
 import 'node:events';

@@ -1,11 +1,12 @@
 import { eq, and, desc, ne, gt } from 'drizzle-orm';
-import { dn as ensureAINodeApiKey, dp as persistModelCredentials, dq as markQingpuTrialPaymentReceived, dr as fulfillPaidTrialOrder, ds as formatTrialErrorMessage, b as db, p as products, x as orders, u as users, bM as logger, F as subscriptions, dt as enqueueAndDeliverAINodeSync, dg as getQingpuAINodeBaseUrl, du as getQingpuAINodeTenantToken, dv as retryIdempotentAINodeCall, dw as creditAINodeCustomerBalance, dx as planSubscriptionRevoke, dy as grantEventId } from '../nitro/nitro.mjs';
+import { dv as ensureAINodeApiKey, dw as persistModelCredentials, dx as markQingpuTrialPaymentReceived, dy as fulfillPaidTrialOrder, dz as formatTrialErrorMessage, b as db, p as products, z as orders, u as users, bT as logger, H as subscriptions, dA as enqueueAndDeliverAINodeSync, dn as getQingpuAINodeBaseUrl, dB as getQingpuAINodeTenantToken, dC as retryIdempotentAINodeCall, dD as creditAINodeCustomerBalance, dE as planSubscriptionRevoke, dF as grantEventId } from '../nitro/nitro.mjs';
 import 'node:crypto';
 import 'crypto';
 import 'fs';
 import 'path';
 import 'node:path';
 import '@nuxthub/blob';
+import '@nuxthub/db';
 import 'node:http';
 import 'node:https';
 import 'node:events';

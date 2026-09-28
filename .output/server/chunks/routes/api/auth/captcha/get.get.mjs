@@ -1,4 +1,4 @@
-import { d as defineEventHandler, U as resolveClientIp, V as checkIpRateLimit, e as createError, bF as createCaptchaChallengeToken, bG as generateCaptchaBackgroundWithSlot, bH as generateCaptchaPiece, bI as PUZZLE_PATH, bJ as CAPTCHA_BACKGROUNDS } from '../../../../nitro/nitro.mjs';
+import { d as defineEventHandler, Y as resolveClientIp, Z as checkIpRateLimit, e as createError, bM as createCaptchaChallengeToken, bN as generateCaptchaBackgroundWithSlot, bO as generateCaptchaPiece, bP as PUZZLE_PATH, bQ as CAPTCHA_BACKGROUNDS } from '../../../../nitro/nitro.mjs';
 import 'drizzle-orm';
 import 'node:crypto';
 import 'crypto';
@@ -6,6 +6,7 @@ import 'fs';
 import 'path';
 import 'node:path';
 import '@nuxthub/blob';
+import '@nuxthub/db';
 import 'node:http';
 import 'node:https';
 import 'node:events';

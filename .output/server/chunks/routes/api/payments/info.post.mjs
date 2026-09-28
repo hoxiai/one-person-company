@@ -1,4 +1,4 @@
-import { d as defineEventHandler, c as getRequestLocale, r as readBody, cl as resolveOrderAccess, am as getSiteLocaleConfig, an as resolveRequestLocale, cs as lockLegacyPendingOrderCurrency, b as db, ax as paymentMethods, az as applyLocalPaymentPluginDefaults, ct as isPaymentMethodAvailableForLocale, cu as resolvePaymentPluginConfig, cv as isPaymentMethodCurrencySupported } from '../../../nitro/nitro.mjs';
+import { d as defineEventHandler, c as getRequestLocale, r as readBody, cs as resolveOrderAccess, aq as getSiteLocaleConfig, ar as resolveRequestLocale, cz as lockLegacyPendingOrderCurrency, b as db, aB as paymentMethods, aD as applyLocalPaymentPluginDefaults, cA as isPaymentMethodAvailableForLocale, cB as resolvePaymentPluginConfig, cC as isPaymentMethodCurrencySupported } from '../../../nitro/nitro.mjs';
 import { eq } from 'drizzle-orm';
 import fs from 'fs';
 import path from 'path';
@@ -6,6 +6,7 @@ import 'node:crypto';
 import 'crypto';
 import 'node:path';
 import '@nuxthub/blob';
+import '@nuxthub/db';
 import 'node:http';
 import 'node:https';
 import 'node:events';

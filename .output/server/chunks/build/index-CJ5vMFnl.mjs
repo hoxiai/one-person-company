@@ -1,7 +1,7 @@
 import { u as useI18n, e as useToast, d as useFormatTime, q as useConfirm, z as useLocaleRouter, f as useAdminPermissions, v as usePagination, w as useFetch, o as navigateTo, k as _sfc_main$z, i as _sfc_main$D, _ as _sfc_main$I, b as _sfc_main$k, l as _sfc_main$j, j as _sfc_main$h, x as _sfc_main$n, at as useAppConfig, aD as useComponentUI, ak as useForwardPropsEmits, aE as reactivePick, aF as tv, Z as useForwardExpose, W as useVModel, T as useDirection, am as useId, ac as Primitive, as as useLocale, au as usePortal, ai as reactiveOmit, av as createReusableTemplate, aw as isArrayOfArray, ax as _sfc_main$G, ay as get, az as _sfc_main$E, aA as pickLinkProps, aB as _sfc_main$F, aC as omit, V as createContext, U as PopperRoot_default, Q as PopperAnchor_default, ar as usePrimitiveElement, aq as useEmitAsProps, R as PopperArrow_default, S as createSharedComposable, a4 as getOpenState, af as Presence_default, ao as SUB_CLOSE_KEYS, aj as useForwardProps, ah as getCheckedState, ag as isIndeterminate, ad as SELECTION_KEYS$1, an as Teleport_default, ab as useCollection, ap as SUB_OPEN_KEYS, a7 as isMouseEvent, X as useFocusGuards, Y as useBodyScrollLock, $ as useTypeahead, a0 as getActiveElement, a1 as FocusScope_default, a2 as DismissableLayer_default, a3 as PopperContent_default, a5 as PopperContentPropsDefaultValue, al as useHideOthers, a6 as isPointerInGraceArea, a8 as FIRST_LAST_KEYS, a9 as LAST_KEYS, aa as focusFirst, ae as ITEM_SELECT } from './server.mjs';
 import { defineComponent, computed, ref, watch, mergeProps, withCtx, createTextVNode, toDisplayString, unref, createVNode, openBlock, createBlock, createCommentVNode, withModifiers, isRef, useSlots, useModel, toRef, renderSlot, createSlots, renderList, mergeModels, toRefs, withKeys, nextTick, Fragment, resolveDynamicComponent, normalizeProps, guardReactiveProps, watchSyncEffect, watchEffect, mergeDefaults, useSSRContext } from 'vue';
 import { ssrRenderAttrs, ssrInterpolate, ssrRenderComponent, ssrRenderClass, ssrRenderAttr, ssrRenderSlot, ssrRenderList, ssrRenderVNode } from 'vue/server-renderer';
-import { e5 as defu } from '../nitro/nitro.mjs';
+import { ec as defu } from '../nitro/nitro.mjs';
 import { u as useArrowNavigation } from './useArrowNavigation-C4FOBlvk.mjs';
 import { R as RovingFocusGroup_default } from './RovingFocusGroup-CuSPWxE2.mjs';
 import { u as useFilter } from './useFilter-BqymVxVL.mjs';
@@ -36,6 +36,7 @@ import 'fs';
 import 'path';
 import 'node:path';
 import '@nuxthub/blob';
+import '@nuxthub/db';
 import 'node:http';
 import 'node:https';
 import 'node:events';

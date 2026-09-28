@@ -1,4 +1,4 @@
-import { cz as defineCachedEventHandler, g as getQuery, aB as posts, b as db } from '../../nitro/nitro.mjs';
+import { cG as defineCachedEventHandler, g as getQuery, aF as posts, b as db } from '../../nitro/nitro.mjs';
 import { eq, or, like, and, count, desc, asc } from 'drizzle-orm';
 import 'node:crypto';
 import 'crypto';
@@ -6,6 +6,7 @@ import 'fs';
 import 'path';
 import 'node:path';
 import '@nuxthub/blob';
+import '@nuxthub/db';
 import 'node:http';
 import 'node:https';
 import 'node:events';

@@ -1,4 +1,4 @@
-import { d as defineEventHandler, cX as setHeader, c as getRequestLocale, f as getRouterParam, cY as readRawBody, r as readBody, g as getQuery, cx as getRequestHeaders, bM as logger, e as createError, b as db, x as orders, ax as paymentMethods, cZ as executeCallbackScript, cC as setResponseStatus, c_ as markOrderPaid, O as ORDER_PAY_STATUS, au as ORDER_STATUS, ci as getAffectedRows, c$ as markTopupPaymentFailed, af as cancelPromoCommission, ag as revokeSubscriptionForOrder, ah as refundTopup } from '../../../nitro/nitro.mjs';
+import { d as defineEventHandler, d2 as setHeader, c as getRequestLocale, f as getRouterParam, d3 as readRawBody, r as readBody, g as getQuery, cE as getRequestHeaders, bT as logger, e as createError, b as db, z as orders, aB as paymentMethods, d4 as executeCallbackScript, cJ as setResponseStatus, d5 as markOrderPaid, O as ORDER_PAY_STATUS, ay as ORDER_STATUS, cp as getAffectedRows, d6 as markTopupPaymentFailed, aj as cancelPromoCommission, ak as revokeSubscriptionForOrder, al as refundTopup } from '../../../nitro/nitro.mjs';
 import { eq, and, inArray, ne } from 'drizzle-orm';
 import fs from 'fs';
 import path from 'path';
@@ -6,6 +6,7 @@ import 'node:crypto';
 import 'crypto';
 import 'node:path';
 import '@nuxthub/blob';
+import '@nuxthub/db';
 import 'node:http';
 import 'node:https';
 import 'node:events';

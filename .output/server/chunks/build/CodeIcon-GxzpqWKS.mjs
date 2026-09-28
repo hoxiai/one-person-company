@@ -1,6 +1,6 @@
 import { computed, mergeProps, useSSRContext } from 'vue';
 import { ssrRenderComponent } from 'vue/server-renderer';
-import { e5 as defu } from '../nitro/nitro.mjs';
+import { ec as defu } from '../nitro/nitro.mjs';
 import { at as useAppConfig, _ as _sfc_main$I } from './server.mjs';
 import 'drizzle-orm';
 import 'node:crypto';
@@ -9,6 +9,7 @@ import 'fs';
 import 'path';
 import 'node:path';
 import '@nuxthub/blob';
+import '@nuxthub/db';
 import 'node:http';
 import 'node:https';
 import 'node:events';

@@ -1,4 +1,4 @@
-import { d as defineEventHandler, c5 as getRequestIP, c6 as checkCommentRateLimit, e as createError, aY as getUserSession, r as readBody, b as db, bt as oauthAccounts, c7 as sanitizeComment, c8 as getRequestHeader, aQ as settings, o as comments, q as syncPostCommentCount, v as getCommentAvatarUrl } from '../../nitro/nitro.mjs';
+import { d as defineEventHandler, cc as getRequestIP, cd as checkCommentRateLimit, e as createError, b0 as getUserSession, r as readBody, b as db, bz as oauthAccounts, ce as sanitizeComment, cf as getRequestHeader, aU as settings, o as comments, q as syncPostCommentCount, v as getCommentAvatarUrl } from '../../nitro/nitro.mjs';
 import { and, eq } from 'drizzle-orm';
 import 'node:crypto';
 import 'crypto';
@@ -6,6 +6,7 @@ import 'fs';
 import 'path';
 import 'node:path';
 import '@nuxthub/blob';
+import '@nuxthub/db';
 import 'node:http';
 import 'node:https';
 import 'node:events';

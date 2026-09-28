@@ -7,6 +7,7 @@ import 'crypto';
 import 'fs';
 import 'node:path';
 import '@nuxthub/blob';
+import '@nuxthub/db';
 import 'node:http';
 import 'node:https';
 import 'node:events';

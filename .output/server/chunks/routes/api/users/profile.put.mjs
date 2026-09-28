@@ -1,4 +1,4 @@
-import { d as defineEventHandler, c as getRequestLocale, bV as requireUserSession, e as createError, r as readBody, b as db, u as users, _ as setUserSession } from '../../../nitro/nitro.mjs';
+import { d as defineEventHandler, c as getRequestLocale, c0 as requireUserSession, e as createError, r as readBody, b as db, u as users, a2 as setUserSession } from '../../../nitro/nitro.mjs';
 import { eq } from 'drizzle-orm';
 import 'node:crypto';
 import 'crypto';
@@ -6,6 +6,7 @@ import 'fs';
 import 'path';
 import 'node:path';
 import '@nuxthub/blob';
+import '@nuxthub/db';
 import 'node:http';
 import 'node:https';
 import 'node:events';

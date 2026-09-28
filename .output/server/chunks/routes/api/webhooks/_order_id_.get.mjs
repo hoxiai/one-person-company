@@ -1,4 +1,4 @@
-import { d as defineEventHandler, cX as setHeader, f as getRouterParam, cC as setResponseStatus, b as db, x as orders } from '../../../nitro/nitro.mjs';
+import { d as defineEventHandler, d2 as setHeader, f as getRouterParam, cJ as setResponseStatus, b as db, z as orders } from '../../../nitro/nitro.mjs';
 import { eq } from 'drizzle-orm';
 import postHandler from './_order_id_.post.mjs';
 import 'node:crypto';
@@ -7,6 +7,7 @@ import 'fs';
 import 'path';
 import 'node:path';
 import '@nuxthub/blob';
+import '@nuxthub/db';
 import 'node:http';
 import 'node:https';
 import 'node:events';

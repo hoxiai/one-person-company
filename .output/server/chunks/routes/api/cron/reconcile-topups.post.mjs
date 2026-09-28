@@ -1,4 +1,4 @@
-import { d as defineEventHandler, c as getRequestLocale, c9 as useRuntimeConfig, bl as getHeader, bM as logger, e as createError, r as readBody, br as retryIncompleteTopups } from '../../../nitro/nitro.mjs';
+import { d as defineEventHandler, c as getRequestLocale, cg as useRuntimeConfig, br as getHeader, bT as logger, e as createError, r as readBody, bx as retryIncompleteTopups } from '../../../nitro/nitro.mjs';
 import 'drizzle-orm';
 import 'node:crypto';
 import 'crypto';
@@ -6,6 +6,7 @@ import 'fs';
 import 'path';
 import 'node:path';
 import '@nuxthub/blob';
+import '@nuxthub/db';
 import 'node:http';
 import 'node:https';
 import 'node:events';

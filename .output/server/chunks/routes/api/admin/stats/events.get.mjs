@@ -1,5 +1,6 @@
-import { d as defineEventHandler, c as getRequestLocale, g as getQuery, B as getConfiguredTimezone, b6 as parseStatsRange, bb as clampStatsPage, bc as clampStatsPageSize, D as visitorEvents, b as db, bd as toIsoTimestampOrEpoch, ba as formatSourceBrand } from '../../../../nitro/nitro.mjs';
+import { d as defineEventHandler, c as getRequestLocale, g as getQuery, D as getConfiguredTimezone, ba as parseStatsRange, be as clampStatsPage, bf as clampStatsPageSize, bd as visitorEvents, bg as toIsoTimestampOrEpoch, bh as formatSourceBrand } from '../../../../nitro/nitro.mjs';
 import { and, gte, lt, sql, count, desc } from 'drizzle-orm';
+import { db } from '@nuxthub/db';
 import 'node:crypto';
 import 'crypto';
 import 'fs';
@@ -37,6 +38,7 @@ import '@adonisjs/hash';
 import '@adonisjs/hash/drivers/scrypt';
 
 const events_get = defineEventHandler(async (event) => {
+  var _a;
   const locale = getRequestLocale(event);
   const unknownLabel = locale === "zh" ? "\u672A\u77E5" : "Unknown";
   const query = getQuery(event);
@@ -46,10 +48,11 @@ const events_get = defineEventHandler(async (event) => {
   const pageSize = clampStatsPageSize(query.pageSize, 20);
   const offset = (page - 1) * pageSize;
   const timeFilter = and(gte(visitorEvents.createdAt, rangeStart), lt(visitorEvents.createdAt, rangeEnd));
-  const [{ value: totalItems }] = await db.select({
+  const totalRows = await db.select({
     value: sql`COUNT(DISTINCT ${visitorEvents.ip})
         + COALESCE(MAX(CASE WHEN ${visitorEvents.ip} IS NULL THEN 1 ELSE 0 END), 0)`
   }).from(visitorEvents).where(timeFilter);
+  const totalItems = ((_a = totalRows[0]) == null ? void 0 : _a.value) || 0;
   const items = await db.select({
     ip: visitorEvents.ip,
     visitCount: count(),

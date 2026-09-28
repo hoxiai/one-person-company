@@ -1,4 +1,4 @@
-import { d as defineEventHandler, r as readBody, b as db, a3 as operationLogs, s as setAuditMeta } from '../../../../nitro/nitro.mjs';
+import { d as defineEventHandler, r as readBody, b as db, a7 as operationLogs, s as setAuditMeta } from '../../../../nitro/nitro.mjs';
 import { lt } from 'drizzle-orm';
 import 'node:crypto';
 import 'crypto';
@@ -6,6 +6,7 @@ import 'fs';
 import 'path';
 import 'node:path';
 import '@nuxthub/blob';
+import '@nuxthub/db';
 import 'node:http';
 import 'node:https';
 import 'node:events';

@@ -1,4 +1,4 @@
-import { d as defineEventHandler, g as getQuery, H as tickets, u as users, b as db } from '../../../nitro/nitro.mjs';
+import { d as defineEventHandler, g as getQuery, L as tickets, u as users, b as db } from '../../../nitro/nitro.mjs';
 import { eq, or, like, and, desc, count } from 'drizzle-orm';
 import 'node:crypto';
 import 'crypto';
@@ -6,6 +6,7 @@ import 'fs';
 import 'path';
 import 'node:path';
 import '@nuxthub/blob';
+import '@nuxthub/db';
 import 'node:http';
 import 'node:https';
 import 'node:events';

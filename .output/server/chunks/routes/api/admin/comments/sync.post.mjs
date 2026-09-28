@@ -1,4 +1,4 @@
-import { d as defineEventHandler, r as readBody, e as createError, w as syncV2exComments } from '../../../../nitro/nitro.mjs';
+import { d as defineEventHandler, r as readBody, e as createError, x as syncExternalComments } from '../../../../nitro/nitro.mjs';
 import 'drizzle-orm';
 import 'node:crypto';
 import 'crypto';
@@ -6,6 +6,7 @@ import 'fs';
 import 'path';
 import 'node:path';
 import '@nuxthub/blob';
+import '@nuxthub/db';
 import 'node:http';
 import 'node:https';
 import 'node:events';
@@ -43,7 +44,9 @@ const sync_post = defineEventHandler(async (event) => {
   const source = String(body.source || "v2ex").trim().toLowerCase();
   const topicIdOrUrl = body.topicIdOrUrl;
   const status = body.status === "pending" ? "pending" : "approved";
+  const autoSync = body.autoSync !== false;
   const token = body.token ? String(body.token).trim() : void 0;
+  const cookie = body.cookie ? String(body.cookie).trim() : void 0;
   if (!targetId) {
     throw createError({
       statusCode: 400,
@@ -53,34 +56,38 @@ const sync_post = defineEventHandler(async (event) => {
   if (!topicIdOrUrl) {
     throw createError({
       statusCode: 400,
-      statusMessage: "\u8BF7\u63D0\u4F9B\u5916\u90E8\u8BDD\u9898\u94FE\u63A5\u6216 ID\uFF08\u5982 V2EX \u5E16\u5B50\u94FE\u63A5\u6216\u4E3B\u9898 ID\uFF09"
+      statusMessage: "\u8BF7\u63D0\u4F9B\u5916\u90E8\u8BDD\u9898\u94FE\u63A5\u6216 ID"
     });
   }
-  if (source === "v2ex") {
-    try {
-      const result = await syncV2exComments({
-        targetType,
-        targetId,
-        topicIdOrUrl,
-        status,
-        token
-      });
-      return {
-        success: true,
-        data: result,
-        message: `\u6210\u529F\u540C\u6B65 ${result.totalFetched} \u6761\uFF0C\u65B0\u589E\u5BFC\u5165 ${result.insertedCount} \u6761\uFF0C\u8DF3\u8FC7\u5DF2\u5B58\u5728 ${result.skippedCount} \u6761`
-      };
-    } catch (err) {
-      throw createError({
-        statusCode: 500,
-        statusMessage: (err == null ? void 0 : err.message) || "\u540C\u6B65 V2EX \u8BC4\u8BBA\u5931\u8D25"
-      });
-    }
+  if (source !== "v2ex" && source !== "linuxdo") {
+    throw createError({
+      statusCode: 400,
+      statusMessage: `\u6682\u4E0D\u652F\u6301\u7684\u6570\u636E\u6E90: ${source}\uFF0C\u5F53\u524D\u652F\u6301 'v2ex' \u4E0E 'linuxdo'`
+    });
   }
-  throw createError({
-    statusCode: 400,
-    statusMessage: `\u6682\u4E0D\u652F\u6301\u7684\u6570\u636E\u6E90: ${source}\uFF0C\u5F53\u524D\u4EC5\u652F\u6301 'v2ex'`
-  });
+  try {
+    const result = await syncExternalComments({
+      source,
+      targetType,
+      targetId,
+      topicIdOrUrl,
+      status,
+      autoSync,
+      token,
+      cookie
+    });
+    const sourceName = source === "linuxdo" ? "LINUX DO" : "V2EX";
+    return {
+      success: true,
+      data: result,
+      message: `\u6210\u529F\u6293\u53D6 ${sourceName} \u8BC4\u8BBA ${result.totalFetched} \u6761\uFF0C\u65B0\u589E\u5BFC\u5165 ${result.insertedCount} \u6761\uFF0C\u8DF3\u8FC7\u5DF2\u5B58\u5728 ${result.skippedCount} \u6761`
+    };
+  } catch (err) {
+    throw createError({
+      statusCode: 500,
+      statusMessage: (err == null ? void 0 : err.message) || `\u540C\u6B65\u5916\u90E8\u8BC4\u8BBA\u5931\u8D25`
+    });
+  }
 });
 
 export { sync_post as default };

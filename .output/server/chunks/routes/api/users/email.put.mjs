@@ -1,4 +1,4 @@
-import { d as defineEventHandler, ak as requireTrustedRequestOrigin, c as getRequestLocale, bV as requireUserSession, e as createError, r as readBody, bv as validateEmail, b as db, u as users, Y as verifyPassword, bw as normalizeEmail, c2 as getEmailVerifySendCooldown, bx as revokeEmailVerifyTokens, c3 as issueEmailVerification, bW as overwriteSessionUser } from '../../../nitro/nitro.mjs';
+import { d as defineEventHandler, ao as requireTrustedRequestOrigin, c as getRequestLocale, c0 as requireUserSession, e as createError, r as readBody, bB as validateEmail, b as db, u as users, a0 as verifyPassword, bC as normalizeEmail, c9 as getEmailVerifySendCooldown, bD as revokeEmailVerifyTokens, ca as issueEmailVerification, c1 as overwriteSessionUser } from '../../../nitro/nitro.mjs';
 import { eq } from 'drizzle-orm';
 import 'node:crypto';
 import 'crypto';
@@ -6,6 +6,7 @@ import 'fs';
 import 'path';
 import 'node:path';
 import '@nuxthub/blob';
+import '@nuxthub/db';
 import 'node:http';
 import 'node:https';
 import 'node:events';

@@ -1,4 +1,4 @@
-import { d as defineEventHandler, g as getQuery, b as db, aD as promoMembers, aE as PROMO_ROLE, aF as listPromoAgents } from '../../../../nitro/nitro.mjs';
+import { d as defineEventHandler, g as getQuery, b as db, aH as promoMembers, aI as PROMO_ROLE, aJ as listPromoAgents } from '../../../../nitro/nitro.mjs';
 import { count, inArray } from 'drizzle-orm';
 import 'node:crypto';
 import 'crypto';
@@ -6,6 +6,7 @@ import 'fs';
 import 'path';
 import 'node:path';
 import '@nuxthub/blob';
+import '@nuxthub/db';
 import 'node:http';
 import 'node:https';
 import 'node:events';

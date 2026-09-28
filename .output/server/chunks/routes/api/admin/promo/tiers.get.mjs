@@ -1,4 +1,4 @@
-import { d as defineEventHandler, b as db, aT as promoAgentTiers } from '../../../../nitro/nitro.mjs';
+import { d as defineEventHandler, b as db, aX as promoAgentTiers } from '../../../../nitro/nitro.mjs';
 import { desc } from 'drizzle-orm';
 import 'node:crypto';
 import 'crypto';
@@ -6,6 +6,7 @@ import 'fs';
 import 'path';
 import 'node:path';
 import '@nuxthub/blob';
+import '@nuxthub/db';
 import 'node:http';
 import 'node:https';
 import 'node:events';

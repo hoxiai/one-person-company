@@ -1,4 +1,4 @@
-import { d as defineEventHandler, aZ as extensionManifests, a_ as readExtensionMigrationStatus, a$ as readEnabledExtensionIds, e as createError, r as readBody, b0 as migrateExtensionDatabase, s as setAuditMeta, b1 as normalizeEnabledExtensionIds, b as db, aQ as settings, b2 as ENABLED_EXTENSIONS_SETTING_KEY } from '../../../../nitro/nitro.mjs';
+import { d as defineEventHandler, b1 as extensionManifests, b2 as readExtensionMigrationStatus, b3 as readEnabledExtensionIds, e as createError, r as readBody, b4 as migrateExtensionDatabase, s as setAuditMeta, b5 as normalizeEnabledExtensionIds, b as db, aU as settings, b6 as ENABLED_EXTENSIONS_SETTING_KEY } from '../../../../nitro/nitro.mjs';
 import { eq } from 'drizzle-orm';
 import 'node:crypto';
 import 'crypto';
@@ -6,6 +6,7 @@ import 'fs';
 import 'path';
 import 'node:path';
 import '@nuxthub/blob';
+import '@nuxthub/db';
 import 'node:http';
 import 'node:https';
 import 'node:events';

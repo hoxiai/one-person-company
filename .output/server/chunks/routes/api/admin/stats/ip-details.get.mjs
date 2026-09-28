@@ -1,5 +1,6 @@
-import { d as defineEventHandler, c as getRequestLocale, g as getQuery, e as createError, B as getConfiguredTimezone, b6 as parseStatsRange, D as visitorEvents, b as db, p as products, z as visitorProfiles, u as users, bd as toIsoTimestampOrEpoch, ba as formatSourceBrand } from '../../../../nitro/nitro.mjs';
+import { d as defineEventHandler, c as getRequestLocale, g as getQuery, e as createError, D as getConfiguredTimezone, ba as parseStatsRange, bd as visitorEvents, p as products, J as loadVisitorReport, K as getRequestHost, u as users, bg as toIsoTimestampOrEpoch, bi as visitorSourceLabel } from '../../../../nitro/nitro.mjs';
 import { sql, eq, and, gte, lt, count, desc, inArray } from 'drizzle-orm';
+import { db } from '@nuxthub/db';
 import 'node:crypto';
 import 'crypto';
 import 'fs';
@@ -55,7 +56,7 @@ const ipDetails_get = defineEventHandler(async (event) => {
     lt(visitorEvents.createdAt, rangeEnd),
     ipCondition
   );
-  const [summaryRows, eventSummaryRows, visitorRows, contextRows, recentEvents] = await Promise.all([
+  const [summaryRows, eventSummaryRows, visitorRows, contextRows, recentEvents, report] = await Promise.all([
     db.select({
       totalEvents: count(),
       uniqueVisitors: sql`COUNT(DISTINCT ${visitorEvents.visitorId})`,
@@ -116,21 +117,13 @@ const ipDetails_get = defineEventHandler(async (event) => {
       productId: visitorEvents.productId,
       productName: products.name,
       createdAt: visitorEvents.createdAt
-    }).from(visitorEvents).leftJoin(products, eq(visitorEvents.productId, products.id)).where(eventFilter).orderBy(desc(visitorEvents.createdAt)).limit(100)
+    }).from(visitorEvents).leftJoin(products, eq(visitorEvents.productId, products.id)).where(eventFilter).orderBy(desc(visitorEvents.createdAt)).limit(100),
+    loadVisitorReport(rangeStart, rangeEnd, getRequestHost(event))
   ]);
-  const visitorIds = visitorRows.map((item) => item.visitorId);
-  const userIds = visitorRows.map((item) => item.userId).filter(Boolean);
-  const [profiles, userRows] = await Promise.all([
-    visitorIds.length ? db.select().from(visitorProfiles).where(inArray(visitorProfiles.visitorId, visitorIds)) : [],
-    userIds.length ? db.select({
-      id: users.id,
-      email: users.email,
-      nickname: users.nickname,
-      status: users.status,
-      createdAt: users.createdAt
-    }).from(users).where(inArray(users.id, userIds)) : []
-  ]);
-  const profileMap = new Map(profiles.map((item) => [item.visitorId, item]));
+  const userIds = visitorRows.flatMap((item) => item.userId ? [item.userId] : []);
+  const userRows = userIds.length ? await db.select({ id: users.id, email: users.email, nickname: users.nickname, status: users.status, createdAt: users.createdAt }).from(users).where(inArray(users.id, userIds)) : [];
+  const reportMap = new Map(report.rows.map((row) => [row.visitorId, row]));
+  const ipVisitors = report.rows.filter((row) => row.events.some((item) => isLocal ? item.ip === null : item.ip === ip));
   const userMap = new Map(userRows.map((item) => [item.id, item]));
   const eventSummary = Object.fromEntries(
     eventSummaryRows.map((item) => [item.eventName, Number(item.value || 0)])
@@ -146,21 +139,21 @@ const ipDetails_get = defineEventHandler(async (event) => {
       pageViews: eventSummary.page_view || 0,
       productViews: eventSummary.product_view || 0,
       checkouts: eventSummary.begin_checkout || 0,
-      paid: eventSummary.order_paid || 0,
+      paid: ipVisitors.reduce((sum, row) => sum + row.paid, 0),
       auth: eventSummary.auth || 0,
       firstSeenAt: toIsoTimestampOrEpoch(summary.firstSeenAt),
       lastSeenAt: toIsoTimestampOrEpoch(summary.lastSeenAt)
     },
     visitors: visitorRows.map((item) => {
-      const profile = profileMap.get(item.visitorId);
+      const row = reportMap.get(item.visitorId);
       const user = item.userId ? userMap.get(item.userId) : null;
       return {
         ...item,
         eventCount: Number(item.eventCount || 0),
         firstSeenAt: toIsoTimestampOrEpoch(item.firstSeenAt),
         lastSeenAt: toIsoTimestampOrEpoch(item.lastSeenAt),
-        firstTouch: formatSourceBrand(profile == null ? void 0 : profile.firstSource, profile == null ? void 0 : profile.firstSourceType) || (profile == null ? void 0 : profile.firstCampaign) || ((profile == null ? void 0 : profile.firstSourceType) === "direct" ? locale === "zh" ? "\u76F4\u63A5\u8BBF\u95EE" : "Direct" : (profile == null ? void 0 : profile.firstReferrer) || "direct"),
-        lastTouch: formatSourceBrand(profile == null ? void 0 : profile.lastSource, profile == null ? void 0 : profile.lastSourceType) || (profile == null ? void 0 : profile.lastCampaign) || ((profile == null ? void 0 : profile.lastSourceType) === "direct" ? locale === "zh" ? "\u76F4\u63A5\u8BBF\u95EE" : "Direct" : (profile == null ? void 0 : profile.lastReferrer) || "direct"),
+        firstTouch: visitorSourceLabel((row == null ? void 0 : row.first) || { sourceType: "direct", source: "direct", medium: null, campaign: null}),
+        lastTouch: visitorSourceLabel((row == null ? void 0 : row.last) || { sourceType: "direct", source: "direct", medium: null, campaign: null}),
         user: user ? { ...user, createdAt: toIsoTimestampOrEpoch(user.createdAt) } : null
       };
     }),

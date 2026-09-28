@@ -1,11 +1,12 @@
 import { eq } from 'drizzle-orm';
-import { b as db, p as products, dz as readShoplyPlanMeta, dA as pushShoplyLicense } from '../nitro/nitro.mjs';
+import { b as db, p as products, dG as readShoplyPlanMeta, dH as pushShoplyLicense } from '../nitro/nitro.mjs';
 import 'node:crypto';
 import 'crypto';
 import 'fs';
 import 'path';
 import 'node:path';
 import '@nuxthub/blob';
+import '@nuxthub/db';
 import 'node:http';
 import 'node:https';
 import 'node:events';

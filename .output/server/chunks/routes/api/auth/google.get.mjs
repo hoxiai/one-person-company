@@ -1,4 +1,4 @@
-import { bO as defineOAuthGoogleEventHandler, bL as handleOAuthLogin, bM as logger, bN as sendLocalizedRedirect } from '../../../nitro/nitro.mjs';
+import { bV as defineOAuthGoogleEventHandler, bS as handleOAuthLogin, bT as logger, bU as sendLocalizedRedirect } from '../../../nitro/nitro.mjs';
 import 'drizzle-orm';
 import 'node:crypto';
 import 'crypto';
@@ -6,6 +6,7 @@ import 'fs';
 import 'path';
 import 'node:path';
 import '@nuxthub/blob';
+import '@nuxthub/db';
 import 'node:http';
 import 'node:https';
 import 'node:events';

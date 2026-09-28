@@ -973,7 +973,7 @@ const _routes = [
     name: "admin-comments",
     path: "/admin/comments",
     meta: __nuxt_page_meta$h || {},
-    component: () => import('./comments-DAXi8Sa2.mjs')
+    component: () => import('./comments-dTBTHvcs.mjs')
   },
   {
     name: "admin-customers",
@@ -5588,7 +5588,7 @@ const cfg0 = defineAppConfig({
   }
 });
 const inlineConfig = {
-  "appVersion": "1.0.9",
+  "appVersion": "1.0.10",
   "nuxt": {},
   "ui": {
     "colors": {

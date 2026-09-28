@@ -8,7 +8,6 @@ import 'fs';
 import 'path';
 import 'node:path';
 import '@nuxthub/blob';
-import '@nuxthub/db';
 import 'node:events';
 import 'node:buffer';
 import 'node:fs';

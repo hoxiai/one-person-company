@@ -21,7 +21,6 @@
     "@neon-rs/load": "0.0.4",
     "@nuxthub/blob": "0.0.0",
     "@nuxthub/core": "0.10.7",
-    "@nuxthub/db": "0.0.0",
     "@phc/format": "1.0.0",
     "@poppinss/exception": "1.2.3",
     "@poppinss/object-builder": "1.1.0",

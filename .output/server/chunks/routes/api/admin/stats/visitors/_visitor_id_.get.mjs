@@ -1,6 +1,5 @@
-import { d as defineEventHandler, c as getRequestLocale, f as getRouterParam, e as createError, C as visitorProfiles, u as users, z as orders, bd as visitorEvents, p as products, t as toIsoTimestamp } from '../../../../../nitro/nitro.mjs';
+import { d as defineEventHandler, c as getRequestLocale, f as getRouterParam, e as createError, b as db, C as visitorProfiles, u as users, z as orders, bd as visitorEvents, p as products, t as toIsoTimestamp } from '../../../../../nitro/nitro.mjs';
 import { eq, or, count, and, gt, desc } from 'drizzle-orm';
-import { db } from '@nuxthub/db';
 import 'node:crypto';
 import 'crypto';
 import 'fs';

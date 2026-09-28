@@ -1,6 +1,5 @@
-import { d as defineEventHandler, c as getRequestLocale, g as getQuery, e as createError, D as getConfiguredTimezone, ba as parseStatsRange, bd as visitorEvents, p as products, J as loadVisitorReport, K as getRequestHost, u as users, bg as toIsoTimestampOrEpoch, bi as visitorSourceLabel } from '../../../../nitro/nitro.mjs';
+import { d as defineEventHandler, c as getRequestLocale, g as getQuery, e as createError, D as getConfiguredTimezone, ba as parseStatsRange, bd as visitorEvents, b as db, p as products, J as loadVisitorReport, K as getRequestHost, u as users, bg as toIsoTimestampOrEpoch, bi as visitorSourceLabel } from '../../../../nitro/nitro.mjs';
 import { sql, eq, and, gte, lt, count, desc, inArray } from 'drizzle-orm';
-import { db } from '@nuxthub/db';
 import 'node:crypto';
 import 'crypto';
 import 'fs';

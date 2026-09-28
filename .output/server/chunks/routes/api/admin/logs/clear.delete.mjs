@@ -1,4 +1,4 @@
-import { d as defineEventHandler, c as getRequestLocale, b as db, a0 as logs, e as createError } from '../../../../nitro/nitro.mjs';
+import { d as defineEventHandler, c as getRequestLocale, b as db, a2 as logs, e as createError } from '../../../../nitro/nitro.mjs';
 import 'drizzle-orm';
 import 'node:crypto';
 import 'crypto';

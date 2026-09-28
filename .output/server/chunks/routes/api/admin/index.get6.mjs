@@ -1,4 +1,4 @@
-import { d as defineEventHandler, g as getQuery, b as db, a0 as logs, t as toIsoTimestamp } from '../../../nitro/nitro.mjs';
+import { d as defineEventHandler, g as getQuery, b as db, a2 as logs, t as toIsoTimestamp } from '../../../nitro/nitro.mjs';
 import { count, desc } from 'drizzle-orm';
 import 'node:crypto';
 import 'crypto';

@@ -1,6 +1,6 @@
 import { computed, mergeProps, unref, withCtx, renderSlot, useSSRContext } from 'vue';
 import { ssrRenderComponent, ssrRenderSlot } from 'vue/server-renderer';
-import { at as useAppConfig, aD as useComponentUI, aF as tv, az as _sfc_main$C } from './server.mjs';
+import { at as useAppConfig, aD as useComponentUI, aF as tv, az as _sfc_main$E } from './server.mjs';
 import '../nitro/nitro.mjs';
 import 'drizzle-orm';
 import 'node:crypto';
@@ -85,7 +85,7 @@ const _sfc_main = {
     });
     return (_ctx, _push, _parent, _attrs) => {
       var _a;
-      _push(ssrRenderComponent(_sfc_main$C, mergeProps({
+      _push(ssrRenderComponent(_sfc_main$E, mergeProps({
         href: __props.href,
         target: __props.target,
         class: ui.value({ class: [(_a = unref(uiProp)) == null ? void 0 : _a.base, props.class] }),

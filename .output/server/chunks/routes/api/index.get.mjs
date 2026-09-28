@@ -1,4 +1,4 @@
-import { d as defineEventHandler, g as getQuery, e as createError, b as db, u as users, o as comments, q as getCommentAvatarUrl } from '../../nitro/nitro.mjs';
+import { d as defineEventHandler, g as getQuery, e as createError, b as db, u as users, o as comments, v as getCommentAvatarUrl } from '../../nitro/nitro.mjs';
 import { eq, and, asc } from 'drizzle-orm';
 import 'node:crypto';
 import 'crypto';
@@ -56,6 +56,11 @@ const index_get = defineEventHandler(async (event) => {
     authorUrl: comments.authorUrl,
     content: comments.content,
     parentId: comments.parentId,
+    likes: comments.likes,
+    source: comments.source,
+    externalId: comments.externalId,
+    externalUrl: comments.externalUrl,
+    extraData: comments.extraData,
     createdAt: comments.createdAt,
     userNickname: users.nickname,
     userAvatar: users.avatarUrl
@@ -69,8 +74,17 @@ const index_get = defineEventHandler(async (event) => {
   const commentMap = /* @__PURE__ */ new Map();
   const rootComments = [];
   for (const row of rows) {
+    let extraData = row.extraData;
+    if (typeof extraData === "string") {
+      try {
+        extraData = JSON.parse(extraData);
+      } catch {
+        extraData = {};
+      }
+    }
     const displayName = row.userNickname || row.authorName || "\u8BBF\u5BA2";
-    const avatarUrl = getCommentAvatarUrl(row.authorEmail, row.userAvatar);
+    const customAvatar = (extraData == null ? void 0 : extraData.avatarUrl) || row.userAvatar;
+    const avatarUrl = getCommentAvatarUrl(row.authorEmail, customAvatar);
     const item = {
       id: row.id,
       targetType: row.targetType,
@@ -81,6 +95,11 @@ const index_get = defineEventHandler(async (event) => {
       avatarUrl,
       content: row.content,
       parentId: row.parentId,
+      likes: Number(row.likes || 0),
+      source: row.source || "local",
+      externalId: row.externalId || null,
+      externalUrl: row.externalUrl || null,
+      extraData,
       createdAt: row.createdAt,
       replies: []
     };

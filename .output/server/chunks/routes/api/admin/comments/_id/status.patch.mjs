@@ -1,4 +1,4 @@
-import { d as defineEventHandler, f as getRouterParam, e as createError, r as readBody, b as db, o as comments } from '../../../../../nitro/nitro.mjs';
+import { d as defineEventHandler, f as getRouterParam, e as createError, r as readBody, b as db, o as comments, q as syncPostCommentCount } from '../../../../../nitro/nitro.mjs';
 import { eq } from 'drizzle-orm';
 import 'node:crypto';
 import 'crypto';
@@ -47,11 +47,16 @@ const status_patch = defineEventHandler(async (event) => {
   if (!validStatuses.includes(newStatus)) {
     throw createError({ statusCode: 400, statusMessage: "\u975E\u6CD5\u7684\u8BC4\u8BBA\u72B6\u6001" });
   }
+  const [targetRow] = await db.select({ targetType: comments.targetType, targetId: comments.targetId }).from(comments).where(eq(comments.id, id)).limit(1);
   const now = /* @__PURE__ */ new Date();
   await db.update(comments).set({
     status: newStatus,
     updatedAt: now
   }).where(eq(comments.id, id));
+  if ((targetRow == null ? void 0 : targetRow.targetType) === "post") {
+    syncPostCommentCount(targetRow.targetId).catch(() => {
+    });
+  }
   return {
     success: true,
     data: { id, status: newStatus }

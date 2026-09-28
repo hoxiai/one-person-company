@@ -1,6 +1,6 @@
 import fs from 'node:fs';
 import path from 'node:path';
-import { d as defineEventHandler, e as createError, cS as setHeader, bj as getHeader, cx as setResponseStatus, d0 as sendStream } from '../../nitro/nitro.mjs';
+import { d as defineEventHandler, e as createError, cX as setHeader, bl as getHeader, cC as setResponseStatus, d5 as sendStream } from '../../nitro/nitro.mjs';
 import { blob } from '@nuxthub/blob';
 import 'drizzle-orm';
 import 'node:crypto';
@@ -38,6 +38,7 @@ import '@adonisjs/hash/drivers/scrypt';
 
 const CONTENT_TYPES = {
   ".avif": "image/avif",
+  ".ico": "image/vnd.microsoft.icon",
   ".jpeg": "image/jpeg",
   ".jpg": "image/jpeg",
   ".m4v": "video/x-m4v",

@@ -1,4 +1,4 @@
-import { d as defineEventHandler, cS as setHeader, cX as resolveServerSeoContext } from '../nitro/nitro.mjs';
+import { d as defineEventHandler, cX as setHeader, d0 as resolveServerSeoContext } from '../nitro/nitro.mjs';
 import 'drizzle-orm';
 import 'node:crypto';
 import 'crypto';

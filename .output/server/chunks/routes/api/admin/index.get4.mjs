@@ -1,4 +1,4 @@
-import { d as defineEventHandler, g as getQuery, o as comments, b as db, u as users, q as getCommentAvatarUrl } from '../../../nitro/nitro.mjs';
+import { d as defineEventHandler, g as getQuery, o as comments, b as db, u as users, v as getCommentAvatarUrl } from '../../../nitro/nitro.mjs';
 import { eq, or, like, and, count, desc } from 'drizzle-orm';
 import 'node:crypto';
 import 'crypto';
@@ -44,6 +44,7 @@ const index_get = defineEventHandler(async (event) => {
   const offset = (page - 1) * pageSize;
   const status = String(query.status || "all").trim().toLowerCase();
   const targetType = String(query.targetType || "").trim().toLowerCase();
+  const source = String(query.source || "all").trim().toLowerCase();
   const search = String(query.search || "").trim();
   const conditions = [];
   if (status && status !== "all") {
@@ -52,6 +53,9 @@ const index_get = defineEventHandler(async (event) => {
   if (targetType && targetType !== "all") {
     conditions.push(eq(comments.targetType, targetType));
   }
+  if (source && source !== "all") {
+    conditions.push(eq(comments.source, source));
+  }
   if (search) {
     const pattern = `%${search}%`;
     conditions.push(
@@ -59,7 +63,8 @@ const index_get = defineEventHandler(async (event) => {
         like(comments.authorName, pattern),
         like(comments.authorEmail, pattern),
         like(comments.content, pattern),
-        like(comments.targetId, pattern)
+        like(comments.targetId, pattern),
+        like(comments.externalId, pattern)
       )
     );
   }
@@ -77,6 +82,11 @@ const index_get = defineEventHandler(async (event) => {
     content: comments.content,
     parentId: comments.parentId,
     status: comments.status,
+    likes: comments.likes,
+    source: comments.source,
+    externalId: comments.externalId,
+    externalUrl: comments.externalUrl,
+    extraData: comments.extraData,
     ip: comments.ip,
     userAgent: comments.userAgent,
     createdAt: comments.createdAt,
@@ -102,10 +112,21 @@ const index_get = defineEventHandler(async (event) => {
       summary[s.status] = c;
     }
   }
-  const list = rows.map((r) => ({
-    ...r,
-    avatarUrl: getCommentAvatarUrl(r.authorEmail, r.userAvatar)
-  }));
+  const list = rows.map((r) => {
+    let extraData = r.extraData;
+    if (typeof extraData === "string") {
+      try {
+        extraData = JSON.parse(extraData);
+      } catch {
+      }
+    }
+    const customAvatar = (extraData == null ? void 0 : extraData.avatarUrl) || r.userAvatar;
+    return {
+      ...r,
+      extraData,
+      avatarUrl: getCommentAvatarUrl(r.authorEmail, customAvatar)
+    };
+  });
   return {
     success: true,
     data: list,

@@ -1,4 +1,4 @@
-import { d as defineEventHandler, c3 as getRequestIP, c4 as checkCommentRateLimit, e as createError, aW as getUserSession, r as readBody, b as db, br as oauthAccounts, c5 as sanitizeComment, c6 as getRequestHeader, aO as settings, o as comments, q as getCommentAvatarUrl } from '../../nitro/nitro.mjs';
+import { d as defineEventHandler, c5 as getRequestIP, c6 as checkCommentRateLimit, e as createError, aY as getUserSession, r as readBody, b as db, bt as oauthAccounts, c7 as sanitizeComment, c8 as getRequestHeader, aQ as settings, o as comments, q as syncPostCommentCount, v as getCommentAvatarUrl } from '../../nitro/nitro.mjs';
 import { and, eq } from 'drizzle-orm';
 import 'node:crypto';
 import 'crypto';
@@ -151,6 +151,10 @@ const index_post = defineEventHandler(async (event) => {
   };
   const [inserted] = await db.insert(comments).values(insertValues).returning({ id: comments.id });
   const newId = inserted == null ? void 0 : inserted.id;
+  if (initialStatus === "approved" && targetType === "post") {
+    syncPostCommentCount(targetId).catch(() => {
+    });
+  }
   const avatarUrl = getCommentAvatarUrl(finalAuthorEmail, finalUserAvatar);
   return {
     success: true,

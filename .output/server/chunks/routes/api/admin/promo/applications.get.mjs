@@ -1,4 +1,4 @@
-import { d as defineEventHandler, g as getQuery, b as db, aF as promoApplications, u as users } from '../../../../nitro/nitro.mjs';
+import { d as defineEventHandler, g as getQuery, b as db, aH as promoApplications, u as users } from '../../../../nitro/nitro.mjs';
 import { sql, eq, desc } from 'drizzle-orm';
 import 'node:crypto';
 import 'crypto';

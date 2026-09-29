@@ -1,4 +1,4 @@
-import process from 'node:process';globalThis._importMeta_=globalThis._importMeta_||{url:"file:///_entry.js",env:process.env};import { sql, eq, and, lt, inArray, desc, or, isNull, gt, ne, gte, notInArray, isNotNull, like, asc, lte, count, ilike } from 'drizzle-orm';
+import process from 'node:process';globalThis._importMeta_=globalThis._importMeta_||{url:"file:///_entry.js",env:process.env};import { sql, eq, and, lt, inArray, desc, or, isNull, gt, ne, gte, notInArray, isNotNull, like, asc, lte, ilike, count } from 'drizzle-orm';
 import crypto$1, { createHash, randomBytes as randomBytes$1, randomUUID as randomUUID$1, timingSafeEqual, createDecipheriv, createCipheriv, generateKeyPairSync, createECDH, hkdfSync, createHmac, createPublicKey, createVerify } from 'node:crypto';
 import crypto$2 from 'crypto';
 import fs from 'fs';
@@ -18,9 +18,9 @@ import { createClient } from '@libsql/client';
 import { drizzle as drizzle$3 } from 'drizzle-orm/libsql';
 import mysql from 'mysql2/promise';
 import { drizzle as drizzle$1 } from 'drizzle-orm/mysql2';
-import { pgTable, timestamp, integer, text as text$2, real, serial, boolean as boolean$1, jsonb, bigint, index as index$1, uniqueIndex } from 'drizzle-orm/pg-core';
-import { sqliteTable, integer as integer$1, text as text$3, real as real$1, index as index$2, uniqueIndex as uniqueIndex$1 } from 'drizzle-orm/sqlite-core';
-import { mysqlTable, timestamp as timestamp$1, int, text as text$4, real as real$2, boolean as boolean$2, json, varchar, bigint as bigint$1, index as index$3, uniqueIndex as uniqueIndex$2, foreignKey } from 'drizzle-orm/mysql-core';
+import { pgTable, timestamp, integer, text as text$3, real, serial, boolean as boolean$1, jsonb, bigint, index as index$1, uniqueIndex } from 'drizzle-orm/pg-core';
+import { sqliteTable, integer as integer$1, text as text$4, real as real$1, index as index$2, uniqueIndex as uniqueIndex$1 } from 'drizzle-orm/sqlite-core';
+import { mysqlTable, timestamp as timestamp$1, int, text as text$5, real as real$2, boolean as boolean$2, json, varchar, bigint as bigint$1, index as index$3, uniqueIndex as uniqueIndex$2, foreignKey } from 'drizzle-orm/mysql-core';
 import maxmind from 'maxmind';
 import os, { tmpdir } from 'node:os';
 import { fileURLToPath } from 'node:url';
@@ -5209,7 +5209,7 @@ const appConfig0 = defineAppConfig({
 });
 
 const inlineAppConfig = {
-  "appVersion": "1.0.10",
+  "appVersion": "1.0.11",
   "nuxt": {},
   "ui": {
     "colors": {
@@ -5392,7 +5392,7 @@ function _expandFromEnv(value) {
 const _inlineRuntimeConfig = {
   "app": {
     "baseURL": "/",
-    "buildId": "4b6c07d3-cbd0-4acf-ad9c-45f4a9e65765",
+    "buildId": "152cb8ea-76bb-4634-8ccf-10bfb52e56d1",
     "buildAssetsDir": "/_nuxt/",
     "cdnURL": ""
   },
@@ -6633,12 +6633,12 @@ function publicAssetsURL(...path) {
 const users$3 = pgTable("users", {
   id: serial("id").primaryKey(),
   // 原 APay 用户属性
-  email: text$2("email").notNull().unique(),
-  passwordHash: text$2("password_hash"),
-  nickname: text$2("nickname"),
-  avatarUrl: text$2("avatar_url"),
+  email: text$3("email").notNull().unique(),
+  passwordHash: text$3("password_hash"),
+  nickname: text$3("nickname"),
+  avatarUrl: text$3("avatar_url"),
   lastLoginAt: timestamp("last_login_at", { withTimezone: true }),
-  currentSessionId: text$2("current_session_id"),
+  currentSessionId: text$3("current_session_id"),
   // 当前有效的会话 ID
   status: integer("status").default(1),
   // 1: 正常, 0: 禁用
@@ -6661,21 +6661,21 @@ const userWallets$3 = pgTable("user_wallets", {
 const userSessions$3 = pgTable("user_sessions", {
   id: serial("id").primaryKey(),
   userId: integer("user_id").notNull().references(() => users$3.id),
-  sessionIdHash: text$2("session_id_hash").notNull().unique(),
-  status: text$2("status").notNull().default("active"),
-  authMethod: text$2("auth_method").notNull().default("password"),
-  deviceType: text$2("device_type"),
-  browser: text$2("browser"),
-  os: text$2("os"),
-  userAgent: text$2("user_agent"),
-  ip: text$2("ip"),
-  country: text$2("country"),
-  region: text$2("region"),
-  city: text$2("city"),
+  sessionIdHash: text$3("session_id_hash").notNull().unique(),
+  status: text$3("status").notNull().default("active"),
+  authMethod: text$3("auth_method").notNull().default("password"),
+  deviceType: text$3("device_type"),
+  browser: text$3("browser"),
+  os: text$3("os"),
+  userAgent: text$3("user_agent"),
+  ip: text$3("ip"),
+  country: text$3("country"),
+  region: text$3("region"),
+  city: text$3("city"),
   loggedInAt: timestamp("logged_in_at", { withTimezone: true }).notNull().defaultNow(),
   lastSeenAt: timestamp("last_seen_at", { withTimezone: true }).notNull().defaultNow(),
   endedAt: timestamp("ended_at", { withTimezone: true }),
-  replacedBySessionId: text$2("replaced_by_session_id"),
+  replacedBySessionId: text$3("replaced_by_session_id"),
   createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow()
 }, (table) => ({
   userStatusIdx: index$1("user_sessions_user_status_idx").on(table.userId, table.status),
@@ -6684,8 +6684,8 @@ const userSessions$3 = pgTable("user_sessions", {
 const userTokens$3 = pgTable("user_tokens", {
   id: serial("id").primaryKey(),
   userId: integer("user_id").notNull().references(() => users$3.id),
-  token: text$2("token").notNull().unique(),
-  name: text$2("name"),
+  token: text$3("token").notNull().unique(),
+  name: text$3("name"),
   // Token 名称，方便管理
   expiresAt: timestamp("expires_at", { withTimezone: true }),
   // 过期时间
@@ -6697,16 +6697,16 @@ const userTokens$3 = pgTable("user_tokens", {
 });
 const admins$3 = pgTable("admins", {
   id: serial("id").primaryKey(),
-  username: text$2("username").notNull().unique(),
-  passwordHash: text$2("password_hash").notNull(),
+  username: text$3("username").notNull().unique(),
+  passwordHash: text$3("password_hash").notNull(),
   permissions: jsonb("permissions").$type(),
   createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow()
 });
 const adminTokens$3 = pgTable("admin_tokens", {
   id: serial("id").primaryKey(),
   adminId: integer("admin_id").notNull().references(() => admins$3.id),
-  token: text$2("token").notNull().unique(),
-  name: text$2("name"),
+  token: text$3("token").notNull().unique(),
+  name: text$3("name"),
   permissions: jsonb("permissions").$type(),
   expiresAt: timestamp("expires_at", { withTimezone: true }),
   lastUsedAt: timestamp("last_used_at", { withTimezone: true }),
@@ -6716,9 +6716,9 @@ const adminTokens$3 = pgTable("admin_tokens", {
 const oauthAccounts$3 = pgTable("oauth_accounts", {
   id: serial("id").primaryKey(),
   userId: integer("user_id").notNull().references(() => users$3.id),
-  provider: text$2("provider").notNull(),
+  provider: text$3("provider").notNull(),
   // 'google', 'github', etc.
-  providerAccountId: text$2("provider_account_id").notNull(),
+  providerAccountId: text$3("provider_account_id").notNull(),
   createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow()
 }, (table) => {
   return {
@@ -6727,15 +6727,15 @@ const oauthAccounts$3 = pgTable("oauth_accounts", {
 });
 const products$3 = pgTable("products", {
   id: serial("id").primaryKey(),
-  slug: text$2("slug").unique(),
-  name: text$2("name").notNull(),
+  slug: text$3("slug").unique(),
+  name: text$3("name").notNull(),
   price: real("price").notNull(),
-  description: text$2("description"),
-  content: text$2("content"),
+  description: text$3("description"),
+  content: text$3("content"),
   // Detailed HTML or Markdown content
-  type: text$2("type").notNull(),
+  type: text$3("type").notNull(),
   // 'key', 'file', 'subscription', 'service', 'topup'
-  imageUrl: text$2("image_url"),
+  imageUrl: text$3("image_url"),
   // Cover image
   views: integer("views").notNull().default(0),
   // View count
@@ -6743,10 +6743,10 @@ const products$3 = pgTable("products", {
   // Like count
   imageUrls: jsonb("image_urls").$type(),
   // JSON array of multiple image URLs
-  resource: text$2("resource"),
+  resource: text$3("resource"),
   // general resource for non-unique items
   isActive: boolean$1("is_active").notNull().default(true),
-  status: text$2("status").notNull().default("active"),
+  status: text$3("status").notNull().default("active"),
   // 'active' | 'hidden' | 'inactive'
   metaData: jsonb("meta_data"),
   // EAV Model: flexible JSON for custom attributes (e.g. size, color, version)
@@ -6756,108 +6756,108 @@ const products$3 = pgTable("products", {
 const cards$3 = pgTable("cards", {
   id: serial("id").primaryKey(),
   productId: integer("product_id").notNull().references(() => products$3.id),
-  cardNumber: text$2("card_number").notNull(),
+  cardNumber: text$3("card_number").notNull(),
   isUsed: boolean$1("is_used").notNull().default(false),
-  orderId: text$2("order_id"),
+  orderId: text$3("order_id"),
   // Will reference orders.id when used
   createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow()
 });
 const paymentMethods$3 = pgTable("payment_methods", {
   id: serial("id").primaryKey(),
-  name: text$2("name").notNull(),
-  code: text$2("code").notNull(),
+  name: text$3("name").notNull(),
+  code: text$3("code").notNull(),
   // e.g., 'alipay', 'stripe'
-  iconUrl: text$2("icon_url"),
+  iconUrl: text$3("icon_url"),
   isActive: boolean$1("is_active").notNull().default(false),
-  supportedLocales: text$2("supported_locales"),
+  supportedLocales: text$3("supported_locales"),
   // Comma-separated locale whitelist, empty means all locales
-  configJson: text$2("config_json"),
+  configJson: text$3("config_json"),
   // JSON object for API keys, etc.
-  info: text$2("info"),
+  info: text$3("info"),
   // HTML for payment info
-  create: text$2("create"),
+  create: text$3("create"),
   // JS for payment initiation
-  callback: text$2("callback"),
+  callback: text$3("callback"),
   // HTML for callback info
   createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow()
 });
 const emailProviders$3 = pgTable("email_providers", {
   id: serial("id").primaryKey(),
-  name: text$2("name").notNull(),
-  code: text$2("code").notNull(),
+  name: text$3("name").notNull(),
+  code: text$3("code").notNull(),
   // e.g., 'resend', 'bird', 'smtp'
   isActive: boolean$1("is_active").notNull().default(false),
-  configJson: text$2("config_json"),
+  configJson: text$3("config_json"),
   // JSON object for API keys, from address, etc.
-  sendScript: text$2("send_script"),
+  sendScript: text$3("send_script"),
   // JS sandbox script for sending email
   createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow()
 });
 const emailLogs$3 = pgTable("email_logs", {
   id: serial("id").primaryKey(),
-  to: text$2("to").notNull(),
-  subject: text$2("subject").notNull(),
-  templateCode: text$2("template_code"),
-  html: text$2("html"),
-  provider: text$2("provider"),
-  status: text$2("status").notNull().default("success"),
-  messageId: text$2("message_id"),
-  error: text$2("error"),
+  to: text$3("to").notNull(),
+  subject: text$3("subject").notNull(),
+  templateCode: text$3("template_code"),
+  html: text$3("html"),
+  provider: text$3("provider"),
+  status: text$3("status").notNull().default("success"),
+  messageId: text$3("message_id"),
+  error: text$3("error"),
   createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow()
 });
 const orders$3 = pgTable("orders", {
-  id: text$2("id").primaryKey(),
+  id: text$3("id").primaryKey(),
   // UUID
   amount: real("amount").notNull(),
-  currency: text$2("currency").notNull().default("USD"),
+  currency: text$3("currency").notNull().default("USD"),
   // 实付币种(CNY/USD…);快捷充值按币种校验区间并折算到账额度
-  source: text$2("source"),
+  source: text$3("source"),
   // minimal_checkout 等订单来源；与 external_order_id 组成外部幂等键
-  externalOrderId: text$2("external_order_id"),
+  externalOrderId: text$3("external_order_id"),
   productId: integer("product_id").notNull().references(() => products$3.id),
   userId: integer("user_id").references(() => users$3.id),
   // Link to C-end user
-  contactEmail: text$2("contact_email").notNull(),
-  payMethod: text$2("pay_method"),
+  contactEmail: text$3("contact_email").notNull(),
+  payMethod: text$3("pay_method"),
   // References paymentMethods.code
-  tradeNo: text$2("trade_no"),
+  tradeNo: text$3("trade_no"),
   // 3rd party transaction ID
-  status: text$2("status").notNull().default("none"),
+  status: text$3("status").notNull().default("none"),
   // none, processing, delivered, active, expired
-  deliveryInfo: text$2("delivery_info"),
+  deliveryInfo: text$3("delivery_info"),
   // delivered card or link
   metaData: jsonb("meta_data"),
   // Flexible JSON for custom order data
-  visitorId: text$2("visitor_id"),
+  visitorId: text$3("visitor_id"),
   // To track anonymous users
-  subscriptionId: text$2("subscription_id"),
+  subscriptionId: text$3("subscription_id"),
   // Link to parent subscription if this is a recurring payment
   createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
   paidAt: timestamp("paid_at", { withTimezone: true }),
-  payStatus: text$2("pay_status").notNull().default("pending")
+  payStatus: text$3("pay_status").notNull().default("pending")
   // pending, paid, failed, refunded
 }, (table) => [
   uniqueIndex("orders_source_external_order_unique").on(table.source, table.externalOrderId)
 ]);
 const topups$3 = pgTable("topups", {
   id: serial("id").primaryKey(),
-  orderId: text$2("order_id").notNull().references(() => orders$3.id, { onDelete: "cascade" }).unique(),
+  orderId: text$3("order_id").notNull().references(() => orders$3.id, { onDelete: "cascade" }).unique(),
   userId: integer("user_id").notNull().references(() => users$3.id),
   // AINode 钱包模式（APAY_WALLET_BACKEND=ainode）下钱包归 AINode，台账不绑定钱包，为空
   walletId: integer("wallet_id").references(() => userWallets$3.id),
-  source: text$2("source").notNull().default("order"),
+  source: text$3("source").notNull().default("order"),
   paymentAmount: real("payment_amount").notNull(),
-  paymentCurrency: text$2("payment_currency").notNull(),
+  paymentCurrency: text$3("payment_currency").notNull(),
   creditAmountCents: bigint("credit_amount_cents", { mode: "bigint" }).notNull(),
-  creditCurrency: text$2("credit_currency").notNull(),
+  creditCurrency: text$3("credit_currency").notNull(),
   exchangeRate: real("exchange_rate").notNull().default(1),
-  balanceType: text$2("balance_type").notNull().default("cash"),
-  status: text$2("status").notNull().default("pending"),
-  creditEventId: text$2("credit_event_id").notNull().unique(),
-  refundEventId: text$2("refund_event_id").unique(),
+  balanceType: text$3("balance_type").notNull().default("cash"),
+  status: text$3("status").notNull().default("pending"),
+  creditEventId: text$3("credit_event_id").notNull().unique(),
+  refundEventId: text$3("refund_event_id").unique(),
   retryCount: integer("retry_count").notNull().default(0),
   shortfallCents: bigint("shortfall_cents", { mode: "bigint" }).notNull().default(sql`0`),
-  lastError: text$2("last_error"),
+  lastError: text$3("last_error"),
   paidAt: timestamp("paid_at", { withTimezone: true }),
   creditedAt: timestamp("credited_at", { withTimezone: true }),
   refundedAt: timestamp("refunded_at", { withTimezone: true }),
@@ -6868,23 +6868,23 @@ const topups$3 = pgTable("topups", {
   statusUpdatedAtIdx: index$1("idx_topups_status_updated_at").on(table.status, table.updatedAt)
 }));
 const subscriptions$3 = pgTable("subscriptions", {
-  id: text$2("id").primaryKey(),
+  id: text$3("id").primaryKey(),
   // Internal Subscription UUID
-  gatewaySubId: text$2("gateway_sub_id"),
+  gatewaySubId: text$3("gateway_sub_id"),
   // External Gateway ID (e.g. PayPal sub_xxx)
   userId: integer("user_id").references(() => users$3.id),
   productId: integer("product_id").notNull().references(() => products$3.id),
-  payMethod: text$2("pay_method").notNull(),
+  payMethod: text$3("pay_method").notNull(),
   // e.g., 'paypal', 'adyen'
-  status: text$2("status").notNull().default("active"),
+  status: text$3("status").notNull().default("active"),
   // 'active', 'canceled', 'expired', 'past_due'
   // Billing cycle
-  interval: text$2("interval").notNull(),
+  interval: text$3("interval").notNull(),
   // 'day', 'week', 'month', 'year'
   intervalCount: integer("interval_count").notNull().default(1),
   // Pricing
   amount: real("amount").notNull(),
-  currency: text$2("currency").notNull().default("USD"),
+  currency: text$3("currency").notNull().default("USD"),
   // Timestamps
   currentPeriodStart: timestamp("current_period_start", { withTimezone: true }),
   currentPeriodEnd: timestamp("current_period_end", { withTimezone: true }),
@@ -6894,164 +6894,164 @@ const subscriptions$3 = pgTable("subscriptions", {
   updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow()
 });
 const settings$3 = pgTable("settings", {
-  key: text$2("key").primaryKey(),
+  key: text$3("key").primaryKey(),
   // site_name, company_name, active_theme
-  value: text$2("value").notNull(),
-  description: text$2("description"),
+  value: text$3("value").notNull(),
+  description: text$3("description"),
   updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow()
 });
 const paymentFailures$3 = pgTable("payment_failures", {
   id: serial("id").primaryKey(),
-  orderId: text$2("order_id").notNull(),
-  cardBin: text$2("card_bin"),
-  reason: text$2("reason").notNull(),
+  orderId: text$3("order_id").notNull(),
+  cardBin: text$3("card_bin"),
+  reason: text$3("reason").notNull(),
   amount: real("amount"),
-  payMethod: text$2("pay_method"),
-  contactEmail: text$2("contact_email"),
-  rawResponse: text$2("raw_response"),
+  payMethod: text$3("pay_method"),
+  contactEmail: text$3("contact_email"),
+  rawResponse: text$3("raw_response"),
   // Full error response from gateway
-  visitorId: text$2("visitor_id"),
+  visitorId: text$3("visitor_id"),
   // To track anonymous users
   createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow()
 });
 const failures$3 = paymentFailures$3;
 const webhooks$3 = pgTable("webhooks", {
   id: serial("id").primaryKey(),
-  name: text$2("name").notNull(),
-  url: text$2("url").notNull(),
+  name: text$3("name").notNull(),
+  url: text$3("url").notNull(),
   events: jsonb("events").$type(),
   // Array of events, e.g., ['order.paid', 'order.created']
-  secret: text$2("secret"),
+  secret: text$3("secret"),
   // Secret for signing payload to verify authenticity
   isActive: boolean$1("is_active").notNull().default(true),
   createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow()
 });
 const eventRules$3 = pgTable("event_rules", {
   id: serial("id").primaryKey(),
-  event: text$2("event").notNull(),
+  event: text$3("event").notNull(),
   // e.g. 'user.registered'
-  action: text$2("action").notNull(),
+  action: text$3("action").notNull(),
   // e.g. 'grant_reward'
   config: jsonb("config").$type(),
   // 动作参数,如 {balanceType,amount,remark}
   enabled: boolean$1("enabled").notNull().default(true),
-  remark: text$2("remark"),
+  remark: text$3("remark"),
   createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
   updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow()
 });
 const logs$3 = pgTable("logs", {
   id: serial("id").primaryKey(),
-  level: text$2("level").notNull().default("info"),
+  level: text$3("level").notNull().default("info"),
   // 'info', 'warn', 'error', 'debug'
-  message: text$2("message").notNull(),
-  details: text$2("details"),
+  message: text$3("message").notNull(),
+  details: text$3("details"),
   // Optional JSON string or detailed stack trace
-  source: text$2("source"),
+  source: text$3("source"),
   // e.g., 'webhook', 'admin', 'payment', 'system'
   createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow()
 });
 const visitorProfiles$3 = pgTable("visitor_profiles", {
-  visitorId: text$2("visitor_id").primaryKey(),
+  visitorId: text$3("visitor_id").primaryKey(),
   userId: integer("user_id").references(() => users$3.id),
-  ip: text$2("ip"),
+  ip: text$3("ip"),
   firstSeenAt: timestamp("first_seen_at", { withTimezone: true }).notNull().defaultNow(),
   lastSeenAt: timestamp("last_seen_at", { withTimezone: true }).notNull().defaultNow(),
-  landingPath: text$2("landing_path"),
-  firstPath: text$2("first_path"),
-  lastPath: text$2("last_path"),
-  firstReferrer: text$2("first_referrer"),
-  lastReferrer: text$2("last_referrer"),
-  firstSourceType: text$2("first_source_type"),
-  lastSourceType: text$2("last_source_type"),
-  firstSource: text$2("first_source"),
-  lastSource: text$2("last_source"),
-  firstMedium: text$2("first_medium"),
-  lastMedium: text$2("last_medium"),
-  firstCampaign: text$2("first_campaign"),
-  lastCampaign: text$2("last_campaign"),
-  firstContent: text$2("first_content"),
-  lastContent: text$2("last_content"),
-  firstTerm: text$2("first_term"),
-  lastTerm: text$2("last_term"),
-  country: text$2("country"),
-  region: text$2("region"),
-  city: text$2("city"),
-  locale: text$2("locale"),
-  currency: text$2("currency"),
-  deviceType: text$2("device_type"),
-  browser: text$2("browser"),
-  os: text$2("os"),
-  userAgent: text$2("user_agent"),
+  landingPath: text$3("landing_path"),
+  firstPath: text$3("first_path"),
+  lastPath: text$3("last_path"),
+  firstReferrer: text$3("first_referrer"),
+  lastReferrer: text$3("last_referrer"),
+  firstSourceType: text$3("first_source_type"),
+  lastSourceType: text$3("last_source_type"),
+  firstSource: text$3("first_source"),
+  lastSource: text$3("last_source"),
+  firstMedium: text$3("first_medium"),
+  lastMedium: text$3("last_medium"),
+  firstCampaign: text$3("first_campaign"),
+  lastCampaign: text$3("last_campaign"),
+  firstContent: text$3("first_content"),
+  lastContent: text$3("last_content"),
+  firstTerm: text$3("first_term"),
+  lastTerm: text$3("last_term"),
+  country: text$3("country"),
+  region: text$3("region"),
+  city: text$3("city"),
+  locale: text$3("locale"),
+  currency: text$3("currency"),
+  deviceType: text$3("device_type"),
+  browser: text$3("browser"),
+  os: text$3("os"),
+  userAgent: text$3("user_agent"),
   createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
   updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow()
 });
 const visitorEvents$3 = pgTable("visitor_events", {
   id: serial("id").primaryKey(),
-  visitorId: text$2("visitor_id").notNull(),
-  ip: text$2("ip"),
+  visitorId: text$3("visitor_id").notNull(),
+  ip: text$3("ip"),
   userId: integer("user_id").references(() => users$3.id),
-  orderId: text$2("order_id").references(() => orders$3.id),
+  orderId: text$3("order_id").references(() => orders$3.id),
   productId: integer("product_id").references(() => products$3.id),
-  eventName: text$2("event_name").notNull(),
-  eventAction: text$2("event_action"),
-  path: text$2("path"),
-  referrer: text$2("referrer"),
-  sourceType: text$2("source_type"),
-  source: text$2("source"),
-  medium: text$2("medium"),
-  campaign: text$2("campaign"),
-  content: text$2("content"),
-  term: text$2("term"),
-  country: text$2("country"),
-  region: text$2("region"),
-  city: text$2("city"),
-  locale: text$2("locale"),
-  currency: text$2("currency"),
-  deviceType: text$2("device_type"),
-  browser: text$2("browser"),
-  os: text$2("os"),
-  userAgent: text$2("user_agent"),
+  eventName: text$3("event_name").notNull(),
+  eventAction: text$3("event_action"),
+  path: text$3("path"),
+  referrer: text$3("referrer"),
+  sourceType: text$3("source_type"),
+  source: text$3("source"),
+  medium: text$3("medium"),
+  campaign: text$3("campaign"),
+  content: text$3("content"),
+  term: text$3("term"),
+  country: text$3("country"),
+  region: text$3("region"),
+  city: text$3("city"),
+  locale: text$3("locale"),
+  currency: text$3("currency"),
+  deviceType: text$3("device_type"),
+  browser: text$3("browser"),
+  os: text$3("os"),
+  userAgent: text$3("user_agent"),
   createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow()
 });
 const accessLogs$3 = pgTable("access_logs", {
   id: serial("id").primaryKey(),
-  path: text$2("path").notNull(),
-  method: text$2("method").notNull(),
-  ip: text$2("ip"),
-  userAgent: text$2("user_agent"),
-  referrer: text$2("referrer"),
-  country: text$2("country"),
-  region: text$2("region"),
-  city: text$2("city"),
+  path: text$3("path").notNull(),
+  method: text$3("method").notNull(),
+  ip: text$3("ip"),
+  userAgent: text$3("user_agent"),
+  referrer: text$3("referrer"),
+  country: text$3("country"),
+  region: text$3("region"),
+  city: text$3("city"),
   statusCode: integer("status_code"),
   duration: real("duration"),
-  visitorId: text$2("visitor_id"),
+  visitorId: text$3("visitor_id"),
   userId: integer("user_id").references(() => users$3.id),
   createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow()
 });
 const operationLogs$3 = pgTable("operation_logs", {
   id: serial("id").primaryKey(),
-  actorType: text$2("actor_type").notNull().default("admin"),
+  actorType: text$3("actor_type").notNull().default("admin"),
   // admin | user | system
   actorId: integer("actor_id"),
   // no FK: the record must outlive a deleted actor
-  actorName: text$2("actor_name"),
+  actorName: text$3("actor_name"),
   // snapshot — still readable after a rename/delete
-  action: text$2("action").notNull(),
+  action: text$3("action").notNull(),
   // create | update | delete | login | logout | ...
-  resource: text$2("resource").notNull(),
+  resource: text$3("resource").notNull(),
   // products | orders | admins | settings | ...
-  resourceId: text$2("resource_id"),
+  resourceId: text$3("resource_id"),
   // text, not int: orders.id is a string
-  summary: text$2("summary"),
-  details: text$2("details"),
+  summary: text$3("summary"),
+  details: text$3("details"),
   // JSON string
-  path: text$2("path").notNull(),
-  method: text$2("method").notNull(),
+  path: text$3("path").notNull(),
+  method: text$3("method").notNull(),
   statusCode: integer("status_code"),
   // 401/403 included — denied attempts matter
-  ip: text$2("ip"),
-  userAgent: text$2("user_agent"),
+  ip: text$3("ip"),
+  userAgent: text$3("user_agent"),
   createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow()
 }, (table) => ({
   createdAtIdx: index$1("operation_logs_created_at_idx").on(table.createdAt),
@@ -7060,18 +7060,18 @@ const operationLogs$3 = pgTable("operation_logs", {
 }));
 const posts$3 = pgTable("posts", {
   id: serial("id").primaryKey(),
-  key: text$2("key"),
+  key: text$3("key"),
   sort: integer("sort"),
-  slug: text$2("slug").notNull().unique(),
+  slug: text$3("slug").notNull().unique(),
   // Used for URL /blog/:slug
-  title: text$2("title").notNull(),
-  description: text$2("description"),
+  title: text$3("title").notNull(),
+  description: text$3("description"),
   // Short description for list view
-  content: text$2("content"),
+  content: text$3("content"),
   // Rich text HTML or Markdown
-  type: text$2("type").notNull().default("blog"),
+  type: text$3("type").notNull().default("blog"),
   // e.g., 'blog', 'page', 'announcement'
-  imageUrl: text$2("image_url"),
+  imageUrl: text$3("image_url"),
   // Cover image
   views: integer("views").notNull().default(0),
   // View count
@@ -7087,26 +7087,26 @@ const posts$3 = pgTable("posts", {
 });
 const comments$3 = pgTable("comments", {
   id: serial("id").primaryKey(),
-  targetType: text$2("target_type").notNull(),
+  targetType: text$3("target_type").notNull(),
   // 'post' | 'model'
-  targetId: text$2("target_id").notNull(),
+  targetId: text$3("target_id").notNull(),
   // slug or id
   userId: integer("user_id").references(() => users$3.id, { onDelete: "set null" }),
-  authorName: text$2("author_name").notNull(),
-  authorEmail: text$2("author_email"),
-  authorUrl: text$2("author_url"),
-  content: text$2("content").notNull(),
+  authorName: text$3("author_name").notNull(),
+  authorEmail: text$3("author_email"),
+  authorUrl: text$3("author_url"),
+  content: text$3("content").notNull(),
   parentId: integer("parent_id"),
-  status: text$2("status").notNull().default("approved"),
+  status: text$3("status").notNull().default("approved"),
   // approved | pending | spam | deleted
   likes: integer("likes").notNull().default(0),
   // Like count
-  source: text$2("source").notNull().default("local"),
-  externalId: text$2("external_id"),
-  externalUrl: text$2("external_url"),
+  source: text$3("source").notNull().default("local"),
+  externalId: text$3("external_id"),
+  externalUrl: text$3("external_url"),
   extraData: jsonb("extra_data"),
-  ip: text$2("ip"),
-  userAgent: text$2("user_agent"),
+  ip: text$3("ip"),
+  userAgent: text$3("user_agent"),
   createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
   updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow()
 }, (table) => ({
@@ -7117,12 +7117,12 @@ const comments$3 = pgTable("comments", {
 }));
 const likes$3 = pgTable("likes", {
   id: serial("id").primaryKey(),
-  targetType: text$2("target_type").notNull(),
-  targetId: text$2("target_id").notNull(),
+  targetType: text$3("target_type").notNull(),
+  targetId: text$3("target_id").notNull(),
   userId: integer("user_id").references(() => users$3.id, { onDelete: "cascade" }),
-  visitorId: text$2("visitor_id").notNull(),
-  ip: text$2("ip"),
-  userAgent: text$2("user_agent"),
+  visitorId: text$3("visitor_id").notNull(),
+  ip: text$3("ip"),
+  userAgent: text$3("user_agent"),
   createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow()
 }, (table) => ({
   targetIdx: index$1("likes_target_idx").on(table.targetType, table.targetId),
@@ -7131,17 +7131,17 @@ const likes$3 = pgTable("likes", {
 }));
 const commentSyncSources$3 = pgTable("comment_sync_sources", {
   id: serial("id").primaryKey(),
-  targetType: text$2("target_type").notNull(),
-  targetId: text$2("target_id").notNull(),
-  source: text$2("source").notNull(),
-  externalId: text$2("external_id").notNull(),
-  externalUrl: text$2("external_url"),
+  targetType: text$3("target_type").notNull(),
+  targetId: text$3("target_id").notNull(),
+  source: text$3("source").notNull(),
+  externalId: text$3("external_id").notNull(),
+  externalUrl: text$3("external_url"),
   autoSync: boolean$1("auto_sync").notNull().default(true),
   syncInterval: integer("sync_interval").notNull().default(60),
-  defaultStatus: text$2("default_status").notNull().default("approved"),
+  defaultStatus: text$3("default_status").notNull().default("approved"),
   lastSyncedAt: timestamp("last_synced_at", { withTimezone: true }),
-  lastSyncStatus: text$2("last_sync_status").notNull().default("idle"),
-  lastError: text$2("last_error"),
+  lastSyncStatus: text$3("last_sync_status").notNull().default("idle"),
+  lastError: text$3("last_error"),
   totalSynced: integer("total_synced").notNull().default(0),
   extraData: jsonb("extra_data"),
   createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
@@ -7153,11 +7153,11 @@ const commentSyncSources$3 = pgTable("comment_sync_sources", {
 const notifications$3 = pgTable("notifications", {
   id: serial("id").primaryKey(),
   userId: integer("user_id").references(() => users$3.id),
-  visitorId: text$2("visitor_id"),
-  type: text$2("type").notNull(),
+  visitorId: text$3("visitor_id"),
+  type: text$3("type").notNull(),
   // order_paid, key_delivered, subscription_activated, etc.
-  title: text$2("title").notNull(),
-  message: text$2("message").notNull(),
+  title: text$3("title").notNull(),
+  message: text$3("message").notNull(),
   data: jsonb("data"),
   // { orderId, productId, slug, ... }
   isRead: boolean$1("is_read").notNull().default(false),
@@ -7167,48 +7167,48 @@ const balanceLogs$3 = pgTable("balance_logs", {
   id: serial("id").primaryKey(),
   userId: integer("user_id").notNull().references(() => users$3.id),
   walletId: integer("wallet_id").notNull().references(() => userWallets$3.id),
-  balanceType: text$2("balance_type").notNull(),
+  balanceType: text$3("balance_type").notNull(),
   // cash | grant
-  actionType: text$2("action_type").notNull().default("topup"),
+  actionType: text$3("action_type").notNull().default("topup"),
   // topup | admin_recharge | order_payment | refund | adjust
   /** 本次变更金额，放大 10^8；正=入账，负=出账 */
   amountCents: bigint("amount_cents", { mode: "bigint" }).notNull(),
   beforeBalanceCents: bigint("before_balance_cents", { mode: "bigint" }).notNull(),
   afterBalanceCents: bigint("after_balance_cents", { mode: "bigint" }).notNull(),
   /** 幂等键：同一 eventId 只入账一次 */
-  eventId: text$2("event_id").notNull().unique(),
-  sourceType: text$2("source_type").notNull().default("system"),
+  eventId: text$3("event_id").notNull().unique(),
+  sourceType: text$3("source_type").notNull().default("system"),
   // order | admin | system
-  sourceId: text$2("source_id"),
+  sourceId: text$3("source_id"),
   operatorAdminId: integer("operator_admin_id"),
-  operatorName: text$2("operator_name").notNull().default(""),
-  remark: text$2("remark").notNull().default(""),
+  operatorName: text$3("operator_name").notNull().default(""),
+  remark: text$3("remark").notNull().default(""),
   createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow()
 }, (table) => ({
   walletCreatedAtIdx: index$1("idx_balance_logs_wallet_created_at").on(table.walletId, table.createdAt)
 }));
 const promoAgentTiers$3 = pgTable("promo_agent_tiers", {
   id: serial("id").primaryKey(),
-  code: text$2("code").notNull().unique(),
-  name: text$2("name").notNull(),
-  roleScope: text$2("role_scope").notNull().default("agent"),
+  code: text$3("code").notNull().unique(),
+  name: text$3("name").notNull(),
+  roleScope: text$3("role_scope").notNull().default("agent"),
   level: integer("level").notNull().default(1),
   discountRate: real("discount_rate").notNull().default(1),
   salesThreshold: real("sales_threshold").notNull().default(0),
   isFixed: boolean$1("is_fixed").notNull().default(false),
   isActive: boolean$1("is_active").notNull().default(true),
-  description: text$2("description"),
+  description: text$3("description"),
   createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
   updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow()
 });
 const promoMembers$3 = pgTable("promo_members", {
   id: serial("id").primaryKey(),
   userId: integer("user_id").notNull().references(() => users$3.id).unique(),
-  role: text$2("role").notNull().default("member"),
-  status: text$2("status").notNull().default("active"),
-  promoCode: text$2("promo_code").notNull().unique(),
-  inviteCode: text$2("invite_code").notNull().unique(),
-  agentCode: text$2("agent_code").unique(),
+  role: text$3("role").notNull().default("member"),
+  status: text$3("status").notNull().default("active"),
+  promoCode: text$3("promo_code").notNull().unique(),
+  inviteCode: text$3("invite_code").notNull().unique(),
+  agentCode: text$3("agent_code").unique(),
   currentAgentTierId: integer("current_agent_tier_id").references(() => promoAgentTiers$3.id),
   joinedAt: timestamp("joined_at", { withTimezone: true }).notNull().defaultNow(),
   createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
@@ -7218,8 +7218,8 @@ const promoInviteRelations$3 = pgTable("promo_invite_relations", {
   id: serial("id").primaryKey(),
   inviteeUserId: integer("invitee_user_id").notNull().references(() => users$3.id).unique(),
   inviterUserId: integer("inviter_user_id").notNull().references(() => users$3.id),
-  source: text$2("source").notNull().default("register"),
-  codeSnapshot: text$2("code_snapshot"),
+  source: text$3("source").notNull().default("register"),
+  codeSnapshot: text$3("code_snapshot"),
   boundAt: timestamp("bound_at", { withTimezone: true }).notNull().defaultNow(),
   createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow()
 });
@@ -7229,14 +7229,14 @@ const promoAgentRelations$3 = pgTable("promo_agent_relations", {
   parentAgentUserId: integer("parent_agent_user_id").references(() => users$3.id),
   masterAgentUserId: integer("master_agent_user_id").references(() => users$3.id),
   depth: integer("depth").notNull().default(1),
-  status: text$2("status").notNull().default("active"),
+  status: text$3("status").notNull().default("active"),
   boundAt: timestamp("bound_at", { withTimezone: true }).notNull().defaultNow(),
   createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
   updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow()
 });
 const promoOrderAttributions$3 = pgTable("promo_order_attributions", {
   id: serial("id").primaryKey(),
-  orderId: text$2("order_id").notNull().references(() => orders$3.id).unique(),
+  orderId: text$3("order_id").notNull().references(() => orders$3.id).unique(),
   buyerUserId: integer("buyer_user_id").references(() => users$3.id),
   buyerPromoMemberId: integer("buyer_promo_member_id").references(() => promoMembers$3.id),
   inviteUserId: integer("invite_user_id").references(() => users$3.id),
@@ -7244,23 +7244,23 @@ const promoOrderAttributions$3 = pgTable("promo_order_attributions", {
   parentAgentUserId: integer("parent_agent_user_id").references(() => users$3.id),
   masterAgentUserId: integer("master_agent_user_id").references(() => users$3.id),
   agentTierIdSnapshot: integer("agent_tier_id_snapshot"),
-  agentTierNameSnapshot: text$2("agent_tier_name_snapshot"),
+  agentTierNameSnapshot: text$3("agent_tier_name_snapshot"),
   discountRateSnapshot: real("discount_rate_snapshot"),
-  sourceType: text$2("source_type").notNull().default("direct"),
+  sourceType: text$3("source_type").notNull().default("direct"),
   metaData: jsonb("meta_data"),
   createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow()
 });
 const promoCommissions$3 = pgTable("promo_commissions", {
   id: serial("id").primaryKey(),
-  orderId: text$2("order_id").notNull().references(() => orders$3.id),
+  orderId: text$3("order_id").notNull().references(() => orders$3.id),
   ownerUserId: integer("owner_user_id").notNull().references(() => users$3.id),
   ownerPromoMemberId: integer("owner_promo_member_id").references(() => promoMembers$3.id),
-  type: text$2("type").notNull(),
-  sourceType: text$2("source_type").notNull().default("direct"),
+  type: text$3("type").notNull(),
+  sourceType: text$3("source_type").notNull().default("direct"),
   amount: real("amount").notNull(),
   rate: real("rate"),
-  status: text$2("status").notNull().default("pending"),
-  remark: text$2("remark"),
+  status: text$3("status").notNull().default("pending"),
+  remark: text$3("remark"),
   metaData: jsonb("meta_data"),
   createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
   updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow()
@@ -7272,11 +7272,11 @@ const promoCommissions$3 = pgTable("promo_commissions", {
 const promoApplications$3 = pgTable("promo_applications", {
   id: serial("id").primaryKey(),
   userId: integer("user_id").notNull().references(() => users$3.id),
-  status: text$2("status").notNull().default("pending"),
-  channelInfo: text$2("channel_info"),
-  contact: text$2("contact"),
-  reason: text$2("reason"),
-  reviewNote: text$2("review_note"),
+  status: text$3("status").notNull().default("pending"),
+  channelInfo: text$3("channel_info"),
+  contact: text$3("contact"),
+  reason: text$3("reason"),
+  reviewNote: text$3("review_note"),
   reviewedByAdminId: integer("reviewed_by_admin_id"),
   reviewedAt: timestamp("reviewed_at", { withTimezone: true }),
   createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
@@ -7284,19 +7284,19 @@ const promoApplications$3 = pgTable("promo_applications", {
 });
 const tickets$3 = pgTable("tickets", {
   id: serial("id").primaryKey(),
-  ticketNo: text$2("ticket_no").notNull().unique(),
+  ticketNo: text$3("ticket_no").notNull().unique(),
   userId: integer("user_id").notNull().references(() => users$3.id),
-  category: text$2("category").notNull().default("other"),
+  category: text$3("category").notNull().default("other"),
   // billing | account | listing | studio | extension | other
-  title: text$2("title").notNull(),
-  status: text$2("status").notNull().default("open"),
+  title: text$3("title").notNull(),
+  status: text$3("status").notNull().default("open"),
   // open | in_progress | auto_resolved | resolved | closed
-  priority: text$2("priority").notNull().default("normal"),
+  priority: text$3("priority").notNull().default("normal"),
   // low | normal | high | urgent
   context: jsonb("context"),
   // 无损现场快照：productId, taskId, errorCode, rawResponse 等
   lastRepliedAt: timestamp("last_replied_at", { withTimezone: true }).notNull().defaultNow(),
-  lastRepliedBy: text$2("last_replied_by").notNull().default("user"),
+  lastRepliedBy: text$3("last_replied_by").notNull().default("user"),
   // user | admin | bot | system
   createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
   updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow()
@@ -7309,11 +7309,11 @@ const tickets$3 = pgTable("tickets", {
 const ticketMessages$3 = pgTable("ticket_messages", {
   id: serial("id").primaryKey(),
   ticketId: integer("ticket_id").notNull().references(() => tickets$3.id, { onDelete: "cascade" }),
-  senderType: text$2("sender_type").notNull(),
+  senderType: text$3("sender_type").notNull(),
   // user | admin | bot | system
   senderId: integer("sender_id"),
-  senderName: text$2("sender_name").notNull().default(""),
-  content: text$2("content").notNull(),
+  senderName: text$3("sender_name").notNull().default(""),
+  content: text$3("content").notNull(),
   attachments: jsonb("attachments"),
   createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow()
 }, (table) => ({
@@ -7368,13 +7368,13 @@ const pgSchema = /*#__PURE__*/Object.freeze(/*#__PURE__*/Object.defineProperty({
 const users$2 = sqliteTable("users", {
   id: integer$1("id").primaryKey({ autoIncrement: true }),
   // 原 APay 用户属性
-  email: text$3("email").notNull().unique(),
-  passwordHash: text$3("password_hash"),
+  email: text$4("email").notNull().unique(),
+  passwordHash: text$4("password_hash"),
   // Nullable for OAuth users
-  nickname: text$3("nickname"),
-  avatarUrl: text$3("avatar_url"),
+  nickname: text$4("nickname"),
+  avatarUrl: text$4("avatar_url"),
   lastLoginAt: integer$1("last_login_at", { mode: "timestamp" }),
-  currentSessionId: text$3("current_session_id"),
+  currentSessionId: text$4("current_session_id"),
   // 当前有效的会话 ID
   status: integer$1("status").default(1),
   // 1: 正常, 0: 禁用
@@ -7397,21 +7397,21 @@ const userWallets$2 = sqliteTable("user_wallets", {
 const userSessions$2 = sqliteTable("user_sessions", {
   id: integer$1("id").primaryKey({ autoIncrement: true }),
   userId: integer$1("user_id").notNull().references(() => users$2.id),
-  sessionIdHash: text$3("session_id_hash").notNull().unique(),
-  status: text$3("status").notNull().default("active"),
-  authMethod: text$3("auth_method").notNull().default("password"),
-  deviceType: text$3("device_type"),
-  browser: text$3("browser"),
-  os: text$3("os"),
-  userAgent: text$3("user_agent"),
-  ip: text$3("ip"),
-  country: text$3("country"),
-  region: text$3("region"),
-  city: text$3("city"),
+  sessionIdHash: text$4("session_id_hash").notNull().unique(),
+  status: text$4("status").notNull().default("active"),
+  authMethod: text$4("auth_method").notNull().default("password"),
+  deviceType: text$4("device_type"),
+  browser: text$4("browser"),
+  os: text$4("os"),
+  userAgent: text$4("user_agent"),
+  ip: text$4("ip"),
+  country: text$4("country"),
+  region: text$4("region"),
+  city: text$4("city"),
   loggedInAt: integer$1("logged_in_at", { mode: "timestamp" }).notNull().default(sql`(unixepoch())`),
   lastSeenAt: integer$1("last_seen_at", { mode: "timestamp" }).notNull().default(sql`(unixepoch())`),
   endedAt: integer$1("ended_at", { mode: "timestamp" }),
-  replacedBySessionId: text$3("replaced_by_session_id"),
+  replacedBySessionId: text$4("replaced_by_session_id"),
   createdAt: integer$1("created_at", { mode: "timestamp" }).notNull().default(sql`(unixepoch())`)
 }, (table) => ({
   userStatusIdx: index$2("user_sessions_user_status_idx").on(table.userId, table.status),
@@ -7420,8 +7420,8 @@ const userSessions$2 = sqliteTable("user_sessions", {
 const userTokens$2 = sqliteTable("user_tokens", {
   id: integer$1("id").primaryKey({ autoIncrement: true }),
   userId: integer$1("user_id").notNull().references(() => users$2.id),
-  token: text$3("token").notNull().unique(),
-  name: text$3("name"),
+  token: text$4("token").notNull().unique(),
+  name: text$4("name"),
   // Token 名称，方便管理
   expiresAt: integer$1("expires_at", { mode: "timestamp" }),
   // 过期时间
@@ -7433,17 +7433,17 @@ const userTokens$2 = sqliteTable("user_tokens", {
 });
 const admins$2 = sqliteTable("admins", {
   id: integer$1("id").primaryKey({ autoIncrement: true }),
-  username: text$3("username").notNull().unique(),
-  passwordHash: text$3("password_hash").notNull(),
-  permissions: text$3("permissions", { mode: "json" }).$type(),
+  username: text$4("username").notNull().unique(),
+  passwordHash: text$4("password_hash").notNull(),
+  permissions: text$4("permissions", { mode: "json" }).$type(),
   createdAt: integer$1("created_at", { mode: "timestamp" }).notNull().default(sql`(unixepoch())`)
 });
 const adminTokens$2 = sqliteTable("admin_tokens", {
   id: integer$1("id").primaryKey({ autoIncrement: true }),
   adminId: integer$1("admin_id").notNull().references(() => admins$2.id),
-  token: text$3("token").notNull().unique(),
-  name: text$3("name"),
-  permissions: text$3("permissions", { mode: "json" }).$type(),
+  token: text$4("token").notNull().unique(),
+  name: text$4("name"),
+  permissions: text$4("permissions", { mode: "json" }).$type(),
   expiresAt: integer$1("expires_at", { mode: "timestamp" }),
   lastUsedAt: integer$1("last_used_at", { mode: "timestamp" }),
   revoked: integer$1("revoked").notNull().default(0),
@@ -7452,35 +7452,35 @@ const adminTokens$2 = sqliteTable("admin_tokens", {
 const oauthAccounts$2 = sqliteTable("oauth_accounts", {
   id: integer$1("id").primaryKey({ autoIncrement: true }),
   userId: integer$1("user_id").notNull().references(() => users$2.id),
-  provider: text$3("provider").notNull(),
+  provider: text$4("provider").notNull(),
   // 'google', 'github', etc.
-  providerAccountId: text$3("provider_account_id").notNull(),
+  providerAccountId: text$4("provider_account_id").notNull(),
   createdAt: integer$1("created_at", { mode: "timestamp" }).notNull().default(sql`(unixepoch())`)
 });
 const products$2 = sqliteTable("products", {
   id: integer$1("id").primaryKey({ autoIncrement: true }),
-  slug: text$3("slug").unique(),
-  name: text$3("name").notNull(),
+  slug: text$4("slug").unique(),
+  name: text$4("name").notNull(),
   price: real$1("price").notNull(),
-  description: text$3("description"),
-  content: text$3("content"),
+  description: text$4("description"),
+  content: text$4("content"),
   // Detailed HTML or Markdown content
-  type: text$3("type").notNull(),
+  type: text$4("type").notNull(),
   // 'basic','key', 'file', 'subscription', 'service', 'topup'
-  imageUrl: text$3("image_url"),
+  imageUrl: text$4("image_url"),
   // Cover image
   views: integer$1("views").notNull().default(0),
   // View count
   likes: integer$1("likes").notNull().default(0),
   // Like count
-  imageUrls: text$3("image_urls", { mode: "json" }).$type(),
+  imageUrls: text$4("image_urls", { mode: "json" }).$type(),
   // JSON array of multiple image URLs
-  resource: text$3("resource"),
+  resource: text$4("resource"),
   // general resource for non-unique items
   isActive: integer$1("is_active", { mode: "boolean" }).notNull().default(true),
-  status: text$3("status").notNull().default("active"),
+  status: text$4("status").notNull().default("active"),
   // 'active' | 'hidden' | 'inactive'
-  metaData: text$3("meta_data", { mode: "json" }),
+  metaData: text$4("meta_data", { mode: "json" }),
   // EAV Model: flexible JSON for custom attributes (e.g. size, color, version)
   sortOrder: integer$1("sort_order").notNull().default(0),
   createdAt: integer$1("created_at", { mode: "timestamp" }).notNull().default(sql`(unixepoch())`)
@@ -7488,109 +7488,109 @@ const products$2 = sqliteTable("products", {
 const cards$2 = sqliteTable("cards", {
   id: integer$1("id").primaryKey({ autoIncrement: true }),
   productId: integer$1("product_id").notNull().references(() => products$2.id),
-  cardNumber: text$3("card_number").notNull(),
+  cardNumber: text$4("card_number").notNull(),
   isUsed: integer$1("is_used", { mode: "boolean" }).notNull().default(false),
-  orderId: text$3("order_id"),
+  orderId: text$4("order_id"),
   // Will reference orders.id when used
   createdAt: integer$1("created_at", { mode: "timestamp" }).notNull().default(sql`(unixepoch())`)
 });
 const paymentMethods$2 = sqliteTable("payment_methods", {
   id: integer$1("id").primaryKey({ autoIncrement: true }),
-  name: text$3("name").notNull(),
-  code: text$3("code").notNull(),
+  name: text$4("name").notNull(),
+  code: text$4("code").notNull(),
   // e.g., 'alipay', 'stripe'
-  iconUrl: text$3("icon_url"),
+  iconUrl: text$4("icon_url"),
   isActive: integer$1("is_active", { mode: "boolean" }).notNull().default(false),
-  supportedLocales: text$3("supported_locales"),
+  supportedLocales: text$4("supported_locales"),
   // Comma-separated locale whitelist, empty means all locales
-  configJson: text$3("config_json"),
+  configJson: text$4("config_json"),
   // JSON object for API keys, etc.
-  info: text$3("info"),
+  info: text$4("info"),
   // HTML for payment info
-  create: text$3("create"),
+  create: text$4("create"),
   // JS for payment initiation
-  callback: text$3("callback"),
+  callback: text$4("callback"),
   // HTML for callback info
   createdAt: integer$1("created_at", { mode: "timestamp" }).notNull().default(sql`(unixepoch())`)
 });
 const emailProviders$2 = sqliteTable("email_providers", {
   id: integer$1("id").primaryKey({ autoIncrement: true }),
-  name: text$3("name").notNull(),
-  code: text$3("code").notNull(),
+  name: text$4("name").notNull(),
+  code: text$4("code").notNull(),
   // e.g., 'resend', 'bird', 'smtp'
   isActive: integer$1("is_active", { mode: "boolean" }).notNull().default(false),
-  configJson: text$3("config_json"),
+  configJson: text$4("config_json"),
   // JSON object for API keys, from address, etc.
-  sendScript: text$3("send_script"),
+  sendScript: text$4("send_script"),
   // JS sandbox script for sending email
   createdAt: integer$1("created_at", { mode: "timestamp" }).notNull().default(sql`(unixepoch())`)
 });
 const emailLogs$2 = sqliteTable("email_logs", {
   id: integer$1("id").primaryKey({ autoIncrement: true }),
-  to: text$3("to").notNull(),
-  subject: text$3("subject").notNull(),
-  templateCode: text$3("template_code"),
-  html: text$3("html"),
-  provider: text$3("provider"),
-  status: text$3("status").notNull().default("success"),
+  to: text$4("to").notNull(),
+  subject: text$4("subject").notNull(),
+  templateCode: text$4("template_code"),
+  html: text$4("html"),
+  provider: text$4("provider"),
+  status: text$4("status").notNull().default("success"),
   // 'success' | 'failed'
-  messageId: text$3("message_id"),
-  error: text$3("error"),
+  messageId: text$4("message_id"),
+  error: text$4("error"),
   createdAt: integer$1("created_at", { mode: "timestamp" }).notNull().default(sql`(unixepoch())`)
 });
 const orders$2 = sqliteTable("orders", {
-  id: text$3("id").primaryKey(),
+  id: text$4("id").primaryKey(),
   // UUID
   amount: real$1("amount").notNull(),
-  currency: text$3("currency").notNull().default("USD"),
+  currency: text$4("currency").notNull().default("USD"),
   // 实付币种(CNY/USD…);快捷充值按币种校验区间并折算到账额度
-  source: text$3("source"),
+  source: text$4("source"),
   // minimal_checkout 等订单来源；与 external_order_id 组成外部幂等键
-  externalOrderId: text$3("external_order_id"),
+  externalOrderId: text$4("external_order_id"),
   productId: integer$1("product_id").notNull().references(() => products$2.id),
   userId: integer$1("user_id").references(() => users$2.id),
   // Link to C-end user
-  contactEmail: text$3("contact_email").notNull(),
-  payMethod: text$3("pay_method"),
+  contactEmail: text$4("contact_email").notNull(),
+  payMethod: text$4("pay_method"),
   // References paymentMethods.code
-  tradeNo: text$3("trade_no"),
+  tradeNo: text$4("trade_no"),
   // 3rd party transaction ID
-  status: text$3("status").notNull().default("none"),
+  status: text$4("status").notNull().default("none"),
   // none, processing, delivered, active, expired
-  deliveryInfo: text$3("delivery_info"),
+  deliveryInfo: text$4("delivery_info"),
   // delivered card or link
-  metaData: text$3("meta_data", { mode: "json" }),
+  metaData: text$4("meta_data", { mode: "json" }),
   // Flexible JSON for custom order data
-  visitorId: text$3("visitor_id"),
+  visitorId: text$4("visitor_id"),
   // To track anonymous users
-  subscriptionId: text$3("subscription_id"),
+  subscriptionId: text$4("subscription_id"),
   // Link to parent subscription if this is a recurring payment
   createdAt: integer$1("created_at", { mode: "timestamp" }).notNull().default(sql`(unixepoch())`),
   paidAt: integer$1("paid_at", { mode: "timestamp" }),
-  payStatus: text$3("pay_status").notNull().default("pending")
+  payStatus: text$4("pay_status").notNull().default("pending")
   // pending, paid, failed, refunded
 }, (table) => [
   uniqueIndex$1("orders_source_external_order_unique").on(table.source, table.externalOrderId)
 ]);
 const topups$2 = sqliteTable("topups", {
   id: integer$1("id").primaryKey({ autoIncrement: true }),
-  orderId: text$3("order_id").notNull().references(() => orders$2.id, { onDelete: "cascade" }).unique(),
+  orderId: text$4("order_id").notNull().references(() => orders$2.id, { onDelete: "cascade" }).unique(),
   userId: integer$1("user_id").notNull().references(() => users$2.id),
   // AINode 钱包模式（APAY_WALLET_BACKEND=ainode）下钱包归 AINode，台账不绑定钱包，为空
   walletId: integer$1("wallet_id").references(() => userWallets$2.id),
-  source: text$3("source").notNull().default("order"),
+  source: text$4("source").notNull().default("order"),
   paymentAmount: real$1("payment_amount").notNull(),
-  paymentCurrency: text$3("payment_currency").notNull(),
+  paymentCurrency: text$4("payment_currency").notNull(),
   creditAmountCents: integer$1("credit_amount_cents", { mode: "number" }).notNull(),
-  creditCurrency: text$3("credit_currency").notNull(),
+  creditCurrency: text$4("credit_currency").notNull(),
   exchangeRate: real$1("exchange_rate").notNull().default(1),
-  balanceType: text$3("balance_type").notNull().default("cash"),
-  status: text$3("status").notNull().default("pending"),
-  creditEventId: text$3("credit_event_id").notNull().unique(),
-  refundEventId: text$3("refund_event_id").unique(),
+  balanceType: text$4("balance_type").notNull().default("cash"),
+  status: text$4("status").notNull().default("pending"),
+  creditEventId: text$4("credit_event_id").notNull().unique(),
+  refundEventId: text$4("refund_event_id").unique(),
   retryCount: integer$1("retry_count").notNull().default(0),
   shortfallCents: integer$1("shortfall_cents", { mode: "number" }).notNull().default(0),
-  lastError: text$3("last_error"),
+  lastError: text$4("last_error"),
   paidAt: integer$1("paid_at", { mode: "timestamp" }),
   creditedAt: integer$1("credited_at", { mode: "timestamp" }),
   refundedAt: integer$1("refunded_at", { mode: "timestamp" }),
@@ -7601,190 +7601,190 @@ const topups$2 = sqliteTable("topups", {
   statusUpdatedAtIdx: index$2("idx_topups_status_updated_at").on(table.status, table.updatedAt)
 }));
 const subscriptions$2 = sqliteTable("subscriptions", {
-  id: text$3("id").primaryKey(),
+  id: text$4("id").primaryKey(),
   // Internal Subscription UUID
-  gatewaySubId: text$3("gateway_sub_id"),
+  gatewaySubId: text$4("gateway_sub_id"),
   // External Gateway ID (e.g. PayPal sub_xxx)
   userId: integer$1("user_id").references(() => users$2.id),
   productId: integer$1("product_id").notNull().references(() => products$2.id),
-  payMethod: text$3("pay_method").notNull(),
+  payMethod: text$4("pay_method").notNull(),
   // e.g., 'paypal', 'adyen'
-  status: text$3("status").notNull().default("active"),
+  status: text$4("status").notNull().default("active"),
   // 'active', 'canceled', 'expired', 'past_due'
   // Billing cycle
-  interval: text$3("interval").notNull(),
+  interval: text$4("interval").notNull(),
   // 'day', 'week', 'month', 'year'
   intervalCount: integer$1("interval_count").notNull().default(1),
   // Pricing
   amount: real$1("amount").notNull(),
-  currency: text$3("currency").notNull().default("USD"),
+  currency: text$4("currency").notNull().default("USD"),
   // Timestamps
   currentPeriodStart: integer$1("current_period_start", { mode: "timestamp" }),
   currentPeriodEnd: integer$1("current_period_end", { mode: "timestamp" }),
   cancelAtPeriodEnd: integer$1("cancel_at_period_end", { mode: "boolean" }).default(false),
-  metaData: text$3("meta_data", { mode: "json" }),
+  metaData: text$4("meta_data", { mode: "json" }),
   createdAt: integer$1("created_at", { mode: "timestamp" }).notNull().default(sql`(unixepoch())`),
   updatedAt: integer$1("updated_at", { mode: "timestamp" }).default(sql`(unixepoch())`)
 });
 const settings$2 = sqliteTable("settings", {
-  key: text$3("key").primaryKey(),
+  key: text$4("key").primaryKey(),
   // site_name, company_name, active_theme
-  value: text$3("value").notNull(),
-  description: text$3("description"),
+  value: text$4("value").notNull(),
+  description: text$4("description"),
   updatedAt: integer$1("updated_at", { mode: "timestamp" }).default(sql`(unixepoch() * 1000)`)
 });
 const paymentFailures$2 = sqliteTable("payment_failures", {
   id: integer$1("id").primaryKey({ autoIncrement: true }),
-  orderId: text$3("order_id").notNull(),
-  cardBin: text$3("card_bin"),
-  reason: text$3("reason").notNull(),
+  orderId: text$4("order_id").notNull(),
+  cardBin: text$4("card_bin"),
+  reason: text$4("reason").notNull(),
   amount: real$1("amount"),
-  payMethod: text$3("pay_method"),
-  contactEmail: text$3("contact_email"),
-  rawResponse: text$3("raw_response"),
+  payMethod: text$4("pay_method"),
+  contactEmail: text$4("contact_email"),
+  rawResponse: text$4("raw_response"),
   // Full error response from gateway
-  visitorId: text$3("visitor_id"),
+  visitorId: text$4("visitor_id"),
   // To track anonymous users
   createdAt: integer$1("created_at", { mode: "timestamp" }).notNull().default(sql`(unixepoch())`)
 });
 const failures$2 = paymentFailures$2;
 const webhooks$2 = sqliteTable("webhooks", {
   id: integer$1("id").primaryKey({ autoIncrement: true }),
-  name: text$3("name").notNull(),
-  url: text$3("url").notNull(),
-  events: text$3("events", { mode: "json" }).$type(),
+  name: text$4("name").notNull(),
+  url: text$4("url").notNull(),
+  events: text$4("events", { mode: "json" }).$type(),
   // Array of events, e.g., ['order.paid', 'order.created']
-  secret: text$3("secret"),
+  secret: text$4("secret"),
   // Secret for signing payload to verify authenticity
   isActive: integer$1("is_active", { mode: "boolean" }).notNull().default(true),
   createdAt: integer$1("created_at", { mode: "timestamp" }).notNull().default(sql`(unixepoch())`)
 });
 const eventRules$2 = sqliteTable("event_rules", {
   id: integer$1("id").primaryKey({ autoIncrement: true }),
-  event: text$3("event").notNull(),
-  action: text$3("action").notNull(),
-  config: text$3("config", { mode: "json" }).$type(),
+  event: text$4("event").notNull(),
+  action: text$4("action").notNull(),
+  config: text$4("config", { mode: "json" }).$type(),
   enabled: integer$1("enabled", { mode: "boolean" }).notNull().default(true),
-  remark: text$3("remark"),
+  remark: text$4("remark"),
   createdAt: integer$1("created_at", { mode: "timestamp" }).notNull().default(sql`(unixepoch())`),
   updatedAt: integer$1("updated_at", { mode: "timestamp" })
 });
 const logs$2 = sqliteTable("logs", {
   id: integer$1("id").primaryKey({ autoIncrement: true }),
-  level: text$3("level").notNull().default("info"),
+  level: text$4("level").notNull().default("info"),
   // 'info', 'warn', 'error', 'debug'
-  message: text$3("message").notNull(),
-  details: text$3("details"),
+  message: text$4("message").notNull(),
+  details: text$4("details"),
   // Optional JSON string or detailed stack trace
-  source: text$3("source"),
+  source: text$4("source"),
   // e.g., 'webhook', 'admin', 'payment', 'system'
   createdAt: integer$1("created_at", { mode: "timestamp" }).notNull().default(sql`(unixepoch())`)
 });
 const visitorProfiles$2 = sqliteTable("visitor_profiles", {
-  visitorId: text$3("visitor_id").primaryKey(),
+  visitorId: text$4("visitor_id").primaryKey(),
   userId: integer$1("user_id").references(() => users$2.id),
-  ip: text$3("ip"),
+  ip: text$4("ip"),
   firstSeenAt: integer$1("first_seen_at", { mode: "timestamp" }).notNull().default(sql`(unixepoch())`),
   lastSeenAt: integer$1("last_seen_at", { mode: "timestamp" }).notNull().default(sql`(unixepoch())`),
-  landingPath: text$3("landing_path"),
-  firstPath: text$3("first_path"),
-  lastPath: text$3("last_path"),
-  firstReferrer: text$3("first_referrer"),
-  lastReferrer: text$3("last_referrer"),
-  firstSourceType: text$3("first_source_type"),
-  lastSourceType: text$3("last_source_type"),
-  firstSource: text$3("first_source"),
-  lastSource: text$3("last_source"),
-  firstMedium: text$3("first_medium"),
-  lastMedium: text$3("last_medium"),
-  firstCampaign: text$3("first_campaign"),
-  lastCampaign: text$3("last_campaign"),
-  firstContent: text$3("first_content"),
-  lastContent: text$3("last_content"),
-  firstTerm: text$3("first_term"),
-  lastTerm: text$3("last_term"),
-  country: text$3("country"),
-  region: text$3("region"),
-  city: text$3("city"),
-  locale: text$3("locale"),
-  currency: text$3("currency"),
-  deviceType: text$3("device_type"),
-  browser: text$3("browser"),
-  os: text$3("os"),
-  userAgent: text$3("user_agent"),
+  landingPath: text$4("landing_path"),
+  firstPath: text$4("first_path"),
+  lastPath: text$4("last_path"),
+  firstReferrer: text$4("first_referrer"),
+  lastReferrer: text$4("last_referrer"),
+  firstSourceType: text$4("first_source_type"),
+  lastSourceType: text$4("last_source_type"),
+  firstSource: text$4("first_source"),
+  lastSource: text$4("last_source"),
+  firstMedium: text$4("first_medium"),
+  lastMedium: text$4("last_medium"),
+  firstCampaign: text$4("first_campaign"),
+  lastCampaign: text$4("last_campaign"),
+  firstContent: text$4("first_content"),
+  lastContent: text$4("last_content"),
+  firstTerm: text$4("first_term"),
+  lastTerm: text$4("last_term"),
+  country: text$4("country"),
+  region: text$4("region"),
+  city: text$4("city"),
+  locale: text$4("locale"),
+  currency: text$4("currency"),
+  deviceType: text$4("device_type"),
+  browser: text$4("browser"),
+  os: text$4("os"),
+  userAgent: text$4("user_agent"),
   createdAt: integer$1("created_at", { mode: "timestamp" }).notNull().default(sql`(unixepoch())`),
   updatedAt: integer$1("updated_at", { mode: "timestamp" }).notNull().default(sql`(unixepoch())`)
 });
 const visitorEvents$2 = sqliteTable("visitor_events", {
   id: integer$1("id").primaryKey({ autoIncrement: true }),
-  visitorId: text$3("visitor_id").notNull(),
-  ip: text$3("ip"),
+  visitorId: text$4("visitor_id").notNull(),
+  ip: text$4("ip"),
   userId: integer$1("user_id").references(() => users$2.id),
-  orderId: text$3("order_id").references(() => orders$2.id),
+  orderId: text$4("order_id").references(() => orders$2.id),
   productId: integer$1("product_id").references(() => products$2.id),
-  eventName: text$3("event_name").notNull(),
-  eventAction: text$3("event_action"),
-  path: text$3("path"),
-  referrer: text$3("referrer"),
-  sourceType: text$3("source_type"),
-  source: text$3("source"),
-  medium: text$3("medium"),
-  campaign: text$3("campaign"),
-  content: text$3("content"),
-  term: text$3("term"),
-  country: text$3("country"),
-  region: text$3("region"),
-  city: text$3("city"),
-  locale: text$3("locale"),
-  currency: text$3("currency"),
-  deviceType: text$3("device_type"),
-  browser: text$3("browser"),
-  os: text$3("os"),
-  userAgent: text$3("user_agent"),
+  eventName: text$4("event_name").notNull(),
+  eventAction: text$4("event_action"),
+  path: text$4("path"),
+  referrer: text$4("referrer"),
+  sourceType: text$4("source_type"),
+  source: text$4("source"),
+  medium: text$4("medium"),
+  campaign: text$4("campaign"),
+  content: text$4("content"),
+  term: text$4("term"),
+  country: text$4("country"),
+  region: text$4("region"),
+  city: text$4("city"),
+  locale: text$4("locale"),
+  currency: text$4("currency"),
+  deviceType: text$4("device_type"),
+  browser: text$4("browser"),
+  os: text$4("os"),
+  userAgent: text$4("user_agent"),
   createdAt: integer$1("created_at", { mode: "timestamp" }).notNull().default(sql`(unixepoch())`)
 });
 const accessLogs$2 = sqliteTable("access_logs", {
   id: integer$1("id").primaryKey({ autoIncrement: true }),
-  path: text$3("path").notNull(),
-  method: text$3("method").notNull(),
+  path: text$4("path").notNull(),
+  method: text$4("method").notNull(),
   // HTTP method: GET, POST, etc.
-  ip: text$3("ip"),
-  userAgent: text$3("user_agent"),
-  referrer: text$3("referrer"),
-  country: text$3("country"),
-  region: text$3("region"),
-  city: text$3("city"),
+  ip: text$4("ip"),
+  userAgent: text$4("user_agent"),
+  referrer: text$4("referrer"),
+  country: text$4("country"),
+  region: text$4("region"),
+  city: text$4("city"),
   statusCode: integer$1("status_code"),
   // HTTP response status code
   duration: real$1("duration"),
   // Response time in milliseconds
-  visitorId: text$3("visitor_id"),
+  visitorId: text$4("visitor_id"),
   userId: integer$1("user_id").references(() => users$2.id),
   createdAt: integer$1("created_at", { mode: "timestamp" }).notNull().default(sql`(unixepoch())`)
 });
 const operationLogs$2 = sqliteTable("operation_logs", {
   id: integer$1("id").primaryKey({ autoIncrement: true }),
-  actorType: text$3("actor_type").notNull().default("admin"),
+  actorType: text$4("actor_type").notNull().default("admin"),
   // admin | user | system
   actorId: integer$1("actor_id"),
   // no FK: the record must outlive a deleted actor
-  actorName: text$3("actor_name"),
+  actorName: text$4("actor_name"),
   // snapshot — still readable after a rename/delete
-  action: text$3("action").notNull(),
+  action: text$4("action").notNull(),
   // create | update | delete | login | logout | ...
-  resource: text$3("resource").notNull(),
+  resource: text$4("resource").notNull(),
   // products | orders | admins | settings | ...
-  resourceId: text$3("resource_id"),
+  resourceId: text$4("resource_id"),
   // text, not int: orders.id is a string
-  summary: text$3("summary"),
-  details: text$3("details"),
+  summary: text$4("summary"),
+  details: text$4("details"),
   // JSON string
-  path: text$3("path").notNull(),
-  method: text$3("method").notNull(),
+  path: text$4("path").notNull(),
+  method: text$4("method").notNull(),
   statusCode: integer$1("status_code"),
   // 401/403 included — denied attempts matter
-  ip: text$3("ip"),
-  userAgent: text$3("user_agent"),
+  ip: text$4("ip"),
+  userAgent: text$4("user_agent"),
   createdAt: integer$1("created_at", { mode: "timestamp" }).notNull().default(sql`(unixepoch())`)
 }, (table) => ({
   createdAtIdx: index$2("operation_logs_created_at_idx").on(table.createdAt),
@@ -7793,18 +7793,18 @@ const operationLogs$2 = sqliteTable("operation_logs", {
 }));
 const posts$2 = sqliteTable("posts", {
   id: integer$1("id").primaryKey({ autoIncrement: true }),
-  key: text$3("key"),
+  key: text$4("key"),
   sort: integer$1("sort"),
-  slug: text$3("slug").notNull().unique(),
+  slug: text$4("slug").notNull().unique(),
   // Used for URL /blog/:slug
-  title: text$3("title").notNull(),
-  description: text$3("description"),
+  title: text$4("title").notNull(),
+  description: text$4("description"),
   // Short description for list view
-  content: text$3("content"),
+  content: text$4("content"),
   // Rich text HTML or Markdown
-  type: text$3("type").notNull().default("blog"),
+  type: text$4("type").notNull().default("blog"),
   // e.g., 'blog', 'page', 'announcement'
-  imageUrl: text$3("image_url"),
+  imageUrl: text$4("image_url"),
   // Cover image
   views: integer$1("views").notNull().default(0),
   // View count
@@ -7813,37 +7813,37 @@ const posts$2 = sqliteTable("posts", {
   comments: integer$1("comments").notNull().default(0),
   // Comment count
   isActive: integer$1("is_active", { mode: "boolean" }).notNull().default(true),
-  metaData: text$3("meta_data", { mode: "json" }),
+  metaData: text$4("meta_data", { mode: "json" }),
   // For SEO tags, view counts, or other flexible data
   createdAt: integer$1("created_at", { mode: "timestamp" }).notNull().default(sql`(unixepoch())`),
   updatedAt: integer$1("updated_at", { mode: "timestamp" }).default(sql`(unixepoch())`)
 });
 const comments$2 = sqliteTable("comments", {
   id: integer$1("id").primaryKey({ autoIncrement: true }),
-  targetType: text$3("target_type").notNull(),
+  targetType: text$4("target_type").notNull(),
   // 'post' | 'model'
-  targetId: text$3("target_id").notNull(),
+  targetId: text$4("target_id").notNull(),
   // slug or id
   userId: integer$1("user_id").references(() => users$2.id, { onDelete: "set null" }),
-  authorName: text$3("author_name").notNull(),
-  authorEmail: text$3("author_email"),
-  authorUrl: text$3("author_url"),
-  content: text$3("content").notNull(),
+  authorName: text$4("author_name").notNull(),
+  authorEmail: text$4("author_email"),
+  authorUrl: text$4("author_url"),
+  content: text$4("content").notNull(),
   parentId: integer$1("parent_id"),
-  status: text$3("status").notNull().default("approved"),
+  status: text$4("status").notNull().default("approved"),
   // approved | pending | spam | deleted
   likes: integer$1("likes").notNull().default(0),
   // Like count
-  source: text$3("source").notNull().default("local"),
+  source: text$4("source").notNull().default("local"),
   // 'local' | 'v2ex' | 'wechat' etc.
-  externalId: text$3("external_id"),
+  externalId: text$4("external_id"),
   // e.g. V2EX reply id
-  externalUrl: text$3("external_url"),
+  externalUrl: text$4("external_url"),
   // Link to original topic or reply
-  extraData: text$3("extra_data", { mode: "json" }),
+  extraData: text$4("extra_data", { mode: "json" }),
   // extra payload: floor, avatar, etc.
-  ip: text$3("ip"),
-  userAgent: text$3("user_agent"),
+  ip: text$4("ip"),
+  userAgent: text$4("user_agent"),
   createdAt: integer$1("created_at", { mode: "timestamp" }).notNull().default(sql`(unixepoch())`),
   updatedAt: integer$1("updated_at", { mode: "timestamp" }).default(sql`(unixepoch())`)
 }, (table) => ({
@@ -7854,12 +7854,12 @@ const comments$2 = sqliteTable("comments", {
 }));
 const likes$2 = sqliteTable("likes", {
   id: integer$1("id").primaryKey({ autoIncrement: true }),
-  targetType: text$3("target_type").notNull(),
-  targetId: text$3("target_id").notNull(),
+  targetType: text$4("target_type").notNull(),
+  targetId: text$4("target_id").notNull(),
   userId: integer$1("user_id").references(() => users$2.id, { onDelete: "cascade" }),
-  visitorId: text$3("visitor_id").notNull(),
-  ip: text$3("ip"),
-  userAgent: text$3("user_agent"),
+  visitorId: text$4("visitor_id").notNull(),
+  ip: text$4("ip"),
+  userAgent: text$4("user_agent"),
   createdAt: integer$1("created_at", { mode: "timestamp" }).notNull().default(sql`(unixepoch())`)
 }, (table) => ({
   targetIdx: index$2("likes_target_idx").on(table.targetType, table.targetId),
@@ -7868,19 +7868,19 @@ const likes$2 = sqliteTable("likes", {
 }));
 const commentSyncSources$2 = sqliteTable("comment_sync_sources", {
   id: integer$1("id").primaryKey({ autoIncrement: true }),
-  targetType: text$3("target_type").notNull(),
-  targetId: text$3("target_id").notNull(),
-  source: text$3("source").notNull(),
-  externalId: text$3("external_id").notNull(),
-  externalUrl: text$3("external_url"),
+  targetType: text$4("target_type").notNull(),
+  targetId: text$4("target_id").notNull(),
+  source: text$4("source").notNull(),
+  externalId: text$4("external_id").notNull(),
+  externalUrl: text$4("external_url"),
   autoSync: integer$1("auto_sync", { mode: "boolean" }).notNull().default(true),
   syncInterval: integer$1("sync_interval").notNull().default(60),
-  defaultStatus: text$3("default_status").notNull().default("approved"),
+  defaultStatus: text$4("default_status").notNull().default("approved"),
   lastSyncedAt: integer$1("last_synced_at", { mode: "timestamp" }),
-  lastSyncStatus: text$3("last_sync_status").notNull().default("idle"),
-  lastError: text$3("last_error"),
+  lastSyncStatus: text$4("last_sync_status").notNull().default("idle"),
+  lastError: text$4("last_error"),
   totalSynced: integer$1("total_synced").notNull().default(0),
-  extraData: text$3("extra_data", { mode: "json" }),
+  extraData: text$4("extra_data", { mode: "json" }),
   createdAt: integer$1("created_at", { mode: "timestamp" }).notNull().default(sql`(unixepoch())`),
   updatedAt: integer$1("updated_at", { mode: "timestamp" }).default(sql`(unixepoch())`)
 }, (table) => ({
@@ -7890,12 +7890,12 @@ const commentSyncSources$2 = sqliteTable("comment_sync_sources", {
 const notifications$2 = sqliteTable("notifications", {
   id: integer$1("id").primaryKey({ autoIncrement: true }),
   userId: integer$1("user_id").references(() => users$2.id),
-  visitorId: text$3("visitor_id"),
-  type: text$3("type").notNull(),
+  visitorId: text$4("visitor_id"),
+  type: text$4("type").notNull(),
   // order_paid, key_delivered, subscription_activated, etc.
-  title: text$3("title").notNull(),
-  message: text$3("message").notNull(),
-  data: text$3("data", { mode: "json" }),
+  title: text$4("title").notNull(),
+  message: text$4("message").notNull(),
+  data: text$4("data", { mode: "json" }),
   // { orderId, productId, slug, ... }
   isRead: integer$1("is_read", { mode: "boolean" }).notNull().default(false),
   createdAt: integer$1("created_at", { mode: "timestamp" }).notNull().default(sql`(unixepoch())`)
@@ -7904,19 +7904,19 @@ const balanceLogs$2 = sqliteTable("balance_logs", {
   id: integer$1("id").primaryKey({ autoIncrement: true }),
   userId: integer$1("user_id").notNull().references(() => users$2.id),
   walletId: integer$1("wallet_id").notNull().references(() => userWallets$2.id),
-  balanceType: text$3("balance_type").notNull(),
-  actionType: text$3("action_type").notNull().default("topup"),
+  balanceType: text$4("balance_type").notNull(),
+  actionType: text$4("action_type").notNull().default("topup"),
   // 与本文件 userWallets.cashBalance 保持一致：sqlite 侧用 number 而非 bigint，
   // 否则同一份业务代码在三方言下拿到的类型不一致（bigint vs number）
   amountCents: integer$1("amount_cents", { mode: "number" }).notNull(),
   beforeBalanceCents: integer$1("before_balance_cents", { mode: "number" }).notNull(),
   afterBalanceCents: integer$1("after_balance_cents", { mode: "number" }).notNull(),
-  eventId: text$3("event_id").notNull().unique(),
-  sourceType: text$3("source_type").notNull().default("system"),
-  sourceId: text$3("source_id"),
+  eventId: text$4("event_id").notNull().unique(),
+  sourceType: text$4("source_type").notNull().default("system"),
+  sourceId: text$4("source_id"),
   operatorAdminId: integer$1("operator_admin_id"),
-  operatorName: text$3("operator_name").notNull().default(""),
-  remark: text$3("remark").notNull().default(""),
+  operatorName: text$4("operator_name").notNull().default(""),
+  remark: text$4("remark").notNull().default(""),
   createdAt: integer$1("created_at", { mode: "timestamp" }).notNull().default(sql`(unixepoch())`)
 }, (table) => ({
   walletCreatedAtIdx: index$2("idx_balance_logs_wallet_created_at").on(table.walletId, table.createdAt)
@@ -7924,13 +7924,13 @@ const balanceLogs$2 = sqliteTable("balance_logs", {
 const promoMembers$2 = sqliteTable("promo_members", {
   id: integer$1("id").primaryKey({ autoIncrement: true }),
   userId: integer$1("user_id").notNull().references(() => users$2.id).unique(),
-  role: text$3("role").notNull().default("member"),
+  role: text$4("role").notNull().default("member"),
   // member | agent | master_agent
-  status: text$3("status").notNull().default("active"),
+  status: text$4("status").notNull().default("active"),
   // active | disabled
-  promoCode: text$3("promo_code").notNull().unique(),
-  inviteCode: text$3("invite_code").notNull().unique(),
-  agentCode: text$3("agent_code").unique(),
+  promoCode: text$4("promo_code").notNull().unique(),
+  inviteCode: text$4("invite_code").notNull().unique(),
+  agentCode: text$4("agent_code").unique(),
   currentAgentTierId: integer$1("current_agent_tier_id").references(() => promoAgentTiers$2.id),
   joinedAt: integer$1("joined_at", { mode: "timestamp" }).notNull().default(sql`(unixepoch())`),
   createdAt: integer$1("created_at", { mode: "timestamp" }).notNull().default(sql`(unixepoch())`),
@@ -7940,24 +7940,24 @@ const promoInviteRelations$2 = sqliteTable("promo_invite_relations", {
   id: integer$1("id").primaryKey({ autoIncrement: true }),
   inviteeUserId: integer$1("invitee_user_id").notNull().references(() => users$2.id).unique(),
   inviterUserId: integer$1("inviter_user_id").notNull().references(() => users$2.id),
-  source: text$3("source").notNull().default("register"),
+  source: text$4("source").notNull().default("register"),
   // register | bind | manual
-  codeSnapshot: text$3("code_snapshot"),
+  codeSnapshot: text$4("code_snapshot"),
   boundAt: integer$1("bound_at", { mode: "timestamp" }).notNull().default(sql`(unixepoch())`),
   createdAt: integer$1("created_at", { mode: "timestamp" }).notNull().default(sql`(unixepoch())`)
 });
 const promoAgentTiers$2 = sqliteTable("promo_agent_tiers", {
   id: integer$1("id").primaryKey({ autoIncrement: true }),
-  code: text$3("code").notNull().unique(),
-  name: text$3("name").notNull(),
-  roleScope: text$3("role_scope").notNull().default("agent"),
+  code: text$4("code").notNull().unique(),
+  name: text$4("name").notNull(),
+  roleScope: text$4("role_scope").notNull().default("agent"),
   // agent | master_agent
   level: integer$1("level").notNull().default(1),
   discountRate: real$1("discount_rate").notNull().default(1),
   salesThreshold: real$1("sales_threshold").notNull().default(0),
   isFixed: integer$1("is_fixed", { mode: "boolean" }).notNull().default(false),
   isActive: integer$1("is_active", { mode: "boolean" }).notNull().default(true),
-  description: text$3("description"),
+  description: text$4("description"),
   createdAt: integer$1("created_at", { mode: "timestamp" }).notNull().default(sql`(unixepoch())`),
   updatedAt: integer$1("updated_at", { mode: "timestamp" }).notNull().default(sql`(unixepoch())`)
 });
@@ -7967,14 +7967,14 @@ const promoAgentRelations$2 = sqliteTable("promo_agent_relations", {
   parentAgentUserId: integer$1("parent_agent_user_id").references(() => users$2.id),
   masterAgentUserId: integer$1("master_agent_user_id").references(() => users$2.id),
   depth: integer$1("depth").notNull().default(1),
-  status: text$3("status").notNull().default("active"),
+  status: text$4("status").notNull().default("active"),
   boundAt: integer$1("bound_at", { mode: "timestamp" }).notNull().default(sql`(unixepoch())`),
   createdAt: integer$1("created_at", { mode: "timestamp" }).notNull().default(sql`(unixepoch())`),
   updatedAt: integer$1("updated_at", { mode: "timestamp" }).notNull().default(sql`(unixepoch())`)
 });
 const promoOrderAttributions$2 = sqliteTable("promo_order_attributions", {
   id: integer$1("id").primaryKey({ autoIncrement: true }),
-  orderId: text$3("order_id").notNull().references(() => orders$2.id).unique(),
+  orderId: text$4("order_id").notNull().references(() => orders$2.id).unique(),
   buyerUserId: integer$1("buyer_user_id").references(() => users$2.id),
   buyerPromoMemberId: integer$1("buyer_promo_member_id").references(() => promoMembers$2.id),
   inviteUserId: integer$1("invite_user_id").references(() => users$2.id),
@@ -7982,27 +7982,27 @@ const promoOrderAttributions$2 = sqliteTable("promo_order_attributions", {
   parentAgentUserId: integer$1("parent_agent_user_id").references(() => users$2.id),
   masterAgentUserId: integer$1("master_agent_user_id").references(() => users$2.id),
   agentTierIdSnapshot: integer$1("agent_tier_id_snapshot"),
-  agentTierNameSnapshot: text$3("agent_tier_name_snapshot"),
+  agentTierNameSnapshot: text$4("agent_tier_name_snapshot"),
   discountRateSnapshot: real$1("discount_rate_snapshot"),
-  sourceType: text$3("source_type").notNull().default("direct"),
+  sourceType: text$4("source_type").notNull().default("direct"),
   // direct | invite | agent | mixed
-  metaData: text$3("meta_data", { mode: "json" }),
+  metaData: text$4("meta_data", { mode: "json" }),
   createdAt: integer$1("created_at", { mode: "timestamp" }).notNull().default(sql`(unixepoch())`)
 });
 const promoCommissions$2 = sqliteTable("promo_commissions", {
   id: integer$1("id").primaryKey({ autoIncrement: true }),
-  orderId: text$3("order_id").notNull().references(() => orders$2.id),
+  orderId: text$4("order_id").notNull().references(() => orders$2.id),
   ownerUserId: integer$1("owner_user_id").notNull().references(() => users$2.id),
   ownerPromoMemberId: integer$1("owner_promo_member_id").references(() => promoMembers$2.id),
-  type: text$3("type").notNull(),
+  type: text$4("type").notNull(),
   // invite_reward | agent_discount | master_override
-  sourceType: text$3("source_type").notNull().default("direct"),
+  sourceType: text$4("source_type").notNull().default("direct"),
   amount: real$1("amount").notNull(),
   rate: real$1("rate"),
-  status: text$3("status").notNull().default("pending"),
+  status: text$4("status").notNull().default("pending"),
   // pending | available | settled | canceled
-  remark: text$3("remark"),
-  metaData: text$3("meta_data", { mode: "json" }),
+  remark: text$4("remark"),
+  metaData: text$4("meta_data", { mode: "json" }),
   createdAt: integer$1("created_at", { mode: "timestamp" }).notNull().default(sql`(unixepoch())`),
   updatedAt: integer$1("updated_at", { mode: "timestamp" }).notNull().default(sql`(unixepoch())`)
 }, (table) => ({
@@ -8012,11 +8012,11 @@ const promoCommissions$2 = sqliteTable("promo_commissions", {
 const promoApplications$2 = sqliteTable("promo_applications", {
   id: integer$1("id").primaryKey({ autoIncrement: true }),
   userId: integer$1("user_id").notNull().references(() => users$2.id),
-  status: text$3("status").notNull().default("pending"),
-  channelInfo: text$3("channel_info"),
-  contact: text$3("contact"),
-  reason: text$3("reason"),
-  reviewNote: text$3("review_note"),
+  status: text$4("status").notNull().default("pending"),
+  channelInfo: text$4("channel_info"),
+  contact: text$4("contact"),
+  reason: text$4("reason"),
+  reviewNote: text$4("review_note"),
   reviewedByAdminId: integer$1("reviewed_by_admin_id"),
   reviewedAt: integer$1("reviewed_at", { mode: "timestamp" }),
   createdAt: integer$1("created_at", { mode: "timestamp" }).notNull().default(sql`(unixepoch())`),
@@ -8024,19 +8024,19 @@ const promoApplications$2 = sqliteTable("promo_applications", {
 });
 const tickets$2 = sqliteTable("tickets", {
   id: integer$1("id").primaryKey({ autoIncrement: true }),
-  ticketNo: text$3("ticket_no").notNull().unique(),
+  ticketNo: text$4("ticket_no").notNull().unique(),
   userId: integer$1("user_id").notNull().references(() => users$2.id),
-  category: text$3("category").notNull().default("other"),
+  category: text$4("category").notNull().default("other"),
   // billing | account | listing | studio | extension | other
-  title: text$3("title").notNull(),
-  status: text$3("status").notNull().default("open"),
+  title: text$4("title").notNull(),
+  status: text$4("status").notNull().default("open"),
   // open | in_progress | auto_resolved | resolved | closed
-  priority: text$3("priority").notNull().default("normal"),
+  priority: text$4("priority").notNull().default("normal"),
   // low | normal | high | urgent
-  context: text$3("context", { mode: "json" }),
+  context: text$4("context", { mode: "json" }),
   // 无损现场快照：productId, taskId, errorCode, rawResponse 等
   lastRepliedAt: integer$1("last_replied_at", { mode: "timestamp" }).notNull().default(sql`(unixepoch())`),
-  lastRepliedBy: text$3("last_replied_by").notNull().default("user"),
+  lastRepliedBy: text$4("last_replied_by").notNull().default("user"),
   // user | admin | bot | system
   createdAt: integer$1("created_at", { mode: "timestamp" }).notNull().default(sql`(unixepoch())`),
   updatedAt: integer$1("updated_at", { mode: "timestamp" }).notNull().default(sql`(unixepoch())`)
@@ -8049,12 +8049,12 @@ const tickets$2 = sqliteTable("tickets", {
 const ticketMessages$2 = sqliteTable("ticket_messages", {
   id: integer$1("id").primaryKey({ autoIncrement: true }),
   ticketId: integer$1("ticket_id").notNull().references(() => tickets$2.id, { onDelete: "cascade" }),
-  senderType: text$3("sender_type").notNull(),
+  senderType: text$4("sender_type").notNull(),
   // user | admin | bot | system
   senderId: integer$1("sender_id"),
-  senderName: text$3("sender_name").notNull().default(""),
-  content: text$3("content").notNull(),
-  attachments: text$3("attachments", { mode: "json" }),
+  senderName: text$4("sender_name").notNull().default(""),
+  content: text$4("content").notNull(),
+  attachments: text$4("attachments", { mode: "json" }),
   createdAt: integer$1("created_at", { mode: "timestamp" }).notNull().default(sql`(unixepoch())`)
 }, (table) => ({
   ticketIdIdx: index$2("ticket_messages_ticket_id_idx").on(table.ticketId),
@@ -8109,11 +8109,11 @@ const users$1 = mysqlTable("users", {
   id: int("id").autoincrement().primaryKey(),
   // 原 APay 用户属性
   email: varchar("email", { length: 191 }).notNull().unique(),
-  passwordHash: text$4("password_hash"),
-  nickname: text$4("nickname"),
-  avatarUrl: text$4("avatar_url"),
+  passwordHash: text$5("password_hash"),
+  nickname: text$5("nickname"),
+  avatarUrl: text$5("avatar_url"),
   lastLoginAt: timestamp$1("last_login_at"),
-  currentSessionId: text$4("current_session_id"),
+  currentSessionId: text$5("current_session_id"),
   // 当前有效的会话 ID
   status: int("status").default(1),
   // 1: 正常, 0: 禁用
@@ -8142,7 +8142,7 @@ const userSessions$1 = mysqlTable("user_sessions", {
   deviceType: varchar("device_type", { length: 32 }),
   browser: varchar("browser", { length: 64 }),
   os: varchar("os", { length: 64 }),
-  userAgent: text$4("user_agent"),
+  userAgent: text$5("user_agent"),
   ip: varchar("ip", { length: 64 }),
   country: varchar("country", { length: 100 }),
   region: varchar("region", { length: 100 }),
@@ -8160,7 +8160,7 @@ const userTokens$1 = mysqlTable("user_tokens", {
   id: int("id").autoincrement().primaryKey(),
   userId: int("user_id").notNull().references(() => users$1.id),
   token: varchar("token", { length: 191 }).notNull().unique(),
-  name: text$4("name"),
+  name: text$5("name"),
   // Token 名称，方便管理
   expiresAt: timestamp$1("expires_at"),
   // 过期时间
@@ -8181,7 +8181,7 @@ const adminTokens$1 = mysqlTable("admin_tokens", {
   id: int("id").autoincrement().primaryKey(),
   adminId: int("admin_id").notNull().references(() => admins$1.id),
   token: varchar("token", { length: 191 }).notNull().unique(),
-  name: text$4("name"),
+  name: text$5("name"),
   permissions: json("permissions").$type(),
   expiresAt: timestamp$1("expires_at"),
   lastUsedAt: timestamp$1("last_used_at"),
@@ -8203,14 +8203,14 @@ const oauthAccounts$1 = mysqlTable("oauth_accounts", {
 const products$1 = mysqlTable("products", {
   id: int("id").autoincrement().primaryKey(),
   slug: varchar("slug", { length: 191 }).unique(),
-  name: text$4("name").notNull(),
+  name: text$5("name").notNull(),
   price: real$2("price").notNull(),
-  description: text$4("description"),
-  content: text$4("content"),
+  description: text$5("description"),
+  content: text$5("content"),
   // Detailed HTML or Markdown content
-  type: text$4("type").notNull(),
+  type: text$5("type").notNull(),
   // 'key', 'file', 'subscription', 'service', 'topup'
-  imageUrl: text$4("image_url"),
+  imageUrl: text$5("image_url"),
   // Cover image
   views: int("views").notNull().default(0),
   // View count
@@ -8218,7 +8218,7 @@ const products$1 = mysqlTable("products", {
   // Like count
   imageUrls: json("image_urls").$type(),
   // JSON array of multiple image URLs
-  resource: text$4("resource"),
+  resource: text$5("resource"),
   // general resource for non-unique items
   isActive: boolean$2("is_active").notNull().default(true),
   status: varchar("status", { length: 32 }).notNull().default("active"),
@@ -8231,60 +8231,60 @@ const products$1 = mysqlTable("products", {
 const cards$1 = mysqlTable("cards", {
   id: int("id").autoincrement().primaryKey(),
   productId: int("product_id").notNull().references(() => products$1.id),
-  cardNumber: text$4("card_number").notNull(),
+  cardNumber: text$5("card_number").notNull(),
   isUsed: boolean$2("is_used").notNull().default(false),
-  orderId: text$4("order_id"),
+  orderId: text$5("order_id"),
   // Will reference orders.id when used
   createdAt: timestamp$1("created_at").notNull().defaultNow()
 });
 const paymentMethods$1 = mysqlTable("payment_methods", {
   id: int("id").autoincrement().primaryKey(),
-  name: text$4("name").notNull(),
-  code: text$4("code").notNull(),
+  name: text$5("name").notNull(),
+  code: text$5("code").notNull(),
   // e.g., 'alipay', 'stripe'
-  iconUrl: text$4("icon_url"),
+  iconUrl: text$5("icon_url"),
   isActive: boolean$2("is_active").notNull().default(false),
-  supportedLocales: text$4("supported_locales"),
+  supportedLocales: text$5("supported_locales"),
   // Comma-separated locale whitelist, empty means all locales
-  configJson: text$4("config_json"),
+  configJson: text$5("config_json"),
   // JSON object for API keys, etc.
-  info: text$4("info"),
+  info: text$5("info"),
   // HTML for payment info
-  create: text$4("create"),
+  create: text$5("create"),
   // JS for payment initiation
-  callback: text$4("callback"),
+  callback: text$5("callback"),
   // HTML for callback info
   createdAt: timestamp$1("created_at").notNull().defaultNow()
 });
 const emailProviders$1 = mysqlTable("email_providers", {
   id: int("id").autoincrement().primaryKey(),
-  name: text$4("name").notNull(),
-  code: text$4("code").notNull(),
+  name: text$5("name").notNull(),
+  code: text$5("code").notNull(),
   // e.g., 'resend', 'bird', 'smtp'
   isActive: boolean$2("is_active").notNull().default(false),
-  configJson: text$4("config_json"),
+  configJson: text$5("config_json"),
   // JSON object for API keys, from address, etc.
-  sendScript: text$4("send_script"),
+  sendScript: text$5("send_script"),
   // JS sandbox script for sending email
   createdAt: timestamp$1("created_at").notNull().defaultNow()
 });
 const emailLogs$1 = mysqlTable("email_logs", {
   id: int("id").autoincrement().primaryKey(),
-  to: text$4("to").notNull(),
-  subject: text$4("subject").notNull(),
-  templateCode: text$4("template_code"),
-  html: text$4("html"),
-  provider: text$4("provider"),
-  status: text$4("status").notNull().default("success"),
-  messageId: text$4("message_id"),
-  error: text$4("error"),
+  to: text$5("to").notNull(),
+  subject: text$5("subject").notNull(),
+  templateCode: text$5("template_code"),
+  html: text$5("html"),
+  provider: text$5("provider"),
+  status: text$5("status").notNull().default("success"),
+  messageId: text$5("message_id"),
+  error: text$5("error"),
   createdAt: timestamp$1("created_at").notNull().defaultNow()
 });
 const orders$1 = mysqlTable("orders", {
   id: varchar("id", { length: 191 }).primaryKey(),
   // UUID
   amount: real$2("amount").notNull(),
-  currency: text$4("currency").notNull().default("USD"),
+  currency: text$5("currency").notNull().default("USD"),
   // 实付币种(CNY/USD…);快捷充值按币种校验区间并折算到账额度
   source: varchar("source", { length: 64 }),
   // minimal_checkout 等订单来源；与 external_order_id 组成外部幂等键
@@ -8292,24 +8292,24 @@ const orders$1 = mysqlTable("orders", {
   productId: int("product_id").notNull().references(() => products$1.id),
   userId: int("user_id").references(() => users$1.id),
   // Link to C-end user
-  contactEmail: text$4("contact_email").notNull(),
-  payMethod: text$4("pay_method"),
+  contactEmail: text$5("contact_email").notNull(),
+  payMethod: text$5("pay_method"),
   // References paymentMethods.code
-  tradeNo: text$4("trade_no"),
+  tradeNo: text$5("trade_no"),
   // 3rd party transaction ID
-  status: text$4("status").notNull().default("none"),
+  status: text$5("status").notNull().default("none"),
   // none, processing, delivered, active, expired
-  deliveryInfo: text$4("delivery_info"),
+  deliveryInfo: text$5("delivery_info"),
   // delivered card or link
   metaData: json("meta_data"),
   // Flexible JSON for custom order data
-  visitorId: text$4("visitor_id"),
+  visitorId: text$5("visitor_id"),
   // To track anonymous users
-  subscriptionId: text$4("subscription_id"),
+  subscriptionId: text$5("subscription_id"),
   // Link to parent subscription if this is a recurring payment
   createdAt: timestamp$1("created_at").notNull().defaultNow(),
   paidAt: timestamp$1("paid_at"),
-  payStatus: text$4("pay_status").notNull().default("pending")
+  payStatus: text$5("pay_status").notNull().default("pending")
   // pending, paid, failed, refunded
 }, (table) => [
   uniqueIndex$2("orders_source_external_order_unique").on(table.source, table.externalOrderId)
@@ -8332,7 +8332,7 @@ const topups$1 = mysqlTable("topups", {
   refundEventId: varchar("refund_event_id", { length: 255 }).unique(),
   retryCount: int("retry_count").notNull().default(0),
   shortfallCents: bigint$1("shortfall_cents", { mode: "bigint" }).notNull().default(sql`0`),
-  lastError: text$4("last_error"),
+  lastError: text$5("last_error"),
   paidAt: timestamp$1("paid_at"),
   creditedAt: timestamp$1("credited_at"),
   refundedAt: timestamp$1("refunded_at"),
@@ -8345,21 +8345,21 @@ const topups$1 = mysqlTable("topups", {
 const subscriptions$1 = mysqlTable("subscriptions", {
   id: varchar("id", { length: 191 }).primaryKey(),
   // Internal Subscription UUID
-  gatewaySubId: text$4("gateway_sub_id"),
+  gatewaySubId: text$5("gateway_sub_id"),
   // External Gateway ID (e.g. PayPal sub_xxx)
   userId: int("user_id").references(() => users$1.id),
   productId: int("product_id").notNull().references(() => products$1.id),
-  payMethod: text$4("pay_method").notNull(),
+  payMethod: text$5("pay_method").notNull(),
   // e.g., 'paypal', 'adyen'
-  status: text$4("status").notNull().default("active"),
+  status: text$5("status").notNull().default("active"),
   // 'active', 'canceled', 'expired', 'past_due'
   // Billing cycle
-  interval: text$4("interval").notNull(),
+  interval: text$5("interval").notNull(),
   // 'day', 'week', 'month', 'year'
   intervalCount: int("interval_count").notNull().default(1),
   // Pricing
   amount: real$2("amount").notNull(),
-  currency: text$4("currency").notNull().default("USD"),
+  currency: text$5("currency").notNull().default("USD"),
   // Timestamps
   currentPeriodStart: timestamp$1("current_period_start"),
   currentPeriodEnd: timestamp$1("current_period_end"),
@@ -8371,133 +8371,133 @@ const subscriptions$1 = mysqlTable("subscriptions", {
 const settings$1 = mysqlTable("settings", {
   key: varchar("key", { length: 191 }).primaryKey(),
   // site_name, company_name, active_theme
-  value: text$4("value").notNull(),
-  description: text$4("description"),
+  value: text$5("value").notNull(),
+  description: text$5("description"),
   updatedAt: timestamp$1("updated_at").defaultNow()
 });
 const paymentFailures$1 = mysqlTable("payment_failures", {
   id: int("id").autoincrement().primaryKey(),
-  orderId: text$4("order_id").notNull(),
-  cardBin: text$4("card_bin"),
-  reason: text$4("reason").notNull(),
+  orderId: text$5("order_id").notNull(),
+  cardBin: text$5("card_bin"),
+  reason: text$5("reason").notNull(),
   amount: real$2("amount"),
-  payMethod: text$4("pay_method"),
-  contactEmail: text$4("contact_email"),
-  rawResponse: text$4("raw_response"),
+  payMethod: text$5("pay_method"),
+  contactEmail: text$5("contact_email"),
+  rawResponse: text$5("raw_response"),
   // Full error response from gateway
-  visitorId: text$4("visitor_id"),
+  visitorId: text$5("visitor_id"),
   // To track anonymous users
   createdAt: timestamp$1("created_at").notNull().defaultNow()
 });
 const failures$1 = paymentFailures$1;
 const webhooks$1 = mysqlTable("webhooks", {
   id: int("id").autoincrement().primaryKey(),
-  name: text$4("name").notNull(),
-  url: text$4("url").notNull(),
+  name: text$5("name").notNull(),
+  url: text$5("url").notNull(),
   events: json("events").$type(),
   // Array of events, e.g., ['order.paid', 'order.created']
-  secret: text$4("secret"),
+  secret: text$5("secret"),
   // Secret for signing payload to verify authenticity
   isActive: boolean$2("is_active").notNull().default(true),
   createdAt: timestamp$1("created_at").notNull().defaultNow()
 });
 const eventRules$1 = mysqlTable("event_rules", {
   id: int("id").autoincrement().primaryKey(),
-  event: text$4("event").notNull(),
-  action: text$4("action").notNull(),
+  event: text$5("event").notNull(),
+  action: text$5("action").notNull(),
   config: json("config").$type(),
   enabled: boolean$2("enabled").notNull().default(true),
-  remark: text$4("remark"),
+  remark: text$5("remark"),
   createdAt: timestamp$1("created_at").notNull().defaultNow(),
   updatedAt: timestamp$1("updated_at").defaultNow()
 });
 const logs$1 = mysqlTable("logs", {
   id: int("id").autoincrement().primaryKey(),
-  level: text$4("level").notNull().default("info"),
+  level: text$5("level").notNull().default("info"),
   // 'info', 'warn', 'error', 'debug'
-  message: text$4("message").notNull(),
-  details: text$4("details"),
+  message: text$5("message").notNull(),
+  details: text$5("details"),
   // Optional JSON string or detailed stack trace
-  source: text$4("source"),
+  source: text$5("source"),
   // e.g., 'webhook', 'admin', 'payment', 'system'
   createdAt: timestamp$1("created_at").notNull().defaultNow()
 });
 const visitorProfiles$1 = mysqlTable("visitor_profiles", {
   visitorId: varchar("visitor_id", { length: 191 }).primaryKey(),
   userId: int("user_id").references(() => users$1.id),
-  ip: text$4("ip"),
+  ip: text$5("ip"),
   firstSeenAt: timestamp$1("first_seen_at").notNull().defaultNow(),
   lastSeenAt: timestamp$1("last_seen_at").notNull().defaultNow(),
-  landingPath: text$4("landing_path"),
-  firstPath: text$4("first_path"),
-  lastPath: text$4("last_path"),
-  firstReferrer: text$4("first_referrer"),
-  lastReferrer: text$4("last_referrer"),
-  firstSourceType: text$4("first_source_type"),
-  lastSourceType: text$4("last_source_type"),
-  firstSource: text$4("first_source"),
-  lastSource: text$4("last_source"),
-  firstMedium: text$4("first_medium"),
-  lastMedium: text$4("last_medium"),
-  firstCampaign: text$4("first_campaign"),
-  lastCampaign: text$4("last_campaign"),
-  firstContent: text$4("first_content"),
-  lastContent: text$4("last_content"),
-  firstTerm: text$4("first_term"),
-  lastTerm: text$4("last_term"),
-  country: text$4("country"),
-  region: text$4("region"),
-  city: text$4("city"),
-  locale: text$4("locale"),
-  currency: text$4("currency"),
-  deviceType: text$4("device_type"),
-  browser: text$4("browser"),
-  os: text$4("os"),
-  userAgent: text$4("user_agent"),
+  landingPath: text$5("landing_path"),
+  firstPath: text$5("first_path"),
+  lastPath: text$5("last_path"),
+  firstReferrer: text$5("first_referrer"),
+  lastReferrer: text$5("last_referrer"),
+  firstSourceType: text$5("first_source_type"),
+  lastSourceType: text$5("last_source_type"),
+  firstSource: text$5("first_source"),
+  lastSource: text$5("last_source"),
+  firstMedium: text$5("first_medium"),
+  lastMedium: text$5("last_medium"),
+  firstCampaign: text$5("first_campaign"),
+  lastCampaign: text$5("last_campaign"),
+  firstContent: text$5("first_content"),
+  lastContent: text$5("last_content"),
+  firstTerm: text$5("first_term"),
+  lastTerm: text$5("last_term"),
+  country: text$5("country"),
+  region: text$5("region"),
+  city: text$5("city"),
+  locale: text$5("locale"),
+  currency: text$5("currency"),
+  deviceType: text$5("device_type"),
+  browser: text$5("browser"),
+  os: text$5("os"),
+  userAgent: text$5("user_agent"),
   createdAt: timestamp$1("created_at").notNull().defaultNow(),
   updatedAt: timestamp$1("updated_at").notNull().defaultNow()
 });
 const visitorEvents$1 = mysqlTable("visitor_events", {
   id: int("id").autoincrement().primaryKey(),
-  visitorId: text$4("visitor_id").notNull(),
-  ip: text$4("ip"),
+  visitorId: text$5("visitor_id").notNull(),
+  ip: text$5("ip"),
   userId: int("user_id").references(() => users$1.id),
   orderId: varchar("order_id", { length: 191 }).references(() => orders$1.id),
   productId: int("product_id").references(() => products$1.id),
-  eventName: text$4("event_name").notNull(),
-  eventAction: text$4("event_action"),
-  path: text$4("path"),
-  referrer: text$4("referrer"),
-  sourceType: text$4("source_type"),
-  source: text$4("source"),
-  medium: text$4("medium"),
-  campaign: text$4("campaign"),
-  content: text$4("content"),
-  term: text$4("term"),
-  country: text$4("country"),
-  region: text$4("region"),
-  city: text$4("city"),
-  locale: text$4("locale"),
-  currency: text$4("currency"),
-  deviceType: text$4("device_type"),
-  browser: text$4("browser"),
-  os: text$4("os"),
-  userAgent: text$4("user_agent"),
+  eventName: text$5("event_name").notNull(),
+  eventAction: text$5("event_action"),
+  path: text$5("path"),
+  referrer: text$5("referrer"),
+  sourceType: text$5("source_type"),
+  source: text$5("source"),
+  medium: text$5("medium"),
+  campaign: text$5("campaign"),
+  content: text$5("content"),
+  term: text$5("term"),
+  country: text$5("country"),
+  region: text$5("region"),
+  city: text$5("city"),
+  locale: text$5("locale"),
+  currency: text$5("currency"),
+  deviceType: text$5("device_type"),
+  browser: text$5("browser"),
+  os: text$5("os"),
+  userAgent: text$5("user_agent"),
   createdAt: timestamp$1("created_at").notNull().defaultNow()
 });
 const accessLogs$1 = mysqlTable("access_logs", {
   id: int("id").autoincrement().primaryKey(),
-  path: text$4("path").notNull(),
-  method: text$4("method").notNull(),
-  ip: text$4("ip"),
-  userAgent: text$4("user_agent"),
-  referrer: text$4("referrer"),
-  country: text$4("country"),
-  region: text$4("region"),
-  city: text$4("city"),
+  path: text$5("path").notNull(),
+  method: text$5("method").notNull(),
+  ip: text$5("ip"),
+  userAgent: text$5("user_agent"),
+  referrer: text$5("referrer"),
+  country: text$5("country"),
+  region: text$5("region"),
+  city: text$5("city"),
   statusCode: int("status_code"),
   duration: real$2("duration"),
-  visitorId: text$4("visitor_id"),
+  visitorId: text$5("visitor_id"),
   userId: int("user_id").references(() => users$1.id),
   createdAt: timestamp$1("created_at").notNull().defaultNow()
 });
@@ -8515,15 +8515,15 @@ const operationLogs$1 = mysqlTable("operation_logs", {
   // products | orders | admins | settings | ...
   resourceId: varchar("resource_id", { length: 191 }),
   // varchar, not int: orders.id is a string
-  summary: text$4("summary"),
-  details: text$4("details"),
+  summary: text$5("summary"),
+  details: text$5("details"),
   // JSON string
-  path: text$4("path").notNull(),
+  path: text$5("path").notNull(),
   method: varchar("method", { length: 16 }).notNull(),
   statusCode: int("status_code"),
   // 401/403 included — denied attempts matter
   ip: varchar("ip", { length: 64 }),
-  userAgent: text$4("user_agent"),
+  userAgent: text$5("user_agent"),
   createdAt: timestamp$1("created_at").notNull().defaultNow()
 }, (table) => ({
   createdAtIdx: index$3("operation_logs_created_at_idx").on(table.createdAt),
@@ -8532,18 +8532,18 @@ const operationLogs$1 = mysqlTable("operation_logs", {
 }));
 const posts$1 = mysqlTable("posts", {
   id: int("id").autoincrement().primaryKey(),
-  key: text$4("key"),
+  key: text$5("key"),
   sort: int("sort"),
   slug: varchar("slug", { length: 191 }).notNull().unique(),
   // Used for URL /blog/:slug
-  title: text$4("title").notNull(),
-  description: text$4("description"),
+  title: text$5("title").notNull(),
+  description: text$5("description"),
   // Short description for list view
-  content: text$4("content"),
+  content: text$5("content"),
   // Rich text HTML or Markdown
-  type: text$4("type").notNull().default("blog"),
+  type: text$5("type").notNull().default("blog"),
   // e.g., 'blog', 'page', 'announcement'
-  imageUrl: text$4("image_url"),
+  imageUrl: text$5("image_url"),
   // Cover image
   views: int("views").notNull().default(0),
   // View count
@@ -8566,8 +8566,8 @@ const comments$1 = mysqlTable("comments", {
   userId: int("user_id").references(() => users$1.id, { onDelete: "set null" }),
   authorName: varchar("author_name", { length: 100 }).notNull(),
   authorEmail: varchar("author_email", { length: 255 }),
-  authorUrl: text$4("author_url"),
-  content: text$4("content").notNull(),
+  authorUrl: text$5("author_url"),
+  content: text$5("content").notNull(),
   parentId: int("parent_id"),
   status: varchar("status", { length: 32 }).notNull().default("approved"),
   // approved | pending | spam | deleted
@@ -8575,10 +8575,10 @@ const comments$1 = mysqlTable("comments", {
   // Like count
   source: varchar("source", { length: 32 }).notNull().default("local"),
   externalId: varchar("external_id", { length: 128 }),
-  externalUrl: text$4("external_url"),
+  externalUrl: text$5("external_url"),
   extraData: json("extra_data"),
   ip: varchar("ip", { length: 64 }),
-  userAgent: text$4("user_agent"),
+  userAgent: text$5("user_agent"),
   createdAt: timestamp$1("created_at").notNull().defaultNow(),
   updatedAt: timestamp$1("updated_at").defaultNow()
 }, (table) => ({
@@ -8594,7 +8594,7 @@ const likes$1 = mysqlTable("likes", {
   userId: int("user_id").references(() => users$1.id, { onDelete: "cascade" }),
   visitorId: varchar("visitor_id", { length: 191 }).notNull(),
   ip: varchar("ip", { length: 64 }),
-  userAgent: text$4("user_agent"),
+  userAgent: text$5("user_agent"),
   createdAt: timestamp$1("created_at").notNull().defaultNow()
 }, (table) => ({
   targetIdx: index$3("likes_target_idx").on(table.targetType, table.targetId),
@@ -8607,13 +8607,13 @@ const commentSyncSources$1 = mysqlTable("comment_sync_sources", {
   targetId: varchar("target_id", { length: 191 }).notNull(),
   source: varchar("source", { length: 32 }).notNull(),
   externalId: varchar("external_id", { length: 128 }).notNull(),
-  externalUrl: text$4("external_url"),
+  externalUrl: text$5("external_url"),
   autoSync: boolean$2("auto_sync").notNull().default(true),
   syncInterval: int("sync_interval").notNull().default(60),
   defaultStatus: varchar("default_status", { length: 32 }).notNull().default("approved"),
   lastSyncedAt: timestamp$1("last_synced_at"),
   lastSyncStatus: varchar("last_sync_status", { length: 32 }).notNull().default("idle"),
-  lastError: text$4("last_error"),
+  lastError: text$5("last_error"),
   totalSynced: int("total_synced").notNull().default(0),
   extraData: json("extra_data"),
   createdAt: timestamp$1("created_at").notNull().defaultNow(),
@@ -8625,11 +8625,11 @@ const commentSyncSources$1 = mysqlTable("comment_sync_sources", {
 const notifications$1 = mysqlTable("notifications", {
   id: int("id").autoincrement().primaryKey(),
   userId: int("user_id").references(() => users$1.id),
-  visitorId: text$4("visitor_id"),
-  type: text$4("type").notNull(),
+  visitorId: text$5("visitor_id"),
+  type: text$5("type").notNull(),
   // order_paid, key_delivered, subscription_activated, etc.
-  title: text$4("title").notNull(),
-  message: text$4("message").notNull(),
+  title: text$5("title").notNull(),
+  message: text$5("message").notNull(),
   data: json("data"),
   // { orderId, productId, slug, ... }
   isRead: boolean$2("is_read").notNull().default(false),
@@ -8649,7 +8649,7 @@ const balanceLogs$1 = mysqlTable("balance_logs", {
   sourceId: varchar("source_id", { length: 191 }),
   operatorAdminId: int("operator_admin_id"),
   operatorName: varchar("operator_name", { length: 100 }).notNull().default(""),
-  remark: text$4("remark"),
+  remark: text$5("remark"),
   createdAt: timestamp$1("created_at").notNull().defaultNow()
 }, (table) => ({
   walletCreatedAtIdx: index$3("idx_balance_logs_wallet_created_at").on(table.walletId, table.createdAt)
@@ -8664,7 +8664,7 @@ const promoAgentTiers$1 = mysqlTable("promo_agent_tiers", {
   salesThreshold: real$2("sales_threshold").notNull().default(0),
   isFixed: boolean$2("is_fixed").notNull().default(false),
   isActive: boolean$2("is_active").notNull().default(true),
-  description: text$4("description"),
+  description: text$5("description"),
   createdAt: timestamp$1("created_at").notNull().defaultNow(),
   updatedAt: timestamp$1("updated_at").defaultNow()
 });
@@ -8737,7 +8737,7 @@ const promoCommissions$1 = mysqlTable("promo_commissions", {
   amount: real$2("amount").notNull(),
   rate: real$2("rate"),
   status: varchar("status", { length: 64 }).notNull().default("pending"),
-  remark: text$4("remark"),
+  remark: text$5("remark"),
   metaData: json("meta_data"),
   createdAt: timestamp$1("created_at").notNull().defaultNow(),
   updatedAt: timestamp$1("updated_at").notNull().defaultNow()
@@ -8751,10 +8751,10 @@ const promoApplications$1 = mysqlTable("promo_applications", {
   id: int("id").autoincrement().primaryKey(),
   userId: int("user_id").notNull().references(() => users$1.id),
   status: varchar("status", { length: 64 }).notNull().default("pending"),
-  channelInfo: text$4("channel_info"),
-  contact: text$4("contact"),
-  reason: text$4("reason"),
-  reviewNote: text$4("review_note"),
+  channelInfo: text$5("channel_info"),
+  contact: text$5("contact"),
+  reason: text$5("reason"),
+  reviewNote: text$5("review_note"),
   reviewedByAdminId: int("reviewed_by_admin_id"),
   reviewedAt: timestamp$1("reviewed_at"),
   createdAt: timestamp$1("created_at").notNull().defaultNow(),
@@ -8766,7 +8766,7 @@ const tickets$1 = mysqlTable("tickets", {
   userId: int("user_id").notNull().references(() => users$1.id),
   category: varchar("category", { length: 64 }).notNull().default("other"),
   // billing | account | listing | studio | extension | other
-  title: text$4("title").notNull(),
+  title: text$5("title").notNull(),
   status: varchar("status", { length: 32 }).notNull().default("open"),
   // open | in_progress | auto_resolved | resolved | closed
   priority: varchar("priority", { length: 32 }).notNull().default("normal"),
@@ -8791,7 +8791,7 @@ const ticketMessages$1 = mysqlTable("ticket_messages", {
   // user | admin | bot | system
   senderId: int("sender_id"),
   senderName: varchar("sender_name", { length: 128 }).notNull().default(""),
-  content: text$4("content").notNull(),
+  content: text$5("content").notNull(),
   attachments: json("attachments"),
   createdAt: timestamp$1("created_at").notNull().defaultNow()
 }, (table) => ({
@@ -8843,7 +8843,7 @@ const mysqlSchema = /*#__PURE__*/Object.freeze(/*#__PURE__*/Object.definePropert
   webhooks: webhooks$1
 }, Symbol.toStringTag, { value: 'Module' }));
 
-const resolveDialect$3 = () => {
+const resolveDialect$2 = () => {
   var _a;
   const explicitDialect = (_a = process.env.DB_DIALECT) == null ? void 0 : _a.replace(/"/g, "").toLowerCase();
   if (explicitDialect === "postgresql" || explicitDialect === "sqlite" || explicitDialect === "mysql") {
@@ -8859,7 +8859,7 @@ const resolveDialect$3 = () => {
   return "sqlite";
 };
 const resolveSchema = () => {
-  const dialect = resolveDialect$3();
+  const dialect = resolveDialect$2();
   if (dialect === "postgresql") return pgSchema;
   if (dialect === "mysql") return mysqlSchema;
   return sqliteSchema;
@@ -8956,7 +8956,7 @@ const normalizeEnv$6 = (value) => (value || "").replace(/"/g, "").trim();
 const getConnectionUrl = () => normalizeEnv$6(
   process.env.DATABASE_URL || process.env.MYSQL_URL || process.env.POSTGRES_URL || process.env.POSTGRESQL_URL || process.env.NUXT_DATABASE_URL || process.env.LIBSQL_URL || ""
 );
-const resolveDialect$2 = () => {
+const resolveDialect$1 = () => {
   const explicitDialect = normalizeEnv$6(process.env.DB_DIALECT).toLowerCase();
   if (explicitDialect === "postgresql" || explicitDialect === "sqlite" || explicitDialect === "mysql") return explicitDialect;
   const connectionUrl = getConnectionUrl();
@@ -8969,7 +8969,7 @@ const resolveDialect$2 = () => {
   return "sqlite";
 };
 const resolveCoreDatabaseTarget = () => {
-  const dialect = resolveDialect$2();
+  const dialect = resolveDialect$1();
   const connectionUrl = getConnectionUrl();
   if (dialect === "mysql") {
     if (!connectionUrl) throw new Error("DB_DIALECT=mysql but no MYSQL_URL/DATABASE_URL provided.");
@@ -9027,8 +9027,8 @@ const runtime = /*#__PURE__*/Object.freeze(/*#__PURE__*/Object.defineProperty({
 }, Symbol.toStringTag, { value: 'Module' }));
 
 const checksums = {
-  "docs_en": "v3.5.0--bfqtkchDIJSQoKpGdDYyh1uFx9EVtxjvNGFu7GtMwPI",
-  "docs_zh": "v3.5.0--47yNH98fhcSY1s0AO79pqOJJcXhclIALd6ZVlWKHpaQ"
+  "docs_en": "v3.5.0--IkE7Bsza1LbNWsL3gggeeCXTRxl7TujoLKq06OgJ0Ww",
+  "docs_zh": "v3.5.0--ZIjsNGxp8jAs8LJvxJzOgGWZYnaWLQIAJ6nTRRTSQN4"
 };
 const checksumsStructure = {
   "docs_en": "cy_1qLaeWI1lOzadnjMfccwj9bEAwhqVsVUzTB-hjNI",
@@ -11366,7 +11366,9 @@ const themeHostConfigs = {
       "hoxi_aa_api_key"
     ],
     "seoSources": {
-      "hoxi-models": "server/seo.ts"
+      "hoxi-models": "server/seo.ts",
+      "hoxi-gateways": "server/seo.ts",
+      "hoxi-coding-plans": "server/seo.ts"
     },
     "adminApiPermissions": {
       "models": {
@@ -11437,6 +11439,14 @@ const themeHostConfigs = {
     "publicSettings": [
       "license_effective_date"
     ],
+    "adminApiPermissions": {
+      "apps": {
+        "permission": "ext:panel:appstore"
+      },
+      "installs": {
+        "permission": "ext:panel:installs"
+      }
+    },
     "display": {
       "name": "Analytics Panel",
       "description": "\u6570\u636E\u4EEA\u8868\u76D8\u5BFC\u5411\u7684\u5B98\u7F51\u4E3B\u9898\uFF0C\u5F3A\u8C03\u7EDF\u8BA1\u3001\u62A5\u8868\u3001\u5B89\u88C5\u4E0E\u5347\u7EA7\u5206\u5E03\u7B49\u540E\u53F0\u5316\u5448\u73B0\u3002"
@@ -11561,7 +11571,9 @@ const themeHostConfigs = {
 };
 const themeSeoLoaders = {
   "hoxi": {
-    "hoxi-models": () => import('../_/seo.mjs')
+    "hoxi-models": () => import('../_/seo.mjs'),
+    "hoxi-gateways": () => import('../_/seo.mjs'),
+    "hoxi-coding-plans": () => import('../_/seo.mjs')
   }
 };
 
@@ -12329,7 +12341,7 @@ let lastCheckoutSecretReadAt = 0;
 let cachedAdminConfig = null;
 let lastAdminConfigReadAt = 0;
 const SETTINGS_CACHE_TTL = 5e3;
-const resolveDialect$1 = () => {
+const resolveDialect = () => {
   var _a;
   const explicitDialect = (_a = process.env.DB_DIALECT) == null ? void 0 : _a.replace(/"/g, "").toLowerCase();
   if (explicitDialect === "postgresql" || explicitDialect === "mysql" || explicitDialect === "sqlite") {
@@ -12346,7 +12358,7 @@ const resolveDialect$1 = () => {
 };
 const shouldStoreJsonAsObject = () => {
   if (process.env.NUXT_HUB_DATABASE) return true;
-  const dialect = resolveDialect$1();
+  const dialect = resolveDialect();
   return dialect === "postgresql" || dialect === "mysql";
 };
 const toBase64Url$1 = (value) => Buffer.from(value, "utf8").toString("base64url");
@@ -19333,6 +19345,7 @@ const publicThemeSettingKeys = [
   "site_notice",
   "site_tagline",
   "support_email",
+  "svgstat_project",
   "twitter_url"
 ];
 
@@ -19429,7 +19442,7 @@ function scheduleToMs(schedule) {
   if (schedule === "weekly") return 7 * 24 * 60 * 6e4;
   return 24 * 60 * 6e4;
 }
-async function readSetting$1(key) {
+async function readSetting$2(key) {
   var _a, _b;
   const rows = await db$1.select().from(settings).where(eq(settings.key, key)).limit(1);
   return (_b = (_a = rows[0]) == null ? void 0 : _a.value) != null ? _b : null;
@@ -19462,7 +19475,7 @@ function parseState(raw) {
   }
 }
 async function loadSchedulerJobs() {
-  return parseSchedulerJobs(await readSetting$1(SCHEDULER_CONFIG_KEY));
+  return parseSchedulerJobs(await readSetting$2(SCHEDULER_CONFIG_KEY));
 }
 async function saveSchedulerJobs(jobs) {
   await writeSetting(
@@ -19473,7 +19486,7 @@ async function saveSchedulerJobs(jobs) {
 }
 async function claimSchedulerRun(job) {
   const stateKey = `${SCHEDULER_STATE_PREFIX}${job.name}`;
-  const state = parseState(await readSetting$1(stateKey));
+  const state = parseState(await readSetting$2(stateKey));
   const intervalMs = scheduleToMs(job.schedule);
   if (state && Date.now() - state.lastRun < intervalMs) return false;
   const runId = `${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 8)}`;
@@ -19483,12 +19496,12 @@ async function claimSchedulerRun(job) {
     `\u8C03\u5EA6\u5668\u8FD0\u884C\u72B6\u6001\uFF08\u81EA\u52A8\u7EF4\u62A4\uFF09\uFF1A${job.name}`
   );
   await new Promise((resolve) => setTimeout(resolve, 300));
-  const confirmed = parseState(await readSetting$1(stateKey));
+  const confirmed = parseState(await readSetting$2(stateKey));
   return (confirmed == null ? void 0 : confirmed.runId) === runId;
 }
 async function recordResult(job, ok, detail, durationMs) {
   const stateKey = `${SCHEDULER_STATE_PREFIX}${job.name}`;
-  const state = parseState(await readSetting$1(stateKey)) || { lastRun: Date.now(), runId: "manual" };
+  const state = parseState(await readSetting$2(stateKey)) || { lastRun: Date.now(), runId: "manual" };
   state.lastResult = `${ok ? "ok" : "fail"} ${durationMs}ms ${detail}`.slice(0, 300);
   await writeSetting(stateKey, JSON.stringify(state), `\u8C03\u5EA6\u5668\u8FD0\u884C\u72B6\u6001\uFF08\u81EA\u52A8\u7EF4\u62A4\uFF09\uFF1A${job.name}`);
   await db$1.insert(logs).values({
@@ -21667,7 +21680,7 @@ const __2wS0qmetAUZ7kf1xN508IRcNZzA5WsTK_W95XQR_Y = defineNitroPlugin((nitroApp)
   });
 });
 
-const bundledSources = [{"id":"core","origin":"server/db/migrations","kind":"versioned","files":{"sqlite":[{"name":"0000_wild_doctor_strange","sql":"CREATE TABLE `admins` (\n\t`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,\n\t`username` text NOT NULL,\n\t`password_hash` text NOT NULL,\n\t`created_at` integer DEFAULT CURRENT_TIMESTAMP NOT NULL\n);\n--> statement-breakpoint\nCREATE UNIQUE INDEX `admins_username_unique` ON `admins` (`username`);--> statement-breakpoint\nCREATE TABLE `cards` (\n\t`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,\n\t`product_id` integer NOT NULL,\n\t`card_number` text NOT NULL,\n\t`is_used` integer DEFAULT false NOT NULL,\n\t`order_id` text,\n\t`created_at` integer DEFAULT CURRENT_TIMESTAMP NOT NULL,\n\tFOREIGN KEY (`product_id`) REFERENCES `products`(`id`) ON UPDATE no action ON DELETE no action\n);\n--> statement-breakpoint\nCREATE TABLE `failures` (\n\t`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,\n\t`order_id` text NOT NULL,\n\t`card_bin` text,\n\t`reason` text NOT NULL,\n\t`amount` real,\n\t`pay_method` text,\n\t`contact_email` text,\n\t`raw_response` text,\n\t`visitor_id` text,\n\t`created_at` integer DEFAULT CURRENT_TIMESTAMP NOT NULL\n);\n--> statement-breakpoint\nCREATE TABLE `logs` (\n\t`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,\n\t`level` text DEFAULT 'info' NOT NULL,\n\t`message` text NOT NULL,\n\t`details` text,\n\t`source` text,\n\t`created_at` integer DEFAULT CURRENT_TIMESTAMP NOT NULL\n);\n--> statement-breakpoint\nCREATE TABLE `oauth_accounts` (\n\t`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,\n\t`user_id` integer NOT NULL,\n\t`provider` text NOT NULL,\n\t`provider_account_id` text NOT NULL,\n\t`created_at` integer DEFAULT CURRENT_TIMESTAMP NOT NULL,\n\tFOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON UPDATE no action ON DELETE no action\n);\n--> statement-breakpoint\nCREATE UNIQUE INDEX `provider_account_idx` ON `oauth_accounts` (`provider`,`provider_account_id`);--> statement-breakpoint\nCREATE TABLE `orders` (\n\t`id` text PRIMARY KEY NOT NULL,\n\t`amount` real NOT NULL,\n\t`product_id` integer NOT NULL,\n\t`user_id` integer,\n\t`contact_email` text NOT NULL,\n\t`pay_method` text,\n\t`trade_no` text,\n\t`status` text DEFAULT 'none' NOT NULL,\n\t`delivery_info` text,\n\t`meta_data` text,\n\t`visitor_id` text,\n\t`subscription_id` text,\n\t`created_at` integer DEFAULT CURRENT_TIMESTAMP NOT NULL,\n\t`paid_at` integer,\n\t`pay_status` text DEFAULT 'pending' NOT NULL,\n\tFOREIGN KEY (`product_id`) REFERENCES `products`(`id`) ON UPDATE no action ON DELETE no action,\n\tFOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON UPDATE no action ON DELETE no action\n);\n--> statement-breakpoint\nCREATE TABLE `payment_methods` (\n\t`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,\n\t`name` text NOT NULL,\n\t`code` text NOT NULL,\n\t`icon_url` text,\n\t`is_active` integer DEFAULT false NOT NULL,\n\t`config_json` text,\n\t`info` text,\n\t`create` text,\n\t`callback` text,\n\t`created_at` integer DEFAULT CURRENT_TIMESTAMP NOT NULL\n);\n--> statement-breakpoint\nCREATE UNIQUE INDEX `payment_methods_code_unique` ON `payment_methods` (`code`);--> statement-breakpoint\nCREATE TABLE `posts` (\n\t`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,\n\t`slug` text NOT NULL,\n\t`title` text NOT NULL,\n\t`description` text,\n\t`content` text,\n\t`type` text DEFAULT 'blog' NOT NULL,\n\t`image_url` text,\n\t`views` integer DEFAULT 0 NOT NULL,\n\t`is_active` integer DEFAULT true NOT NULL,\n\t`meta_data` text,\n\t`created_at` integer DEFAULT CURRENT_TIMESTAMP NOT NULL,\n\t`updated_at` integer DEFAULT CURRENT_TIMESTAMP\n);\n--> statement-breakpoint\nCREATE UNIQUE INDEX `posts_slug_unique` ON `posts` (`slug`);--> statement-breakpoint\nCREATE TABLE `products` (\n\t`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,\n\t`slug` text,\n\t`name` text NOT NULL,\n\t`price` real NOT NULL,\n\t`description` text,\n\t`content` text,\n\t`type` text NOT NULL,\n\t`image_url` text,\n\t`views` integer DEFAULT 0 NOT NULL,\n\t`image_urls` text,\n\t`resource` text,\n\t`is_active` integer DEFAULT true NOT NULL,\n\t`meta_data` text,\n\t`sort_order` integer DEFAULT 0 NOT NULL,\n\t`created_at` integer DEFAULT CURRENT_TIMESTAMP NOT NULL\n);\n--> statement-breakpoint\nCREATE UNIQUE INDEX `products_slug_unique` ON `products` (`slug`);--> statement-breakpoint\nCREATE TABLE `settings` (\n\t`key` text PRIMARY KEY NOT NULL,\n\t`value` text NOT NULL,\n\t`description` text,\n\t`updated_at` integer DEFAULT (unixepoch() * 1000)\n);\n--> statement-breakpoint\nCREATE TABLE `subscriptions` (\n\t`id` text PRIMARY KEY NOT NULL,\n\t`gateway_sub_id` text,\n\t`user_id` integer,\n\t`product_id` integer NOT NULL,\n\t`pay_method` text NOT NULL,\n\t`status` text DEFAULT 'active' NOT NULL,\n\t`interval` text NOT NULL,\n\t`interval_count` integer DEFAULT 1 NOT NULL,\n\t`amount` real NOT NULL,\n\t`currency` text DEFAULT 'USD' NOT NULL,\n\t`current_period_start` integer,\n\t`current_period_end` integer,\n\t`cancel_at_period_end` integer DEFAULT false,\n\t`meta_data` text,\n\t`created_at` integer DEFAULT CURRENT_TIMESTAMP NOT NULL,\n\t`updated_at` integer DEFAULT CURRENT_TIMESTAMP,\n\tFOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON UPDATE no action ON DELETE no action,\n\tFOREIGN KEY (`product_id`) REFERENCES `products`(`id`) ON UPDATE no action ON DELETE no action\n);\n--> statement-breakpoint\nCREATE TABLE `users` (\n\t`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,\n\t`email` text NOT NULL,\n\t`password_hash` text,\n\t`nickname` text,\n\t`avatar_url` text,\n\t`last_login_at` integer,\n\t`cash_balance` integer DEFAULT 0,\n\t`grant_balance` integer DEFAULT 0,\n\t`sub_balance` integer DEFAULT 0,\n\t`sub_expires_at` integer,\n\t`tier_level` integer DEFAULT 0,\n\t`status` integer DEFAULT 1,\n\t`created_at` integer DEFAULT CURRENT_TIMESTAMP NOT NULL\n);\n--> statement-breakpoint\nCREATE UNIQUE INDEX `users_email_unique` ON `users` (`email`);--> statement-breakpoint\nCREATE TABLE `webhooks` (\n\t`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,\n\t`name` text NOT NULL,\n\t`url` text NOT NULL,\n\t`events` text,\n\t`secret` text,\n\t`is_active` integer DEFAULT true NOT NULL,\n\t`created_at` integer DEFAULT CURRENT_TIMESTAMP NOT NULL\n);\n"},{"name":"0001_brave_longshot","sql":"DROP INDEX `payment_methods_code_unique`;"},{"name":"0002_mysterious_snowbird","sql":"DROP INDEX `provider_account_idx`;--> statement-breakpoint\n"},{"name":"0003_adorable_cargill","sql":"CREATE TABLE `access_logs` (\n\t`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,\n\t`path` text NOT NULL,\n\t`method` text NOT NULL,\n\t`ip` text,\n\t`user_agent` text,\n\t`referrer` text,\n\t`country` text,\n\t`region` text,\n\t`city` text,\n\t`status_code` integer,\n\t`duration` real,\n\t`visitor_id` text,\n\t`user_id` integer,\n\t`created_at` integer DEFAULT (unixepoch()) NOT NULL,\n\tFOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON UPDATE no action ON DELETE no action\n);\n--> statement-breakpoint\nCREATE TABLE `email_providers` (\n\t`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,\n\t`name` text NOT NULL,\n\t`code` text NOT NULL,\n\t`is_active` integer DEFAULT false NOT NULL,\n\t`config_json` text,\n\t`send_script` text,\n\t`created_at` integer DEFAULT (unixepoch()) NOT NULL\n);\n--> statement-breakpoint\nCREATE TABLE `visitor_events` (\n\t`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,\n\t`visitor_id` text NOT NULL,\n\t`ip` text,\n\t`user_id` integer,\n\t`order_id` text,\n\t`product_id` integer,\n\t`event_name` text NOT NULL,\n\t`event_action` text,\n\t`path` text,\n\t`referrer` text,\n\t`source_type` text,\n\t`source` text,\n\t`medium` text,\n\t`campaign` text,\n\t`content` text,\n\t`term` text,\n\t`country` text,\n\t`region` text,\n\t`city` text,\n\t`locale` text,\n\t`currency` text,\n\t`device_type` text,\n\t`browser` text,\n\t`os` text,\n\t`user_agent` text,\n\t`created_at` integer DEFAULT (unixepoch()) NOT NULL,\n\tFOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON UPDATE no action ON DELETE no action,\n\tFOREIGN KEY (`order_id`) REFERENCES `orders`(`id`) ON UPDATE no action ON DELETE no action,\n\tFOREIGN KEY (`product_id`) REFERENCES `products`(`id`) ON UPDATE no action ON DELETE no action\n);\n--> statement-breakpoint\nCREATE TABLE `visitor_profiles` (\n\t`visitor_id` text PRIMARY KEY NOT NULL,\n\t`user_id` integer,\n\t`first_seen_at` integer DEFAULT (unixepoch()) NOT NULL,\n\t`last_seen_at` integer DEFAULT (unixepoch()) NOT NULL,\n\t`landing_path` text,\n\t`first_path` text,\n\t`last_path` text,\n\t`first_referrer` text,\n\t`last_referrer` text,\n\t`first_source_type` text,\n\t`last_source_type` text,\n\t`first_source` text,\n\t`last_source` text,\n\t`first_medium` text,\n\t`last_medium` text,\n\t`first_campaign` text,\n\t`last_campaign` text,\n\t`first_content` text,\n\t`last_content` text,\n\t`first_term` text,\n\t`last_term` text,\n\t`country` text,\n\t`region` text,\n\t`city` text,\n\t`locale` text,\n\t`currency` text,\n\t`device_type` text,\n\t`browser` text,\n\t`os` text,\n\t`user_agent` text,\n\t`created_at` integer DEFAULT (unixepoch()) NOT NULL,\n\t`updated_at` integer DEFAULT (unixepoch()) NOT NULL,\n\tFOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON UPDATE no action ON DELETE no action\n);\n--> statement-breakpoint\nPRAGMA foreign_keys=OFF;--> statement-breakpoint\nCREATE TABLE `__new_admins` (\n\t`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,\n\t`username` text NOT NULL,\n\t`password_hash` text NOT NULL,\n\t`created_at` integer DEFAULT (unixepoch()) NOT NULL\n);\n--> statement-breakpoint\nINSERT INTO `__new_admins`(\"id\", \"username\", \"password_hash\", \"created_at\") SELECT \"id\", \"username\", \"password_hash\", \"created_at\" FROM `admins`;--> statement-breakpoint\nDROP TABLE `admins`;--> statement-breakpoint\nALTER TABLE `__new_admins` RENAME TO `admins`;--> statement-breakpoint\nPRAGMA foreign_keys=ON;--> statement-breakpoint\nCREATE UNIQUE INDEX `admins_username_unique` ON `admins` (`username`);--> statement-breakpoint\nCREATE TABLE `__new_cards` (\n\t`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,\n\t`product_id` integer NOT NULL,\n\t`card_number` text NOT NULL,\n\t`is_used` integer DEFAULT false NOT NULL,\n\t`order_id` text,\n\t`created_at` integer DEFAULT (unixepoch()) NOT NULL,\n\tFOREIGN KEY (`product_id`) REFERENCES `products`(`id`) ON UPDATE no action ON DELETE no action\n);\n--> statement-breakpoint\nINSERT INTO `__new_cards`(\"id\", \"product_id\", \"card_number\", \"is_used\", \"order_id\", \"created_at\") SELECT \"id\", \"product_id\", \"card_number\", \"is_used\", \"order_id\", \"created_at\" FROM `cards`;--> statement-breakpoint\nDROP TABLE `cards`;--> statement-breakpoint\nALTER TABLE `__new_cards` RENAME TO `cards`;--> statement-breakpoint\nCREATE TABLE `__new_failures` (\n\t`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,\n\t`order_id` text NOT NULL,\n\t`card_bin` text,\n\t`reason` text NOT NULL,\n\t`amount` real,\n\t`pay_method` text,\n\t`contact_email` text,\n\t`raw_response` text,\n\t`visitor_id` text,\n\t`created_at` integer DEFAULT (unixepoch()) NOT NULL\n);\n--> statement-breakpoint\nINSERT INTO `__new_failures`(\"id\", \"order_id\", \"card_bin\", \"reason\", \"amount\", \"pay_method\", \"contact_email\", \"raw_response\", \"visitor_id\", \"created_at\") SELECT \"id\", \"order_id\", \"card_bin\", \"reason\", \"amount\", \"pay_method\", \"contact_email\", \"raw_response\", \"visitor_id\", \"created_at\" FROM `failures`;--> statement-breakpoint\nDROP TABLE `failures`;--> statement-breakpoint\nALTER TABLE `__new_failures` RENAME TO `failures`;--> statement-breakpoint\nCREATE TABLE `__new_logs` (\n\t`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,\n\t`level` text DEFAULT 'info' NOT NULL,\n\t`message` text NOT NULL,\n\t`details` text,\n\t`source` text,\n\t`created_at` integer DEFAULT (unixepoch()) NOT NULL\n);\n--> statement-breakpoint\nINSERT INTO `__new_logs`(\"id\", \"level\", \"message\", \"details\", \"source\", \"created_at\") SELECT \"id\", \"level\", \"message\", \"details\", \"source\", \"created_at\" FROM `logs`;--> statement-breakpoint\nDROP TABLE `logs`;--> statement-breakpoint\nALTER TABLE `__new_logs` RENAME TO `logs`;--> statement-breakpoint\nCREATE TABLE `__new_oauth_accounts` (\n\t`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,\n\t`user_id` integer NOT NULL,\n\t`provider` text NOT NULL,\n\t`provider_account_id` text NOT NULL,\n\t`created_at` integer DEFAULT (unixepoch()) NOT NULL,\n\tFOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON UPDATE no action ON DELETE no action\n);\n--> statement-breakpoint\nINSERT INTO `__new_oauth_accounts`(\"id\", \"user_id\", \"provider\", \"provider_account_id\", \"created_at\") SELECT \"id\", \"user_id\", \"provider\", \"provider_account_id\", \"created_at\" FROM `oauth_accounts`;--> statement-breakpoint\nDROP TABLE `oauth_accounts`;--> statement-breakpoint\nALTER TABLE `__new_oauth_accounts` RENAME TO `oauth_accounts`;--> statement-breakpoint\nCREATE TABLE `__new_orders` (\n\t`id` text PRIMARY KEY NOT NULL,\n\t`amount` real NOT NULL,\n\t`product_id` integer NOT NULL,\n\t`user_id` integer,\n\t`contact_email` text NOT NULL,\n\t`pay_method` text,\n\t`trade_no` text,\n\t`status` text DEFAULT 'none' NOT NULL,\n\t`delivery_info` text,\n\t`meta_data` text,\n\t`visitor_id` text,\n\t`subscription_id` text,\n\t`created_at` integer DEFAULT (unixepoch()) NOT NULL,\n\t`paid_at` integer,\n\t`pay_status` text DEFAULT 'pending' NOT NULL,\n\tFOREIGN KEY (`product_id`) REFERENCES `products`(`id`) ON UPDATE no action ON DELETE no action,\n\tFOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON UPDATE no action ON DELETE no action\n);\n--> statement-breakpoint\nINSERT INTO `__new_orders`(\"id\", \"amount\", \"product_id\", \"user_id\", \"contact_email\", \"pay_method\", \"trade_no\", \"status\", \"delivery_info\", \"meta_data\", \"visitor_id\", \"subscription_id\", \"created_at\", \"paid_at\", \"pay_status\") SELECT \"id\", \"amount\", \"product_id\", \"user_id\", \"contact_email\", \"pay_method\", \"trade_no\", \"status\", \"delivery_info\", \"meta_data\", \"visitor_id\", \"subscription_id\", \"created_at\", \"paid_at\", \"pay_status\" FROM `orders`;--> statement-breakpoint\nDROP TABLE `orders`;--> statement-breakpoint\nALTER TABLE `__new_orders` RENAME TO `orders`;--> statement-breakpoint\nCREATE TABLE `__new_payment_methods` (\n\t`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,\n\t`name` text NOT NULL,\n\t`code` text NOT NULL,\n\t`icon_url` text,\n\t`is_active` integer DEFAULT false NOT NULL,\n\t`config_json` text,\n\t`info` text,\n\t`create` text,\n\t`callback` text,\n\t`created_at` integer DEFAULT (unixepoch()) NOT NULL\n);\n--> statement-breakpoint\nINSERT INTO `__new_payment_methods`(\"id\", \"name\", \"code\", \"icon_url\", \"is_active\", \"config_json\", \"info\", \"create\", \"callback\", \"created_at\") SELECT \"id\", \"name\", \"code\", \"icon_url\", \"is_active\", \"config_json\", \"info\", \"create\", \"callback\", \"created_at\" FROM `payment_methods`;--> statement-breakpoint\nDROP TABLE `payment_methods`;--> statement-breakpoint\nALTER TABLE `__new_payment_methods` RENAME TO `payment_methods`;--> statement-breakpoint\nCREATE TABLE `__new_posts` (\n\t`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,\n\t`key` text,\n\t`sort` integer,\n\t`slug` text NOT NULL,\n\t`title` text NOT NULL,\n\t`description` text,\n\t`content` text,\n\t`type` text DEFAULT 'blog' NOT NULL,\n\t`image_url` text,\n\t`views` integer DEFAULT 0 NOT NULL,\n\t`is_active` integer DEFAULT true NOT NULL,\n\t`meta_data` text,\n\t`created_at` integer DEFAULT (unixepoch()) NOT NULL,\n\t`updated_at` integer DEFAULT (unixepoch())\n);\n--> statement-breakpoint\nINSERT INTO `__new_posts`(\"id\", \"key\", \"sort\", \"slug\", \"title\", \"description\", \"content\", \"type\", \"image_url\", \"views\", \"is_active\", \"meta_data\", \"created_at\", \"updated_at\") SELECT \"id\", \"key\", \"sort\", \"slug\", \"title\", \"description\", \"content\", \"type\", \"image_url\", \"views\", \"is_active\", \"meta_data\", \"created_at\", \"updated_at\" FROM `posts`;--> statement-breakpoint\nDROP TABLE `posts`;--> statement-breakpoint\nALTER TABLE `__new_posts` RENAME TO `posts`;--> statement-breakpoint\nCREATE UNIQUE INDEX `posts_slug_unique` ON `posts` (`slug`);--> statement-breakpoint\nCREATE TABLE `__new_products` (\n\t`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,\n\t`slug` text,\n\t`name` text NOT NULL,\n\t`price` real NOT NULL,\n\t`description` text,\n\t`content` text,\n\t`type` text NOT NULL,\n\t`image_url` text,\n\t`views` integer DEFAULT 0 NOT NULL,\n\t`image_urls` text,\n\t`resource` text,\n\t`is_active` integer DEFAULT true NOT NULL,\n\t`meta_data` text,\n\t`sort_order` integer DEFAULT 0 NOT NULL,\n\t`created_at` integer DEFAULT (unixepoch()) NOT NULL\n);\n--> statement-breakpoint\nINSERT INTO `__new_products`(\"id\", \"slug\", \"name\", \"price\", \"description\", \"content\", \"type\", \"image_url\", \"views\", \"image_urls\", \"resource\", \"is_active\", \"meta_data\", \"sort_order\", \"created_at\") SELECT \"id\", \"slug\", \"name\", \"price\", \"description\", \"content\", \"type\", \"image_url\", \"views\", \"image_urls\", \"resource\", \"is_active\", \"meta_data\", \"sort_order\", \"created_at\" FROM `products`;--> statement-breakpoint\nDROP TABLE `products`;--> statement-breakpoint\nALTER TABLE `__new_products` RENAME TO `products`;--> statement-breakpoint\nCREATE UNIQUE INDEX `products_slug_unique` ON `products` (`slug`);--> statement-breakpoint\nCREATE TABLE `__new_subscriptions` (\n\t`id` text PRIMARY KEY NOT NULL,\n\t`gateway_sub_id` text,\n\t`user_id` integer,\n\t`product_id` integer NOT NULL,\n\t`pay_method` text NOT NULL,\n\t`status` text DEFAULT 'active' NOT NULL,\n\t`interval` text NOT NULL,\n\t`interval_count` integer DEFAULT 1 NOT NULL,\n\t`amount` real NOT NULL,\n\t`currency` text DEFAULT 'USD' NOT NULL,\n\t`current_period_start` integer,\n\t`current_period_end` integer,\n\t`cancel_at_period_end` integer DEFAULT false,\n\t`meta_data` text,\n\t`created_at` integer DEFAULT (unixepoch()) NOT NULL,\n\t`updated_at` integer DEFAULT (unixepoch()),\n\tFOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON UPDATE no action ON DELETE no action,\n\tFOREIGN KEY (`product_id`) REFERENCES `products`(`id`) ON UPDATE no action ON DELETE no action\n);\n--> statement-breakpoint\nINSERT INTO `__new_subscriptions`(\"id\", \"gateway_sub_id\", \"user_id\", \"product_id\", \"pay_method\", \"status\", \"interval\", \"interval_count\", \"amount\", \"currency\", \"current_period_start\", \"current_period_end\", \"cancel_at_period_end\", \"meta_data\", \"created_at\", \"updated_at\") SELECT \"id\", \"gateway_sub_id\", \"user_id\", \"product_id\", \"pay_method\", \"status\", \"interval\", \"interval_count\", \"amount\", \"currency\", \"current_period_start\", \"current_period_end\", \"cancel_at_period_end\", \"meta_data\", \"created_at\", \"updated_at\" FROM `subscriptions`;--> statement-breakpoint\nDROP TABLE `subscriptions`;--> statement-breakpoint\nALTER TABLE `__new_subscriptions` RENAME TO `subscriptions`;--> statement-breakpoint\nCREATE TABLE `__new_users` (\n\t`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,\n\t`email` text NOT NULL,\n\t`password_hash` text,\n\t`nickname` text,\n\t`avatar_url` text,\n\t`last_login_at` integer,\n\t`cash_balance` integer DEFAULT 0,\n\t`grant_balance` integer DEFAULT 0,\n\t`sub_balance` integer DEFAULT 0,\n\t`sub_expires_at` integer,\n\t`tier_level` integer DEFAULT 0,\n\t`status` integer DEFAULT 1,\n\t`created_at` integer DEFAULT (unixepoch()) NOT NULL\n);\n--> statement-breakpoint\nINSERT INTO `__new_users`(\"id\", \"email\", \"password_hash\", \"nickname\", \"avatar_url\", \"last_login_at\", \"cash_balance\", \"grant_balance\", \"sub_balance\", \"sub_expires_at\", \"tier_level\", \"status\", \"created_at\") SELECT \"id\", \"email\", \"password_hash\", \"nickname\", \"avatar_url\", \"last_login_at\", \"cash_balance\", \"grant_balance\", \"sub_balance\", \"sub_expires_at\", \"tier_level\", \"status\", \"created_at\" FROM `users`;--> statement-breakpoint\nDROP TABLE `users`;--> statement-breakpoint\nALTER TABLE `__new_users` RENAME TO `users`;--> statement-breakpoint\nCREATE UNIQUE INDEX `users_email_unique` ON `users` (`email`);--> statement-breakpoint\nCREATE TABLE `__new_webhooks` (\n\t`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,\n\t`name` text NOT NULL,\n\t`url` text NOT NULL,\n\t`events` text,\n\t`secret` text,\n\t`is_active` integer DEFAULT true NOT NULL,\n\t`created_at` integer DEFAULT (unixepoch()) NOT NULL\n);\n--> statement-breakpoint\nINSERT INTO `__new_webhooks`(\"id\", \"name\", \"url\", \"events\", \"secret\", \"is_active\", \"created_at\") SELECT \"id\", \"name\", \"url\", \"events\", \"secret\", \"is_active\", \"created_at\" FROM `webhooks`;--> statement-breakpoint\nDROP TABLE `webhooks`;--> statement-breakpoint\nALTER TABLE `__new_webhooks` RENAME TO `webhooks`;"},{"name":"0004_premium_wildside","sql":"ALTER TABLE `visitor_profiles` ADD `ip` text;"},{"name":"0005_add_notifications","sql":"CREATE TABLE `notifications` (\n  `id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,\n  `user_id` integer REFERENCES `users`(`id`),\n  `visitor_id` text,\n  `type` text NOT NULL,\n  `title` text NOT NULL,\n  `message` text NOT NULL,\n  `data` text,\n  `is_read` integer DEFAULT 0 NOT NULL,\n  `created_at` integer NOT NULL DEFAULT (unixepoch())\n);\n"},{"name":"0006_add_users_email_verify","sql":"ALTER TABLE `users` ADD COLUMN `email_verified_at` integer;\n--> statement-breakpoint\nALTER TABLE `users` ADD COLUMN `email_verify_token` text;\n--> statement-breakpoint\nALTER TABLE `users` ADD COLUMN `email_verify_expires_at` integer;\n"},{"name":"0007_add_promo","sql":"CREATE TABLE `promo_agent_tiers` (\n  `id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,\n  `code` text NOT NULL,\n  `name` text NOT NULL,\n  `role_scope` text DEFAULT 'agent' NOT NULL,\n  `level` integer DEFAULT 1 NOT NULL,\n  `discount_rate` real DEFAULT 1 NOT NULL,\n  `sales_threshold` real DEFAULT 0 NOT NULL,\n  `is_fixed` integer DEFAULT 0 NOT NULL,\n  `is_active` integer DEFAULT 1 NOT NULL,\n  `description` text,\n  `created_at` integer NOT NULL DEFAULT (unixepoch()),\n  `updated_at` integer NOT NULL DEFAULT (unixepoch()),\n  CONSTRAINT `promo_agent_tiers_code_unique` UNIQUE(`code`)\n);\n--> statement-breakpoint\nCREATE TABLE `promo_members` (\n  `id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,\n  `user_id` integer NOT NULL REFERENCES `users`(`id`),\n  `role` text DEFAULT 'member' NOT NULL,\n  `status` text DEFAULT 'active' NOT NULL,\n  `promo_code` text NOT NULL,\n  `invite_code` text NOT NULL,\n  `agent_code` text,\n  `current_agent_tier_id` integer REFERENCES `promo_agent_tiers`(`id`),\n  `joined_at` integer NOT NULL DEFAULT (unixepoch()),\n  `created_at` integer NOT NULL DEFAULT (unixepoch()),\n  `updated_at` integer NOT NULL DEFAULT (unixepoch()),\n  CONSTRAINT `promo_members_user_id_unique` UNIQUE(`user_id`),\n  CONSTRAINT `promo_members_promo_code_unique` UNIQUE(`promo_code`),\n  CONSTRAINT `promo_members_invite_code_unique` UNIQUE(`invite_code`),\n  CONSTRAINT `promo_members_agent_code_unique` UNIQUE(`agent_code`)\n);\n--> statement-breakpoint\nCREATE TABLE `promo_invite_relations` (\n  `id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,\n  `invitee_user_id` integer NOT NULL REFERENCES `users`(`id`),\n  `inviter_user_id` integer NOT NULL REFERENCES `users`(`id`),\n  `source` text DEFAULT 'register' NOT NULL,\n  `code_snapshot` text,\n  `bound_at` integer NOT NULL DEFAULT (unixepoch()),\n  `created_at` integer NOT NULL DEFAULT (unixepoch()),\n  CONSTRAINT `promo_invite_relations_invitee_user_id_unique` UNIQUE(`invitee_user_id`)\n);\n--> statement-breakpoint\nCREATE TABLE `promo_agent_relations` (\n  `id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,\n  `agent_user_id` integer NOT NULL REFERENCES `users`(`id`),\n  `parent_agent_user_id` integer REFERENCES `users`(`id`),\n  `master_agent_user_id` integer REFERENCES `users`(`id`),\n  `depth` integer DEFAULT 1 NOT NULL,\n  `status` text DEFAULT 'active' NOT NULL,\n  `bound_at` integer NOT NULL DEFAULT (unixepoch()),\n  `created_at` integer NOT NULL DEFAULT (unixepoch()),\n  `updated_at` integer NOT NULL DEFAULT (unixepoch()),\n  CONSTRAINT `promo_agent_relations_agent_user_id_unique` UNIQUE(`agent_user_id`)\n);\n--> statement-breakpoint\nCREATE TABLE `promo_order_attributions` (\n  `id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,\n  `order_id` text NOT NULL REFERENCES `orders`(`id`),\n  `buyer_user_id` integer REFERENCES `users`(`id`),\n  `buyer_promo_member_id` integer REFERENCES `promo_members`(`id`),\n  `invite_user_id` integer REFERENCES `users`(`id`),\n  `agent_user_id` integer REFERENCES `users`(`id`),\n  `parent_agent_user_id` integer REFERENCES `users`(`id`),\n  `master_agent_user_id` integer REFERENCES `users`(`id`),\n  `agent_tier_id_snapshot` integer,\n  `agent_tier_name_snapshot` text,\n  `discount_rate_snapshot` real,\n  `source_type` text DEFAULT 'direct' NOT NULL,\n  `meta_data` text,\n  `created_at` integer NOT NULL DEFAULT (unixepoch()),\n  CONSTRAINT `promo_order_attributions_order_id_unique` UNIQUE(`order_id`)\n);\n--> statement-breakpoint\nCREATE TABLE `promo_commissions` (\n  `id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,\n  `order_id` text NOT NULL REFERENCES `orders`(`id`),\n  `owner_user_id` integer NOT NULL REFERENCES `users`(`id`),\n  `owner_promo_member_id` integer REFERENCES `promo_members`(`id`),\n  `type` text NOT NULL,\n  `source_type` text DEFAULT 'direct' NOT NULL,\n  `amount` real NOT NULL,\n  `rate` real,\n  `status` text DEFAULT 'pending' NOT NULL,\n  `remark` text,\n  `meta_data` text,\n  `created_at` integer NOT NULL DEFAULT (unixepoch()),\n  `updated_at` integer NOT NULL DEFAULT (unixepoch())\n);\n"},{"name":"0008_add_payment_method_locales","sql":"ALTER TABLE `payment_methods` ADD COLUMN `supported_locales` text;\n"},{"name":"0009_add_orders_currency","sql":"ALTER TABLE `orders` ADD COLUMN `currency` text DEFAULT 'USD' NOT NULL;\n"},{"name":"0010_add_payment_failures","sql":"CREATE TABLE IF NOT EXISTS `payment_failures` (\n        `id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,\n        `order_id` text NOT NULL,\n        `card_bin` text,\n        `reason` text NOT NULL,\n        `amount` real,\n        `pay_method` text,\n        `contact_email` text,\n        `raw_response` text,\n        `visitor_id` text,\n        `created_at` integer DEFAULT (unixepoch()) NOT NULL\n);\n--> statement-breakpoint\nINSERT OR IGNORE INTO `payment_failures` (\n        `id`,\n        `order_id`,\n        `card_bin`,\n        `reason`,\n        `amount`,\n        `pay_method`,\n        `contact_email`,\n        `raw_response`,\n        `visitor_id`,\n        `created_at`\n)\nSELECT\n        `id`,\n        `order_id`,\n        `card_bin`,\n        `reason`,\n        `amount`,\n        `pay_method`,\n        `contact_email`,\n        `raw_response`,\n        `visitor_id`,\n        `created_at`\nFROM `failures`;\n"},{"name":"0011_add_auth_and_event_rules","sql":"INSERT OR IGNORE INTO `payment_failures` (\n        `id`,\n        `order_id`,\n        `card_bin`,\n        `reason`,\n        `amount`,\n        `pay_method`,\n        `contact_email`,\n        `raw_response`,\n        `visitor_id`,\n        `created_at`\n)\nSELECT\n        `id`,\n        `order_id`,\n        `card_bin`,\n        `reason`,\n        `amount`,\n        `pay_method`,\n        `contact_email`,\n        `raw_response`,\n        `visitor_id`,\n        `created_at`\nFROM `failures`;\n--> statement-breakpoint\nALTER TABLE `users` ADD COLUMN `current_session_id` text;\n--> statement-breakpoint\nCREATE TABLE `user_tokens` (\n        `id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,\n        `user_id` integer NOT NULL,\n        `token` text NOT NULL,\n        `name` text,\n        `expires_at` integer,\n        `last_used_at` integer,\n        `revoked` integer DEFAULT 0 NOT NULL,\n        `created_at` integer DEFAULT (unixepoch()) NOT NULL,\n        FOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON UPDATE no action ON DELETE no action,\n        CONSTRAINT `user_tokens_token_unique` UNIQUE(`token`)\n);\n--> statement-breakpoint\nCREATE TABLE `event_rules` (\n        `id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,\n        `event` text NOT NULL,\n        `action` text NOT NULL,\n        `config` text,\n        `enabled` integer DEFAULT true NOT NULL,\n        `remark` text,\n        `created_at` integer DEFAULT (unixepoch()) NOT NULL,\n        `updated_at` integer\n);\n"},{"name":"0012_add_admin_permissions","sql":"ALTER TABLE `admins` ADD COLUMN `permissions` text;\n"},{"name":"0013_add_operation_logs","sql":"CREATE TABLE IF NOT EXISTS `operation_logs` (\n\t`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,\n\t`actor_type` text DEFAULT 'admin' NOT NULL,\n\t`actor_id` integer,\n\t`actor_name` text,\n\t`action` text NOT NULL,\n\t`resource` text NOT NULL,\n\t`resource_id` text,\n\t`summary` text,\n\t`details` text,\n\t`path` text NOT NULL,\n\t`method` text NOT NULL,\n\t`status_code` integer,\n\t`ip` text,\n\t`user_agent` text,\n\t`created_at` integer DEFAULT (unixepoch()) NOT NULL\n);\n--> statement-breakpoint\nCREATE INDEX IF NOT EXISTS `operation_logs_created_at_idx` ON `operation_logs` (`created_at`);\n--> statement-breakpoint\nCREATE INDEX IF NOT EXISTS `operation_logs_actor_idx` ON `operation_logs` (`actor_id`,`created_at`);\n--> statement-breakpoint\nCREATE INDEX IF NOT EXISTS `operation_logs_resource_idx` ON `operation_logs` (`resource`,`resource_id`);\n"},{"name":"0014_add_admin_tokens","sql":"CREATE TABLE `admin_tokens` (\n\t`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,\n\t`admin_id` integer NOT NULL,\n\t`token` text NOT NULL,\n\t`name` text,\n\t`permissions` text,\n\t`expires_at` integer,\n\t`last_used_at` integer,\n\t`revoked` integer DEFAULT 0 NOT NULL,\n\t`created_at` integer DEFAULT (unixepoch()) NOT NULL,\n\tFOREIGN KEY (`admin_id`) REFERENCES `admins`(`id`) ON UPDATE no action ON DELETE no action,\n\tCONSTRAINT `admin_tokens_token_unique` UNIQUE(`token`)\n);\n"},{"name":"0015_add_balance_logs","sql":"CREATE TABLE IF NOT EXISTS `balance_logs` (\n\t`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,\n\t`user_id` integer NOT NULL,\n\t`balance_type` text NOT NULL,\n\t`action_type` text DEFAULT 'topup' NOT NULL,\n\t`amount_cents` integer NOT NULL,\n\t`before_balance_cents` integer NOT NULL,\n\t`after_balance_cents` integer NOT NULL,\n\t`event_id` text NOT NULL,\n\t`source_type` text DEFAULT 'system' NOT NULL,\n\t`source_id` text,\n\t`operator_admin_id` integer,\n\t`operator_name` text DEFAULT '' NOT NULL,\n\t`remark` text DEFAULT '' NOT NULL,\n\t`created_at` integer DEFAULT (unixepoch()) NOT NULL,\n\tFOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON UPDATE no action ON DELETE no action\n);\n--> statement-breakpoint\nCREATE UNIQUE INDEX IF NOT EXISTS `balance_logs_event_id_unique` ON `balance_logs` (`event_id`);\n--> statement-breakpoint\nCREATE INDEX IF NOT EXISTS `idx_balance_logs_user_created_at` ON `balance_logs` (`user_id`,`created_at`);\n"},{"name":"0016_add_order_source_idempotency","sql":"ALTER TABLE `orders` ADD `source` text;\n--> statement-breakpoint\nALTER TABLE `orders` ADD `external_order_id` text;\n--> statement-breakpoint\nCREATE UNIQUE INDEX `orders_source_external_order_unique` ON `orders` (`source`,`external_order_id`);\n"},{"name":"0017_add_user_sessions","sql":"CREATE TABLE IF NOT EXISTS `user_sessions` (\n  `id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,\n  `user_id` integer NOT NULL,\n  `session_id_hash` text NOT NULL UNIQUE,\n  `status` text DEFAULT 'active' NOT NULL,\n  `auth_method` text DEFAULT 'password' NOT NULL,\n  `device_type` text,\n  `browser` text,\n  `os` text,\n  `user_agent` text,\n  `ip` text,\n  `country` text,\n  `region` text,\n  `city` text,\n  `logged_in_at` integer DEFAULT (unixepoch()) NOT NULL,\n  `last_seen_at` integer DEFAULT (unixepoch()) NOT NULL,\n  `ended_at` integer,\n  `replaced_by_session_id` text,\n  `created_at` integer DEFAULT (unixepoch()) NOT NULL,\n  FOREIGN KEY (`user_id`) REFERENCES `users`(`id`)\n);\n--> statement-breakpoint\nCREATE INDEX IF NOT EXISTS `user_sessions_user_status_idx` ON `user_sessions` (`user_id`, `status`);\n--> statement-breakpoint\nCREATE INDEX IF NOT EXISTS `user_sessions_last_seen_idx` ON `user_sessions` (`last_seen_at`);\n"},{"name":"0018_add_user_wallets","sql":"CREATE TABLE `user_wallets` (\n  `id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,\n  `user_id` integer NOT NULL UNIQUE,\n  `cash_balance` integer DEFAULT 0 NOT NULL,\n  `grant_balance` integer DEFAULT 0 NOT NULL,\n  `sub_balance` integer DEFAULT 0 NOT NULL,\n  `points_balance` integer DEFAULT 0 NOT NULL,\n  `tier_level` integer DEFAULT 0 NOT NULL,\n  `sub_expires_at` integer,\n  `status` integer DEFAULT 1 NOT NULL,\n  `created_at` integer DEFAULT (unixepoch()) NOT NULL,\n  FOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON UPDATE no action ON DELETE cascade\n);\n--> statement-breakpoint\nINSERT INTO `user_wallets` (\n  `user_id`, `cash_balance`, `grant_balance`, `sub_balance`, `points_balance`,\n  `tier_level`, `sub_expires_at`, `status`, `created_at`\n)\nSELECT\n  `id`, COALESCE(`cash_balance`, 0), COALESCE(`grant_balance`, 0), COALESCE(`sub_balance`, 0), 0,\n  COALESCE(`tier_level`, 0), `sub_expires_at`, COALESCE(`status`, 1), `created_at`\nFROM `users`;\n--> statement-breakpoint\nCREATE TABLE `__new_balance_logs` (\n  `id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,\n  `user_id` integer NOT NULL,\n  `wallet_id` integer NOT NULL,\n  `balance_type` text NOT NULL,\n  `action_type` text DEFAULT 'topup' NOT NULL,\n  `amount_cents` integer NOT NULL,\n  `before_balance_cents` integer NOT NULL,\n  `after_balance_cents` integer NOT NULL,\n  `event_id` text NOT NULL,\n  `source_type` text DEFAULT 'system' NOT NULL,\n  `source_id` text,\n  `operator_admin_id` integer,\n  `operator_name` text DEFAULT '' NOT NULL,\n  `remark` text DEFAULT '' NOT NULL,\n  `created_at` integer DEFAULT (unixepoch()) NOT NULL,\n  FOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON UPDATE no action ON DELETE no action,\n  FOREIGN KEY (`wallet_id`) REFERENCES `user_wallets`(`id`) ON UPDATE no action ON DELETE no action\n);\n--> statement-breakpoint\nINSERT INTO `__new_balance_logs` (\n  `id`, `user_id`, `wallet_id`, `balance_type`, `action_type`, `amount_cents`,\n  `before_balance_cents`, `after_balance_cents`, `event_id`, `source_type`, `source_id`,\n  `operator_admin_id`, `operator_name`, `remark`, `created_at`\n)\nSELECT\n  log.`id`, log.`user_id`, wallet.`id`, log.`balance_type`, log.`action_type`, log.`amount_cents`,\n  log.`before_balance_cents`, log.`after_balance_cents`, log.`event_id`, log.`source_type`, log.`source_id`,\n  log.`operator_admin_id`, log.`operator_name`, log.`remark`, log.`created_at`\nFROM `balance_logs` log\nJOIN `user_wallets` wallet ON wallet.`user_id` = log.`user_id`;\n--> statement-breakpoint\nDROP TABLE `balance_logs`;\n--> statement-breakpoint\nALTER TABLE `__new_balance_logs` RENAME TO `balance_logs`;\n--> statement-breakpoint\nCREATE UNIQUE INDEX `balance_logs_event_id_unique` ON `balance_logs` (`event_id`);\nCREATE INDEX `idx_balance_logs_user_created_at` ON `balance_logs` (`user_id`, `created_at`);\nCREATE INDEX `idx_balance_logs_wallet_created_at` ON `balance_logs` (`wallet_id`, `created_at`);\n--> statement-breakpoint\nALTER TABLE `users` DROP COLUMN `cash_balance`;\nALTER TABLE `users` DROP COLUMN `grant_balance`;\nALTER TABLE `users` DROP COLUMN `sub_balance`;\nALTER TABLE `users` DROP COLUMN `sub_expires_at`;\nALTER TABLE `users` DROP COLUMN `tier_level`;\n"},{"name":"0019_add_topups","sql":"CREATE TABLE `topups` (\n  `id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,\n  `order_id` text NOT NULL UNIQUE,\n  `user_id` integer NOT NULL,\n  `wallet_id` integer NOT NULL,\n  `source` text DEFAULT 'order' NOT NULL,\n  `payment_amount` real NOT NULL,\n  `payment_currency` text NOT NULL,\n  `credit_amount_cents` integer NOT NULL,\n  `credit_currency` text NOT NULL,\n  `exchange_rate` real DEFAULT 1 NOT NULL,\n  `balance_type` text DEFAULT 'cash' NOT NULL,\n  `status` text DEFAULT 'pending' NOT NULL,\n  `credit_event_id` text NOT NULL UNIQUE,\n  `refund_event_id` text UNIQUE,\n  `retry_count` integer DEFAULT 0 NOT NULL,\n  `shortfall_cents` integer DEFAULT 0 NOT NULL,\n  `last_error` text,\n  `paid_at` integer,\n  `credited_at` integer,\n  `refunded_at` integer,\n  `created_at` integer DEFAULT (unixepoch()) NOT NULL,\n  `updated_at` integer DEFAULT (unixepoch()) NOT NULL,\n  FOREIGN KEY (`order_id`) REFERENCES `orders`(`id`) ON UPDATE no action ON DELETE cascade,\n  FOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON UPDATE no action ON DELETE no action,\n  FOREIGN KEY (`wallet_id`) REFERENCES `user_wallets`(`id`) ON UPDATE no action ON DELETE no action\n);\n--> statement-breakpoint\nINSERT INTO `topups` (\n  `order_id`, `user_id`, `wallet_id`, `source`, `payment_amount`, `payment_currency`,\n  `credit_amount_cents`, `credit_currency`, `exchange_rate`, `balance_type`, `status`,\n  `credit_event_id`, `refund_event_id`, `retry_count`, `shortfall_cents`, `last_error`,\n  `paid_at`, `credited_at`, `refunded_at`, `created_at`, `updated_at`\n)\nSELECT\n  orders.`id`, orders.`user_id`, wallets.`id`, COALESCE(orders.`source`, 'order'),\n  orders.`amount`, COALESCE(orders.`currency`, 'USD'),\n  COALESCE(credit_log.`amount_cents`, CAST(ROUND(COALESCE(json_extract(CASE WHEN json_valid(orders.`meta_data`) THEN orders.`meta_data` ELSE '{}' END, '$.recharge_amount'), orders.`amount`) * 100000000) AS integer)),\n  COALESCE(json_extract(CASE WHEN json_valid(orders.`meta_data`) THEN orders.`meta_data` ELSE '{}' END, '$.display_unit'), orders.`currency`, 'USD'),\n  COALESCE(json_extract(CASE WHEN json_valid(orders.`meta_data`) THEN orders.`meta_data` ELSE '{}' END, '$.currencySnapshot.exchangeRate'), 1),\n  COALESCE(credit_log.`balance_type`, json_extract(CASE WHEN json_valid(orders.`meta_data`) THEN orders.`meta_data` ELSE '{}' END, '$.balance_type'), 'cash'),\n  CASE\n    WHEN orders.`pay_status` = 'refunded' AND credit_log.`id` IS NOT NULL AND refund_log.`id` IS NOT NULL THEN 'refunded'\n    WHEN refund_log.`id` IS NOT NULL THEN 'review_required'\n    WHEN orders.`pay_status` = 'refunded' THEN 'review_required'\n    WHEN orders.`pay_status` = 'paid' AND credit_log.`id` IS NOT NULL THEN 'credited'\n    WHEN credit_log.`id` IS NOT NULL THEN 'review_required'\n    WHEN orders.`pay_status` = 'paid' THEN 'review_required'\n    WHEN orders.`pay_status` = 'failed' THEN 'payment_failed'\n    ELSE 'pending'\n  END,\n  'topup:' || orders.`id`,\n  CASE WHEN refund_log.`id` IS NOT NULL THEN 'refund:' || orders.`id` ELSE NULL END,\n  0, 0,\n  CASE\n    WHEN refund_log.`id` IS NOT NULL AND (orders.`pay_status` <> 'refunded' OR credit_log.`id` IS NULL) THEN '历史退款流水与订单或到账流水不一致，需人工核对'\n    WHEN orders.`pay_status` = 'refunded' AND refund_log.`id` IS NULL THEN '历史退款订单没有可确认的 APay 退款流水，需人工核对'\n    WHEN credit_log.`id` IS NOT NULL AND orders.`pay_status` <> 'paid' THEN '历史到账流水与订单支付状态不一致，需人工核对'\n    WHEN orders.`pay_status` = 'paid' AND credit_log.`id` IS NULL THEN '历史订单没有可确认的 APay 到账流水，禁止自动补发'\n    ELSE NULL\n  END,\n  orders.`paid_at`, credit_log.`created_at`, refund_log.`created_at`, orders.`created_at`, unixepoch()\nFROM `orders` orders\nJOIN `products` products ON products.`id` = orders.`product_id` AND products.`type` = 'topup'\nJOIN `user_wallets` wallets ON wallets.`user_id` = orders.`user_id`\nLEFT JOIN `balance_logs` credit_log ON credit_log.`event_id` = 'topup:' || orders.`id`\nLEFT JOIN `balance_logs` refund_log ON refund_log.`event_id` = 'refund:' || orders.`id`\nWHERE COALESCE(products.`slug`, '') <> 'minimal-checkout-recharge'\n  OR json_extract(CASE WHEN json_valid(orders.`meta_data`) THEN orders.`meta_data` ELSE '{}' END, '$.checkoutBridge.attach.walletOwner') = 'apay';\n--> statement-breakpoint\nCREATE INDEX `idx_topups_user_created_at` ON `topups` (`user_id`, `created_at`);\nCREATE INDEX `idx_topups_status_updated_at` ON `topups` (`status`, `updated_at`);\n"},{"name":"0020_add_email_logs","sql":"CREATE TABLE IF NOT EXISTS `email_logs` (\n  `id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,\n  `to` text NOT NULL,\n  `subject` text NOT NULL,\n  `template_code` text,\n  `html` text,\n  `provider` text,\n  `status` text DEFAULT 'success' NOT NULL,\n  `message_id` text,\n  `error` text,\n  `created_at` integer DEFAULT (unixepoch()) NOT NULL\n);\n--> statement-breakpoint\nCREATE INDEX IF NOT EXISTS `email_logs_to_idx` ON `email_logs` (`to`);\n--> statement-breakpoint\nCREATE INDEX IF NOT EXISTS `email_logs_status_idx` ON `email_logs` (`status`);\n--> statement-breakpoint\nCREATE INDEX IF NOT EXISTS `email_logs_created_at_idx` ON `email_logs` (`created_at`);\n"},{"name":"0021_add_products_status","sql":"ALTER TABLE `products` ADD COLUMN `status` text DEFAULT 'active' NOT NULL;\n--> statement-breakpoint\nUPDATE `products` SET `status` = 'inactive' WHERE `is_active` = 0;\n"},{"name":"0022_add_promo_applications_and_tickets","sql":"CREATE TABLE IF NOT EXISTS `promo_applications` (\n  `id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,\n  `user_id` integer NOT NULL REFERENCES `users`(`id`),\n  `status` text DEFAULT 'pending' NOT NULL,\n  `channel_info` text,\n  `contact` text,\n  `reason` text,\n  `review_note` text,\n  `reviewed_by_admin_id` integer,\n  `reviewed_at` integer,\n  `created_at` integer DEFAULT (unixepoch()) NOT NULL,\n  `updated_at` integer DEFAULT (unixepoch()) NOT NULL\n);\n--> statement-breakpoint\nCREATE TABLE IF NOT EXISTS `tickets` (\n  `id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,\n  `ticket_no` text NOT NULL,\n  `user_id` integer NOT NULL REFERENCES `users`(`id`),\n  `category` text DEFAULT 'other' NOT NULL,\n  `title` text NOT NULL,\n  `status` text DEFAULT 'open' NOT NULL,\n  `priority` text DEFAULT 'normal' NOT NULL,\n  `context` text,\n  `last_replied_at` integer DEFAULT (unixepoch()) NOT NULL,\n  `last_replied_by` text DEFAULT 'user' NOT NULL,\n  `created_at` integer DEFAULT (unixepoch()) NOT NULL,\n  `updated_at` integer DEFAULT (unixepoch()) NOT NULL\n);\n--> statement-breakpoint\nCREATE UNIQUE INDEX IF NOT EXISTS `tickets_ticket_no_unique` ON `tickets` (`ticket_no`);\n--> statement-breakpoint\nCREATE INDEX IF NOT EXISTS `tickets_user_id_idx` ON `tickets` (`user_id`);\n--> statement-breakpoint\nCREATE INDEX IF NOT EXISTS `tickets_status_idx` ON `tickets` (`status`);\n--> statement-breakpoint\nCREATE INDEX IF NOT EXISTS `tickets_category_idx` ON `tickets` (`category`);\n--> statement-breakpoint\nCREATE INDEX IF NOT EXISTS `tickets_last_replied_at_idx` ON `tickets` (`last_replied_at`);\n--> statement-breakpoint\nCREATE TABLE IF NOT EXISTS `ticket_messages` (\n  `id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,\n  `ticket_id` integer NOT NULL REFERENCES `tickets`(`id`) ON DELETE CASCADE,\n  `sender_type` text NOT NULL,\n  `sender_id` integer,\n  `sender_name` text DEFAULT '' NOT NULL,\n  `content` text NOT NULL,\n  `attachments` text,\n  `created_at` integer DEFAULT (unixepoch()) NOT NULL\n);\n--> statement-breakpoint\nCREATE INDEX IF NOT EXISTS `ticket_messages_ticket_id_idx` ON `ticket_messages` (`ticket_id`);\n--> statement-breakpoint\nCREATE INDEX IF NOT EXISTS `ticket_messages_created_at_idx` ON `ticket_messages` (`created_at`);\n"},{"name":"0023_purge_legacy_password_reset_tokens","sql":"-- 找回密码的令牌口径已收归核心（server/utils/passwordReset.ts，只存 sha256，\n-- name 统一为 'password_reset'）。这里清掉两个主题各自实现时留下的旧行：\n--   qingpu_password_reset —— 曾以**明文**入库。核心鉴权中间件按 user_tokens.token\n--     查 Bearer / X-Api-Key，当时只排除 email_verify，因此这些行同时是一把\n--     有效期 1 小时的全权限 API Key，必须清。\n--   shoply_password_reset —— 存的是哈希，不构成漏洞，但改名后永远不会再被消费。\n-- 在途的重置链接一并作废，用户重新申请即可。\nDELETE FROM \"user_tokens\" WHERE \"name\" IN ('qingpu_password_reset', 'shoply_password_reset');\n"},{"name":"0024_topups_wallet_optional","sql":"-- AINode 钱包模式下充值台账不再绑定钱包：wallet_id 放宽为可空。\n-- SQLite 不能修改列约束，按 drizzle 的重建表方式迁移，数据与索引原样保留。\nPRAGMA foreign_keys=OFF;--> statement-breakpoint\nCREATE TABLE `__new_topups` (\n  `id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,\n  `order_id` text NOT NULL UNIQUE,\n  `user_id` integer NOT NULL,\n  `wallet_id` integer,\n  `source` text DEFAULT 'order' NOT NULL,\n  `payment_amount` real NOT NULL,\n  `payment_currency` text NOT NULL,\n  `credit_amount_cents` integer NOT NULL,\n  `credit_currency` text NOT NULL,\n  `exchange_rate` real DEFAULT 1 NOT NULL,\n  `balance_type` text DEFAULT 'cash' NOT NULL,\n  `status` text DEFAULT 'pending' NOT NULL,\n  `credit_event_id` text NOT NULL UNIQUE,\n  `refund_event_id` text UNIQUE,\n  `retry_count` integer DEFAULT 0 NOT NULL,\n  `shortfall_cents` integer DEFAULT 0 NOT NULL,\n  `last_error` text,\n  `paid_at` integer,\n  `credited_at` integer,\n  `refunded_at` integer,\n  `created_at` integer DEFAULT (unixepoch()) NOT NULL,\n  `updated_at` integer DEFAULT (unixepoch()) NOT NULL,\n  FOREIGN KEY (`order_id`) REFERENCES `orders`(`id`) ON UPDATE no action ON DELETE cascade,\n  FOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON UPDATE no action ON DELETE no action,\n  FOREIGN KEY (`wallet_id`) REFERENCES `user_wallets`(`id`) ON UPDATE no action ON DELETE no action\n);--> statement-breakpoint\nINSERT INTO `__new_topups`(\n  `id`, `order_id`, `user_id`, `wallet_id`, `source`, `payment_amount`, `payment_currency`,\n  `credit_amount_cents`, `credit_currency`, `exchange_rate`, `balance_type`, `status`,\n  `credit_event_id`, `refund_event_id`, `retry_count`, `shortfall_cents`, `last_error`,\n  `paid_at`, `credited_at`, `refunded_at`, `created_at`, `updated_at`\n) SELECT\n  `id`, `order_id`, `user_id`, `wallet_id`, `source`, `payment_amount`, `payment_currency`,\n  `credit_amount_cents`, `credit_currency`, `exchange_rate`, `balance_type`, `status`,\n  `credit_event_id`, `refund_event_id`, `retry_count`, `shortfall_cents`, `last_error`,\n  `paid_at`, `credited_at`, `refunded_at`, `created_at`, `updated_at`\nFROM `topups`;--> statement-breakpoint\nDROP TABLE `topups`;--> statement-breakpoint\nALTER TABLE `__new_topups` RENAME TO `topups`;--> statement-breakpoint\nPRAGMA foreign_keys=ON;--> statement-breakpoint\nCREATE INDEX `idx_topups_user_created_at` ON `topups` (`user_id`, `created_at`);--> statement-breakpoint\nCREATE INDEX `idx_topups_status_updated_at` ON `topups` (`status`, `updated_at`);\n"},{"name":"0025_add_comments","sql":"CREATE TABLE IF NOT EXISTS `comments` (\n\t`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,\n\t`target_type` text NOT NULL,\n\t`target_id` text NOT NULL,\n\t`user_id` integer REFERENCES `users`(`id`) ON DELETE set null,\n\t`author_name` text NOT NULL,\n\t`author_email` text,\n\t`author_url` text,\n\t`content` text NOT NULL,\n\t`parent_id` integer,\n\t`status` text DEFAULT 'approved' NOT NULL,\n\t`ip` text,\n\t`user_agent` text,\n\t`created_at` integer DEFAULT (unixepoch()) NOT NULL,\n\t`updated_at` integer DEFAULT (unixepoch())\n);\n--> statement-breakpoint\nCREATE INDEX IF NOT EXISTS `comments_target_status_idx` ON `comments` (`target_type`, `target_id`, `status`, `created_at`);\n--> statement-breakpoint\nCREATE INDEX IF NOT EXISTS `comments_user_id_idx` ON `comments` (`user_id`);\n--> statement-breakpoint\nCREATE INDEX IF NOT EXISTS `comments_parent_id_idx` ON `comments` (`parent_id`);\n"},{"name":"0026_verify_schema_alignment","sql":"-- SQLite already includes these objects; verify the shared schema boundary.\nSELECT ip FROM visitor_profiles LIMIT 0;\n--> statement-breakpoint\nSELECT ip FROM visitor_events LIMIT 0;\n--> statement-breakpoint\nSELECT id, name, code, is_active, config_json, send_script, created_at FROM email_providers LIMIT 0;\n"},{"name":"0027_add_likes_and_interaction_counters","sql":"CREATE TABLE IF NOT EXISTS `likes` (\n\t`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,\n\t`target_type` text NOT NULL,\n\t`target_id` text NOT NULL,\n\t`user_id` integer REFERENCES `users`(`id`) ON DELETE cascade,\n\t`visitor_id` text NOT NULL,\n\t`ip` text,\n\t`user_agent` text,\n\t`created_at` integer DEFAULT (unixepoch()) NOT NULL\n);\n--> statement-breakpoint\nCREATE INDEX IF NOT EXISTS `likes_target_idx` ON `likes` (`target_type`, `target_id`);\n--> statement-breakpoint\nCREATE INDEX IF NOT EXISTS `likes_target_user_idx` ON `likes` (`target_type`, `target_id`, `user_id`);\n--> statement-breakpoint\nCREATE INDEX IF NOT EXISTS `likes_target_visitor_idx` ON `likes` (`target_type`, `target_id`, `visitor_id`);\n--> statement-breakpoint\nALTER TABLE `products` ADD COLUMN `likes` integer DEFAULT 0 NOT NULL;\n--> statement-breakpoint\nALTER TABLE `posts` ADD COLUMN `likes` integer DEFAULT 0 NOT NULL;\n--> statement-breakpoint\nALTER TABLE `posts` ADD COLUMN `comments` integer DEFAULT 0 NOT NULL;\n--> statement-breakpoint\nALTER TABLE `comments` ADD COLUMN `likes` integer DEFAULT 0 NOT NULL;\n"},{"name":"0028_add_comment_sync_source","sql":"ALTER TABLE `comments` ADD COLUMN `source` text DEFAULT 'local' NOT NULL;\n--> statement-breakpoint\nALTER TABLE `comments` ADD COLUMN `external_id` text;\n--> statement-breakpoint\nALTER TABLE `comments` ADD COLUMN `external_url` text;\n--> statement-breakpoint\nALTER TABLE `comments` ADD COLUMN `extra_data` text;\n--> statement-breakpoint\nCREATE INDEX IF NOT EXISTS `comments_source_external_idx` ON `comments` (`target_type`, `target_id`, `source`, `external_id`);\n"},{"name":"0029_add_comment_sync_sources","sql":"CREATE TABLE IF NOT EXISTS `comment_sync_sources` (\n\t`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,\n\t`target_type` text NOT NULL,\n\t`target_id` text NOT NULL,\n\t`source` text NOT NULL,\n\t`external_id` text NOT NULL,\n\t`external_url` text,\n\t`auto_sync` integer DEFAULT true NOT NULL,\n\t`sync_interval` integer DEFAULT 60 NOT NULL,\n\t`default_status` text DEFAULT 'approved' NOT NULL,\n\t`last_synced_at` integer,\n\t`last_sync_status` text DEFAULT 'idle' NOT NULL,\n\t`last_error` text,\n\t`total_synced` integer DEFAULT 0 NOT NULL,\n\t`extra_data` text,\n\t`created_at` integer DEFAULT (unixepoch()) NOT NULL,\n\t`updated_at` integer DEFAULT (unixepoch())\n);\n--> statement-breakpoint\nCREATE UNIQUE INDEX IF NOT EXISTS `comment_sync_sources_target_source_unique` ON `comment_sync_sources` (`target_type`,`target_id`,`source`);\n--> statement-breakpoint\nCREATE INDEX IF NOT EXISTS `comment_sync_sources_auto_sync_idx` ON `comment_sync_sources` (`auto_sync`,`last_synced_at`);\n"}],"postgresql":[{"name":"0000_white_hitman","sql":"CREATE TABLE \"admins\" (\n        \"id\" serial PRIMARY KEY NOT NULL,\n        \"username\" text NOT NULL,\n        \"password_hash\" text NOT NULL,\n        \"created_at\" timestamp with time zone DEFAULT now() NOT NULL,\n        CONSTRAINT \"admins_username_unique\" UNIQUE(\"username\")\n);\n--> statement-breakpoint\nCREATE TABLE \"products\" (\n        \"id\" serial PRIMARY KEY NOT NULL,\n        \"slug\" text,\n        \"name\" text NOT NULL,\n        \"price\" real NOT NULL,\n        \"description\" text,\n        \"content\" text,\n        \"type\" text NOT NULL,\n        \"image_url\" text,\n        \"views\" integer DEFAULT 0 NOT NULL,\n        \"image_urls\" jsonb,\n        \"resource\" text,\n        \"is_active\" boolean DEFAULT true NOT NULL,\n        \"meta_data\" jsonb,\n        \"sort_order\" integer DEFAULT 0 NOT NULL,\n        \"created_at\" timestamp with time zone DEFAULT now() NOT NULL,\n        CONSTRAINT \"products_slug_unique\" UNIQUE(\"slug\")\n);\n--> statement-breakpoint\nCREATE TABLE \"users\" (\n        \"id\" serial PRIMARY KEY NOT NULL,\n        \"email\" text NOT NULL,\n        \"password_hash\" text,\n        \"nickname\" text,\n        \"avatar_url\" text,\n        \"last_login_at\" timestamp with time zone,\n        \"cash_balance\" bigint DEFAULT 0,\n        \"grant_balance\" bigint DEFAULT 0,\n        \"sub_balance\" bigint DEFAULT 0,\n        \"tier_level\" integer DEFAULT 0,\n        \"sub_expires_at\" timestamp with time zone,\n        \"status\" integer DEFAULT 1,\n        \"created_at\" timestamp with time zone DEFAULT now() NOT NULL,\n        CONSTRAINT \"users_email_unique\" UNIQUE(\"email\")\n);\n--> statement-breakpoint\nCREATE TABLE \"cards\" (\n        \"id\" serial PRIMARY KEY NOT NULL,\n        \"product_id\" integer NOT NULL,\n        \"card_number\" text NOT NULL,\n        \"is_used\" boolean DEFAULT false NOT NULL,\n        \"order_id\" text,\n        \"created_at\" timestamp with time zone DEFAULT now() NOT NULL,\n        CONSTRAINT \"cards_product_id_products_id_fk\" FOREIGN KEY (\"product_id\") REFERENCES \"public\".\"products\"(\"id\") ON DELETE no action ON UPDATE no action\n);\n--> statement-breakpoint\nCREATE TABLE \"failures\" (\n        \"id\" serial PRIMARY KEY NOT NULL,\n        \"order_id\" text NOT NULL,\n        \"card_bin\" text,\n        \"reason\" text NOT NULL,\n        \"amount\" real,\n        \"pay_method\" text,\n        \"contact_email\" text,\n        \"raw_response\" text,\n        \"visitor_id\" text,\n        \"created_at\" timestamp with time zone DEFAULT now() NOT NULL\n);\n--> statement-breakpoint\nCREATE TABLE \"logs\" (\n        \"id\" serial PRIMARY KEY NOT NULL,\n        \"level\" text DEFAULT 'info' NOT NULL,\n        \"message\" text NOT NULL,\n        \"details\" text,\n        \"source\" text,\n        \"created_at\" timestamp with time zone DEFAULT now() NOT NULL\n);\n--> statement-breakpoint\nCREATE TABLE \"oauth_accounts\" (\n        \"id\" serial PRIMARY KEY NOT NULL,\n        \"user_id\" integer NOT NULL,\n        \"provider\" text NOT NULL,\n        \"provider_account_id\" text NOT NULL,\n        \"created_at\" timestamp with time zone DEFAULT now() NOT NULL,\n        CONSTRAINT \"oauth_accounts_user_id_users_id_fk\" FOREIGN KEY (\"user_id\") REFERENCES \"public\".\"users\"(\"id\") ON DELETE no action ON UPDATE no action\n);\n--> statement-breakpoint\nCREATE UNIQUE INDEX \"provider_account_idx\" ON \"oauth_accounts\" USING btree (\"provider\",\"provider_account_id\");\n--> statement-breakpoint\nCREATE TABLE \"orders\" (\n        \"id\" text PRIMARY KEY NOT NULL,\n        \"amount\" real NOT NULL,\n        \"product_id\" integer NOT NULL,\n        \"user_id\" integer,\n        \"contact_email\" text NOT NULL,\n        \"pay_method\" text,\n        \"trade_no\" text,\n        \"status\" text DEFAULT 'none' NOT NULL,\n        \"delivery_info\" text,\n        \"meta_data\" jsonb,\n        \"visitor_id\" text,\n        \"subscription_id\" text,\n        \"created_at\" timestamp with time zone DEFAULT now() NOT NULL,\n        \"paid_at\" timestamp with time zone,\n        \"pay_status\" text DEFAULT 'pending' NOT NULL,\n        CONSTRAINT \"orders_product_id_products_id_fk\" FOREIGN KEY (\"product_id\") REFERENCES \"public\".\"products\"(\"id\") ON DELETE no action ON UPDATE no action,\n        CONSTRAINT \"orders_user_id_users_id_fk\" FOREIGN KEY (\"user_id\") REFERENCES \"public\".\"users\"(\"id\") ON DELETE no action ON UPDATE no action\n);\n--> statement-breakpoint\nCREATE TABLE \"payment_methods\" (\n        \"id\" serial PRIMARY KEY NOT NULL,\n        \"name\" text NOT NULL,\n        \"code\" text NOT NULL,\n        \"icon_url\" text,\n        \"is_active\" boolean DEFAULT false NOT NULL,\n        \"config_json\" text,\n        \"info\" text,\n        \"create\" text,\n        \"callback\" text,\n        \"created_at\" timestamp with time zone DEFAULT now() NOT NULL,\n        CONSTRAINT \"payment_methods_code_unique\" UNIQUE(\"code\")\n);\n--> statement-breakpoint\nCREATE TABLE \"posts\" (\n        \"id\" serial PRIMARY KEY NOT NULL,\n        \"slug\" text NOT NULL,\n        \"title\" text NOT NULL,\n        \"description\" text,\n        \"content\" text,\n        \"type\" text DEFAULT 'blog' NOT NULL,\n        \"image_url\" text,\n        \"views\" integer DEFAULT 0 NOT NULL,\n        \"is_active\" boolean DEFAULT true NOT NULL,\n        \"meta_data\" jsonb,\n        \"created_at\" timestamp with time zone DEFAULT now() NOT NULL,\n        \"updated_at\" timestamp with time zone DEFAULT now(),\n        CONSTRAINT \"posts_slug_unique\" UNIQUE(\"slug\")\n);\n--> statement-breakpoint\nCREATE TABLE \"settings\" (\n        \"key\" text PRIMARY KEY NOT NULL,\n        \"value\" text NOT NULL,\n        \"description\" text,\n        \"updated_at\" timestamp with time zone DEFAULT now()\n);\n--> statement-breakpoint\nCREATE TABLE \"subscriptions\" (\n        \"id\" text PRIMARY KEY NOT NULL,\n        \"gateway_sub_id\" text,\n        \"user_id\" integer,\n        \"product_id\" integer NOT NULL,\n        \"pay_method\" text NOT NULL,\n        \"status\" text DEFAULT 'active' NOT NULL,\n        \"interval\" text NOT NULL,\n        \"interval_count\" integer DEFAULT 1 NOT NULL,\n        \"amount\" real NOT NULL,\n        \"currency\" text DEFAULT 'USD' NOT NULL,\n        \"current_period_start\" timestamp with time zone,\n        \"current_period_end\" timestamp with time zone,\n        \"cancel_at_period_end\" boolean DEFAULT false,\n        \"meta_data\" jsonb,\n        \"created_at\" timestamp with time zone DEFAULT now() NOT NULL,\n        \"updated_at\" timestamp with time zone DEFAULT now(),\n        CONSTRAINT \"subscriptions_user_id_users_id_fk\" FOREIGN KEY (\"user_id\") REFERENCES \"public\".\"users\"(\"id\") ON DELETE no action ON UPDATE no action,\n        CONSTRAINT \"subscriptions_product_id_products_id_fk\" FOREIGN KEY (\"product_id\") REFERENCES \"public\".\"products\"(\"id\") ON DELETE no action ON UPDATE no action\n);\n--> statement-breakpoint\nCREATE TABLE \"webhooks\" (\n        \"id\" serial PRIMARY KEY NOT NULL,\n        \"name\" text NOT NULL,\n        \"url\" text NOT NULL,\n        \"events\" jsonb,\n        \"secret\" text,\n        \"is_active\" boolean DEFAULT true NOT NULL,\n        \"created_at\" timestamp with time zone DEFAULT now() NOT NULL\n);\n"},{"name":"0001_violet_living_tribunal","sql":"CREATE TABLE \"visitor_events\" (\n\t\"id\" serial PRIMARY KEY NOT NULL,\n\t\"visitor_id\" text NOT NULL,\n\t\"user_id\" integer,\n\t\"order_id\" text,\n\t\"product_id\" integer,\n\t\"event_name\" text NOT NULL,\n\t\"event_action\" text,\n\t\"path\" text,\n\t\"referrer\" text,\n\t\"source_type\" text,\n\t\"source\" text,\n\t\"medium\" text,\n\t\"campaign\" text,\n\t\"content\" text,\n\t\"term\" text,\n\t\"country\" text,\n\t\"region\" text,\n\t\"city\" text,\n\t\"locale\" text,\n\t\"currency\" text,\n\t\"device_type\" text,\n\t\"browser\" text,\n\t\"os\" text,\n\t\"user_agent\" text,\n\t\"created_at\" timestamp with time zone DEFAULT now() NOT NULL\n);\n--> statement-breakpoint\nCREATE TABLE \"visitor_profiles\" (\n\t\"visitor_id\" text PRIMARY KEY NOT NULL,\n\t\"user_id\" integer,\n\t\"first_seen_at\" timestamp with time zone DEFAULT now() NOT NULL,\n\t\"last_seen_at\" timestamp with time zone DEFAULT now() NOT NULL,\n\t\"landing_path\" text,\n\t\"first_path\" text,\n\t\"last_path\" text,\n\t\"first_referrer\" text,\n\t\"last_referrer\" text,\n\t\"first_source_type\" text,\n\t\"last_source_type\" text,\n\t\"first_source\" text,\n\t\"last_source\" text,\n\t\"first_medium\" text,\n\t\"last_medium\" text,\n\t\"first_campaign\" text,\n\t\"last_campaign\" text,\n\t\"first_content\" text,\n\t\"last_content\" text,\n\t\"first_term\" text,\n\t\"last_term\" text,\n\t\"country\" text,\n\t\"region\" text,\n\t\"city\" text,\n\t\"locale\" text,\n\t\"currency\" text,\n\t\"device_type\" text,\n\t\"browser\" text,\n\t\"os\" text,\n\t\"user_agent\" text,\n\t\"created_at\" timestamp with time zone DEFAULT now() NOT NULL,\n\t\"updated_at\" timestamp with time zone DEFAULT now() NOT NULL\n);\n--> statement-breakpoint\nALTER TABLE \"payment_methods\" DROP CONSTRAINT \"payment_methods_code_unique\";--> statement-breakpoint\nALTER TABLE \"users\" ALTER COLUMN \"cash_balance\" SET DEFAULT 0;--> statement-breakpoint\nALTER TABLE \"users\" ALTER COLUMN \"grant_balance\" SET DEFAULT 0;--> statement-breakpoint\nALTER TABLE \"visitor_events\" ADD CONSTRAINT \"visitor_events_user_id_users_id_fk\" FOREIGN KEY (\"user_id\") REFERENCES \"public\".\"users\"(\"id\") ON DELETE no action ON UPDATE no action;--> statement-breakpoint\nALTER TABLE \"visitor_events\" ADD CONSTRAINT \"visitor_events_order_id_orders_id_fk\" FOREIGN KEY (\"order_id\") REFERENCES \"public\".\"orders\"(\"id\") ON DELETE no action ON UPDATE no action;--> statement-breakpoint\nALTER TABLE \"visitor_events\" ADD CONSTRAINT \"visitor_events_product_id_products_id_fk\" FOREIGN KEY (\"product_id\") REFERENCES \"public\".\"products\"(\"id\") ON DELETE no action ON UPDATE no action;--> statement-breakpoint\nALTER TABLE \"visitor_profiles\" ADD CONSTRAINT \"visitor_profiles_user_id_users_id_fk\" FOREIGN KEY (\"user_id\") REFERENCES \"public\".\"users\"(\"id\") ON DELETE no action ON UPDATE no action;\n"},{"name":"0002_add_posts_key","sql":"ALTER TABLE \"posts\" ADD COLUMN \"key\" text;\n--> statement-breakpoint\nCREATE UNIQUE INDEX \"posts_type_key_unique\" ON \"posts\" (\"type\",\"key\");\n"},{"name":"0003_drop_posts_type_key_unique","sql":"DROP INDEX IF EXISTS \"posts_type_key_unique\";\n"},{"name":"0004_add_posts_sort","sql":"ALTER TABLE \"posts\" ADD COLUMN \"sort\" integer;\n"},{"name":"0005_add_visitor_events_ip","sql":"ALTER TABLE \"visitor_events\" ADD COLUMN \"ip\" text;\n"},{"name":"0006_add_notifications","sql":"CREATE TABLE \"notifications\" (\n  \"id\" serial PRIMARY KEY NOT NULL,\n  \"user_id\" integer REFERENCES \"users\"(\"id\"),\n  \"visitor_id\" text,\n  \"type\" text NOT NULL,\n  \"title\" text NOT NULL,\n  \"message\" text NOT NULL,\n  \"data\" jsonb,\n  \"is_read\" boolean DEFAULT false NOT NULL,\n  \"created_at\" timestamp with time zone DEFAULT now() NOT NULL\n);\n"},{"name":"0007_add_access_logs","sql":"CREATE TABLE \"access_logs\" (\n\t\"id\" serial PRIMARY KEY NOT NULL,\n\t\"path\" text NOT NULL,\n\t\"method\" text NOT NULL,\n\t\"ip\" text,\n\t\"user_agent\" text,\n\t\"referrer\" text,\n\t\"country\" text,\n\t\"region\" text,\n\t\"city\" text,\n\t\"status_code\" integer,\n\t\"duration\" real,\n\t\"visitor_id\" text,\n\t\"user_id\" integer,\n\t\"created_at\" timestamp with time zone DEFAULT now() NOT NULL\n);\n--> statement-breakpoint\nALTER TABLE \"access_logs\" ADD CONSTRAINT \"access_logs_user_id_users_id_fk\" FOREIGN KEY (\"user_id\") REFERENCES \"public\".\"users\"(\"id\") ON DELETE no action ON UPDATE no action;\n"},{"name":"0008_add_users_email_verify","sql":"ALTER TABLE \"users\" ADD COLUMN \"email_verified_at\" timestamp with time zone;\n--> statement-breakpoint\nALTER TABLE \"users\" ADD COLUMN \"email_verify_token\" text;\n--> statement-breakpoint\nALTER TABLE \"users\" ADD COLUMN \"email_verify_expires_at\" timestamp with time zone;\n"},{"name":"0009_sloppy_banshee","sql":"-- 说明：0002~0008 这几个迁移文件是历史上手写补的，当时没有同步生成 meta/snapshot，\n-- 导致 drizzle-kit generate 一直是拿 0001 快照在跟当前 schema.pg.ts 比对，\n-- 把 access_logs / notifications / posts.key,sort / visitor_events.ip 等其实早就\n-- 建过的东西也当成缺失重新吐出来。这里手工核对了生产库实际结构，只保留真正\n-- 还没建过的四项，并加上 IF NOT EXISTS / ADD COLUMN IF NOT EXISTS 兜底，避免\n-- 两边环境状态判断有误时把已存在的对象重建报错。\nCREATE TABLE IF NOT EXISTS \"email_providers\" (\n\t\"id\" serial PRIMARY KEY NOT NULL,\n\t\"name\" text NOT NULL,\n\t\"code\" text NOT NULL,\n\t\"is_active\" boolean DEFAULT false NOT NULL,\n\t\"config_json\" text,\n\t\"send_script\" text,\n\t\"created_at\" timestamp with time zone DEFAULT now() NOT NULL\n);\n--> statement-breakpoint\nCREATE TABLE IF NOT EXISTS \"event_rules\" (\n\t\"id\" serial PRIMARY KEY NOT NULL,\n\t\"event\" text NOT NULL,\n\t\"action\" text NOT NULL,\n\t\"config\" jsonb,\n\t\"enabled\" boolean DEFAULT true NOT NULL,\n\t\"remark\" text,\n\t\"created_at\" timestamp with time zone DEFAULT now() NOT NULL,\n\t\"updated_at\" timestamp with time zone DEFAULT now()\n);\n--> statement-breakpoint\nCREATE TABLE IF NOT EXISTS \"user_tokens\" (\n\t\"id\" serial PRIMARY KEY NOT NULL,\n\t\"user_id\" integer NOT NULL,\n\t\"token\" text NOT NULL,\n\t\"name\" text,\n\t\"expires_at\" timestamp with time zone,\n\t\"last_used_at\" timestamp with time zone,\n\t\"revoked\" boolean DEFAULT false NOT NULL,\n\t\"created_at\" timestamp with time zone DEFAULT now() NOT NULL,\n\tCONSTRAINT \"user_tokens_token_unique\" UNIQUE(\"token\")\n);\n--> statement-breakpoint\nALTER TABLE \"users\" ADD COLUMN IF NOT EXISTS \"current_session_id\" text;\n--> statement-breakpoint\nDO $$ BEGIN\n\tALTER TABLE \"user_tokens\" ADD CONSTRAINT \"user_tokens_user_id_users_id_fk\" FOREIGN KEY (\"user_id\") REFERENCES \"public\".\"users\"(\"id\") ON DELETE no action ON UPDATE no action;\nEXCEPTION\n\tWHEN duplicate_object THEN null;\nEND $$;\n--> statement-breakpoint\n-- 邮箱验证改用 user_tokens 表存 token（见 server/api/auth/register.post.ts /\n-- verify-email.get.ts），users 表上这两列不再需要。生产库当时是靠某次单独的\n-- db:pg:push 手动加上的，核对过待验证且未过期的行数是 0，可以直接安全丢弃。\nALTER TABLE \"users\" DROP COLUMN IF EXISTS \"email_verify_token\";\n--> statement-breakpoint\nALTER TABLE \"users\" DROP COLUMN IF EXISTS \"email_verify_expires_at\";\n"},{"name":"0010_add_promo","sql":"CREATE TABLE IF NOT EXISTS \"promo_agent_tiers\" (\n  \"id\" serial PRIMARY KEY NOT NULL,\n  \"code\" text NOT NULL,\n  \"name\" text NOT NULL,\n  \"role_scope\" text DEFAULT 'agent' NOT NULL,\n  \"level\" integer DEFAULT 1 NOT NULL,\n  \"discount_rate\" real DEFAULT 1 NOT NULL,\n  \"sales_threshold\" real DEFAULT 0 NOT NULL,\n  \"is_fixed\" boolean DEFAULT false NOT NULL,\n  \"is_active\" boolean DEFAULT true NOT NULL,\n  \"description\" text,\n  \"created_at\" timestamp with time zone DEFAULT now() NOT NULL,\n  \"updated_at\" timestamp with time zone DEFAULT now(),\n  CONSTRAINT \"promo_agent_tiers_code_unique\" UNIQUE(\"code\")\n);\n--> statement-breakpoint\nCREATE TABLE IF NOT EXISTS \"promo_members\" (\n  \"id\" serial PRIMARY KEY NOT NULL,\n  \"user_id\" integer NOT NULL REFERENCES \"users\"(\"id\"),\n  \"role\" text DEFAULT 'member' NOT NULL,\n  \"status\" text DEFAULT 'active' NOT NULL,\n  \"promo_code\" text NOT NULL,\n  \"invite_code\" text NOT NULL,\n  \"agent_code\" text,\n  \"current_agent_tier_id\" integer REFERENCES \"promo_agent_tiers\"(\"id\"),\n  \"joined_at\" timestamp with time zone DEFAULT now() NOT NULL,\n  \"created_at\" timestamp with time zone DEFAULT now() NOT NULL,\n  \"updated_at\" timestamp with time zone DEFAULT now() NOT NULL,\n  CONSTRAINT \"promo_members_user_id_unique\" UNIQUE(\"user_id\"),\n  CONSTRAINT \"promo_members_promo_code_unique\" UNIQUE(\"promo_code\"),\n  CONSTRAINT \"promo_members_invite_code_unique\" UNIQUE(\"invite_code\"),\n  CONSTRAINT \"promo_members_agent_code_unique\" UNIQUE(\"agent_code\")\n);\n--> statement-breakpoint\nCREATE TABLE IF NOT EXISTS \"promo_invite_relations\" (\n  \"id\" serial PRIMARY KEY NOT NULL,\n  \"invitee_user_id\" integer NOT NULL REFERENCES \"users\"(\"id\"),\n  \"inviter_user_id\" integer NOT NULL REFERENCES \"users\"(\"id\"),\n  \"source\" text DEFAULT 'register' NOT NULL,\n  \"code_snapshot\" text,\n  \"bound_at\" timestamp with time zone DEFAULT now() NOT NULL,\n  \"created_at\" timestamp with time zone DEFAULT now() NOT NULL,\n  CONSTRAINT \"promo_invite_relations_invitee_user_id_unique\" UNIQUE(\"invitee_user_id\")\n);\n--> statement-breakpoint\nCREATE TABLE IF NOT EXISTS \"promo_agent_relations\" (\n  \"id\" serial PRIMARY KEY NOT NULL,\n  \"agent_user_id\" integer NOT NULL REFERENCES \"users\"(\"id\"),\n  \"parent_agent_user_id\" integer REFERENCES \"users\"(\"id\"),\n  \"master_agent_user_id\" integer REFERENCES \"users\"(\"id\"),\n  \"depth\" integer DEFAULT 1 NOT NULL,\n  \"status\" text DEFAULT 'active' NOT NULL,\n  \"bound_at\" timestamp with time zone DEFAULT now() NOT NULL,\n  \"created_at\" timestamp with time zone DEFAULT now() NOT NULL,\n  \"updated_at\" timestamp with time zone DEFAULT now() NOT NULL,\n  CONSTRAINT \"promo_agent_relations_agent_user_id_unique\" UNIQUE(\"agent_user_id\")\n);\n--> statement-breakpoint\nCREATE TABLE IF NOT EXISTS \"promo_order_attributions\" (\n  \"id\" serial PRIMARY KEY NOT NULL,\n  \"order_id\" text NOT NULL REFERENCES \"orders\"(\"id\"),\n  \"buyer_user_id\" integer REFERENCES \"users\"(\"id\"),\n  \"buyer_promo_member_id\" integer REFERENCES \"promo_members\"(\"id\"),\n  \"invite_user_id\" integer REFERENCES \"users\"(\"id\"),\n  \"agent_user_id\" integer REFERENCES \"users\"(\"id\"),\n  \"parent_agent_user_id\" integer REFERENCES \"users\"(\"id\"),\n  \"master_agent_user_id\" integer REFERENCES \"users\"(\"id\"),\n  \"agent_tier_id_snapshot\" integer,\n  \"agent_tier_name_snapshot\" text,\n  \"discount_rate_snapshot\" real,\n  \"source_type\" text DEFAULT 'direct' NOT NULL,\n  \"meta_data\" jsonb,\n  \"created_at\" timestamp with time zone DEFAULT now() NOT NULL,\n  CONSTRAINT \"promo_order_attributions_order_id_unique\" UNIQUE(\"order_id\")\n);\n--> statement-breakpoint\nCREATE TABLE IF NOT EXISTS \"promo_commissions\" (\n  \"id\" serial PRIMARY KEY NOT NULL,\n  \"order_id\" text NOT NULL REFERENCES \"orders\"(\"id\"),\n  \"owner_user_id\" integer NOT NULL REFERENCES \"users\"(\"id\"),\n  \"owner_promo_member_id\" integer REFERENCES \"promo_members\"(\"id\"),\n  \"type\" text NOT NULL,\n  \"source_type\" text DEFAULT 'direct' NOT NULL,\n  \"amount\" real NOT NULL,\n  \"rate\" real,\n  \"status\" text DEFAULT 'pending' NOT NULL,\n  \"remark\" text,\n  \"meta_data\" jsonb,\n  \"created_at\" timestamp with time zone DEFAULT now() NOT NULL,\n  \"updated_at\" timestamp with time zone DEFAULT now() NOT NULL\n);\n"},{"name":"0011_add_payment_method_locales","sql":"ALTER TABLE \"payment_methods\" ADD COLUMN IF NOT EXISTS \"supported_locales\" text;\n"},{"name":"0012_add_orders_currency","sql":"ALTER TABLE \"orders\" ADD COLUMN IF NOT EXISTS \"currency\" text DEFAULT 'USD' NOT NULL;\n"},{"name":"0013_add_payment_failures","sql":"CREATE TABLE IF NOT EXISTS \"payment_failures\" (\n        \"id\" serial PRIMARY KEY NOT NULL,\n        \"order_id\" text NOT NULL,\n        \"card_bin\" text,\n        \"reason\" text NOT NULL,\n        \"amount\" real,\n        \"pay_method\" text,\n        \"contact_email\" text,\n        \"raw_response\" text,\n        \"visitor_id\" text,\n        \"created_at\" timestamp with time zone DEFAULT now() NOT NULL\n);\n--> statement-breakpoint\nDO $$\nBEGIN\n        IF to_regclass('public.failures') IS NOT NULL THEN\n                INSERT INTO \"payment_failures\" (\n                        \"id\",\n                        \"order_id\",\n                        \"card_bin\",\n                        \"reason\",\n                        \"amount\",\n                        \"pay_method\",\n                        \"contact_email\",\n                        \"raw_response\",\n                        \"visitor_id\",\n                        \"created_at\"\n                )\n                SELECT\n                        f.\"id\",\n                        f.\"order_id\",\n                        f.\"card_bin\",\n                        f.\"reason\",\n                        f.\"amount\",\n                        f.\"pay_method\",\n                        f.\"contact_email\",\n                        f.\"raw_response\",\n                        f.\"visitor_id\",\n                        f.\"created_at\"\n                FROM \"failures\" f\n                WHERE NOT EXISTS (\n                        SELECT 1\n                        FROM \"payment_failures\" pf\n                        WHERE pf.\"id\" = f.\"id\"\n                );\n        END IF;\nEND $$;\n--> statement-breakpoint\nSELECT setval(\n        pg_get_serial_sequence('\"payment_failures\"', 'id'),\n        COALESCE((SELECT MAX(\"id\") FROM \"payment_failures\"), 0) + 1,\n        false\n);\n"},{"name":"0014_add_admin_permissions","sql":"ALTER TABLE \"admins\" ADD COLUMN IF NOT EXISTS \"permissions\" jsonb;\n"},{"name":"0015_add_operation_logs","sql":"CREATE TABLE IF NOT EXISTS \"operation_logs\" (\n\t\"id\" serial PRIMARY KEY NOT NULL,\n\t\"actor_type\" text DEFAULT 'admin' NOT NULL,\n\t\"actor_id\" integer,\n\t\"actor_name\" text,\n\t\"action\" text NOT NULL,\n\t\"resource\" text NOT NULL,\n\t\"resource_id\" text,\n\t\"summary\" text,\n\t\"details\" text,\n\t\"path\" text NOT NULL,\n\t\"method\" text NOT NULL,\n\t\"status_code\" integer,\n\t\"ip\" text,\n\t\"user_agent\" text,\n\t\"created_at\" timestamp with time zone DEFAULT now() NOT NULL\n);\n--> statement-breakpoint\nCREATE INDEX IF NOT EXISTS \"operation_logs_created_at_idx\" ON \"operation_logs\" (\"created_at\");\n--> statement-breakpoint\nCREATE INDEX IF NOT EXISTS \"operation_logs_actor_idx\" ON \"operation_logs\" (\"actor_id\",\"created_at\");\n--> statement-breakpoint\nCREATE INDEX IF NOT EXISTS \"operation_logs_resource_idx\" ON \"operation_logs\" (\"resource\",\"resource_id\");\n"},{"name":"0016_add_admin_tokens","sql":"CREATE TABLE IF NOT EXISTS \"admin_tokens\" (\n\t\"id\" serial PRIMARY KEY NOT NULL,\n\t\"admin_id\" integer NOT NULL,\n\t\"token\" text NOT NULL,\n\t\"name\" text,\n\t\"permissions\" jsonb,\n\t\"expires_at\" timestamp with time zone,\n\t\"last_used_at\" timestamp with time zone,\n\t\"revoked\" boolean DEFAULT false NOT NULL,\n\t\"created_at\" timestamp with time zone DEFAULT now() NOT NULL,\n\tCONSTRAINT \"admin_tokens_token_unique\" UNIQUE(\"token\")\n);\n--> statement-breakpoint\nDO $$ BEGIN\n\tALTER TABLE \"admin_tokens\" ADD CONSTRAINT \"admin_tokens_admin_id_admins_id_fk\" FOREIGN KEY (\"admin_id\") REFERENCES \"public\".\"admins\"(\"id\") ON DELETE no action ON UPDATE no action;\nEXCEPTION\n\tWHEN duplicate_object THEN null;\nEND $$;\n"},{"name":"0017_add_balance_logs","sql":"CREATE TABLE IF NOT EXISTS \"balance_logs\" (\n\t\"id\" serial PRIMARY KEY NOT NULL,\n\t\"user_id\" integer NOT NULL,\n\t\"balance_type\" text NOT NULL,\n\t\"action_type\" text DEFAULT 'topup' NOT NULL,\n\t\"amount_cents\" bigint NOT NULL,\n\t\"before_balance_cents\" bigint NOT NULL,\n\t\"after_balance_cents\" bigint NOT NULL,\n\t\"event_id\" text NOT NULL,\n\t\"source_type\" text DEFAULT 'system' NOT NULL,\n\t\"source_id\" text,\n\t\"operator_admin_id\" integer,\n\t\"operator_name\" text DEFAULT '' NOT NULL,\n\t\"remark\" text DEFAULT '' NOT NULL,\n\t\"created_at\" timestamp with time zone DEFAULT now() NOT NULL,\n\tCONSTRAINT \"balance_logs_event_id_unique\" UNIQUE(\"event_id\")\n);\n--> statement-breakpoint\nDO $$ BEGIN\n\tALTER TABLE \"balance_logs\" ADD CONSTRAINT \"balance_logs_user_id_users_id_fk\" FOREIGN KEY (\"user_id\") REFERENCES \"public\".\"users\"(\"id\") ON DELETE no action ON UPDATE no action;\nEXCEPTION\n\tWHEN duplicate_object THEN null;\nEND $$;\n--> statement-breakpoint\nCREATE INDEX IF NOT EXISTS \"idx_balance_logs_user_created_at\" ON \"balance_logs\" (\"user_id\",\"created_at\" DESC);\n"},{"name":"0018_add_order_source_idempotency","sql":"ALTER TABLE \"orders\" ADD COLUMN IF NOT EXISTS \"source\" text;\n--> statement-breakpoint\nALTER TABLE \"orders\" ADD COLUMN IF NOT EXISTS \"external_order_id\" text;\n--> statement-breakpoint\nCREATE UNIQUE INDEX IF NOT EXISTS \"orders_source_external_order_unique\" ON \"orders\" (\"source\",\"external_order_id\");\n"},{"name":"0019_add_user_sessions","sql":"CREATE TABLE IF NOT EXISTS \"user_sessions\" (\n  \"id\" serial PRIMARY KEY NOT NULL,\n  \"user_id\" integer NOT NULL REFERENCES \"users\"(\"id\"),\n  \"session_id_hash\" text NOT NULL UNIQUE,\n  \"status\" text DEFAULT 'active' NOT NULL,\n  \"auth_method\" text DEFAULT 'password' NOT NULL,\n  \"device_type\" text,\n  \"browser\" text,\n  \"os\" text,\n  \"user_agent\" text,\n  \"ip\" text,\n  \"country\" text,\n  \"region\" text,\n  \"city\" text,\n  \"logged_in_at\" timestamp with time zone DEFAULT now() NOT NULL,\n  \"last_seen_at\" timestamp with time zone DEFAULT now() NOT NULL,\n  \"ended_at\" timestamp with time zone,\n  \"replaced_by_session_id\" text,\n  \"created_at\" timestamp with time zone DEFAULT now() NOT NULL\n);\n--> statement-breakpoint\nCREATE INDEX IF NOT EXISTS \"user_sessions_user_status_idx\" ON \"user_sessions\" (\"user_id\", \"status\");\n--> statement-breakpoint\nCREATE INDEX IF NOT EXISTS \"user_sessions_last_seen_idx\" ON \"user_sessions\" (\"last_seen_at\");\n"},{"name":"0020_add_user_wallets","sql":"CREATE TABLE IF NOT EXISTS \"user_wallets\" (\n  \"id\" serial PRIMARY KEY NOT NULL,\n  \"user_id\" integer NOT NULL,\n  \"cash_balance\" bigint DEFAULT 0 NOT NULL,\n  \"grant_balance\" bigint DEFAULT 0 NOT NULL,\n  \"sub_balance\" bigint DEFAULT 0 NOT NULL,\n  \"points_balance\" bigint DEFAULT 0 NOT NULL,\n  \"tier_level\" integer DEFAULT 0 NOT NULL,\n  \"sub_expires_at\" timestamp with time zone,\n  \"status\" integer DEFAULT 1 NOT NULL,\n  \"created_at\" timestamp with time zone DEFAULT now() NOT NULL,\n  CONSTRAINT \"user_wallets_user_id_unique\" UNIQUE (\"user_id\"),\n  CONSTRAINT \"user_wallets_user_id_users_id_fk\" FOREIGN KEY (\"user_id\") REFERENCES \"public\".\"users\"(\"id\") ON DELETE cascade ON UPDATE no action\n);\n--> statement-breakpoint\nINSERT INTO \"user_wallets\" (\n  \"user_id\", \"cash_balance\", \"grant_balance\", \"sub_balance\", \"points_balance\",\n  \"tier_level\", \"sub_expires_at\", \"status\", \"created_at\"\n)\nSELECT\n  \"id\", COALESCE(\"cash_balance\", 0), COALESCE(\"grant_balance\", 0), COALESCE(\"sub_balance\", 0), 0,\n  COALESCE(\"tier_level\", 0), \"sub_expires_at\", COALESCE(\"status\", 1), \"created_at\"\nFROM \"users\"\nON CONFLICT (\"user_id\") DO NOTHING;\n--> statement-breakpoint\nALTER TABLE \"balance_logs\" ADD COLUMN IF NOT EXISTS \"wallet_id\" integer;\n--> statement-breakpoint\nUPDATE \"balance_logs\" AS log\nSET \"wallet_id\" = wallet.\"id\"\nFROM \"user_wallets\" AS wallet\nWHERE log.\"wallet_id\" IS NULL AND wallet.\"user_id\" = log.\"user_id\";\n--> statement-breakpoint\nALTER TABLE \"balance_logs\" ALTER COLUMN \"wallet_id\" SET NOT NULL;\n--> statement-breakpoint\nDO $$ BEGIN\n  ALTER TABLE \"balance_logs\" ADD CONSTRAINT \"balance_logs_wallet_id_user_wallets_id_fk\" FOREIGN KEY (\"wallet_id\") REFERENCES \"public\".\"user_wallets\"(\"id\") ON DELETE no action ON UPDATE no action;\nEXCEPTION\n  WHEN duplicate_object THEN null;\nEND $$;\n--> statement-breakpoint\nCREATE INDEX IF NOT EXISTS \"idx_balance_logs_wallet_created_at\" ON \"balance_logs\" (\"wallet_id\", \"created_at\" DESC);\n--> statement-breakpoint\nALTER TABLE \"users\" DROP COLUMN IF EXISTS \"cash_balance\";\nALTER TABLE \"users\" DROP COLUMN IF EXISTS \"grant_balance\";\nALTER TABLE \"users\" DROP COLUMN IF EXISTS \"sub_balance\";\nALTER TABLE \"users\" DROP COLUMN IF EXISTS \"sub_expires_at\";\nALTER TABLE \"users\" DROP COLUMN IF EXISTS \"tier_level\";\n"},{"name":"0021_add_topups","sql":"CREATE TABLE IF NOT EXISTS \"topups\" (\n  \"id\" serial PRIMARY KEY NOT NULL,\n  \"order_id\" text NOT NULL UNIQUE REFERENCES \"public\".\"orders\"(\"id\") ON DELETE cascade,\n  \"user_id\" integer NOT NULL REFERENCES \"public\".\"users\"(\"id\"),\n  \"wallet_id\" integer NOT NULL REFERENCES \"public\".\"user_wallets\"(\"id\"),\n  \"source\" text DEFAULT 'order' NOT NULL,\n  \"payment_amount\" real NOT NULL,\n  \"payment_currency\" text NOT NULL,\n  \"credit_amount_cents\" bigint NOT NULL,\n  \"credit_currency\" text NOT NULL,\n  \"exchange_rate\" real DEFAULT 1 NOT NULL,\n  \"balance_type\" text DEFAULT 'cash' NOT NULL,\n  \"status\" text DEFAULT 'pending' NOT NULL,\n  \"credit_event_id\" text NOT NULL UNIQUE,\n  \"refund_event_id\" text UNIQUE,\n  \"retry_count\" integer DEFAULT 0 NOT NULL,\n  \"shortfall_cents\" bigint DEFAULT 0 NOT NULL,\n  \"last_error\" text,\n  \"paid_at\" timestamp with time zone,\n  \"credited_at\" timestamp with time zone,\n  \"refunded_at\" timestamp with time zone,\n  \"created_at\" timestamp with time zone DEFAULT now() NOT NULL,\n  \"updated_at\" timestamp with time zone DEFAULT now() NOT NULL\n);\n--> statement-breakpoint\nINSERT INTO \"topups\" (\n  \"order_id\", \"user_id\", \"wallet_id\", \"source\", \"payment_amount\", \"payment_currency\",\n  \"credit_amount_cents\", \"credit_currency\", \"exchange_rate\", \"balance_type\", \"status\",\n  \"credit_event_id\", \"refund_event_id\", \"last_error\", \"paid_at\", \"credited_at\", \"refunded_at\",\n  \"created_at\", \"updated_at\"\n)\nSELECT\n  orders.\"id\", orders.\"user_id\", wallets.\"id\", COALESCE(orders.\"source\", 'order'),\n  orders.\"amount\", COALESCE(orders.\"currency\", 'USD'),\n  COALESCE(credit_log.\"amount_cents\", ROUND(COALESCE(NULLIF(orders.\"meta_data\"->>'recharge_amount', '')::numeric, orders.\"amount\") * 100000000)::bigint),\n  COALESCE(orders.\"meta_data\"->>'display_unit', orders.\"currency\", 'USD'),\n  COALESCE(NULLIF(orders.\"meta_data\"->'currencySnapshot'->>'exchangeRate', '')::real, 1),\n  COALESCE(credit_log.\"balance_type\", orders.\"meta_data\"->>'balance_type', 'cash'),\n  CASE\n    WHEN orders.\"pay_status\" = 'refunded' AND credit_log.\"id\" IS NOT NULL AND refund_log.\"id\" IS NOT NULL THEN 'refunded'\n    WHEN refund_log.\"id\" IS NOT NULL THEN 'review_required'\n    WHEN orders.\"pay_status\" = 'refunded' THEN 'review_required'\n    WHEN orders.\"pay_status\" = 'paid' AND credit_log.\"id\" IS NOT NULL THEN 'credited'\n    WHEN credit_log.\"id\" IS NOT NULL THEN 'review_required'\n    WHEN orders.\"pay_status\" = 'paid' THEN 'review_required'\n    WHEN orders.\"pay_status\" = 'failed' THEN 'payment_failed'\n    ELSE 'pending'\n  END,\n  'topup:' || orders.\"id\",\n  CASE WHEN refund_log.\"id\" IS NOT NULL THEN 'refund:' || orders.\"id\" ELSE NULL END,\n  CASE\n    WHEN refund_log.\"id\" IS NOT NULL AND (orders.\"pay_status\" <> 'refunded' OR credit_log.\"id\" IS NULL) THEN '历史退款流水与订单或到账流水不一致，需人工核对'\n    WHEN orders.\"pay_status\" = 'refunded' AND refund_log.\"id\" IS NULL THEN '历史退款订单没有可确认的 APay 退款流水，需人工核对'\n    WHEN credit_log.\"id\" IS NOT NULL AND orders.\"pay_status\" <> 'paid' THEN '历史到账流水与订单支付状态不一致，需人工核对'\n    WHEN orders.\"pay_status\" = 'paid' AND credit_log.\"id\" IS NULL THEN '历史订单没有可确认的 APay 到账流水，禁止自动补发'\n    ELSE NULL\n  END,\n  orders.\"paid_at\", credit_log.\"created_at\", refund_log.\"created_at\", orders.\"created_at\", now()\nFROM \"orders\" orders\nJOIN \"products\" products ON products.\"id\" = orders.\"product_id\" AND products.\"type\" = 'topup'\nJOIN \"user_wallets\" wallets ON wallets.\"user_id\" = orders.\"user_id\"\nLEFT JOIN \"balance_logs\" credit_log ON credit_log.\"event_id\" = 'topup:' || orders.\"id\"\nLEFT JOIN \"balance_logs\" refund_log ON refund_log.\"event_id\" = 'refund:' || orders.\"id\"\nWHERE COALESCE(products.\"slug\", '') <> 'minimal-checkout-recharge'\n  OR orders.\"meta_data\"->'checkoutBridge'->'attach'->>'walletOwner' = 'apay'\nON CONFLICT (\"order_id\") DO NOTHING;\n--> statement-breakpoint\nCREATE INDEX IF NOT EXISTS \"idx_topups_user_created_at\" ON \"topups\" (\"user_id\", \"created_at\" DESC);\nCREATE INDEX IF NOT EXISTS \"idx_topups_status_updated_at\" ON \"topups\" (\"status\", \"updated_at\");\n"},{"name":"0022_add_email_logs","sql":"CREATE TABLE IF NOT EXISTS \"email_logs\" (\n  \"id\" serial PRIMARY KEY NOT NULL,\n  \"to\" text NOT NULL,\n  \"subject\" text NOT NULL,\n  \"template_code\" text,\n  \"html\" text,\n  \"provider\" text,\n  \"status\" text DEFAULT 'success' NOT NULL,\n  \"message_id\" text,\n  \"error\" text,\n  \"created_at\" timestamp with time zone DEFAULT now() NOT NULL\n);\n--> statement-breakpoint\nCREATE INDEX IF NOT EXISTS \"email_logs_to_idx\" ON \"email_logs\" (\"to\");\n--> statement-breakpoint\nCREATE INDEX IF NOT EXISTS \"email_logs_status_idx\" ON \"email_logs\" (\"status\");\n--> statement-breakpoint\nCREATE INDEX IF NOT EXISTS \"email_logs_created_at_idx\" ON \"email_logs\" (\"created_at\");\n"},{"name":"0023_add_products_status","sql":"ALTER TABLE \"products\" ADD COLUMN IF NOT EXISTS \"status\" text DEFAULT 'active' NOT NULL;\n--> statement-breakpoint\nUPDATE \"products\" SET \"status\" = 'inactive' WHERE \"is_active\" = false;\n"},{"name":"0024_add_promo_applications_and_tickets","sql":"CREATE TABLE IF NOT EXISTS \"promo_applications\" (\n  \"id\" serial PRIMARY KEY NOT NULL,\n  \"user_id\" integer NOT NULL REFERENCES \"users\"(\"id\"),\n  \"status\" text DEFAULT 'pending' NOT NULL,\n  \"channel_info\" text,\n  \"contact\" text,\n  \"reason\" text,\n  \"review_note\" text,\n  \"reviewed_by_admin_id\" integer,\n  \"reviewed_at\" timestamp with time zone,\n  \"created_at\" timestamp with time zone DEFAULT now() NOT NULL,\n  \"updated_at\" timestamp with time zone DEFAULT now() NOT NULL\n);\n--> statement-breakpoint\nCREATE TABLE IF NOT EXISTS \"tickets\" (\n  \"id\" serial PRIMARY KEY NOT NULL,\n  \"ticket_no\" text NOT NULL UNIQUE,\n  \"user_id\" integer NOT NULL REFERENCES \"users\"(\"id\"),\n  \"category\" text DEFAULT 'other' NOT NULL,\n  \"title\" text NOT NULL,\n  \"status\" text DEFAULT 'open' NOT NULL,\n  \"priority\" text DEFAULT 'normal' NOT NULL,\n  \"context\" jsonb,\n  \"last_replied_at\" timestamp with time zone DEFAULT now() NOT NULL,\n  \"last_replied_by\" text DEFAULT 'user' NOT NULL,\n  \"created_at\" timestamp with time zone DEFAULT now() NOT NULL,\n  \"updated_at\" timestamp with time zone DEFAULT now() NOT NULL\n);\n--> statement-breakpoint\nCREATE INDEX IF NOT EXISTS \"tickets_user_id_idx\" ON \"tickets\" (\"user_id\");\n--> statement-breakpoint\nCREATE INDEX IF NOT EXISTS \"tickets_status_idx\" ON \"tickets\" (\"status\");\n--> statement-breakpoint\nCREATE INDEX IF NOT EXISTS \"tickets_category_idx\" ON \"tickets\" (\"category\");\n--> statement-breakpoint\nCREATE INDEX IF NOT EXISTS \"tickets_last_replied_at_idx\" ON \"tickets\" (\"last_replied_at\");\n--> statement-breakpoint\nCREATE TABLE IF NOT EXISTS \"ticket_messages\" (\n  \"id\" serial PRIMARY KEY NOT NULL,\n  \"ticket_id\" integer NOT NULL REFERENCES \"tickets\"(\"id\") ON DELETE CASCADE,\n  \"sender_type\" text NOT NULL,\n  \"sender_id\" integer,\n  \"sender_name\" text DEFAULT '' NOT NULL,\n  \"content\" text NOT NULL,\n  \"attachments\" jsonb,\n  \"created_at\" timestamp with time zone DEFAULT now() NOT NULL\n);\n--> statement-breakpoint\nCREATE INDEX IF NOT EXISTS \"ticket_messages_ticket_id_idx\" ON \"ticket_messages\" (\"ticket_id\");\n--> statement-breakpoint\nCREATE INDEX IF NOT EXISTS \"ticket_messages_created_at_idx\" ON \"ticket_messages\" (\"created_at\");\n"},{"name":"0025_purge_legacy_password_reset_tokens","sql":"-- 找回密码的令牌口径已收归核心（server/utils/passwordReset.ts，只存 sha256，\n-- name 统一为 'password_reset'）。这里清掉两个主题各自实现时留下的旧行：\n--   qingpu_password_reset —— 曾以**明文**入库。核心鉴权中间件按 user_tokens.token\n--     查 Bearer / X-Api-Key，当时只排除 email_verify，因此这些行同时是一把\n--     有效期 1 小时的全权限 API Key，必须清。\n--   shoply_password_reset —— 存的是哈希，不构成漏洞，但改名后永远不会再被消费。\n-- 在途的重置链接一并作废，用户重新申请即可。\nDELETE FROM \"user_tokens\" WHERE \"name\" IN ('qingpu_password_reset', 'shoply_password_reset');\n"},{"name":"0026_topups_wallet_optional","sql":"-- AINode 钱包模式（APAY_WALLET_BACKEND=ainode）下 user_wallets 归 AINode，充值台账不再绑定钱包。\n-- 只放宽约束、不改数据；本地钱包模式照常写入 wallet_id。IF EXISTS：共库站点可能从未建过台账表。\nALTER TABLE IF EXISTS \"topups\" ALTER COLUMN \"wallet_id\" DROP NOT NULL;\n"},{"name":"0027_add_comments","sql":"CREATE TABLE IF NOT EXISTS \"comments\" (\n\t\"id\" serial PRIMARY KEY NOT NULL,\n\t\"target_type\" text NOT NULL,\n\t\"target_id\" text NOT NULL,\n\t\"user_id\" integer REFERENCES \"users\"(\"id\") ON DELETE set null,\n\t\"author_name\" text NOT NULL,\n\t\"author_email\" text,\n\t\"author_url\" text,\n\t\"content\" text NOT NULL,\n\t\"parent_id\" integer,\n\t\"status\" text DEFAULT 'approved' NOT NULL,\n\t\"ip\" text,\n\t\"user_agent\" text,\n\t\"created_at\" timestamp with time zone DEFAULT now() NOT NULL,\n\t\"updated_at\" timestamp with time zone DEFAULT now()\n);\n--> statement-breakpoint\nCREATE INDEX IF NOT EXISTS \"comments_target_status_idx\" ON \"comments\" (\"target_type\", \"target_id\", \"status\", \"created_at\");\n--> statement-breakpoint\nCREATE INDEX IF NOT EXISTS \"comments_user_id_idx\" ON \"comments\" (\"user_id\");\n--> statement-breakpoint\nCREATE INDEX IF NOT EXISTS \"comments_parent_id_idx\" ON \"comments\" (\"parent_id\");\n"},{"name":"0028_repair_schema_alignment","sql":"-- Append-only repair for schema fields omitted from the historical chain.\nALTER TABLE \"visitor_profiles\" ADD COLUMN IF NOT EXISTS \"ip\" text;\n"},{"name":"0029_add_likes_and_interaction_counters","sql":"CREATE TABLE IF NOT EXISTS \"likes\" (\n\t\"id\" serial PRIMARY KEY NOT NULL,\n\t\"target_type\" text NOT NULL,\n\t\"target_id\" text NOT NULL,\n\t\"user_id\" integer REFERENCES \"users\"(\"id\") ON DELETE cascade,\n\t\"visitor_id\" text NOT NULL,\n\t\"ip\" text,\n\t\"user_agent\" text,\n\t\"created_at\" timestamp with time zone DEFAULT now() NOT NULL\n);\n--> statement-breakpoint\nCREATE INDEX IF NOT EXISTS \"likes_target_idx\" ON \"likes\" (\"target_type\", \"target_id\");\n--> statement-breakpoint\nCREATE INDEX IF NOT EXISTS \"likes_target_user_idx\" ON \"likes\" (\"target_type\", \"target_id\", \"user_id\");\n--> statement-breakpoint\nCREATE INDEX IF NOT EXISTS \"likes_target_visitor_idx\" ON \"likes\" (\"target_type\", \"target_id\", \"visitor_id\");\n--> statement-breakpoint\nALTER TABLE \"products\" ADD COLUMN IF NOT EXISTS \"likes\" integer DEFAULT 0 NOT NULL;\n--> statement-breakpoint\nALTER TABLE \"posts\" ADD COLUMN IF NOT EXISTS \"likes\" integer DEFAULT 0 NOT NULL;\n--> statement-breakpoint\nALTER TABLE \"posts\" ADD COLUMN IF NOT EXISTS \"comments\" integer DEFAULT 0 NOT NULL;\n--> statement-breakpoint\nALTER TABLE \"comments\" ADD COLUMN IF NOT EXISTS \"likes\" integer DEFAULT 0 NOT NULL;\n"},{"name":"0030_add_comment_sync_source","sql":"ALTER TABLE \"comments\" ADD COLUMN IF NOT EXISTS \"source\" text DEFAULT 'local' NOT NULL;\n--> statement-breakpoint\nALTER TABLE \"comments\" ADD COLUMN IF NOT EXISTS \"external_id\" text;\n--> statement-breakpoint\nALTER TABLE \"comments\" ADD COLUMN IF NOT EXISTS \"external_url\" text;\n--> statement-breakpoint\nALTER TABLE \"comments\" ADD COLUMN IF NOT EXISTS \"extra_data\" jsonb;\n--> statement-breakpoint\nCREATE INDEX IF NOT EXISTS \"comments_source_external_idx\" ON \"comments\" (\"target_type\", \"target_id\", \"source\", \"external_id\");\n"},{"name":"0031_add_comment_sync_sources","sql":"CREATE TABLE IF NOT EXISTS \"comment_sync_sources\" (\n\t\"id\" serial PRIMARY KEY NOT NULL,\n\t\"target_type\" text NOT NULL,\n\t\"target_id\" text NOT NULL,\n\t\"source\" text NOT NULL,\n\t\"external_id\" text NOT NULL,\n\t\"external_url\" text,\n\t\"auto_sync\" boolean DEFAULT true NOT NULL,\n\t\"sync_interval\" integer DEFAULT 60 NOT NULL,\n\t\"default_status\" text DEFAULT 'approved' NOT NULL,\n\t\"last_synced_at\" timestamp with time zone,\n\t\"last_sync_status\" text DEFAULT 'idle' NOT NULL,\n\t\"last_error\" text,\n\t\"total_synced\" integer DEFAULT 0 NOT NULL,\n\t\"extra_data\" jsonb,\n\t\"created_at\" timestamp with time zone DEFAULT now() NOT NULL,\n\t\"updated_at\" timestamp with time zone DEFAULT now()\n);\n--> statement-breakpoint\nCREATE UNIQUE INDEX IF NOT EXISTS \"comment_sync_sources_target_source_unique\" ON \"comment_sync_sources\" USING btree (\"target_type\",\"target_id\",\"source\");\n--> statement-breakpoint\nCREATE INDEX IF NOT EXISTS \"comment_sync_sources_auto_sync_idx\" ON \"comment_sync_sources\" USING btree (\"auto_sync\",\"last_synced_at\");\n"}],"mysql":[{"name":"0000_thin_bucky","sql":"CREATE TABLE `admins` (\n\t`id` int AUTO_INCREMENT NOT NULL,\n\t`username` varchar(191) NOT NULL,\n\t`password_hash` varchar(255) NOT NULL,\n\t`created_at` timestamp NOT NULL DEFAULT (now()),\n\tCONSTRAINT `admins_id` PRIMARY KEY(`id`),\n\tCONSTRAINT `admins_username_unique` UNIQUE(`username`)\n);\n--> statement-breakpoint\nCREATE TABLE `cards` (\n\t`id` int AUTO_INCREMENT NOT NULL,\n\t`product_id` int NOT NULL,\n\t`card_number` text NOT NULL,\n\t`is_used` boolean NOT NULL DEFAULT false,\n\t`order_id` text,\n\t`created_at` timestamp NOT NULL DEFAULT (now()),\n\tCONSTRAINT `cards_id` PRIMARY KEY(`id`)\n);\n--> statement-breakpoint\nCREATE TABLE `failures` (\n\t`id` int AUTO_INCREMENT NOT NULL,\n\t`order_id` text NOT NULL,\n\t`card_bin` text,\n\t`reason` text NOT NULL,\n\t`amount` real,\n\t`pay_method` text,\n\t`contact_email` text,\n\t`raw_response` text,\n\t`visitor_id` text,\n\t`created_at` timestamp NOT NULL DEFAULT (now()),\n\tCONSTRAINT `failures_id` PRIMARY KEY(`id`)\n);\n--> statement-breakpoint\nCREATE TABLE `logs` (\n\t`id` int AUTO_INCREMENT NOT NULL,\n\t`level` text NOT NULL DEFAULT ('info'),\n\t`message` text NOT NULL,\n\t`details` text,\n\t`source` text,\n\t`created_at` timestamp NOT NULL DEFAULT (now()),\n\tCONSTRAINT `logs_id` PRIMARY KEY(`id`)\n);\n--> statement-breakpoint\nCREATE TABLE `oauth_accounts` (\n\t`id` int AUTO_INCREMENT NOT NULL,\n\t`user_id` int NOT NULL,\n\t`provider` varchar(191) NOT NULL,\n\t`provider_account_id` varchar(255) NOT NULL,\n\t`created_at` timestamp NOT NULL DEFAULT (now()),\n\tCONSTRAINT `oauth_accounts_id` PRIMARY KEY(`id`),\n\tCONSTRAINT `provider_account_idx` UNIQUE(`provider`,`provider_account_id`)\n);\n--> statement-breakpoint\nCREATE TABLE `orders` (\n\t`id` varchar(191) NOT NULL,\n\t`amount` real NOT NULL,\n\t`product_id` int NOT NULL,\n\t`user_id` int,\n\t`contact_email` text NOT NULL,\n\t`pay_method` text,\n\t`trade_no` text,\n\t`status` text NOT NULL DEFAULT ('none'),\n\t`delivery_info` text,\n\t`meta_data` json,\n\t`visitor_id` text,\n\t`subscription_id` text,\n\t`created_at` timestamp NOT NULL DEFAULT (now()),\n\t`paid_at` timestamp,\n\t`pay_status` text NOT NULL DEFAULT ('pending'),\n\tCONSTRAINT `orders_id` PRIMARY KEY(`id`)\n);\n--> statement-breakpoint\nCREATE TABLE `payment_methods` (\n\t`id` int AUTO_INCREMENT NOT NULL,\n\t`name` text NOT NULL,\n\t`code` text NOT NULL,\n\t`icon_url` text,\n\t`is_active` boolean NOT NULL DEFAULT false,\n\t`config_json` text,\n\t`info` text,\n\t`create` text,\n\t`callback` text,\n\t`created_at` timestamp NOT NULL DEFAULT (now()),\n\tCONSTRAINT `payment_methods_id` PRIMARY KEY(`id`)\n);\n--> statement-breakpoint\nCREATE TABLE `posts` (\n\t`id` int AUTO_INCREMENT NOT NULL,\n\t`key` text,\n\t`sort` int,\n\t`slug` varchar(191) NOT NULL,\n\t`title` text NOT NULL,\n\t`description` text,\n\t`content` text,\n\t`type` text NOT NULL DEFAULT ('blog'),\n\t`image_url` text,\n\t`views` int NOT NULL DEFAULT 0,\n\t`is_active` boolean NOT NULL DEFAULT true,\n\t`meta_data` json,\n\t`created_at` timestamp NOT NULL DEFAULT (now()),\n\t`updated_at` timestamp DEFAULT (now()),\n\tCONSTRAINT `posts_id` PRIMARY KEY(`id`),\n\tCONSTRAINT `posts_slug_unique` UNIQUE(`slug`)\n);\n--> statement-breakpoint\nCREATE TABLE `products` (\n\t`id` int AUTO_INCREMENT NOT NULL,\n\t`slug` varchar(191),\n\t`name` text NOT NULL,\n\t`price` real NOT NULL,\n\t`description` text,\n\t`content` text,\n\t`type` text NOT NULL,\n\t`image_url` text,\n\t`views` int NOT NULL DEFAULT 0,\n\t`image_urls` json,\n\t`resource` text,\n\t`is_active` boolean NOT NULL DEFAULT true,\n\t`meta_data` json,\n\t`sort_order` int NOT NULL DEFAULT 0,\n\t`created_at` timestamp NOT NULL DEFAULT (now()),\n\tCONSTRAINT `products_id` PRIMARY KEY(`id`),\n\tCONSTRAINT `products_slug_unique` UNIQUE(`slug`)\n);\n--> statement-breakpoint\nCREATE TABLE `settings` (\n\t`key` varchar(191) NOT NULL,\n\t`value` text NOT NULL,\n\t`description` text,\n\t`updated_at` timestamp DEFAULT (now()),\n\tCONSTRAINT `settings_key` PRIMARY KEY(`key`)\n);\n--> statement-breakpoint\nCREATE TABLE `subscriptions` (\n\t`id` varchar(191) NOT NULL,\n\t`gateway_sub_id` text,\n\t`user_id` int,\n\t`product_id` int NOT NULL,\n\t`pay_method` text NOT NULL,\n\t`status` text NOT NULL DEFAULT ('active'),\n\t`interval` text NOT NULL,\n\t`interval_count` int NOT NULL DEFAULT 1,\n\t`amount` real NOT NULL,\n\t`currency` text NOT NULL DEFAULT ('USD'),\n\t`current_period_start` timestamp,\n\t`current_period_end` timestamp,\n\t`cancel_at_period_end` boolean DEFAULT false,\n\t`meta_data` json,\n\t`created_at` timestamp NOT NULL DEFAULT (now()),\n\t`updated_at` timestamp DEFAULT (now()),\n\tCONSTRAINT `subscriptions_id` PRIMARY KEY(`id`)\n);\n--> statement-breakpoint\nCREATE TABLE `users` (\n\t`id` int AUTO_INCREMENT NOT NULL,\n\t`email` varchar(191) NOT NULL,\n\t`password_hash` text,\n\t`nickname` text,\n\t`avatar_url` text,\n\t`last_login_at` timestamp,\n\t`cash_balance` bigint DEFAULT 0,\n\t`grant_balance` bigint DEFAULT 0,\n\t`sub_balance` bigint DEFAULT 0,\n\t`tier_level` int DEFAULT 0,\n\t`sub_expires_at` timestamp,\n\t`status` int DEFAULT 1,\n\t`created_at` timestamp NOT NULL DEFAULT (now()),\n\tCONSTRAINT `users_id` PRIMARY KEY(`id`),\n\tCONSTRAINT `users_email_unique` UNIQUE(`email`)\n);\n--> statement-breakpoint\nCREATE TABLE `visitor_events` (\n\t`id` int AUTO_INCREMENT NOT NULL,\n\t`visitor_id` text NOT NULL,\n\t`user_id` int,\n\t`order_id` varchar(191),\n\t`product_id` int,\n\t`event_name` text NOT NULL,\n\t`event_action` text,\n\t`path` text,\n\t`referrer` text,\n\t`source_type` text,\n\t`source` text,\n\t`medium` text,\n\t`campaign` text,\n\t`content` text,\n\t`term` text,\n\t`country` text,\n\t`region` text,\n\t`city` text,\n\t`locale` text,\n\t`currency` text,\n\t`device_type` text,\n\t`browser` text,\n\t`os` text,\n\t`user_agent` text,\n\t`created_at` timestamp NOT NULL DEFAULT (now()),\n\tCONSTRAINT `visitor_events_id` PRIMARY KEY(`id`)\n);\n--> statement-breakpoint\nCREATE TABLE `visitor_profiles` (\n\t`visitor_id` varchar(191) NOT NULL,\n\t`user_id` int,\n\t`first_seen_at` timestamp NOT NULL DEFAULT (now()),\n\t`last_seen_at` timestamp NOT NULL DEFAULT (now()),\n\t`landing_path` text,\n\t`first_path` text,\n\t`last_path` text,\n\t`first_referrer` text,\n\t`last_referrer` text,\n\t`first_source_type` text,\n\t`last_source_type` text,\n\t`first_source` text,\n\t`last_source` text,\n\t`first_medium` text,\n\t`last_medium` text,\n\t`first_campaign` text,\n\t`last_campaign` text,\n\t`first_content` text,\n\t`last_content` text,\n\t`first_term` text,\n\t`last_term` text,\n\t`country` text,\n\t`region` text,\n\t`city` text,\n\t`locale` text,\n\t`currency` text,\n\t`device_type` text,\n\t`browser` text,\n\t`os` text,\n\t`user_agent` text,\n\t`created_at` timestamp NOT NULL DEFAULT (now()),\n\t`updated_at` timestamp NOT NULL DEFAULT (now()),\n\tCONSTRAINT `visitor_profiles_visitor_id` PRIMARY KEY(`visitor_id`)\n);\n--> statement-breakpoint\nCREATE TABLE `webhooks` (\n\t`id` int AUTO_INCREMENT NOT NULL,\n\t`name` text NOT NULL,\n\t`url` text NOT NULL,\n\t`events` json,\n\t`secret` text,\n\t`is_active` boolean NOT NULL DEFAULT true,\n\t`created_at` timestamp NOT NULL DEFAULT (now()),\n\tCONSTRAINT `webhooks_id` PRIMARY KEY(`id`)\n);\n--> statement-breakpoint\nALTER TABLE `cards` ADD CONSTRAINT `cards_product_id_products_id_fk` FOREIGN KEY (`product_id`) REFERENCES `products`(`id`) ON DELETE no action ON UPDATE no action;--> statement-breakpoint\nALTER TABLE `oauth_accounts` ADD CONSTRAINT `oauth_accounts_user_id_users_id_fk` FOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON DELETE no action ON UPDATE no action;--> statement-breakpoint\nALTER TABLE `orders` ADD CONSTRAINT `orders_product_id_products_id_fk` FOREIGN KEY (`product_id`) REFERENCES `products`(`id`) ON DELETE no action ON UPDATE no action;--> statement-breakpoint\nALTER TABLE `orders` ADD CONSTRAINT `orders_user_id_users_id_fk` FOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON DELETE no action ON UPDATE no action;--> statement-breakpoint\nALTER TABLE `subscriptions` ADD CONSTRAINT `subscriptions_user_id_users_id_fk` FOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON DELETE no action ON UPDATE no action;--> statement-breakpoint\nALTER TABLE `subscriptions` ADD CONSTRAINT `subscriptions_product_id_products_id_fk` FOREIGN KEY (`product_id`) REFERENCES `products`(`id`) ON DELETE no action ON UPDATE no action;--> statement-breakpoint\nALTER TABLE `visitor_events` ADD CONSTRAINT `visitor_events_user_id_users_id_fk` FOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON DELETE no action ON UPDATE no action;--> statement-breakpoint\nALTER TABLE `visitor_events` ADD CONSTRAINT `visitor_events_order_id_orders_id_fk` FOREIGN KEY (`order_id`) REFERENCES `orders`(`id`) ON DELETE no action ON UPDATE no action;--> statement-breakpoint\nALTER TABLE `visitor_events` ADD CONSTRAINT `visitor_events_product_id_products_id_fk` FOREIGN KEY (`product_id`) REFERENCES `products`(`id`) ON DELETE no action ON UPDATE no action;--> statement-breakpoint\nALTER TABLE `visitor_profiles` ADD CONSTRAINT `visitor_profiles_user_id_users_id_fk` FOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON DELETE no action ON UPDATE no action;\n"},{"name":"0001_add_notifications","sql":"CREATE TABLE `notifications` (\n  `id` int AUTO_INCREMENT PRIMARY KEY NOT NULL,\n  `user_id` int REFERENCES `users`(`id`),\n  `visitor_id` text,\n  `type` text NOT NULL,\n  `title` text NOT NULL,\n  `message` text NOT NULL,\n  `data` json,\n  `is_read` boolean DEFAULT false NOT NULL,\n  `created_at` timestamp DEFAULT now() NOT NULL\n);\n"},{"name":"0002_add_access_logs","sql":"CREATE TABLE `access_logs` (\n\t`id` int AUTO_INCREMENT NOT NULL,\n\t`path` text NOT NULL,\n\t`method` text NOT NULL,\n\t`ip` text,\n\t`user_agent` text,\n\t`referrer` text,\n\t`country` text,\n\t`region` text,\n\t`city` text,\n\t`status_code` int,\n\t`duration` real,\n\t`visitor_id` text,\n\t`user_id` int,\n\t`created_at` timestamp NOT NULL DEFAULT (now()),\n\tCONSTRAINT `access_logs_id` PRIMARY KEY(`id`)\n);\n--> statement-breakpoint\nALTER TABLE `access_logs` ADD CONSTRAINT `access_logs_user_id_users_id_fk` FOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON DELETE no action ON UPDATE no action;\n"},{"name":"0003_add_users_email_verify","sql":"ALTER TABLE `users` ADD COLUMN `email_verified_at` timestamp;\n--> statement-breakpoint\nALTER TABLE `users` ADD COLUMN `email_verify_token` text;\n--> statement-breakpoint\nALTER TABLE `users` ADD COLUMN `email_verify_expires_at` timestamp;\n"},{"name":"0004_add_promo","sql":"CREATE TABLE `promo_agent_tiers` (\n  `id` int AUTO_INCREMENT NOT NULL PRIMARY KEY,\n  `code` varchar(191) NOT NULL,\n  `name` varchar(191) NOT NULL,\n  `role_scope` varchar(64) NOT NULL DEFAULT 'agent',\n  `level` int NOT NULL DEFAULT 1,\n  `discount_rate` real NOT NULL DEFAULT 1,\n  `sales_threshold` real NOT NULL DEFAULT 0,\n  `is_fixed` boolean NOT NULL DEFAULT false,\n  `is_active` boolean NOT NULL DEFAULT true,\n  `description` text,\n  `created_at` timestamp NOT NULL DEFAULT now(),\n  `updated_at` timestamp DEFAULT now(),\n  CONSTRAINT `promo_agent_tiers_code_unique` UNIQUE(`code`)\n);\n--> statement-breakpoint\nCREATE TABLE `promo_members` (\n  `id` int AUTO_INCREMENT NOT NULL PRIMARY KEY,\n  `user_id` int NOT NULL,\n  `role` varchar(64) NOT NULL DEFAULT 'member',\n  `status` varchar(64) NOT NULL DEFAULT 'active',\n  `promo_code` varchar(191) NOT NULL,\n  `invite_code` varchar(191) NOT NULL,\n  `agent_code` varchar(191),\n  `current_agent_tier_id` int,\n  `joined_at` timestamp NOT NULL DEFAULT now(),\n  `created_at` timestamp NOT NULL DEFAULT now(),\n  `updated_at` timestamp NOT NULL DEFAULT now(),\n  CONSTRAINT `promo_members_user_id_unique` UNIQUE(`user_id`),\n  CONSTRAINT `promo_members_promo_code_unique` UNIQUE(`promo_code`),\n  CONSTRAINT `promo_members_invite_code_unique` UNIQUE(`invite_code`),\n  CONSTRAINT `promo_members_agent_code_unique` UNIQUE(`agent_code`),\n  CONSTRAINT `promo_members_user_id_users_id_fk` FOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON DELETE no action ON UPDATE no action,\n  CONSTRAINT `promo_members_current_agent_tier_id_promo_agent_tiers_id_fk` FOREIGN KEY (`current_agent_tier_id`) REFERENCES `promo_agent_tiers`(`id`) ON DELETE no action ON UPDATE no action\n);\n--> statement-breakpoint\nCREATE TABLE `promo_invite_relations` (\n  `id` int AUTO_INCREMENT NOT NULL PRIMARY KEY,\n  `invitee_user_id` int NOT NULL,\n  `inviter_user_id` int NOT NULL,\n  `source` varchar(64) NOT NULL DEFAULT 'register',\n  `code_snapshot` varchar(191),\n  `bound_at` timestamp NOT NULL DEFAULT now(),\n  `created_at` timestamp NOT NULL DEFAULT now(),\n  CONSTRAINT `promo_invite_relations_invitee_user_id_unique` UNIQUE(`invitee_user_id`),\n  CONSTRAINT `promo_invite_relations_invitee_user_id_users_id_fk` FOREIGN KEY (`invitee_user_id`) REFERENCES `users`(`id`) ON DELETE no action ON UPDATE no action,\n  CONSTRAINT `promo_invite_relations_inviter_user_id_users_id_fk` FOREIGN KEY (`inviter_user_id`) REFERENCES `users`(`id`) ON DELETE no action ON UPDATE no action\n);\n--> statement-breakpoint\nCREATE TABLE `promo_agent_relations` (\n  `id` int AUTO_INCREMENT NOT NULL PRIMARY KEY,\n  `agent_user_id` int NOT NULL,\n  `parent_agent_user_id` int,\n  `master_agent_user_id` int,\n  `depth` int NOT NULL DEFAULT 1,\n  `status` varchar(64) NOT NULL DEFAULT 'active',\n  `bound_at` timestamp NOT NULL DEFAULT now(),\n  `created_at` timestamp NOT NULL DEFAULT now(),\n  `updated_at` timestamp NOT NULL DEFAULT now(),\n  CONSTRAINT `promo_agent_relations_agent_user_id_unique` UNIQUE(`agent_user_id`),\n  CONSTRAINT `promo_agent_relations_agent_user_id_users_id_fk` FOREIGN KEY (`agent_user_id`) REFERENCES `users`(`id`) ON DELETE no action ON UPDATE no action,\n  CONSTRAINT `promo_agent_relations_parent_agent_user_id_users_id_fk` FOREIGN KEY (`parent_agent_user_id`) REFERENCES `users`(`id`) ON DELETE no action ON UPDATE no action,\n  CONSTRAINT `promo_agent_relations_master_agent_user_id_users_id_fk` FOREIGN KEY (`master_agent_user_id`) REFERENCES `users`(`id`) ON DELETE no action ON UPDATE no action\n);\n--> statement-breakpoint\nCREATE TABLE `promo_order_attributions` (\n  `id` int AUTO_INCREMENT NOT NULL PRIMARY KEY,\n  `order_id` varchar(191) NOT NULL,\n  `buyer_user_id` int,\n  `buyer_promo_member_id` int,\n  `invite_user_id` int,\n  `agent_user_id` int,\n  `parent_agent_user_id` int,\n  `master_agent_user_id` int,\n  `agent_tier_id_snapshot` int,\n  `agent_tier_name_snapshot` varchar(191),\n  `discount_rate_snapshot` real,\n  `source_type` varchar(64) NOT NULL DEFAULT 'direct',\n  `meta_data` json,\n  `created_at` timestamp NOT NULL DEFAULT now(),\n  CONSTRAINT `promo_order_attributions_order_id_idx` UNIQUE(`order_id`),\n  CONSTRAINT `promo_order_attributions_order_id_orders_id_fk` FOREIGN KEY (`order_id`) REFERENCES `orders`(`id`) ON DELETE no action ON UPDATE no action,\n  CONSTRAINT `promo_order_attributions_buyer_user_id_users_id_fk` FOREIGN KEY (`buyer_user_id`) REFERENCES `users`(`id`) ON DELETE no action ON UPDATE no action,\n  CONSTRAINT `promo_order_attr_buyer_member_fk` FOREIGN KEY (`buyer_promo_member_id`) REFERENCES `promo_members`(`id`) ON DELETE no action ON UPDATE no action,\n  CONSTRAINT `promo_order_attributions_invite_user_id_users_id_fk` FOREIGN KEY (`invite_user_id`) REFERENCES `users`(`id`) ON DELETE no action ON UPDATE no action,\n  CONSTRAINT `promo_order_attributions_agent_user_id_users_id_fk` FOREIGN KEY (`agent_user_id`) REFERENCES `users`(`id`) ON DELETE no action ON UPDATE no action,\n  CONSTRAINT `promo_order_attributions_parent_agent_user_id_users_id_fk` FOREIGN KEY (`parent_agent_user_id`) REFERENCES `users`(`id`) ON DELETE no action ON UPDATE no action,\n  CONSTRAINT `promo_order_attributions_master_agent_user_id_users_id_fk` FOREIGN KEY (`master_agent_user_id`) REFERENCES `users`(`id`) ON DELETE no action ON UPDATE no action\n);\n--> statement-breakpoint\nCREATE TABLE `promo_commissions` (\n  `id` int AUTO_INCREMENT NOT NULL PRIMARY KEY,\n  `order_id` varchar(191) NOT NULL,\n  `owner_user_id` int NOT NULL,\n  `owner_promo_member_id` int,\n  `type` varchar(64) NOT NULL,\n  `source_type` varchar(64) NOT NULL DEFAULT 'direct',\n  `amount` real NOT NULL,\n  `rate` real,\n  `status` varchar(64) NOT NULL DEFAULT 'pending',\n  `remark` text,\n  `meta_data` json,\n  `created_at` timestamp NOT NULL DEFAULT now(),\n  `updated_at` timestamp NOT NULL DEFAULT now(),\n  CONSTRAINT `promo_commissions_order_type_idx` UNIQUE(`order_id`,`type`),\n  CONSTRAINT `promo_commissions_order_id_orders_id_fk` FOREIGN KEY (`order_id`) REFERENCES `orders`(`id`) ON DELETE no action ON UPDATE no action,\n  CONSTRAINT `promo_commissions_owner_user_id_users_id_fk` FOREIGN KEY (`owner_user_id`) REFERENCES `users`(`id`) ON DELETE no action ON UPDATE no action,\n  CONSTRAINT `promo_commissions_owner_promo_member_id_promo_members_id_fk` FOREIGN KEY (`owner_promo_member_id`) REFERENCES `promo_members`(`id`) ON DELETE no action ON UPDATE no action\n);\n"},{"name":"0005_add_payment_method_locales","sql":"ALTER TABLE `payment_methods` ADD COLUMN `supported_locales` text;\n"},{"name":"0006_add_orders_currency","sql":"ALTER TABLE `orders` ADD COLUMN `currency` text NOT NULL DEFAULT ('USD');\n"},{"name":"0007_add_payment_failures","sql":"CREATE TABLE IF NOT EXISTS `payment_failures` (\n        `id` int AUTO_INCREMENT NOT NULL,\n        `order_id` text NOT NULL,\n        `card_bin` text,\n        `reason` text NOT NULL,\n        `amount` real,\n        `pay_method` text,\n        `contact_email` text,\n        `raw_response` text,\n        `visitor_id` text,\n        `created_at` timestamp NOT NULL DEFAULT (now()),\n        CONSTRAINT `payment_failures_id` PRIMARY KEY(`id`)\n);\n--> statement-breakpoint\nSET @has_old_payment_failures_source := (\n        SELECT COUNT(*)\n        FROM information_schema.tables\n        WHERE table_schema = DATABASE() AND table_name = 'failures'\n);\n--> statement-breakpoint\nSET @copy_payment_failures_sql := IF(\n        @has_old_payment_failures_source > 0,\n        'INSERT IGNORE INTO `payment_failures` (`id`, `order_id`, `card_bin`, `reason`, `amount`, `pay_method`, `contact_email`, `raw_response`, `visitor_id`, `created_at`) SELECT `id`, `order_id`, `card_bin`, `reason`, `amount`, `pay_method`, `contact_email`, `raw_response`, `visitor_id`, `created_at` FROM `failures`',\n        'SELECT 1'\n);\n--> statement-breakpoint\nPREPARE payment_failures_copy_stmt FROM @copy_payment_failures_sql;\n--> statement-breakpoint\nEXECUTE payment_failures_copy_stmt;\n--> statement-breakpoint\nDEALLOCATE PREPARE payment_failures_copy_stmt;\n--> statement-breakpoint\nSET @next_payment_failures_id := (SELECT COALESCE(MAX(`id`), 0) + 1 FROM `payment_failures`);\n--> statement-breakpoint\nSET @payment_failures_autoinc_sql := CONCAT('ALTER TABLE `payment_failures` AUTO_INCREMENT = ', @next_payment_failures_id);\n--> statement-breakpoint\nPREPARE payment_failures_autoinc_stmt FROM @payment_failures_autoinc_sql;\n--> statement-breakpoint\nEXECUTE payment_failures_autoinc_stmt;\n--> statement-breakpoint\nDEALLOCATE PREPARE payment_failures_autoinc_stmt;\n"},{"name":"0008_add_auth_and_event_rules","sql":"ALTER TABLE `users` ADD COLUMN `current_session_id` text;\n--> statement-breakpoint\nCREATE TABLE `user_tokens` (\n        `id` int AUTO_INCREMENT NOT NULL,\n        `user_id` int NOT NULL,\n        `token` varchar(191) NOT NULL,\n        `name` text,\n        `expires_at` timestamp,\n        `last_used_at` timestamp,\n        `revoked` boolean DEFAULT false NOT NULL,\n        `created_at` timestamp NOT NULL DEFAULT (now()),\n        CONSTRAINT `user_tokens_id` PRIMARY KEY(`id`),\n        CONSTRAINT `user_tokens_token_unique` UNIQUE(`token`),\n        CONSTRAINT `user_tokens_user_id_users_id_fk` FOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON DELETE no action ON UPDATE no action\n);\n--> statement-breakpoint\nCREATE TABLE `event_rules` (\n        `id` int AUTO_INCREMENT NOT NULL,\n        `event` text NOT NULL,\n        `action` text NOT NULL,\n        `config` json,\n        `enabled` boolean DEFAULT true NOT NULL,\n        `remark` text,\n        `created_at` timestamp NOT NULL DEFAULT (now()),\n        `updated_at` timestamp DEFAULT (now()),\n        CONSTRAINT `event_rules_id` PRIMARY KEY(`id`)\n);\n"},{"name":"0009_add_admin_permissions","sql":"ALTER TABLE `admins` ADD COLUMN `permissions` json;\n"},{"name":"0010_add_operation_logs","sql":"CREATE TABLE IF NOT EXISTS `operation_logs` (\n\t`id` int AUTO_INCREMENT NOT NULL,\n\t`actor_type` varchar(32) NOT NULL DEFAULT 'admin',\n\t`actor_id` int,\n\t`actor_name` varchar(191),\n\t`action` varchar(64) NOT NULL,\n\t`resource` varchar(64) NOT NULL,\n\t`resource_id` varchar(191),\n\t`summary` text,\n\t`details` text,\n\t`path` text NOT NULL,\n\t`method` varchar(16) NOT NULL,\n\t`status_code` int,\n\t`ip` varchar(64),\n\t`user_agent` text,\n\t`created_at` timestamp NOT NULL DEFAULT (now()),\n\tCONSTRAINT `operation_logs_id` PRIMARY KEY(`id`),\n\tINDEX `operation_logs_created_at_idx` (`created_at`),\n\tINDEX `operation_logs_actor_idx` (`actor_id`,`created_at`),\n\tINDEX `operation_logs_resource_idx` (`resource`,`resource_id`)\n);\n"},{"name":"0011_add_admin_tokens","sql":"CREATE TABLE `admin_tokens` (\n\t`id` int AUTO_INCREMENT NOT NULL,\n\t`admin_id` int NOT NULL,\n\t`token` varchar(191) NOT NULL,\n\t`name` text,\n\t`permissions` json,\n\t`expires_at` timestamp,\n\t`last_used_at` timestamp,\n\t`revoked` boolean DEFAULT false NOT NULL,\n\t`created_at` timestamp NOT NULL DEFAULT (now()),\n\tCONSTRAINT `admin_tokens_id` PRIMARY KEY(`id`),\n\tCONSTRAINT `admin_tokens_token_unique` UNIQUE(`token`),\n\tCONSTRAINT `admin_tokens_admin_id_admins_id_fk` FOREIGN KEY (`admin_id`) REFERENCES `admins`(`id`) ON DELETE no action ON UPDATE no action\n);\n"},{"name":"0012_add_balance_logs","sql":"CREATE TABLE IF NOT EXISTS `balance_logs` (\n\t`id` int AUTO_INCREMENT NOT NULL,\n\t`user_id` int NOT NULL,\n\t`balance_type` varchar(20) NOT NULL,\n\t`action_type` varchar(50) NOT NULL DEFAULT 'topup',\n\t`amount_cents` bigint NOT NULL,\n\t`before_balance_cents` bigint NOT NULL,\n\t`after_balance_cents` bigint NOT NULL,\n\t`event_id` varchar(191) NOT NULL,\n\t`source_type` varchar(32) NOT NULL DEFAULT 'system',\n\t`source_id` varchar(191),\n\t`operator_admin_id` int,\n\t`operator_name` varchar(100) NOT NULL DEFAULT '',\n\t`remark` text,\n\t`created_at` timestamp NOT NULL DEFAULT (now()),\n\tCONSTRAINT `balance_logs_id` PRIMARY KEY(`id`),\n\tCONSTRAINT `balance_logs_event_id_unique` UNIQUE(`event_id`)\n);\n--> statement-breakpoint\nCREATE INDEX `idx_balance_logs_user_created_at` ON `balance_logs` (`user_id`,`created_at`);\n"},{"name":"0013_add_order_source_idempotency","sql":"ALTER TABLE `orders` ADD COLUMN `source` varchar(64);\n--> statement-breakpoint\nALTER TABLE `orders` ADD COLUMN `external_order_id` varchar(128);\n--> statement-breakpoint\nCREATE UNIQUE INDEX `orders_source_external_order_unique` ON `orders` (`source`,`external_order_id`);\n"},{"name":"0014_add_user_sessions","sql":"CREATE TABLE IF NOT EXISTS `user_sessions` (\n  `id` int AUTO_INCREMENT PRIMARY KEY NOT NULL,\n  `user_id` int NOT NULL,\n  `session_id_hash` varchar(64) NOT NULL,\n  `status` varchar(32) DEFAULT 'active' NOT NULL,\n  `auth_method` varchar(32) DEFAULT 'password' NOT NULL,\n  `device_type` varchar(32),\n  `browser` varchar(64),\n  `os` varchar(64),\n  `user_agent` text,\n  `ip` varchar(64),\n  `country` varchar(100),\n  `region` varchar(100),\n  `city` varchar(100),\n  `logged_in_at` timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL,\n  `last_seen_at` timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL,\n  `ended_at` timestamp NULL,\n  `replaced_by_session_id` varchar(64),\n  `created_at` timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL,\n  CONSTRAINT `user_sessions_session_id_hash_unique` UNIQUE (`session_id_hash`),\n  CONSTRAINT `user_sessions_user_id_users_id_fk` FOREIGN KEY (`user_id`) REFERENCES `users`(`id`)\n);\n--> statement-breakpoint\nCREATE INDEX `user_sessions_user_status_idx` ON `user_sessions` (`user_id`, `status`);\n--> statement-breakpoint\nCREATE INDEX `user_sessions_last_seen_idx` ON `user_sessions` (`last_seen_at`);\n"},{"name":"0015_add_user_wallets","sql":"CREATE TABLE IF NOT EXISTS `user_wallets` (\n  `id` int AUTO_INCREMENT PRIMARY KEY NOT NULL,\n  `user_id` int NOT NULL,\n  `cash_balance` bigint DEFAULT 0 NOT NULL,\n  `grant_balance` bigint DEFAULT 0 NOT NULL,\n  `sub_balance` bigint DEFAULT 0 NOT NULL,\n  `points_balance` bigint DEFAULT 0 NOT NULL,\n  `tier_level` int DEFAULT 0 NOT NULL,\n  `sub_expires_at` timestamp NULL,\n  `status` int DEFAULT 1 NOT NULL,\n  `created_at` timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL,\n  CONSTRAINT `user_wallets_user_id_unique` UNIQUE (`user_id`),\n  CONSTRAINT `user_wallets_user_id_users_id_fk` FOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON DELETE cascade\n);\n--> statement-breakpoint\nINSERT IGNORE INTO `user_wallets` (\n  `user_id`, `cash_balance`, `grant_balance`, `sub_balance`, `points_balance`,\n  `tier_level`, `sub_expires_at`, `status`, `created_at`\n)\nSELECT\n  `id`, COALESCE(`cash_balance`, 0), COALESCE(`grant_balance`, 0), COALESCE(`sub_balance`, 0), 0,\n  COALESCE(`tier_level`, 0), `sub_expires_at`, COALESCE(`status`, 1), `created_at`\nFROM `users`;\n--> statement-breakpoint\nALTER TABLE `balance_logs` ADD COLUMN `wallet_id` int NULL;\n--> statement-breakpoint\nUPDATE `balance_logs` log\nJOIN `user_wallets` wallet ON wallet.`user_id` = log.`user_id`\nSET log.`wallet_id` = wallet.`id`\nWHERE log.`wallet_id` IS NULL;\n--> statement-breakpoint\nALTER TABLE `balance_logs` MODIFY COLUMN `wallet_id` int NOT NULL;\n--> statement-breakpoint\nALTER TABLE `balance_logs` ADD CONSTRAINT `balance_logs_wallet_id_user_wallets_id_fk` FOREIGN KEY (`wallet_id`) REFERENCES `user_wallets`(`id`);\n--> statement-breakpoint\nCREATE INDEX `idx_balance_logs_wallet_created_at` ON `balance_logs` (`wallet_id`, `created_at`);\n--> statement-breakpoint\nALTER TABLE `users`\n  DROP COLUMN `cash_balance`,\n  DROP COLUMN `grant_balance`,\n  DROP COLUMN `sub_balance`,\n  DROP COLUMN `sub_expires_at`,\n  DROP COLUMN `tier_level`;\n"},{"name":"0016_add_topups","sql":"CREATE TABLE IF NOT EXISTS `topups` (\n  `id` int AUTO_INCREMENT PRIMARY KEY NOT NULL,\n  `order_id` varchar(191) NOT NULL,\n  `user_id` int NOT NULL,\n  `wallet_id` int NOT NULL,\n  `source` varchar(32) DEFAULT 'order' NOT NULL,\n  `payment_amount` real NOT NULL,\n  `payment_currency` varchar(16) NOT NULL,\n  `credit_amount_cents` bigint NOT NULL,\n  `credit_currency` varchar(16) NOT NULL,\n  `exchange_rate` real DEFAULT 1 NOT NULL,\n  `balance_type` varchar(20) DEFAULT 'cash' NOT NULL,\n  `status` varchar(32) DEFAULT 'pending' NOT NULL,\n  `credit_event_id` varchar(255) NOT NULL,\n  `refund_event_id` varchar(255),\n  `retry_count` int DEFAULT 0 NOT NULL,\n  `shortfall_cents` bigint DEFAULT 0 NOT NULL,\n  `last_error` text,\n  `paid_at` timestamp NULL,\n  `credited_at` timestamp NULL,\n  `refunded_at` timestamp NULL,\n  `created_at` timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL,\n  `updated_at` timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL,\n  CONSTRAINT `topups_order_id_unique` UNIQUE (`order_id`),\n  CONSTRAINT `topups_credit_event_id_unique` UNIQUE (`credit_event_id`),\n  CONSTRAINT `topups_refund_event_id_unique` UNIQUE (`refund_event_id`),\n  CONSTRAINT `topups_user_id_users_id_fk` FOREIGN KEY (`user_id`) REFERENCES `users`(`id`),\n  CONSTRAINT `topups_wallet_id_user_wallets_id_fk` FOREIGN KEY (`wallet_id`) REFERENCES `user_wallets`(`id`)\n);\n--> statement-breakpoint\nINSERT IGNORE INTO `topups` (\n  `order_id`, `user_id`, `wallet_id`, `source`, `payment_amount`, `payment_currency`,\n  `credit_amount_cents`, `credit_currency`, `exchange_rate`, `balance_type`, `status`,\n  `credit_event_id`, `refund_event_id`, `last_error`, `paid_at`, `credited_at`, `refunded_at`,\n  `created_at`, `updated_at`\n)\nSELECT\n  orders.`id`, orders.`user_id`, wallets.`id`, COALESCE(orders.`source`, 'order'),\n  orders.`amount`, COALESCE(orders.`currency`, 'USD'),\n  COALESCE(credit_log.`amount_cents`, ROUND(COALESCE(JSON_UNQUOTE(JSON_EXTRACT(orders.`meta_data`, '$.recharge_amount')) + 0, orders.`amount`) * 100000000)),\n  COALESCE(JSON_UNQUOTE(JSON_EXTRACT(orders.`meta_data`, '$.display_unit')), orders.`currency`, 'USD'),\n  COALESCE(JSON_UNQUOTE(JSON_EXTRACT(orders.`meta_data`, '$.currencySnapshot.exchangeRate')) + 0, 1),\n  COALESCE(credit_log.`balance_type`, JSON_UNQUOTE(JSON_EXTRACT(orders.`meta_data`, '$.balance_type')), 'cash'),\n  CASE\n    WHEN orders.`pay_status` = 'refunded' AND credit_log.`id` IS NOT NULL AND refund_log.`id` IS NOT NULL THEN 'refunded'\n    WHEN refund_log.`id` IS NOT NULL THEN 'review_required'\n    WHEN orders.`pay_status` = 'refunded' THEN 'review_required'\n    WHEN orders.`pay_status` = 'paid' AND credit_log.`id` IS NOT NULL THEN 'credited'\n    WHEN credit_log.`id` IS NOT NULL THEN 'review_required'\n    WHEN orders.`pay_status` = 'paid' THEN 'review_required'\n    WHEN orders.`pay_status` = 'failed' THEN 'payment_failed'\n    ELSE 'pending'\n  END,\n  CONCAT('topup:', orders.`id`),\n  CASE WHEN refund_log.`id` IS NOT NULL THEN CONCAT('refund:', orders.`id`) ELSE NULL END,\n  CASE\n    WHEN refund_log.`id` IS NOT NULL AND (orders.`pay_status` <> 'refunded' OR credit_log.`id` IS NULL) THEN '历史退款流水与订单或到账流水不一致，需人工核对'\n    WHEN orders.`pay_status` = 'refunded' AND refund_log.`id` IS NULL THEN '历史退款订单没有可确认的 APay 退款流水，需人工核对'\n    WHEN credit_log.`id` IS NOT NULL AND orders.`pay_status` <> 'paid' THEN '历史到账流水与订单支付状态不一致，需人工核对'\n    WHEN orders.`pay_status` = 'paid' AND credit_log.`id` IS NULL THEN '历史订单没有可确认的 APay 到账流水，禁止自动补发'\n    ELSE NULL\n  END,\n  orders.`paid_at`, credit_log.`created_at`, refund_log.`created_at`, orders.`created_at`, CURRENT_TIMESTAMP\nFROM `orders` orders\nJOIN `products` products ON products.`id` = orders.`product_id` AND products.`type` = 'topup'\nJOIN `user_wallets` wallets ON wallets.`user_id` = orders.`user_id`\nLEFT JOIN `balance_logs` credit_log ON credit_log.`event_id` = CONCAT('topup:', orders.`id`)\nLEFT JOIN `balance_logs` refund_log ON refund_log.`event_id` = CONCAT('refund:', orders.`id`)\nWHERE COALESCE(products.`slug`, '') <> 'minimal-checkout-recharge'\n  OR JSON_UNQUOTE(JSON_EXTRACT(orders.`meta_data`, '$.checkoutBridge.attach.walletOwner')) = 'apay';\n--> statement-breakpoint\nCREATE INDEX `idx_topups_user_created_at` ON `topups` (`user_id`, `created_at`);\n--> statement-breakpoint\nCREATE INDEX `idx_topups_status_updated_at` ON `topups` (`status`, `updated_at`);\n"},{"name":"0017_add_email_logs","sql":"CREATE TABLE IF NOT EXISTS `email_logs` (\n  `id` int AUTO_INCREMENT PRIMARY KEY NOT NULL,\n  `to` text NOT NULL,\n  `subject` text NOT NULL,\n  `template_code` text,\n  `html` text,\n  `provider` text,\n  `status` varchar(32) DEFAULT 'success' NOT NULL,\n  `message_id` text,\n  `error` text,\n  `created_at` timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL\n);\n--> statement-breakpoint\nCREATE INDEX `email_logs_status_idx` ON `email_logs` (`status`);\n--> statement-breakpoint\nCREATE INDEX `email_logs_created_at_idx` ON `email_logs` (`created_at`);\n"},{"name":"0018_add_products_status","sql":"ALTER TABLE `products` ADD COLUMN `status` text NOT NULL DEFAULT ('active');\n--> statement-breakpoint\nUPDATE `products` SET `status` = 'inactive' WHERE `is_active` = false;\n"},{"name":"0019_add_promo_applications_and_tickets","sql":"CREATE TABLE IF NOT EXISTS `promo_applications` (\n  `id` int AUTO_INCREMENT PRIMARY KEY NOT NULL,\n  `user_id` int NOT NULL,\n  `status` varchar(64) DEFAULT 'pending' NOT NULL,\n  `channel_info` text,\n  `contact` text,\n  `reason` text,\n  `review_note` text,\n  `reviewed_by_admin_id` int,\n  `reviewed_at` timestamp NULL,\n  `created_at` timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL,\n  `updated_at` timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL,\n  CONSTRAINT `promo_applications_user_id_users_id_fk` FOREIGN KEY (`user_id`) REFERENCES `users`(`id`)\n);\n--> statement-breakpoint\nCREATE TABLE IF NOT EXISTS `tickets` (\n  `id` int AUTO_INCREMENT PRIMARY KEY NOT NULL,\n  `ticket_no` varchar(64) NOT NULL,\n  `user_id` int NOT NULL,\n  `category` varchar(64) DEFAULT 'other' NOT NULL,\n  `title` text NOT NULL,\n  `status` varchar(32) DEFAULT 'open' NOT NULL,\n  `priority` varchar(32) DEFAULT 'normal' NOT NULL,\n  `context` json,\n  `last_replied_at` timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL,\n  `last_replied_by` varchar(32) DEFAULT 'user' NOT NULL,\n  `created_at` timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL,\n  `updated_at` timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL,\n  CONSTRAINT `tickets_ticket_no_unique` UNIQUE (`ticket_no`),\n  CONSTRAINT `tickets_user_id_users_id_fk` FOREIGN KEY (`user_id`) REFERENCES `users`(`id`),\n  INDEX `tickets_user_id_idx` (`user_id`),\n  INDEX `tickets_status_idx` (`status`),\n  INDEX `tickets_category_idx` (`category`),\n  INDEX `tickets_last_replied_at_idx` (`last_replied_at`)\n);\n--> statement-breakpoint\nCREATE TABLE IF NOT EXISTS `ticket_messages` (\n  `id` int AUTO_INCREMENT PRIMARY KEY NOT NULL,\n  `ticket_id` int NOT NULL,\n  `sender_type` varchar(32) NOT NULL,\n  `sender_id` int,\n  `sender_name` varchar(128) DEFAULT '' NOT NULL,\n  `content` text NOT NULL,\n  `attachments` json,\n  `created_at` timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL,\n  CONSTRAINT `ticket_messages_ticket_id_tickets_id_fk` FOREIGN KEY (`ticket_id`) REFERENCES `tickets`(`id`) ON DELETE CASCADE,\n  INDEX `ticket_messages_ticket_id_idx` (`ticket_id`),\n  INDEX `ticket_messages_created_at_idx` (`created_at`)\n);\n"},{"name":"0020_purge_legacy_password_reset_tokens","sql":"-- 找回密码的令牌口径已收归核心（server/utils/passwordReset.ts，只存 sha256，\n-- name 统一为 'password_reset'）。这里清掉两个主题各自实现时留下的旧行：\n--   qingpu_password_reset —— 曾以**明文**入库。核心鉴权中间件按 user_tokens.token\n--     查 Bearer / X-Api-Key，当时只排除 email_verify，因此这些行同时是一把\n--     有效期 1 小时的全权限 API Key，必须清。\n--   shoply_password_reset —— 存的是哈希，不构成漏洞，但改名后永远不会再被消费。\n-- 在途的重置链接一并作废，用户重新申请即可。\nDELETE FROM `user_tokens` WHERE `name` IN ('qingpu_password_reset', 'shoply_password_reset');\n"},{"name":"0021_topups_wallet_optional","sql":"-- AINode 钱包模式下充值台账不再绑定钱包：wallet_id 放宽为可空，外键保持不变。\nALTER TABLE `topups` MODIFY `wallet_id` int NULL;\n"},{"name":"0022_add_comments","sql":"CREATE TABLE IF NOT EXISTS `comments` (\n\t`id` int AUTO_INCREMENT PRIMARY KEY NOT NULL,\n\t`target_type` varchar(32) NOT NULL,\n\t`target_id` varchar(191) NOT NULL,\n\t`user_id` int,\n\t`author_name` varchar(100) NOT NULL,\n\t`author_email` varchar(255),\n\t`author_url` text,\n\t`content` text NOT NULL,\n\t`parent_id` int,\n\t`status` varchar(32) DEFAULT 'approved' NOT NULL,\n\t`ip` varchar(64),\n\t`user_agent` text,\n\t`created_at` timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL,\n\t`updated_at` timestamp DEFAULT CURRENT_TIMESTAMP,\n\tCONSTRAINT `comments_user_id_users_id_fk` FOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON DELETE SET NULL,\n\tINDEX `comments_target_status_idx` (`target_type`, `target_id`, `status`, `created_at`),\n\tINDEX `comments_user_id_idx` (`user_id`),\n\tINDEX `comments_parent_id_idx` (`parent_id`)\n);\n"},{"name":"0023_repair_schema_alignment","sql":"-- Append-only repair; tolerate sites whose schema was already updated via push.\nCREATE TABLE IF NOT EXISTS `email_providers` (\n  `id` int AUTO_INCREMENT NOT NULL,\n  `name` text NOT NULL,\n  `code` text NOT NULL,\n  `is_active` boolean NOT NULL DEFAULT false,\n  `config_json` text,\n  `send_script` text,\n  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,\n  CONSTRAINT `email_providers_id` PRIMARY KEY (`id`)\n);\n--> statement-breakpoint\nSET @apay_visitor_events_ip_ddl = (\n  SELECT IF(COUNT(*) = 0, 'ALTER TABLE `visitor_events` ADD COLUMN `ip` text', 'SELECT 1')\n  FROM information_schema.columns\n  WHERE table_schema = DATABASE() AND table_name = 'visitor_events' AND column_name = 'ip'\n);\n--> statement-breakpoint\nPREPARE apay_visitor_events_ip_stmt FROM @apay_visitor_events_ip_ddl;\n--> statement-breakpoint\nEXECUTE apay_visitor_events_ip_stmt;\n--> statement-breakpoint\nDEALLOCATE PREPARE apay_visitor_events_ip_stmt;\n--> statement-breakpoint\nSET @apay_visitor_profiles_ip_ddl = (\n  SELECT IF(COUNT(*) = 0, 'ALTER TABLE `visitor_profiles` ADD COLUMN `ip` text', 'SELECT 1')\n  FROM information_schema.columns\n  WHERE table_schema = DATABASE() AND table_name = 'visitor_profiles' AND column_name = 'ip'\n);\n--> statement-breakpoint\nPREPARE apay_visitor_profiles_ip_stmt FROM @apay_visitor_profiles_ip_ddl;\n--> statement-breakpoint\nEXECUTE apay_visitor_profiles_ip_stmt;\n--> statement-breakpoint\nDEALLOCATE PREPARE apay_visitor_profiles_ip_stmt;\n"},{"name":"0024_add_likes_and_interaction_counters","sql":"CREATE TABLE IF NOT EXISTS `likes` (\n\t`id` int AUTO_INCREMENT PRIMARY KEY NOT NULL,\n\t`target_type` varchar(32) NOT NULL,\n\t`target_id` varchar(191) NOT NULL,\n\t`user_id` int,\n\t`visitor_id` varchar(191) NOT NULL,\n\t`ip` varchar(64),\n\t`user_agent` text,\n\t`created_at` timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL,\n\tCONSTRAINT `likes_user_id_users_id_fk` FOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON DELETE CASCADE,\n\tINDEX `likes_target_idx` (`target_type`, `target_id`),\n\tINDEX `likes_target_user_idx` (`target_type`, `target_id`, `user_id`),\n\tINDEX `likes_target_visitor_idx` (`target_type`, `target_id`, `visitor_id`)\n);\n--> statement-breakpoint\nALTER TABLE `products` ADD COLUMN `likes` int NOT NULL DEFAULT 0;\n--> statement-breakpoint\nALTER TABLE `posts` ADD COLUMN `likes` int NOT NULL DEFAULT 0;\n--> statement-breakpoint\nALTER TABLE `posts` ADD COLUMN `comments` int NOT NULL DEFAULT 0;\n--> statement-breakpoint\nALTER TABLE `comments` ADD COLUMN `likes` int NOT NULL DEFAULT 0;\n"},{"name":"0025_add_comment_sync_source","sql":"ALTER TABLE `comments` ADD COLUMN `source` varchar(32) DEFAULT 'local' NOT NULL;\n--> statement-breakpoint\nALTER TABLE `comments` ADD COLUMN `external_id` varchar(128);\n--> statement-breakpoint\nALTER TABLE `comments` ADD COLUMN `external_url` text;\n--> statement-breakpoint\nALTER TABLE `comments` ADD COLUMN `extra_data` json;\n--> statement-breakpoint\nCREATE INDEX `comments_source_external_idx` ON `comments` (`target_type`, `target_id`, `source`, `external_id`);\n"},{"name":"0026_add_comment_sync_sources","sql":"CREATE TABLE IF NOT EXISTS `comment_sync_sources` (\n\t`id` int AUTO_INCREMENT NOT NULL,\n\t`target_type` varchar(32) NOT NULL,\n\t`target_id` varchar(191) NOT NULL,\n\t`source` varchar(32) NOT NULL,\n\t`external_id` varchar(128) NOT NULL,\n\t`external_url` text,\n\t`auto_sync` boolean NOT NULL DEFAULT true,\n\t`sync_interval` int NOT NULL DEFAULT 60,\n\t`default_status` varchar(32) NOT NULL DEFAULT 'approved',\n\t`last_synced_at` timestamp,\n\t`last_sync_status` varchar(32) NOT NULL DEFAULT 'idle',\n\t`last_error` text,\n\t`total_synced` int NOT NULL DEFAULT 0,\n\t`extra_data` json,\n\t`created_at` timestamp NOT NULL DEFAULT (now()),\n\t`updated_at` timestamp DEFAULT (now()),\n\tCONSTRAINT `comment_sync_sources_id` PRIMARY KEY(`id`),\n\tCONSTRAINT `comment_sync_sources_target_source_unique` UNIQUE(`target_type`,`target_id`,`source`)\n);\n--> statement-breakpoint\nCREATE INDEX `comment_sync_sources_auto_sync_idx` ON `comment_sync_sources` (`auto_sync`,`last_synced_at`);\n"}]},"probeTable":"settings","bootstrap":{"sqlite":{"through":"0025_add_comments","sql":"-- Fresh SQLite databases only. Baseline through 0025_add_comments.\nCREATE TABLE `access_logs` (\n\t`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,\n\t`path` text NOT NULL,\n\t`method` text NOT NULL,\n\t`ip` text,\n\t`user_agent` text,\n\t`referrer` text,\n\t`country` text,\n\t`region` text,\n\t`city` text,\n\t`status_code` integer,\n\t`duration` real,\n\t`visitor_id` text,\n\t`user_id` integer,\n\t`created_at` integer DEFAULT (unixepoch()) NOT NULL,\n\tFOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON UPDATE no action ON DELETE no action\n);\n\n--> statement-breakpoint\nCREATE TABLE `admin_tokens` (\n\t`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,\n\t`admin_id` integer NOT NULL,\n\t`token` text NOT NULL,\n\t`name` text,\n\t`permissions` text,\n\t`expires_at` integer,\n\t`last_used_at` integer,\n\t`revoked` integer DEFAULT 0 NOT NULL,\n\t`created_at` integer DEFAULT (unixepoch()) NOT NULL,\n\tFOREIGN KEY (`admin_id`) REFERENCES `admins`(`id`) ON UPDATE no action ON DELETE no action\n);\n\n--> statement-breakpoint\nCREATE UNIQUE INDEX `admin_tokens_token_unique` ON `admin_tokens` (`token`);\n--> statement-breakpoint\nCREATE TABLE `admins` (\n\t`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,\n\t`username` text NOT NULL,\n\t`password_hash` text NOT NULL,\n\t`permissions` text,\n\t`created_at` integer DEFAULT (unixepoch()) NOT NULL\n);\n\n--> statement-breakpoint\nCREATE UNIQUE INDEX `admins_username_unique` ON `admins` (`username`);\n--> statement-breakpoint\nCREATE TABLE `balance_logs` (\n\t`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,\n\t`user_id` integer NOT NULL,\n\t`wallet_id` integer NOT NULL,\n\t`balance_type` text NOT NULL,\n\t`action_type` text DEFAULT 'topup' NOT NULL,\n\t`amount_cents` integer NOT NULL,\n\t`before_balance_cents` integer NOT NULL,\n\t`after_balance_cents` integer NOT NULL,\n\t`event_id` text NOT NULL,\n\t`source_type` text DEFAULT 'system' NOT NULL,\n\t`source_id` text,\n\t`operator_admin_id` integer,\n\t`operator_name` text DEFAULT '' NOT NULL,\n\t`remark` text DEFAULT '' NOT NULL,\n\t`created_at` integer DEFAULT (unixepoch()) NOT NULL,\n\tFOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON UPDATE no action ON DELETE no action,\n\tFOREIGN KEY (`wallet_id`) REFERENCES `user_wallets`(`id`) ON UPDATE no action ON DELETE no action\n);\n\n--> statement-breakpoint\nCREATE UNIQUE INDEX `balance_logs_event_id_unique` ON `balance_logs` (`event_id`);\n--> statement-breakpoint\nCREATE INDEX `idx_balance_logs_wallet_created_at` ON `balance_logs` (`wallet_id`,`created_at`);\n--> statement-breakpoint\nCREATE TABLE `cards` (\n\t`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,\n\t`product_id` integer NOT NULL,\n\t`card_number` text NOT NULL,\n\t`is_used` integer DEFAULT false NOT NULL,\n\t`order_id` text,\n\t`created_at` integer DEFAULT (unixepoch()) NOT NULL,\n\tFOREIGN KEY (`product_id`) REFERENCES `products`(`id`) ON UPDATE no action ON DELETE no action\n);\n\n--> statement-breakpoint\nCREATE TABLE `comments` (\n\t`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,\n\t`target_type` text NOT NULL,\n\t`target_id` text NOT NULL,\n\t`user_id` integer,\n\t`author_name` text NOT NULL,\n\t`author_email` text,\n\t`author_url` text,\n\t`content` text NOT NULL,\n\t`parent_id` integer,\n\t`status` text DEFAULT 'approved' NOT NULL,\n\t`ip` text,\n\t`user_agent` text,\n\t`created_at` integer DEFAULT (unixepoch()) NOT NULL,\n\t`updated_at` integer DEFAULT (unixepoch()),\n\tFOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON UPDATE no action ON DELETE set null\n);\n\n--> statement-breakpoint\nCREATE INDEX `comments_target_status_idx` ON `comments` (`target_type`,`target_id`,`status`,`created_at`);\n--> statement-breakpoint\nCREATE INDEX `comments_user_id_idx` ON `comments` (`user_id`);\n--> statement-breakpoint\nCREATE INDEX `comments_parent_id_idx` ON `comments` (`parent_id`);\n--> statement-breakpoint\nCREATE TABLE `email_logs` (\n\t`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,\n\t`to` text NOT NULL,\n\t`subject` text NOT NULL,\n\t`template_code` text,\n\t`html` text,\n\t`provider` text,\n\t`status` text DEFAULT 'success' NOT NULL,\n\t`message_id` text,\n\t`error` text,\n\t`created_at` integer DEFAULT (unixepoch()) NOT NULL\n);\n\n--> statement-breakpoint\nCREATE TABLE `email_providers` (\n\t`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,\n\t`name` text NOT NULL,\n\t`code` text NOT NULL,\n\t`is_active` integer DEFAULT false NOT NULL,\n\t`config_json` text,\n\t`send_script` text,\n\t`created_at` integer DEFAULT (unixepoch()) NOT NULL\n);\n\n--> statement-breakpoint\nCREATE TABLE `event_rules` (\n\t`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,\n\t`event` text NOT NULL,\n\t`action` text NOT NULL,\n\t`config` text,\n\t`enabled` integer DEFAULT true NOT NULL,\n\t`remark` text,\n\t`created_at` integer DEFAULT (unixepoch()) NOT NULL,\n\t`updated_at` integer\n);\n\n--> statement-breakpoint\nCREATE TABLE `payment_failures` (\n\t`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,\n\t`order_id` text NOT NULL,\n\t`card_bin` text,\n\t`reason` text NOT NULL,\n\t`amount` real,\n\t`pay_method` text,\n\t`contact_email` text,\n\t`raw_response` text,\n\t`visitor_id` text,\n\t`created_at` integer DEFAULT (unixepoch()) NOT NULL\n);\n\n--> statement-breakpoint\nCREATE TABLE `logs` (\n\t`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,\n\t`level` text DEFAULT 'info' NOT NULL,\n\t`message` text NOT NULL,\n\t`details` text,\n\t`source` text,\n\t`created_at` integer DEFAULT (unixepoch()) NOT NULL\n);\n\n--> statement-breakpoint\nCREATE TABLE `notifications` (\n\t`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,\n\t`user_id` integer,\n\t`visitor_id` text,\n\t`type` text NOT NULL,\n\t`title` text NOT NULL,\n\t`message` text NOT NULL,\n\t`data` text,\n\t`is_read` integer DEFAULT false NOT NULL,\n\t`created_at` integer DEFAULT (unixepoch()) NOT NULL,\n\tFOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON UPDATE no action ON DELETE no action\n);\n\n--> statement-breakpoint\nCREATE TABLE `oauth_accounts` (\n\t`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,\n\t`user_id` integer NOT NULL,\n\t`provider` text NOT NULL,\n\t`provider_account_id` text NOT NULL,\n\t`created_at` integer DEFAULT (unixepoch()) NOT NULL,\n\tFOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON UPDATE no action ON DELETE no action\n);\n\n--> statement-breakpoint\nCREATE TABLE `operation_logs` (\n\t`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,\n\t`actor_type` text DEFAULT 'admin' NOT NULL,\n\t`actor_id` integer,\n\t`actor_name` text,\n\t`action` text NOT NULL,\n\t`resource` text NOT NULL,\n\t`resource_id` text,\n\t`summary` text,\n\t`details` text,\n\t`path` text NOT NULL,\n\t`method` text NOT NULL,\n\t`status_code` integer,\n\t`ip` text,\n\t`user_agent` text,\n\t`created_at` integer DEFAULT (unixepoch()) NOT NULL\n);\n\n--> statement-breakpoint\nCREATE INDEX `operation_logs_created_at_idx` ON `operation_logs` (`created_at`);\n--> statement-breakpoint\nCREATE INDEX `operation_logs_actor_idx` ON `operation_logs` (`actor_id`,`created_at`);\n--> statement-breakpoint\nCREATE INDEX `operation_logs_resource_idx` ON `operation_logs` (`resource`,`resource_id`);\n--> statement-breakpoint\nCREATE TABLE `orders` (\n\t`id` text PRIMARY KEY NOT NULL,\n\t`amount` real NOT NULL,\n\t`currency` text DEFAULT 'USD' NOT NULL,\n\t`source` text,\n\t`external_order_id` text,\n\t`product_id` integer NOT NULL,\n\t`user_id` integer,\n\t`contact_email` text NOT NULL,\n\t`pay_method` text,\n\t`trade_no` text,\n\t`status` text DEFAULT 'none' NOT NULL,\n\t`delivery_info` text,\n\t`meta_data` text,\n\t`visitor_id` text,\n\t`subscription_id` text,\n\t`created_at` integer DEFAULT (unixepoch()) NOT NULL,\n\t`paid_at` integer,\n\t`pay_status` text DEFAULT 'pending' NOT NULL,\n\tFOREIGN KEY (`product_id`) REFERENCES `products`(`id`) ON UPDATE no action ON DELETE no action,\n\tFOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON UPDATE no action ON DELETE no action\n);\n\n--> statement-breakpoint\nCREATE UNIQUE INDEX `orders_source_external_order_unique` ON `orders` (`source`,`external_order_id`);\n--> statement-breakpoint\nCREATE TABLE `payment_methods` (\n\t`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,\n\t`name` text NOT NULL,\n\t`code` text NOT NULL,\n\t`icon_url` text,\n\t`is_active` integer DEFAULT false NOT NULL,\n\t`supported_locales` text,\n\t`config_json` text,\n\t`info` text,\n\t`create` text,\n\t`callback` text,\n\t`created_at` integer DEFAULT (unixepoch()) NOT NULL\n);\n\n--> statement-breakpoint\nCREATE TABLE `posts` (\n\t`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,\n\t`key` text,\n\t`sort` integer,\n\t`slug` text NOT NULL,\n\t`title` text NOT NULL,\n\t`description` text,\n\t`content` text,\n\t`type` text DEFAULT 'blog' NOT NULL,\n\t`image_url` text,\n\t`views` integer DEFAULT 0 NOT NULL,\n\t`is_active` integer DEFAULT true NOT NULL,\n\t`meta_data` text,\n\t`created_at` integer DEFAULT (unixepoch()) NOT NULL,\n\t`updated_at` integer DEFAULT (unixepoch())\n);\n\n--> statement-breakpoint\nCREATE UNIQUE INDEX `posts_slug_unique` ON `posts` (`slug`);\n--> statement-breakpoint\nCREATE TABLE `products` (\n\t`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,\n\t`slug` text,\n\t`name` text NOT NULL,\n\t`price` real NOT NULL,\n\t`description` text,\n\t`content` text,\n\t`type` text NOT NULL,\n\t`image_url` text,\n\t`views` integer DEFAULT 0 NOT NULL,\n\t`image_urls` text,\n\t`resource` text,\n\t`is_active` integer DEFAULT true NOT NULL,\n\t`status` text DEFAULT 'active' NOT NULL,\n\t`meta_data` text,\n\t`sort_order` integer DEFAULT 0 NOT NULL,\n\t`created_at` integer DEFAULT (unixepoch()) NOT NULL\n);\n\n--> statement-breakpoint\nCREATE UNIQUE INDEX `products_slug_unique` ON `products` (`slug`);\n--> statement-breakpoint\nCREATE TABLE `promo_agent_relations` (\n\t`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,\n\t`agent_user_id` integer NOT NULL,\n\t`parent_agent_user_id` integer,\n\t`master_agent_user_id` integer,\n\t`depth` integer DEFAULT 1 NOT NULL,\n\t`status` text DEFAULT 'active' NOT NULL,\n\t`bound_at` integer DEFAULT (unixepoch()) NOT NULL,\n\t`created_at` integer DEFAULT (unixepoch()) NOT NULL,\n\t`updated_at` integer DEFAULT (unixepoch()) NOT NULL,\n\tFOREIGN KEY (`agent_user_id`) REFERENCES `users`(`id`) ON UPDATE no action ON DELETE no action,\n\tFOREIGN KEY (`parent_agent_user_id`) REFERENCES `users`(`id`) ON UPDATE no action ON DELETE no action,\n\tFOREIGN KEY (`master_agent_user_id`) REFERENCES `users`(`id`) ON UPDATE no action ON DELETE no action\n);\n\n--> statement-breakpoint\nCREATE UNIQUE INDEX `promo_agent_relations_agent_user_id_unique` ON `promo_agent_relations` (`agent_user_id`);\n--> statement-breakpoint\nCREATE TABLE `promo_agent_tiers` (\n\t`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,\n\t`code` text NOT NULL,\n\t`name` text NOT NULL,\n\t`role_scope` text DEFAULT 'agent' NOT NULL,\n\t`level` integer DEFAULT 1 NOT NULL,\n\t`discount_rate` real DEFAULT 1 NOT NULL,\n\t`sales_threshold` real DEFAULT 0 NOT NULL,\n\t`is_fixed` integer DEFAULT false NOT NULL,\n\t`is_active` integer DEFAULT true NOT NULL,\n\t`description` text,\n\t`created_at` integer DEFAULT (unixepoch()) NOT NULL,\n\t`updated_at` integer DEFAULT (unixepoch()) NOT NULL\n);\n\n--> statement-breakpoint\nCREATE UNIQUE INDEX `promo_agent_tiers_code_unique` ON `promo_agent_tiers` (`code`);\n--> statement-breakpoint\nCREATE TABLE `promo_applications` (\n\t`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,\n\t`user_id` integer NOT NULL,\n\t`status` text DEFAULT 'pending' NOT NULL,\n\t`channel_info` text,\n\t`contact` text,\n\t`reason` text,\n\t`review_note` text,\n\t`reviewed_by_admin_id` integer,\n\t`reviewed_at` integer,\n\t`created_at` integer DEFAULT (unixepoch()) NOT NULL,\n\t`updated_at` integer DEFAULT (unixepoch()) NOT NULL,\n\tFOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON UPDATE no action ON DELETE no action\n);\n\n--> statement-breakpoint\nCREATE TABLE `promo_commissions` (\n\t`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,\n\t`order_id` text NOT NULL,\n\t`owner_user_id` integer NOT NULL,\n\t`owner_promo_member_id` integer,\n\t`type` text NOT NULL,\n\t`source_type` text DEFAULT 'direct' NOT NULL,\n\t`amount` real NOT NULL,\n\t`rate` real,\n\t`status` text DEFAULT 'pending' NOT NULL,\n\t`remark` text,\n\t`meta_data` text,\n\t`created_at` integer DEFAULT (unixepoch()) NOT NULL,\n\t`updated_at` integer DEFAULT (unixepoch()) NOT NULL,\n\tFOREIGN KEY (`order_id`) REFERENCES `orders`(`id`) ON UPDATE no action ON DELETE no action,\n\tFOREIGN KEY (`owner_user_id`) REFERENCES `users`(`id`) ON UPDATE no action ON DELETE no action,\n\tFOREIGN KEY (`owner_promo_member_id`) REFERENCES `promo_members`(`id`) ON UPDATE no action ON DELETE no action\n);\n\n--> statement-breakpoint\nCREATE UNIQUE INDEX `promo_commissions_order_type_idx` ON `promo_commissions` (`order_id`,`type`);\n--> statement-breakpoint\nCREATE TABLE `promo_invite_relations` (\n\t`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,\n\t`invitee_user_id` integer NOT NULL,\n\t`inviter_user_id` integer NOT NULL,\n\t`source` text DEFAULT 'register' NOT NULL,\n\t`code_snapshot` text,\n\t`bound_at` integer DEFAULT (unixepoch()) NOT NULL,\n\t`created_at` integer DEFAULT (unixepoch()) NOT NULL,\n\tFOREIGN KEY (`invitee_user_id`) REFERENCES `users`(`id`) ON UPDATE no action ON DELETE no action,\n\tFOREIGN KEY (`inviter_user_id`) REFERENCES `users`(`id`) ON UPDATE no action ON DELETE no action\n);\n\n--> statement-breakpoint\nCREATE UNIQUE INDEX `promo_invite_relations_invitee_user_id_unique` ON `promo_invite_relations` (`invitee_user_id`);\n--> statement-breakpoint\nCREATE TABLE `promo_members` (\n\t`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,\n\t`user_id` integer NOT NULL,\n\t`role` text DEFAULT 'member' NOT NULL,\n\t`status` text DEFAULT 'active' NOT NULL,\n\t`promo_code` text NOT NULL,\n\t`invite_code` text NOT NULL,\n\t`agent_code` text,\n\t`current_agent_tier_id` integer,\n\t`joined_at` integer DEFAULT (unixepoch()) NOT NULL,\n\t`created_at` integer DEFAULT (unixepoch()) NOT NULL,\n\t`updated_at` integer DEFAULT (unixepoch()) NOT NULL,\n\tFOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON UPDATE no action ON DELETE no action,\n\tFOREIGN KEY (`current_agent_tier_id`) REFERENCES `promo_agent_tiers`(`id`) ON UPDATE no action ON DELETE no action\n);\n\n--> statement-breakpoint\nCREATE UNIQUE INDEX `promo_members_user_id_unique` ON `promo_members` (`user_id`);\n--> statement-breakpoint\nCREATE UNIQUE INDEX `promo_members_promo_code_unique` ON `promo_members` (`promo_code`);\n--> statement-breakpoint\nCREATE UNIQUE INDEX `promo_members_invite_code_unique` ON `promo_members` (`invite_code`);\n--> statement-breakpoint\nCREATE UNIQUE INDEX `promo_members_agent_code_unique` ON `promo_members` (`agent_code`);\n--> statement-breakpoint\nCREATE TABLE `promo_order_attributions` (\n\t`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,\n\t`order_id` text NOT NULL,\n\t`buyer_user_id` integer,\n\t`buyer_promo_member_id` integer,\n\t`invite_user_id` integer,\n\t`agent_user_id` integer,\n\t`parent_agent_user_id` integer,\n\t`master_agent_user_id` integer,\n\t`agent_tier_id_snapshot` integer,\n\t`agent_tier_name_snapshot` text,\n\t`discount_rate_snapshot` real,\n\t`source_type` text DEFAULT 'direct' NOT NULL,\n\t`meta_data` text,\n\t`created_at` integer DEFAULT (unixepoch()) NOT NULL,\n\tFOREIGN KEY (`order_id`) REFERENCES `orders`(`id`) ON UPDATE no action ON DELETE no action,\n\tFOREIGN KEY (`buyer_user_id`) REFERENCES `users`(`id`) ON UPDATE no action ON DELETE no action,\n\tFOREIGN KEY (`buyer_promo_member_id`) REFERENCES `promo_members`(`id`) ON UPDATE no action ON DELETE no action,\n\tFOREIGN KEY (`invite_user_id`) REFERENCES `users`(`id`) ON UPDATE no action ON DELETE no action,\n\tFOREIGN KEY (`agent_user_id`) REFERENCES `users`(`id`) ON UPDATE no action ON DELETE no action,\n\tFOREIGN KEY (`parent_agent_user_id`) REFERENCES `users`(`id`) ON UPDATE no action ON DELETE no action,\n\tFOREIGN KEY (`master_agent_user_id`) REFERENCES `users`(`id`) ON UPDATE no action ON DELETE no action\n);\n\n--> statement-breakpoint\nCREATE UNIQUE INDEX `promo_order_attributions_order_id_unique` ON `promo_order_attributions` (`order_id`);\n--> statement-breakpoint\nCREATE TABLE `settings` (\n\t`key` text PRIMARY KEY NOT NULL,\n\t`value` text NOT NULL,\n\t`description` text,\n\t`updated_at` integer DEFAULT (unixepoch() * 1000)\n);\n\n--> statement-breakpoint\nCREATE TABLE `subscriptions` (\n\t`id` text PRIMARY KEY NOT NULL,\n\t`gateway_sub_id` text,\n\t`user_id` integer,\n\t`product_id` integer NOT NULL,\n\t`pay_method` text NOT NULL,\n\t`status` text DEFAULT 'active' NOT NULL,\n\t`interval` text NOT NULL,\n\t`interval_count` integer DEFAULT 1 NOT NULL,\n\t`amount` real NOT NULL,\n\t`currency` text DEFAULT 'USD' NOT NULL,\n\t`current_period_start` integer,\n\t`current_period_end` integer,\n\t`cancel_at_period_end` integer DEFAULT false,\n\t`meta_data` text,\n\t`created_at` integer DEFAULT (unixepoch()) NOT NULL,\n\t`updated_at` integer DEFAULT (unixepoch()),\n\tFOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON UPDATE no action ON DELETE no action,\n\tFOREIGN KEY (`product_id`) REFERENCES `products`(`id`) ON UPDATE no action ON DELETE no action\n);\n\n--> statement-breakpoint\nCREATE TABLE `ticket_messages` (\n\t`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,\n\t`ticket_id` integer NOT NULL,\n\t`sender_type` text NOT NULL,\n\t`sender_id` integer,\n\t`sender_name` text DEFAULT '' NOT NULL,\n\t`content` text NOT NULL,\n\t`attachments` text,\n\t`created_at` integer DEFAULT (unixepoch()) NOT NULL,\n\tFOREIGN KEY (`ticket_id`) REFERENCES `tickets`(`id`) ON UPDATE no action ON DELETE cascade\n);\n\n--> statement-breakpoint\nCREATE INDEX `ticket_messages_ticket_id_idx` ON `ticket_messages` (`ticket_id`);\n--> statement-breakpoint\nCREATE INDEX `ticket_messages_created_at_idx` ON `ticket_messages` (`created_at`);\n--> statement-breakpoint\nCREATE TABLE `tickets` (\n\t`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,\n\t`ticket_no` text NOT NULL,\n\t`user_id` integer NOT NULL,\n\t`category` text DEFAULT 'other' NOT NULL,\n\t`title` text NOT NULL,\n\t`status` text DEFAULT 'open' NOT NULL,\n\t`priority` text DEFAULT 'normal' NOT NULL,\n\t`context` text,\n\t`last_replied_at` integer DEFAULT (unixepoch()) NOT NULL,\n\t`last_replied_by` text DEFAULT 'user' NOT NULL,\n\t`created_at` integer DEFAULT (unixepoch()) NOT NULL,\n\t`updated_at` integer DEFAULT (unixepoch()) NOT NULL,\n\tFOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON UPDATE no action ON DELETE no action\n);\n\n--> statement-breakpoint\nCREATE UNIQUE INDEX `tickets_ticket_no_unique` ON `tickets` (`ticket_no`);\n--> statement-breakpoint\nCREATE INDEX `tickets_user_id_idx` ON `tickets` (`user_id`);\n--> statement-breakpoint\nCREATE INDEX `tickets_status_idx` ON `tickets` (`status`);\n--> statement-breakpoint\nCREATE INDEX `tickets_category_idx` ON `tickets` (`category`);\n--> statement-breakpoint\nCREATE INDEX `tickets_last_replied_at_idx` ON `tickets` (`last_replied_at`);\n--> statement-breakpoint\nCREATE TABLE `topups` (\n\t`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,\n\t`order_id` text NOT NULL,\n\t`user_id` integer NOT NULL,\n\t`wallet_id` integer,\n\t`source` text DEFAULT 'order' NOT NULL,\n\t`payment_amount` real NOT NULL,\n\t`payment_currency` text NOT NULL,\n\t`credit_amount_cents` integer NOT NULL,\n\t`credit_currency` text NOT NULL,\n\t`exchange_rate` real DEFAULT 1 NOT NULL,\n\t`balance_type` text DEFAULT 'cash' NOT NULL,\n\t`status` text DEFAULT 'pending' NOT NULL,\n\t`credit_event_id` text NOT NULL,\n\t`refund_event_id` text,\n\t`retry_count` integer DEFAULT 0 NOT NULL,\n\t`shortfall_cents` integer DEFAULT 0 NOT NULL,\n\t`last_error` text,\n\t`paid_at` integer,\n\t`credited_at` integer,\n\t`refunded_at` integer,\n\t`created_at` integer DEFAULT (unixepoch()) NOT NULL,\n\t`updated_at` integer DEFAULT (unixepoch()) NOT NULL,\n\tFOREIGN KEY (`order_id`) REFERENCES `orders`(`id`) ON UPDATE no action ON DELETE cascade,\n\tFOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON UPDATE no action ON DELETE no action,\n\tFOREIGN KEY (`wallet_id`) REFERENCES `user_wallets`(`id`) ON UPDATE no action ON DELETE no action\n);\n\n--> statement-breakpoint\nCREATE UNIQUE INDEX `topups_order_id_unique` ON `topups` (`order_id`);\n--> statement-breakpoint\nCREATE UNIQUE INDEX `topups_credit_event_id_unique` ON `topups` (`credit_event_id`);\n--> statement-breakpoint\nCREATE UNIQUE INDEX `topups_refund_event_id_unique` ON `topups` (`refund_event_id`);\n--> statement-breakpoint\nCREATE INDEX `idx_topups_user_created_at` ON `topups` (`user_id`,`created_at`);\n--> statement-breakpoint\nCREATE INDEX `idx_topups_status_updated_at` ON `topups` (`status`,`updated_at`);\n--> statement-breakpoint\nCREATE TABLE `user_sessions` (\n\t`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,\n\t`user_id` integer NOT NULL,\n\t`session_id_hash` text NOT NULL,\n\t`status` text DEFAULT 'active' NOT NULL,\n\t`auth_method` text DEFAULT 'password' NOT NULL,\n\t`device_type` text,\n\t`browser` text,\n\t`os` text,\n\t`user_agent` text,\n\t`ip` text,\n\t`country` text,\n\t`region` text,\n\t`city` text,\n\t`logged_in_at` integer DEFAULT (unixepoch()) NOT NULL,\n\t`last_seen_at` integer DEFAULT (unixepoch()) NOT NULL,\n\t`ended_at` integer,\n\t`replaced_by_session_id` text,\n\t`created_at` integer DEFAULT (unixepoch()) NOT NULL,\n\tFOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON UPDATE no action ON DELETE no action\n);\n\n--> statement-breakpoint\nCREATE UNIQUE INDEX `user_sessions_session_id_hash_unique` ON `user_sessions` (`session_id_hash`);\n--> statement-breakpoint\nCREATE INDEX `user_sessions_user_status_idx` ON `user_sessions` (`user_id`,`status`);\n--> statement-breakpoint\nCREATE INDEX `user_sessions_last_seen_idx` ON `user_sessions` (`last_seen_at`);\n--> statement-breakpoint\nCREATE TABLE `user_tokens` (\n\t`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,\n\t`user_id` integer NOT NULL,\n\t`token` text NOT NULL,\n\t`name` text,\n\t`expires_at` integer,\n\t`last_used_at` integer,\n\t`revoked` integer DEFAULT 0 NOT NULL,\n\t`created_at` integer DEFAULT (unixepoch()) NOT NULL,\n\tFOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON UPDATE no action ON DELETE no action\n);\n\n--> statement-breakpoint\nCREATE UNIQUE INDEX `user_tokens_token_unique` ON `user_tokens` (`token`);\n--> statement-breakpoint\nCREATE TABLE `user_wallets` (\n\t`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,\n\t`user_id` integer NOT NULL,\n\t`cash_balance` integer DEFAULT 0 NOT NULL,\n\t`grant_balance` integer DEFAULT 0 NOT NULL,\n\t`sub_balance` integer DEFAULT 0 NOT NULL,\n\t`points_balance` integer DEFAULT 0 NOT NULL,\n\t`tier_level` integer DEFAULT 0 NOT NULL,\n\t`sub_expires_at` integer,\n\t`status` integer DEFAULT 1 NOT NULL,\n\t`created_at` integer DEFAULT (unixepoch()) NOT NULL,\n\tFOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON UPDATE no action ON DELETE cascade\n);\n\n--> statement-breakpoint\nCREATE UNIQUE INDEX `user_wallets_user_id_unique` ON `user_wallets` (`user_id`);\n--> statement-breakpoint\nCREATE TABLE `users` (\n\t`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,\n\t`email` text NOT NULL,\n\t`password_hash` text,\n\t`nickname` text,\n\t`avatar_url` text,\n\t`last_login_at` integer,\n\t`current_session_id` text,\n\t`status` integer DEFAULT 1,\n\t`email_verified_at` integer,\n\t`created_at` integer DEFAULT (unixepoch()) NOT NULL\n);\n\n--> statement-breakpoint\nCREATE UNIQUE INDEX `users_email_unique` ON `users` (`email`);\n--> statement-breakpoint\nCREATE TABLE `visitor_events` (\n\t`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,\n\t`visitor_id` text NOT NULL,\n\t`ip` text,\n\t`user_id` integer,\n\t`order_id` text,\n\t`product_id` integer,\n\t`event_name` text NOT NULL,\n\t`event_action` text,\n\t`path` text,\n\t`referrer` text,\n\t`source_type` text,\n\t`source` text,\n\t`medium` text,\n\t`campaign` text,\n\t`content` text,\n\t`term` text,\n\t`country` text,\n\t`region` text,\n\t`city` text,\n\t`locale` text,\n\t`currency` text,\n\t`device_type` text,\n\t`browser` text,\n\t`os` text,\n\t`user_agent` text,\n\t`created_at` integer DEFAULT (unixepoch()) NOT NULL,\n\tFOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON UPDATE no action ON DELETE no action,\n\tFOREIGN KEY (`order_id`) REFERENCES `orders`(`id`) ON UPDATE no action ON DELETE no action,\n\tFOREIGN KEY (`product_id`) REFERENCES `products`(`id`) ON UPDATE no action ON DELETE no action\n);\n\n--> statement-breakpoint\nCREATE TABLE `visitor_profiles` (\n\t`visitor_id` text PRIMARY KEY NOT NULL,\n\t`user_id` integer,\n\t`ip` text,\n\t`first_seen_at` integer DEFAULT (unixepoch()) NOT NULL,\n\t`last_seen_at` integer DEFAULT (unixepoch()) NOT NULL,\n\t`landing_path` text,\n\t`first_path` text,\n\t`last_path` text,\n\t`first_referrer` text,\n\t`last_referrer` text,\n\t`first_source_type` text,\n\t`last_source_type` text,\n\t`first_source` text,\n\t`last_source` text,\n\t`first_medium` text,\n\t`last_medium` text,\n\t`first_campaign` text,\n\t`last_campaign` text,\n\t`first_content` text,\n\t`last_content` text,\n\t`first_term` text,\n\t`last_term` text,\n\t`country` text,\n\t`region` text,\n\t`city` text,\n\t`locale` text,\n\t`currency` text,\n\t`device_type` text,\n\t`browser` text,\n\t`os` text,\n\t`user_agent` text,\n\t`created_at` integer DEFAULT (unixepoch()) NOT NULL,\n\t`updated_at` integer DEFAULT (unixepoch()) NOT NULL,\n\tFOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON UPDATE no action ON DELETE no action\n);\n\n--> statement-breakpoint\nCREATE TABLE `webhooks` (\n\t`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,\n\t`name` text NOT NULL,\n\t`url` text NOT NULL,\n\t`events` text,\n\t`secret` text,\n\t`is_active` integer DEFAULT true NOT NULL,\n\t`created_at` integer DEFAULT (unixepoch()) NOT NULL\n);\n","tables":["access_logs","admin_tokens","admins","balance_logs","cards","comments","email_logs","email_providers","event_rules","logs","notifications","oauth_accounts","operation_logs","orders","payment_failures","payment_methods","posts","products","promo_agent_relations","promo_agent_tiers","promo_applications","promo_commissions","promo_invite_relations","promo_members","promo_order_attributions","settings","subscriptions","ticket_messages","tickets","topups","user_sessions","user_tokens","user_wallets","users","visitor_events","visitor_profiles","webhooks"],"checksum":"7941320c9faf8a18532a13308e682420c77b81696b1edae337d53e463ca11cc9","migrations":{"0000_wild_doctor_strange":"b323997e69916f57bebb3ef0bc7108656ce88fbd02b37bdb3bc647238cfa626e","0001_brave_longshot":"2fddfc5830f4a6d480dc212e05b3e609a05c9b38e520142c25e531baff8c91dc","0002_mysterious_snowbird":"79bea003b686881bb6a8a859bf406b07ed99745c8dc922097e547afc539f31a8","0003_adorable_cargill":"0cab61fc20b80b21f9570ca4b5ee460b9d167f28b6cfad6bf3593333e1288b67","0004_premium_wildside":"ecd191e7eb6f889de497e9c0d98d9d0cbad10427ad7589ffb5d04312039f2c67","0005_add_notifications":"877044dcbf546d725bb3951b5a87b3dc2490610d2503c8cc71a423bf375636a3","0006_add_users_email_verify":"c5cbe6156200f8afc1122fc504bb52732e3e99f041e2113cf08d5ea09c5af0ab","0007_add_promo":"abe21ee5efea2afa8138f96f9135522ba1d7538654dc521f8bf9c54b5fdf4198","0008_add_payment_method_locales":"bbca0758e1c97486789af48d452251e6af5af57b974c6c67374f5beea9e620e6","0009_add_orders_currency":"f9326a7968048ae464290104f098fe6b218d78b6577a45558453b5c659251510","0010_add_payment_failures":"cb80bfd10a0d9db5cc7ab0da35abb0c6560e80326b2978a7b6ead4e701f2fad6","0011_add_auth_and_event_rules":"0e392c686f25b51f390d0aac3b65612d96710baab5fb59dc810752bd7a44e5cc","0012_add_admin_permissions":"553b0f486356401f0cf4ddb452f0a2b2344cc0b3a856a0ab024062ce20110210","0013_add_operation_logs":"70e73faf6a0204c81e0932f0ad3183c18e42f01b4d127ddd894da3f86265c652","0014_add_admin_tokens":"9056aeda1d88de5513b1ec27610b57a49278b88f2b68d7c90c2302c7045cdd22","0015_add_balance_logs":"5bdcf9e0278d0590cbfbe10797a0f37085360767809caf1e21ddef2cb9d3a097","0016_add_order_source_idempotency":"5b6d8245dde40455d8ea45f5f4c63255f822225502519bd2f81095e11b5bbec7","0017_add_user_sessions":"acb58067f2d1bd4d6fd31606cfe9d52afc2812909698afed36cae7a3432a3f1a","0018_add_user_wallets":"3dace91d66c61568fbb7acd97883e808ea67faf48aef57af8d8bef8091ae0ce7","0019_add_topups":"e6edddd2ca61fe66ace7d82fd1169c14bca4f6cdf41a9f0db5aef42896fc5240","0020_add_email_logs":"22bd6f6d03b9cd6f289630d9751d27ddded427a7c9a4a5029b510ecc8fa28bcf","0021_add_products_status":"e10c06129d7a39c3c555e7d69b356a60fb948d34ce5cd62f968acfd943902047","0022_add_promo_applications_and_tickets":"4575cbfced7d9fc94d00e419eaceb5f73a69c75fecf61197c4caafb88c8e9f80","0023_purge_legacy_password_reset_tokens":"e12b640fb1dca7fa5193448afd0a6aeac82b0bd2e2ea51e17f566a39b4336630","0024_topups_wallet_optional":"ad9b448c122158158d121999a32816263a5b4ab4adf8e218c14d109f723df8d5","0025_add_comments":"196d58b2a9b537c1a49498d55674460b266b9950cc6bb8e98e6e9c786f35750f"}}}},{"id":"theme:hoxi","origin":"app/themes/hoxi/database","kind":"versioned","files":{"sqlite":[{"name":"0001_hoxi_init","sql":"-- Hoxi private tables; runtime seeds business defaults after schema readiness.\nCREATE TABLE IF NOT EXISTS hoxi_models (\n          id INTEGER PRIMARY KEY AUTOINCREMENT,\n          slug TEXT NOT NULL UNIQUE,\n          name TEXT NOT NULL,\n          vendor TEXT NOT NULL,\n          currency TEXT NOT NULL DEFAULT 'USD',\n          price_input REAL NOT NULL DEFAULT 0,\n          price_output REAL NOT NULL DEFAULT 0,\n          price_cache_read REAL,\n          price_cache_write REAL,\n          context_window INTEGER,\n          max_output_tokens INTEGER,\n          scores TEXT,\n          badges TEXT,\n          scenes TEXT,\n          modalities TEXT,\n          reasoning INTEGER DEFAULT 0,\n          open_weights INTEGER DEFAULT 0,\n          is_free INTEGER DEFAULT 0,\n          hidden INTEGER DEFAULT 0,\n          released_at TEXT,\n          updated_at TEXT,\n          billing TEXT,\n          sources TEXT,\n          summary TEXT,\n          highlights TEXT,\n          caveats TEXT,\n          perf TEXT,\n          benchmark_variant TEXT,\n          aa_slug TEXT,\n          created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP\n        );\n--> statement-breakpoint\nCREATE TABLE IF NOT EXISTS hoxi_gateways (\n          id TEXT PRIMARY KEY,\n          name TEXT NOT NULL,\n          domain TEXT NOT NULL,\n          url TEXT NOT NULL DEFAULT '',\n          models TEXT NOT NULL,\n          primary_model_key TEXT NOT NULL,\n          latency_ms INTEGER NOT NULL DEFAULT 0,\n          uptime TEXT NOT NULL DEFAULT '99.99%',\n          price_per_m REAL NOT NULL DEFAULT 0,\n          price_label TEXT NOT NULL,\n          official_price_cny REAL NOT NULL DEFAULT 0,\n          savings_percent INTEGER NOT NULL DEFAULT 0,\n          is_self_operated INTEGER DEFAULT 0,\n          badge TEXT,\n          badge_tone TEXT,\n          base_url TEXT NOT NULL,\n          features TEXT NOT NULL,\n          caveat TEXT,\n          recommended_models TEXT,\n          hidden INTEGER DEFAULT 0,\n          sort_order INTEGER DEFAULT 0,\n          created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP\n        );\n--> statement-breakpoint\nCREATE TABLE IF NOT EXISTS hoxi_coding_plans (\n          slug TEXT PRIMARY KEY,\n          name TEXT NOT NULL,\n          vendor TEXT NOT NULL,\n          vendor_label TEXT NOT NULL,\n          vendor_color TEXT NOT NULL,\n          region TEXT NOT NULL DEFAULT 'international',\n          type TEXT NOT NULL DEFAULT 'coding_plan',\n          price_label TEXT NOT NULL,\n          price_monthly_cny INTEGER NOT NULL DEFAULT 0,\n          payment_methods TEXT NOT NULL,\n          network_requirement TEXT NOT NULL,\n          period TEXT NOT NULL DEFAULT '按月订阅',\n          quota_note TEXT NOT NULL,\n          models TEXT NOT NULL,\n          tools TEXT,\n          highlights TEXT NOT NULL,\n          caveats TEXT NOT NULL,\n          recommended_models TEXT,\n          status TEXT NOT NULL DEFAULT 'hot',\n          official_url TEXT,\n          guide_url TEXT,\n          hidden INTEGER DEFAULT 0,\n          sort_order INTEGER DEFAULT 0,\n          created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP\n        );\n--> statement-breakpoint\nCREATE TABLE IF NOT EXISTS hoxi_readiness_submissions (\n          id INTEGER PRIMARY KEY AUTOINCREMENT,\n          role TEXT NOT NULL,\n          overall_score INTEGER NOT NULL,\n          tier TEXT NOT NULL,\n          archetype TEXT NOT NULL,\n          strongest_dimension TEXT NOT NULL,\n          weakest_dimension TEXT NOT NULL,\n          scores TEXT NOT NULL,\n          answers TEXT,\n          client_id TEXT,\n          created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP\n        );\n--> statement-breakpoint\nCREATE TABLE IF NOT EXISTS hoxi_tools (\n          id TEXT PRIMARY KEY,\n          name TEXT NOT NULL,\n          category TEXT NOT NULL,\n          category_label TEXT NOT NULL,\n          description TEXT NOT NULL,\n          url TEXT NOT NULL,\n          affiliate_url TEXT,\n          badge TEXT,\n          badge_tone TEXT,\n          icon TEXT,\n          pricing TEXT,\n          hidden INTEGER DEFAULT 0,\n          sort_order INTEGER DEFAULT 0,\n          created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP\n        );\n--> statement-breakpoint\nCREATE TABLE IF NOT EXISTS hoxi_projects (\n          id TEXT PRIMARY KEY,\n          name TEXT NOT NULL,\n          tagline TEXT NOT NULL,\n          description TEXT NOT NULL,\n          category TEXT NOT NULL,\n          category_label TEXT NOT NULL,\n          status TEXT NOT NULL DEFAULT 'active',\n          status_label TEXT,\n          model_used TEXT,\n          monthly_cost TEXT,\n          tech_stack TEXT,\n          author TEXT NOT NULL DEFAULT '可乐 (Coller)',\n          author_url TEXT,\n          badge TEXT,\n          badge_tone TEXT,\n          icon TEXT,\n          url TEXT NOT NULL,\n          github_url TEXT,\n          story_url TEXT,\n          highlights TEXT,\n          hidden INTEGER DEFAULT 0,\n          sort_order INTEGER DEFAULT 0,\n          created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP\n        );\n"}],"postgresql":[{"name":"0001_hoxi_init","sql":"-- Hoxi private tables; runtime seeds business defaults after schema readiness.\nCREATE TABLE IF NOT EXISTS hoxi_models (\n          id SERIAL PRIMARY KEY,\n          slug VARCHAR(128) NOT NULL UNIQUE,\n          name VARCHAR(255) NOT NULL,\n          vendor VARCHAR(64) NOT NULL,\n          currency VARCHAR(16) NOT NULL DEFAULT 'USD',\n          price_input REAL NOT NULL DEFAULT 0,\n          price_output REAL NOT NULL DEFAULT 0,\n          price_cache_read REAL,\n          price_cache_write REAL,\n          context_window INTEGER,\n          max_output_tokens INTEGER,\n          scores TEXT,\n          badges TEXT,\n          scenes TEXT,\n          modalities TEXT,\n          reasoning INTEGER DEFAULT 0,\n          open_weights INTEGER DEFAULT 0,\n          is_free INTEGER DEFAULT 0,\n          hidden INTEGER DEFAULT 0,\n          released_at VARCHAR(64),\n          updated_at VARCHAR(64),\n          billing TEXT,\n          sources TEXT,\n          summary TEXT,\n          highlights TEXT,\n          caveats TEXT,\n          perf TEXT,\n          benchmark_variant VARCHAR(128),\n          aa_slug VARCHAR(128),\n          created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP\n        );\n--> statement-breakpoint\nCREATE TABLE IF NOT EXISTS hoxi_gateways (\n          id VARCHAR(128) PRIMARY KEY,\n          name VARCHAR(255) NOT NULL,\n          domain VARCHAR(255) NOT NULL,\n          url TEXT NOT NULL DEFAULT '',\n          models TEXT NOT NULL,\n          primary_model_key VARCHAR(64) NOT NULL,\n          latency_ms INTEGER NOT NULL DEFAULT 0,\n          uptime VARCHAR(32) NOT NULL DEFAULT '99.99%',\n          price_per_m REAL NOT NULL DEFAULT 0,\n          price_label VARCHAR(64) NOT NULL,\n          official_price_cny REAL NOT NULL DEFAULT 0,\n          savings_percent INTEGER NOT NULL DEFAULT 0,\n          is_self_operated INTEGER DEFAULT 0,\n          badge VARCHAR(128),\n          badge_tone VARCHAR(32),\n          base_url TEXT NOT NULL,\n          features TEXT NOT NULL,\n          caveat TEXT,\n          recommended_models TEXT,\n          hidden INTEGER DEFAULT 0,\n          sort_order INTEGER DEFAULT 0,\n          created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP\n        );\n--> statement-breakpoint\nCREATE TABLE IF NOT EXISTS hoxi_coding_plans (\n          slug VARCHAR(128) PRIMARY KEY,\n          name VARCHAR(255) NOT NULL,\n          vendor VARCHAR(64) NOT NULL,\n          vendor_label VARCHAR(128) NOT NULL,\n          vendor_color VARCHAR(64) NOT NULL,\n          region VARCHAR(32) NOT NULL DEFAULT 'international',\n          type VARCHAR(32) NOT NULL DEFAULT 'coding_plan',\n          price_label VARCHAR(64) NOT NULL,\n          price_monthly_cny INTEGER NOT NULL DEFAULT 0,\n          payment_methods TEXT NOT NULL,\n          network_requirement VARCHAR(128) NOT NULL,\n          period VARCHAR(64) NOT NULL DEFAULT '按月订阅',\n          quota_note TEXT NOT NULL,\n          models TEXT NOT NULL,\n          tools TEXT,\n          highlights TEXT NOT NULL,\n          caveats TEXT NOT NULL,\n          recommended_models TEXT,\n          status VARCHAR(32) NOT NULL DEFAULT 'hot',\n          official_url TEXT,\n          guide_url TEXT,\n          hidden INTEGER DEFAULT 0,\n          sort_order INTEGER DEFAULT 0,\n          created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP\n        );\n--> statement-breakpoint\nCREATE TABLE IF NOT EXISTS hoxi_readiness_submissions (\n          id SERIAL PRIMARY KEY,\n          role VARCHAR(64) NOT NULL,\n          overall_score INTEGER NOT NULL,\n          tier VARCHAR(64) NOT NULL,\n          archetype VARCHAR(64) NOT NULL,\n          strongest_dimension VARCHAR(64) NOT NULL,\n          weakest_dimension VARCHAR(64) NOT NULL,\n          scores TEXT NOT NULL,\n          answers TEXT,\n          client_id VARCHAR(128),\n          created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP\n        );\n--> statement-breakpoint\nCREATE TABLE IF NOT EXISTS hoxi_tools (\n          id VARCHAR(128) PRIMARY KEY,\n          name VARCHAR(255) NOT NULL,\n          category VARCHAR(64) NOT NULL,\n          category_label VARCHAR(128) NOT NULL,\n          description TEXT NOT NULL,\n          url TEXT NOT NULL,\n          affiliate_url TEXT,\n          badge VARCHAR(128),\n          badge_tone VARCHAR(32),\n          icon VARCHAR(128),\n          pricing VARCHAR(128),\n          hidden INTEGER DEFAULT 0,\n          sort_order INTEGER DEFAULT 0,\n          created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP\n        );\n--> statement-breakpoint\nCREATE TABLE IF NOT EXISTS hoxi_projects (\n          id VARCHAR(128) PRIMARY KEY,\n          name VARCHAR(255) NOT NULL,\n          tagline TEXT NOT NULL,\n          description TEXT NOT NULL,\n          category VARCHAR(64) NOT NULL,\n          category_label VARCHAR(128) NOT NULL,\n          status VARCHAR(64) NOT NULL DEFAULT 'active',\n          status_label VARCHAR(128),\n          model_used TEXT,\n          monthly_cost VARCHAR(128),\n          tech_stack TEXT,\n          author VARCHAR(128) NOT NULL DEFAULT '可乐 (Coller)',\n          author_url TEXT,\n          badge VARCHAR(128),\n          badge_tone VARCHAR(32),\n          icon VARCHAR(128),\n          url TEXT NOT NULL,\n          github_url TEXT,\n          story_url TEXT,\n          highlights TEXT,\n          hidden INTEGER DEFAULT 0,\n          sort_order INTEGER DEFAULT 0,\n          created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP\n        );\n"}],"mysql":[{"name":"0001_hoxi_init","sql":"-- Hoxi private tables; runtime seeds business defaults after schema readiness.\nCREATE TABLE IF NOT EXISTS hoxi_models (\n          id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,\n          slug VARCHAR(128) NOT NULL UNIQUE,\n          name VARCHAR(255) NOT NULL,\n          vendor VARCHAR(64) NOT NULL,\n          currency VARCHAR(16) NOT NULL DEFAULT 'USD',\n          price_input DOUBLE NOT NULL DEFAULT 0,\n          price_output DOUBLE NOT NULL DEFAULT 0,\n          price_cache_read DOUBLE,\n          price_cache_write DOUBLE,\n          context_window INTEGER,\n          max_output_tokens INTEGER,\n          scores TEXT,\n          badges TEXT,\n          scenes TEXT,\n          modalities TEXT,\n          reasoning INTEGER DEFAULT 0,\n          open_weights INTEGER DEFAULT 0,\n          is_free INTEGER DEFAULT 0,\n          hidden INTEGER DEFAULT 0,\n          released_at VARCHAR(64),\n          updated_at VARCHAR(64),\n          billing TEXT,\n          sources TEXT,\n          summary TEXT,\n          highlights TEXT,\n          caveats TEXT,\n          perf TEXT,\n          benchmark_variant VARCHAR(128),\n          aa_slug VARCHAR(128),\n          created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP\n        );\n--> statement-breakpoint\nCREATE TABLE IF NOT EXISTS hoxi_gateways (\n          id VARCHAR(128) PRIMARY KEY,\n          name VARCHAR(255) NOT NULL,\n          domain VARCHAR(255) NOT NULL,\n          url TEXT NOT NULL DEFAULT (''),\n          models TEXT NOT NULL,\n          primary_model_key VARCHAR(64) NOT NULL,\n          latency_ms INTEGER NOT NULL DEFAULT 0,\n          uptime VARCHAR(32) NOT NULL DEFAULT '99.99%',\n          price_per_m DOUBLE NOT NULL DEFAULT 0,\n          price_label VARCHAR(64) NOT NULL,\n          official_price_cny DOUBLE NOT NULL DEFAULT 0,\n          savings_percent INTEGER NOT NULL DEFAULT 0,\n          is_self_operated INTEGER DEFAULT 0,\n          badge VARCHAR(128),\n          badge_tone VARCHAR(32),\n          base_url TEXT NOT NULL,\n          features TEXT NOT NULL,\n          caveat TEXT,\n          recommended_models TEXT,\n          hidden INTEGER DEFAULT 0,\n          sort_order INTEGER DEFAULT 0,\n          created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP\n        );\n--> statement-breakpoint\nCREATE TABLE IF NOT EXISTS hoxi_coding_plans (\n          slug VARCHAR(128) PRIMARY KEY,\n          name VARCHAR(255) NOT NULL,\n          vendor VARCHAR(64) NOT NULL,\n          vendor_label VARCHAR(128) NOT NULL,\n          vendor_color VARCHAR(64) NOT NULL,\n          region VARCHAR(32) NOT NULL DEFAULT 'international',\n          type VARCHAR(32) NOT NULL DEFAULT 'coding_plan',\n          price_label VARCHAR(64) NOT NULL,\n          price_monthly_cny INTEGER NOT NULL DEFAULT 0,\n          payment_methods TEXT NOT NULL,\n          network_requirement VARCHAR(128) NOT NULL,\n          period VARCHAR(64) NOT NULL DEFAULT '按月订阅',\n          quota_note TEXT NOT NULL,\n          models TEXT NOT NULL,\n          tools TEXT,\n          highlights TEXT NOT NULL,\n          caveats TEXT NOT NULL,\n          recommended_models TEXT,\n          status VARCHAR(32) NOT NULL DEFAULT 'hot',\n          official_url TEXT,\n          guide_url TEXT,\n          hidden INTEGER DEFAULT 0,\n          sort_order INTEGER DEFAULT 0,\n          created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP\n        );\n--> statement-breakpoint\nCREATE TABLE IF NOT EXISTS hoxi_readiness_submissions (\n          id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,\n          role VARCHAR(64) NOT NULL,\n          overall_score INTEGER NOT NULL,\n          tier VARCHAR(64) NOT NULL,\n          archetype VARCHAR(64) NOT NULL,\n          strongest_dimension VARCHAR(64) NOT NULL,\n          weakest_dimension VARCHAR(64) NOT NULL,\n          scores TEXT NOT NULL,\n          answers TEXT,\n          client_id VARCHAR(128),\n          created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP\n        );\n--> statement-breakpoint\nCREATE TABLE IF NOT EXISTS hoxi_tools (\n          id VARCHAR(128) PRIMARY KEY,\n          name VARCHAR(255) NOT NULL,\n          category VARCHAR(64) NOT NULL,\n          category_label VARCHAR(128) NOT NULL,\n          description TEXT NOT NULL,\n          url TEXT NOT NULL,\n          affiliate_url TEXT,\n          badge VARCHAR(128),\n          badge_tone VARCHAR(32),\n          icon VARCHAR(128),\n          pricing VARCHAR(128),\n          hidden INTEGER DEFAULT 0,\n          sort_order INTEGER DEFAULT 0,\n          created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP\n        );\n--> statement-breakpoint\nCREATE TABLE IF NOT EXISTS hoxi_projects (\n          id VARCHAR(128) PRIMARY KEY,\n          name VARCHAR(255) NOT NULL,\n          tagline TEXT NOT NULL,\n          description TEXT NOT NULL,\n          category VARCHAR(64) NOT NULL,\n          category_label VARCHAR(128) NOT NULL,\n          status VARCHAR(64) NOT NULL DEFAULT 'active',\n          status_label VARCHAR(128),\n          model_used TEXT,\n          monthly_cost VARCHAR(128),\n          tech_stack TEXT,\n          author VARCHAR(128) NOT NULL DEFAULT '可乐 (Coller)',\n          author_url TEXT,\n          badge VARCHAR(128),\n          badge_tone VARCHAR(32),\n          icon VARCHAR(128),\n          url TEXT NOT NULL,\n          github_url TEXT,\n          story_url TEXT,\n          highlights TEXT,\n          hidden INTEGER DEFAULT 0,\n          sort_order INTEGER DEFAULT 0,\n          created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP\n        );\n"}]},"probeTable":"hoxi_models"}];
+const bundledSources = [{"id":"core","origin":"server/db/migrations","kind":"versioned","files":{"sqlite":[{"name":"0000_wild_doctor_strange","sql":"CREATE TABLE `admins` (\n\t`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,\n\t`username` text NOT NULL,\n\t`password_hash` text NOT NULL,\n\t`created_at` integer DEFAULT CURRENT_TIMESTAMP NOT NULL\n);\n--> statement-breakpoint\nCREATE UNIQUE INDEX `admins_username_unique` ON `admins` (`username`);--> statement-breakpoint\nCREATE TABLE `cards` (\n\t`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,\n\t`product_id` integer NOT NULL,\n\t`card_number` text NOT NULL,\n\t`is_used` integer DEFAULT false NOT NULL,\n\t`order_id` text,\n\t`created_at` integer DEFAULT CURRENT_TIMESTAMP NOT NULL,\n\tFOREIGN KEY (`product_id`) REFERENCES `products`(`id`) ON UPDATE no action ON DELETE no action\n);\n--> statement-breakpoint\nCREATE TABLE `failures` (\n\t`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,\n\t`order_id` text NOT NULL,\n\t`card_bin` text,\n\t`reason` text NOT NULL,\n\t`amount` real,\n\t`pay_method` text,\n\t`contact_email` text,\n\t`raw_response` text,\n\t`visitor_id` text,\n\t`created_at` integer DEFAULT CURRENT_TIMESTAMP NOT NULL\n);\n--> statement-breakpoint\nCREATE TABLE `logs` (\n\t`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,\n\t`level` text DEFAULT 'info' NOT NULL,\n\t`message` text NOT NULL,\n\t`details` text,\n\t`source` text,\n\t`created_at` integer DEFAULT CURRENT_TIMESTAMP NOT NULL\n);\n--> statement-breakpoint\nCREATE TABLE `oauth_accounts` (\n\t`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,\n\t`user_id` integer NOT NULL,\n\t`provider` text NOT NULL,\n\t`provider_account_id` text NOT NULL,\n\t`created_at` integer DEFAULT CURRENT_TIMESTAMP NOT NULL,\n\tFOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON UPDATE no action ON DELETE no action\n);\n--> statement-breakpoint\nCREATE UNIQUE INDEX `provider_account_idx` ON `oauth_accounts` (`provider`,`provider_account_id`);--> statement-breakpoint\nCREATE TABLE `orders` (\n\t`id` text PRIMARY KEY NOT NULL,\n\t`amount` real NOT NULL,\n\t`product_id` integer NOT NULL,\n\t`user_id` integer,\n\t`contact_email` text NOT NULL,\n\t`pay_method` text,\n\t`trade_no` text,\n\t`status` text DEFAULT 'none' NOT NULL,\n\t`delivery_info` text,\n\t`meta_data` text,\n\t`visitor_id` text,\n\t`subscription_id` text,\n\t`created_at` integer DEFAULT CURRENT_TIMESTAMP NOT NULL,\n\t`paid_at` integer,\n\t`pay_status` text DEFAULT 'pending' NOT NULL,\n\tFOREIGN KEY (`product_id`) REFERENCES `products`(`id`) ON UPDATE no action ON DELETE no action,\n\tFOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON UPDATE no action ON DELETE no action\n);\n--> statement-breakpoint\nCREATE TABLE `payment_methods` (\n\t`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,\n\t`name` text NOT NULL,\n\t`code` text NOT NULL,\n\t`icon_url` text,\n\t`is_active` integer DEFAULT false NOT NULL,\n\t`config_json` text,\n\t`info` text,\n\t`create` text,\n\t`callback` text,\n\t`created_at` integer DEFAULT CURRENT_TIMESTAMP NOT NULL\n);\n--> statement-breakpoint\nCREATE UNIQUE INDEX `payment_methods_code_unique` ON `payment_methods` (`code`);--> statement-breakpoint\nCREATE TABLE `posts` (\n\t`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,\n\t`slug` text NOT NULL,\n\t`title` text NOT NULL,\n\t`description` text,\n\t`content` text,\n\t`type` text DEFAULT 'blog' NOT NULL,\n\t`image_url` text,\n\t`views` integer DEFAULT 0 NOT NULL,\n\t`is_active` integer DEFAULT true NOT NULL,\n\t`meta_data` text,\n\t`created_at` integer DEFAULT CURRENT_TIMESTAMP NOT NULL,\n\t`updated_at` integer DEFAULT CURRENT_TIMESTAMP\n);\n--> statement-breakpoint\nCREATE UNIQUE INDEX `posts_slug_unique` ON `posts` (`slug`);--> statement-breakpoint\nCREATE TABLE `products` (\n\t`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,\n\t`slug` text,\n\t`name` text NOT NULL,\n\t`price` real NOT NULL,\n\t`description` text,\n\t`content` text,\n\t`type` text NOT NULL,\n\t`image_url` text,\n\t`views` integer DEFAULT 0 NOT NULL,\n\t`image_urls` text,\n\t`resource` text,\n\t`is_active` integer DEFAULT true NOT NULL,\n\t`meta_data` text,\n\t`sort_order` integer DEFAULT 0 NOT NULL,\n\t`created_at` integer DEFAULT CURRENT_TIMESTAMP NOT NULL\n);\n--> statement-breakpoint\nCREATE UNIQUE INDEX `products_slug_unique` ON `products` (`slug`);--> statement-breakpoint\nCREATE TABLE `settings` (\n\t`key` text PRIMARY KEY NOT NULL,\n\t`value` text NOT NULL,\n\t`description` text,\n\t`updated_at` integer DEFAULT (unixepoch() * 1000)\n);\n--> statement-breakpoint\nCREATE TABLE `subscriptions` (\n\t`id` text PRIMARY KEY NOT NULL,\n\t`gateway_sub_id` text,\n\t`user_id` integer,\n\t`product_id` integer NOT NULL,\n\t`pay_method` text NOT NULL,\n\t`status` text DEFAULT 'active' NOT NULL,\n\t`interval` text NOT NULL,\n\t`interval_count` integer DEFAULT 1 NOT NULL,\n\t`amount` real NOT NULL,\n\t`currency` text DEFAULT 'USD' NOT NULL,\n\t`current_period_start` integer,\n\t`current_period_end` integer,\n\t`cancel_at_period_end` integer DEFAULT false,\n\t`meta_data` text,\n\t`created_at` integer DEFAULT CURRENT_TIMESTAMP NOT NULL,\n\t`updated_at` integer DEFAULT CURRENT_TIMESTAMP,\n\tFOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON UPDATE no action ON DELETE no action,\n\tFOREIGN KEY (`product_id`) REFERENCES `products`(`id`) ON UPDATE no action ON DELETE no action\n);\n--> statement-breakpoint\nCREATE TABLE `users` (\n\t`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,\n\t`email` text NOT NULL,\n\t`password_hash` text,\n\t`nickname` text,\n\t`avatar_url` text,\n\t`last_login_at` integer,\n\t`cash_balance` integer DEFAULT 0,\n\t`grant_balance` integer DEFAULT 0,\n\t`sub_balance` integer DEFAULT 0,\n\t`sub_expires_at` integer,\n\t`tier_level` integer DEFAULT 0,\n\t`status` integer DEFAULT 1,\n\t`created_at` integer DEFAULT CURRENT_TIMESTAMP NOT NULL\n);\n--> statement-breakpoint\nCREATE UNIQUE INDEX `users_email_unique` ON `users` (`email`);--> statement-breakpoint\nCREATE TABLE `webhooks` (\n\t`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,\n\t`name` text NOT NULL,\n\t`url` text NOT NULL,\n\t`events` text,\n\t`secret` text,\n\t`is_active` integer DEFAULT true NOT NULL,\n\t`created_at` integer DEFAULT CURRENT_TIMESTAMP NOT NULL\n);\n"},{"name":"0001_brave_longshot","sql":"DROP INDEX `payment_methods_code_unique`;"},{"name":"0002_mysterious_snowbird","sql":"DROP INDEX `provider_account_idx`;--> statement-breakpoint\n"},{"name":"0003_adorable_cargill","sql":"CREATE TABLE `access_logs` (\n\t`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,\n\t`path` text NOT NULL,\n\t`method` text NOT NULL,\n\t`ip` text,\n\t`user_agent` text,\n\t`referrer` text,\n\t`country` text,\n\t`region` text,\n\t`city` text,\n\t`status_code` integer,\n\t`duration` real,\n\t`visitor_id` text,\n\t`user_id` integer,\n\t`created_at` integer DEFAULT (unixepoch()) NOT NULL,\n\tFOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON UPDATE no action ON DELETE no action\n);\n--> statement-breakpoint\nCREATE TABLE `email_providers` (\n\t`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,\n\t`name` text NOT NULL,\n\t`code` text NOT NULL,\n\t`is_active` integer DEFAULT false NOT NULL,\n\t`config_json` text,\n\t`send_script` text,\n\t`created_at` integer DEFAULT (unixepoch()) NOT NULL\n);\n--> statement-breakpoint\nCREATE TABLE `visitor_events` (\n\t`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,\n\t`visitor_id` text NOT NULL,\n\t`ip` text,\n\t`user_id` integer,\n\t`order_id` text,\n\t`product_id` integer,\n\t`event_name` text NOT NULL,\n\t`event_action` text,\n\t`path` text,\n\t`referrer` text,\n\t`source_type` text,\n\t`source` text,\n\t`medium` text,\n\t`campaign` text,\n\t`content` text,\n\t`term` text,\n\t`country` text,\n\t`region` text,\n\t`city` text,\n\t`locale` text,\n\t`currency` text,\n\t`device_type` text,\n\t`browser` text,\n\t`os` text,\n\t`user_agent` text,\n\t`created_at` integer DEFAULT (unixepoch()) NOT NULL,\n\tFOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON UPDATE no action ON DELETE no action,\n\tFOREIGN KEY (`order_id`) REFERENCES `orders`(`id`) ON UPDATE no action ON DELETE no action,\n\tFOREIGN KEY (`product_id`) REFERENCES `products`(`id`) ON UPDATE no action ON DELETE no action\n);\n--> statement-breakpoint\nCREATE TABLE `visitor_profiles` (\n\t`visitor_id` text PRIMARY KEY NOT NULL,\n\t`user_id` integer,\n\t`first_seen_at` integer DEFAULT (unixepoch()) NOT NULL,\n\t`last_seen_at` integer DEFAULT (unixepoch()) NOT NULL,\n\t`landing_path` text,\n\t`first_path` text,\n\t`last_path` text,\n\t`first_referrer` text,\n\t`last_referrer` text,\n\t`first_source_type` text,\n\t`last_source_type` text,\n\t`first_source` text,\n\t`last_source` text,\n\t`first_medium` text,\n\t`last_medium` text,\n\t`first_campaign` text,\n\t`last_campaign` text,\n\t`first_content` text,\n\t`last_content` text,\n\t`first_term` text,\n\t`last_term` text,\n\t`country` text,\n\t`region` text,\n\t`city` text,\n\t`locale` text,\n\t`currency` text,\n\t`device_type` text,\n\t`browser` text,\n\t`os` text,\n\t`user_agent` text,\n\t`created_at` integer DEFAULT (unixepoch()) NOT NULL,\n\t`updated_at` integer DEFAULT (unixepoch()) NOT NULL,\n\tFOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON UPDATE no action ON DELETE no action\n);\n--> statement-breakpoint\nPRAGMA foreign_keys=OFF;--> statement-breakpoint\nCREATE TABLE `__new_admins` (\n\t`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,\n\t`username` text NOT NULL,\n\t`password_hash` text NOT NULL,\n\t`created_at` integer DEFAULT (unixepoch()) NOT NULL\n);\n--> statement-breakpoint\nINSERT INTO `__new_admins`(\"id\", \"username\", \"password_hash\", \"created_at\") SELECT \"id\", \"username\", \"password_hash\", \"created_at\" FROM `admins`;--> statement-breakpoint\nDROP TABLE `admins`;--> statement-breakpoint\nALTER TABLE `__new_admins` RENAME TO `admins`;--> statement-breakpoint\nPRAGMA foreign_keys=ON;--> statement-breakpoint\nCREATE UNIQUE INDEX `admins_username_unique` ON `admins` (`username`);--> statement-breakpoint\nCREATE TABLE `__new_cards` (\n\t`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,\n\t`product_id` integer NOT NULL,\n\t`card_number` text NOT NULL,\n\t`is_used` integer DEFAULT false NOT NULL,\n\t`order_id` text,\n\t`created_at` integer DEFAULT (unixepoch()) NOT NULL,\n\tFOREIGN KEY (`product_id`) REFERENCES `products`(`id`) ON UPDATE no action ON DELETE no action\n);\n--> statement-breakpoint\nINSERT INTO `__new_cards`(\"id\", \"product_id\", \"card_number\", \"is_used\", \"order_id\", \"created_at\") SELECT \"id\", \"product_id\", \"card_number\", \"is_used\", \"order_id\", \"created_at\" FROM `cards`;--> statement-breakpoint\nDROP TABLE `cards`;--> statement-breakpoint\nALTER TABLE `__new_cards` RENAME TO `cards`;--> statement-breakpoint\nCREATE TABLE `__new_failures` (\n\t`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,\n\t`order_id` text NOT NULL,\n\t`card_bin` text,\n\t`reason` text NOT NULL,\n\t`amount` real,\n\t`pay_method` text,\n\t`contact_email` text,\n\t`raw_response` text,\n\t`visitor_id` text,\n\t`created_at` integer DEFAULT (unixepoch()) NOT NULL\n);\n--> statement-breakpoint\nINSERT INTO `__new_failures`(\"id\", \"order_id\", \"card_bin\", \"reason\", \"amount\", \"pay_method\", \"contact_email\", \"raw_response\", \"visitor_id\", \"created_at\") SELECT \"id\", \"order_id\", \"card_bin\", \"reason\", \"amount\", \"pay_method\", \"contact_email\", \"raw_response\", \"visitor_id\", \"created_at\" FROM `failures`;--> statement-breakpoint\nDROP TABLE `failures`;--> statement-breakpoint\nALTER TABLE `__new_failures` RENAME TO `failures`;--> statement-breakpoint\nCREATE TABLE `__new_logs` (\n\t`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,\n\t`level` text DEFAULT 'info' NOT NULL,\n\t`message` text NOT NULL,\n\t`details` text,\n\t`source` text,\n\t`created_at` integer DEFAULT (unixepoch()) NOT NULL\n);\n--> statement-breakpoint\nINSERT INTO `__new_logs`(\"id\", \"level\", \"message\", \"details\", \"source\", \"created_at\") SELECT \"id\", \"level\", \"message\", \"details\", \"source\", \"created_at\" FROM `logs`;--> statement-breakpoint\nDROP TABLE `logs`;--> statement-breakpoint\nALTER TABLE `__new_logs` RENAME TO `logs`;--> statement-breakpoint\nCREATE TABLE `__new_oauth_accounts` (\n\t`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,\n\t`user_id` integer NOT NULL,\n\t`provider` text NOT NULL,\n\t`provider_account_id` text NOT NULL,\n\t`created_at` integer DEFAULT (unixepoch()) NOT NULL,\n\tFOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON UPDATE no action ON DELETE no action\n);\n--> statement-breakpoint\nINSERT INTO `__new_oauth_accounts`(\"id\", \"user_id\", \"provider\", \"provider_account_id\", \"created_at\") SELECT \"id\", \"user_id\", \"provider\", \"provider_account_id\", \"created_at\" FROM `oauth_accounts`;--> statement-breakpoint\nDROP TABLE `oauth_accounts`;--> statement-breakpoint\nALTER TABLE `__new_oauth_accounts` RENAME TO `oauth_accounts`;--> statement-breakpoint\nCREATE TABLE `__new_orders` (\n\t`id` text PRIMARY KEY NOT NULL,\n\t`amount` real NOT NULL,\n\t`product_id` integer NOT NULL,\n\t`user_id` integer,\n\t`contact_email` text NOT NULL,\n\t`pay_method` text,\n\t`trade_no` text,\n\t`status` text DEFAULT 'none' NOT NULL,\n\t`delivery_info` text,\n\t`meta_data` text,\n\t`visitor_id` text,\n\t`subscription_id` text,\n\t`created_at` integer DEFAULT (unixepoch()) NOT NULL,\n\t`paid_at` integer,\n\t`pay_status` text DEFAULT 'pending' NOT NULL,\n\tFOREIGN KEY (`product_id`) REFERENCES `products`(`id`) ON UPDATE no action ON DELETE no action,\n\tFOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON UPDATE no action ON DELETE no action\n);\n--> statement-breakpoint\nINSERT INTO `__new_orders`(\"id\", \"amount\", \"product_id\", \"user_id\", \"contact_email\", \"pay_method\", \"trade_no\", \"status\", \"delivery_info\", \"meta_data\", \"visitor_id\", \"subscription_id\", \"created_at\", \"paid_at\", \"pay_status\") SELECT \"id\", \"amount\", \"product_id\", \"user_id\", \"contact_email\", \"pay_method\", \"trade_no\", \"status\", \"delivery_info\", \"meta_data\", \"visitor_id\", \"subscription_id\", \"created_at\", \"paid_at\", \"pay_status\" FROM `orders`;--> statement-breakpoint\nDROP TABLE `orders`;--> statement-breakpoint\nALTER TABLE `__new_orders` RENAME TO `orders`;--> statement-breakpoint\nCREATE TABLE `__new_payment_methods` (\n\t`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,\n\t`name` text NOT NULL,\n\t`code` text NOT NULL,\n\t`icon_url` text,\n\t`is_active` integer DEFAULT false NOT NULL,\n\t`config_json` text,\n\t`info` text,\n\t`create` text,\n\t`callback` text,\n\t`created_at` integer DEFAULT (unixepoch()) NOT NULL\n);\n--> statement-breakpoint\nINSERT INTO `__new_payment_methods`(\"id\", \"name\", \"code\", \"icon_url\", \"is_active\", \"config_json\", \"info\", \"create\", \"callback\", \"created_at\") SELECT \"id\", \"name\", \"code\", \"icon_url\", \"is_active\", \"config_json\", \"info\", \"create\", \"callback\", \"created_at\" FROM `payment_methods`;--> statement-breakpoint\nDROP TABLE `payment_methods`;--> statement-breakpoint\nALTER TABLE `__new_payment_methods` RENAME TO `payment_methods`;--> statement-breakpoint\nCREATE TABLE `__new_posts` (\n\t`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,\n\t`key` text,\n\t`sort` integer,\n\t`slug` text NOT NULL,\n\t`title` text NOT NULL,\n\t`description` text,\n\t`content` text,\n\t`type` text DEFAULT 'blog' NOT NULL,\n\t`image_url` text,\n\t`views` integer DEFAULT 0 NOT NULL,\n\t`is_active` integer DEFAULT true NOT NULL,\n\t`meta_data` text,\n\t`created_at` integer DEFAULT (unixepoch()) NOT NULL,\n\t`updated_at` integer DEFAULT (unixepoch())\n);\n--> statement-breakpoint\nINSERT INTO `__new_posts`(\"id\", \"key\", \"sort\", \"slug\", \"title\", \"description\", \"content\", \"type\", \"image_url\", \"views\", \"is_active\", \"meta_data\", \"created_at\", \"updated_at\") SELECT \"id\", \"key\", \"sort\", \"slug\", \"title\", \"description\", \"content\", \"type\", \"image_url\", \"views\", \"is_active\", \"meta_data\", \"created_at\", \"updated_at\" FROM `posts`;--> statement-breakpoint\nDROP TABLE `posts`;--> statement-breakpoint\nALTER TABLE `__new_posts` RENAME TO `posts`;--> statement-breakpoint\nCREATE UNIQUE INDEX `posts_slug_unique` ON `posts` (`slug`);--> statement-breakpoint\nCREATE TABLE `__new_products` (\n\t`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,\n\t`slug` text,\n\t`name` text NOT NULL,\n\t`price` real NOT NULL,\n\t`description` text,\n\t`content` text,\n\t`type` text NOT NULL,\n\t`image_url` text,\n\t`views` integer DEFAULT 0 NOT NULL,\n\t`image_urls` text,\n\t`resource` text,\n\t`is_active` integer DEFAULT true NOT NULL,\n\t`meta_data` text,\n\t`sort_order` integer DEFAULT 0 NOT NULL,\n\t`created_at` integer DEFAULT (unixepoch()) NOT NULL\n);\n--> statement-breakpoint\nINSERT INTO `__new_products`(\"id\", \"slug\", \"name\", \"price\", \"description\", \"content\", \"type\", \"image_url\", \"views\", \"image_urls\", \"resource\", \"is_active\", \"meta_data\", \"sort_order\", \"created_at\") SELECT \"id\", \"slug\", \"name\", \"price\", \"description\", \"content\", \"type\", \"image_url\", \"views\", \"image_urls\", \"resource\", \"is_active\", \"meta_data\", \"sort_order\", \"created_at\" FROM `products`;--> statement-breakpoint\nDROP TABLE `products`;--> statement-breakpoint\nALTER TABLE `__new_products` RENAME TO `products`;--> statement-breakpoint\nCREATE UNIQUE INDEX `products_slug_unique` ON `products` (`slug`);--> statement-breakpoint\nCREATE TABLE `__new_subscriptions` (\n\t`id` text PRIMARY KEY NOT NULL,\n\t`gateway_sub_id` text,\n\t`user_id` integer,\n\t`product_id` integer NOT NULL,\n\t`pay_method` text NOT NULL,\n\t`status` text DEFAULT 'active' NOT NULL,\n\t`interval` text NOT NULL,\n\t`interval_count` integer DEFAULT 1 NOT NULL,\n\t`amount` real NOT NULL,\n\t`currency` text DEFAULT 'USD' NOT NULL,\n\t`current_period_start` integer,\n\t`current_period_end` integer,\n\t`cancel_at_period_end` integer DEFAULT false,\n\t`meta_data` text,\n\t`created_at` integer DEFAULT (unixepoch()) NOT NULL,\n\t`updated_at` integer DEFAULT (unixepoch()),\n\tFOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON UPDATE no action ON DELETE no action,\n\tFOREIGN KEY (`product_id`) REFERENCES `products`(`id`) ON UPDATE no action ON DELETE no action\n);\n--> statement-breakpoint\nINSERT INTO `__new_subscriptions`(\"id\", \"gateway_sub_id\", \"user_id\", \"product_id\", \"pay_method\", \"status\", \"interval\", \"interval_count\", \"amount\", \"currency\", \"current_period_start\", \"current_period_end\", \"cancel_at_period_end\", \"meta_data\", \"created_at\", \"updated_at\") SELECT \"id\", \"gateway_sub_id\", \"user_id\", \"product_id\", \"pay_method\", \"status\", \"interval\", \"interval_count\", \"amount\", \"currency\", \"current_period_start\", \"current_period_end\", \"cancel_at_period_end\", \"meta_data\", \"created_at\", \"updated_at\" FROM `subscriptions`;--> statement-breakpoint\nDROP TABLE `subscriptions`;--> statement-breakpoint\nALTER TABLE `__new_subscriptions` RENAME TO `subscriptions`;--> statement-breakpoint\nCREATE TABLE `__new_users` (\n\t`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,\n\t`email` text NOT NULL,\n\t`password_hash` text,\n\t`nickname` text,\n\t`avatar_url` text,\n\t`last_login_at` integer,\n\t`cash_balance` integer DEFAULT 0,\n\t`grant_balance` integer DEFAULT 0,\n\t`sub_balance` integer DEFAULT 0,\n\t`sub_expires_at` integer,\n\t`tier_level` integer DEFAULT 0,\n\t`status` integer DEFAULT 1,\n\t`created_at` integer DEFAULT (unixepoch()) NOT NULL\n);\n--> statement-breakpoint\nINSERT INTO `__new_users`(\"id\", \"email\", \"password_hash\", \"nickname\", \"avatar_url\", \"last_login_at\", \"cash_balance\", \"grant_balance\", \"sub_balance\", \"sub_expires_at\", \"tier_level\", \"status\", \"created_at\") SELECT \"id\", \"email\", \"password_hash\", \"nickname\", \"avatar_url\", \"last_login_at\", \"cash_balance\", \"grant_balance\", \"sub_balance\", \"sub_expires_at\", \"tier_level\", \"status\", \"created_at\" FROM `users`;--> statement-breakpoint\nDROP TABLE `users`;--> statement-breakpoint\nALTER TABLE `__new_users` RENAME TO `users`;--> statement-breakpoint\nCREATE UNIQUE INDEX `users_email_unique` ON `users` (`email`);--> statement-breakpoint\nCREATE TABLE `__new_webhooks` (\n\t`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,\n\t`name` text NOT NULL,\n\t`url` text NOT NULL,\n\t`events` text,\n\t`secret` text,\n\t`is_active` integer DEFAULT true NOT NULL,\n\t`created_at` integer DEFAULT (unixepoch()) NOT NULL\n);\n--> statement-breakpoint\nINSERT INTO `__new_webhooks`(\"id\", \"name\", \"url\", \"events\", \"secret\", \"is_active\", \"created_at\") SELECT \"id\", \"name\", \"url\", \"events\", \"secret\", \"is_active\", \"created_at\" FROM `webhooks`;--> statement-breakpoint\nDROP TABLE `webhooks`;--> statement-breakpoint\nALTER TABLE `__new_webhooks` RENAME TO `webhooks`;"},{"name":"0004_premium_wildside","sql":"ALTER TABLE `visitor_profiles` ADD `ip` text;"},{"name":"0005_add_notifications","sql":"CREATE TABLE `notifications` (\n  `id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,\n  `user_id` integer REFERENCES `users`(`id`),\n  `visitor_id` text,\n  `type` text NOT NULL,\n  `title` text NOT NULL,\n  `message` text NOT NULL,\n  `data` text,\n  `is_read` integer DEFAULT 0 NOT NULL,\n  `created_at` integer NOT NULL DEFAULT (unixepoch())\n);\n"},{"name":"0006_add_users_email_verify","sql":"ALTER TABLE `users` ADD COLUMN `email_verified_at` integer;\n--> statement-breakpoint\nALTER TABLE `users` ADD COLUMN `email_verify_token` text;\n--> statement-breakpoint\nALTER TABLE `users` ADD COLUMN `email_verify_expires_at` integer;\n"},{"name":"0007_add_promo","sql":"CREATE TABLE `promo_agent_tiers` (\n  `id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,\n  `code` text NOT NULL,\n  `name` text NOT NULL,\n  `role_scope` text DEFAULT 'agent' NOT NULL,\n  `level` integer DEFAULT 1 NOT NULL,\n  `discount_rate` real DEFAULT 1 NOT NULL,\n  `sales_threshold` real DEFAULT 0 NOT NULL,\n  `is_fixed` integer DEFAULT 0 NOT NULL,\n  `is_active` integer DEFAULT 1 NOT NULL,\n  `description` text,\n  `created_at` integer NOT NULL DEFAULT (unixepoch()),\n  `updated_at` integer NOT NULL DEFAULT (unixepoch()),\n  CONSTRAINT `promo_agent_tiers_code_unique` UNIQUE(`code`)\n);\n--> statement-breakpoint\nCREATE TABLE `promo_members` (\n  `id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,\n  `user_id` integer NOT NULL REFERENCES `users`(`id`),\n  `role` text DEFAULT 'member' NOT NULL,\n  `status` text DEFAULT 'active' NOT NULL,\n  `promo_code` text NOT NULL,\n  `invite_code` text NOT NULL,\n  `agent_code` text,\n  `current_agent_tier_id` integer REFERENCES `promo_agent_tiers`(`id`),\n  `joined_at` integer NOT NULL DEFAULT (unixepoch()),\n  `created_at` integer NOT NULL DEFAULT (unixepoch()),\n  `updated_at` integer NOT NULL DEFAULT (unixepoch()),\n  CONSTRAINT `promo_members_user_id_unique` UNIQUE(`user_id`),\n  CONSTRAINT `promo_members_promo_code_unique` UNIQUE(`promo_code`),\n  CONSTRAINT `promo_members_invite_code_unique` UNIQUE(`invite_code`),\n  CONSTRAINT `promo_members_agent_code_unique` UNIQUE(`agent_code`)\n);\n--> statement-breakpoint\nCREATE TABLE `promo_invite_relations` (\n  `id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,\n  `invitee_user_id` integer NOT NULL REFERENCES `users`(`id`),\n  `inviter_user_id` integer NOT NULL REFERENCES `users`(`id`),\n  `source` text DEFAULT 'register' NOT NULL,\n  `code_snapshot` text,\n  `bound_at` integer NOT NULL DEFAULT (unixepoch()),\n  `created_at` integer NOT NULL DEFAULT (unixepoch()),\n  CONSTRAINT `promo_invite_relations_invitee_user_id_unique` UNIQUE(`invitee_user_id`)\n);\n--> statement-breakpoint\nCREATE TABLE `promo_agent_relations` (\n  `id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,\n  `agent_user_id` integer NOT NULL REFERENCES `users`(`id`),\n  `parent_agent_user_id` integer REFERENCES `users`(`id`),\n  `master_agent_user_id` integer REFERENCES `users`(`id`),\n  `depth` integer DEFAULT 1 NOT NULL,\n  `status` text DEFAULT 'active' NOT NULL,\n  `bound_at` integer NOT NULL DEFAULT (unixepoch()),\n  `created_at` integer NOT NULL DEFAULT (unixepoch()),\n  `updated_at` integer NOT NULL DEFAULT (unixepoch()),\n  CONSTRAINT `promo_agent_relations_agent_user_id_unique` UNIQUE(`agent_user_id`)\n);\n--> statement-breakpoint\nCREATE TABLE `promo_order_attributions` (\n  `id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,\n  `order_id` text NOT NULL REFERENCES `orders`(`id`),\n  `buyer_user_id` integer REFERENCES `users`(`id`),\n  `buyer_promo_member_id` integer REFERENCES `promo_members`(`id`),\n  `invite_user_id` integer REFERENCES `users`(`id`),\n  `agent_user_id` integer REFERENCES `users`(`id`),\n  `parent_agent_user_id` integer REFERENCES `users`(`id`),\n  `master_agent_user_id` integer REFERENCES `users`(`id`),\n  `agent_tier_id_snapshot` integer,\n  `agent_tier_name_snapshot` text,\n  `discount_rate_snapshot` real,\n  `source_type` text DEFAULT 'direct' NOT NULL,\n  `meta_data` text,\n  `created_at` integer NOT NULL DEFAULT (unixepoch()),\n  CONSTRAINT `promo_order_attributions_order_id_unique` UNIQUE(`order_id`)\n);\n--> statement-breakpoint\nCREATE TABLE `promo_commissions` (\n  `id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,\n  `order_id` text NOT NULL REFERENCES `orders`(`id`),\n  `owner_user_id` integer NOT NULL REFERENCES `users`(`id`),\n  `owner_promo_member_id` integer REFERENCES `promo_members`(`id`),\n  `type` text NOT NULL,\n  `source_type` text DEFAULT 'direct' NOT NULL,\n  `amount` real NOT NULL,\n  `rate` real,\n  `status` text DEFAULT 'pending' NOT NULL,\n  `remark` text,\n  `meta_data` text,\n  `created_at` integer NOT NULL DEFAULT (unixepoch()),\n  `updated_at` integer NOT NULL DEFAULT (unixepoch())\n);\n"},{"name":"0008_add_payment_method_locales","sql":"ALTER TABLE `payment_methods` ADD COLUMN `supported_locales` text;\n"},{"name":"0009_add_orders_currency","sql":"ALTER TABLE `orders` ADD COLUMN `currency` text DEFAULT 'USD' NOT NULL;\n"},{"name":"0010_add_payment_failures","sql":"CREATE TABLE IF NOT EXISTS `payment_failures` (\n        `id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,\n        `order_id` text NOT NULL,\n        `card_bin` text,\n        `reason` text NOT NULL,\n        `amount` real,\n        `pay_method` text,\n        `contact_email` text,\n        `raw_response` text,\n        `visitor_id` text,\n        `created_at` integer DEFAULT (unixepoch()) NOT NULL\n);\n--> statement-breakpoint\nINSERT OR IGNORE INTO `payment_failures` (\n        `id`,\n        `order_id`,\n        `card_bin`,\n        `reason`,\n        `amount`,\n        `pay_method`,\n        `contact_email`,\n        `raw_response`,\n        `visitor_id`,\n        `created_at`\n)\nSELECT\n        `id`,\n        `order_id`,\n        `card_bin`,\n        `reason`,\n        `amount`,\n        `pay_method`,\n        `contact_email`,\n        `raw_response`,\n        `visitor_id`,\n        `created_at`\nFROM `failures`;\n"},{"name":"0011_add_auth_and_event_rules","sql":"INSERT OR IGNORE INTO `payment_failures` (\n        `id`,\n        `order_id`,\n        `card_bin`,\n        `reason`,\n        `amount`,\n        `pay_method`,\n        `contact_email`,\n        `raw_response`,\n        `visitor_id`,\n        `created_at`\n)\nSELECT\n        `id`,\n        `order_id`,\n        `card_bin`,\n        `reason`,\n        `amount`,\n        `pay_method`,\n        `contact_email`,\n        `raw_response`,\n        `visitor_id`,\n        `created_at`\nFROM `failures`;\n--> statement-breakpoint\nALTER TABLE `users` ADD COLUMN `current_session_id` text;\n--> statement-breakpoint\nCREATE TABLE `user_tokens` (\n        `id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,\n        `user_id` integer NOT NULL,\n        `token` text NOT NULL,\n        `name` text,\n        `expires_at` integer,\n        `last_used_at` integer,\n        `revoked` integer DEFAULT 0 NOT NULL,\n        `created_at` integer DEFAULT (unixepoch()) NOT NULL,\n        FOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON UPDATE no action ON DELETE no action,\n        CONSTRAINT `user_tokens_token_unique` UNIQUE(`token`)\n);\n--> statement-breakpoint\nCREATE TABLE `event_rules` (\n        `id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,\n        `event` text NOT NULL,\n        `action` text NOT NULL,\n        `config` text,\n        `enabled` integer DEFAULT true NOT NULL,\n        `remark` text,\n        `created_at` integer DEFAULT (unixepoch()) NOT NULL,\n        `updated_at` integer\n);\n"},{"name":"0012_add_admin_permissions","sql":"ALTER TABLE `admins` ADD COLUMN `permissions` text;\n"},{"name":"0013_add_operation_logs","sql":"CREATE TABLE IF NOT EXISTS `operation_logs` (\n\t`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,\n\t`actor_type` text DEFAULT 'admin' NOT NULL,\n\t`actor_id` integer,\n\t`actor_name` text,\n\t`action` text NOT NULL,\n\t`resource` text NOT NULL,\n\t`resource_id` text,\n\t`summary` text,\n\t`details` text,\n\t`path` text NOT NULL,\n\t`method` text NOT NULL,\n\t`status_code` integer,\n\t`ip` text,\n\t`user_agent` text,\n\t`created_at` integer DEFAULT (unixepoch()) NOT NULL\n);\n--> statement-breakpoint\nCREATE INDEX IF NOT EXISTS `operation_logs_created_at_idx` ON `operation_logs` (`created_at`);\n--> statement-breakpoint\nCREATE INDEX IF NOT EXISTS `operation_logs_actor_idx` ON `operation_logs` (`actor_id`,`created_at`);\n--> statement-breakpoint\nCREATE INDEX IF NOT EXISTS `operation_logs_resource_idx` ON `operation_logs` (`resource`,`resource_id`);\n"},{"name":"0014_add_admin_tokens","sql":"CREATE TABLE `admin_tokens` (\n\t`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,\n\t`admin_id` integer NOT NULL,\n\t`token` text NOT NULL,\n\t`name` text,\n\t`permissions` text,\n\t`expires_at` integer,\n\t`last_used_at` integer,\n\t`revoked` integer DEFAULT 0 NOT NULL,\n\t`created_at` integer DEFAULT (unixepoch()) NOT NULL,\n\tFOREIGN KEY (`admin_id`) REFERENCES `admins`(`id`) ON UPDATE no action ON DELETE no action,\n\tCONSTRAINT `admin_tokens_token_unique` UNIQUE(`token`)\n);\n"},{"name":"0015_add_balance_logs","sql":"CREATE TABLE IF NOT EXISTS `balance_logs` (\n\t`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,\n\t`user_id` integer NOT NULL,\n\t`balance_type` text NOT NULL,\n\t`action_type` text DEFAULT 'topup' NOT NULL,\n\t`amount_cents` integer NOT NULL,\n\t`before_balance_cents` integer NOT NULL,\n\t`after_balance_cents` integer NOT NULL,\n\t`event_id` text NOT NULL,\n\t`source_type` text DEFAULT 'system' NOT NULL,\n\t`source_id` text,\n\t`operator_admin_id` integer,\n\t`operator_name` text DEFAULT '' NOT NULL,\n\t`remark` text DEFAULT '' NOT NULL,\n\t`created_at` integer DEFAULT (unixepoch()) NOT NULL,\n\tFOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON UPDATE no action ON DELETE no action\n);\n--> statement-breakpoint\nCREATE UNIQUE INDEX IF NOT EXISTS `balance_logs_event_id_unique` ON `balance_logs` (`event_id`);\n--> statement-breakpoint\nCREATE INDEX IF NOT EXISTS `idx_balance_logs_user_created_at` ON `balance_logs` (`user_id`,`created_at`);\n"},{"name":"0016_add_order_source_idempotency","sql":"ALTER TABLE `orders` ADD `source` text;\n--> statement-breakpoint\nALTER TABLE `orders` ADD `external_order_id` text;\n--> statement-breakpoint\nCREATE UNIQUE INDEX `orders_source_external_order_unique` ON `orders` (`source`,`external_order_id`);\n"},{"name":"0017_add_user_sessions","sql":"CREATE TABLE IF NOT EXISTS `user_sessions` (\n  `id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,\n  `user_id` integer NOT NULL,\n  `session_id_hash` text NOT NULL UNIQUE,\n  `status` text DEFAULT 'active' NOT NULL,\n  `auth_method` text DEFAULT 'password' NOT NULL,\n  `device_type` text,\n  `browser` text,\n  `os` text,\n  `user_agent` text,\n  `ip` text,\n  `country` text,\n  `region` text,\n  `city` text,\n  `logged_in_at` integer DEFAULT (unixepoch()) NOT NULL,\n  `last_seen_at` integer DEFAULT (unixepoch()) NOT NULL,\n  `ended_at` integer,\n  `replaced_by_session_id` text,\n  `created_at` integer DEFAULT (unixepoch()) NOT NULL,\n  FOREIGN KEY (`user_id`) REFERENCES `users`(`id`)\n);\n--> statement-breakpoint\nCREATE INDEX IF NOT EXISTS `user_sessions_user_status_idx` ON `user_sessions` (`user_id`, `status`);\n--> statement-breakpoint\nCREATE INDEX IF NOT EXISTS `user_sessions_last_seen_idx` ON `user_sessions` (`last_seen_at`);\n"},{"name":"0018_add_user_wallets","sql":"CREATE TABLE `user_wallets` (\n  `id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,\n  `user_id` integer NOT NULL UNIQUE,\n  `cash_balance` integer DEFAULT 0 NOT NULL,\n  `grant_balance` integer DEFAULT 0 NOT NULL,\n  `sub_balance` integer DEFAULT 0 NOT NULL,\n  `points_balance` integer DEFAULT 0 NOT NULL,\n  `tier_level` integer DEFAULT 0 NOT NULL,\n  `sub_expires_at` integer,\n  `status` integer DEFAULT 1 NOT NULL,\n  `created_at` integer DEFAULT (unixepoch()) NOT NULL,\n  FOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON UPDATE no action ON DELETE cascade\n);\n--> statement-breakpoint\nINSERT INTO `user_wallets` (\n  `user_id`, `cash_balance`, `grant_balance`, `sub_balance`, `points_balance`,\n  `tier_level`, `sub_expires_at`, `status`, `created_at`\n)\nSELECT\n  `id`, COALESCE(`cash_balance`, 0), COALESCE(`grant_balance`, 0), COALESCE(`sub_balance`, 0), 0,\n  COALESCE(`tier_level`, 0), `sub_expires_at`, COALESCE(`status`, 1), `created_at`\nFROM `users`;\n--> statement-breakpoint\nCREATE TABLE `__new_balance_logs` (\n  `id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,\n  `user_id` integer NOT NULL,\n  `wallet_id` integer NOT NULL,\n  `balance_type` text NOT NULL,\n  `action_type` text DEFAULT 'topup' NOT NULL,\n  `amount_cents` integer NOT NULL,\n  `before_balance_cents` integer NOT NULL,\n  `after_balance_cents` integer NOT NULL,\n  `event_id` text NOT NULL,\n  `source_type` text DEFAULT 'system' NOT NULL,\n  `source_id` text,\n  `operator_admin_id` integer,\n  `operator_name` text DEFAULT '' NOT NULL,\n  `remark` text DEFAULT '' NOT NULL,\n  `created_at` integer DEFAULT (unixepoch()) NOT NULL,\n  FOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON UPDATE no action ON DELETE no action,\n  FOREIGN KEY (`wallet_id`) REFERENCES `user_wallets`(`id`) ON UPDATE no action ON DELETE no action\n);\n--> statement-breakpoint\nINSERT INTO `__new_balance_logs` (\n  `id`, `user_id`, `wallet_id`, `balance_type`, `action_type`, `amount_cents`,\n  `before_balance_cents`, `after_balance_cents`, `event_id`, `source_type`, `source_id`,\n  `operator_admin_id`, `operator_name`, `remark`, `created_at`\n)\nSELECT\n  log.`id`, log.`user_id`, wallet.`id`, log.`balance_type`, log.`action_type`, log.`amount_cents`,\n  log.`before_balance_cents`, log.`after_balance_cents`, log.`event_id`, log.`source_type`, log.`source_id`,\n  log.`operator_admin_id`, log.`operator_name`, log.`remark`, log.`created_at`\nFROM `balance_logs` log\nJOIN `user_wallets` wallet ON wallet.`user_id` = log.`user_id`;\n--> statement-breakpoint\nDROP TABLE `balance_logs`;\n--> statement-breakpoint\nALTER TABLE `__new_balance_logs` RENAME TO `balance_logs`;\n--> statement-breakpoint\nCREATE UNIQUE INDEX `balance_logs_event_id_unique` ON `balance_logs` (`event_id`);\nCREATE INDEX `idx_balance_logs_user_created_at` ON `balance_logs` (`user_id`, `created_at`);\nCREATE INDEX `idx_balance_logs_wallet_created_at` ON `balance_logs` (`wallet_id`, `created_at`);\n--> statement-breakpoint\nALTER TABLE `users` DROP COLUMN `cash_balance`;\nALTER TABLE `users` DROP COLUMN `grant_balance`;\nALTER TABLE `users` DROP COLUMN `sub_balance`;\nALTER TABLE `users` DROP COLUMN `sub_expires_at`;\nALTER TABLE `users` DROP COLUMN `tier_level`;\n"},{"name":"0019_add_topups","sql":"CREATE TABLE `topups` (\n  `id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,\n  `order_id` text NOT NULL UNIQUE,\n  `user_id` integer NOT NULL,\n  `wallet_id` integer NOT NULL,\n  `source` text DEFAULT 'order' NOT NULL,\n  `payment_amount` real NOT NULL,\n  `payment_currency` text NOT NULL,\n  `credit_amount_cents` integer NOT NULL,\n  `credit_currency` text NOT NULL,\n  `exchange_rate` real DEFAULT 1 NOT NULL,\n  `balance_type` text DEFAULT 'cash' NOT NULL,\n  `status` text DEFAULT 'pending' NOT NULL,\n  `credit_event_id` text NOT NULL UNIQUE,\n  `refund_event_id` text UNIQUE,\n  `retry_count` integer DEFAULT 0 NOT NULL,\n  `shortfall_cents` integer DEFAULT 0 NOT NULL,\n  `last_error` text,\n  `paid_at` integer,\n  `credited_at` integer,\n  `refunded_at` integer,\n  `created_at` integer DEFAULT (unixepoch()) NOT NULL,\n  `updated_at` integer DEFAULT (unixepoch()) NOT NULL,\n  FOREIGN KEY (`order_id`) REFERENCES `orders`(`id`) ON UPDATE no action ON DELETE cascade,\n  FOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON UPDATE no action ON DELETE no action,\n  FOREIGN KEY (`wallet_id`) REFERENCES `user_wallets`(`id`) ON UPDATE no action ON DELETE no action\n);\n--> statement-breakpoint\nINSERT INTO `topups` (\n  `order_id`, `user_id`, `wallet_id`, `source`, `payment_amount`, `payment_currency`,\n  `credit_amount_cents`, `credit_currency`, `exchange_rate`, `balance_type`, `status`,\n  `credit_event_id`, `refund_event_id`, `retry_count`, `shortfall_cents`, `last_error`,\n  `paid_at`, `credited_at`, `refunded_at`, `created_at`, `updated_at`\n)\nSELECT\n  orders.`id`, orders.`user_id`, wallets.`id`, COALESCE(orders.`source`, 'order'),\n  orders.`amount`, COALESCE(orders.`currency`, 'USD'),\n  COALESCE(credit_log.`amount_cents`, CAST(ROUND(COALESCE(json_extract(CASE WHEN json_valid(orders.`meta_data`) THEN orders.`meta_data` ELSE '{}' END, '$.recharge_amount'), orders.`amount`) * 100000000) AS integer)),\n  COALESCE(json_extract(CASE WHEN json_valid(orders.`meta_data`) THEN orders.`meta_data` ELSE '{}' END, '$.display_unit'), orders.`currency`, 'USD'),\n  COALESCE(json_extract(CASE WHEN json_valid(orders.`meta_data`) THEN orders.`meta_data` ELSE '{}' END, '$.currencySnapshot.exchangeRate'), 1),\n  COALESCE(credit_log.`balance_type`, json_extract(CASE WHEN json_valid(orders.`meta_data`) THEN orders.`meta_data` ELSE '{}' END, '$.balance_type'), 'cash'),\n  CASE\n    WHEN orders.`pay_status` = 'refunded' AND credit_log.`id` IS NOT NULL AND refund_log.`id` IS NOT NULL THEN 'refunded'\n    WHEN refund_log.`id` IS NOT NULL THEN 'review_required'\n    WHEN orders.`pay_status` = 'refunded' THEN 'review_required'\n    WHEN orders.`pay_status` = 'paid' AND credit_log.`id` IS NOT NULL THEN 'credited'\n    WHEN credit_log.`id` IS NOT NULL THEN 'review_required'\n    WHEN orders.`pay_status` = 'paid' THEN 'review_required'\n    WHEN orders.`pay_status` = 'failed' THEN 'payment_failed'\n    ELSE 'pending'\n  END,\n  'topup:' || orders.`id`,\n  CASE WHEN refund_log.`id` IS NOT NULL THEN 'refund:' || orders.`id` ELSE NULL END,\n  0, 0,\n  CASE\n    WHEN refund_log.`id` IS NOT NULL AND (orders.`pay_status` <> 'refunded' OR credit_log.`id` IS NULL) THEN '历史退款流水与订单或到账流水不一致，需人工核对'\n    WHEN orders.`pay_status` = 'refunded' AND refund_log.`id` IS NULL THEN '历史退款订单没有可确认的 APay 退款流水，需人工核对'\n    WHEN credit_log.`id` IS NOT NULL AND orders.`pay_status` <> 'paid' THEN '历史到账流水与订单支付状态不一致，需人工核对'\n    WHEN orders.`pay_status` = 'paid' AND credit_log.`id` IS NULL THEN '历史订单没有可确认的 APay 到账流水，禁止自动补发'\n    ELSE NULL\n  END,\n  orders.`paid_at`, credit_log.`created_at`, refund_log.`created_at`, orders.`created_at`, unixepoch()\nFROM `orders` orders\nJOIN `products` products ON products.`id` = orders.`product_id` AND products.`type` = 'topup'\nJOIN `user_wallets` wallets ON wallets.`user_id` = orders.`user_id`\nLEFT JOIN `balance_logs` credit_log ON credit_log.`event_id` = 'topup:' || orders.`id`\nLEFT JOIN `balance_logs` refund_log ON refund_log.`event_id` = 'refund:' || orders.`id`\nWHERE COALESCE(products.`slug`, '') <> 'minimal-checkout-recharge'\n  OR json_extract(CASE WHEN json_valid(orders.`meta_data`) THEN orders.`meta_data` ELSE '{}' END, '$.checkoutBridge.attach.walletOwner') = 'apay';\n--> statement-breakpoint\nCREATE INDEX `idx_topups_user_created_at` ON `topups` (`user_id`, `created_at`);\nCREATE INDEX `idx_topups_status_updated_at` ON `topups` (`status`, `updated_at`);\n"},{"name":"0020_add_email_logs","sql":"CREATE TABLE IF NOT EXISTS `email_logs` (\n  `id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,\n  `to` text NOT NULL,\n  `subject` text NOT NULL,\n  `template_code` text,\n  `html` text,\n  `provider` text,\n  `status` text DEFAULT 'success' NOT NULL,\n  `message_id` text,\n  `error` text,\n  `created_at` integer DEFAULT (unixepoch()) NOT NULL\n);\n--> statement-breakpoint\nCREATE INDEX IF NOT EXISTS `email_logs_to_idx` ON `email_logs` (`to`);\n--> statement-breakpoint\nCREATE INDEX IF NOT EXISTS `email_logs_status_idx` ON `email_logs` (`status`);\n--> statement-breakpoint\nCREATE INDEX IF NOT EXISTS `email_logs_created_at_idx` ON `email_logs` (`created_at`);\n"},{"name":"0021_add_products_status","sql":"ALTER TABLE `products` ADD COLUMN `status` text DEFAULT 'active' NOT NULL;\n--> statement-breakpoint\nUPDATE `products` SET `status` = 'inactive' WHERE `is_active` = 0;\n"},{"name":"0022_add_promo_applications_and_tickets","sql":"CREATE TABLE IF NOT EXISTS `promo_applications` (\n  `id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,\n  `user_id` integer NOT NULL REFERENCES `users`(`id`),\n  `status` text DEFAULT 'pending' NOT NULL,\n  `channel_info` text,\n  `contact` text,\n  `reason` text,\n  `review_note` text,\n  `reviewed_by_admin_id` integer,\n  `reviewed_at` integer,\n  `created_at` integer DEFAULT (unixepoch()) NOT NULL,\n  `updated_at` integer DEFAULT (unixepoch()) NOT NULL\n);\n--> statement-breakpoint\nCREATE TABLE IF NOT EXISTS `tickets` (\n  `id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,\n  `ticket_no` text NOT NULL,\n  `user_id` integer NOT NULL REFERENCES `users`(`id`),\n  `category` text DEFAULT 'other' NOT NULL,\n  `title` text NOT NULL,\n  `status` text DEFAULT 'open' NOT NULL,\n  `priority` text DEFAULT 'normal' NOT NULL,\n  `context` text,\n  `last_replied_at` integer DEFAULT (unixepoch()) NOT NULL,\n  `last_replied_by` text DEFAULT 'user' NOT NULL,\n  `created_at` integer DEFAULT (unixepoch()) NOT NULL,\n  `updated_at` integer DEFAULT (unixepoch()) NOT NULL\n);\n--> statement-breakpoint\nCREATE UNIQUE INDEX IF NOT EXISTS `tickets_ticket_no_unique` ON `tickets` (`ticket_no`);\n--> statement-breakpoint\nCREATE INDEX IF NOT EXISTS `tickets_user_id_idx` ON `tickets` (`user_id`);\n--> statement-breakpoint\nCREATE INDEX IF NOT EXISTS `tickets_status_idx` ON `tickets` (`status`);\n--> statement-breakpoint\nCREATE INDEX IF NOT EXISTS `tickets_category_idx` ON `tickets` (`category`);\n--> statement-breakpoint\nCREATE INDEX IF NOT EXISTS `tickets_last_replied_at_idx` ON `tickets` (`last_replied_at`);\n--> statement-breakpoint\nCREATE TABLE IF NOT EXISTS `ticket_messages` (\n  `id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,\n  `ticket_id` integer NOT NULL REFERENCES `tickets`(`id`) ON DELETE CASCADE,\n  `sender_type` text NOT NULL,\n  `sender_id` integer,\n  `sender_name` text DEFAULT '' NOT NULL,\n  `content` text NOT NULL,\n  `attachments` text,\n  `created_at` integer DEFAULT (unixepoch()) NOT NULL\n);\n--> statement-breakpoint\nCREATE INDEX IF NOT EXISTS `ticket_messages_ticket_id_idx` ON `ticket_messages` (`ticket_id`);\n--> statement-breakpoint\nCREATE INDEX IF NOT EXISTS `ticket_messages_created_at_idx` ON `ticket_messages` (`created_at`);\n"},{"name":"0023_purge_legacy_password_reset_tokens","sql":"-- 找回密码的令牌口径已收归核心（server/utils/passwordReset.ts，只存 sha256，\n-- name 统一为 'password_reset'）。这里清掉两个主题各自实现时留下的旧行：\n--   qingpu_password_reset —— 曾以**明文**入库。核心鉴权中间件按 user_tokens.token\n--     查 Bearer / X-Api-Key，当时只排除 email_verify，因此这些行同时是一把\n--     有效期 1 小时的全权限 API Key，必须清。\n--   shoply_password_reset —— 存的是哈希，不构成漏洞，但改名后永远不会再被消费。\n-- 在途的重置链接一并作废，用户重新申请即可。\nDELETE FROM \"user_tokens\" WHERE \"name\" IN ('qingpu_password_reset', 'shoply_password_reset');\n"},{"name":"0024_topups_wallet_optional","sql":"-- AINode 钱包模式下充值台账不再绑定钱包：wallet_id 放宽为可空。\n-- SQLite 不能修改列约束，按 drizzle 的重建表方式迁移，数据与索引原样保留。\nPRAGMA foreign_keys=OFF;--> statement-breakpoint\nCREATE TABLE `__new_topups` (\n  `id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,\n  `order_id` text NOT NULL UNIQUE,\n  `user_id` integer NOT NULL,\n  `wallet_id` integer,\n  `source` text DEFAULT 'order' NOT NULL,\n  `payment_amount` real NOT NULL,\n  `payment_currency` text NOT NULL,\n  `credit_amount_cents` integer NOT NULL,\n  `credit_currency` text NOT NULL,\n  `exchange_rate` real DEFAULT 1 NOT NULL,\n  `balance_type` text DEFAULT 'cash' NOT NULL,\n  `status` text DEFAULT 'pending' NOT NULL,\n  `credit_event_id` text NOT NULL UNIQUE,\n  `refund_event_id` text UNIQUE,\n  `retry_count` integer DEFAULT 0 NOT NULL,\n  `shortfall_cents` integer DEFAULT 0 NOT NULL,\n  `last_error` text,\n  `paid_at` integer,\n  `credited_at` integer,\n  `refunded_at` integer,\n  `created_at` integer DEFAULT (unixepoch()) NOT NULL,\n  `updated_at` integer DEFAULT (unixepoch()) NOT NULL,\n  FOREIGN KEY (`order_id`) REFERENCES `orders`(`id`) ON UPDATE no action ON DELETE cascade,\n  FOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON UPDATE no action ON DELETE no action,\n  FOREIGN KEY (`wallet_id`) REFERENCES `user_wallets`(`id`) ON UPDATE no action ON DELETE no action\n);--> statement-breakpoint\nINSERT INTO `__new_topups`(\n  `id`, `order_id`, `user_id`, `wallet_id`, `source`, `payment_amount`, `payment_currency`,\n  `credit_amount_cents`, `credit_currency`, `exchange_rate`, `balance_type`, `status`,\n  `credit_event_id`, `refund_event_id`, `retry_count`, `shortfall_cents`, `last_error`,\n  `paid_at`, `credited_at`, `refunded_at`, `created_at`, `updated_at`\n) SELECT\n  `id`, `order_id`, `user_id`, `wallet_id`, `source`, `payment_amount`, `payment_currency`,\n  `credit_amount_cents`, `credit_currency`, `exchange_rate`, `balance_type`, `status`,\n  `credit_event_id`, `refund_event_id`, `retry_count`, `shortfall_cents`, `last_error`,\n  `paid_at`, `credited_at`, `refunded_at`, `created_at`, `updated_at`\nFROM `topups`;--> statement-breakpoint\nDROP TABLE `topups`;--> statement-breakpoint\nALTER TABLE `__new_topups` RENAME TO `topups`;--> statement-breakpoint\nPRAGMA foreign_keys=ON;--> statement-breakpoint\nCREATE INDEX `idx_topups_user_created_at` ON `topups` (`user_id`, `created_at`);--> statement-breakpoint\nCREATE INDEX `idx_topups_status_updated_at` ON `topups` (`status`, `updated_at`);\n"},{"name":"0025_add_comments","sql":"CREATE TABLE IF NOT EXISTS `comments` (\n\t`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,\n\t`target_type` text NOT NULL,\n\t`target_id` text NOT NULL,\n\t`user_id` integer REFERENCES `users`(`id`) ON DELETE set null,\n\t`author_name` text NOT NULL,\n\t`author_email` text,\n\t`author_url` text,\n\t`content` text NOT NULL,\n\t`parent_id` integer,\n\t`status` text DEFAULT 'approved' NOT NULL,\n\t`ip` text,\n\t`user_agent` text,\n\t`created_at` integer DEFAULT (unixepoch()) NOT NULL,\n\t`updated_at` integer DEFAULT (unixepoch())\n);\n--> statement-breakpoint\nCREATE INDEX IF NOT EXISTS `comments_target_status_idx` ON `comments` (`target_type`, `target_id`, `status`, `created_at`);\n--> statement-breakpoint\nCREATE INDEX IF NOT EXISTS `comments_user_id_idx` ON `comments` (`user_id`);\n--> statement-breakpoint\nCREATE INDEX IF NOT EXISTS `comments_parent_id_idx` ON `comments` (`parent_id`);\n"},{"name":"0026_verify_schema_alignment","sql":"-- SQLite already includes these objects; verify the shared schema boundary.\nSELECT ip FROM visitor_profiles LIMIT 0;\n--> statement-breakpoint\nSELECT ip FROM visitor_events LIMIT 0;\n--> statement-breakpoint\nSELECT id, name, code, is_active, config_json, send_script, created_at FROM email_providers LIMIT 0;\n"},{"name":"0027_add_likes_and_interaction_counters","sql":"CREATE TABLE IF NOT EXISTS `likes` (\n\t`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,\n\t`target_type` text NOT NULL,\n\t`target_id` text NOT NULL,\n\t`user_id` integer REFERENCES `users`(`id`) ON DELETE cascade,\n\t`visitor_id` text NOT NULL,\n\t`ip` text,\n\t`user_agent` text,\n\t`created_at` integer DEFAULT (unixepoch()) NOT NULL\n);\n--> statement-breakpoint\nCREATE INDEX IF NOT EXISTS `likes_target_idx` ON `likes` (`target_type`, `target_id`);\n--> statement-breakpoint\nCREATE INDEX IF NOT EXISTS `likes_target_user_idx` ON `likes` (`target_type`, `target_id`, `user_id`);\n--> statement-breakpoint\nCREATE INDEX IF NOT EXISTS `likes_target_visitor_idx` ON `likes` (`target_type`, `target_id`, `visitor_id`);\n--> statement-breakpoint\nALTER TABLE `products` ADD COLUMN `likes` integer DEFAULT 0 NOT NULL;\n--> statement-breakpoint\nALTER TABLE `posts` ADD COLUMN `likes` integer DEFAULT 0 NOT NULL;\n--> statement-breakpoint\nALTER TABLE `posts` ADD COLUMN `comments` integer DEFAULT 0 NOT NULL;\n--> statement-breakpoint\nALTER TABLE `comments` ADD COLUMN `likes` integer DEFAULT 0 NOT NULL;\n"},{"name":"0028_add_comment_sync_source","sql":"ALTER TABLE `comments` ADD COLUMN `source` text DEFAULT 'local' NOT NULL;\n--> statement-breakpoint\nALTER TABLE `comments` ADD COLUMN `external_id` text;\n--> statement-breakpoint\nALTER TABLE `comments` ADD COLUMN `external_url` text;\n--> statement-breakpoint\nALTER TABLE `comments` ADD COLUMN `extra_data` text;\n--> statement-breakpoint\nCREATE INDEX IF NOT EXISTS `comments_source_external_idx` ON `comments` (`target_type`, `target_id`, `source`, `external_id`);\n"},{"name":"0029_add_comment_sync_sources","sql":"CREATE TABLE IF NOT EXISTS `comment_sync_sources` (\n\t`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,\n\t`target_type` text NOT NULL,\n\t`target_id` text NOT NULL,\n\t`source` text NOT NULL,\n\t`external_id` text NOT NULL,\n\t`external_url` text,\n\t`auto_sync` integer DEFAULT true NOT NULL,\n\t`sync_interval` integer DEFAULT 60 NOT NULL,\n\t`default_status` text DEFAULT 'approved' NOT NULL,\n\t`last_synced_at` integer,\n\t`last_sync_status` text DEFAULT 'idle' NOT NULL,\n\t`last_error` text,\n\t`total_synced` integer DEFAULT 0 NOT NULL,\n\t`extra_data` text,\n\t`created_at` integer DEFAULT (unixepoch()) NOT NULL,\n\t`updated_at` integer DEFAULT (unixepoch())\n);\n--> statement-breakpoint\nCREATE UNIQUE INDEX IF NOT EXISTS `comment_sync_sources_target_source_unique` ON `comment_sync_sources` (`target_type`,`target_id`,`source`);\n--> statement-breakpoint\nCREATE INDEX IF NOT EXISTS `comment_sync_sources_auto_sync_idx` ON `comment_sync_sources` (`auto_sync`,`last_synced_at`);\n"}],"postgresql":[{"name":"0000_white_hitman","sql":"CREATE TABLE \"admins\" (\n        \"id\" serial PRIMARY KEY NOT NULL,\n        \"username\" text NOT NULL,\n        \"password_hash\" text NOT NULL,\n        \"created_at\" timestamp with time zone DEFAULT now() NOT NULL,\n        CONSTRAINT \"admins_username_unique\" UNIQUE(\"username\")\n);\n--> statement-breakpoint\nCREATE TABLE \"products\" (\n        \"id\" serial PRIMARY KEY NOT NULL,\n        \"slug\" text,\n        \"name\" text NOT NULL,\n        \"price\" real NOT NULL,\n        \"description\" text,\n        \"content\" text,\n        \"type\" text NOT NULL,\n        \"image_url\" text,\n        \"views\" integer DEFAULT 0 NOT NULL,\n        \"image_urls\" jsonb,\n        \"resource\" text,\n        \"is_active\" boolean DEFAULT true NOT NULL,\n        \"meta_data\" jsonb,\n        \"sort_order\" integer DEFAULT 0 NOT NULL,\n        \"created_at\" timestamp with time zone DEFAULT now() NOT NULL,\n        CONSTRAINT \"products_slug_unique\" UNIQUE(\"slug\")\n);\n--> statement-breakpoint\nCREATE TABLE \"users\" (\n        \"id\" serial PRIMARY KEY NOT NULL,\n        \"email\" text NOT NULL,\n        \"password_hash\" text,\n        \"nickname\" text,\n        \"avatar_url\" text,\n        \"last_login_at\" timestamp with time zone,\n        \"cash_balance\" bigint DEFAULT 0,\n        \"grant_balance\" bigint DEFAULT 0,\n        \"sub_balance\" bigint DEFAULT 0,\n        \"tier_level\" integer DEFAULT 0,\n        \"sub_expires_at\" timestamp with time zone,\n        \"status\" integer DEFAULT 1,\n        \"created_at\" timestamp with time zone DEFAULT now() NOT NULL,\n        CONSTRAINT \"users_email_unique\" UNIQUE(\"email\")\n);\n--> statement-breakpoint\nCREATE TABLE \"cards\" (\n        \"id\" serial PRIMARY KEY NOT NULL,\n        \"product_id\" integer NOT NULL,\n        \"card_number\" text NOT NULL,\n        \"is_used\" boolean DEFAULT false NOT NULL,\n        \"order_id\" text,\n        \"created_at\" timestamp with time zone DEFAULT now() NOT NULL,\n        CONSTRAINT \"cards_product_id_products_id_fk\" FOREIGN KEY (\"product_id\") REFERENCES \"public\".\"products\"(\"id\") ON DELETE no action ON UPDATE no action\n);\n--> statement-breakpoint\nCREATE TABLE \"failures\" (\n        \"id\" serial PRIMARY KEY NOT NULL,\n        \"order_id\" text NOT NULL,\n        \"card_bin\" text,\n        \"reason\" text NOT NULL,\n        \"amount\" real,\n        \"pay_method\" text,\n        \"contact_email\" text,\n        \"raw_response\" text,\n        \"visitor_id\" text,\n        \"created_at\" timestamp with time zone DEFAULT now() NOT NULL\n);\n--> statement-breakpoint\nCREATE TABLE \"logs\" (\n        \"id\" serial PRIMARY KEY NOT NULL,\n        \"level\" text DEFAULT 'info' NOT NULL,\n        \"message\" text NOT NULL,\n        \"details\" text,\n        \"source\" text,\n        \"created_at\" timestamp with time zone DEFAULT now() NOT NULL\n);\n--> statement-breakpoint\nCREATE TABLE \"oauth_accounts\" (\n        \"id\" serial PRIMARY KEY NOT NULL,\n        \"user_id\" integer NOT NULL,\n        \"provider\" text NOT NULL,\n        \"provider_account_id\" text NOT NULL,\n        \"created_at\" timestamp with time zone DEFAULT now() NOT NULL,\n        CONSTRAINT \"oauth_accounts_user_id_users_id_fk\" FOREIGN KEY (\"user_id\") REFERENCES \"public\".\"users\"(\"id\") ON DELETE no action ON UPDATE no action\n);\n--> statement-breakpoint\nCREATE UNIQUE INDEX \"provider_account_idx\" ON \"oauth_accounts\" USING btree (\"provider\",\"provider_account_id\");\n--> statement-breakpoint\nCREATE TABLE \"orders\" (\n        \"id\" text PRIMARY KEY NOT NULL,\n        \"amount\" real NOT NULL,\n        \"product_id\" integer NOT NULL,\n        \"user_id\" integer,\n        \"contact_email\" text NOT NULL,\n        \"pay_method\" text,\n        \"trade_no\" text,\n        \"status\" text DEFAULT 'none' NOT NULL,\n        \"delivery_info\" text,\n        \"meta_data\" jsonb,\n        \"visitor_id\" text,\n        \"subscription_id\" text,\n        \"created_at\" timestamp with time zone DEFAULT now() NOT NULL,\n        \"paid_at\" timestamp with time zone,\n        \"pay_status\" text DEFAULT 'pending' NOT NULL,\n        CONSTRAINT \"orders_product_id_products_id_fk\" FOREIGN KEY (\"product_id\") REFERENCES \"public\".\"products\"(\"id\") ON DELETE no action ON UPDATE no action,\n        CONSTRAINT \"orders_user_id_users_id_fk\" FOREIGN KEY (\"user_id\") REFERENCES \"public\".\"users\"(\"id\") ON DELETE no action ON UPDATE no action\n);\n--> statement-breakpoint\nCREATE TABLE \"payment_methods\" (\n        \"id\" serial PRIMARY KEY NOT NULL,\n        \"name\" text NOT NULL,\n        \"code\" text NOT NULL,\n        \"icon_url\" text,\n        \"is_active\" boolean DEFAULT false NOT NULL,\n        \"config_json\" text,\n        \"info\" text,\n        \"create\" text,\n        \"callback\" text,\n        \"created_at\" timestamp with time zone DEFAULT now() NOT NULL,\n        CONSTRAINT \"payment_methods_code_unique\" UNIQUE(\"code\")\n);\n--> statement-breakpoint\nCREATE TABLE \"posts\" (\n        \"id\" serial PRIMARY KEY NOT NULL,\n        \"slug\" text NOT NULL,\n        \"title\" text NOT NULL,\n        \"description\" text,\n        \"content\" text,\n        \"type\" text DEFAULT 'blog' NOT NULL,\n        \"image_url\" text,\n        \"views\" integer DEFAULT 0 NOT NULL,\n        \"is_active\" boolean DEFAULT true NOT NULL,\n        \"meta_data\" jsonb,\n        \"created_at\" timestamp with time zone DEFAULT now() NOT NULL,\n        \"updated_at\" timestamp with time zone DEFAULT now(),\n        CONSTRAINT \"posts_slug_unique\" UNIQUE(\"slug\")\n);\n--> statement-breakpoint\nCREATE TABLE \"settings\" (\n        \"key\" text PRIMARY KEY NOT NULL,\n        \"value\" text NOT NULL,\n        \"description\" text,\n        \"updated_at\" timestamp with time zone DEFAULT now()\n);\n--> statement-breakpoint\nCREATE TABLE \"subscriptions\" (\n        \"id\" text PRIMARY KEY NOT NULL,\n        \"gateway_sub_id\" text,\n        \"user_id\" integer,\n        \"product_id\" integer NOT NULL,\n        \"pay_method\" text NOT NULL,\n        \"status\" text DEFAULT 'active' NOT NULL,\n        \"interval\" text NOT NULL,\n        \"interval_count\" integer DEFAULT 1 NOT NULL,\n        \"amount\" real NOT NULL,\n        \"currency\" text DEFAULT 'USD' NOT NULL,\n        \"current_period_start\" timestamp with time zone,\n        \"current_period_end\" timestamp with time zone,\n        \"cancel_at_period_end\" boolean DEFAULT false,\n        \"meta_data\" jsonb,\n        \"created_at\" timestamp with time zone DEFAULT now() NOT NULL,\n        \"updated_at\" timestamp with time zone DEFAULT now(),\n        CONSTRAINT \"subscriptions_user_id_users_id_fk\" FOREIGN KEY (\"user_id\") REFERENCES \"public\".\"users\"(\"id\") ON DELETE no action ON UPDATE no action,\n        CONSTRAINT \"subscriptions_product_id_products_id_fk\" FOREIGN KEY (\"product_id\") REFERENCES \"public\".\"products\"(\"id\") ON DELETE no action ON UPDATE no action\n);\n--> statement-breakpoint\nCREATE TABLE \"webhooks\" (\n        \"id\" serial PRIMARY KEY NOT NULL,\n        \"name\" text NOT NULL,\n        \"url\" text NOT NULL,\n        \"events\" jsonb,\n        \"secret\" text,\n        \"is_active\" boolean DEFAULT true NOT NULL,\n        \"created_at\" timestamp with time zone DEFAULT now() NOT NULL\n);\n"},{"name":"0001_violet_living_tribunal","sql":"CREATE TABLE \"visitor_events\" (\n\t\"id\" serial PRIMARY KEY NOT NULL,\n\t\"visitor_id\" text NOT NULL,\n\t\"user_id\" integer,\n\t\"order_id\" text,\n\t\"product_id\" integer,\n\t\"event_name\" text NOT NULL,\n\t\"event_action\" text,\n\t\"path\" text,\n\t\"referrer\" text,\n\t\"source_type\" text,\n\t\"source\" text,\n\t\"medium\" text,\n\t\"campaign\" text,\n\t\"content\" text,\n\t\"term\" text,\n\t\"country\" text,\n\t\"region\" text,\n\t\"city\" text,\n\t\"locale\" text,\n\t\"currency\" text,\n\t\"device_type\" text,\n\t\"browser\" text,\n\t\"os\" text,\n\t\"user_agent\" text,\n\t\"created_at\" timestamp with time zone DEFAULT now() NOT NULL\n);\n--> statement-breakpoint\nCREATE TABLE \"visitor_profiles\" (\n\t\"visitor_id\" text PRIMARY KEY NOT NULL,\n\t\"user_id\" integer,\n\t\"first_seen_at\" timestamp with time zone DEFAULT now() NOT NULL,\n\t\"last_seen_at\" timestamp with time zone DEFAULT now() NOT NULL,\n\t\"landing_path\" text,\n\t\"first_path\" text,\n\t\"last_path\" text,\n\t\"first_referrer\" text,\n\t\"last_referrer\" text,\n\t\"first_source_type\" text,\n\t\"last_source_type\" text,\n\t\"first_source\" text,\n\t\"last_source\" text,\n\t\"first_medium\" text,\n\t\"last_medium\" text,\n\t\"first_campaign\" text,\n\t\"last_campaign\" text,\n\t\"first_content\" text,\n\t\"last_content\" text,\n\t\"first_term\" text,\n\t\"last_term\" text,\n\t\"country\" text,\n\t\"region\" text,\n\t\"city\" text,\n\t\"locale\" text,\n\t\"currency\" text,\n\t\"device_type\" text,\n\t\"browser\" text,\n\t\"os\" text,\n\t\"user_agent\" text,\n\t\"created_at\" timestamp with time zone DEFAULT now() NOT NULL,\n\t\"updated_at\" timestamp with time zone DEFAULT now() NOT NULL\n);\n--> statement-breakpoint\nALTER TABLE \"payment_methods\" DROP CONSTRAINT \"payment_methods_code_unique\";--> statement-breakpoint\nALTER TABLE \"users\" ALTER COLUMN \"cash_balance\" SET DEFAULT 0;--> statement-breakpoint\nALTER TABLE \"users\" ALTER COLUMN \"grant_balance\" SET DEFAULT 0;--> statement-breakpoint\nALTER TABLE \"visitor_events\" ADD CONSTRAINT \"visitor_events_user_id_users_id_fk\" FOREIGN KEY (\"user_id\") REFERENCES \"public\".\"users\"(\"id\") ON DELETE no action ON UPDATE no action;--> statement-breakpoint\nALTER TABLE \"visitor_events\" ADD CONSTRAINT \"visitor_events_order_id_orders_id_fk\" FOREIGN KEY (\"order_id\") REFERENCES \"public\".\"orders\"(\"id\") ON DELETE no action ON UPDATE no action;--> statement-breakpoint\nALTER TABLE \"visitor_events\" ADD CONSTRAINT \"visitor_events_product_id_products_id_fk\" FOREIGN KEY (\"product_id\") REFERENCES \"public\".\"products\"(\"id\") ON DELETE no action ON UPDATE no action;--> statement-breakpoint\nALTER TABLE \"visitor_profiles\" ADD CONSTRAINT \"visitor_profiles_user_id_users_id_fk\" FOREIGN KEY (\"user_id\") REFERENCES \"public\".\"users\"(\"id\") ON DELETE no action ON UPDATE no action;\n"},{"name":"0002_add_posts_key","sql":"ALTER TABLE \"posts\" ADD COLUMN \"key\" text;\n--> statement-breakpoint\nCREATE UNIQUE INDEX \"posts_type_key_unique\" ON \"posts\" (\"type\",\"key\");\n"},{"name":"0003_drop_posts_type_key_unique","sql":"DROP INDEX IF EXISTS \"posts_type_key_unique\";\n"},{"name":"0004_add_posts_sort","sql":"ALTER TABLE \"posts\" ADD COLUMN \"sort\" integer;\n"},{"name":"0005_add_visitor_events_ip","sql":"ALTER TABLE \"visitor_events\" ADD COLUMN \"ip\" text;\n"},{"name":"0006_add_notifications","sql":"CREATE TABLE \"notifications\" (\n  \"id\" serial PRIMARY KEY NOT NULL,\n  \"user_id\" integer REFERENCES \"users\"(\"id\"),\n  \"visitor_id\" text,\n  \"type\" text NOT NULL,\n  \"title\" text NOT NULL,\n  \"message\" text NOT NULL,\n  \"data\" jsonb,\n  \"is_read\" boolean DEFAULT false NOT NULL,\n  \"created_at\" timestamp with time zone DEFAULT now() NOT NULL\n);\n"},{"name":"0007_add_access_logs","sql":"CREATE TABLE \"access_logs\" (\n\t\"id\" serial PRIMARY KEY NOT NULL,\n\t\"path\" text NOT NULL,\n\t\"method\" text NOT NULL,\n\t\"ip\" text,\n\t\"user_agent\" text,\n\t\"referrer\" text,\n\t\"country\" text,\n\t\"region\" text,\n\t\"city\" text,\n\t\"status_code\" integer,\n\t\"duration\" real,\n\t\"visitor_id\" text,\n\t\"user_id\" integer,\n\t\"created_at\" timestamp with time zone DEFAULT now() NOT NULL\n);\n--> statement-breakpoint\nALTER TABLE \"access_logs\" ADD CONSTRAINT \"access_logs_user_id_users_id_fk\" FOREIGN KEY (\"user_id\") REFERENCES \"public\".\"users\"(\"id\") ON DELETE no action ON UPDATE no action;\n"},{"name":"0008_add_users_email_verify","sql":"ALTER TABLE \"users\" ADD COLUMN \"email_verified_at\" timestamp with time zone;\n--> statement-breakpoint\nALTER TABLE \"users\" ADD COLUMN \"email_verify_token\" text;\n--> statement-breakpoint\nALTER TABLE \"users\" ADD COLUMN \"email_verify_expires_at\" timestamp with time zone;\n"},{"name":"0009_sloppy_banshee","sql":"-- 说明：0002~0008 这几个迁移文件是历史上手写补的，当时没有同步生成 meta/snapshot，\n-- 导致 drizzle-kit generate 一直是拿 0001 快照在跟当前 schema.pg.ts 比对，\n-- 把 access_logs / notifications / posts.key,sort / visitor_events.ip 等其实早就\n-- 建过的东西也当成缺失重新吐出来。这里手工核对了生产库实际结构，只保留真正\n-- 还没建过的四项，并加上 IF NOT EXISTS / ADD COLUMN IF NOT EXISTS 兜底，避免\n-- 两边环境状态判断有误时把已存在的对象重建报错。\nCREATE TABLE IF NOT EXISTS \"email_providers\" (\n\t\"id\" serial PRIMARY KEY NOT NULL,\n\t\"name\" text NOT NULL,\n\t\"code\" text NOT NULL,\n\t\"is_active\" boolean DEFAULT false NOT NULL,\n\t\"config_json\" text,\n\t\"send_script\" text,\n\t\"created_at\" timestamp with time zone DEFAULT now() NOT NULL\n);\n--> statement-breakpoint\nCREATE TABLE IF NOT EXISTS \"event_rules\" (\n\t\"id\" serial PRIMARY KEY NOT NULL,\n\t\"event\" text NOT NULL,\n\t\"action\" text NOT NULL,\n\t\"config\" jsonb,\n\t\"enabled\" boolean DEFAULT true NOT NULL,\n\t\"remark\" text,\n\t\"created_at\" timestamp with time zone DEFAULT now() NOT NULL,\n\t\"updated_at\" timestamp with time zone DEFAULT now()\n);\n--> statement-breakpoint\nCREATE TABLE IF NOT EXISTS \"user_tokens\" (\n\t\"id\" serial PRIMARY KEY NOT NULL,\n\t\"user_id\" integer NOT NULL,\n\t\"token\" text NOT NULL,\n\t\"name\" text,\n\t\"expires_at\" timestamp with time zone,\n\t\"last_used_at\" timestamp with time zone,\n\t\"revoked\" boolean DEFAULT false NOT NULL,\n\t\"created_at\" timestamp with time zone DEFAULT now() NOT NULL,\n\tCONSTRAINT \"user_tokens_token_unique\" UNIQUE(\"token\")\n);\n--> statement-breakpoint\nALTER TABLE \"users\" ADD COLUMN IF NOT EXISTS \"current_session_id\" text;\n--> statement-breakpoint\nDO $$ BEGIN\n\tALTER TABLE \"user_tokens\" ADD CONSTRAINT \"user_tokens_user_id_users_id_fk\" FOREIGN KEY (\"user_id\") REFERENCES \"public\".\"users\"(\"id\") ON DELETE no action ON UPDATE no action;\nEXCEPTION\n\tWHEN duplicate_object THEN null;\nEND $$;\n--> statement-breakpoint\n-- 邮箱验证改用 user_tokens 表存 token（见 server/api/auth/register.post.ts /\n-- verify-email.get.ts），users 表上这两列不再需要。生产库当时是靠某次单独的\n-- db:pg:push 手动加上的，核对过待验证且未过期的行数是 0，可以直接安全丢弃。\nALTER TABLE \"users\" DROP COLUMN IF EXISTS \"email_verify_token\";\n--> statement-breakpoint\nALTER TABLE \"users\" DROP COLUMN IF EXISTS \"email_verify_expires_at\";\n"},{"name":"0010_add_promo","sql":"CREATE TABLE IF NOT EXISTS \"promo_agent_tiers\" (\n  \"id\" serial PRIMARY KEY NOT NULL,\n  \"code\" text NOT NULL,\n  \"name\" text NOT NULL,\n  \"role_scope\" text DEFAULT 'agent' NOT NULL,\n  \"level\" integer DEFAULT 1 NOT NULL,\n  \"discount_rate\" real DEFAULT 1 NOT NULL,\n  \"sales_threshold\" real DEFAULT 0 NOT NULL,\n  \"is_fixed\" boolean DEFAULT false NOT NULL,\n  \"is_active\" boolean DEFAULT true NOT NULL,\n  \"description\" text,\n  \"created_at\" timestamp with time zone DEFAULT now() NOT NULL,\n  \"updated_at\" timestamp with time zone DEFAULT now(),\n  CONSTRAINT \"promo_agent_tiers_code_unique\" UNIQUE(\"code\")\n);\n--> statement-breakpoint\nCREATE TABLE IF NOT EXISTS \"promo_members\" (\n  \"id\" serial PRIMARY KEY NOT NULL,\n  \"user_id\" integer NOT NULL REFERENCES \"users\"(\"id\"),\n  \"role\" text DEFAULT 'member' NOT NULL,\n  \"status\" text DEFAULT 'active' NOT NULL,\n  \"promo_code\" text NOT NULL,\n  \"invite_code\" text NOT NULL,\n  \"agent_code\" text,\n  \"current_agent_tier_id\" integer REFERENCES \"promo_agent_tiers\"(\"id\"),\n  \"joined_at\" timestamp with time zone DEFAULT now() NOT NULL,\n  \"created_at\" timestamp with time zone DEFAULT now() NOT NULL,\n  \"updated_at\" timestamp with time zone DEFAULT now() NOT NULL,\n  CONSTRAINT \"promo_members_user_id_unique\" UNIQUE(\"user_id\"),\n  CONSTRAINT \"promo_members_promo_code_unique\" UNIQUE(\"promo_code\"),\n  CONSTRAINT \"promo_members_invite_code_unique\" UNIQUE(\"invite_code\"),\n  CONSTRAINT \"promo_members_agent_code_unique\" UNIQUE(\"agent_code\")\n);\n--> statement-breakpoint\nCREATE TABLE IF NOT EXISTS \"promo_invite_relations\" (\n  \"id\" serial PRIMARY KEY NOT NULL,\n  \"invitee_user_id\" integer NOT NULL REFERENCES \"users\"(\"id\"),\n  \"inviter_user_id\" integer NOT NULL REFERENCES \"users\"(\"id\"),\n  \"source\" text DEFAULT 'register' NOT NULL,\n  \"code_snapshot\" text,\n  \"bound_at\" timestamp with time zone DEFAULT now() NOT NULL,\n  \"created_at\" timestamp with time zone DEFAULT now() NOT NULL,\n  CONSTRAINT \"promo_invite_relations_invitee_user_id_unique\" UNIQUE(\"invitee_user_id\")\n);\n--> statement-breakpoint\nCREATE TABLE IF NOT EXISTS \"promo_agent_relations\" (\n  \"id\" serial PRIMARY KEY NOT NULL,\n  \"agent_user_id\" integer NOT NULL REFERENCES \"users\"(\"id\"),\n  \"parent_agent_user_id\" integer REFERENCES \"users\"(\"id\"),\n  \"master_agent_user_id\" integer REFERENCES \"users\"(\"id\"),\n  \"depth\" integer DEFAULT 1 NOT NULL,\n  \"status\" text DEFAULT 'active' NOT NULL,\n  \"bound_at\" timestamp with time zone DEFAULT now() NOT NULL,\n  \"created_at\" timestamp with time zone DEFAULT now() NOT NULL,\n  \"updated_at\" timestamp with time zone DEFAULT now() NOT NULL,\n  CONSTRAINT \"promo_agent_relations_agent_user_id_unique\" UNIQUE(\"agent_user_id\")\n);\n--> statement-breakpoint\nCREATE TABLE IF NOT EXISTS \"promo_order_attributions\" (\n  \"id\" serial PRIMARY KEY NOT NULL,\n  \"order_id\" text NOT NULL REFERENCES \"orders\"(\"id\"),\n  \"buyer_user_id\" integer REFERENCES \"users\"(\"id\"),\n  \"buyer_promo_member_id\" integer REFERENCES \"promo_members\"(\"id\"),\n  \"invite_user_id\" integer REFERENCES \"users\"(\"id\"),\n  \"agent_user_id\" integer REFERENCES \"users\"(\"id\"),\n  \"parent_agent_user_id\" integer REFERENCES \"users\"(\"id\"),\n  \"master_agent_user_id\" integer REFERENCES \"users\"(\"id\"),\n  \"agent_tier_id_snapshot\" integer,\n  \"agent_tier_name_snapshot\" text,\n  \"discount_rate_snapshot\" real,\n  \"source_type\" text DEFAULT 'direct' NOT NULL,\n  \"meta_data\" jsonb,\n  \"created_at\" timestamp with time zone DEFAULT now() NOT NULL,\n  CONSTRAINT \"promo_order_attributions_order_id_unique\" UNIQUE(\"order_id\")\n);\n--> statement-breakpoint\nCREATE TABLE IF NOT EXISTS \"promo_commissions\" (\n  \"id\" serial PRIMARY KEY NOT NULL,\n  \"order_id\" text NOT NULL REFERENCES \"orders\"(\"id\"),\n  \"owner_user_id\" integer NOT NULL REFERENCES \"users\"(\"id\"),\n  \"owner_promo_member_id\" integer REFERENCES \"promo_members\"(\"id\"),\n  \"type\" text NOT NULL,\n  \"source_type\" text DEFAULT 'direct' NOT NULL,\n  \"amount\" real NOT NULL,\n  \"rate\" real,\n  \"status\" text DEFAULT 'pending' NOT NULL,\n  \"remark\" text,\n  \"meta_data\" jsonb,\n  \"created_at\" timestamp with time zone DEFAULT now() NOT NULL,\n  \"updated_at\" timestamp with time zone DEFAULT now() NOT NULL\n);\n"},{"name":"0011_add_payment_method_locales","sql":"ALTER TABLE \"payment_methods\" ADD COLUMN IF NOT EXISTS \"supported_locales\" text;\n"},{"name":"0012_add_orders_currency","sql":"ALTER TABLE \"orders\" ADD COLUMN IF NOT EXISTS \"currency\" text DEFAULT 'USD' NOT NULL;\n"},{"name":"0013_add_payment_failures","sql":"CREATE TABLE IF NOT EXISTS \"payment_failures\" (\n        \"id\" serial PRIMARY KEY NOT NULL,\n        \"order_id\" text NOT NULL,\n        \"card_bin\" text,\n        \"reason\" text NOT NULL,\n        \"amount\" real,\n        \"pay_method\" text,\n        \"contact_email\" text,\n        \"raw_response\" text,\n        \"visitor_id\" text,\n        \"created_at\" timestamp with time zone DEFAULT now() NOT NULL\n);\n--> statement-breakpoint\nDO $$\nBEGIN\n        IF to_regclass('public.failures') IS NOT NULL THEN\n                INSERT INTO \"payment_failures\" (\n                        \"id\",\n                        \"order_id\",\n                        \"card_bin\",\n                        \"reason\",\n                        \"amount\",\n                        \"pay_method\",\n                        \"contact_email\",\n                        \"raw_response\",\n                        \"visitor_id\",\n                        \"created_at\"\n                )\n                SELECT\n                        f.\"id\",\n                        f.\"order_id\",\n                        f.\"card_bin\",\n                        f.\"reason\",\n                        f.\"amount\",\n                        f.\"pay_method\",\n                        f.\"contact_email\",\n                        f.\"raw_response\",\n                        f.\"visitor_id\",\n                        f.\"created_at\"\n                FROM \"failures\" f\n                WHERE NOT EXISTS (\n                        SELECT 1\n                        FROM \"payment_failures\" pf\n                        WHERE pf.\"id\" = f.\"id\"\n                );\n        END IF;\nEND $$;\n--> statement-breakpoint\nSELECT setval(\n        pg_get_serial_sequence('\"payment_failures\"', 'id'),\n        COALESCE((SELECT MAX(\"id\") FROM \"payment_failures\"), 0) + 1,\n        false\n);\n"},{"name":"0014_add_admin_permissions","sql":"ALTER TABLE \"admins\" ADD COLUMN IF NOT EXISTS \"permissions\" jsonb;\n"},{"name":"0015_add_operation_logs","sql":"CREATE TABLE IF NOT EXISTS \"operation_logs\" (\n\t\"id\" serial PRIMARY KEY NOT NULL,\n\t\"actor_type\" text DEFAULT 'admin' NOT NULL,\n\t\"actor_id\" integer,\n\t\"actor_name\" text,\n\t\"action\" text NOT NULL,\n\t\"resource\" text NOT NULL,\n\t\"resource_id\" text,\n\t\"summary\" text,\n\t\"details\" text,\n\t\"path\" text NOT NULL,\n\t\"method\" text NOT NULL,\n\t\"status_code\" integer,\n\t\"ip\" text,\n\t\"user_agent\" text,\n\t\"created_at\" timestamp with time zone DEFAULT now() NOT NULL\n);\n--> statement-breakpoint\nCREATE INDEX IF NOT EXISTS \"operation_logs_created_at_idx\" ON \"operation_logs\" (\"created_at\");\n--> statement-breakpoint\nCREATE INDEX IF NOT EXISTS \"operation_logs_actor_idx\" ON \"operation_logs\" (\"actor_id\",\"created_at\");\n--> statement-breakpoint\nCREATE INDEX IF NOT EXISTS \"operation_logs_resource_idx\" ON \"operation_logs\" (\"resource\",\"resource_id\");\n"},{"name":"0016_add_admin_tokens","sql":"CREATE TABLE IF NOT EXISTS \"admin_tokens\" (\n\t\"id\" serial PRIMARY KEY NOT NULL,\n\t\"admin_id\" integer NOT NULL,\n\t\"token\" text NOT NULL,\n\t\"name\" text,\n\t\"permissions\" jsonb,\n\t\"expires_at\" timestamp with time zone,\n\t\"last_used_at\" timestamp with time zone,\n\t\"revoked\" boolean DEFAULT false NOT NULL,\n\t\"created_at\" timestamp with time zone DEFAULT now() NOT NULL,\n\tCONSTRAINT \"admin_tokens_token_unique\" UNIQUE(\"token\")\n);\n--> statement-breakpoint\nDO $$ BEGIN\n\tALTER TABLE \"admin_tokens\" ADD CONSTRAINT \"admin_tokens_admin_id_admins_id_fk\" FOREIGN KEY (\"admin_id\") REFERENCES \"public\".\"admins\"(\"id\") ON DELETE no action ON UPDATE no action;\nEXCEPTION\n\tWHEN duplicate_object THEN null;\nEND $$;\n"},{"name":"0017_add_balance_logs","sql":"CREATE TABLE IF NOT EXISTS \"balance_logs\" (\n\t\"id\" serial PRIMARY KEY NOT NULL,\n\t\"user_id\" integer NOT NULL,\n\t\"balance_type\" text NOT NULL,\n\t\"action_type\" text DEFAULT 'topup' NOT NULL,\n\t\"amount_cents\" bigint NOT NULL,\n\t\"before_balance_cents\" bigint NOT NULL,\n\t\"after_balance_cents\" bigint NOT NULL,\n\t\"event_id\" text NOT NULL,\n\t\"source_type\" text DEFAULT 'system' NOT NULL,\n\t\"source_id\" text,\n\t\"operator_admin_id\" integer,\n\t\"operator_name\" text DEFAULT '' NOT NULL,\n\t\"remark\" text DEFAULT '' NOT NULL,\n\t\"created_at\" timestamp with time zone DEFAULT now() NOT NULL,\n\tCONSTRAINT \"balance_logs_event_id_unique\" UNIQUE(\"event_id\")\n);\n--> statement-breakpoint\nDO $$ BEGIN\n\tALTER TABLE \"balance_logs\" ADD CONSTRAINT \"balance_logs_user_id_users_id_fk\" FOREIGN KEY (\"user_id\") REFERENCES \"public\".\"users\"(\"id\") ON DELETE no action ON UPDATE no action;\nEXCEPTION\n\tWHEN duplicate_object THEN null;\nEND $$;\n--> statement-breakpoint\nCREATE INDEX IF NOT EXISTS \"idx_balance_logs_user_created_at\" ON \"balance_logs\" (\"user_id\",\"created_at\" DESC);\n"},{"name":"0018_add_order_source_idempotency","sql":"ALTER TABLE \"orders\" ADD COLUMN IF NOT EXISTS \"source\" text;\n--> statement-breakpoint\nALTER TABLE \"orders\" ADD COLUMN IF NOT EXISTS \"external_order_id\" text;\n--> statement-breakpoint\nCREATE UNIQUE INDEX IF NOT EXISTS \"orders_source_external_order_unique\" ON \"orders\" (\"source\",\"external_order_id\");\n"},{"name":"0019_add_user_sessions","sql":"CREATE TABLE IF NOT EXISTS \"user_sessions\" (\n  \"id\" serial PRIMARY KEY NOT NULL,\n  \"user_id\" integer NOT NULL REFERENCES \"users\"(\"id\"),\n  \"session_id_hash\" text NOT NULL UNIQUE,\n  \"status\" text DEFAULT 'active' NOT NULL,\n  \"auth_method\" text DEFAULT 'password' NOT NULL,\n  \"device_type\" text,\n  \"browser\" text,\n  \"os\" text,\n  \"user_agent\" text,\n  \"ip\" text,\n  \"country\" text,\n  \"region\" text,\n  \"city\" text,\n  \"logged_in_at\" timestamp with time zone DEFAULT now() NOT NULL,\n  \"last_seen_at\" timestamp with time zone DEFAULT now() NOT NULL,\n  \"ended_at\" timestamp with time zone,\n  \"replaced_by_session_id\" text,\n  \"created_at\" timestamp with time zone DEFAULT now() NOT NULL\n);\n--> statement-breakpoint\nCREATE INDEX IF NOT EXISTS \"user_sessions_user_status_idx\" ON \"user_sessions\" (\"user_id\", \"status\");\n--> statement-breakpoint\nCREATE INDEX IF NOT EXISTS \"user_sessions_last_seen_idx\" ON \"user_sessions\" (\"last_seen_at\");\n"},{"name":"0020_add_user_wallets","sql":"CREATE TABLE IF NOT EXISTS \"user_wallets\" (\n  \"id\" serial PRIMARY KEY NOT NULL,\n  \"user_id\" integer NOT NULL,\n  \"cash_balance\" bigint DEFAULT 0 NOT NULL,\n  \"grant_balance\" bigint DEFAULT 0 NOT NULL,\n  \"sub_balance\" bigint DEFAULT 0 NOT NULL,\n  \"points_balance\" bigint DEFAULT 0 NOT NULL,\n  \"tier_level\" integer DEFAULT 0 NOT NULL,\n  \"sub_expires_at\" timestamp with time zone,\n  \"status\" integer DEFAULT 1 NOT NULL,\n  \"created_at\" timestamp with time zone DEFAULT now() NOT NULL,\n  CONSTRAINT \"user_wallets_user_id_unique\" UNIQUE (\"user_id\"),\n  CONSTRAINT \"user_wallets_user_id_users_id_fk\" FOREIGN KEY (\"user_id\") REFERENCES \"public\".\"users\"(\"id\") ON DELETE cascade ON UPDATE no action\n);\n--> statement-breakpoint\nINSERT INTO \"user_wallets\" (\n  \"user_id\", \"cash_balance\", \"grant_balance\", \"sub_balance\", \"points_balance\",\n  \"tier_level\", \"sub_expires_at\", \"status\", \"created_at\"\n)\nSELECT\n  \"id\", COALESCE(\"cash_balance\", 0), COALESCE(\"grant_balance\", 0), COALESCE(\"sub_balance\", 0), 0,\n  COALESCE(\"tier_level\", 0), \"sub_expires_at\", COALESCE(\"status\", 1), \"created_at\"\nFROM \"users\"\nON CONFLICT (\"user_id\") DO NOTHING;\n--> statement-breakpoint\nALTER TABLE \"balance_logs\" ADD COLUMN IF NOT EXISTS \"wallet_id\" integer;\n--> statement-breakpoint\nUPDATE \"balance_logs\" AS log\nSET \"wallet_id\" = wallet.\"id\"\nFROM \"user_wallets\" AS wallet\nWHERE log.\"wallet_id\" IS NULL AND wallet.\"user_id\" = log.\"user_id\";\n--> statement-breakpoint\nALTER TABLE \"balance_logs\" ALTER COLUMN \"wallet_id\" SET NOT NULL;\n--> statement-breakpoint\nDO $$ BEGIN\n  ALTER TABLE \"balance_logs\" ADD CONSTRAINT \"balance_logs_wallet_id_user_wallets_id_fk\" FOREIGN KEY (\"wallet_id\") REFERENCES \"public\".\"user_wallets\"(\"id\") ON DELETE no action ON UPDATE no action;\nEXCEPTION\n  WHEN duplicate_object THEN null;\nEND $$;\n--> statement-breakpoint\nCREATE INDEX IF NOT EXISTS \"idx_balance_logs_wallet_created_at\" ON \"balance_logs\" (\"wallet_id\", \"created_at\" DESC);\n--> statement-breakpoint\nALTER TABLE \"users\" DROP COLUMN IF EXISTS \"cash_balance\";\nALTER TABLE \"users\" DROP COLUMN IF EXISTS \"grant_balance\";\nALTER TABLE \"users\" DROP COLUMN IF EXISTS \"sub_balance\";\nALTER TABLE \"users\" DROP COLUMN IF EXISTS \"sub_expires_at\";\nALTER TABLE \"users\" DROP COLUMN IF EXISTS \"tier_level\";\n"},{"name":"0021_add_topups","sql":"CREATE TABLE IF NOT EXISTS \"topups\" (\n  \"id\" serial PRIMARY KEY NOT NULL,\n  \"order_id\" text NOT NULL UNIQUE REFERENCES \"public\".\"orders\"(\"id\") ON DELETE cascade,\n  \"user_id\" integer NOT NULL REFERENCES \"public\".\"users\"(\"id\"),\n  \"wallet_id\" integer NOT NULL REFERENCES \"public\".\"user_wallets\"(\"id\"),\n  \"source\" text DEFAULT 'order' NOT NULL,\n  \"payment_amount\" real NOT NULL,\n  \"payment_currency\" text NOT NULL,\n  \"credit_amount_cents\" bigint NOT NULL,\n  \"credit_currency\" text NOT NULL,\n  \"exchange_rate\" real DEFAULT 1 NOT NULL,\n  \"balance_type\" text DEFAULT 'cash' NOT NULL,\n  \"status\" text DEFAULT 'pending' NOT NULL,\n  \"credit_event_id\" text NOT NULL UNIQUE,\n  \"refund_event_id\" text UNIQUE,\n  \"retry_count\" integer DEFAULT 0 NOT NULL,\n  \"shortfall_cents\" bigint DEFAULT 0 NOT NULL,\n  \"last_error\" text,\n  \"paid_at\" timestamp with time zone,\n  \"credited_at\" timestamp with time zone,\n  \"refunded_at\" timestamp with time zone,\n  \"created_at\" timestamp with time zone DEFAULT now() NOT NULL,\n  \"updated_at\" timestamp with time zone DEFAULT now() NOT NULL\n);\n--> statement-breakpoint\nINSERT INTO \"topups\" (\n  \"order_id\", \"user_id\", \"wallet_id\", \"source\", \"payment_amount\", \"payment_currency\",\n  \"credit_amount_cents\", \"credit_currency\", \"exchange_rate\", \"balance_type\", \"status\",\n  \"credit_event_id\", \"refund_event_id\", \"last_error\", \"paid_at\", \"credited_at\", \"refunded_at\",\n  \"created_at\", \"updated_at\"\n)\nSELECT\n  orders.\"id\", orders.\"user_id\", wallets.\"id\", COALESCE(orders.\"source\", 'order'),\n  orders.\"amount\", COALESCE(orders.\"currency\", 'USD'),\n  COALESCE(credit_log.\"amount_cents\", ROUND(COALESCE(NULLIF(orders.\"meta_data\"->>'recharge_amount', '')::numeric, orders.\"amount\") * 100000000)::bigint),\n  COALESCE(orders.\"meta_data\"->>'display_unit', orders.\"currency\", 'USD'),\n  COALESCE(NULLIF(orders.\"meta_data\"->'currencySnapshot'->>'exchangeRate', '')::real, 1),\n  COALESCE(credit_log.\"balance_type\", orders.\"meta_data\"->>'balance_type', 'cash'),\n  CASE\n    WHEN orders.\"pay_status\" = 'refunded' AND credit_log.\"id\" IS NOT NULL AND refund_log.\"id\" IS NOT NULL THEN 'refunded'\n    WHEN refund_log.\"id\" IS NOT NULL THEN 'review_required'\n    WHEN orders.\"pay_status\" = 'refunded' THEN 'review_required'\n    WHEN orders.\"pay_status\" = 'paid' AND credit_log.\"id\" IS NOT NULL THEN 'credited'\n    WHEN credit_log.\"id\" IS NOT NULL THEN 'review_required'\n    WHEN orders.\"pay_status\" = 'paid' THEN 'review_required'\n    WHEN orders.\"pay_status\" = 'failed' THEN 'payment_failed'\n    ELSE 'pending'\n  END,\n  'topup:' || orders.\"id\",\n  CASE WHEN refund_log.\"id\" IS NOT NULL THEN 'refund:' || orders.\"id\" ELSE NULL END,\n  CASE\n    WHEN refund_log.\"id\" IS NOT NULL AND (orders.\"pay_status\" <> 'refunded' OR credit_log.\"id\" IS NULL) THEN '历史退款流水与订单或到账流水不一致，需人工核对'\n    WHEN orders.\"pay_status\" = 'refunded' AND refund_log.\"id\" IS NULL THEN '历史退款订单没有可确认的 APay 退款流水，需人工核对'\n    WHEN credit_log.\"id\" IS NOT NULL AND orders.\"pay_status\" <> 'paid' THEN '历史到账流水与订单支付状态不一致，需人工核对'\n    WHEN orders.\"pay_status\" = 'paid' AND credit_log.\"id\" IS NULL THEN '历史订单没有可确认的 APay 到账流水，禁止自动补发'\n    ELSE NULL\n  END,\n  orders.\"paid_at\", credit_log.\"created_at\", refund_log.\"created_at\", orders.\"created_at\", now()\nFROM \"orders\" orders\nJOIN \"products\" products ON products.\"id\" = orders.\"product_id\" AND products.\"type\" = 'topup'\nJOIN \"user_wallets\" wallets ON wallets.\"user_id\" = orders.\"user_id\"\nLEFT JOIN \"balance_logs\" credit_log ON credit_log.\"event_id\" = 'topup:' || orders.\"id\"\nLEFT JOIN \"balance_logs\" refund_log ON refund_log.\"event_id\" = 'refund:' || orders.\"id\"\nWHERE COALESCE(products.\"slug\", '') <> 'minimal-checkout-recharge'\n  OR orders.\"meta_data\"->'checkoutBridge'->'attach'->>'walletOwner' = 'apay'\nON CONFLICT (\"order_id\") DO NOTHING;\n--> statement-breakpoint\nCREATE INDEX IF NOT EXISTS \"idx_topups_user_created_at\" ON \"topups\" (\"user_id\", \"created_at\" DESC);\nCREATE INDEX IF NOT EXISTS \"idx_topups_status_updated_at\" ON \"topups\" (\"status\", \"updated_at\");\n"},{"name":"0022_add_email_logs","sql":"CREATE TABLE IF NOT EXISTS \"email_logs\" (\n  \"id\" serial PRIMARY KEY NOT NULL,\n  \"to\" text NOT NULL,\n  \"subject\" text NOT NULL,\n  \"template_code\" text,\n  \"html\" text,\n  \"provider\" text,\n  \"status\" text DEFAULT 'success' NOT NULL,\n  \"message_id\" text,\n  \"error\" text,\n  \"created_at\" timestamp with time zone DEFAULT now() NOT NULL\n);\n--> statement-breakpoint\nCREATE INDEX IF NOT EXISTS \"email_logs_to_idx\" ON \"email_logs\" (\"to\");\n--> statement-breakpoint\nCREATE INDEX IF NOT EXISTS \"email_logs_status_idx\" ON \"email_logs\" (\"status\");\n--> statement-breakpoint\nCREATE INDEX IF NOT EXISTS \"email_logs_created_at_idx\" ON \"email_logs\" (\"created_at\");\n"},{"name":"0023_add_products_status","sql":"ALTER TABLE \"products\" ADD COLUMN IF NOT EXISTS \"status\" text DEFAULT 'active' NOT NULL;\n--> statement-breakpoint\nUPDATE \"products\" SET \"status\" = 'inactive' WHERE \"is_active\" = false;\n"},{"name":"0024_add_promo_applications_and_tickets","sql":"CREATE TABLE IF NOT EXISTS \"promo_applications\" (\n  \"id\" serial PRIMARY KEY NOT NULL,\n  \"user_id\" integer NOT NULL REFERENCES \"users\"(\"id\"),\n  \"status\" text DEFAULT 'pending' NOT NULL,\n  \"channel_info\" text,\n  \"contact\" text,\n  \"reason\" text,\n  \"review_note\" text,\n  \"reviewed_by_admin_id\" integer,\n  \"reviewed_at\" timestamp with time zone,\n  \"created_at\" timestamp with time zone DEFAULT now() NOT NULL,\n  \"updated_at\" timestamp with time zone DEFAULT now() NOT NULL\n);\n--> statement-breakpoint\nCREATE TABLE IF NOT EXISTS \"tickets\" (\n  \"id\" serial PRIMARY KEY NOT NULL,\n  \"ticket_no\" text NOT NULL UNIQUE,\n  \"user_id\" integer NOT NULL REFERENCES \"users\"(\"id\"),\n  \"category\" text DEFAULT 'other' NOT NULL,\n  \"title\" text NOT NULL,\n  \"status\" text DEFAULT 'open' NOT NULL,\n  \"priority\" text DEFAULT 'normal' NOT NULL,\n  \"context\" jsonb,\n  \"last_replied_at\" timestamp with time zone DEFAULT now() NOT NULL,\n  \"last_replied_by\" text DEFAULT 'user' NOT NULL,\n  \"created_at\" timestamp with time zone DEFAULT now() NOT NULL,\n  \"updated_at\" timestamp with time zone DEFAULT now() NOT NULL\n);\n--> statement-breakpoint\nCREATE INDEX IF NOT EXISTS \"tickets_user_id_idx\" ON \"tickets\" (\"user_id\");\n--> statement-breakpoint\nCREATE INDEX IF NOT EXISTS \"tickets_status_idx\" ON \"tickets\" (\"status\");\n--> statement-breakpoint\nCREATE INDEX IF NOT EXISTS \"tickets_category_idx\" ON \"tickets\" (\"category\");\n--> statement-breakpoint\nCREATE INDEX IF NOT EXISTS \"tickets_last_replied_at_idx\" ON \"tickets\" (\"last_replied_at\");\n--> statement-breakpoint\nCREATE TABLE IF NOT EXISTS \"ticket_messages\" (\n  \"id\" serial PRIMARY KEY NOT NULL,\n  \"ticket_id\" integer NOT NULL REFERENCES \"tickets\"(\"id\") ON DELETE CASCADE,\n  \"sender_type\" text NOT NULL,\n  \"sender_id\" integer,\n  \"sender_name\" text DEFAULT '' NOT NULL,\n  \"content\" text NOT NULL,\n  \"attachments\" jsonb,\n  \"created_at\" timestamp with time zone DEFAULT now() NOT NULL\n);\n--> statement-breakpoint\nCREATE INDEX IF NOT EXISTS \"ticket_messages_ticket_id_idx\" ON \"ticket_messages\" (\"ticket_id\");\n--> statement-breakpoint\nCREATE INDEX IF NOT EXISTS \"ticket_messages_created_at_idx\" ON \"ticket_messages\" (\"created_at\");\n"},{"name":"0025_purge_legacy_password_reset_tokens","sql":"-- 找回密码的令牌口径已收归核心（server/utils/passwordReset.ts，只存 sha256，\n-- name 统一为 'password_reset'）。这里清掉两个主题各自实现时留下的旧行：\n--   qingpu_password_reset —— 曾以**明文**入库。核心鉴权中间件按 user_tokens.token\n--     查 Bearer / X-Api-Key，当时只排除 email_verify，因此这些行同时是一把\n--     有效期 1 小时的全权限 API Key，必须清。\n--   shoply_password_reset —— 存的是哈希，不构成漏洞，但改名后永远不会再被消费。\n-- 在途的重置链接一并作废，用户重新申请即可。\nDELETE FROM \"user_tokens\" WHERE \"name\" IN ('qingpu_password_reset', 'shoply_password_reset');\n"},{"name":"0026_topups_wallet_optional","sql":"-- AINode 钱包模式（APAY_WALLET_BACKEND=ainode）下 user_wallets 归 AINode，充值台账不再绑定钱包。\n-- 只放宽约束、不改数据；本地钱包模式照常写入 wallet_id。IF EXISTS：共库站点可能从未建过台账表。\nALTER TABLE IF EXISTS \"topups\" ALTER COLUMN \"wallet_id\" DROP NOT NULL;\n"},{"name":"0027_add_comments","sql":"CREATE TABLE IF NOT EXISTS \"comments\" (\n\t\"id\" serial PRIMARY KEY NOT NULL,\n\t\"target_type\" text NOT NULL,\n\t\"target_id\" text NOT NULL,\n\t\"user_id\" integer REFERENCES \"users\"(\"id\") ON DELETE set null,\n\t\"author_name\" text NOT NULL,\n\t\"author_email\" text,\n\t\"author_url\" text,\n\t\"content\" text NOT NULL,\n\t\"parent_id\" integer,\n\t\"status\" text DEFAULT 'approved' NOT NULL,\n\t\"ip\" text,\n\t\"user_agent\" text,\n\t\"created_at\" timestamp with time zone DEFAULT now() NOT NULL,\n\t\"updated_at\" timestamp with time zone DEFAULT now()\n);\n--> statement-breakpoint\nCREATE INDEX IF NOT EXISTS \"comments_target_status_idx\" ON \"comments\" (\"target_type\", \"target_id\", \"status\", \"created_at\");\n--> statement-breakpoint\nCREATE INDEX IF NOT EXISTS \"comments_user_id_idx\" ON \"comments\" (\"user_id\");\n--> statement-breakpoint\nCREATE INDEX IF NOT EXISTS \"comments_parent_id_idx\" ON \"comments\" (\"parent_id\");\n"},{"name":"0028_repair_schema_alignment","sql":"-- Append-only repair for schema fields omitted from the historical chain.\nALTER TABLE \"visitor_profiles\" ADD COLUMN IF NOT EXISTS \"ip\" text;\n"},{"name":"0029_add_likes_and_interaction_counters","sql":"CREATE TABLE IF NOT EXISTS \"likes\" (\n\t\"id\" serial PRIMARY KEY NOT NULL,\n\t\"target_type\" text NOT NULL,\n\t\"target_id\" text NOT NULL,\n\t\"user_id\" integer REFERENCES \"users\"(\"id\") ON DELETE cascade,\n\t\"visitor_id\" text NOT NULL,\n\t\"ip\" text,\n\t\"user_agent\" text,\n\t\"created_at\" timestamp with time zone DEFAULT now() NOT NULL\n);\n--> statement-breakpoint\nCREATE INDEX IF NOT EXISTS \"likes_target_idx\" ON \"likes\" (\"target_type\", \"target_id\");\n--> statement-breakpoint\nCREATE INDEX IF NOT EXISTS \"likes_target_user_idx\" ON \"likes\" (\"target_type\", \"target_id\", \"user_id\");\n--> statement-breakpoint\nCREATE INDEX IF NOT EXISTS \"likes_target_visitor_idx\" ON \"likes\" (\"target_type\", \"target_id\", \"visitor_id\");\n--> statement-breakpoint\nALTER TABLE \"products\" ADD COLUMN IF NOT EXISTS \"likes\" integer DEFAULT 0 NOT NULL;\n--> statement-breakpoint\nALTER TABLE \"posts\" ADD COLUMN IF NOT EXISTS \"likes\" integer DEFAULT 0 NOT NULL;\n--> statement-breakpoint\nALTER TABLE \"posts\" ADD COLUMN IF NOT EXISTS \"comments\" integer DEFAULT 0 NOT NULL;\n--> statement-breakpoint\nALTER TABLE \"comments\" ADD COLUMN IF NOT EXISTS \"likes\" integer DEFAULT 0 NOT NULL;\n"},{"name":"0030_add_comment_sync_source","sql":"ALTER TABLE \"comments\" ADD COLUMN IF NOT EXISTS \"source\" text DEFAULT 'local' NOT NULL;\n--> statement-breakpoint\nALTER TABLE \"comments\" ADD COLUMN IF NOT EXISTS \"external_id\" text;\n--> statement-breakpoint\nALTER TABLE \"comments\" ADD COLUMN IF NOT EXISTS \"external_url\" text;\n--> statement-breakpoint\nALTER TABLE \"comments\" ADD COLUMN IF NOT EXISTS \"extra_data\" jsonb;\n--> statement-breakpoint\nCREATE INDEX IF NOT EXISTS \"comments_source_external_idx\" ON \"comments\" (\"target_type\", \"target_id\", \"source\", \"external_id\");\n"},{"name":"0031_add_comment_sync_sources","sql":"CREATE TABLE IF NOT EXISTS \"comment_sync_sources\" (\n\t\"id\" serial PRIMARY KEY NOT NULL,\n\t\"target_type\" text NOT NULL,\n\t\"target_id\" text NOT NULL,\n\t\"source\" text NOT NULL,\n\t\"external_id\" text NOT NULL,\n\t\"external_url\" text,\n\t\"auto_sync\" boolean DEFAULT true NOT NULL,\n\t\"sync_interval\" integer DEFAULT 60 NOT NULL,\n\t\"default_status\" text DEFAULT 'approved' NOT NULL,\n\t\"last_synced_at\" timestamp with time zone,\n\t\"last_sync_status\" text DEFAULT 'idle' NOT NULL,\n\t\"last_error\" text,\n\t\"total_synced\" integer DEFAULT 0 NOT NULL,\n\t\"extra_data\" jsonb,\n\t\"created_at\" timestamp with time zone DEFAULT now() NOT NULL,\n\t\"updated_at\" timestamp with time zone DEFAULT now()\n);\n--> statement-breakpoint\nCREATE UNIQUE INDEX IF NOT EXISTS \"comment_sync_sources_target_source_unique\" ON \"comment_sync_sources\" USING btree (\"target_type\",\"target_id\",\"source\");\n--> statement-breakpoint\nCREATE INDEX IF NOT EXISTS \"comment_sync_sources_auto_sync_idx\" ON \"comment_sync_sources\" USING btree (\"auto_sync\",\"last_synced_at\");\n"}],"mysql":[{"name":"0000_thin_bucky","sql":"CREATE TABLE `admins` (\n\t`id` int AUTO_INCREMENT NOT NULL,\n\t`username` varchar(191) NOT NULL,\n\t`password_hash` varchar(255) NOT NULL,\n\t`created_at` timestamp NOT NULL DEFAULT (now()),\n\tCONSTRAINT `admins_id` PRIMARY KEY(`id`),\n\tCONSTRAINT `admins_username_unique` UNIQUE(`username`)\n);\n--> statement-breakpoint\nCREATE TABLE `cards` (\n\t`id` int AUTO_INCREMENT NOT NULL,\n\t`product_id` int NOT NULL,\n\t`card_number` text NOT NULL,\n\t`is_used` boolean NOT NULL DEFAULT false,\n\t`order_id` text,\n\t`created_at` timestamp NOT NULL DEFAULT (now()),\n\tCONSTRAINT `cards_id` PRIMARY KEY(`id`)\n);\n--> statement-breakpoint\nCREATE TABLE `failures` (\n\t`id` int AUTO_INCREMENT NOT NULL,\n\t`order_id` text NOT NULL,\n\t`card_bin` text,\n\t`reason` text NOT NULL,\n\t`amount` real,\n\t`pay_method` text,\n\t`contact_email` text,\n\t`raw_response` text,\n\t`visitor_id` text,\n\t`created_at` timestamp NOT NULL DEFAULT (now()),\n\tCONSTRAINT `failures_id` PRIMARY KEY(`id`)\n);\n--> statement-breakpoint\nCREATE TABLE `logs` (\n\t`id` int AUTO_INCREMENT NOT NULL,\n\t`level` text NOT NULL DEFAULT ('info'),\n\t`message` text NOT NULL,\n\t`details` text,\n\t`source` text,\n\t`created_at` timestamp NOT NULL DEFAULT (now()),\n\tCONSTRAINT `logs_id` PRIMARY KEY(`id`)\n);\n--> statement-breakpoint\nCREATE TABLE `oauth_accounts` (\n\t`id` int AUTO_INCREMENT NOT NULL,\n\t`user_id` int NOT NULL,\n\t`provider` varchar(191) NOT NULL,\n\t`provider_account_id` varchar(255) NOT NULL,\n\t`created_at` timestamp NOT NULL DEFAULT (now()),\n\tCONSTRAINT `oauth_accounts_id` PRIMARY KEY(`id`),\n\tCONSTRAINT `provider_account_idx` UNIQUE(`provider`,`provider_account_id`)\n);\n--> statement-breakpoint\nCREATE TABLE `orders` (\n\t`id` varchar(191) NOT NULL,\n\t`amount` real NOT NULL,\n\t`product_id` int NOT NULL,\n\t`user_id` int,\n\t`contact_email` text NOT NULL,\n\t`pay_method` text,\n\t`trade_no` text,\n\t`status` text NOT NULL DEFAULT ('none'),\n\t`delivery_info` text,\n\t`meta_data` json,\n\t`visitor_id` text,\n\t`subscription_id` text,\n\t`created_at` timestamp NOT NULL DEFAULT (now()),\n\t`paid_at` timestamp,\n\t`pay_status` text NOT NULL DEFAULT ('pending'),\n\tCONSTRAINT `orders_id` PRIMARY KEY(`id`)\n);\n--> statement-breakpoint\nCREATE TABLE `payment_methods` (\n\t`id` int AUTO_INCREMENT NOT NULL,\n\t`name` text NOT NULL,\n\t`code` text NOT NULL,\n\t`icon_url` text,\n\t`is_active` boolean NOT NULL DEFAULT false,\n\t`config_json` text,\n\t`info` text,\n\t`create` text,\n\t`callback` text,\n\t`created_at` timestamp NOT NULL DEFAULT (now()),\n\tCONSTRAINT `payment_methods_id` PRIMARY KEY(`id`)\n);\n--> statement-breakpoint\nCREATE TABLE `posts` (\n\t`id` int AUTO_INCREMENT NOT NULL,\n\t`key` text,\n\t`sort` int,\n\t`slug` varchar(191) NOT NULL,\n\t`title` text NOT NULL,\n\t`description` text,\n\t`content` text,\n\t`type` text NOT NULL DEFAULT ('blog'),\n\t`image_url` text,\n\t`views` int NOT NULL DEFAULT 0,\n\t`is_active` boolean NOT NULL DEFAULT true,\n\t`meta_data` json,\n\t`created_at` timestamp NOT NULL DEFAULT (now()),\n\t`updated_at` timestamp DEFAULT (now()),\n\tCONSTRAINT `posts_id` PRIMARY KEY(`id`),\n\tCONSTRAINT `posts_slug_unique` UNIQUE(`slug`)\n);\n--> statement-breakpoint\nCREATE TABLE `products` (\n\t`id` int AUTO_INCREMENT NOT NULL,\n\t`slug` varchar(191),\n\t`name` text NOT NULL,\n\t`price` real NOT NULL,\n\t`description` text,\n\t`content` text,\n\t`type` text NOT NULL,\n\t`image_url` text,\n\t`views` int NOT NULL DEFAULT 0,\n\t`image_urls` json,\n\t`resource` text,\n\t`is_active` boolean NOT NULL DEFAULT true,\n\t`meta_data` json,\n\t`sort_order` int NOT NULL DEFAULT 0,\n\t`created_at` timestamp NOT NULL DEFAULT (now()),\n\tCONSTRAINT `products_id` PRIMARY KEY(`id`),\n\tCONSTRAINT `products_slug_unique` UNIQUE(`slug`)\n);\n--> statement-breakpoint\nCREATE TABLE `settings` (\n\t`key` varchar(191) NOT NULL,\n\t`value` text NOT NULL,\n\t`description` text,\n\t`updated_at` timestamp DEFAULT (now()),\n\tCONSTRAINT `settings_key` PRIMARY KEY(`key`)\n);\n--> statement-breakpoint\nCREATE TABLE `subscriptions` (\n\t`id` varchar(191) NOT NULL,\n\t`gateway_sub_id` text,\n\t`user_id` int,\n\t`product_id` int NOT NULL,\n\t`pay_method` text NOT NULL,\n\t`status` text NOT NULL DEFAULT ('active'),\n\t`interval` text NOT NULL,\n\t`interval_count` int NOT NULL DEFAULT 1,\n\t`amount` real NOT NULL,\n\t`currency` text NOT NULL DEFAULT ('USD'),\n\t`current_period_start` timestamp,\n\t`current_period_end` timestamp,\n\t`cancel_at_period_end` boolean DEFAULT false,\n\t`meta_data` json,\n\t`created_at` timestamp NOT NULL DEFAULT (now()),\n\t`updated_at` timestamp DEFAULT (now()),\n\tCONSTRAINT `subscriptions_id` PRIMARY KEY(`id`)\n);\n--> statement-breakpoint\nCREATE TABLE `users` (\n\t`id` int AUTO_INCREMENT NOT NULL,\n\t`email` varchar(191) NOT NULL,\n\t`password_hash` text,\n\t`nickname` text,\n\t`avatar_url` text,\n\t`last_login_at` timestamp,\n\t`cash_balance` bigint DEFAULT 0,\n\t`grant_balance` bigint DEFAULT 0,\n\t`sub_balance` bigint DEFAULT 0,\n\t`tier_level` int DEFAULT 0,\n\t`sub_expires_at` timestamp,\n\t`status` int DEFAULT 1,\n\t`created_at` timestamp NOT NULL DEFAULT (now()),\n\tCONSTRAINT `users_id` PRIMARY KEY(`id`),\n\tCONSTRAINT `users_email_unique` UNIQUE(`email`)\n);\n--> statement-breakpoint\nCREATE TABLE `visitor_events` (\n\t`id` int AUTO_INCREMENT NOT NULL,\n\t`visitor_id` text NOT NULL,\n\t`user_id` int,\n\t`order_id` varchar(191),\n\t`product_id` int,\n\t`event_name` text NOT NULL,\n\t`event_action` text,\n\t`path` text,\n\t`referrer` text,\n\t`source_type` text,\n\t`source` text,\n\t`medium` text,\n\t`campaign` text,\n\t`content` text,\n\t`term` text,\n\t`country` text,\n\t`region` text,\n\t`city` text,\n\t`locale` text,\n\t`currency` text,\n\t`device_type` text,\n\t`browser` text,\n\t`os` text,\n\t`user_agent` text,\n\t`created_at` timestamp NOT NULL DEFAULT (now()),\n\tCONSTRAINT `visitor_events_id` PRIMARY KEY(`id`)\n);\n--> statement-breakpoint\nCREATE TABLE `visitor_profiles` (\n\t`visitor_id` varchar(191) NOT NULL,\n\t`user_id` int,\n\t`first_seen_at` timestamp NOT NULL DEFAULT (now()),\n\t`last_seen_at` timestamp NOT NULL DEFAULT (now()),\n\t`landing_path` text,\n\t`first_path` text,\n\t`last_path` text,\n\t`first_referrer` text,\n\t`last_referrer` text,\n\t`first_source_type` text,\n\t`last_source_type` text,\n\t`first_source` text,\n\t`last_source` text,\n\t`first_medium` text,\n\t`last_medium` text,\n\t`first_campaign` text,\n\t`last_campaign` text,\n\t`first_content` text,\n\t`last_content` text,\n\t`first_term` text,\n\t`last_term` text,\n\t`country` text,\n\t`region` text,\n\t`city` text,\n\t`locale` text,\n\t`currency` text,\n\t`device_type` text,\n\t`browser` text,\n\t`os` text,\n\t`user_agent` text,\n\t`created_at` timestamp NOT NULL DEFAULT (now()),\n\t`updated_at` timestamp NOT NULL DEFAULT (now()),\n\tCONSTRAINT `visitor_profiles_visitor_id` PRIMARY KEY(`visitor_id`)\n);\n--> statement-breakpoint\nCREATE TABLE `webhooks` (\n\t`id` int AUTO_INCREMENT NOT NULL,\n\t`name` text NOT NULL,\n\t`url` text NOT NULL,\n\t`events` json,\n\t`secret` text,\n\t`is_active` boolean NOT NULL DEFAULT true,\n\t`created_at` timestamp NOT NULL DEFAULT (now()),\n\tCONSTRAINT `webhooks_id` PRIMARY KEY(`id`)\n);\n--> statement-breakpoint\nALTER TABLE `cards` ADD CONSTRAINT `cards_product_id_products_id_fk` FOREIGN KEY (`product_id`) REFERENCES `products`(`id`) ON DELETE no action ON UPDATE no action;--> statement-breakpoint\nALTER TABLE `oauth_accounts` ADD CONSTRAINT `oauth_accounts_user_id_users_id_fk` FOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON DELETE no action ON UPDATE no action;--> statement-breakpoint\nALTER TABLE `orders` ADD CONSTRAINT `orders_product_id_products_id_fk` FOREIGN KEY (`product_id`) REFERENCES `products`(`id`) ON DELETE no action ON UPDATE no action;--> statement-breakpoint\nALTER TABLE `orders` ADD CONSTRAINT `orders_user_id_users_id_fk` FOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON DELETE no action ON UPDATE no action;--> statement-breakpoint\nALTER TABLE `subscriptions` ADD CONSTRAINT `subscriptions_user_id_users_id_fk` FOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON DELETE no action ON UPDATE no action;--> statement-breakpoint\nALTER TABLE `subscriptions` ADD CONSTRAINT `subscriptions_product_id_products_id_fk` FOREIGN KEY (`product_id`) REFERENCES `products`(`id`) ON DELETE no action ON UPDATE no action;--> statement-breakpoint\nALTER TABLE `visitor_events` ADD CONSTRAINT `visitor_events_user_id_users_id_fk` FOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON DELETE no action ON UPDATE no action;--> statement-breakpoint\nALTER TABLE `visitor_events` ADD CONSTRAINT `visitor_events_order_id_orders_id_fk` FOREIGN KEY (`order_id`) REFERENCES `orders`(`id`) ON DELETE no action ON UPDATE no action;--> statement-breakpoint\nALTER TABLE `visitor_events` ADD CONSTRAINT `visitor_events_product_id_products_id_fk` FOREIGN KEY (`product_id`) REFERENCES `products`(`id`) ON DELETE no action ON UPDATE no action;--> statement-breakpoint\nALTER TABLE `visitor_profiles` ADD CONSTRAINT `visitor_profiles_user_id_users_id_fk` FOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON DELETE no action ON UPDATE no action;\n"},{"name":"0001_add_notifications","sql":"CREATE TABLE `notifications` (\n  `id` int AUTO_INCREMENT PRIMARY KEY NOT NULL,\n  `user_id` int REFERENCES `users`(`id`),\n  `visitor_id` text,\n  `type` text NOT NULL,\n  `title` text NOT NULL,\n  `message` text NOT NULL,\n  `data` json,\n  `is_read` boolean DEFAULT false NOT NULL,\n  `created_at` timestamp DEFAULT now() NOT NULL\n);\n"},{"name":"0002_add_access_logs","sql":"CREATE TABLE `access_logs` (\n\t`id` int AUTO_INCREMENT NOT NULL,\n\t`path` text NOT NULL,\n\t`method` text NOT NULL,\n\t`ip` text,\n\t`user_agent` text,\n\t`referrer` text,\n\t`country` text,\n\t`region` text,\n\t`city` text,\n\t`status_code` int,\n\t`duration` real,\n\t`visitor_id` text,\n\t`user_id` int,\n\t`created_at` timestamp NOT NULL DEFAULT (now()),\n\tCONSTRAINT `access_logs_id` PRIMARY KEY(`id`)\n);\n--> statement-breakpoint\nALTER TABLE `access_logs` ADD CONSTRAINT `access_logs_user_id_users_id_fk` FOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON DELETE no action ON UPDATE no action;\n"},{"name":"0003_add_users_email_verify","sql":"ALTER TABLE `users` ADD COLUMN `email_verified_at` timestamp;\n--> statement-breakpoint\nALTER TABLE `users` ADD COLUMN `email_verify_token` text;\n--> statement-breakpoint\nALTER TABLE `users` ADD COLUMN `email_verify_expires_at` timestamp;\n"},{"name":"0004_add_promo","sql":"CREATE TABLE `promo_agent_tiers` (\n  `id` int AUTO_INCREMENT NOT NULL PRIMARY KEY,\n  `code` varchar(191) NOT NULL,\n  `name` varchar(191) NOT NULL,\n  `role_scope` varchar(64) NOT NULL DEFAULT 'agent',\n  `level` int NOT NULL DEFAULT 1,\n  `discount_rate` real NOT NULL DEFAULT 1,\n  `sales_threshold` real NOT NULL DEFAULT 0,\n  `is_fixed` boolean NOT NULL DEFAULT false,\n  `is_active` boolean NOT NULL DEFAULT true,\n  `description` text,\n  `created_at` timestamp NOT NULL DEFAULT now(),\n  `updated_at` timestamp DEFAULT now(),\n  CONSTRAINT `promo_agent_tiers_code_unique` UNIQUE(`code`)\n);\n--> statement-breakpoint\nCREATE TABLE `promo_members` (\n  `id` int AUTO_INCREMENT NOT NULL PRIMARY KEY,\n  `user_id` int NOT NULL,\n  `role` varchar(64) NOT NULL DEFAULT 'member',\n  `status` varchar(64) NOT NULL DEFAULT 'active',\n  `promo_code` varchar(191) NOT NULL,\n  `invite_code` varchar(191) NOT NULL,\n  `agent_code` varchar(191),\n  `current_agent_tier_id` int,\n  `joined_at` timestamp NOT NULL DEFAULT now(),\n  `created_at` timestamp NOT NULL DEFAULT now(),\n  `updated_at` timestamp NOT NULL DEFAULT now(),\n  CONSTRAINT `promo_members_user_id_unique` UNIQUE(`user_id`),\n  CONSTRAINT `promo_members_promo_code_unique` UNIQUE(`promo_code`),\n  CONSTRAINT `promo_members_invite_code_unique` UNIQUE(`invite_code`),\n  CONSTRAINT `promo_members_agent_code_unique` UNIQUE(`agent_code`),\n  CONSTRAINT `promo_members_user_id_users_id_fk` FOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON DELETE no action ON UPDATE no action,\n  CONSTRAINT `promo_members_current_agent_tier_id_promo_agent_tiers_id_fk` FOREIGN KEY (`current_agent_tier_id`) REFERENCES `promo_agent_tiers`(`id`) ON DELETE no action ON UPDATE no action\n);\n--> statement-breakpoint\nCREATE TABLE `promo_invite_relations` (\n  `id` int AUTO_INCREMENT NOT NULL PRIMARY KEY,\n  `invitee_user_id` int NOT NULL,\n  `inviter_user_id` int NOT NULL,\n  `source` varchar(64) NOT NULL DEFAULT 'register',\n  `code_snapshot` varchar(191),\n  `bound_at` timestamp NOT NULL DEFAULT now(),\n  `created_at` timestamp NOT NULL DEFAULT now(),\n  CONSTRAINT `promo_invite_relations_invitee_user_id_unique` UNIQUE(`invitee_user_id`),\n  CONSTRAINT `promo_invite_relations_invitee_user_id_users_id_fk` FOREIGN KEY (`invitee_user_id`) REFERENCES `users`(`id`) ON DELETE no action ON UPDATE no action,\n  CONSTRAINT `promo_invite_relations_inviter_user_id_users_id_fk` FOREIGN KEY (`inviter_user_id`) REFERENCES `users`(`id`) ON DELETE no action ON UPDATE no action\n);\n--> statement-breakpoint\nCREATE TABLE `promo_agent_relations` (\n  `id` int AUTO_INCREMENT NOT NULL PRIMARY KEY,\n  `agent_user_id` int NOT NULL,\n  `parent_agent_user_id` int,\n  `master_agent_user_id` int,\n  `depth` int NOT NULL DEFAULT 1,\n  `status` varchar(64) NOT NULL DEFAULT 'active',\n  `bound_at` timestamp NOT NULL DEFAULT now(),\n  `created_at` timestamp NOT NULL DEFAULT now(),\n  `updated_at` timestamp NOT NULL DEFAULT now(),\n  CONSTRAINT `promo_agent_relations_agent_user_id_unique` UNIQUE(`agent_user_id`),\n  CONSTRAINT `promo_agent_relations_agent_user_id_users_id_fk` FOREIGN KEY (`agent_user_id`) REFERENCES `users`(`id`) ON DELETE no action ON UPDATE no action,\n  CONSTRAINT `promo_agent_relations_parent_agent_user_id_users_id_fk` FOREIGN KEY (`parent_agent_user_id`) REFERENCES `users`(`id`) ON DELETE no action ON UPDATE no action,\n  CONSTRAINT `promo_agent_relations_master_agent_user_id_users_id_fk` FOREIGN KEY (`master_agent_user_id`) REFERENCES `users`(`id`) ON DELETE no action ON UPDATE no action\n);\n--> statement-breakpoint\nCREATE TABLE `promo_order_attributions` (\n  `id` int AUTO_INCREMENT NOT NULL PRIMARY KEY,\n  `order_id` varchar(191) NOT NULL,\n  `buyer_user_id` int,\n  `buyer_promo_member_id` int,\n  `invite_user_id` int,\n  `agent_user_id` int,\n  `parent_agent_user_id` int,\n  `master_agent_user_id` int,\n  `agent_tier_id_snapshot` int,\n  `agent_tier_name_snapshot` varchar(191),\n  `discount_rate_snapshot` real,\n  `source_type` varchar(64) NOT NULL DEFAULT 'direct',\n  `meta_data` json,\n  `created_at` timestamp NOT NULL DEFAULT now(),\n  CONSTRAINT `promo_order_attributions_order_id_idx` UNIQUE(`order_id`),\n  CONSTRAINT `promo_order_attributions_order_id_orders_id_fk` FOREIGN KEY (`order_id`) REFERENCES `orders`(`id`) ON DELETE no action ON UPDATE no action,\n  CONSTRAINT `promo_order_attributions_buyer_user_id_users_id_fk` FOREIGN KEY (`buyer_user_id`) REFERENCES `users`(`id`) ON DELETE no action ON UPDATE no action,\n  CONSTRAINT `promo_order_attr_buyer_member_fk` FOREIGN KEY (`buyer_promo_member_id`) REFERENCES `promo_members`(`id`) ON DELETE no action ON UPDATE no action,\n  CONSTRAINT `promo_order_attributions_invite_user_id_users_id_fk` FOREIGN KEY (`invite_user_id`) REFERENCES `users`(`id`) ON DELETE no action ON UPDATE no action,\n  CONSTRAINT `promo_order_attributions_agent_user_id_users_id_fk` FOREIGN KEY (`agent_user_id`) REFERENCES `users`(`id`) ON DELETE no action ON UPDATE no action,\n  CONSTRAINT `promo_order_attributions_parent_agent_user_id_users_id_fk` FOREIGN KEY (`parent_agent_user_id`) REFERENCES `users`(`id`) ON DELETE no action ON UPDATE no action,\n  CONSTRAINT `promo_order_attributions_master_agent_user_id_users_id_fk` FOREIGN KEY (`master_agent_user_id`) REFERENCES `users`(`id`) ON DELETE no action ON UPDATE no action\n);\n--> statement-breakpoint\nCREATE TABLE `promo_commissions` (\n  `id` int AUTO_INCREMENT NOT NULL PRIMARY KEY,\n  `order_id` varchar(191) NOT NULL,\n  `owner_user_id` int NOT NULL,\n  `owner_promo_member_id` int,\n  `type` varchar(64) NOT NULL,\n  `source_type` varchar(64) NOT NULL DEFAULT 'direct',\n  `amount` real NOT NULL,\n  `rate` real,\n  `status` varchar(64) NOT NULL DEFAULT 'pending',\n  `remark` text,\n  `meta_data` json,\n  `created_at` timestamp NOT NULL DEFAULT now(),\n  `updated_at` timestamp NOT NULL DEFAULT now(),\n  CONSTRAINT `promo_commissions_order_type_idx` UNIQUE(`order_id`,`type`),\n  CONSTRAINT `promo_commissions_order_id_orders_id_fk` FOREIGN KEY (`order_id`) REFERENCES `orders`(`id`) ON DELETE no action ON UPDATE no action,\n  CONSTRAINT `promo_commissions_owner_user_id_users_id_fk` FOREIGN KEY (`owner_user_id`) REFERENCES `users`(`id`) ON DELETE no action ON UPDATE no action,\n  CONSTRAINT `promo_commissions_owner_promo_member_id_promo_members_id_fk` FOREIGN KEY (`owner_promo_member_id`) REFERENCES `promo_members`(`id`) ON DELETE no action ON UPDATE no action\n);\n"},{"name":"0005_add_payment_method_locales","sql":"ALTER TABLE `payment_methods` ADD COLUMN `supported_locales` text;\n"},{"name":"0006_add_orders_currency","sql":"ALTER TABLE `orders` ADD COLUMN `currency` text NOT NULL DEFAULT ('USD');\n"},{"name":"0007_add_payment_failures","sql":"CREATE TABLE IF NOT EXISTS `payment_failures` (\n        `id` int AUTO_INCREMENT NOT NULL,\n        `order_id` text NOT NULL,\n        `card_bin` text,\n        `reason` text NOT NULL,\n        `amount` real,\n        `pay_method` text,\n        `contact_email` text,\n        `raw_response` text,\n        `visitor_id` text,\n        `created_at` timestamp NOT NULL DEFAULT (now()),\n        CONSTRAINT `payment_failures_id` PRIMARY KEY(`id`)\n);\n--> statement-breakpoint\nSET @has_old_payment_failures_source := (\n        SELECT COUNT(*)\n        FROM information_schema.tables\n        WHERE table_schema = DATABASE() AND table_name = 'failures'\n);\n--> statement-breakpoint\nSET @copy_payment_failures_sql := IF(\n        @has_old_payment_failures_source > 0,\n        'INSERT IGNORE INTO `payment_failures` (`id`, `order_id`, `card_bin`, `reason`, `amount`, `pay_method`, `contact_email`, `raw_response`, `visitor_id`, `created_at`) SELECT `id`, `order_id`, `card_bin`, `reason`, `amount`, `pay_method`, `contact_email`, `raw_response`, `visitor_id`, `created_at` FROM `failures`',\n        'SELECT 1'\n);\n--> statement-breakpoint\nPREPARE payment_failures_copy_stmt FROM @copy_payment_failures_sql;\n--> statement-breakpoint\nEXECUTE payment_failures_copy_stmt;\n--> statement-breakpoint\nDEALLOCATE PREPARE payment_failures_copy_stmt;\n--> statement-breakpoint\nSET @next_payment_failures_id := (SELECT COALESCE(MAX(`id`), 0) + 1 FROM `payment_failures`);\n--> statement-breakpoint\nSET @payment_failures_autoinc_sql := CONCAT('ALTER TABLE `payment_failures` AUTO_INCREMENT = ', @next_payment_failures_id);\n--> statement-breakpoint\nPREPARE payment_failures_autoinc_stmt FROM @payment_failures_autoinc_sql;\n--> statement-breakpoint\nEXECUTE payment_failures_autoinc_stmt;\n--> statement-breakpoint\nDEALLOCATE PREPARE payment_failures_autoinc_stmt;\n"},{"name":"0008_add_auth_and_event_rules","sql":"ALTER TABLE `users` ADD COLUMN `current_session_id` text;\n--> statement-breakpoint\nCREATE TABLE `user_tokens` (\n        `id` int AUTO_INCREMENT NOT NULL,\n        `user_id` int NOT NULL,\n        `token` varchar(191) NOT NULL,\n        `name` text,\n        `expires_at` timestamp,\n        `last_used_at` timestamp,\n        `revoked` boolean DEFAULT false NOT NULL,\n        `created_at` timestamp NOT NULL DEFAULT (now()),\n        CONSTRAINT `user_tokens_id` PRIMARY KEY(`id`),\n        CONSTRAINT `user_tokens_token_unique` UNIQUE(`token`),\n        CONSTRAINT `user_tokens_user_id_users_id_fk` FOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON DELETE no action ON UPDATE no action\n);\n--> statement-breakpoint\nCREATE TABLE `event_rules` (\n        `id` int AUTO_INCREMENT NOT NULL,\n        `event` text NOT NULL,\n        `action` text NOT NULL,\n        `config` json,\n        `enabled` boolean DEFAULT true NOT NULL,\n        `remark` text,\n        `created_at` timestamp NOT NULL DEFAULT (now()),\n        `updated_at` timestamp DEFAULT (now()),\n        CONSTRAINT `event_rules_id` PRIMARY KEY(`id`)\n);\n"},{"name":"0009_add_admin_permissions","sql":"ALTER TABLE `admins` ADD COLUMN `permissions` json;\n"},{"name":"0010_add_operation_logs","sql":"CREATE TABLE IF NOT EXISTS `operation_logs` (\n\t`id` int AUTO_INCREMENT NOT NULL,\n\t`actor_type` varchar(32) NOT NULL DEFAULT 'admin',\n\t`actor_id` int,\n\t`actor_name` varchar(191),\n\t`action` varchar(64) NOT NULL,\n\t`resource` varchar(64) NOT NULL,\n\t`resource_id` varchar(191),\n\t`summary` text,\n\t`details` text,\n\t`path` text NOT NULL,\n\t`method` varchar(16) NOT NULL,\n\t`status_code` int,\n\t`ip` varchar(64),\n\t`user_agent` text,\n\t`created_at` timestamp NOT NULL DEFAULT (now()),\n\tCONSTRAINT `operation_logs_id` PRIMARY KEY(`id`),\n\tINDEX `operation_logs_created_at_idx` (`created_at`),\n\tINDEX `operation_logs_actor_idx` (`actor_id`,`created_at`),\n\tINDEX `operation_logs_resource_idx` (`resource`,`resource_id`)\n);\n"},{"name":"0011_add_admin_tokens","sql":"CREATE TABLE `admin_tokens` (\n\t`id` int AUTO_INCREMENT NOT NULL,\n\t`admin_id` int NOT NULL,\n\t`token` varchar(191) NOT NULL,\n\t`name` text,\n\t`permissions` json,\n\t`expires_at` timestamp,\n\t`last_used_at` timestamp,\n\t`revoked` boolean DEFAULT false NOT NULL,\n\t`created_at` timestamp NOT NULL DEFAULT (now()),\n\tCONSTRAINT `admin_tokens_id` PRIMARY KEY(`id`),\n\tCONSTRAINT `admin_tokens_token_unique` UNIQUE(`token`),\n\tCONSTRAINT `admin_tokens_admin_id_admins_id_fk` FOREIGN KEY (`admin_id`) REFERENCES `admins`(`id`) ON DELETE no action ON UPDATE no action\n);\n"},{"name":"0012_add_balance_logs","sql":"CREATE TABLE IF NOT EXISTS `balance_logs` (\n\t`id` int AUTO_INCREMENT NOT NULL,\n\t`user_id` int NOT NULL,\n\t`balance_type` varchar(20) NOT NULL,\n\t`action_type` varchar(50) NOT NULL DEFAULT 'topup',\n\t`amount_cents` bigint NOT NULL,\n\t`before_balance_cents` bigint NOT NULL,\n\t`after_balance_cents` bigint NOT NULL,\n\t`event_id` varchar(191) NOT NULL,\n\t`source_type` varchar(32) NOT NULL DEFAULT 'system',\n\t`source_id` varchar(191),\n\t`operator_admin_id` int,\n\t`operator_name` varchar(100) NOT NULL DEFAULT '',\n\t`remark` text,\n\t`created_at` timestamp NOT NULL DEFAULT (now()),\n\tCONSTRAINT `balance_logs_id` PRIMARY KEY(`id`),\n\tCONSTRAINT `balance_logs_event_id_unique` UNIQUE(`event_id`)\n);\n--> statement-breakpoint\nCREATE INDEX `idx_balance_logs_user_created_at` ON `balance_logs` (`user_id`,`created_at`);\n"},{"name":"0013_add_order_source_idempotency","sql":"ALTER TABLE `orders` ADD COLUMN `source` varchar(64);\n--> statement-breakpoint\nALTER TABLE `orders` ADD COLUMN `external_order_id` varchar(128);\n--> statement-breakpoint\nCREATE UNIQUE INDEX `orders_source_external_order_unique` ON `orders` (`source`,`external_order_id`);\n"},{"name":"0014_add_user_sessions","sql":"CREATE TABLE IF NOT EXISTS `user_sessions` (\n  `id` int AUTO_INCREMENT PRIMARY KEY NOT NULL,\n  `user_id` int NOT NULL,\n  `session_id_hash` varchar(64) NOT NULL,\n  `status` varchar(32) DEFAULT 'active' NOT NULL,\n  `auth_method` varchar(32) DEFAULT 'password' NOT NULL,\n  `device_type` varchar(32),\n  `browser` varchar(64),\n  `os` varchar(64),\n  `user_agent` text,\n  `ip` varchar(64),\n  `country` varchar(100),\n  `region` varchar(100),\n  `city` varchar(100),\n  `logged_in_at` timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL,\n  `last_seen_at` timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL,\n  `ended_at` timestamp NULL,\n  `replaced_by_session_id` varchar(64),\n  `created_at` timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL,\n  CONSTRAINT `user_sessions_session_id_hash_unique` UNIQUE (`session_id_hash`),\n  CONSTRAINT `user_sessions_user_id_users_id_fk` FOREIGN KEY (`user_id`) REFERENCES `users`(`id`)\n);\n--> statement-breakpoint\nCREATE INDEX `user_sessions_user_status_idx` ON `user_sessions` (`user_id`, `status`);\n--> statement-breakpoint\nCREATE INDEX `user_sessions_last_seen_idx` ON `user_sessions` (`last_seen_at`);\n"},{"name":"0015_add_user_wallets","sql":"CREATE TABLE IF NOT EXISTS `user_wallets` (\n  `id` int AUTO_INCREMENT PRIMARY KEY NOT NULL,\n  `user_id` int NOT NULL,\n  `cash_balance` bigint DEFAULT 0 NOT NULL,\n  `grant_balance` bigint DEFAULT 0 NOT NULL,\n  `sub_balance` bigint DEFAULT 0 NOT NULL,\n  `points_balance` bigint DEFAULT 0 NOT NULL,\n  `tier_level` int DEFAULT 0 NOT NULL,\n  `sub_expires_at` timestamp NULL,\n  `status` int DEFAULT 1 NOT NULL,\n  `created_at` timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL,\n  CONSTRAINT `user_wallets_user_id_unique` UNIQUE (`user_id`),\n  CONSTRAINT `user_wallets_user_id_users_id_fk` FOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON DELETE cascade\n);\n--> statement-breakpoint\nINSERT IGNORE INTO `user_wallets` (\n  `user_id`, `cash_balance`, `grant_balance`, `sub_balance`, `points_balance`,\n  `tier_level`, `sub_expires_at`, `status`, `created_at`\n)\nSELECT\n  `id`, COALESCE(`cash_balance`, 0), COALESCE(`grant_balance`, 0), COALESCE(`sub_balance`, 0), 0,\n  COALESCE(`tier_level`, 0), `sub_expires_at`, COALESCE(`status`, 1), `created_at`\nFROM `users`;\n--> statement-breakpoint\nALTER TABLE `balance_logs` ADD COLUMN `wallet_id` int NULL;\n--> statement-breakpoint\nUPDATE `balance_logs` log\nJOIN `user_wallets` wallet ON wallet.`user_id` = log.`user_id`\nSET log.`wallet_id` = wallet.`id`\nWHERE log.`wallet_id` IS NULL;\n--> statement-breakpoint\nALTER TABLE `balance_logs` MODIFY COLUMN `wallet_id` int NOT NULL;\n--> statement-breakpoint\nALTER TABLE `balance_logs` ADD CONSTRAINT `balance_logs_wallet_id_user_wallets_id_fk` FOREIGN KEY (`wallet_id`) REFERENCES `user_wallets`(`id`);\n--> statement-breakpoint\nCREATE INDEX `idx_balance_logs_wallet_created_at` ON `balance_logs` (`wallet_id`, `created_at`);\n--> statement-breakpoint\nALTER TABLE `users`\n  DROP COLUMN `cash_balance`,\n  DROP COLUMN `grant_balance`,\n  DROP COLUMN `sub_balance`,\n  DROP COLUMN `sub_expires_at`,\n  DROP COLUMN `tier_level`;\n"},{"name":"0016_add_topups","sql":"CREATE TABLE IF NOT EXISTS `topups` (\n  `id` int AUTO_INCREMENT PRIMARY KEY NOT NULL,\n  `order_id` varchar(191) NOT NULL,\n  `user_id` int NOT NULL,\n  `wallet_id` int NOT NULL,\n  `source` varchar(32) DEFAULT 'order' NOT NULL,\n  `payment_amount` real NOT NULL,\n  `payment_currency` varchar(16) NOT NULL,\n  `credit_amount_cents` bigint NOT NULL,\n  `credit_currency` varchar(16) NOT NULL,\n  `exchange_rate` real DEFAULT 1 NOT NULL,\n  `balance_type` varchar(20) DEFAULT 'cash' NOT NULL,\n  `status` varchar(32) DEFAULT 'pending' NOT NULL,\n  `credit_event_id` varchar(255) NOT NULL,\n  `refund_event_id` varchar(255),\n  `retry_count` int DEFAULT 0 NOT NULL,\n  `shortfall_cents` bigint DEFAULT 0 NOT NULL,\n  `last_error` text,\n  `paid_at` timestamp NULL,\n  `credited_at` timestamp NULL,\n  `refunded_at` timestamp NULL,\n  `created_at` timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL,\n  `updated_at` timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL,\n  CONSTRAINT `topups_order_id_unique` UNIQUE (`order_id`),\n  CONSTRAINT `topups_credit_event_id_unique` UNIQUE (`credit_event_id`),\n  CONSTRAINT `topups_refund_event_id_unique` UNIQUE (`refund_event_id`),\n  CONSTRAINT `topups_user_id_users_id_fk` FOREIGN KEY (`user_id`) REFERENCES `users`(`id`),\n  CONSTRAINT `topups_wallet_id_user_wallets_id_fk` FOREIGN KEY (`wallet_id`) REFERENCES `user_wallets`(`id`)\n);\n--> statement-breakpoint\nINSERT IGNORE INTO `topups` (\n  `order_id`, `user_id`, `wallet_id`, `source`, `payment_amount`, `payment_currency`,\n  `credit_amount_cents`, `credit_currency`, `exchange_rate`, `balance_type`, `status`,\n  `credit_event_id`, `refund_event_id`, `last_error`, `paid_at`, `credited_at`, `refunded_at`,\n  `created_at`, `updated_at`\n)\nSELECT\n  orders.`id`, orders.`user_id`, wallets.`id`, COALESCE(orders.`source`, 'order'),\n  orders.`amount`, COALESCE(orders.`currency`, 'USD'),\n  COALESCE(credit_log.`amount_cents`, ROUND(COALESCE(JSON_UNQUOTE(JSON_EXTRACT(orders.`meta_data`, '$.recharge_amount')) + 0, orders.`amount`) * 100000000)),\n  COALESCE(JSON_UNQUOTE(JSON_EXTRACT(orders.`meta_data`, '$.display_unit')), orders.`currency`, 'USD'),\n  COALESCE(JSON_UNQUOTE(JSON_EXTRACT(orders.`meta_data`, '$.currencySnapshot.exchangeRate')) + 0, 1),\n  COALESCE(credit_log.`balance_type`, JSON_UNQUOTE(JSON_EXTRACT(orders.`meta_data`, '$.balance_type')), 'cash'),\n  CASE\n    WHEN orders.`pay_status` = 'refunded' AND credit_log.`id` IS NOT NULL AND refund_log.`id` IS NOT NULL THEN 'refunded'\n    WHEN refund_log.`id` IS NOT NULL THEN 'review_required'\n    WHEN orders.`pay_status` = 'refunded' THEN 'review_required'\n    WHEN orders.`pay_status` = 'paid' AND credit_log.`id` IS NOT NULL THEN 'credited'\n    WHEN credit_log.`id` IS NOT NULL THEN 'review_required'\n    WHEN orders.`pay_status` = 'paid' THEN 'review_required'\n    WHEN orders.`pay_status` = 'failed' THEN 'payment_failed'\n    ELSE 'pending'\n  END,\n  CONCAT('topup:', orders.`id`),\n  CASE WHEN refund_log.`id` IS NOT NULL THEN CONCAT('refund:', orders.`id`) ELSE NULL END,\n  CASE\n    WHEN refund_log.`id` IS NOT NULL AND (orders.`pay_status` <> 'refunded' OR credit_log.`id` IS NULL) THEN '历史退款流水与订单或到账流水不一致，需人工核对'\n    WHEN orders.`pay_status` = 'refunded' AND refund_log.`id` IS NULL THEN '历史退款订单没有可确认的 APay 退款流水，需人工核对'\n    WHEN credit_log.`id` IS NOT NULL AND orders.`pay_status` <> 'paid' THEN '历史到账流水与订单支付状态不一致，需人工核对'\n    WHEN orders.`pay_status` = 'paid' AND credit_log.`id` IS NULL THEN '历史订单没有可确认的 APay 到账流水，禁止自动补发'\n    ELSE NULL\n  END,\n  orders.`paid_at`, credit_log.`created_at`, refund_log.`created_at`, orders.`created_at`, CURRENT_TIMESTAMP\nFROM `orders` orders\nJOIN `products` products ON products.`id` = orders.`product_id` AND products.`type` = 'topup'\nJOIN `user_wallets` wallets ON wallets.`user_id` = orders.`user_id`\nLEFT JOIN `balance_logs` credit_log ON credit_log.`event_id` = CONCAT('topup:', orders.`id`)\nLEFT JOIN `balance_logs` refund_log ON refund_log.`event_id` = CONCAT('refund:', orders.`id`)\nWHERE COALESCE(products.`slug`, '') <> 'minimal-checkout-recharge'\n  OR JSON_UNQUOTE(JSON_EXTRACT(orders.`meta_data`, '$.checkoutBridge.attach.walletOwner')) = 'apay';\n--> statement-breakpoint\nCREATE INDEX `idx_topups_user_created_at` ON `topups` (`user_id`, `created_at`);\n--> statement-breakpoint\nCREATE INDEX `idx_topups_status_updated_at` ON `topups` (`status`, `updated_at`);\n"},{"name":"0017_add_email_logs","sql":"CREATE TABLE IF NOT EXISTS `email_logs` (\n  `id` int AUTO_INCREMENT PRIMARY KEY NOT NULL,\n  `to` text NOT NULL,\n  `subject` text NOT NULL,\n  `template_code` text,\n  `html` text,\n  `provider` text,\n  `status` varchar(32) DEFAULT 'success' NOT NULL,\n  `message_id` text,\n  `error` text,\n  `created_at` timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL\n);\n--> statement-breakpoint\nCREATE INDEX `email_logs_status_idx` ON `email_logs` (`status`);\n--> statement-breakpoint\nCREATE INDEX `email_logs_created_at_idx` ON `email_logs` (`created_at`);\n"},{"name":"0018_add_products_status","sql":"ALTER TABLE `products` ADD COLUMN `status` text NOT NULL DEFAULT ('active');\n--> statement-breakpoint\nUPDATE `products` SET `status` = 'inactive' WHERE `is_active` = false;\n"},{"name":"0019_add_promo_applications_and_tickets","sql":"CREATE TABLE IF NOT EXISTS `promo_applications` (\n  `id` int AUTO_INCREMENT PRIMARY KEY NOT NULL,\n  `user_id` int NOT NULL,\n  `status` varchar(64) DEFAULT 'pending' NOT NULL,\n  `channel_info` text,\n  `contact` text,\n  `reason` text,\n  `review_note` text,\n  `reviewed_by_admin_id` int,\n  `reviewed_at` timestamp NULL,\n  `created_at` timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL,\n  `updated_at` timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL,\n  CONSTRAINT `promo_applications_user_id_users_id_fk` FOREIGN KEY (`user_id`) REFERENCES `users`(`id`)\n);\n--> statement-breakpoint\nCREATE TABLE IF NOT EXISTS `tickets` (\n  `id` int AUTO_INCREMENT PRIMARY KEY NOT NULL,\n  `ticket_no` varchar(64) NOT NULL,\n  `user_id` int NOT NULL,\n  `category` varchar(64) DEFAULT 'other' NOT NULL,\n  `title` text NOT NULL,\n  `status` varchar(32) DEFAULT 'open' NOT NULL,\n  `priority` varchar(32) DEFAULT 'normal' NOT NULL,\n  `context` json,\n  `last_replied_at` timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL,\n  `last_replied_by` varchar(32) DEFAULT 'user' NOT NULL,\n  `created_at` timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL,\n  `updated_at` timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL,\n  CONSTRAINT `tickets_ticket_no_unique` UNIQUE (`ticket_no`),\n  CONSTRAINT `tickets_user_id_users_id_fk` FOREIGN KEY (`user_id`) REFERENCES `users`(`id`),\n  INDEX `tickets_user_id_idx` (`user_id`),\n  INDEX `tickets_status_idx` (`status`),\n  INDEX `tickets_category_idx` (`category`),\n  INDEX `tickets_last_replied_at_idx` (`last_replied_at`)\n);\n--> statement-breakpoint\nCREATE TABLE IF NOT EXISTS `ticket_messages` (\n  `id` int AUTO_INCREMENT PRIMARY KEY NOT NULL,\n  `ticket_id` int NOT NULL,\n  `sender_type` varchar(32) NOT NULL,\n  `sender_id` int,\n  `sender_name` varchar(128) DEFAULT '' NOT NULL,\n  `content` text NOT NULL,\n  `attachments` json,\n  `created_at` timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL,\n  CONSTRAINT `ticket_messages_ticket_id_tickets_id_fk` FOREIGN KEY (`ticket_id`) REFERENCES `tickets`(`id`) ON DELETE CASCADE,\n  INDEX `ticket_messages_ticket_id_idx` (`ticket_id`),\n  INDEX `ticket_messages_created_at_idx` (`created_at`)\n);\n"},{"name":"0020_purge_legacy_password_reset_tokens","sql":"-- 找回密码的令牌口径已收归核心（server/utils/passwordReset.ts，只存 sha256，\n-- name 统一为 'password_reset'）。这里清掉两个主题各自实现时留下的旧行：\n--   qingpu_password_reset —— 曾以**明文**入库。核心鉴权中间件按 user_tokens.token\n--     查 Bearer / X-Api-Key，当时只排除 email_verify，因此这些行同时是一把\n--     有效期 1 小时的全权限 API Key，必须清。\n--   shoply_password_reset —— 存的是哈希，不构成漏洞，但改名后永远不会再被消费。\n-- 在途的重置链接一并作废，用户重新申请即可。\nDELETE FROM `user_tokens` WHERE `name` IN ('qingpu_password_reset', 'shoply_password_reset');\n"},{"name":"0021_topups_wallet_optional","sql":"-- AINode 钱包模式下充值台账不再绑定钱包：wallet_id 放宽为可空，外键保持不变。\nALTER TABLE `topups` MODIFY `wallet_id` int NULL;\n"},{"name":"0022_add_comments","sql":"CREATE TABLE IF NOT EXISTS `comments` (\n\t`id` int AUTO_INCREMENT PRIMARY KEY NOT NULL,\n\t`target_type` varchar(32) NOT NULL,\n\t`target_id` varchar(191) NOT NULL,\n\t`user_id` int,\n\t`author_name` varchar(100) NOT NULL,\n\t`author_email` varchar(255),\n\t`author_url` text,\n\t`content` text NOT NULL,\n\t`parent_id` int,\n\t`status` varchar(32) DEFAULT 'approved' NOT NULL,\n\t`ip` varchar(64),\n\t`user_agent` text,\n\t`created_at` timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL,\n\t`updated_at` timestamp DEFAULT CURRENT_TIMESTAMP,\n\tCONSTRAINT `comments_user_id_users_id_fk` FOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON DELETE SET NULL,\n\tINDEX `comments_target_status_idx` (`target_type`, `target_id`, `status`, `created_at`),\n\tINDEX `comments_user_id_idx` (`user_id`),\n\tINDEX `comments_parent_id_idx` (`parent_id`)\n);\n"},{"name":"0023_repair_schema_alignment","sql":"-- Append-only repair; tolerate sites whose schema was already updated via push.\nCREATE TABLE IF NOT EXISTS `email_providers` (\n  `id` int AUTO_INCREMENT NOT NULL,\n  `name` text NOT NULL,\n  `code` text NOT NULL,\n  `is_active` boolean NOT NULL DEFAULT false,\n  `config_json` text,\n  `send_script` text,\n  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,\n  CONSTRAINT `email_providers_id` PRIMARY KEY (`id`)\n);\n--> statement-breakpoint\nSET @apay_visitor_events_ip_ddl = (\n  SELECT IF(COUNT(*) = 0, 'ALTER TABLE `visitor_events` ADD COLUMN `ip` text', 'SELECT 1')\n  FROM information_schema.columns\n  WHERE table_schema = DATABASE() AND table_name = 'visitor_events' AND column_name = 'ip'\n);\n--> statement-breakpoint\nPREPARE apay_visitor_events_ip_stmt FROM @apay_visitor_events_ip_ddl;\n--> statement-breakpoint\nEXECUTE apay_visitor_events_ip_stmt;\n--> statement-breakpoint\nDEALLOCATE PREPARE apay_visitor_events_ip_stmt;\n--> statement-breakpoint\nSET @apay_visitor_profiles_ip_ddl = (\n  SELECT IF(COUNT(*) = 0, 'ALTER TABLE `visitor_profiles` ADD COLUMN `ip` text', 'SELECT 1')\n  FROM information_schema.columns\n  WHERE table_schema = DATABASE() AND table_name = 'visitor_profiles' AND column_name = 'ip'\n);\n--> statement-breakpoint\nPREPARE apay_visitor_profiles_ip_stmt FROM @apay_visitor_profiles_ip_ddl;\n--> statement-breakpoint\nEXECUTE apay_visitor_profiles_ip_stmt;\n--> statement-breakpoint\nDEALLOCATE PREPARE apay_visitor_profiles_ip_stmt;\n"},{"name":"0024_add_likes_and_interaction_counters","sql":"CREATE TABLE IF NOT EXISTS `likes` (\n\t`id` int AUTO_INCREMENT PRIMARY KEY NOT NULL,\n\t`target_type` varchar(32) NOT NULL,\n\t`target_id` varchar(191) NOT NULL,\n\t`user_id` int,\n\t`visitor_id` varchar(191) NOT NULL,\n\t`ip` varchar(64),\n\t`user_agent` text,\n\t`created_at` timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL,\n\tCONSTRAINT `likes_user_id_users_id_fk` FOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON DELETE CASCADE,\n\tINDEX `likes_target_idx` (`target_type`, `target_id`),\n\tINDEX `likes_target_user_idx` (`target_type`, `target_id`, `user_id`),\n\tINDEX `likes_target_visitor_idx` (`target_type`, `target_id`, `visitor_id`)\n);\n--> statement-breakpoint\nALTER TABLE `products` ADD COLUMN `likes` int NOT NULL DEFAULT 0;\n--> statement-breakpoint\nALTER TABLE `posts` ADD COLUMN `likes` int NOT NULL DEFAULT 0;\n--> statement-breakpoint\nALTER TABLE `posts` ADD COLUMN `comments` int NOT NULL DEFAULT 0;\n--> statement-breakpoint\nALTER TABLE `comments` ADD COLUMN `likes` int NOT NULL DEFAULT 0;\n"},{"name":"0025_add_comment_sync_source","sql":"ALTER TABLE `comments` ADD COLUMN `source` varchar(32) DEFAULT 'local' NOT NULL;\n--> statement-breakpoint\nALTER TABLE `comments` ADD COLUMN `external_id` varchar(128);\n--> statement-breakpoint\nALTER TABLE `comments` ADD COLUMN `external_url` text;\n--> statement-breakpoint\nALTER TABLE `comments` ADD COLUMN `extra_data` json;\n--> statement-breakpoint\nCREATE INDEX `comments_source_external_idx` ON `comments` (`target_type`, `target_id`, `source`, `external_id`);\n"},{"name":"0026_add_comment_sync_sources","sql":"CREATE TABLE IF NOT EXISTS `comment_sync_sources` (\n\t`id` int AUTO_INCREMENT NOT NULL,\n\t`target_type` varchar(32) NOT NULL,\n\t`target_id` varchar(191) NOT NULL,\n\t`source` varchar(32) NOT NULL,\n\t`external_id` varchar(128) NOT NULL,\n\t`external_url` text,\n\t`auto_sync` boolean NOT NULL DEFAULT true,\n\t`sync_interval` int NOT NULL DEFAULT 60,\n\t`default_status` varchar(32) NOT NULL DEFAULT 'approved',\n\t`last_synced_at` timestamp,\n\t`last_sync_status` varchar(32) NOT NULL DEFAULT 'idle',\n\t`last_error` text,\n\t`total_synced` int NOT NULL DEFAULT 0,\n\t`extra_data` json,\n\t`created_at` timestamp NOT NULL DEFAULT (now()),\n\t`updated_at` timestamp DEFAULT (now()),\n\tCONSTRAINT `comment_sync_sources_id` PRIMARY KEY(`id`),\n\tCONSTRAINT `comment_sync_sources_target_source_unique` UNIQUE(`target_type`,`target_id`,`source`)\n);\n--> statement-breakpoint\nCREATE INDEX `comment_sync_sources_auto_sync_idx` ON `comment_sync_sources` (`auto_sync`,`last_synced_at`);\n"}]},"probeTable":"settings","bootstrap":{"sqlite":{"through":"0025_add_comments","sql":"-- Fresh SQLite databases only. Baseline through 0025_add_comments.\nCREATE TABLE `access_logs` (\n\t`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,\n\t`path` text NOT NULL,\n\t`method` text NOT NULL,\n\t`ip` text,\n\t`user_agent` text,\n\t`referrer` text,\n\t`country` text,\n\t`region` text,\n\t`city` text,\n\t`status_code` integer,\n\t`duration` real,\n\t`visitor_id` text,\n\t`user_id` integer,\n\t`created_at` integer DEFAULT (unixepoch()) NOT NULL,\n\tFOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON UPDATE no action ON DELETE no action\n);\n\n--> statement-breakpoint\nCREATE TABLE `admin_tokens` (\n\t`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,\n\t`admin_id` integer NOT NULL,\n\t`token` text NOT NULL,\n\t`name` text,\n\t`permissions` text,\n\t`expires_at` integer,\n\t`last_used_at` integer,\n\t`revoked` integer DEFAULT 0 NOT NULL,\n\t`created_at` integer DEFAULT (unixepoch()) NOT NULL,\n\tFOREIGN KEY (`admin_id`) REFERENCES `admins`(`id`) ON UPDATE no action ON DELETE no action\n);\n\n--> statement-breakpoint\nCREATE UNIQUE INDEX `admin_tokens_token_unique` ON `admin_tokens` (`token`);\n--> statement-breakpoint\nCREATE TABLE `admins` (\n\t`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,\n\t`username` text NOT NULL,\n\t`password_hash` text NOT NULL,\n\t`permissions` text,\n\t`created_at` integer DEFAULT (unixepoch()) NOT NULL\n);\n\n--> statement-breakpoint\nCREATE UNIQUE INDEX `admins_username_unique` ON `admins` (`username`);\n--> statement-breakpoint\nCREATE TABLE `balance_logs` (\n\t`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,\n\t`user_id` integer NOT NULL,\n\t`wallet_id` integer NOT NULL,\n\t`balance_type` text NOT NULL,\n\t`action_type` text DEFAULT 'topup' NOT NULL,\n\t`amount_cents` integer NOT NULL,\n\t`before_balance_cents` integer NOT NULL,\n\t`after_balance_cents` integer NOT NULL,\n\t`event_id` text NOT NULL,\n\t`source_type` text DEFAULT 'system' NOT NULL,\n\t`source_id` text,\n\t`operator_admin_id` integer,\n\t`operator_name` text DEFAULT '' NOT NULL,\n\t`remark` text DEFAULT '' NOT NULL,\n\t`created_at` integer DEFAULT (unixepoch()) NOT NULL,\n\tFOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON UPDATE no action ON DELETE no action,\n\tFOREIGN KEY (`wallet_id`) REFERENCES `user_wallets`(`id`) ON UPDATE no action ON DELETE no action\n);\n\n--> statement-breakpoint\nCREATE UNIQUE INDEX `balance_logs_event_id_unique` ON `balance_logs` (`event_id`);\n--> statement-breakpoint\nCREATE INDEX `idx_balance_logs_wallet_created_at` ON `balance_logs` (`wallet_id`,`created_at`);\n--> statement-breakpoint\nCREATE TABLE `cards` (\n\t`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,\n\t`product_id` integer NOT NULL,\n\t`card_number` text NOT NULL,\n\t`is_used` integer DEFAULT false NOT NULL,\n\t`order_id` text,\n\t`created_at` integer DEFAULT (unixepoch()) NOT NULL,\n\tFOREIGN KEY (`product_id`) REFERENCES `products`(`id`) ON UPDATE no action ON DELETE no action\n);\n\n--> statement-breakpoint\nCREATE TABLE `comments` (\n\t`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,\n\t`target_type` text NOT NULL,\n\t`target_id` text NOT NULL,\n\t`user_id` integer,\n\t`author_name` text NOT NULL,\n\t`author_email` text,\n\t`author_url` text,\n\t`content` text NOT NULL,\n\t`parent_id` integer,\n\t`status` text DEFAULT 'approved' NOT NULL,\n\t`ip` text,\n\t`user_agent` text,\n\t`created_at` integer DEFAULT (unixepoch()) NOT NULL,\n\t`updated_at` integer DEFAULT (unixepoch()),\n\tFOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON UPDATE no action ON DELETE set null\n);\n\n--> statement-breakpoint\nCREATE INDEX `comments_target_status_idx` ON `comments` (`target_type`,`target_id`,`status`,`created_at`);\n--> statement-breakpoint\nCREATE INDEX `comments_user_id_idx` ON `comments` (`user_id`);\n--> statement-breakpoint\nCREATE INDEX `comments_parent_id_idx` ON `comments` (`parent_id`);\n--> statement-breakpoint\nCREATE TABLE `email_logs` (\n\t`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,\n\t`to` text NOT NULL,\n\t`subject` text NOT NULL,\n\t`template_code` text,\n\t`html` text,\n\t`provider` text,\n\t`status` text DEFAULT 'success' NOT NULL,\n\t`message_id` text,\n\t`error` text,\n\t`created_at` integer DEFAULT (unixepoch()) NOT NULL\n);\n\n--> statement-breakpoint\nCREATE TABLE `email_providers` (\n\t`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,\n\t`name` text NOT NULL,\n\t`code` text NOT NULL,\n\t`is_active` integer DEFAULT false NOT NULL,\n\t`config_json` text,\n\t`send_script` text,\n\t`created_at` integer DEFAULT (unixepoch()) NOT NULL\n);\n\n--> statement-breakpoint\nCREATE TABLE `event_rules` (\n\t`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,\n\t`event` text NOT NULL,\n\t`action` text NOT NULL,\n\t`config` text,\n\t`enabled` integer DEFAULT true NOT NULL,\n\t`remark` text,\n\t`created_at` integer DEFAULT (unixepoch()) NOT NULL,\n\t`updated_at` integer\n);\n\n--> statement-breakpoint\nCREATE TABLE `payment_failures` (\n\t`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,\n\t`order_id` text NOT NULL,\n\t`card_bin` text,\n\t`reason` text NOT NULL,\n\t`amount` real,\n\t`pay_method` text,\n\t`contact_email` text,\n\t`raw_response` text,\n\t`visitor_id` text,\n\t`created_at` integer DEFAULT (unixepoch()) NOT NULL\n);\n\n--> statement-breakpoint\nCREATE TABLE `logs` (\n\t`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,\n\t`level` text DEFAULT 'info' NOT NULL,\n\t`message` text NOT NULL,\n\t`details` text,\n\t`source` text,\n\t`created_at` integer DEFAULT (unixepoch()) NOT NULL\n);\n\n--> statement-breakpoint\nCREATE TABLE `notifications` (\n\t`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,\n\t`user_id` integer,\n\t`visitor_id` text,\n\t`type` text NOT NULL,\n\t`title` text NOT NULL,\n\t`message` text NOT NULL,\n\t`data` text,\n\t`is_read` integer DEFAULT false NOT NULL,\n\t`created_at` integer DEFAULT (unixepoch()) NOT NULL,\n\tFOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON UPDATE no action ON DELETE no action\n);\n\n--> statement-breakpoint\nCREATE TABLE `oauth_accounts` (\n\t`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,\n\t`user_id` integer NOT NULL,\n\t`provider` text NOT NULL,\n\t`provider_account_id` text NOT NULL,\n\t`created_at` integer DEFAULT (unixepoch()) NOT NULL,\n\tFOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON UPDATE no action ON DELETE no action\n);\n\n--> statement-breakpoint\nCREATE TABLE `operation_logs` (\n\t`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,\n\t`actor_type` text DEFAULT 'admin' NOT NULL,\n\t`actor_id` integer,\n\t`actor_name` text,\n\t`action` text NOT NULL,\n\t`resource` text NOT NULL,\n\t`resource_id` text,\n\t`summary` text,\n\t`details` text,\n\t`path` text NOT NULL,\n\t`method` text NOT NULL,\n\t`status_code` integer,\n\t`ip` text,\n\t`user_agent` text,\n\t`created_at` integer DEFAULT (unixepoch()) NOT NULL\n);\n\n--> statement-breakpoint\nCREATE INDEX `operation_logs_created_at_idx` ON `operation_logs` (`created_at`);\n--> statement-breakpoint\nCREATE INDEX `operation_logs_actor_idx` ON `operation_logs` (`actor_id`,`created_at`);\n--> statement-breakpoint\nCREATE INDEX `operation_logs_resource_idx` ON `operation_logs` (`resource`,`resource_id`);\n--> statement-breakpoint\nCREATE TABLE `orders` (\n\t`id` text PRIMARY KEY NOT NULL,\n\t`amount` real NOT NULL,\n\t`currency` text DEFAULT 'USD' NOT NULL,\n\t`source` text,\n\t`external_order_id` text,\n\t`product_id` integer NOT NULL,\n\t`user_id` integer,\n\t`contact_email` text NOT NULL,\n\t`pay_method` text,\n\t`trade_no` text,\n\t`status` text DEFAULT 'none' NOT NULL,\n\t`delivery_info` text,\n\t`meta_data` text,\n\t`visitor_id` text,\n\t`subscription_id` text,\n\t`created_at` integer DEFAULT (unixepoch()) NOT NULL,\n\t`paid_at` integer,\n\t`pay_status` text DEFAULT 'pending' NOT NULL,\n\tFOREIGN KEY (`product_id`) REFERENCES `products`(`id`) ON UPDATE no action ON DELETE no action,\n\tFOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON UPDATE no action ON DELETE no action\n);\n\n--> statement-breakpoint\nCREATE UNIQUE INDEX `orders_source_external_order_unique` ON `orders` (`source`,`external_order_id`);\n--> statement-breakpoint\nCREATE TABLE `payment_methods` (\n\t`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,\n\t`name` text NOT NULL,\n\t`code` text NOT NULL,\n\t`icon_url` text,\n\t`is_active` integer DEFAULT false NOT NULL,\n\t`supported_locales` text,\n\t`config_json` text,\n\t`info` text,\n\t`create` text,\n\t`callback` text,\n\t`created_at` integer DEFAULT (unixepoch()) NOT NULL\n);\n\n--> statement-breakpoint\nCREATE TABLE `posts` (\n\t`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,\n\t`key` text,\n\t`sort` integer,\n\t`slug` text NOT NULL,\n\t`title` text NOT NULL,\n\t`description` text,\n\t`content` text,\n\t`type` text DEFAULT 'blog' NOT NULL,\n\t`image_url` text,\n\t`views` integer DEFAULT 0 NOT NULL,\n\t`is_active` integer DEFAULT true NOT NULL,\n\t`meta_data` text,\n\t`created_at` integer DEFAULT (unixepoch()) NOT NULL,\n\t`updated_at` integer DEFAULT (unixepoch())\n);\n\n--> statement-breakpoint\nCREATE UNIQUE INDEX `posts_slug_unique` ON `posts` (`slug`);\n--> statement-breakpoint\nCREATE TABLE `products` (\n\t`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,\n\t`slug` text,\n\t`name` text NOT NULL,\n\t`price` real NOT NULL,\n\t`description` text,\n\t`content` text,\n\t`type` text NOT NULL,\n\t`image_url` text,\n\t`views` integer DEFAULT 0 NOT NULL,\n\t`image_urls` text,\n\t`resource` text,\n\t`is_active` integer DEFAULT true NOT NULL,\n\t`status` text DEFAULT 'active' NOT NULL,\n\t`meta_data` text,\n\t`sort_order` integer DEFAULT 0 NOT NULL,\n\t`created_at` integer DEFAULT (unixepoch()) NOT NULL\n);\n\n--> statement-breakpoint\nCREATE UNIQUE INDEX `products_slug_unique` ON `products` (`slug`);\n--> statement-breakpoint\nCREATE TABLE `promo_agent_relations` (\n\t`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,\n\t`agent_user_id` integer NOT NULL,\n\t`parent_agent_user_id` integer,\n\t`master_agent_user_id` integer,\n\t`depth` integer DEFAULT 1 NOT NULL,\n\t`status` text DEFAULT 'active' NOT NULL,\n\t`bound_at` integer DEFAULT (unixepoch()) NOT NULL,\n\t`created_at` integer DEFAULT (unixepoch()) NOT NULL,\n\t`updated_at` integer DEFAULT (unixepoch()) NOT NULL,\n\tFOREIGN KEY (`agent_user_id`) REFERENCES `users`(`id`) ON UPDATE no action ON DELETE no action,\n\tFOREIGN KEY (`parent_agent_user_id`) REFERENCES `users`(`id`) ON UPDATE no action ON DELETE no action,\n\tFOREIGN KEY (`master_agent_user_id`) REFERENCES `users`(`id`) ON UPDATE no action ON DELETE no action\n);\n\n--> statement-breakpoint\nCREATE UNIQUE INDEX `promo_agent_relations_agent_user_id_unique` ON `promo_agent_relations` (`agent_user_id`);\n--> statement-breakpoint\nCREATE TABLE `promo_agent_tiers` (\n\t`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,\n\t`code` text NOT NULL,\n\t`name` text NOT NULL,\n\t`role_scope` text DEFAULT 'agent' NOT NULL,\n\t`level` integer DEFAULT 1 NOT NULL,\n\t`discount_rate` real DEFAULT 1 NOT NULL,\n\t`sales_threshold` real DEFAULT 0 NOT NULL,\n\t`is_fixed` integer DEFAULT false NOT NULL,\n\t`is_active` integer DEFAULT true NOT NULL,\n\t`description` text,\n\t`created_at` integer DEFAULT (unixepoch()) NOT NULL,\n\t`updated_at` integer DEFAULT (unixepoch()) NOT NULL\n);\n\n--> statement-breakpoint\nCREATE UNIQUE INDEX `promo_agent_tiers_code_unique` ON `promo_agent_tiers` (`code`);\n--> statement-breakpoint\nCREATE TABLE `promo_applications` (\n\t`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,\n\t`user_id` integer NOT NULL,\n\t`status` text DEFAULT 'pending' NOT NULL,\n\t`channel_info` text,\n\t`contact` text,\n\t`reason` text,\n\t`review_note` text,\n\t`reviewed_by_admin_id` integer,\n\t`reviewed_at` integer,\n\t`created_at` integer DEFAULT (unixepoch()) NOT NULL,\n\t`updated_at` integer DEFAULT (unixepoch()) NOT NULL,\n\tFOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON UPDATE no action ON DELETE no action\n);\n\n--> statement-breakpoint\nCREATE TABLE `promo_commissions` (\n\t`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,\n\t`order_id` text NOT NULL,\n\t`owner_user_id` integer NOT NULL,\n\t`owner_promo_member_id` integer,\n\t`type` text NOT NULL,\n\t`source_type` text DEFAULT 'direct' NOT NULL,\n\t`amount` real NOT NULL,\n\t`rate` real,\n\t`status` text DEFAULT 'pending' NOT NULL,\n\t`remark` text,\n\t`meta_data` text,\n\t`created_at` integer DEFAULT (unixepoch()) NOT NULL,\n\t`updated_at` integer DEFAULT (unixepoch()) NOT NULL,\n\tFOREIGN KEY (`order_id`) REFERENCES `orders`(`id`) ON UPDATE no action ON DELETE no action,\n\tFOREIGN KEY (`owner_user_id`) REFERENCES `users`(`id`) ON UPDATE no action ON DELETE no action,\n\tFOREIGN KEY (`owner_promo_member_id`) REFERENCES `promo_members`(`id`) ON UPDATE no action ON DELETE no action\n);\n\n--> statement-breakpoint\nCREATE UNIQUE INDEX `promo_commissions_order_type_idx` ON `promo_commissions` (`order_id`,`type`);\n--> statement-breakpoint\nCREATE TABLE `promo_invite_relations` (\n\t`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,\n\t`invitee_user_id` integer NOT NULL,\n\t`inviter_user_id` integer NOT NULL,\n\t`source` text DEFAULT 'register' NOT NULL,\n\t`code_snapshot` text,\n\t`bound_at` integer DEFAULT (unixepoch()) NOT NULL,\n\t`created_at` integer DEFAULT (unixepoch()) NOT NULL,\n\tFOREIGN KEY (`invitee_user_id`) REFERENCES `users`(`id`) ON UPDATE no action ON DELETE no action,\n\tFOREIGN KEY (`inviter_user_id`) REFERENCES `users`(`id`) ON UPDATE no action ON DELETE no action\n);\n\n--> statement-breakpoint\nCREATE UNIQUE INDEX `promo_invite_relations_invitee_user_id_unique` ON `promo_invite_relations` (`invitee_user_id`);\n--> statement-breakpoint\nCREATE TABLE `promo_members` (\n\t`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,\n\t`user_id` integer NOT NULL,\n\t`role` text DEFAULT 'member' NOT NULL,\n\t`status` text DEFAULT 'active' NOT NULL,\n\t`promo_code` text NOT NULL,\n\t`invite_code` text NOT NULL,\n\t`agent_code` text,\n\t`current_agent_tier_id` integer,\n\t`joined_at` integer DEFAULT (unixepoch()) NOT NULL,\n\t`created_at` integer DEFAULT (unixepoch()) NOT NULL,\n\t`updated_at` integer DEFAULT (unixepoch()) NOT NULL,\n\tFOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON UPDATE no action ON DELETE no action,\n\tFOREIGN KEY (`current_agent_tier_id`) REFERENCES `promo_agent_tiers`(`id`) ON UPDATE no action ON DELETE no action\n);\n\n--> statement-breakpoint\nCREATE UNIQUE INDEX `promo_members_user_id_unique` ON `promo_members` (`user_id`);\n--> statement-breakpoint\nCREATE UNIQUE INDEX `promo_members_promo_code_unique` ON `promo_members` (`promo_code`);\n--> statement-breakpoint\nCREATE UNIQUE INDEX `promo_members_invite_code_unique` ON `promo_members` (`invite_code`);\n--> statement-breakpoint\nCREATE UNIQUE INDEX `promo_members_agent_code_unique` ON `promo_members` (`agent_code`);\n--> statement-breakpoint\nCREATE TABLE `promo_order_attributions` (\n\t`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,\n\t`order_id` text NOT NULL,\n\t`buyer_user_id` integer,\n\t`buyer_promo_member_id` integer,\n\t`invite_user_id` integer,\n\t`agent_user_id` integer,\n\t`parent_agent_user_id` integer,\n\t`master_agent_user_id` integer,\n\t`agent_tier_id_snapshot` integer,\n\t`agent_tier_name_snapshot` text,\n\t`discount_rate_snapshot` real,\n\t`source_type` text DEFAULT 'direct' NOT NULL,\n\t`meta_data` text,\n\t`created_at` integer DEFAULT (unixepoch()) NOT NULL,\n\tFOREIGN KEY (`order_id`) REFERENCES `orders`(`id`) ON UPDATE no action ON DELETE no action,\n\tFOREIGN KEY (`buyer_user_id`) REFERENCES `users`(`id`) ON UPDATE no action ON DELETE no action,\n\tFOREIGN KEY (`buyer_promo_member_id`) REFERENCES `promo_members`(`id`) ON UPDATE no action ON DELETE no action,\n\tFOREIGN KEY (`invite_user_id`) REFERENCES `users`(`id`) ON UPDATE no action ON DELETE no action,\n\tFOREIGN KEY (`agent_user_id`) REFERENCES `users`(`id`) ON UPDATE no action ON DELETE no action,\n\tFOREIGN KEY (`parent_agent_user_id`) REFERENCES `users`(`id`) ON UPDATE no action ON DELETE no action,\n\tFOREIGN KEY (`master_agent_user_id`) REFERENCES `users`(`id`) ON UPDATE no action ON DELETE no action\n);\n\n--> statement-breakpoint\nCREATE UNIQUE INDEX `promo_order_attributions_order_id_unique` ON `promo_order_attributions` (`order_id`);\n--> statement-breakpoint\nCREATE TABLE `settings` (\n\t`key` text PRIMARY KEY NOT NULL,\n\t`value` text NOT NULL,\n\t`description` text,\n\t`updated_at` integer DEFAULT (unixepoch() * 1000)\n);\n\n--> statement-breakpoint\nCREATE TABLE `subscriptions` (\n\t`id` text PRIMARY KEY NOT NULL,\n\t`gateway_sub_id` text,\n\t`user_id` integer,\n\t`product_id` integer NOT NULL,\n\t`pay_method` text NOT NULL,\n\t`status` text DEFAULT 'active' NOT NULL,\n\t`interval` text NOT NULL,\n\t`interval_count` integer DEFAULT 1 NOT NULL,\n\t`amount` real NOT NULL,\n\t`currency` text DEFAULT 'USD' NOT NULL,\n\t`current_period_start` integer,\n\t`current_period_end` integer,\n\t`cancel_at_period_end` integer DEFAULT false,\n\t`meta_data` text,\n\t`created_at` integer DEFAULT (unixepoch()) NOT NULL,\n\t`updated_at` integer DEFAULT (unixepoch()),\n\tFOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON UPDATE no action ON DELETE no action,\n\tFOREIGN KEY (`product_id`) REFERENCES `products`(`id`) ON UPDATE no action ON DELETE no action\n);\n\n--> statement-breakpoint\nCREATE TABLE `ticket_messages` (\n\t`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,\n\t`ticket_id` integer NOT NULL,\n\t`sender_type` text NOT NULL,\n\t`sender_id` integer,\n\t`sender_name` text DEFAULT '' NOT NULL,\n\t`content` text NOT NULL,\n\t`attachments` text,\n\t`created_at` integer DEFAULT (unixepoch()) NOT NULL,\n\tFOREIGN KEY (`ticket_id`) REFERENCES `tickets`(`id`) ON UPDATE no action ON DELETE cascade\n);\n\n--> statement-breakpoint\nCREATE INDEX `ticket_messages_ticket_id_idx` ON `ticket_messages` (`ticket_id`);\n--> statement-breakpoint\nCREATE INDEX `ticket_messages_created_at_idx` ON `ticket_messages` (`created_at`);\n--> statement-breakpoint\nCREATE TABLE `tickets` (\n\t`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,\n\t`ticket_no` text NOT NULL,\n\t`user_id` integer NOT NULL,\n\t`category` text DEFAULT 'other' NOT NULL,\n\t`title` text NOT NULL,\n\t`status` text DEFAULT 'open' NOT NULL,\n\t`priority` text DEFAULT 'normal' NOT NULL,\n\t`context` text,\n\t`last_replied_at` integer DEFAULT (unixepoch()) NOT NULL,\n\t`last_replied_by` text DEFAULT 'user' NOT NULL,\n\t`created_at` integer DEFAULT (unixepoch()) NOT NULL,\n\t`updated_at` integer DEFAULT (unixepoch()) NOT NULL,\n\tFOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON UPDATE no action ON DELETE no action\n);\n\n--> statement-breakpoint\nCREATE UNIQUE INDEX `tickets_ticket_no_unique` ON `tickets` (`ticket_no`);\n--> statement-breakpoint\nCREATE INDEX `tickets_user_id_idx` ON `tickets` (`user_id`);\n--> statement-breakpoint\nCREATE INDEX `tickets_status_idx` ON `tickets` (`status`);\n--> statement-breakpoint\nCREATE INDEX `tickets_category_idx` ON `tickets` (`category`);\n--> statement-breakpoint\nCREATE INDEX `tickets_last_replied_at_idx` ON `tickets` (`last_replied_at`);\n--> statement-breakpoint\nCREATE TABLE `topups` (\n\t`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,\n\t`order_id` text NOT NULL,\n\t`user_id` integer NOT NULL,\n\t`wallet_id` integer,\n\t`source` text DEFAULT 'order' NOT NULL,\n\t`payment_amount` real NOT NULL,\n\t`payment_currency` text NOT NULL,\n\t`credit_amount_cents` integer NOT NULL,\n\t`credit_currency` text NOT NULL,\n\t`exchange_rate` real DEFAULT 1 NOT NULL,\n\t`balance_type` text DEFAULT 'cash' NOT NULL,\n\t`status` text DEFAULT 'pending' NOT NULL,\n\t`credit_event_id` text NOT NULL,\n\t`refund_event_id` text,\n\t`retry_count` integer DEFAULT 0 NOT NULL,\n\t`shortfall_cents` integer DEFAULT 0 NOT NULL,\n\t`last_error` text,\n\t`paid_at` integer,\n\t`credited_at` integer,\n\t`refunded_at` integer,\n\t`created_at` integer DEFAULT (unixepoch()) NOT NULL,\n\t`updated_at` integer DEFAULT (unixepoch()) NOT NULL,\n\tFOREIGN KEY (`order_id`) REFERENCES `orders`(`id`) ON UPDATE no action ON DELETE cascade,\n\tFOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON UPDATE no action ON DELETE no action,\n\tFOREIGN KEY (`wallet_id`) REFERENCES `user_wallets`(`id`) ON UPDATE no action ON DELETE no action\n);\n\n--> statement-breakpoint\nCREATE UNIQUE INDEX `topups_order_id_unique` ON `topups` (`order_id`);\n--> statement-breakpoint\nCREATE UNIQUE INDEX `topups_credit_event_id_unique` ON `topups` (`credit_event_id`);\n--> statement-breakpoint\nCREATE UNIQUE INDEX `topups_refund_event_id_unique` ON `topups` (`refund_event_id`);\n--> statement-breakpoint\nCREATE INDEX `idx_topups_user_created_at` ON `topups` (`user_id`,`created_at`);\n--> statement-breakpoint\nCREATE INDEX `idx_topups_status_updated_at` ON `topups` (`status`,`updated_at`);\n--> statement-breakpoint\nCREATE TABLE `user_sessions` (\n\t`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,\n\t`user_id` integer NOT NULL,\n\t`session_id_hash` text NOT NULL,\n\t`status` text DEFAULT 'active' NOT NULL,\n\t`auth_method` text DEFAULT 'password' NOT NULL,\n\t`device_type` text,\n\t`browser` text,\n\t`os` text,\n\t`user_agent` text,\n\t`ip` text,\n\t`country` text,\n\t`region` text,\n\t`city` text,\n\t`logged_in_at` integer DEFAULT (unixepoch()) NOT NULL,\n\t`last_seen_at` integer DEFAULT (unixepoch()) NOT NULL,\n\t`ended_at` integer,\n\t`replaced_by_session_id` text,\n\t`created_at` integer DEFAULT (unixepoch()) NOT NULL,\n\tFOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON UPDATE no action ON DELETE no action\n);\n\n--> statement-breakpoint\nCREATE UNIQUE INDEX `user_sessions_session_id_hash_unique` ON `user_sessions` (`session_id_hash`);\n--> statement-breakpoint\nCREATE INDEX `user_sessions_user_status_idx` ON `user_sessions` (`user_id`,`status`);\n--> statement-breakpoint\nCREATE INDEX `user_sessions_last_seen_idx` ON `user_sessions` (`last_seen_at`);\n--> statement-breakpoint\nCREATE TABLE `user_tokens` (\n\t`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,\n\t`user_id` integer NOT NULL,\n\t`token` text NOT NULL,\n\t`name` text,\n\t`expires_at` integer,\n\t`last_used_at` integer,\n\t`revoked` integer DEFAULT 0 NOT NULL,\n\t`created_at` integer DEFAULT (unixepoch()) NOT NULL,\n\tFOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON UPDATE no action ON DELETE no action\n);\n\n--> statement-breakpoint\nCREATE UNIQUE INDEX `user_tokens_token_unique` ON `user_tokens` (`token`);\n--> statement-breakpoint\nCREATE TABLE `user_wallets` (\n\t`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,\n\t`user_id` integer NOT NULL,\n\t`cash_balance` integer DEFAULT 0 NOT NULL,\n\t`grant_balance` integer DEFAULT 0 NOT NULL,\n\t`sub_balance` integer DEFAULT 0 NOT NULL,\n\t`points_balance` integer DEFAULT 0 NOT NULL,\n\t`tier_level` integer DEFAULT 0 NOT NULL,\n\t`sub_expires_at` integer,\n\t`status` integer DEFAULT 1 NOT NULL,\n\t`created_at` integer DEFAULT (unixepoch()) NOT NULL,\n\tFOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON UPDATE no action ON DELETE cascade\n);\n\n--> statement-breakpoint\nCREATE UNIQUE INDEX `user_wallets_user_id_unique` ON `user_wallets` (`user_id`);\n--> statement-breakpoint\nCREATE TABLE `users` (\n\t`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,\n\t`email` text NOT NULL,\n\t`password_hash` text,\n\t`nickname` text,\n\t`avatar_url` text,\n\t`last_login_at` integer,\n\t`current_session_id` text,\n\t`status` integer DEFAULT 1,\n\t`email_verified_at` integer,\n\t`created_at` integer DEFAULT (unixepoch()) NOT NULL\n);\n\n--> statement-breakpoint\nCREATE UNIQUE INDEX `users_email_unique` ON `users` (`email`);\n--> statement-breakpoint\nCREATE TABLE `visitor_events` (\n\t`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,\n\t`visitor_id` text NOT NULL,\n\t`ip` text,\n\t`user_id` integer,\n\t`order_id` text,\n\t`product_id` integer,\n\t`event_name` text NOT NULL,\n\t`event_action` text,\n\t`path` text,\n\t`referrer` text,\n\t`source_type` text,\n\t`source` text,\n\t`medium` text,\n\t`campaign` text,\n\t`content` text,\n\t`term` text,\n\t`country` text,\n\t`region` text,\n\t`city` text,\n\t`locale` text,\n\t`currency` text,\n\t`device_type` text,\n\t`browser` text,\n\t`os` text,\n\t`user_agent` text,\n\t`created_at` integer DEFAULT (unixepoch()) NOT NULL,\n\tFOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON UPDATE no action ON DELETE no action,\n\tFOREIGN KEY (`order_id`) REFERENCES `orders`(`id`) ON UPDATE no action ON DELETE no action,\n\tFOREIGN KEY (`product_id`) REFERENCES `products`(`id`) ON UPDATE no action ON DELETE no action\n);\n\n--> statement-breakpoint\nCREATE TABLE `visitor_profiles` (\n\t`visitor_id` text PRIMARY KEY NOT NULL,\n\t`user_id` integer,\n\t`ip` text,\n\t`first_seen_at` integer DEFAULT (unixepoch()) NOT NULL,\n\t`last_seen_at` integer DEFAULT (unixepoch()) NOT NULL,\n\t`landing_path` text,\n\t`first_path` text,\n\t`last_path` text,\n\t`first_referrer` text,\n\t`last_referrer` text,\n\t`first_source_type` text,\n\t`last_source_type` text,\n\t`first_source` text,\n\t`last_source` text,\n\t`first_medium` text,\n\t`last_medium` text,\n\t`first_campaign` text,\n\t`last_campaign` text,\n\t`first_content` text,\n\t`last_content` text,\n\t`first_term` text,\n\t`last_term` text,\n\t`country` text,\n\t`region` text,\n\t`city` text,\n\t`locale` text,\n\t`currency` text,\n\t`device_type` text,\n\t`browser` text,\n\t`os` text,\n\t`user_agent` text,\n\t`created_at` integer DEFAULT (unixepoch()) NOT NULL,\n\t`updated_at` integer DEFAULT (unixepoch()) NOT NULL,\n\tFOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON UPDATE no action ON DELETE no action\n);\n\n--> statement-breakpoint\nCREATE TABLE `webhooks` (\n\t`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,\n\t`name` text NOT NULL,\n\t`url` text NOT NULL,\n\t`events` text,\n\t`secret` text,\n\t`is_active` integer DEFAULT true NOT NULL,\n\t`created_at` integer DEFAULT (unixepoch()) NOT NULL\n);\n","tables":["access_logs","admin_tokens","admins","balance_logs","cards","comments","email_logs","email_providers","event_rules","logs","notifications","oauth_accounts","operation_logs","orders","payment_failures","payment_methods","posts","products","promo_agent_relations","promo_agent_tiers","promo_applications","promo_commissions","promo_invite_relations","promo_members","promo_order_attributions","settings","subscriptions","ticket_messages","tickets","topups","user_sessions","user_tokens","user_wallets","users","visitor_events","visitor_profiles","webhooks"],"checksum":"7941320c9faf8a18532a13308e682420c77b81696b1edae337d53e463ca11cc9","migrations":{"0000_wild_doctor_strange":"b323997e69916f57bebb3ef0bc7108656ce88fbd02b37bdb3bc647238cfa626e","0001_brave_longshot":"2fddfc5830f4a6d480dc212e05b3e609a05c9b38e520142c25e531baff8c91dc","0002_mysterious_snowbird":"79bea003b686881bb6a8a859bf406b07ed99745c8dc922097e547afc539f31a8","0003_adorable_cargill":"0cab61fc20b80b21f9570ca4b5ee460b9d167f28b6cfad6bf3593333e1288b67","0004_premium_wildside":"ecd191e7eb6f889de497e9c0d98d9d0cbad10427ad7589ffb5d04312039f2c67","0005_add_notifications":"877044dcbf546d725bb3951b5a87b3dc2490610d2503c8cc71a423bf375636a3","0006_add_users_email_verify":"c5cbe6156200f8afc1122fc504bb52732e3e99f041e2113cf08d5ea09c5af0ab","0007_add_promo":"abe21ee5efea2afa8138f96f9135522ba1d7538654dc521f8bf9c54b5fdf4198","0008_add_payment_method_locales":"bbca0758e1c97486789af48d452251e6af5af57b974c6c67374f5beea9e620e6","0009_add_orders_currency":"f9326a7968048ae464290104f098fe6b218d78b6577a45558453b5c659251510","0010_add_payment_failures":"cb80bfd10a0d9db5cc7ab0da35abb0c6560e80326b2978a7b6ead4e701f2fad6","0011_add_auth_and_event_rules":"0e392c686f25b51f390d0aac3b65612d96710baab5fb59dc810752bd7a44e5cc","0012_add_admin_permissions":"553b0f486356401f0cf4ddb452f0a2b2344cc0b3a856a0ab024062ce20110210","0013_add_operation_logs":"70e73faf6a0204c81e0932f0ad3183c18e42f01b4d127ddd894da3f86265c652","0014_add_admin_tokens":"9056aeda1d88de5513b1ec27610b57a49278b88f2b68d7c90c2302c7045cdd22","0015_add_balance_logs":"5bdcf9e0278d0590cbfbe10797a0f37085360767809caf1e21ddef2cb9d3a097","0016_add_order_source_idempotency":"5b6d8245dde40455d8ea45f5f4c63255f822225502519bd2f81095e11b5bbec7","0017_add_user_sessions":"acb58067f2d1bd4d6fd31606cfe9d52afc2812909698afed36cae7a3432a3f1a","0018_add_user_wallets":"3dace91d66c61568fbb7acd97883e808ea67faf48aef57af8d8bef8091ae0ce7","0019_add_topups":"e6edddd2ca61fe66ace7d82fd1169c14bca4f6cdf41a9f0db5aef42896fc5240","0020_add_email_logs":"22bd6f6d03b9cd6f289630d9751d27ddded427a7c9a4a5029b510ecc8fa28bcf","0021_add_products_status":"e10c06129d7a39c3c555e7d69b356a60fb948d34ce5cd62f968acfd943902047","0022_add_promo_applications_and_tickets":"4575cbfced7d9fc94d00e419eaceb5f73a69c75fecf61197c4caafb88c8e9f80","0023_purge_legacy_password_reset_tokens":"e12b640fb1dca7fa5193448afd0a6aeac82b0bd2e2ea51e17f566a39b4336630","0024_topups_wallet_optional":"ad9b448c122158158d121999a32816263a5b4ab4adf8e218c14d109f723df8d5","0025_add_comments":"196d58b2a9b537c1a49498d55674460b266b9950cc6bb8e98e6e9c786f35750f"}}}},{"id":"theme:hoxi","origin":"app/themes/hoxi/database","kind":"versioned","files":{"sqlite":[{"name":"0001_hoxi_init","sql":"-- Hoxi private tables; runtime seeds business defaults after schema readiness.\nCREATE TABLE IF NOT EXISTS hoxi_models (\n          id INTEGER PRIMARY KEY AUTOINCREMENT,\n          slug TEXT NOT NULL UNIQUE,\n          name TEXT NOT NULL,\n          vendor TEXT NOT NULL,\n          currency TEXT NOT NULL DEFAULT 'USD',\n          price_input REAL NOT NULL DEFAULT 0,\n          price_output REAL NOT NULL DEFAULT 0,\n          price_cache_read REAL,\n          price_cache_write REAL,\n          context_window INTEGER,\n          max_output_tokens INTEGER,\n          scores TEXT,\n          badges TEXT,\n          scenes TEXT,\n          modalities TEXT,\n          reasoning INTEGER DEFAULT 0,\n          open_weights INTEGER DEFAULT 0,\n          is_free INTEGER DEFAULT 0,\n          hidden INTEGER DEFAULT 0,\n          released_at TEXT,\n          updated_at TEXT,\n          billing TEXT,\n          sources TEXT,\n          summary TEXT,\n          highlights TEXT,\n          caveats TEXT,\n          perf TEXT,\n          benchmark_variant TEXT,\n          aa_slug TEXT,\n          api_name TEXT,\n          gateway_model_name TEXT,\n          created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP\n        );\n--> statement-breakpoint\nCREATE TABLE IF NOT EXISTS hoxi_gateways (\n          id TEXT PRIMARY KEY,\n          name TEXT NOT NULL,\n          domain TEXT NOT NULL,\n          url TEXT NOT NULL DEFAULT '',\n          models TEXT NOT NULL,\n          primary_model_key TEXT NOT NULL,\n          latency_ms INTEGER NOT NULL DEFAULT 0,\n          uptime TEXT NOT NULL DEFAULT '99.99%',\n          price_per_m REAL NOT NULL DEFAULT 0,\n          price_label TEXT NOT NULL,\n          official_price_cny REAL NOT NULL DEFAULT 0,\n          savings_percent INTEGER NOT NULL DEFAULT 0,\n          is_self_operated INTEGER DEFAULT 0,\n          badge TEXT,\n          badge_tone TEXT,\n          base_url TEXT NOT NULL,\n          features TEXT NOT NULL,\n          caveat TEXT,\n          recommended_models TEXT,\n          hidden INTEGER DEFAULT 0,\n          sort_order INTEGER DEFAULT 0,\n          created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP\n        );\n--> statement-breakpoint\nCREATE TABLE IF NOT EXISTS hoxi_coding_plans (\n          slug TEXT PRIMARY KEY,\n          name TEXT NOT NULL,\n          vendor TEXT NOT NULL,\n          vendor_label TEXT NOT NULL,\n          vendor_color TEXT NOT NULL,\n          region TEXT NOT NULL DEFAULT 'international',\n          type TEXT NOT NULL DEFAULT 'coding_plan',\n          price_label TEXT NOT NULL,\n          price_monthly_cny INTEGER NOT NULL DEFAULT 0,\n          payment_methods TEXT NOT NULL,\n          network_requirement TEXT NOT NULL,\n          period TEXT NOT NULL DEFAULT '按月订阅',\n          quota_note TEXT NOT NULL,\n          models TEXT NOT NULL,\n          tools TEXT,\n          highlights TEXT NOT NULL,\n          caveats TEXT NOT NULL,\n          recommended_models TEXT,\n          status TEXT NOT NULL DEFAULT 'hot',\n          official_url TEXT,\n          guide_url TEXT,\n          hidden INTEGER DEFAULT 0,\n          sort_order INTEGER DEFAULT 0,\n          created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP\n        );\n--> statement-breakpoint\nCREATE TABLE IF NOT EXISTS hoxi_readiness_submissions (\n          id INTEGER PRIMARY KEY AUTOINCREMENT,\n          role TEXT NOT NULL,\n          overall_score INTEGER NOT NULL,\n          tier TEXT NOT NULL,\n          archetype TEXT NOT NULL,\n          strongest_dimension TEXT NOT NULL,\n          weakest_dimension TEXT NOT NULL,\n          scores TEXT NOT NULL,\n          answers TEXT,\n          client_id TEXT,\n          created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP\n        );\n--> statement-breakpoint\nCREATE TABLE IF NOT EXISTS hoxi_tools (\n          id TEXT PRIMARY KEY,\n          name TEXT NOT NULL,\n          category TEXT NOT NULL,\n          category_label TEXT NOT NULL,\n          description TEXT NOT NULL,\n          url TEXT NOT NULL,\n          affiliate_url TEXT,\n          badge TEXT,\n          badge_tone TEXT,\n          icon TEXT,\n          pricing TEXT,\n          hidden INTEGER DEFAULT 0,\n          sort_order INTEGER DEFAULT 0,\n          created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP\n        );\n--> statement-breakpoint\nCREATE TABLE IF NOT EXISTS hoxi_projects (\n          id TEXT PRIMARY KEY,\n          name TEXT NOT NULL,\n          tagline TEXT NOT NULL,\n          description TEXT NOT NULL,\n          category TEXT NOT NULL,\n          category_label TEXT NOT NULL,\n          status TEXT NOT NULL DEFAULT 'active',\n          status_label TEXT,\n          model_used TEXT,\n          monthly_cost TEXT,\n          tech_stack TEXT,\n          author TEXT NOT NULL DEFAULT '可乐 (Coller)',\n          author_url TEXT,\n          badge TEXT,\n          badge_tone TEXT,\n          icon TEXT,\n          url TEXT NOT NULL,\n          github_url TEXT,\n          story_url TEXT,\n          highlights TEXT,\n          hidden INTEGER DEFAULT 0,\n          sort_order INTEGER DEFAULT 0,\n          created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP\n        );\n"}],"postgresql":[{"name":"0001_hoxi_init","sql":"-- Hoxi private tables; runtime seeds business defaults after schema readiness.\nCREATE TABLE IF NOT EXISTS hoxi_models (\n          id SERIAL PRIMARY KEY,\n          slug VARCHAR(128) NOT NULL UNIQUE,\n          name VARCHAR(255) NOT NULL,\n          vendor VARCHAR(64) NOT NULL,\n          currency VARCHAR(16) NOT NULL DEFAULT 'USD',\n          price_input REAL NOT NULL DEFAULT 0,\n          price_output REAL NOT NULL DEFAULT 0,\n          price_cache_read REAL,\n          price_cache_write REAL,\n          context_window INTEGER,\n          max_output_tokens INTEGER,\n          scores TEXT,\n          badges TEXT,\n          scenes TEXT,\n          modalities TEXT,\n          reasoning INTEGER DEFAULT 0,\n          open_weights INTEGER DEFAULT 0,\n          is_free INTEGER DEFAULT 0,\n          hidden INTEGER DEFAULT 0,\n          released_at VARCHAR(64),\n          updated_at VARCHAR(64),\n          billing TEXT,\n          sources TEXT,\n          summary TEXT,\n          highlights TEXT,\n          caveats TEXT,\n          perf TEXT,\n          benchmark_variant VARCHAR(128),\n          aa_slug VARCHAR(128),\n          api_name VARCHAR(128),\n          gateway_model_name VARCHAR(128),\n          created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP\n        );\n--> statement-breakpoint\nCREATE TABLE IF NOT EXISTS hoxi_gateways (\n          id VARCHAR(128) PRIMARY KEY,\n          name VARCHAR(255) NOT NULL,\n          domain VARCHAR(255) NOT NULL,\n          url TEXT NOT NULL DEFAULT '',\n          models TEXT NOT NULL,\n          primary_model_key VARCHAR(64) NOT NULL,\n          latency_ms INTEGER NOT NULL DEFAULT 0,\n          uptime VARCHAR(32) NOT NULL DEFAULT '99.99%',\n          price_per_m REAL NOT NULL DEFAULT 0,\n          price_label VARCHAR(64) NOT NULL,\n          official_price_cny REAL NOT NULL DEFAULT 0,\n          savings_percent INTEGER NOT NULL DEFAULT 0,\n          is_self_operated INTEGER DEFAULT 0,\n          badge VARCHAR(128),\n          badge_tone VARCHAR(32),\n          base_url TEXT NOT NULL,\n          features TEXT NOT NULL,\n          caveat TEXT,\n          recommended_models TEXT,\n          hidden INTEGER DEFAULT 0,\n          sort_order INTEGER DEFAULT 0,\n          created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP\n        );\n--> statement-breakpoint\nCREATE TABLE IF NOT EXISTS hoxi_coding_plans (\n          slug VARCHAR(128) PRIMARY KEY,\n          name VARCHAR(255) NOT NULL,\n          vendor VARCHAR(64) NOT NULL,\n          vendor_label VARCHAR(128) NOT NULL,\n          vendor_color VARCHAR(64) NOT NULL,\n          region VARCHAR(32) NOT NULL DEFAULT 'international',\n          type VARCHAR(32) NOT NULL DEFAULT 'coding_plan',\n          price_label VARCHAR(64) NOT NULL,\n          price_monthly_cny INTEGER NOT NULL DEFAULT 0,\n          payment_methods TEXT NOT NULL,\n          network_requirement VARCHAR(128) NOT NULL,\n          period VARCHAR(64) NOT NULL DEFAULT '按月订阅',\n          quota_note TEXT NOT NULL,\n          models TEXT NOT NULL,\n          tools TEXT,\n          highlights TEXT NOT NULL,\n          caveats TEXT NOT NULL,\n          recommended_models TEXT,\n          status VARCHAR(32) NOT NULL DEFAULT 'hot',\n          official_url TEXT,\n          guide_url TEXT,\n          hidden INTEGER DEFAULT 0,\n          sort_order INTEGER DEFAULT 0,\n          created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP\n        );\n--> statement-breakpoint\nCREATE TABLE IF NOT EXISTS hoxi_readiness_submissions (\n          id SERIAL PRIMARY KEY,\n          role VARCHAR(64) NOT NULL,\n          overall_score INTEGER NOT NULL,\n          tier VARCHAR(64) NOT NULL,\n          archetype VARCHAR(64) NOT NULL,\n          strongest_dimension VARCHAR(64) NOT NULL,\n          weakest_dimension VARCHAR(64) NOT NULL,\n          scores TEXT NOT NULL,\n          answers TEXT,\n          client_id VARCHAR(128),\n          created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP\n        );\n--> statement-breakpoint\nCREATE TABLE IF NOT EXISTS hoxi_tools (\n          id VARCHAR(128) PRIMARY KEY,\n          name VARCHAR(255) NOT NULL,\n          category VARCHAR(64) NOT NULL,\n          category_label VARCHAR(128) NOT NULL,\n          description TEXT NOT NULL,\n          url TEXT NOT NULL,\n          affiliate_url TEXT,\n          badge VARCHAR(128),\n          badge_tone VARCHAR(32),\n          icon VARCHAR(128),\n          pricing VARCHAR(128),\n          hidden INTEGER DEFAULT 0,\n          sort_order INTEGER DEFAULT 0,\n          created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP\n        );\n--> statement-breakpoint\nCREATE TABLE IF NOT EXISTS hoxi_projects (\n          id VARCHAR(128) PRIMARY KEY,\n          name VARCHAR(255) NOT NULL,\n          tagline TEXT NOT NULL,\n          description TEXT NOT NULL,\n          category VARCHAR(64) NOT NULL,\n          category_label VARCHAR(128) NOT NULL,\n          status VARCHAR(64) NOT NULL DEFAULT 'active',\n          status_label VARCHAR(128),\n          model_used TEXT,\n          monthly_cost VARCHAR(128),\n          tech_stack TEXT,\n          author VARCHAR(128) NOT NULL DEFAULT '可乐 (Coller)',\n          author_url TEXT,\n          badge VARCHAR(128),\n          badge_tone VARCHAR(32),\n          icon VARCHAR(128),\n          url TEXT NOT NULL,\n          github_url TEXT,\n          story_url TEXT,\n          highlights TEXT,\n          hidden INTEGER DEFAULT 0,\n          sort_order INTEGER DEFAULT 0,\n          created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP\n        );\n"}],"mysql":[{"name":"0001_hoxi_init","sql":"-- Hoxi private tables; runtime seeds business defaults after schema readiness.\nCREATE TABLE IF NOT EXISTS hoxi_models (\n          id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,\n          slug VARCHAR(128) NOT NULL UNIQUE,\n          name VARCHAR(255) NOT NULL,\n          vendor VARCHAR(64) NOT NULL,\n          currency VARCHAR(16) NOT NULL DEFAULT 'USD',\n          price_input DOUBLE NOT NULL DEFAULT 0,\n          price_output DOUBLE NOT NULL DEFAULT 0,\n          price_cache_read DOUBLE,\n          price_cache_write DOUBLE,\n          context_window INTEGER,\n          max_output_tokens INTEGER,\n          scores TEXT,\n          badges TEXT,\n          scenes TEXT,\n          modalities TEXT,\n          reasoning INTEGER DEFAULT 0,\n          open_weights INTEGER DEFAULT 0,\n          is_free INTEGER DEFAULT 0,\n          hidden INTEGER DEFAULT 0,\n          released_at VARCHAR(64),\n          updated_at VARCHAR(64),\n          billing TEXT,\n          sources TEXT,\n          summary TEXT,\n          highlights TEXT,\n          caveats TEXT,\n          perf TEXT,\n          benchmark_variant VARCHAR(128),\n          aa_slug VARCHAR(128),\n          api_name VARCHAR(128),\n          gateway_model_name VARCHAR(128),\n          created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP\n        );\n--> statement-breakpoint\nCREATE TABLE IF NOT EXISTS hoxi_gateways (\n          id VARCHAR(128) PRIMARY KEY,\n          name VARCHAR(255) NOT NULL,\n          domain VARCHAR(255) NOT NULL,\n          url TEXT NOT NULL DEFAULT (''),\n          models TEXT NOT NULL,\n          primary_model_key VARCHAR(64) NOT NULL,\n          latency_ms INTEGER NOT NULL DEFAULT 0,\n          uptime VARCHAR(32) NOT NULL DEFAULT '99.99%',\n          price_per_m DOUBLE NOT NULL DEFAULT 0,\n          price_label VARCHAR(64) NOT NULL,\n          official_price_cny DOUBLE NOT NULL DEFAULT 0,\n          savings_percent INTEGER NOT NULL DEFAULT 0,\n          is_self_operated INTEGER DEFAULT 0,\n          badge VARCHAR(128),\n          badge_tone VARCHAR(32),\n          base_url TEXT NOT NULL,\n          features TEXT NOT NULL,\n          caveat TEXT,\n          recommended_models TEXT,\n          hidden INTEGER DEFAULT 0,\n          sort_order INTEGER DEFAULT 0,\n          created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP\n        );\n--> statement-breakpoint\nCREATE TABLE IF NOT EXISTS hoxi_coding_plans (\n          slug VARCHAR(128) PRIMARY KEY,\n          name VARCHAR(255) NOT NULL,\n          vendor VARCHAR(64) NOT NULL,\n          vendor_label VARCHAR(128) NOT NULL,\n          vendor_color VARCHAR(64) NOT NULL,\n          region VARCHAR(32) NOT NULL DEFAULT 'international',\n          type VARCHAR(32) NOT NULL DEFAULT 'coding_plan',\n          price_label VARCHAR(64) NOT NULL,\n          price_monthly_cny INTEGER NOT NULL DEFAULT 0,\n          payment_methods TEXT NOT NULL,\n          network_requirement VARCHAR(128) NOT NULL,\n          period VARCHAR(64) NOT NULL DEFAULT '按月订阅',\n          quota_note TEXT NOT NULL,\n          models TEXT NOT NULL,\n          tools TEXT,\n          highlights TEXT NOT NULL,\n          caveats TEXT NOT NULL,\n          recommended_models TEXT,\n          status VARCHAR(32) NOT NULL DEFAULT 'hot',\n          official_url TEXT,\n          guide_url TEXT,\n          hidden INTEGER DEFAULT 0,\n          sort_order INTEGER DEFAULT 0,\n          created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP\n        );\n--> statement-breakpoint\nCREATE TABLE IF NOT EXISTS hoxi_readiness_submissions (\n          id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,\n          role VARCHAR(64) NOT NULL,\n          overall_score INTEGER NOT NULL,\n          tier VARCHAR(64) NOT NULL,\n          archetype VARCHAR(64) NOT NULL,\n          strongest_dimension VARCHAR(64) NOT NULL,\n          weakest_dimension VARCHAR(64) NOT NULL,\n          scores TEXT NOT NULL,\n          answers TEXT,\n          client_id VARCHAR(128),\n          created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP\n        );\n--> statement-breakpoint\nCREATE TABLE IF NOT EXISTS hoxi_tools (\n          id VARCHAR(128) PRIMARY KEY,\n          name VARCHAR(255) NOT NULL,\n          category VARCHAR(64) NOT NULL,\n          category_label VARCHAR(128) NOT NULL,\n          description TEXT NOT NULL,\n          url TEXT NOT NULL,\n          affiliate_url TEXT,\n          badge VARCHAR(128),\n          badge_tone VARCHAR(32),\n          icon VARCHAR(128),\n          pricing VARCHAR(128),\n          hidden INTEGER DEFAULT 0,\n          sort_order INTEGER DEFAULT 0,\n          created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP\n        );\n--> statement-breakpoint\nCREATE TABLE IF NOT EXISTS hoxi_projects (\n          id VARCHAR(128) PRIMARY KEY,\n          name VARCHAR(255) NOT NULL,\n          tagline TEXT NOT NULL,\n          description TEXT NOT NULL,\n          category VARCHAR(64) NOT NULL,\n          category_label VARCHAR(128) NOT NULL,\n          status VARCHAR(64) NOT NULL DEFAULT 'active',\n          status_label VARCHAR(128),\n          model_used TEXT,\n          monthly_cost VARCHAR(128),\n          tech_stack TEXT,\n          author VARCHAR(128) NOT NULL DEFAULT '可乐 (Coller)',\n          author_url TEXT,\n          badge VARCHAR(128),\n          badge_tone VARCHAR(32),\n          icon VARCHAR(128),\n          url TEXT NOT NULL,\n          github_url TEXT,\n          story_url TEXT,\n          highlights TEXT,\n          hidden INTEGER DEFAULT 0,\n          sort_order INTEGER DEFAULT 0,\n          created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP\n        );\n"}]},"probeTable":"hoxi_models"}];
 
 var __defProp$v = Object.defineProperty;
 var __defNormalProp$v = (obj, key, value) => key in obj ? __defProp$v(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
@@ -22786,10 +22799,12 @@ const seoRouteRegistry = {
           "source": "hoxi-models"
         },
         {
-          "pattern": "/gateways/:slug"
+          "pattern": "/gateways/:slug",
+          "source": "hoxi-gateways"
         },
         {
-          "pattern": "/coding-plans/:slug"
+          "pattern": "/coding-plans/:slug",
+          "source": "hoxi-coding-plans"
         },
         {
           "pattern": "/blog/:slug",
@@ -22881,7 +22896,7 @@ const assets = {
     "type": "text/plain; charset=utf-8",
     "encoding": null,
     "etag": "\"1804-sOMjHyBLL6jBmKsCgJ1iAsrtHds\"",
-    "mtime": "2026-09-28T12:01:46.936Z",
+    "mtime": "2026-09-29T07:39:33.007Z",
     "size": 6148,
     "path": "../public/.DS_Store"
   },
@@ -22889,62 +22904,55 @@ const assets = {
     "type": "image/svg+xml",
     "encoding": null,
     "etag": "\"4e7-E5juZBwXaStCoOCXCne3oV8zMec\"",
-    "mtime": "2026-09-28T12:01:46.936Z",
+    "mtime": "2026-09-29T07:39:33.007Z",
     "size": 1255,
     "path": "../public/favicon.svg"
-  },
-  "/.DS_Store.gz": {
-    "type": "text/plain; charset=utf-8",
-    "encoding": "gzip",
-    "etag": "\"e5-CZo+jrc0Uech2PhUE9r/m9jOrUA\"",
-    "mtime": "2026-09-28T12:01:46.952Z",
-    "size": 229,
-    "path": "../public/.DS_Store.gz"
-  },
-  "/logo.svg": {
-    "type": "image/svg+xml",
-    "encoding": null,
-    "etag": "\"4e7-E5juZBwXaStCoOCXCne3oV8zMec\"",
-    "mtime": "2026-09-28T12:01:46.936Z",
-    "size": 1255,
-    "path": "../public/logo.svg"
   },
   "/.DS_Store.br": {
     "type": "text/plain; charset=utf-8",
     "encoding": "br",
     "etag": "\"b6-day/H31ZPBKIW+ESgCv32u5e3J4\"",
-    "mtime": "2026-09-28T12:01:46.952Z",
+    "mtime": "2026-09-29T07:39:33.026Z",
     "size": 182,
     "path": "../public/.DS_Store.br"
+  },
+  "/logo.svg": {
+    "type": "image/svg+xml",
+    "encoding": null,
+    "etag": "\"4e7-E5juZBwXaStCoOCXCne3oV8zMec\"",
+    "mtime": "2026-09-29T07:39:33.007Z",
+    "size": 1255,
+    "path": "../public/logo.svg"
+  },
+  "/.DS_Store.gz": {
+    "type": "text/plain; charset=utf-8",
+    "encoding": "gzip",
+    "etag": "\"e5-CZo+jrc0Uech2PhUE9r/m9jOrUA\"",
+    "mtime": "2026-09-29T07:39:33.015Z",
+    "size": 229,
+    "path": "../public/.DS_Store.gz"
   },
   "/favicon.svg.br": {
     "type": "image/svg+xml",
     "encoding": "br",
     "etag": "\"1d6-J7vlOGZNtlvfzcLOw9C7e96ZOK0\"",
-    "mtime": "2026-09-28T12:01:46.952Z",
+    "mtime": "2026-09-29T07:39:33.026Z",
     "size": 470,
     "path": "../public/favicon.svg.br"
   },
-  "/_nuxt/2U15re7J.js": {
-    "type": "text/javascript; charset=utf-8",
-    "etag": "\"210-K5iMW3MmSef+QHW0gqUOVMdACFM\"",
-    "mtime": "2026-09-28T12:01:46.890Z",
-    "size": 528,
-    "path": "../public/_nuxt/2U15re7J.js"
-  },
-  "/_nuxt/2i573PM0.js": {
+  "/_nuxt/-0Y4i0iT.js": {
     "type": "text/javascript; charset=utf-8",
     "encoding": null,
-    "etag": "\"16a2-FETrO/eqB0x9UH2I291sGaCzplk\"",
-    "mtime": "2026-09-28T12:01:46.891Z",
-    "size": 5794,
-    "path": "../public/_nuxt/2i573PM0.js"
+    "etag": "\"a93-a+efQWadEv7lvPdpSEaIzzy9BoE\"",
+    "mtime": "2026-09-29T07:39:33.000Z",
+    "size": 2707,
+    "path": "../public/_nuxt/-0Y4i0iT.js"
   },
   "/favicon.svg.gz": {
     "type": "image/svg+xml",
     "encoding": "gzip",
     "etag": "\"210-ZEYU8qFtaVlq6kJhpX/dNZKQ08w\"",
-    "mtime": "2026-09-28T12:01:46.952Z",
+    "mtime": "2026-09-29T07:39:33.015Z",
     "size": 528,
     "path": "../public/favicon.svg.gz"
   },
@@ -22952,1607 +22960,1571 @@ const assets = {
     "type": "image/svg+xml",
     "encoding": "br",
     "etag": "\"1d6-J7vlOGZNtlvfzcLOw9C7e96ZOK0\"",
-    "mtime": "2026-09-28T12:01:46.952Z",
+    "mtime": "2026-09-29T07:39:33.026Z",
     "size": 470,
     "path": "../public/logo.svg.br"
   },
-  "/_nuxt/2m53Wv5t.js": {
+  "/_nuxt/-uY-ULov.js": {
     "type": "text/javascript; charset=utf-8",
     "encoding": null,
-    "etag": "\"177c-vEQKLXHYq7ih0M/I227umoAJzdw\"",
-    "mtime": "2026-09-28T12:01:46.891Z",
-    "size": 6012,
-    "path": "../public/_nuxt/2m53Wv5t.js"
+    "etag": "\"c36-paeaoOoIOBhleOvDKMlDBUwYCnM\"",
+    "mtime": "2026-09-29T07:39:33.000Z",
+    "size": 3126,
+    "path": "../public/_nuxt/-uY-ULov.js"
   },
   "/logo.svg.gz": {
     "type": "image/svg+xml",
     "encoding": "gzip",
     "etag": "\"210-ZEYU8qFtaVlq6kJhpX/dNZKQ08w\"",
-    "mtime": "2026-09-28T12:01:46.952Z",
+    "mtime": "2026-09-29T07:39:33.015Z",
     "size": 528,
     "path": "../public/logo.svg.gz"
   },
-  "/_nuxt/2i573PM0.js.br": {
+  "/_nuxt/-0Y4i0iT.js.br": {
     "type": "text/javascript; charset=utf-8",
     "encoding": "br",
-    "etag": "\"72e-eq7VNW6orSf8DtlGmJfB/8AmgVg\"",
-    "mtime": "2026-09-28T12:01:46.957Z",
-    "size": 1838,
-    "path": "../public/_nuxt/2i573PM0.js.br"
+    "etag": "\"435-4b+P/FJ4xIVYiAFvEGlHnVnLlXE\"",
+    "mtime": "2026-09-29T07:39:33.026Z",
+    "size": 1077,
+    "path": "../public/_nuxt/-0Y4i0iT.js.br"
   },
-  "/_nuxt/5FRDtNxd.js": {
-    "type": "text/javascript; charset=utf-8",
-    "etag": "\"176-thd+lEpr7MqlDVOhfNWUr+MnYZc\"",
-    "mtime": "2026-09-28T12:01:46.890Z",
-    "size": 374,
-    "path": "../public/_nuxt/5FRDtNxd.js"
-  },
-  "/_nuxt/5KJWKdmI.js": {
+  "/_nuxt/0Vo7N4JY.js": {
     "type": "text/javascript; charset=utf-8",
     "encoding": null,
-    "etag": "\"16cc-o6j+6tlUE/gGv4/oI3nd+8/A5IQ\"",
-    "mtime": "2026-09-28T12:01:46.890Z",
-    "size": 5836,
-    "path": "../public/_nuxt/5KJWKdmI.js"
+    "etag": "\"80c-CDTMT/YdUu82Zpz0IIwp8kJEqRI\"",
+    "mtime": "2026-09-29T07:39:32.949Z",
+    "size": 2060,
+    "path": "../public/_nuxt/0Vo7N4JY.js"
   },
-  "/_nuxt/2i573PM0.js.gz": {
+  "/_nuxt/-0Y4i0iT.js.gz": {
     "type": "text/javascript; charset=utf-8",
     "encoding": "gzip",
-    "etag": "\"846-yTPYA5kHXBNHnaEfYghnWoTWfy4\"",
-    "mtime": "2026-09-28T12:01:46.952Z",
-    "size": 2118,
-    "path": "../public/_nuxt/2i573PM0.js.gz"
+    "etag": "\"4aa-Bok8eSYWxb2YncC+VxVB3CzoeVQ\"",
+    "mtime": "2026-09-29T07:39:33.026Z",
+    "size": 1194,
+    "path": "../public/_nuxt/-0Y4i0iT.js.gz"
   },
-  "/_nuxt/2m53Wv5t.js.gz": {
-    "type": "text/javascript; charset=utf-8",
-    "encoding": "gzip",
-    "etag": "\"68a-34xNAyUQanlAK52qiIDBUPomjjU\"",
-    "mtime": "2026-09-28T12:01:46.952Z",
-    "size": 1674,
-    "path": "../public/_nuxt/2m53Wv5t.js.gz"
-  },
-  "/_nuxt/2m53Wv5t.js.br": {
+  "/_nuxt/-uY-ULov.js.br": {
     "type": "text/javascript; charset=utf-8",
     "encoding": "br",
-    "etag": "\"599-8qJJWTqmKd9A8gsWbx3wQVuJObg\"",
-    "mtime": "2026-09-28T12:01:46.961Z",
-    "size": 1433,
-    "path": "../public/_nuxt/2m53Wv5t.js.br"
+    "etag": "\"428-xElad188bF/nlpg5dEY3p+QtwAo\"",
+    "mtime": "2026-09-29T07:39:33.026Z",
+    "size": 1064,
+    "path": "../public/_nuxt/-uY-ULov.js.br"
   },
-  "/_nuxt/5htwHSA2.js": {
+  "/_nuxt/0Vo7N4JY.js.br": {
     "type": "text/javascript; charset=utf-8",
-    "etag": "\"3a4-ShYIL6A7LNkHDo2N9rGg68MgBGI\"",
-    "mtime": "2026-09-28T12:01:46.891Z",
-    "size": 932,
-    "path": "../public/_nuxt/5htwHSA2.js"
+    "encoding": "br",
+    "etag": "\"37a-ifcpPwXyE6DLxXgfouXJUBUDBQg\"",
+    "mtime": "2026-09-29T07:39:33.026Z",
+    "size": 890,
+    "path": "../public/_nuxt/0Vo7N4JY.js.br"
+  },
+  "/_nuxt/-uY-ULov.js.gz": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": "gzip",
+    "etag": "\"4cb-wa7Tbg2th5SNsQBu3rOaz4VhxOo\"",
+    "mtime": "2026-09-29T07:39:33.026Z",
+    "size": 1227,
+    "path": "../public/_nuxt/-uY-ULov.js.gz"
+  },
+  "/_nuxt/3CJM847q.js": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": null,
+    "etag": "\"1603-PEYtLR0qejzZR3hnPvm/NjcKg34\"",
+    "mtime": "2026-09-29T07:39:32.949Z",
+    "size": 5635,
+    "path": "../public/_nuxt/3CJM847q.js"
+  },
+  "/_nuxt/0Vo7N4JY.js.gz": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": "gzip",
+    "etag": "\"3e6-lD5bMHf4Axwuy0rHnlSkA7MSeiU\"",
+    "mtime": "2026-09-29T07:39:33.026Z",
+    "size": 998,
+    "path": "../public/_nuxt/0Vo7N4JY.js.gz"
+  },
+  "/_nuxt/3ndc0qHa.js": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": null,
+    "etag": "\"f6d2-PKhSUMWMA/hAQBcpOt7NMSVIs0s\"",
+    "mtime": "2026-09-29T07:39:32.951Z",
+    "size": 63186,
+    "path": "../public/_nuxt/3ndc0qHa.js"
+  },
+  "/_nuxt/3CJM847q.js.br": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": "br",
+    "etag": "\"7a7-5oq8maPCshnDpkhE4jq52d9+sgQ\"",
+    "mtime": "2026-09-29T07:39:33.027Z",
+    "size": 1959,
+    "path": "../public/_nuxt/3CJM847q.js.br"
   },
   "/_nuxt/5sKH0RGn.js": {
     "type": "text/javascript; charset=utf-8",
     "encoding": null,
     "etag": "\"848-2ZhpxnYPE5hUyVg6GGAufewhSJc\"",
-    "mtime": "2026-09-28T12:01:46.890Z",
+    "mtime": "2026-09-29T07:39:32.949Z",
     "size": 2120,
     "path": "../public/_nuxt/5sKH0RGn.js"
   },
-  "/_nuxt/5KJWKdmI.js.br": {
-    "type": "text/javascript; charset=utf-8",
-    "encoding": "br",
-    "etag": "\"89e-/cmOVYyDIsy0Ln2IVIpiIxu902Y\"",
-    "mtime": "2026-09-28T12:01:46.958Z",
-    "size": 2206,
-    "path": "../public/_nuxt/5KJWKdmI.js.br"
-  },
-  "/_nuxt/5KJWKdmI.js.gz": {
+  "/_nuxt/3CJM847q.js.gz": {
     "type": "text/javascript; charset=utf-8",
     "encoding": "gzip",
-    "etag": "\"9dc-72hd3PcwIhuah7/EAScjnjEjOgU\"",
-    "mtime": "2026-09-28T12:01:46.952Z",
-    "size": 2524,
-    "path": "../public/_nuxt/5KJWKdmI.js.gz"
+    "etag": "\"8f4-GDpOKnP1Z/UrPPOmkbmeEBmJO5k\"",
+    "mtime": "2026-09-29T07:39:33.026Z",
+    "size": 2292,
+    "path": "../public/_nuxt/3CJM847q.js.gz"
   },
-  "/_nuxt/7J3VxPrf.js": {
+  "/_nuxt/3ndc0qHa.js.br": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": "br",
+    "etag": "\"3276-U4Jfm7NGMYo2YFWH2R1iK4WcbjE\"",
+    "mtime": "2026-09-29T07:39:33.202Z",
+    "size": 12918,
+    "path": "../public/_nuxt/3ndc0qHa.js.br"
+  },
+  "/_nuxt/3ndc0qHa.js.gz": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": "gzip",
+    "etag": "\"3a4a-N5Y1aRcGxnYvOF725OzEspF2UJI\"",
+    "mtime": "2026-09-29T07:39:33.027Z",
+    "size": 14922,
+    "path": "../public/_nuxt/3ndc0qHa.js.gz"
+  },
+  "/_nuxt/6AHeUfpd.js": {
     "type": "text/javascript; charset=utf-8",
     "encoding": null,
-    "etag": "\"436d-4doI7MV/vWkklKIkgbxZCQmtpDI\"",
-    "mtime": "2026-09-28T12:01:46.891Z",
-    "size": 17261,
-    "path": "../public/_nuxt/7J3VxPrf.js"
+    "etag": "\"18de-dDuQQVhA536u0BN4FvS/kqlZ4Qc\"",
+    "mtime": "2026-09-29T07:39:32.949Z",
+    "size": 6366,
+    "path": "../public/_nuxt/6AHeUfpd.js"
   },
   "/_nuxt/5sKH0RGn.js.br": {
     "type": "text/javascript; charset=utf-8",
     "encoding": "br",
     "etag": "\"352-Zg/BrnEBbVkghE7KAbxuxukZVQc\"",
-    "mtime": "2026-09-28T12:01:46.952Z",
+    "mtime": "2026-09-29T07:39:33.026Z",
     "size": 850,
     "path": "../public/_nuxt/5sKH0RGn.js.br"
+  },
+  "/_nuxt/6ScbckpN.js": {
+    "type": "text/javascript; charset=utf-8",
+    "etag": "\"3d9-H/jKlFBwh7n/ITIrw8kosJ6LIvI\"",
+    "mtime": "2026-09-29T07:39:32.950Z",
+    "size": 985,
+    "path": "../public/_nuxt/6ScbckpN.js"
+  },
+  "/_nuxt/6AHeUfpd.js.gz": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": "gzip",
+    "etag": "\"865-A0oVLNzqTWUeYlaPIBeqIyNIFq8\"",
+    "mtime": "2026-09-29T07:39:33.026Z",
+    "size": 2149,
+    "path": "../public/_nuxt/6AHeUfpd.js.gz"
   },
   "/_nuxt/5sKH0RGn.js.gz": {
     "type": "text/javascript; charset=utf-8",
     "encoding": "gzip",
     "etag": "\"3d7-F+OcZwL85bXSEH4OiIof41lzwP4\"",
-    "mtime": "2026-09-28T12:01:46.952Z",
+    "mtime": "2026-09-29T07:39:33.026Z",
     "size": 983,
     "path": "../public/_nuxt/5sKH0RGn.js.gz"
   },
-  "/_nuxt/8DpGK_w5.js": {
+  "/_nuxt/6AHeUfpd.js.br": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": "br",
+    "etag": "\"75a-ZqwYyUmnGWiLLePGszVI6Vwy4XY\"",
+    "mtime": "2026-09-29T07:39:33.118Z",
+    "size": 1882,
+    "path": "../public/_nuxt/6AHeUfpd.js.br"
+  },
+  "/_nuxt/6kBYGr6z.js": {
     "type": "text/javascript; charset=utf-8",
     "encoding": null,
-    "etag": "\"6d0-6YQzS7QMZ6fj+PNceJBmC0B5gUM\"",
-    "mtime": "2026-09-28T12:01:46.891Z",
-    "size": 1744,
-    "path": "../public/_nuxt/8DpGK_w5.js"
+    "etag": "\"d5e5-pjOWEre3ugpo5WOpUuKyyS72SrY\"",
+    "mtime": "2026-09-29T07:39:32.951Z",
+    "size": 54757,
+    "path": "../public/_nuxt/6kBYGr6z.js"
+  },
+  "/_nuxt/7D-OZWn1.js": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": null,
+    "etag": "\"805-INy1TLehMZ5JA6a6Kl360qYScjY\"",
+    "mtime": "2026-09-29T07:39:32.950Z",
+    "size": 2053,
+    "path": "../public/_nuxt/7D-OZWn1.js"
+  },
+  "/_nuxt/7D-OZWn1.js.br": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": "br",
+    "etag": "\"26d-HVDvFQRDLI9tAHoG2TThJU7d5Qg\"",
+    "mtime": "2026-09-29T07:39:33.118Z",
+    "size": 621,
+    "path": "../public/_nuxt/7D-OZWn1.js.br"
+  },
+  "/_nuxt/7D-OZWn1.js.gz": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": "gzip",
+    "etag": "\"2c6-FsyQBhpRh1r2E21pErvzxMMas0s\"",
+    "mtime": "2026-09-29T07:39:33.118Z",
+    "size": 710,
+    "path": "../public/_nuxt/7D-OZWn1.js.gz"
+  },
+  "/_nuxt/7J3VxPrf.js": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": null,
+    "etag": "\"436d-4doI7MV/vWkklKIkgbxZCQmtpDI\"",
+    "mtime": "2026-09-29T07:39:32.951Z",
+    "size": 17261,
+    "path": "../public/_nuxt/7J3VxPrf.js"
+  },
+  "/_nuxt/6kBYGr6z.js.br": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": "br",
+    "etag": "\"424f-MrwhCrciNUjEusJX5GuOxhXZ0Fg\"",
+    "mtime": "2026-09-29T07:39:33.190Z",
+    "size": 16975,
+    "path": "../public/_nuxt/6kBYGr6z.js.br"
+  },
+  "/_nuxt/6kBYGr6z.js.gz": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": "gzip",
+    "etag": "\"4f69-XKTKIEDbpYGDJrJeAO4cSbfOjOg\"",
+    "mtime": "2026-09-29T07:39:33.128Z",
+    "size": 20329,
+    "path": "../public/_nuxt/6kBYGr6z.js.gz"
   },
   "/_nuxt/7J3VxPrf.js.br": {
     "type": "text/javascript; charset=utf-8",
     "encoding": "br",
     "etag": "\"1014-iHcXEUr8wDLiy6gJaSGB2sUupOg\"",
-    "mtime": "2026-09-28T12:01:47.007Z",
+    "mtime": "2026-09-29T07:39:33.119Z",
     "size": 4116,
     "path": "../public/_nuxt/7J3VxPrf.js.br"
   },
-  "/_nuxt/8DpGK_w5.js.gz": {
-    "type": "text/javascript; charset=utf-8",
-    "encoding": "gzip",
-    "etag": "\"3c1-F/frYsqn+P2A4dpIlglqltsgZeE\"",
-    "mtime": "2026-09-28T12:01:46.957Z",
-    "size": 961,
-    "path": "../public/_nuxt/8DpGK_w5.js.gz"
-  },
-  "/_nuxt/AfuEhgoF.js": {
+  "/_nuxt/8K7piR7L.js": {
     "type": "text/javascript; charset=utf-8",
     "encoding": null,
-    "etag": "\"85f-rAdwblXUFLb7fn2JBFyXCM6foek\"",
-    "mtime": "2026-09-28T12:01:46.892Z",
-    "size": 2143,
-    "path": "../public/_nuxt/AfuEhgoF.js"
+    "etag": "\"1c9e-N3OYov9zJ92KFgqIvePJI+m4Uvg\"",
+    "mtime": "2026-09-29T07:39:32.951Z",
+    "size": 7326,
+    "path": "../public/_nuxt/8K7piR7L.js"
+  },
+  "/_nuxt/9oEb3vbW.js": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": null,
+    "etag": "\"6fd-Kg3d+grGlvmB5CMnU57daLNPY44\"",
+    "mtime": "2026-09-29T07:39:32.951Z",
+    "size": 1789,
+    "path": "../public/_nuxt/9oEb3vbW.js"
   },
   "/_nuxt/7J3VxPrf.js.gz": {
     "type": "text/javascript; charset=utf-8",
     "encoding": "gzip",
     "etag": "\"1448-1hOD4xRleyjl3MD3ogXPKhAmq2M\"",
-    "mtime": "2026-09-28T12:01:46.957Z",
+    "mtime": "2026-09-29T07:39:33.118Z",
     "size": 5192,
     "path": "../public/_nuxt/7J3VxPrf.js.gz"
   },
-  "/_nuxt/B-ZivavZ.js": {
-    "type": "text/javascript; charset=utf-8",
-    "etag": "\"3cd-vojOwJmERt+91abNrg5eAr07IHs\"",
-    "mtime": "2026-09-28T12:01:46.891Z",
-    "size": 973,
-    "path": "../public/_nuxt/B-ZivavZ.js"
-  },
-  "/_nuxt/B2y8N8-9.js": {
-    "type": "text/javascript; charset=utf-8",
-    "encoding": null,
-    "etag": "\"466-Q/+6WwTLkcI1lfkAZ/gHkhXtOOE\"",
-    "mtime": "2026-09-28T12:01:46.892Z",
-    "size": 1126,
-    "path": "../public/_nuxt/B2y8N8-9.js"
-  },
-  "/_nuxt/8DpGK_w5.js.br": {
+  "/_nuxt/8K7piR7L.js.br": {
     "type": "text/javascript; charset=utf-8",
     "encoding": "br",
-    "etag": "\"337-H+EKgZSjh+Jt/LBCWmwGMrfrm6E\"",
-    "mtime": "2026-09-28T12:01:46.958Z",
-    "size": 823,
-    "path": "../public/_nuxt/8DpGK_w5.js.br"
+    "etag": "\"a27-1dRrWEJpf5PYb9EtYG5+YtqHmBo\"",
+    "mtime": "2026-09-29T07:39:33.119Z",
+    "size": 2599,
+    "path": "../public/_nuxt/8K7piR7L.js.br"
   },
-  "/_nuxt/AfuEhgoF.js.gz": {
+  "/_nuxt/8K7piR7L.js.gz": {
     "type": "text/javascript; charset=utf-8",
     "encoding": "gzip",
-    "etag": "\"417-3rh5nEpYGQvYEjUswTLvWO3vLLA\"",
-    "mtime": "2026-09-28T12:01:46.959Z",
-    "size": 1047,
-    "path": "../public/_nuxt/AfuEhgoF.js.gz"
+    "etag": "\"bda-JLn0365SE3cHmnTF1FpO5O7LBAw\"",
+    "mtime": "2026-09-29T07:39:33.119Z",
+    "size": 3034,
+    "path": "../public/_nuxt/8K7piR7L.js.gz"
   },
-  "/_nuxt/B4FE0rds.js": {
-    "type": "text/javascript; charset=utf-8",
-    "encoding": null,
-    "etag": "\"91a7-JtJjWW83KcCTqt8x/LkC8ozRCwE\"",
-    "mtime": "2026-09-28T12:01:46.892Z",
-    "size": 37287,
-    "path": "../public/_nuxt/B4FE0rds.js"
-  },
-  "/_nuxt/B2y8N8-9.js.gz": {
-    "type": "text/javascript; charset=utf-8",
-    "encoding": "gzip",
-    "etag": "\"294-taRsNP2PGkBKYaKYbg3wF5ConBs\"",
-    "mtime": "2026-09-28T12:01:46.965Z",
-    "size": 660,
-    "path": "../public/_nuxt/B2y8N8-9.js.gz"
-  },
-  "/_nuxt/B2y8N8-9.js.br": {
+  "/_nuxt/9oEb3vbW.js.br": {
     "type": "text/javascript; charset=utf-8",
     "encoding": "br",
-    "etag": "\"25d-BP8DYpU7aCsQRC4G/vv495exVgY\"",
-    "mtime": "2026-09-28T12:01:47.003Z",
-    "size": 605,
-    "path": "../public/_nuxt/B2y8N8-9.js.br"
+    "etag": "\"321-zrhb2AB/JjNuBx9l/b65oVYoqho\"",
+    "mtime": "2026-09-29T07:39:33.119Z",
+    "size": 801,
+    "path": "../public/_nuxt/9oEb3vbW.js.br"
   },
-  "/_nuxt/B5OSgAcb.js": {
-    "type": "text/javascript; charset=utf-8",
-    "etag": "\"3c2-ljjKYRsCkt930sJOJfV3YE8quLg\"",
-    "mtime": "2026-09-28T12:01:46.892Z",
-    "size": 962,
-    "path": "../public/_nuxt/B5OSgAcb.js"
-  },
-  "/_nuxt/B5PerqcK.js": {
+  "/_nuxt/AQlHIG6V.js": {
     "type": "text/javascript; charset=utf-8",
     "encoding": null,
-    "etag": "\"5e51-J6EYAkMGZN0Mr79GET89cSdizac\"",
-    "mtime": "2026-09-28T12:01:46.893Z",
-    "size": 24145,
-    "path": "../public/_nuxt/B5PerqcK.js"
+    "etag": "\"1e58-yDl6uyReViZ5cM3lsSBCKp4FyPU\"",
+    "mtime": "2026-09-29T07:39:32.952Z",
+    "size": 7768,
+    "path": "../public/_nuxt/AQlHIG6V.js"
   },
-  "/_nuxt/AfuEhgoF.js.br": {
-    "type": "text/javascript; charset=utf-8",
-    "encoding": "br",
-    "etag": "\"3ac-gWm+zdosDyFvqAr5+MKirrQ3pPk\"",
-    "mtime": "2026-09-28T12:01:46.964Z",
-    "size": 940,
-    "path": "../public/_nuxt/AfuEhgoF.js.br"
-  },
-  "/_nuxt/B4ph6P3K.js": {
-    "type": "text/javascript; charset=utf-8",
-    "etag": "\"27f-w0xEQZOY4I6BfQPVYbRe2bSGnqQ\"",
-    "mtime": "2026-09-28T12:01:46.892Z",
-    "size": 639,
-    "path": "../public/_nuxt/B4ph6P3K.js"
-  },
-  "/_nuxt/B4FE0rds.js.gz": {
+  "/_nuxt/9oEb3vbW.js.gz": {
     "type": "text/javascript; charset=utf-8",
     "encoding": "gzip",
-    "etag": "\"26dc-AblVyKOoKKtHcknsYgbfGnDqg9M\"",
-    "mtime": "2026-09-28T12:01:46.966Z",
-    "size": 9948,
-    "path": "../public/_nuxt/B4FE0rds.js.gz"
+    "etag": "\"387-xxFYlB89NPQOUfp/l5Z3ogKMYzQ\"",
+    "mtime": "2026-09-29T07:39:33.118Z",
+    "size": 903,
+    "path": "../public/_nuxt/9oEb3vbW.js.gz"
+  },
+  "/_nuxt/B-McSP7F.js": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": null,
+    "etag": "\"22d2-gzYBoahlRA7i7q/1TApj7rziF9s\"",
+    "mtime": "2026-09-29T07:39:32.951Z",
+    "size": 8914,
+    "path": "../public/_nuxt/B-McSP7F.js"
+  },
+  "/_nuxt/AQlHIG6V.js.br": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": "br",
+    "etag": "\"9ba-/IjjRaeE0geErvglh8XNHp9eRgY\"",
+    "mtime": "2026-09-29T07:39:33.119Z",
+    "size": 2490,
+    "path": "../public/_nuxt/AQlHIG6V.js.br"
+  },
+  "/_nuxt/AQlHIG6V.js.gz": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": "gzip",
+    "etag": "\"b92-ANwZVQgRfjClyl+J2qkYmOyOLgI\"",
+    "mtime": "2026-09-29T07:39:33.119Z",
+    "size": 2962,
+    "path": "../public/_nuxt/AQlHIG6V.js.gz"
+  },
+  "/_nuxt/B-g8D1PG.js": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": null,
+    "etag": "\"15f5-E8DX11x0mOTCD0PEpF2tekH9KeE\"",
+    "mtime": "2026-09-29T07:39:32.951Z",
+    "size": 5621,
+    "path": "../public/_nuxt/B-g8D1PG.js"
+  },
+  "/_nuxt/B-McSP7F.js.br": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": "br",
+    "etag": "\"a4a-gwpXxqRTgDRmiVUG1GwaBBXOmcU\"",
+    "mtime": "2026-09-29T07:39:33.147Z",
+    "size": 2634,
+    "path": "../public/_nuxt/B-McSP7F.js.br"
+  },
+  "/_nuxt/B2H-wMSF.js": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": null,
+    "etag": "\"9fd-Mem9R9e1Tp+pIt8VnX1S0LBwR8E\"",
+    "mtime": "2026-09-29T07:39:32.952Z",
+    "size": 2557,
+    "path": "../public/_nuxt/B2H-wMSF.js"
+  },
+  "/_nuxt/B-McSP7F.js.gz": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": "gzip",
+    "etag": "\"b6a-dECqGIVOWRVQj+lztIKBGb0JHqI\"",
+    "mtime": "2026-09-29T07:39:33.145Z",
+    "size": 2922,
+    "path": "../public/_nuxt/B-McSP7F.js.gz"
+  },
+  "/_nuxt/B-g8D1PG.js.gz": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": "gzip",
+    "etag": "\"7ec-mucoS5Zpj2XgnlY0HDQYiCSz6Io\"",
+    "mtime": "2026-09-29T07:39:33.145Z",
+    "size": 2028,
+    "path": "../public/_nuxt/B-g8D1PG.js.gz"
+  },
+  "/_nuxt/B-g8D1PG.js.br": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": "br",
+    "etag": "\"6fa-2sFZ1OVauO1KCJWLrd5nqawVxzQ\"",
+    "mtime": "2026-09-29T07:39:33.145Z",
+    "size": 1786,
+    "path": "../public/_nuxt/B-g8D1PG.js.br"
+  },
+  "/_nuxt/B2eXAIUm.js": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": null,
+    "etag": "\"bec-bq1nmFxx84g+mUGgoa4ZbmYjGQU\"",
+    "mtime": "2026-09-29T07:39:32.952Z",
+    "size": 3052,
+    "path": "../public/_nuxt/B2eXAIUm.js"
+  },
+  "/_nuxt/B2H-wMSF.js.br": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": "br",
+    "etag": "\"4d4-MFtO4pwUAxu+u6vwfUh4d+uBCzw\"",
+    "mtime": "2026-09-29T07:39:33.180Z",
+    "size": 1236,
+    "path": "../public/_nuxt/B2H-wMSF.js.br"
   },
   "/_nuxt/B5QBTcpQ.js": {
     "type": "text/javascript; charset=utf-8",
     "encoding": null,
     "etag": "\"183a-24ZdR9OQl16exbCTuMhuL2Ttpoo\"",
-    "mtime": "2026-09-28T12:01:46.892Z",
+    "mtime": "2026-09-29T07:39:32.952Z",
     "size": 6202,
     "path": "../public/_nuxt/B5QBTcpQ.js"
   },
-  "/_nuxt/B4FE0rds.js.br": {
-    "type": "text/javascript; charset=utf-8",
-    "encoding": "br",
-    "etag": "\"22b1-8ZhDsQoJSk9bJYT3TEimJaTYy0w\"",
-    "mtime": "2026-09-28T12:01:47.029Z",
-    "size": 8881,
-    "path": "../public/_nuxt/B4FE0rds.js.br"
-  },
-  "/_nuxt/B5PerqcK.js.br": {
-    "type": "text/javascript; charset=utf-8",
-    "encoding": "br",
-    "etag": "\"1591-rSpkkV1p8I6Hzc1snkO/AfGtdkc\"",
-    "mtime": "2026-09-28T12:01:47.024Z",
-    "size": 5521,
-    "path": "../public/_nuxt/B5PerqcK.js.br"
-  },
-  "/_nuxt/B5PerqcK.js.gz": {
+  "/_nuxt/B2H-wMSF.js.gz": {
     "type": "text/javascript; charset=utf-8",
     "encoding": "gzip",
-    "etag": "\"1907-JDjquovoBFqtmAcjC37nGu1gBWw\"",
-    "mtime": "2026-09-28T12:01:47.007Z",
-    "size": 6407,
-    "path": "../public/_nuxt/B5PerqcK.js.gz"
+    "etag": "\"568-iMOeWI83PVZt8J0K4pH1QppH6vA\"",
+    "mtime": "2026-09-29T07:39:33.180Z",
+    "size": 1384,
+    "path": "../public/_nuxt/B2H-wMSF.js.gz"
   },
-  "/_nuxt/B5QBTcpQ.js.br": {
+  "/_nuxt/B2eXAIUm.js.br": {
     "type": "text/javascript; charset=utf-8",
     "encoding": "br",
-    "etag": "\"564-Ar5SvSl+Xlmk+FNnCojAh3lXrYU\"",
-    "mtime": "2026-09-28T12:01:47.007Z",
-    "size": 1380,
-    "path": "../public/_nuxt/B5QBTcpQ.js.br"
+    "etag": "\"512-x4dJuoPc2w+onTty0DH8Vi7AR90\"",
+    "mtime": "2026-09-29T07:39:33.182Z",
+    "size": 1298,
+    "path": "../public/_nuxt/B2eXAIUm.js.br"
   },
-  "/_nuxt/B5aHSTq2.js": {
+  "/_nuxt/B2eXAIUm.js.gz": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": "gzip",
+    "etag": "\"5a2-uuH1yISDYXmQK3xN5ITrXh5C/7g\"",
+    "mtime": "2026-09-29T07:39:33.182Z",
+    "size": 1442,
+    "path": "../public/_nuxt/B2eXAIUm.js.gz"
+  },
+  "/_nuxt/B7fM5xww.js": {
     "type": "text/javascript; charset=utf-8",
     "encoding": null,
-    "etag": "\"5f124-jdjcmgFlXTjZC0e2At0nAk0akK8\"",
-    "mtime": "2026-09-28T12:01:46.896Z",
-    "size": 389412,
-    "path": "../public/_nuxt/B5aHSTq2.js"
+    "etag": "\"3160-l2QCaxwt7GC5g8NTLAwtHmtXwZ0\"",
+    "mtime": "2026-09-29T07:39:32.953Z",
+    "size": 12640,
+    "path": "../public/_nuxt/B7fM5xww.js"
   },
   "/_nuxt/B5QBTcpQ.js.gz": {
     "type": "text/javascript; charset=utf-8",
     "encoding": "gzip",
     "etag": "\"6df-hOa6rzQJ1cqbZX0PQ5na6Y2Zj20\"",
-    "mtime": "2026-09-28T12:01:47.007Z",
+    "mtime": "2026-09-29T07:39:33.180Z",
     "size": 1759,
     "path": "../public/_nuxt/B5QBTcpQ.js.gz"
   },
-  "/_nuxt/B5aHSTq2.js.br": {
+  "/_nuxt/B5QBTcpQ.js.br": {
     "type": "text/javascript; charset=utf-8",
     "encoding": "br",
-    "etag": "\"19855-0OeWjQxPPaBdsmIiIbamnKGODuI\"",
-    "mtime": "2026-09-28T12:01:48.220Z",
-    "size": 104533,
-    "path": "../public/_nuxt/B5aHSTq2.js.br"
+    "etag": "\"564-Ar5SvSl+Xlmk+FNnCojAh3lXrYU\"",
+    "mtime": "2026-09-29T07:39:33.180Z",
+    "size": 1380,
+    "path": "../public/_nuxt/B5QBTcpQ.js.br"
   },
-  "/_nuxt/B5mXd6j5.js": {
-    "type": "text/javascript; charset=utf-8",
-    "etag": "\"27c-VswCJMcO77qLDWaMMgzDgeiMb5E\"",
-    "mtime": "2026-09-28T12:01:46.893Z",
-    "size": 636,
-    "path": "../public/_nuxt/B5mXd6j5.js"
-  },
-  "/_nuxt/BAUERyYa.js": {
+  "/_nuxt/B9QgiGYr.js": {
     "type": "text/javascript; charset=utf-8",
     "encoding": null,
-    "etag": "\"9388-oXbsxRvg/mB0/eTvvw961czqQKk\"",
-    "mtime": "2026-09-28T12:01:46.893Z",
-    "size": 37768,
-    "path": "../public/_nuxt/BAUERyYa.js"
+    "etag": "\"1935-rxGYod7ZGg/uMZ3MmimKPWjLYFg\"",
+    "mtime": "2026-09-29T07:39:32.952Z",
+    "size": 6453,
+    "path": "../public/_nuxt/B9QgiGYr.js"
   },
-  "/_nuxt/BAlqGVYY.js": {
+  "/_nuxt/B7fM5xww.js.br": {
     "type": "text/javascript; charset=utf-8",
-    "encoding": null,
-    "etag": "\"880-1Qiab2QAa7utviOFy0mnxhhyMF8\"",
-    "mtime": "2026-09-28T12:01:46.893Z",
-    "size": 2176,
-    "path": "../public/_nuxt/BAlqGVYY.js"
+    "encoding": "br",
+    "etag": "\"10b7-9PYF8mDqXB0jsPm/FMLJHf5ZWok\"",
+    "mtime": "2026-09-29T07:39:33.183Z",
+    "size": 4279,
+    "path": "../public/_nuxt/B7fM5xww.js.br"
   },
-  "/_nuxt/BAUERyYa.js.gz": {
+  "/_nuxt/B7fM5xww.js.gz": {
     "type": "text/javascript; charset=utf-8",
     "encoding": "gzip",
-    "etag": "\"21fc-+YXuDOLawj0dU09lFu+m73txHRI\"",
-    "mtime": "2026-09-28T12:01:47.024Z",
-    "size": 8700,
-    "path": "../public/_nuxt/BAUERyYa.js.gz"
+    "etag": "\"124b-afUN2KCS+oJOVSBTsLrrJ9ch3TA\"",
+    "mtime": "2026-09-29T07:39:33.182Z",
+    "size": 4683,
+    "path": "../public/_nuxt/B7fM5xww.js.gz"
+  },
+  "/_nuxt/BAYTRn4p.js": {
+    "type": "text/javascript; charset=utf-8",
+    "etag": "\"297-x4N0QjR820FGzAbLS6uf09wAwGo\"",
+    "mtime": "2026-09-29T07:39:32.953Z",
+    "size": 663,
+    "path": "../public/_nuxt/BAYTRn4p.js"
   },
   "/_nuxt/BAlyWlRe.js": {
     "type": "text/javascript; charset=utf-8",
     "encoding": null,
     "etag": "\"27e5-21+9it5/8I02VyD8/t4i6bcgMvQ\"",
-    "mtime": "2026-09-28T12:01:46.893Z",
+    "mtime": "2026-09-29T07:39:32.954Z",
     "size": 10213,
     "path": "../public/_nuxt/BAlyWlRe.js"
   },
-  "/_nuxt/BAUERyYa.js.br": {
+  "/_nuxt/B9QgiGYr.js.br": {
     "type": "text/javascript; charset=utf-8",
     "encoding": "br",
-    "etag": "\"1d12-zonFXxsmZi3YNq+sJoqTAI+EcTI\"",
-    "mtime": "2026-09-28T12:01:47.145Z",
-    "size": 7442,
-    "path": "../public/_nuxt/BAUERyYa.js.br"
+    "etag": "\"8ff-cT8AbG6IIJ0T7bBqrYt6X/9I9tE\"",
+    "mtime": "2026-09-29T07:39:33.182Z",
+    "size": 2303,
+    "path": "../public/_nuxt/B9QgiGYr.js.br"
   },
-  "/_nuxt/BAlqGVYY.js.br": {
-    "type": "text/javascript; charset=utf-8",
-    "encoding": "br",
-    "etag": "\"261-OlplmX2F/ouT77mTzt2O26Ipmw4\"",
-    "mtime": "2026-09-28T12:01:47.029Z",
-    "size": 609,
-    "path": "../public/_nuxt/BAlqGVYY.js.br"
-  },
-  "/_nuxt/BB4fSQYc.js": {
-    "type": "text/javascript; charset=utf-8",
-    "etag": "\"20e-cgX7FQxFmQT9B+Rqvlr+gbMBWXU\"",
-    "mtime": "2026-09-28T12:01:46.894Z",
-    "size": 526,
-    "path": "../public/_nuxt/BB4fSQYc.js"
-  },
-  "/_nuxt/B5aHSTq2.js.gz": {
+  "/_nuxt/B9QgiGYr.js.gz": {
     "type": "text/javascript; charset=utf-8",
     "encoding": "gzip",
-    "etag": "\"1dd87-vPqXSCdr4KZNnq/LO8k8KdFt5So\"",
-    "mtime": "2026-09-28T12:01:47.037Z",
-    "size": 122247,
-    "path": "../public/_nuxt/B5aHSTq2.js.gz"
-  },
-  "/_nuxt/BD0ZgQyy.js": {
-    "type": "text/javascript; charset=utf-8",
-    "encoding": null,
-    "etag": "\"192b-LjIvkxqjCf1WoH+3YbFEL459TKQ\"",
-    "mtime": "2026-09-28T12:01:46.895Z",
-    "size": 6443,
-    "path": "../public/_nuxt/BD0ZgQyy.js"
-  },
-  "/_nuxt/BAlqGVYY.js.gz": {
-    "type": "text/javascript; charset=utf-8",
-    "encoding": "gzip",
-    "etag": "\"2c3-x7SzZdgPiIZBvmHdhPsIZpqS7wY\"",
-    "mtime": "2026-09-28T12:01:47.028Z",
-    "size": 707,
-    "path": "../public/_nuxt/BAlqGVYY.js.gz"
+    "etag": "\"a3c-n1P1A1pz4ecvKo1LO9NX5AtgWYU\"",
+    "mtime": "2026-09-29T07:39:33.182Z",
+    "size": 2620,
+    "path": "../public/_nuxt/B9QgiGYr.js.gz"
   },
   "/_nuxt/BAlyWlRe.js.br": {
     "type": "text/javascript; charset=utf-8",
     "encoding": "br",
     "etag": "\"d49-5gdkenogtkWBFNihQnHpLNqN1rg\"",
-    "mtime": "2026-09-28T12:01:47.037Z",
+    "mtime": "2026-09-29T07:39:33.203Z",
     "size": 3401,
     "path": "../public/_nuxt/BAlyWlRe.js.br"
-  },
-  "/_nuxt/BC9q4aMe.js": {
-    "type": "text/javascript; charset=utf-8",
-    "etag": "\"282-Ur9stTJWPsmnxhA8w2UJVAkSO7Y\"",
-    "mtime": "2026-09-28T12:01:46.895Z",
-    "size": 642,
-    "path": "../public/_nuxt/BC9q4aMe.js"
-  },
-  "/_nuxt/BDjBI9uH.js": {
-    "type": "text/javascript; charset=utf-8",
-    "etag": "\"197-ki4rr1j/R01CsHPgR1WBZgnzbY4\"",
-    "mtime": "2026-09-28T12:01:46.895Z",
-    "size": 407,
-    "path": "../public/_nuxt/BDjBI9uH.js"
-  },
-  "/_nuxt/BEuhk19y.js": {
-    "type": "text/javascript; charset=utf-8",
-    "etag": "\"198-s2lbnQL4Z+xcN5+yKb07masxqhY\"",
-    "mtime": "2026-09-28T12:01:46.895Z",
-    "size": 408,
-    "path": "../public/_nuxt/BEuhk19y.js"
-  },
-  "/_nuxt/BGY9r1K8.js": {
-    "type": "text/javascript; charset=utf-8",
-    "encoding": null,
-    "etag": "\"1b15-eB4BkzpXoA1FUaMd2xXSnm8O0sY\"",
-    "mtime": "2026-09-28T12:01:46.896Z",
-    "size": 6933,
-    "path": "../public/_nuxt/BGY9r1K8.js"
-  },
-  "/_nuxt/BD0ZgQyy.js.br": {
-    "type": "text/javascript; charset=utf-8",
-    "encoding": "br",
-    "etag": "\"7bd-waBEB4P4xO0ukdSpclY1aCnNCGk\"",
-    "mtime": "2026-09-28T12:01:47.135Z",
-    "size": 1981,
-    "path": "../public/_nuxt/BD0ZgQyy.js.br"
-  },
-  "/_nuxt/BD0ZgQyy.js.gz": {
-    "type": "text/javascript; charset=utf-8",
-    "encoding": "gzip",
-    "etag": "\"8ca-YjSENdz/Iw/lWqtfLmWl+zZAe20\"",
-    "mtime": "2026-09-28T12:01:47.038Z",
-    "size": 2250,
-    "path": "../public/_nuxt/BD0ZgQyy.js.gz"
   },
   "/_nuxt/BAlyWlRe.js.gz": {
     "type": "text/javascript; charset=utf-8",
     "encoding": "gzip",
     "etag": "\"1097-ib5fk2Bp6hj1ieFLuAJexbsCzCo\"",
-    "mtime": "2026-09-28T12:01:47.029Z",
+    "mtime": "2026-09-29T07:39:33.189Z",
     "size": 4247,
     "path": "../public/_nuxt/BAlyWlRe.js.gz"
   },
-  "/_nuxt/BGqG_Mq_.js": {
+  "/_nuxt/BBBxqrAe.js": {
     "type": "text/javascript; charset=utf-8",
     "encoding": null,
-    "etag": "\"d34-97YLkXcA6SiFtE6E34KT8iXBgMc\"",
-    "mtime": "2026-09-28T12:01:46.896Z",
-    "size": 3380,
-    "path": "../public/_nuxt/BGqG_Mq_.js"
+    "etag": "\"638-/Mrk1D1Z/CO7Qjf2DCvR/xABFFE\"",
+    "mtime": "2026-09-29T07:39:32.953Z",
+    "size": 1592,
+    "path": "../public/_nuxt/BBBxqrAe.js"
   },
-  "/_nuxt/BGY9r1K8.js.br": {
+  "/_nuxt/BBBxqrAe.js.br": {
     "type": "text/javascript; charset=utf-8",
     "encoding": "br",
-    "etag": "\"a14-1H5Vh8akMcZ0nymHs12eLWwgElg\"",
-    "mtime": "2026-09-28T12:01:47.145Z",
-    "size": 2580,
-    "path": "../public/_nuxt/BGY9r1K8.js.br"
+    "etag": "\"2ed-wOoktKly8gMXiS82pcGWBbuXdU4\"",
+    "mtime": "2026-09-29T07:39:33.191Z",
+    "size": 749,
+    "path": "../public/_nuxt/BBBxqrAe.js.br"
   },
-  "/_nuxt/BGY9r1K8.js.gz": {
-    "type": "text/javascript; charset=utf-8",
-    "encoding": "gzip",
-    "etag": "\"b05-Fbez7/iScpL19Tm0HFbwW4aDUNA\"",
-    "mtime": "2026-09-28T12:01:47.134Z",
-    "size": 2821,
-    "path": "../public/_nuxt/BGY9r1K8.js.gz"
-  },
-  "/_nuxt/BGqG_Mq_.js.br": {
-    "type": "text/javascript; charset=utf-8",
-    "encoding": "br",
-    "etag": "\"4ba-Xl1MLosvpt02mggU9lmNkonxL+I\"",
-    "mtime": "2026-09-28T12:01:47.144Z",
-    "size": 1210,
-    "path": "../public/_nuxt/BGqG_Mq_.js.br"
-  },
-  "/_nuxt/BGqG_Mq_.js.gz": {
-    "type": "text/javascript; charset=utf-8",
-    "encoding": "gzip",
-    "etag": "\"536-ZdOEg6veHnuiF7oLPHhs1nniyJk\"",
-    "mtime": "2026-09-28T12:01:47.141Z",
-    "size": 1334,
-    "path": "../public/_nuxt/BGqG_Mq_.js.gz"
-  },
-  "/_nuxt/BHYAkKza.js": {
+  "/_nuxt/BCJPgZ9R.js": {
     "type": "text/javascript; charset=utf-8",
     "encoding": null,
-    "etag": "\"437b-8/oiZS1w/4OQP2mKG7Q8/nkiyUg\"",
-    "mtime": "2026-09-28T12:01:46.896Z",
-    "size": 17275,
-    "path": "../public/_nuxt/BHYAkKza.js"
+    "etag": "\"fdc5-UHo/uAQE+XofzW1Gu6vpeiL7ZL4\"",
+    "mtime": "2026-09-29T07:39:32.953Z",
+    "size": 64965,
+    "path": "../public/_nuxt/BCJPgZ9R.js"
   },
-  "/_nuxt/BHkEaT_l.js": {
+  "/_nuxt/BFY4KGBZ.js": {
     "type": "text/javascript; charset=utf-8",
     "encoding": null,
-    "etag": "\"202f-yxa8/7XULSnU/r/pLp/5ViP7C04\"",
-    "mtime": "2026-09-28T12:01:46.897Z",
-    "size": 8239,
-    "path": "../public/_nuxt/BHkEaT_l.js"
+    "etag": "\"c24e-eih3mvEU0/JlTqA8CtACUN6hp3M\"",
+    "mtime": "2026-09-29T07:39:32.953Z",
+    "size": 49742,
+    "path": "../public/_nuxt/BFY4KGBZ.js"
   },
-  "/_nuxt/BHYAkKza.js.br": {
-    "type": "text/javascript; charset=utf-8",
-    "encoding": "br",
-    "etag": "\"1086-InZAebkfWjhaa56X0OdhNU/x5t8\"",
-    "mtime": "2026-09-28T12:01:47.145Z",
-    "size": 4230,
-    "path": "../public/_nuxt/BHYAkKza.js.br"
-  },
-  "/_nuxt/BHkEaT_l.js.br": {
-    "type": "text/javascript; charset=utf-8",
-    "encoding": "br",
-    "etag": "\"7b3-7fDNMNP/Il5SCa2pH4xZbdkYaJY\"",
-    "mtime": "2026-09-28T12:01:47.145Z",
-    "size": 1971,
-    "path": "../public/_nuxt/BHkEaT_l.js.br"
-  },
-  "/_nuxt/BHkEaT_l.js.gz": {
+  "/_nuxt/BCJPgZ9R.js.gz": {
     "type": "text/javascript; charset=utf-8",
     "encoding": "gzip",
-    "etag": "\"8ae-pz50NOf1hNccqWLR/bauPwsiSrI\"",
-    "mtime": "2026-09-28T12:01:47.145Z",
-    "size": 2222,
-    "path": "../public/_nuxt/BHkEaT_l.js.gz"
+    "etag": "\"6721-uy7ZsuyDf4iG7TSlg062w5t2gWI\"",
+    "mtime": "2026-09-29T07:39:33.194Z",
+    "size": 26401,
+    "path": "../public/_nuxt/BCJPgZ9R.js.gz"
   },
-  "/_nuxt/BJCZBAu0.js": {
+  "/_nuxt/BJL61yzM.js": {
     "type": "text/javascript; charset=utf-8",
     "encoding": null,
-    "etag": "\"1cbc-rj6TjpOtgjfd4vajOtXaXuEUr94\"",
-    "mtime": "2026-09-28T12:01:46.897Z",
-    "size": 7356,
-    "path": "../public/_nuxt/BJCZBAu0.js"
+    "etag": "\"46e-USj+OtfphVHzM//YRr0VHNNyN6Y\"",
+    "mtime": "2026-09-29T07:39:32.953Z",
+    "size": 1134,
+    "path": "../public/_nuxt/BJL61yzM.js"
   },
-  "/_nuxt/BJDCQ0KT.js": {
-    "type": "text/javascript; charset=utf-8",
-    "encoding": null,
-    "etag": "\"26e8-8GNiAI1sT5AOAbdY5SNM6TBlAXo\"",
-    "mtime": "2026-09-28T12:01:46.897Z",
-    "size": 9960,
-    "path": "../public/_nuxt/BJDCQ0KT.js"
-  },
-  "/_nuxt/BHYAkKza.js.gz": {
-    "type": "text/javascript; charset=utf-8",
-    "encoding": "gzip",
-    "etag": "\"1353-4sygFxIBEHomlD/RtltLON2/1sE\"",
-    "mtime": "2026-09-28T12:01:47.145Z",
-    "size": 4947,
-    "path": "../public/_nuxt/BHYAkKza.js.gz"
-  },
-  "/_nuxt/BJCZBAu0.js.gz": {
-    "type": "text/javascript; charset=utf-8",
-    "encoding": "gzip",
-    "etag": "\"b08-u8mLB8I6Aq2NkCr6VQC6eRARjBk\"",
-    "mtime": "2026-09-28T12:01:47.145Z",
-    "size": 2824,
-    "path": "../public/_nuxt/BJCZBAu0.js.gz"
-  },
-  "/_nuxt/BJDCQ0KT.js.gz": {
-    "type": "text/javascript; charset=utf-8",
-    "encoding": "gzip",
-    "etag": "\"cb4-lH20yAfTbBpam02+5crKZOI1QrE\"",
-    "mtime": "2026-09-28T12:01:47.146Z",
-    "size": 3252,
-    "path": "../public/_nuxt/BJDCQ0KT.js.gz"
-  },
-  "/_nuxt/BJqtJ49_.js": {
-    "type": "text/javascript; charset=utf-8",
-    "encoding": null,
-    "etag": "\"4b59-LQzSnIGVzAa8M/8CqdCeAouN7cA\"",
-    "mtime": "2026-09-28T12:01:46.897Z",
-    "size": 19289,
-    "path": "../public/_nuxt/BJqtJ49_.js"
-  },
-  "/_nuxt/BJCZBAu0.js.br": {
+  "/_nuxt/BCJPgZ9R.js.br": {
     "type": "text/javascript; charset=utf-8",
     "encoding": "br",
-    "etag": "\"987-MyosexDO2HiEs4bN4EjH23vNGd0\"",
-    "mtime": "2026-09-28T12:01:47.146Z",
-    "size": 2439,
-    "path": "../public/_nuxt/BJCZBAu0.js.br"
+    "etag": "\"54f2-A3xOqLNK2vd7hPaQJzheHkzN58s\"",
+    "mtime": "2026-09-29T07:39:33.309Z",
+    "size": 21746,
+    "path": "../public/_nuxt/BCJPgZ9R.js.br"
   },
-  "/_nuxt/BKAHaBMy.js": {
-    "type": "text/javascript; charset=utf-8",
-    "encoding": null,
-    "etag": "\"b78-MzYwg4tiuxOgAg5RmoqVI39J1sk\"",
-    "mtime": "2026-09-28T12:01:46.897Z",
-    "size": 2936,
-    "path": "../public/_nuxt/BKAHaBMy.js"
-  },
-  "/_nuxt/BJDCQ0KT.js.br": {
+  "/_nuxt/BJL61yzM.js.br": {
     "type": "text/javascript; charset=utf-8",
     "encoding": "br",
-    "etag": "\"b96-wwFshH8mNy5z3tufI80IR5dopmA\"",
-    "mtime": "2026-09-28T12:01:47.147Z",
-    "size": 2966,
-    "path": "../public/_nuxt/BJDCQ0KT.js.br"
+    "etag": "\"1f2-zghI5mGfwdEm27ardhjgqdKsryU\"",
+    "mtime": "2026-09-29T07:39:33.203Z",
+    "size": 498,
+    "path": "../public/_nuxt/BJL61yzM.js.br"
   },
-  "/_nuxt/BJqtJ49_.js.br": {
-    "type": "text/javascript; charset=utf-8",
-    "encoding": "br",
-    "etag": "\"1312-pwvGTbe2m3kZ9U/pNwraIX6LcdU\"",
-    "mtime": "2026-09-28T12:01:47.186Z",
-    "size": 4882,
-    "path": "../public/_nuxt/BJqtJ49_.js.br"
-  },
-  "/_nuxt/BJqtJ49_.js.gz": {
+  "/_nuxt/BBBxqrAe.js.gz": {
     "type": "text/javascript; charset=utf-8",
     "encoding": "gzip",
-    "etag": "\"15f4-67fRii95NrmtBUSdhULNuGHR6NI\"",
-    "mtime": "2026-09-28T12:01:47.152Z",
-    "size": 5620,
-    "path": "../public/_nuxt/BJqtJ49_.js.gz"
+    "etag": "\"359-OFENidqbMMgEHbcp0f+2m/MUfGs\"",
+    "mtime": "2026-09-29T07:39:33.190Z",
+    "size": 857,
+    "path": "../public/_nuxt/BBBxqrAe.js.gz"
   },
-  "/_nuxt/BQH-_LCm.js": {
+  "/_nuxt/BKCfiGHr.js": {
     "type": "text/javascript; charset=utf-8",
-    "encoding": null,
-    "etag": "\"3b3e-5vjnE30uX9mr/7uQUYonKJnh+zc\"",
-    "mtime": "2026-09-28T12:01:46.898Z",
-    "size": 15166,
-    "path": "../public/_nuxt/BQH-_LCm.js"
+    "etag": "\"210-aN944zNyPpYyl8n+TMell6vqpk0\"",
+    "mtime": "2026-09-29T07:39:32.955Z",
+    "size": 528,
+    "path": "../public/_nuxt/BKCfiGHr.js"
   },
-  "/_nuxt/BKAHaBMy.js.gz": {
-    "type": "text/javascript; charset=utf-8",
-    "encoding": "gzip",
-    "etag": "\"4db-jP18aP6c4SdSViFaSd2jsMMKxh0\"",
-    "mtime": "2026-09-28T12:01:47.186Z",
-    "size": 1243,
-    "path": "../public/_nuxt/BKAHaBMy.js.gz"
-  },
-  "/_nuxt/BKAHaBMy.js.br": {
-    "type": "text/javascript; charset=utf-8",
-    "encoding": "br",
-    "etag": "\"453-FBENzs+bwBf1ML7KERbr07o7fRc\"",
-    "mtime": "2026-09-28T12:01:47.188Z",
-    "size": 1107,
-    "path": "../public/_nuxt/BKAHaBMy.js.br"
-  },
-  "/_nuxt/BQH-_LCm.js.br": {
-    "type": "text/javascript; charset=utf-8",
-    "encoding": "br",
-    "etag": "\"11b0-pXdlB3n4tUqmrCuhVXgU65EuH9A\"",
-    "mtime": "2026-09-28T12:01:47.183Z",
-    "size": 4528,
-    "path": "../public/_nuxt/BQH-_LCm.js.br"
-  },
-  "/_nuxt/BQH-_LCm.js.gz": {
+  "/_nuxt/BJL61yzM.js.gz": {
     "type": "text/javascript; charset=utf-8",
     "encoding": "gzip",
-    "etag": "\"153b-9afIHQI89t7O8WRFkzYQ5ZNSuus\"",
-    "mtime": "2026-09-28T12:01:47.183Z",
-    "size": 5435,
-    "path": "../public/_nuxt/BQH-_LCm.js.gz"
+    "etag": "\"249-tp7kYZUlEhvfFRX4RWHDsGH+Obc\"",
+    "mtime": "2026-09-29T07:39:33.203Z",
+    "size": 585,
+    "path": "../public/_nuxt/BJL61yzM.js.gz"
   },
-  "/_nuxt/BSIh6vDY.js": {
+  "/_nuxt/BSld9dVF.js": {
     "type": "text/javascript; charset=utf-8",
     "encoding": null,
-    "etag": "\"4457-2r1QgC8MIGJ+fycUKoGZavTLQDc\"",
-    "mtime": "2026-09-28T12:01:46.897Z",
-    "size": 17495,
-    "path": "../public/_nuxt/BSIh6vDY.js"
+    "etag": "\"91a7-w/D8KUdjwe+SWRxOLPX0ayV0mzI\"",
+    "mtime": "2026-09-29T07:39:32.954Z",
+    "size": 37287,
+    "path": "../public/_nuxt/BSld9dVF.js"
   },
-  "/_nuxt/BSc9F4rY.js": {
+  "/_nuxt/BSld9dVF.js.gz": {
     "type": "text/javascript; charset=utf-8",
-    "etag": "\"2d7-20nm/j9Rk58lN01M3nQUVhsqolg\"",
-    "mtime": "2026-09-28T12:01:46.897Z",
+    "encoding": "gzip",
+    "etag": "\"26e0-SeHKOpVnxhgg3GPVvH7sBIpShvI\"",
+    "mtime": "2026-09-29T07:39:33.205Z",
+    "size": 9952,
+    "path": "../public/_nuxt/BSld9dVF.js.gz"
+  },
+  "/_nuxt/BFY4KGBZ.js.gz": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": "gzip",
+    "etag": "\"3c25-vW3cxNi2gspeRSdbAaL6tw2U3iU\"",
+    "mtime": "2026-09-29T07:39:33.203Z",
+    "size": 15397,
+    "path": "../public/_nuxt/BFY4KGBZ.js.gz"
+  },
+  "/_nuxt/BSld9dVF.js.br": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": "br",
+    "etag": "\"22bf-y5cqqsMtq+lpDAQ+c3WkjKqnc/g\"",
+    "mtime": "2026-09-29T07:39:33.274Z",
+    "size": 8895,
+    "path": "../public/_nuxt/BSld9dVF.js.br"
+  },
+  "/_nuxt/BTV22PZl.js": {
+    "type": "text/javascript; charset=utf-8",
+    "etag": "\"2d7-LGAJ1qfOSjGhC/qPxNEfE02YFW4\"",
+    "mtime": "2026-09-29T07:39:32.954Z",
     "size": 727,
-    "path": "../public/_nuxt/BSc9F4rY.js"
+    "path": "../public/_nuxt/BTV22PZl.js"
   },
-  "/_nuxt/BSIh6vDY.js.br": {
+  "/_nuxt/BFY4KGBZ.js.br": {
     "type": "text/javascript; charset=utf-8",
     "encoding": "br",
-    "etag": "\"10d6-JWQEP+j35E17Z+Ncf14DdH49cks\"",
-    "mtime": "2026-09-28T12:01:47.186Z",
-    "size": 4310,
-    "path": "../public/_nuxt/BSIh6vDY.js.br"
+    "etag": "\"3193-CnLAAozHlu/RHV+8uvBkgXGo0B4\"",
+    "mtime": "2026-09-29T07:39:33.287Z",
+    "size": 12691,
+    "path": "../public/_nuxt/BFY4KGBZ.js.br"
   },
-  "/_nuxt/BSIh6vDY.js.gz": {
+  "/_nuxt/BUzfZYj3.js": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": null,
+    "etag": "\"6b3e-EuOwGigbyM25cz7VuM2DYVLe3po\"",
+    "mtime": "2026-09-29T07:39:32.954Z",
+    "size": 27454,
+    "path": "../public/_nuxt/BUzfZYj3.js"
+  },
+  "/_nuxt/BWM5NICa.js": {
+    "type": "text/javascript; charset=utf-8",
+    "etag": "\"1f4-+SW68z6aIRcF9xxdG8uf6CJQwfw\"",
+    "mtime": "2026-09-29T07:39:32.962Z",
+    "size": 500,
+    "path": "../public/_nuxt/BWM5NICa.js"
+  },
+  "/_nuxt/BVObue-O.js": {
+    "type": "text/javascript; charset=utf-8",
+    "etag": "\"38d-E8pZV0K1KNfgNlQVBwVAiGutFBA\"",
+    "mtime": "2026-09-29T07:39:32.955Z",
+    "size": 909,
+    "path": "../public/_nuxt/BVObue-O.js"
+  },
+  "/_nuxt/BWj01Cj8.js": {
+    "type": "text/javascript; charset=utf-8",
+    "etag": "\"22c-2KsfiWKYxIkNvi9PoD1FP5X8pqg\"",
+    "mtime": "2026-09-29T07:39:32.958Z",
+    "size": 556,
+    "path": "../public/_nuxt/BWj01Cj8.js"
+  },
+  "/_nuxt/BX7U9nHV.js": {
+    "type": "text/javascript; charset=utf-8",
+    "etag": "\"ad-mGgP9bvbI79lUsgX99NK22D60Vs\"",
+    "mtime": "2026-09-29T07:39:32.954Z",
+    "size": 173,
+    "path": "../public/_nuxt/BX7U9nHV.js"
+  },
+  "/_nuxt/BXfmSmNG.js": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": null,
+    "etag": "\"4b59-AjFco9kWku/ucjBioPUj2nIZXns\"",
+    "mtime": "2026-09-29T07:39:32.955Z",
+    "size": 19289,
+    "path": "../public/_nuxt/BXfmSmNG.js"
+  },
+  "/_nuxt/BUzfZYj3.js.br": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": "br",
+    "etag": "\"1934-+UyxNNmKwOV2MgZAoD0/tvUKMUE\"",
+    "mtime": "2026-09-29T07:39:33.252Z",
+    "size": 6452,
+    "path": "../public/_nuxt/BUzfZYj3.js.br"
+  },
+  "/_nuxt/BUzfZYj3.js.gz": {
     "type": "text/javascript; charset=utf-8",
     "encoding": "gzip",
-    "etag": "\"1316-BxA/dOxiV+O+kGD+YyruXJZt8oc\"",
-    "mtime": "2026-09-28T12:01:47.185Z",
-    "size": 4886,
-    "path": "../public/_nuxt/BSIh6vDY.js.gz"
+    "etag": "\"1d7b-vyNKn2qPQtvXybGcRfWz2mz29co\"",
+    "mtime": "2026-09-29T07:39:33.252Z",
+    "size": 7547,
+    "path": "../public/_nuxt/BUzfZYj3.js.gz"
   },
-  "/_nuxt/BTAdy7ic.js": {
+  "/_nuxt/BXfmSmNG.js.br": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": "br",
+    "etag": "\"133a-+Oce0YN3eHQdjZaIMCaTqsAxGQM\"",
+    "mtime": "2026-09-29T07:39:33.299Z",
+    "size": 4922,
+    "path": "../public/_nuxt/BXfmSmNG.js.br"
+  },
+  "/_nuxt/BXth5EZV.js": {
     "type": "text/javascript; charset=utf-8",
     "encoding": null,
-    "etag": "\"b409f-Ew1AXQ3287eMKV/h/AffL2itVqA\"",
-    "mtime": "2026-09-28T12:01:46.900Z",
-    "size": 737439,
-    "path": "../public/_nuxt/BTAdy7ic.js"
-  },
-  "/_nuxt/BUIhc89H.js": {
-    "type": "text/javascript; charset=utf-8",
-    "etag": "\"1f9-nf6cbsWXlgzQAzd+WZLznwFRXHk\"",
-    "mtime": "2026-09-28T12:01:46.897Z",
-    "size": 505,
-    "path": "../public/_nuxt/BUIhc89H.js"
-  },
-  "/_nuxt/BYOgI7nY.js": {
-    "type": "text/javascript; charset=utf-8",
-    "encoding": null,
-    "etag": "\"40c-q0tiKDg4MM1gEeXCked5ozTtdRI\"",
-    "mtime": "2026-09-28T12:01:46.898Z",
-    "size": 1036,
-    "path": "../public/_nuxt/BYOgI7nY.js"
+    "etag": "\"6d0-IbfNxdwePe9OGl0xiz5X4wfKTJk\"",
+    "mtime": "2026-09-29T07:39:32.956Z",
+    "size": 1744,
+    "path": "../public/_nuxt/BXth5EZV.js"
   },
   "/_nuxt/BY6UWina.js": {
     "type": "text/javascript; charset=utf-8",
     "etag": "\"28e-Q7tBDvEApmx5WDNhrQqUJNxtGgE\"",
-    "mtime": "2026-09-28T12:01:46.898Z",
+    "mtime": "2026-09-29T07:39:32.956Z",
     "size": 654,
     "path": "../public/_nuxt/BY6UWina.js"
   },
-  "/_nuxt/BYOgI7nY.js.br": {
+  "/_nuxt/BaicMZxf.js": {
     "type": "text/javascript; charset=utf-8",
-    "encoding": "br",
-    "etag": "\"23a-pS/a3mRBENAodBZ9x3Ln+mp4C9Y\"",
-    "mtime": "2026-09-28T12:01:47.190Z",
-    "size": 570,
-    "path": "../public/_nuxt/BYOgI7nY.js.br"
+    "etag": "\"22f-hK4TVV9wW2pJWyWN+9OSsIsQQKE\"",
+    "mtime": "2026-09-29T07:39:32.956Z",
+    "size": 559,
+    "path": "../public/_nuxt/BaicMZxf.js"
   },
-  "/_nuxt/BTAdy7ic.js.br": {
+  "/_nuxt/BYYCyNhP.js": {
     "type": "text/javascript; charset=utf-8",
-    "encoding": "br",
-    "etag": "\"2ccc2-53W6LmrjImhQgkAKJNLCwDz5Z5k\"",
-    "mtime": "2026-09-28T12:01:49.224Z",
-    "size": 183490,
-    "path": "../public/_nuxt/BTAdy7ic.js.br"
+    "etag": "\"20e-pw/iZTh8r7Em/t80iGMWf2sMu8w\"",
+    "mtime": "2026-09-29T07:39:32.956Z",
+    "size": 526,
+    "path": "../public/_nuxt/BYYCyNhP.js"
   },
-  "/_nuxt/BTAdy7ic.js.gz": {
-    "type": "text/javascript; charset=utf-8",
-    "encoding": "gzip",
-    "etag": "\"37bc0-TDhAHqQqwCE2mbRvb3hBqO5EXvQ\"",
-    "mtime": "2026-09-28T12:01:47.448Z",
-    "size": 228288,
-    "path": "../public/_nuxt/BTAdy7ic.js.gz"
-  },
-  "/_nuxt/BYOgI7nY.js.gz": {
-    "type": "text/javascript; charset=utf-8",
-    "encoding": "gzip",
-    "etag": "\"2a4-zaGwMKpHzKOHVEGiJVRoHRgn+L4\"",
-    "mtime": "2026-09-28T12:01:47.189Z",
-    "size": 676,
-    "path": "../public/_nuxt/BYOgI7nY.js.gz"
-  },
-  "/_nuxt/BZ22vfxN.js": {
+  "/_nuxt/BeTDm-y4.js": {
     "type": "text/javascript; charset=utf-8",
     "encoding": null,
-    "etag": "\"c373-SiX/uh1TAJaD/xvAKBK/W5eJmBE\"",
-    "mtime": "2026-09-28T12:01:46.899Z",
-    "size": 50035,
-    "path": "../public/_nuxt/BZ22vfxN.js"
+    "etag": "\"16cc-iKhjqiNagdOMW+L67Zk6KUxzP9k\"",
+    "mtime": "2026-09-29T07:39:32.956Z",
+    "size": 5836,
+    "path": "../public/_nuxt/BeTDm-y4.js"
   },
-  "/_nuxt/BZ7AR6Wa.js": {
-    "type": "text/javascript; charset=utf-8",
-    "etag": "\"3dc-oGpx73uZFfLE9bL81mJreOC763E\"",
-    "mtime": "2026-09-28T12:01:46.898Z",
-    "size": 988,
-    "path": "../public/_nuxt/BZ7AR6Wa.js"
-  },
-  "/_nuxt/BZe-4TUV.js": {
-    "type": "text/javascript; charset=utf-8",
-    "encoding": null,
-    "etag": "\"a93-lNImz4/iQQ17jj4vLRDMZxElxF4\"",
-    "mtime": "2026-09-28T12:01:46.899Z",
-    "size": 2707,
-    "path": "../public/_nuxt/BZe-4TUV.js"
-  },
-  "/_nuxt/BZ22vfxN.js.br": {
-    "type": "text/javascript; charset=utf-8",
-    "encoding": "br",
-    "etag": "\"3c29-7VSxMyF7j7IxaWCuYpPnf5UMqEE\"",
-    "mtime": "2026-09-28T12:01:47.324Z",
-    "size": 15401,
-    "path": "../public/_nuxt/BZ22vfxN.js.br"
-  },
-  "/_nuxt/BZgY2sMW.js": {
-    "type": "text/javascript; charset=utf-8",
-    "encoding": null,
-    "etag": "\"1603-nACJ0fzlBpO+KeBhzzrwgv4uARk\"",
-    "mtime": "2026-09-28T12:01:46.898Z",
-    "size": 5635,
-    "path": "../public/_nuxt/BZgY2sMW.js"
-  },
-  "/_nuxt/BZe-4TUV.js.gz": {
+  "/_nuxt/BXfmSmNG.js.gz": {
     "type": "text/javascript; charset=utf-8",
     "encoding": "gzip",
-    "etag": "\"4a9-gY4AO2pCra7dZV8Ii3dYHnt0lc8\"",
-    "mtime": "2026-09-28T12:01:47.199Z",
-    "size": 1193,
-    "path": "../public/_nuxt/BZe-4TUV.js.gz"
+    "etag": "\"15f6-J0cbGucAKtvtVzSwM+BIj2KoITU\"",
+    "mtime": "2026-09-29T07:39:33.273Z",
+    "size": 5622,
+    "path": "../public/_nuxt/BXfmSmNG.js.gz"
   },
-  "/_nuxt/BZ22vfxN.js.gz": {
+  "/_nuxt/BXth5EZV.js.gz": {
     "type": "text/javascript; charset=utf-8",
     "encoding": "gzip",
-    "etag": "\"4909-NS6anT0OqwymmIgMp9b4e+BE4mk\"",
-    "mtime": "2026-09-28T12:01:47.199Z",
-    "size": 18697,
-    "path": "../public/_nuxt/BZ22vfxN.js.gz"
+    "etag": "\"3c3-nwgPMmYjfWBF/KGMPE5tY+utnC0\"",
+    "mtime": "2026-09-29T07:39:33.274Z",
+    "size": 963,
+    "path": "../public/_nuxt/BXth5EZV.js.gz"
   },
-  "/_nuxt/BZgY2sMW.js.br": {
+  "/_nuxt/BXth5EZV.js.br": {
     "type": "text/javascript; charset=utf-8",
     "encoding": "br",
-    "etag": "\"7a1-DCWyFZp1RReyFZX7rP1MqQ1MP8c\"",
-    "mtime": "2026-09-28T12:01:47.279Z",
-    "size": 1953,
-    "path": "../public/_nuxt/BZgY2sMW.js.br"
+    "etag": "\"33a-bYifsaVrcNbdfH0fetscW5w3bwQ\"",
+    "mtime": "2026-09-29T07:39:33.274Z",
+    "size": 826,
+    "path": "../public/_nuxt/BXth5EZV.js.br"
   },
-  "/_nuxt/B_6VbF0N.js": {
+  "/_nuxt/BfpDTWEg.js": {
     "type": "text/javascript; charset=utf-8",
     "encoding": null,
-    "etag": "\"37f8-ha6JwJ7sFa0/A0LRs6LtrIRYeZQ\"",
-    "mtime": "2026-09-28T12:01:46.899Z",
-    "size": 14328,
-    "path": "../public/_nuxt/B_6VbF0N.js"
+    "etag": "\"880-L+uAB+DQtiSSh9MOaTQXtxb8yqc\"",
+    "mtime": "2026-09-29T07:39:32.956Z",
+    "size": 2176,
+    "path": "../public/_nuxt/BfpDTWEg.js"
   },
-  "/_nuxt/BZe-4TUV.js.br": {
+  "/_nuxt/BeTDm-y4.js.br": {
     "type": "text/javascript; charset=utf-8",
     "encoding": "br",
-    "etag": "\"431-lb0KVWTN3ioyCSnt4VE2Lg7M500\"",
-    "mtime": "2026-09-28T12:01:47.199Z",
-    "size": 1073,
-    "path": "../public/_nuxt/BZe-4TUV.js.br"
+    "etag": "\"89f-L0P+3X3ed6+spMxLcABhM7XKEWc\"",
+    "mtime": "2026-09-29T07:39:33.287Z",
+    "size": 2207,
+    "path": "../public/_nuxt/BeTDm-y4.js.br"
   },
-  "/_nuxt/BZgY2sMW.js.gz": {
+  "/_nuxt/BiSPVtFB.js": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": null,
+    "etag": "\"6d8-DKK9TLprZgI8mW0J3KtA8VC5t/I\"",
+    "mtime": "2026-09-29T07:39:32.958Z",
+    "size": 1752,
+    "path": "../public/_nuxt/BiSPVtFB.js"
+  },
+  "/_nuxt/BfpDTWEg.js.br": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": "br",
+    "etag": "\"261-WjOwb4dgx0GtjE6fSzym0l60v14\"",
+    "mtime": "2026-09-29T07:39:33.287Z",
+    "size": 609,
+    "path": "../public/_nuxt/BfpDTWEg.js.br"
+  },
+  "/_nuxt/BeTDm-y4.js.gz": {
     "type": "text/javascript; charset=utf-8",
     "encoding": "gzip",
-    "etag": "\"8f1-acKwxDr2AESx9X/Q2daXUGZHj9Q\"",
-    "mtime": "2026-09-28T12:01:47.279Z",
-    "size": 2289,
-    "path": "../public/_nuxt/BZgY2sMW.js.gz"
+    "etag": "\"9e0-wr1IFFQJ6ug25lzXCmyBG3rOpBs\"",
+    "mtime": "2026-09-29T07:39:33.287Z",
+    "size": 2528,
+    "path": "../public/_nuxt/BeTDm-y4.js.gz"
   },
-  "/_nuxt/BaYDGLOb.js": {
-    "type": "text/javascript; charset=utf-8",
-    "encoding": null,
-    "etag": "\"17f5-P2LOkiJbmwrKP3QYIcdKly8E2Zc\"",
-    "mtime": "2026-09-28T12:01:46.899Z",
-    "size": 6133,
-    "path": "../public/_nuxt/BaYDGLOb.js"
-  },
-  "/_nuxt/B_6VbF0N.js.br": {
-    "type": "text/javascript; charset=utf-8",
-    "encoding": "br",
-    "etag": "\"12bf-/sX0MfDSVZPYF0AwaPIUEklu4sM\"",
-    "mtime": "2026-09-28T12:01:47.283Z",
-    "size": 4799,
-    "path": "../public/_nuxt/B_6VbF0N.js.br"
-  },
-  "/_nuxt/B_6VbF0N.js.gz": {
+  "/_nuxt/BfpDTWEg.js.gz": {
     "type": "text/javascript; charset=utf-8",
     "encoding": "gzip",
-    "etag": "\"1507-HlFfVe0426srwsDksUOO7b5srPQ\"",
-    "mtime": "2026-09-28T12:01:47.279Z",
-    "size": 5383,
-    "path": "../public/_nuxt/B_6VbF0N.js.gz"
+    "etag": "\"2c4-exZZxVhdi/VR1AE+pqolvPgjBR8\"",
+    "mtime": "2026-09-29T07:39:33.287Z",
+    "size": 708,
+    "path": "../public/_nuxt/BfpDTWEg.js.gz"
   },
-  "/_nuxt/BaYDGLOb.js.br": {
+  "/_nuxt/BiSPVtFB.js.br": {
     "type": "text/javascript; charset=utf-8",
     "encoding": "br",
-    "etag": "\"5fd-KIuQ/kLU751crb8fnp9VandTc2Y\"",
-    "mtime": "2026-09-28T12:01:47.303Z",
-    "size": 1533,
-    "path": "../public/_nuxt/BaYDGLOb.js.br"
+    "etag": "\"316-g+g4C28zB6sp+WGCN0mMLnKsRjQ\"",
+    "mtime": "2026-09-29T07:39:33.298Z",
+    "size": 790,
+    "path": "../public/_nuxt/BiSPVtFB.js.br"
   },
-  "/_nuxt/BaYDGLOb.js.gz": {
+  "/_nuxt/BiSPVtFB.js.gz": {
     "type": "text/javascript; charset=utf-8",
     "encoding": "gzip",
-    "etag": "\"6c5-9ePv2ev7/vV+2DPiMD4262W0wK8\"",
-    "mtime": "2026-09-28T12:01:47.303Z",
-    "size": 1733,
-    "path": "../public/_nuxt/BaYDGLOb.js.gz"
+    "etag": "\"372-B94So8Hiyz8/aXFPdim0o2enl+Q\"",
+    "mtime": "2026-09-29T07:39:33.287Z",
+    "size": 882,
+    "path": "../public/_nuxt/BiSPVtFB.js.gz"
   },
-  "/_nuxt/BaqfDg_2.js": {
+  "/_nuxt/BiUo4pNc.js": {
     "type": "text/javascript; charset=utf-8",
-    "etag": "\"22e-BqnwyQXF1eNxcjxmJKD1C8T08TU\"",
-    "mtime": "2026-09-28T12:01:46.899Z",
-    "size": 558,
-    "path": "../public/_nuxt/BaqfDg_2.js"
+    "etag": "\"299-vE7IYRFlBWLBLwqe6m9Yed/i9aA\"",
+    "mtime": "2026-09-29T07:39:32.958Z",
+    "size": 665,
+    "path": "../public/_nuxt/BiUo4pNc.js"
   },
-  "/_nuxt/BcIa0C1V.js": {
+  "/_nuxt/BitW8fXK.js": {
+    "type": "text/javascript; charset=utf-8",
+    "etag": "\"3cd-kzZ0binn/r9/QrFKvLtRekVfFkk\"",
+    "mtime": "2026-09-29T07:39:32.961Z",
+    "size": 973,
+    "path": "../public/_nuxt/BitW8fXK.js"
+  },
+  "/_nuxt/BlTqnLu6.js": {
+    "type": "text/javascript; charset=utf-8",
+    "etag": "\"19e-s7I5KhKIMP89C1KpmoZL2jgIR1o\"",
+    "mtime": "2026-09-29T07:39:32.961Z",
+    "size": 414,
+    "path": "../public/_nuxt/BlTqnLu6.js"
+  },
+  "/_nuxt/BpbvWJaI.js": {
     "type": "text/javascript; charset=utf-8",
     "encoding": null,
-    "etag": "\"62f-F7tpOJHy70Krl8zuIR3J/XMFbds\"",
-    "mtime": "2026-09-28T12:01:46.900Z",
-    "size": 1583,
-    "path": "../public/_nuxt/BcIa0C1V.js"
+    "etag": "\"1b35-5mrEy9Eg21B6zGPT9fnF+gvTY/w\"",
+    "mtime": "2026-09-29T07:39:32.958Z",
+    "size": 6965,
+    "path": "../public/_nuxt/BpbvWJaI.js"
   },
-  "/_nuxt/BefEEz8b.js": {
-    "type": "text/javascript; charset=utf-8",
-    "encoding": null,
-    "etag": "\"12ce-MAMM56KaevCiDDAC8l0a0Sctne4\"",
-    "mtime": "2026-09-28T12:01:46.899Z",
-    "size": 4814,
-    "path": "../public/_nuxt/BefEEz8b.js"
-  },
-  "/_nuxt/BcIa0C1V.js.br": {
+  "/_nuxt/BpbvWJaI.js.br": {
     "type": "text/javascript; charset=utf-8",
     "encoding": "br",
-    "etag": "\"28e-QOVucqyi+49Nfg5IeDZd7OXk+y8\"",
-    "mtime": "2026-09-28T12:01:47.317Z",
-    "size": 654,
-    "path": "../public/_nuxt/BcIa0C1V.js.br"
+    "etag": "\"a22-pqkDJW8+BbKHdFSQT9i6cQzu6lw\"",
+    "mtime": "2026-09-29T07:39:33.309Z",
+    "size": 2594,
+    "path": "../public/_nuxt/BpbvWJaI.js.br"
   },
-  "/_nuxt/Bg1CCL4_.js": {
-    "type": "text/javascript; charset=utf-8",
-    "etag": "\"16f-Oi+nEdvNJTQLZjNPlaF902oudzE\"",
-    "mtime": "2026-09-28T12:01:46.900Z",
-    "size": 367,
-    "path": "../public/_nuxt/Bg1CCL4_.js"
-  },
-  "/_nuxt/BefEEz8b.js.br": {
-    "type": "text/javascript; charset=utf-8",
-    "encoding": "br",
-    "etag": "\"76d-rec0UzRkHmbesZtJOz/lIVowjrI\"",
-    "mtime": "2026-09-28T12:01:47.327Z",
-    "size": 1901,
-    "path": "../public/_nuxt/BefEEz8b.js.br"
-  },
-  "/_nuxt/Bguc-UTY.js": {
-    "type": "text/javascript; charset=utf-8",
-    "etag": "\"206-61rcMqcQkLuKVyV0fuP6hHFy3bI\"",
-    "mtime": "2026-09-28T12:01:46.900Z",
-    "size": 518,
-    "path": "../public/_nuxt/Bguc-UTY.js"
-  },
-  "/_nuxt/BcIa0C1V.js.gz": {
+  "/_nuxt/BpbvWJaI.js.gz": {
     "type": "text/javascript; charset=utf-8",
     "encoding": "gzip",
-    "etag": "\"2d7-SLmONtRLj2NgPKolr6rmFzYZRB4\"",
-    "mtime": "2026-09-28T12:01:47.317Z",
-    "size": 727,
-    "path": "../public/_nuxt/BcIa0C1V.js.gz"
+    "etag": "\"b0e-wWQubyYRctE4I4FoGpEyCDqIoXg\"",
+    "mtime": "2026-09-29T07:39:33.299Z",
+    "size": 2830,
+    "path": "../public/_nuxt/BpbvWJaI.js.gz"
   },
-  "/_nuxt/BefEEz8b.js.gz": {
-    "type": "text/javascript; charset=utf-8",
-    "encoding": "gzip",
-    "etag": "\"8a7-n51qnK3zDXu71XZb2Bvl1plYuAo\"",
-    "mtime": "2026-09-28T12:01:47.322Z",
-    "size": 2215,
-    "path": "../public/_nuxt/BefEEz8b.js.gz"
-  },
-  "/_nuxt/Bgv5z9d-.js": {
+  "/_nuxt/BqqYB3pA.js": {
     "type": "text/javascript; charset=utf-8",
     "encoding": null,
-    "etag": "\"c7d3-QhoA5lQ4LfZ1ZFF9lKiS6JfraX0\"",
-    "mtime": "2026-09-28T12:01:46.900Z",
-    "size": 51155,
-    "path": "../public/_nuxt/Bgv5z9d-.js"
-  },
-  "/_nuxt/Bh828Zzh.js": {
-    "type": "text/javascript; charset=utf-8",
-    "encoding": null,
-    "etag": "\"bec6-kfX3oluH6zaUdNrYokcnkGebQEc\"",
-    "mtime": "2026-09-28T12:01:46.901Z",
-    "size": 48838,
-    "path": "../public/_nuxt/Bh828Zzh.js"
-  },
-  "/_nuxt/Bgv5z9d-.js.br": {
-    "type": "text/javascript; charset=utf-8",
-    "encoding": "br",
-    "etag": "\"3716-SzV8nLrVMklSEtlTZGZ77PDmln4\"",
-    "mtime": "2026-09-28T12:01:47.450Z",
-    "size": 14102,
-    "path": "../public/_nuxt/Bgv5z9d-.js.br"
-  },
-  "/_nuxt/Bh828Zzh.js.gz": {
-    "type": "text/javascript; charset=utf-8",
-    "encoding": "gzip",
-    "etag": "\"2f1e-64YbOmpuP/Nygxs3EGiEeMKpw8U\"",
-    "mtime": "2026-09-28T12:01:47.450Z",
-    "size": 12062,
-    "path": "../public/_nuxt/Bh828Zzh.js.gz"
-  },
-  "/_nuxt/BiFhhR-G.js": {
-    "type": "text/javascript; charset=utf-8",
-    "encoding": null,
-    "etag": "\"fb48-AplNbNPjKJcuywMNEeIZ5Swp1Xo\"",
-    "mtime": "2026-09-28T12:01:46.901Z",
-    "size": 64328,
-    "path": "../public/_nuxt/BiFhhR-G.js"
-  },
-  "/_nuxt/Bh828Zzh.js.br": {
-    "type": "text/javascript; charset=utf-8",
-    "encoding": "br",
-    "etag": "\"278c-Gv985g6EdP2oih9sUhPMMqJFesw\"",
-    "mtime": "2026-09-28T12:01:47.450Z",
-    "size": 10124,
-    "path": "../public/_nuxt/Bh828Zzh.js.br"
-  },
-  "/_nuxt/Bgv5z9d-.js.gz": {
-    "type": "text/javascript; charset=utf-8",
-    "encoding": "gzip",
-    "etag": "\"40ca-SQmoGpZPWvP2GAME6FpgwvcnjbA\"",
-    "mtime": "2026-09-28T12:01:47.462Z",
-    "size": 16586,
-    "path": "../public/_nuxt/Bgv5z9d-.js.gz"
-  },
-  "/_nuxt/BicI2NZv.js": {
-    "type": "text/javascript; charset=utf-8",
-    "encoding": null,
-    "etag": "\"1899-4JM2I4/uYIOux4qArUqQUtOmgpY\"",
-    "mtime": "2026-09-28T12:01:46.901Z",
-    "size": 6297,
-    "path": "../public/_nuxt/BicI2NZv.js"
-  },
-  "/_nuxt/Bix4zGmv.js": {
-    "type": "text/javascript; charset=utf-8",
-    "etag": "\"1ac-9z8qvFaBeLCRcASo+yH4Frd5TVc\"",
-    "mtime": "2026-09-28T12:01:46.901Z",
-    "size": 428,
-    "path": "../public/_nuxt/Bix4zGmv.js"
-  },
-  "/_nuxt/BicI2NZv.js.br": {
-    "type": "text/javascript; charset=utf-8",
-    "encoding": "br",
-    "etag": "\"90c-gAj39tuzWYsPTh3UtEBDA3uKwxA\"",
-    "mtime": "2026-09-28T12:01:47.450Z",
-    "size": 2316,
-    "path": "../public/_nuxt/BicI2NZv.js.br"
-  },
-  "/_nuxt/BiFhhR-G.js.br": {
-    "type": "text/javascript; charset=utf-8",
-    "encoding": "br",
-    "etag": "\"53bd-8jU3CcFSjKABbqZEsX5015JMHaA\"",
-    "mtime": "2026-09-28T12:01:47.817Z",
-    "size": 21437,
-    "path": "../public/_nuxt/BiFhhR-G.js.br"
-  },
-  "/_nuxt/BkQ1nA_H.js": {
-    "type": "text/javascript; charset=utf-8",
-    "encoding": null,
-    "etag": "\"6db-Vxl0qoQ0nxAc8XTmZEjg9Z3uVz0\"",
-    "mtime": "2026-09-28T12:01:46.901Z",
-    "size": 1755,
-    "path": "../public/_nuxt/BkQ1nA_H.js"
-  },
-  "/_nuxt/BiFhhR-G.js.gz": {
-    "type": "text/javascript; charset=utf-8",
-    "encoding": "gzip",
-    "etag": "\"65fd-H61ZBXb+uceKHxwGR4HKWPS5zlI\"",
-    "mtime": "2026-09-28T12:01:47.462Z",
-    "size": 26109,
-    "path": "../public/_nuxt/BiFhhR-G.js.gz"
-  },
-  "/_nuxt/BicI2NZv.js.gz": {
-    "type": "text/javascript; charset=utf-8",
-    "encoding": "gzip",
-    "etag": "\"a6f-OAjhTc1o4h4HyxkfsWfSQoTWiv0\"",
-    "mtime": "2026-09-28T12:01:47.461Z",
-    "size": 2671,
-    "path": "../public/_nuxt/BicI2NZv.js.gz"
-  },
-  "/_nuxt/Bm5NC1xE.js": {
-    "type": "text/javascript; charset=utf-8",
-    "encoding": null,
-    "etag": "\"c36-6ABUQf6TIRTk81YWgze3TAWdO0o\"",
-    "mtime": "2026-09-28T12:01:46.901Z",
-    "size": 3126,
-    "path": "../public/_nuxt/Bm5NC1xE.js"
-  },
-  "/_nuxt/BkQ1nA_H.js.br": {
-    "type": "text/javascript; charset=utf-8",
-    "encoding": "br",
-    "etag": "\"2d0-J3EDS9q4DShEDUnsMkHJLK/LXyg\"",
-    "mtime": "2026-09-28T12:01:47.499Z",
-    "size": 720,
-    "path": "../public/_nuxt/BkQ1nA_H.js.br"
-  },
-  "/_nuxt/BkQ1nA_H.js.gz": {
-    "type": "text/javascript; charset=utf-8",
-    "encoding": "gzip",
-    "etag": "\"317-gKH/EIdDVnqGWD6S4WUne1Iu27E\"",
-    "mtime": "2026-09-28T12:01:47.499Z",
-    "size": 791,
-    "path": "../public/_nuxt/BkQ1nA_H.js.gz"
-  },
-  "/_nuxt/Bm5NC1xE.js.br": {
-    "type": "text/javascript; charset=utf-8",
-    "encoding": "br",
-    "etag": "\"425-t4W5UCKUusRKuGijNc6QLg2PU9E\"",
-    "mtime": "2026-09-28T12:01:47.519Z",
-    "size": 1061,
-    "path": "../public/_nuxt/Bm5NC1xE.js.br"
-  },
-  "/_nuxt/Bmn2lqNT.js": {
-    "type": "text/javascript; charset=utf-8",
-    "encoding": null,
-    "etag": "\"1530-Jv+bf2uJC55P5qW27Df48iJ+D58\"",
-    "mtime": "2026-09-28T12:01:46.901Z",
-    "size": 5424,
-    "path": "../public/_nuxt/Bmn2lqNT.js"
-  },
-  "/_nuxt/BntAWUOg.js": {
-    "type": "text/javascript; charset=utf-8",
-    "encoding": null,
-    "etag": "\"eb3b-In+mqU2bO6/OFWOMHlb2GiUm8IM\"",
-    "mtime": "2026-09-28T12:01:46.902Z",
-    "size": 60219,
-    "path": "../public/_nuxt/BntAWUOg.js"
-  },
-  "/_nuxt/Bmn2lqNT.js.gz": {
-    "type": "text/javascript; charset=utf-8",
-    "encoding": "gzip",
-    "etag": "\"7b6-JUESs0jrBKkFZpgN497swZB93DI\"",
-    "mtime": "2026-09-28T12:01:47.519Z",
-    "size": 1974,
-    "path": "../public/_nuxt/Bmn2lqNT.js.gz"
-  },
-  "/_nuxt/Bm5NC1xE.js.gz": {
-    "type": "text/javascript; charset=utf-8",
-    "encoding": "gzip",
-    "etag": "\"4ca-eKNDf9P3EOk+RiHTvt8l4jKfC+0\"",
-    "mtime": "2026-09-28T12:01:47.519Z",
-    "size": 1226,
-    "path": "../public/_nuxt/Bm5NC1xE.js.gz"
-  },
-  "/_nuxt/Bmn2lqNT.js.br": {
-    "type": "text/javascript; charset=utf-8",
-    "encoding": "br",
-    "etag": "\"6f7-yJR9cGhV161ncXI1E2bDOJgSIck\"",
-    "mtime": "2026-09-28T12:01:47.519Z",
-    "size": 1783,
-    "path": "../public/_nuxt/Bmn2lqNT.js.br"
-  },
-  "/_nuxt/BonUtlEz.js": {
-    "type": "text/javascript; charset=utf-8",
-    "etag": "\"3e2-N77+eJ8EdctU5u+xGDTZjoa9GTc\"",
-    "mtime": "2026-09-28T12:01:46.901Z",
-    "size": 994,
-    "path": "../public/_nuxt/BonUtlEz.js"
-  },
-  "/_nuxt/BntAWUOg.js.br": {
-    "type": "text/javascript; charset=utf-8",
-    "encoding": "br",
-    "etag": "\"4f2a-meaJsm9jClkct+XlLTAjuOzQb/I\"",
-    "mtime": "2026-09-28T12:01:47.951Z",
-    "size": 20266,
-    "path": "../public/_nuxt/BntAWUOg.js.br"
-  },
-  "/_nuxt/BqqMZgSn.js": {
-    "type": "text/javascript; charset=utf-8",
-    "encoding": null,
-    "etag": "\"604-D/3GKU/H2iqVk/roFDBAWT5N+Uc\"",
-    "mtime": "2026-09-28T12:01:46.902Z",
+    "etag": "\"604-ZjL9Al3nSUfzjcA0tXnd5BAD0fM\"",
+    "mtime": "2026-09-29T07:39:32.961Z",
     "size": 1540,
-    "path": "../public/_nuxt/BqqMZgSn.js"
+    "path": "../public/_nuxt/BqqYB3pA.js"
   },
-  "/_nuxt/BqrmaH_V.js": {
-    "type": "text/javascript; charset=utf-8",
-    "encoding": null,
-    "etag": "\"22d2-0L8otwDbAnpQ70uJRoaPwx+Toqo\"",
-    "mtime": "2026-09-28T12:01:46.902Z",
-    "size": 8914,
-    "path": "../public/_nuxt/BqrmaH_V.js"
-  },
-  "/_nuxt/BqqMZgSn.js.br": {
+  "/_nuxt/BqqYB3pA.js.br": {
     "type": "text/javascript; charset=utf-8",
     "encoding": "br",
-    "etag": "\"2e8-DJTGNqA2NEbK3XFonSFfDk+0Fmo\"",
-    "mtime": "2026-09-28T12:01:48.071Z",
-    "size": 744,
-    "path": "../public/_nuxt/BqqMZgSn.js.br"
+    "etag": "\"2e4-3d+fON2j+m28igXbszNehS9SQGA\"",
+    "mtime": "2026-09-29T07:39:33.299Z",
+    "size": 740,
+    "path": "../public/_nuxt/BqqYB3pA.js.br"
   },
-  "/_nuxt/BqqMZgSn.js.gz": {
+  "/_nuxt/BqqYB3pA.js.gz": {
     "type": "text/javascript; charset=utf-8",
     "encoding": "gzip",
-    "etag": "\"34e-ZQ55e2GHXoMQHwnyyg6LaJn6cJk\"",
-    "mtime": "2026-09-28T12:01:48.061Z",
-    "size": 846,
-    "path": "../public/_nuxt/BqqMZgSn.js.gz"
+    "etag": "\"34c-XAP2qOE75ZEZXr2D1QfR/g4H3og\"",
+    "mtime": "2026-09-29T07:39:33.299Z",
+    "size": 844,
+    "path": "../public/_nuxt/BqqYB3pA.js.gz"
   },
-  "/_nuxt/BntAWUOg.js.gz": {
-    "type": "text/javascript; charset=utf-8",
-    "encoding": "gzip",
-    "etag": "\"5eaf-SNK5GsppSvEjVgBjep+VkfaAPeo\"",
-    "mtime": "2026-09-28T12:01:47.678Z",
-    "size": 24239,
-    "path": "../public/_nuxt/BntAWUOg.js.gz"
-  },
-  "/_nuxt/BqrmaH_V.js.br": {
-    "type": "text/javascript; charset=utf-8",
-    "encoding": "br",
-    "etag": "\"a45-PQqIPD+IvivKw1T4Gl0/VExDJlg\"",
-    "mtime": "2026-09-28T12:01:48.132Z",
-    "size": 2629,
-    "path": "../public/_nuxt/BqrmaH_V.js.br"
-  },
-  "/_nuxt/Btv1DJx8.js": {
+  "/_nuxt/Br1aeSBP.js": {
     "type": "text/javascript; charset=utf-8",
     "encoding": null,
-    "etag": "\"22d6-0RfLHG9WYocZQvXmHvS4IB0cp0k\"",
-    "mtime": "2026-09-28T12:01:46.902Z",
-    "size": 8918,
-    "path": "../public/_nuxt/Btv1DJx8.js"
+    "etag": "\"1f4d-ofthz0sK/AjzE4y4D1/j34T8Nng\"",
+    "mtime": "2026-09-29T07:39:32.961Z",
+    "size": 8013,
+    "path": "../public/_nuxt/Br1aeSBP.js"
+  },
+  "/_nuxt/BrGTuzQF.js": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": null,
+    "etag": "\"53e5-/Mq2wU54SmO/aebI0xxGZbkVXRQ\"",
+    "mtime": "2026-09-29T07:39:32.963Z",
+    "size": 21477,
+    "path": "../public/_nuxt/BrGTuzQF.js"
+  },
+  "/_nuxt/Br1aeSBP.js.br": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": "br",
+    "etag": "\"9e9-SFdL5xHpq9WMv87Yjij3oXW9uqg\"",
+    "mtime": "2026-09-29T07:39:33.309Z",
+    "size": 2537,
+    "path": "../public/_nuxt/Br1aeSBP.js.br"
+  },
+  "/_nuxt/Bt606yvl.js": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": null,
+    "etag": "\"40c-MbUuSszjPvsoWh/AhuRdvEQ7JkM\"",
+    "mtime": "2026-09-29T07:39:32.962Z",
+    "size": 1036,
+    "path": "../public/_nuxt/Bt606yvl.js"
+  },
+  "/_nuxt/Br1aeSBP.js.gz": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": "gzip",
+    "etag": "\"b42-ROa7Befk9C4DZOn2O6eHUivHmu4\"",
+    "mtime": "2026-09-29T07:39:33.299Z",
+    "size": 2882,
+    "path": "../public/_nuxt/Br1aeSBP.js.gz"
+  },
+  "/_nuxt/BrGTuzQF.js.gz": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": "gzip",
+    "etag": "\"1b5f-bdE/mUA9yULq72QLkH43+VbW9Ko\"",
+    "mtime": "2026-09-29T07:39:33.309Z",
+    "size": 7007,
+    "path": "../public/_nuxt/BrGTuzQF.js.gz"
+  },
+  "/_nuxt/Bu8Ka9JL.js": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": null,
+    "etag": "\"246b-PGKjIi1vYdkCvajqv2KUc6SefV4\"",
+    "mtime": "2026-09-29T07:39:32.962Z",
+    "size": 9323,
+    "path": "../public/_nuxt/Bu8Ka9JL.js"
+  },
+  "/_nuxt/BrGTuzQF.js.br": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": "br",
+    "etag": "\"16ac-2qRVyIdjNc0DVj7+rK2NWb5lUx4\"",
+    "mtime": "2026-09-29T07:39:33.333Z",
+    "size": 5804,
+    "path": "../public/_nuxt/BrGTuzQF.js.br"
+  },
+  "/_nuxt/Bt606yvl.js.br": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": "br",
+    "etag": "\"23b-hCvWgAcKT9iDOZPRG+VXV9ddjvg\"",
+    "mtime": "2026-09-29T07:39:33.309Z",
+    "size": 571,
+    "path": "../public/_nuxt/Bt606yvl.js.br"
+  },
+  "/_nuxt/Bt606yvl.js.gz": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": "gzip",
+    "etag": "\"2a9-scsmlQpxZz2b5xSNp0iRk/xP4P0\"",
+    "mtime": "2026-09-29T07:39:33.309Z",
+    "size": 681,
+    "path": "../public/_nuxt/Bt606yvl.js.gz"
+  },
+  "/_nuxt/BuTjEdgg.js": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": null,
+    "etag": "\"d4e9-SLrpetpGIP+Dnatqey2/PnSV64w\"",
+    "mtime": "2026-09-29T07:39:32.963Z",
+    "size": 54505,
+    "path": "../public/_nuxt/BuTjEdgg.js"
+  },
+  "/_nuxt/Bu8Ka9JL.js.gz": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": "gzip",
+    "etag": "\"d07-XC6SpUBMCkipCRwfNSLjS2IgTAs\"",
+    "mtime": "2026-09-29T07:39:33.311Z",
+    "size": 3335,
+    "path": "../public/_nuxt/Bu8Ka9JL.js.gz"
+  },
+  "/_nuxt/BuiXYSyQ.js": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": null,
+    "etag": "\"3207-mVD9sMbgce9XMDBKr+ZnGsYozYg\"",
+    "mtime": "2026-09-29T07:39:32.962Z",
+    "size": 12807,
+    "path": "../public/_nuxt/BuiXYSyQ.js"
+  },
+  "/_nuxt/BuTjEdgg.js.br": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": "br",
+    "etag": "\"409e-nrPeS5IEYN4Y+QHbiA9Isr2eIGM\"",
+    "mtime": "2026-09-29T07:39:33.417Z",
+    "size": 16542,
+    "path": "../public/_nuxt/BuTjEdgg.js.br"
+  },
+  "/_nuxt/BuTjEdgg.js.gz": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": "gzip",
+    "etag": "\"4e40-2mIR95mX416f+WOX/7g5M1BgBFk\"",
+    "mtime": "2026-09-29T07:39:33.311Z",
+    "size": 20032,
+    "path": "../public/_nuxt/BuTjEdgg.js.gz"
+  },
+  "/_nuxt/BukEcljh.js": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": null,
+    "etag": "\"d27-IolE45fvdZWLZWw+OpZX8vg0eSw\"",
+    "mtime": "2026-09-29T07:39:32.965Z",
+    "size": 3367,
+    "path": "../public/_nuxt/BukEcljh.js"
+  },
+  "/_nuxt/BuiXYSyQ.js.gz": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": "gzip",
+    "etag": "\"11d7-2OvecYAPagOEnZNXuvOUkFz3m9s\"",
+    "mtime": "2026-09-29T07:39:33.333Z",
+    "size": 4567,
+    "path": "../public/_nuxt/BuiXYSyQ.js.gz"
+  },
+  "/_nuxt/Bu8Ka9JL.js.br": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": "br",
+    "etag": "\"b15-7PZgziavYKDCM/7vku+htA1S94c\"",
+    "mtime": "2026-09-29T07:39:33.333Z",
+    "size": 2837,
+    "path": "../public/_nuxt/Bu8Ka9JL.js.br"
+  },
+  "/_nuxt/BuiXYSyQ.js.br": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": "br",
+    "etag": "\"f87-bztu2cqjvo/CyHMk4cN1WHlM/o8\"",
+    "mtime": "2026-09-29T07:39:33.334Z",
+    "size": 3975,
+    "path": "../public/_nuxt/BuiXYSyQ.js.br"
+  },
+  "/_nuxt/BukEcljh.js.br": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": "br",
+    "etag": "\"35b-g+O4UxmDUzXE/0BkHpU8GckQeuU\"",
+    "mtime": "2026-09-29T07:39:33.333Z",
+    "size": 859,
+    "path": "../public/_nuxt/BukEcljh.js.br"
+  },
+  "/_nuxt/BukEcljh.js.gz": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": "gzip",
+    "etag": "\"39f-CTQCXd9qDVDTxm/4jea2szdZm4c\"",
+    "mtime": "2026-09-29T07:39:33.333Z",
+    "size": 927,
+    "path": "../public/_nuxt/BukEcljh.js.gz"
   },
   "/_nuxt/Bxc3PCbM.js": {
     "type": "text/javascript; charset=utf-8",
     "encoding": null,
     "etag": "\"1e16-pwrI7mSvMxR/BpQVFqpBVcuWxic\"",
-    "mtime": "2026-09-28T12:01:46.902Z",
+    "mtime": "2026-09-29T07:39:32.964Z",
     "size": 7702,
     "path": "../public/_nuxt/Bxc3PCbM.js"
   },
-  "/_nuxt/BqrmaH_V.js.gz": {
-    "type": "text/javascript; charset=utf-8",
-    "encoding": "gzip",
-    "etag": "\"b69-RLiQbU7tbwh4b/7DLmOfzKusXbc\"",
-    "mtime": "2026-09-28T12:01:48.081Z",
-    "size": 2921,
-    "path": "../public/_nuxt/BqrmaH_V.js.gz"
-  },
-  "/_nuxt/Btv1DJx8.js.br": {
-    "type": "text/javascript; charset=utf-8",
-    "encoding": "br",
-    "etag": "\"c84-GJStm2A2wIZ6ijovM08mJVVhwpc\"",
-    "mtime": "2026-09-28T12:01:48.191Z",
-    "size": 3204,
-    "path": "../public/_nuxt/Btv1DJx8.js.br"
-  },
-  "/_nuxt/Btv1DJx8.js.gz": {
-    "type": "text/javascript; charset=utf-8",
-    "encoding": "gzip",
-    "etag": "\"e07-eXAUZMzWTPBATP73WZupnwpMC/Y\"",
-    "mtime": "2026-09-28T12:01:48.191Z",
-    "size": 3591,
-    "path": "../public/_nuxt/Btv1DJx8.js.gz"
-  },
-  "/_nuxt/Bxc3PCbM.js.br": {
-    "type": "text/javascript; charset=utf-8",
-    "encoding": "br",
-    "etag": "\"b06-Lpdw3VU7Vdgr1RWAgxr4/7vPf5M\"",
-    "mtime": "2026-09-28T12:01:48.213Z",
-    "size": 2822,
-    "path": "../public/_nuxt/Bxc3PCbM.js.br"
-  },
-  "/_nuxt/BxfjGdxF.js": {
+  "/_nuxt/C3DhRX8b.js": {
     "type": "text/javascript; charset=utf-8",
     "encoding": null,
-    "etag": "\"469e-JegDIL+29YHXfVvnwUsKBGOHG1Y\"",
-    "mtime": "2026-09-28T12:01:46.903Z",
-    "size": 18078,
-    "path": "../public/_nuxt/BxfjGdxF.js"
+    "etag": "\"192b-MAh3CRzV3gomkErzw6xwA2GTX0I\"",
+    "mtime": "2026-09-29T07:39:32.964Z",
+    "size": 6443,
+    "path": "../public/_nuxt/C3DhRX8b.js"
   },
   "/_nuxt/Bxc3PCbM.js.gz": {
     "type": "text/javascript; charset=utf-8",
     "encoding": "gzip",
     "etag": "\"c31-PlVwSJiKGAhACxfzk5cuftT5mb0\"",
-    "mtime": "2026-09-28T12:01:48.191Z",
+    "mtime": "2026-09-29T07:39:33.333Z",
     "size": 3121,
     "path": "../public/_nuxt/Bxc3PCbM.js.gz"
   },
-  "/_nuxt/Bxj8gMvI.js": {
-    "type": "text/javascript; charset=utf-8",
-    "etag": "\"1e0-kZ6UKMDDeExlbWR6Dd4H7hQ400k\"",
-    "mtime": "2026-09-28T12:01:46.902Z",
-    "size": 480,
-    "path": "../public/_nuxt/Bxj8gMvI.js"
-  },
-  "/_nuxt/BxfjGdxF.js.br": {
+  "/_nuxt/Bxc3PCbM.js.br": {
     "type": "text/javascript; charset=utf-8",
     "encoding": "br",
-    "etag": "\"114b-uk3KGbQtKeswbRAKfVragr1ovdM\"",
-    "mtime": "2026-09-28T12:01:48.220Z",
-    "size": 4427,
-    "path": "../public/_nuxt/BxfjGdxF.js.br"
+    "etag": "\"b06-Lpdw3VU7Vdgr1RWAgxr4/7vPf5M\"",
+    "mtime": "2026-09-29T07:39:33.343Z",
+    "size": 2822,
+    "path": "../public/_nuxt/Bxc3PCbM.js.br"
   },
-  "/_nuxt/BxfjGdxF.js.gz": {
-    "type": "text/javascript; charset=utf-8",
-    "encoding": "gzip",
-    "etag": "\"1454-Fq5UwKsoGJwV+JnxEM7TtFy3FZU\"",
-    "mtime": "2026-09-28T12:01:48.191Z",
-    "size": 5204,
-    "path": "../public/_nuxt/BxfjGdxF.js.gz"
-  },
-  "/_nuxt/Bxm-I8iE.js": {
+  "/_nuxt/C3IwMTZH.js": {
     "type": "text/javascript; charset=utf-8",
     "encoding": null,
-    "etag": "\"34bb-QjlDbgJjhH9fl9qrF815RvJKbbA\"",
-    "mtime": "2026-09-28T12:01:46.903Z",
-    "size": 13499,
-    "path": "../public/_nuxt/Bxm-I8iE.js"
+    "etag": "\"6d9-/6cyANwlLyJHT7mUqKMGmQ/5D5c\"",
+    "mtime": "2026-09-29T07:39:32.964Z",
+    "size": 1753,
+    "path": "../public/_nuxt/C3IwMTZH.js"
   },
-  "/_nuxt/ByVt4r0W.js": {
-    "type": "text/javascript; charset=utf-8",
-    "encoding": null,
-    "etag": "\"5bc7-3S1WFMBKKapETgsaEXi6hixeiVY\"",
-    "mtime": "2026-09-28T12:01:46.903Z",
-    "size": 23495,
-    "path": "../public/_nuxt/ByVt4r0W.js"
-  },
-  "/_nuxt/Bxm-I8iE.js.br": {
+  "/_nuxt/C3IwMTZH.js.br": {
     "type": "text/javascript; charset=utf-8",
     "encoding": "br",
-    "etag": "\"e71-EBnTcShb0Kdp1JNGyceI1/y/yHU\"",
-    "mtime": "2026-09-28T12:01:48.220Z",
-    "size": 3697,
-    "path": "../public/_nuxt/Bxm-I8iE.js.br"
+    "etag": "\"314-EYJDl/EHSzMIQ4xSXi3AWKAe1ME\"",
+    "mtime": "2026-09-29T07:39:33.342Z",
+    "size": 788,
+    "path": "../public/_nuxt/C3IwMTZH.js.br"
   },
-  "/_nuxt/Bxm-I8iE.js.gz": {
+  "/_nuxt/C3IwMTZH.js.gz": {
     "type": "text/javascript; charset=utf-8",
     "encoding": "gzip",
-    "etag": "\"10ce-XSapMdYPsr8Dntexz0n4RFBHLtg\"",
-    "mtime": "2026-09-28T12:01:48.213Z",
-    "size": 4302,
-    "path": "../public/_nuxt/Bxm-I8iE.js.gz"
+    "etag": "\"372-UI+c47JQ7ePz/6Fp80g5XEYcfBc\"",
+    "mtime": "2026-09-29T07:39:33.342Z",
+    "size": 882,
+    "path": "../public/_nuxt/C3IwMTZH.js.gz"
   },
-  "/_nuxt/BzuxCOJM.js": {
+  "/_nuxt/C6XVYGAb.js": {
     "type": "text/javascript; charset=utf-8",
-    "encoding": null,
-    "etag": "\"1ccb-H4EpRfsWGk7Eu2XNeG4c8Dj64gc\"",
-    "mtime": "2026-09-28T12:01:46.903Z",
-    "size": 7371,
-    "path": "../public/_nuxt/BzuxCOJM.js"
-  },
-  "/_nuxt/ByVt4r0W.js.gz": {
-    "type": "text/javascript; charset=utf-8",
-    "encoding": "gzip",
-    "etag": "\"1e40-odT88wfRWl4dqLgl5e8NAHBXpOw\"",
-    "mtime": "2026-09-28T12:01:48.220Z",
-    "size": 7744,
-    "path": "../public/_nuxt/ByVt4r0W.js.gz"
-  },
-  "/_nuxt/C1KgPoMp.js": {
-    "type": "text/javascript; charset=utf-8",
-    "encoding": null,
-    "etag": "\"1390-iO0VpID8FBQVgQpU/zTHe5VpKFs\"",
-    "mtime": "2026-09-28T12:01:46.903Z",
-    "size": 5008,
-    "path": "../public/_nuxt/C1KgPoMp.js"
-  },
-  "/_nuxt/ByVt4r0W.js.br": {
-    "type": "text/javascript; charset=utf-8",
-    "encoding": "br",
-    "etag": "\"18e0-e3T1D+rhVf662mqUDH9kiM5kXGs\"",
-    "mtime": "2026-09-28T12:01:48.260Z",
-    "size": 6368,
-    "path": "../public/_nuxt/ByVt4r0W.js.br"
-  },
-  "/_nuxt/BzuxCOJM.js.br": {
-    "type": "text/javascript; charset=utf-8",
-    "encoding": "br",
-    "etag": "\"88b-iDWyOv4KsDDPJTwsfffRjCSyhB4\"",
-    "mtime": "2026-09-28T12:01:48.220Z",
-    "size": 2187,
-    "path": "../public/_nuxt/BzuxCOJM.js.br"
-  },
-  "/_nuxt/BzuxCOJM.js.gz": {
-    "type": "text/javascript; charset=utf-8",
-    "encoding": "gzip",
-    "etag": "\"9a4-B3hhRw2geU1NydaKV/ImzVINlgY\"",
-    "mtime": "2026-09-28T12:01:48.220Z",
-    "size": 2468,
-    "path": "../public/_nuxt/BzuxCOJM.js.gz"
-  },
-  "/_nuxt/CCDrLSuu.js": {
-    "type": "text/javascript; charset=utf-8",
-    "etag": "\"35c-oPcoVvDNp9+hHGul0wnnXSxw/6o\"",
-    "mtime": "2026-09-28T12:01:46.903Z",
-    "size": 860,
-    "path": "../public/_nuxt/CCDrLSuu.js"
-  },
-  "/_nuxt/CDhG_FX9.js": {
-    "type": "text/javascript; charset=utf-8",
-    "encoding": null,
-    "etag": "\"9b3-9g5w2HFt/kCjklkuuKkQyM2Y88Y\"",
-    "mtime": "2026-09-28T12:01:46.904Z",
-    "size": 2483,
-    "path": "../public/_nuxt/CDhG_FX9.js"
-  },
-  "/_nuxt/C1KgPoMp.js.gz": {
-    "type": "text/javascript; charset=utf-8",
-    "encoding": "gzip",
-    "etag": "\"7e0-/eIcxMhIbrvC8SSkWOdjGmcyChI\"",
-    "mtime": "2026-09-28T12:01:48.220Z",
-    "size": 2016,
-    "path": "../public/_nuxt/C1KgPoMp.js.gz"
-  },
-  "/_nuxt/C1KgPoMp.js.br": {
-    "type": "text/javascript; charset=utf-8",
-    "encoding": "br",
-    "etag": "\"6de-gG2ZnTyQ9SZu8mCl1qH3RmZ8dCs\"",
-    "mtime": "2026-09-28T12:01:48.221Z",
-    "size": 1758,
-    "path": "../public/_nuxt/C1KgPoMp.js.br"
-  },
-  "/_nuxt/CNX_TnAN.js": {
-    "type": "text/javascript; charset=utf-8",
-    "etag": "\"34b-JQbA46h157LJdasrp2YVU5zMWWg\"",
-    "mtime": "2026-09-28T12:01:46.903Z",
-    "size": 843,
-    "path": "../public/_nuxt/CNX_TnAN.js"
-  },
-  "/_nuxt/CNrCk6gP.js": {
-    "type": "text/javascript; charset=utf-8",
-    "encoding": null,
-    "etag": "\"80e2-LyB0SSkCIprLcDalK/Xd+7B8VSg\"",
-    "mtime": "2026-09-28T12:01:46.904Z",
-    "size": 32994,
-    "path": "../public/_nuxt/CNrCk6gP.js"
-  },
-  "/_nuxt/CDhG_FX9.js.br": {
-    "type": "text/javascript; charset=utf-8",
-    "encoding": "br",
-    "etag": "\"441-OA0eNkPvGgNQuJ/B/q66ZzC4ZYg\"",
-    "mtime": "2026-09-28T12:01:48.252Z",
-    "size": 1089,
-    "path": "../public/_nuxt/CDhG_FX9.js.br"
-  },
-  "/_nuxt/COvOJTx2.js": {
-    "type": "text/javascript; charset=utf-8",
-    "encoding": null,
-    "etag": "\"6fd-vw47/Jk0VKNgYjPHYofOwlI94Do\"",
-    "mtime": "2026-09-28T12:01:46.904Z",
-    "size": 1789,
-    "path": "../public/_nuxt/COvOJTx2.js"
-  },
-  "/_nuxt/CDhG_FX9.js.gz": {
-    "type": "text/javascript; charset=utf-8",
-    "encoding": "gzip",
-    "etag": "\"4e2-WxDkOVCicmdp0byhW5Hl8vquJ+o\"",
-    "mtime": "2026-09-28T12:01:48.221Z",
-    "size": 1250,
-    "path": "../public/_nuxt/CDhG_FX9.js.gz"
-  },
-  "/_nuxt/CNrCk6gP.js.br": {
-    "type": "text/javascript; charset=utf-8",
-    "encoding": "br",
-    "etag": "\"2130-DyFIeZB379aJXiQF5kaghW+31Cw\"",
-    "mtime": "2026-09-28T12:01:48.362Z",
-    "size": 8496,
-    "path": "../public/_nuxt/CNrCk6gP.js.br"
-  },
-  "/_nuxt/CNrCk6gP.js.gz": {
-    "type": "text/javascript; charset=utf-8",
-    "encoding": "gzip",
-    "etag": "\"280e-XumRU581t82sLsNm/t1+M5qlgwk\"",
-    "mtime": "2026-09-28T12:01:48.252Z",
-    "size": 10254,
-    "path": "../public/_nuxt/CNrCk6gP.js.gz"
-  },
-  "/_nuxt/COvOJTx2.js.br": {
-    "type": "text/javascript; charset=utf-8",
-    "encoding": "br",
-    "etag": "\"321-oC7ts4cyT+w8wz+MtTog4sA6cTo\"",
-    "mtime": "2026-09-28T12:01:48.260Z",
-    "size": 801,
-    "path": "../public/_nuxt/COvOJTx2.js.br"
-  },
-  "/_nuxt/CR-G-m2g.js": {
-    "type": "text/javascript; charset=utf-8",
-    "encoding": null,
-    "etag": "\"3c1d-aRv7sjsnO6ooMCyTU5JCpRQi/Eg\"",
-    "mtime": "2026-09-28T12:01:46.904Z",
-    "size": 15389,
-    "path": "../public/_nuxt/CR-G-m2g.js"
-  },
-  "/_nuxt/COvOJTx2.js.gz": {
-    "type": "text/javascript; charset=utf-8",
-    "encoding": "gzip",
-    "etag": "\"384-G2T8ondXHqHj2rq3WM7GD5cAToI\"",
-    "mtime": "2026-09-28T12:01:48.259Z",
-    "size": 900,
-    "path": "../public/_nuxt/COvOJTx2.js.gz"
-  },
-  "/_nuxt/CR-G-m2g.js.br": {
-    "type": "text/javascript; charset=utf-8",
-    "encoding": "br",
-    "etag": "\"1155-Q0bWcPuF+fenEE1c7/gXT3QKivU\"",
-    "mtime": "2026-09-28T12:01:48.260Z",
-    "size": 4437,
-    "path": "../public/_nuxt/CR-G-m2g.js.br"
-  },
-  "/_nuxt/CR-G-m2g.js.gz": {
-    "type": "text/javascript; charset=utf-8",
-    "encoding": "gzip",
-    "etag": "\"1430-TjXbypcJ9VFJWks2hLkIOSsMw78\"",
-    "mtime": "2026-09-28T12:01:48.260Z",
-    "size": 5168,
-    "path": "../public/_nuxt/CR-G-m2g.js.gz"
-  },
-  "/_nuxt/CR_d4PD1.js": {
-    "type": "text/javascript; charset=utf-8",
-    "encoding": null,
-    "etag": "\"46e-B9phPq01NV3fAu0Go/DS/KKkEL4\"",
-    "mtime": "2026-09-28T12:01:46.904Z",
-    "size": 1134,
-    "path": "../public/_nuxt/CR_d4PD1.js"
-  },
-  "/_nuxt/CRokKcR_.js": {
-    "type": "text/javascript; charset=utf-8",
-    "encoding": null,
-    "etag": "\"6bd7-Xi9Ny2CNH2+VFpe53Na4kK/L9GQ\"",
-    "mtime": "2026-09-28T12:01:46.904Z",
-    "size": 27607,
-    "path": "../public/_nuxt/CRokKcR_.js"
-  },
-  "/_nuxt/CSHrEDDM.js": {
-    "type": "text/javascript; charset=utf-8",
-    "encoding": null,
-    "etag": "\"6da-ARAOLnYagoBK4s7tshoVeOeDNb8\"",
-    "mtime": "2026-09-28T12:01:46.905Z",
-    "size": 1754,
-    "path": "../public/_nuxt/CSHrEDDM.js"
-  },
-  "/_nuxt/CRokKcR_.js.br": {
-    "type": "text/javascript; charset=utf-8",
-    "encoding": "br",
-    "etag": "\"1a29-lTyuUI6KYCKOme7hVwV5TyT+u/s\"",
-    "mtime": "2026-09-28T12:01:48.415Z",
-    "size": 6697,
-    "path": "../public/_nuxt/CRokKcR_.js.br"
-  },
-  "/_nuxt/CR_d4PD1.js.br": {
-    "type": "text/javascript; charset=utf-8",
-    "encoding": "br",
-    "etag": "\"1ef-Eg4y9PjqKJ7Nxk0g1PxpLETfV88\"",
-    "mtime": "2026-09-28T12:01:48.260Z",
-    "size": 495,
-    "path": "../public/_nuxt/CR_d4PD1.js.br"
-  },
-  "/_nuxt/CR_d4PD1.js.gz": {
-    "type": "text/javascript; charset=utf-8",
-    "encoding": "gzip",
-    "etag": "\"248-CJidwvUSeO9g0jND8cQu6N31NUo\"",
-    "mtime": "2026-09-28T12:01:48.260Z",
-    "size": 584,
-    "path": "../public/_nuxt/CR_d4PD1.js.gz"
-  },
-  "/_nuxt/CRokKcR_.js.gz": {
-    "type": "text/javascript; charset=utf-8",
-    "encoding": "gzip",
-    "etag": "\"1ea3-nljNVzj2nEbb/ap1xrXCCI40C9A\"",
-    "mtime": "2026-09-28T12:01:48.260Z",
-    "size": 7843,
-    "path": "../public/_nuxt/CRokKcR_.js.gz"
-  },
-  "/_nuxt/CZ56eCMA.js": {
-    "type": "text/javascript; charset=utf-8",
-    "etag": "\"db-H1N23tofYdz6hL6COd9CE3lyKaE\"",
-    "mtime": "2026-09-28T12:01:46.904Z",
+    "etag": "\"db-d5V5TOt5KWdOcwCiHg8bm90pWNQ\"",
+    "mtime": "2026-09-29T07:39:32.963Z",
     "size": 219,
-    "path": "../public/_nuxt/CZ56eCMA.js"
+    "path": "../public/_nuxt/C6XVYGAb.js"
   },
-  "/_nuxt/Cb1CMTIf.js": {
-    "type": "text/javascript; charset=utf-8",
-    "etag": "\"ad-nu7tIuckutEo6BOKoshSiiSEFJ8\"",
-    "mtime": "2026-09-28T12:01:46.905Z",
-    "size": 173,
-    "path": "../public/_nuxt/Cb1CMTIf.js"
-  },
-  "/_nuxt/CcJT5fNx.js": {
-    "type": "text/javascript; charset=utf-8",
-    "encoding": null,
-    "etag": "\"887-MwaX9brlTacuyPAXWpPACfR4bZY\"",
-    "mtime": "2026-09-28T12:01:46.905Z",
-    "size": 2183,
-    "path": "../public/_nuxt/CcJT5fNx.js"
-  },
-  "/_nuxt/CSHrEDDM.js.gz": {
+  "/_nuxt/C3DhRX8b.js.gz": {
     "type": "text/javascript; charset=utf-8",
     "encoding": "gzip",
-    "etag": "\"368-OvN6TnwwYrdyJ70Qr8Ypbix3pAc\"",
-    "mtime": "2026-09-28T12:01:48.260Z",
-    "size": 872,
-    "path": "../public/_nuxt/CSHrEDDM.js.gz"
+    "etag": "\"8cc-mDyTkIt1HCkhCc2G02IIJvcES/E\"",
+    "mtime": "2026-09-29T07:39:33.342Z",
+    "size": 2252,
+    "path": "../public/_nuxt/C3DhRX8b.js.gz"
+  },
+  "/_nuxt/C8Pa8jZs.js": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": null,
+    "etag": "\"103b4-QPXw8IYGREf3xT+Has4E//eeDyY\"",
+    "mtime": "2026-09-29T07:39:32.964Z",
+    "size": 66484,
+    "path": "../public/_nuxt/C8Pa8jZs.js"
+  },
+  "/_nuxt/C3DhRX8b.js.br": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": "br",
+    "etag": "\"7bd-6vOtyL5R5cxJzHVMbhdAOHJzK04\"",
+    "mtime": "2026-09-29T07:39:33.376Z",
+    "size": 1981,
+    "path": "../public/_nuxt/C3DhRX8b.js.br"
+  },
+  "/_nuxt/C9yv3yWn.js": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": null,
+    "etag": "\"dfc-Jb/AsVnjt5yb+H+/zTfAkVipW0E\"",
+    "mtime": "2026-09-29T07:39:32.964Z",
+    "size": 3580,
+    "path": "../public/_nuxt/C9yv3yWn.js"
+  },
+  "/_nuxt/CG_iZ4W9.js": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": null,
+    "etag": "\"167b-4sWDxF6ZCatnBnW2n2REBMeacDk\"",
+    "mtime": "2026-09-29T07:39:32.967Z",
+    "size": 5755,
+    "path": "../public/_nuxt/CG_iZ4W9.js"
+  },
+  "/_nuxt/CEZjBpP7.js": {
+    "type": "text/javascript; charset=utf-8",
+    "etag": "\"3a4-k2lRetVlq7maUM3leDVeFrvhstg\"",
+    "mtime": "2026-09-29T07:39:32.964Z",
+    "size": 932,
+    "path": "../public/_nuxt/CEZjBpP7.js"
+  },
+  "/_nuxt/C9yv3yWn.js.gz": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": "gzip",
+    "etag": "\"572-YcBNsNI3ta+i4o+tVFEns8/FBQo\"",
+    "mtime": "2026-09-29T07:39:33.376Z",
+    "size": 1394,
+    "path": "../public/_nuxt/C9yv3yWn.js.gz"
+  },
+  "/_nuxt/C9yv3yWn.js.br": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": "br",
+    "etag": "\"4c1-PRO1oOu977MXh/NI7utzAhQpeUI\"",
+    "mtime": "2026-09-29T07:39:33.376Z",
+    "size": 1217,
+    "path": "../public/_nuxt/C9yv3yWn.js.br"
+  },
+  "/_nuxt/C8Pa8jZs.js.br": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": "br",
+    "etag": "\"46e8-mUjNGhl4Oa3USf41uJfgZYDnhH0\"",
+    "mtime": "2026-09-29T07:39:33.464Z",
+    "size": 18152,
+    "path": "../public/_nuxt/C8Pa8jZs.js.br"
+  },
+  "/_nuxt/C8Pa8jZs.js.gz": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": "gzip",
+    "etag": "\"513c-sNBibxjCahPFgwe/5vzlJq509TY\"",
+    "mtime": "2026-09-29T07:39:33.343Z",
+    "size": 20796,
+    "path": "../public/_nuxt/C8Pa8jZs.js.gz"
+  },
+  "/_nuxt/CGsuo28e.js": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": null,
+    "etag": "\"437b-pIcrBA1arX/y3bwNTadNfA1XGoM\"",
+    "mtime": "2026-09-29T07:39:32.965Z",
+    "size": 17275,
+    "path": "../public/_nuxt/CGsuo28e.js"
+  },
+  "/_nuxt/CG_iZ4W9.js.gz": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": "gzip",
+    "etag": "\"826-+kP71vfLgVaK//FYoATDlyCLUeA\"",
+    "mtime": "2026-09-29T07:39:33.376Z",
+    "size": 2086,
+    "path": "../public/_nuxt/CG_iZ4W9.js.gz"
+  },
+  "/_nuxt/CHsA7zcK.js": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": null,
+    "etag": "\"5e51-yVrQDgpJIJVNzsT6eHbpTxgiVD4\"",
+    "mtime": "2026-09-29T07:39:32.965Z",
+    "size": 24145,
+    "path": "../public/_nuxt/CHsA7zcK.js"
+  },
+  "/_nuxt/CG_iZ4W9.js.br": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": "br",
+    "etag": "\"73e-THUMwfuqiBikFGiih7TEOoFKoas\"",
+    "mtime": "2026-09-29T07:39:33.377Z",
+    "size": 1854,
+    "path": "../public/_nuxt/CG_iZ4W9.js.br"
+  },
+  "/_nuxt/CGsuo28e.js.br": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": "br",
+    "etag": "\"1084-L2gyQl3JWilrvTe+P/lrSn7nq/c\"",
+    "mtime": "2026-09-29T07:39:33.379Z",
+    "size": 4228,
+    "path": "../public/_nuxt/CGsuo28e.js.br"
+  },
+  "/_nuxt/CI1alh1b.js": {
+    "type": "text/javascript; charset=utf-8",
+    "etag": "\"1e0-MVqryE3KZVa+BKzJzQERHs3aaUo\"",
+    "mtime": "2026-09-29T07:39:32.969Z",
+    "size": 480,
+    "path": "../public/_nuxt/CI1alh1b.js"
+  },
+  "/_nuxt/CGsuo28e.js.gz": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": "gzip",
+    "etag": "\"1353-YqVzJFLhdOMVA93o1nES5CCVgXM\"",
+    "mtime": "2026-09-29T07:39:33.377Z",
+    "size": 4947,
+    "path": "../public/_nuxt/CGsuo28e.js.gz"
+  },
+  "/_nuxt/CHsA7zcK.js.br": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": "br",
+    "etag": "\"159e-Z21By/ZYc+nvMjo/HD19D2l7U/4\"",
+    "mtime": "2026-09-29T07:39:33.397Z",
+    "size": 5534,
+    "path": "../public/_nuxt/CHsA7zcK.js.br"
+  },
+  "/_nuxt/CHsA7zcK.js.gz": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": "gzip",
+    "etag": "\"190d-OpydIQwTqBkgPPjGhX45rhneCJw\"",
+    "mtime": "2026-09-29T07:39:33.379Z",
+    "size": 6413,
+    "path": "../public/_nuxt/CHsA7zcK.js.gz"
+  },
+  "/_nuxt/CJ7128eL.js": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": null,
+    "etag": "\"34c1b-bfxHtWjud+4H+ep8olYfMucD8jQ\"",
+    "mtime": "2026-09-29T07:39:32.969Z",
+    "size": 216091,
+    "path": "../public/_nuxt/CJ7128eL.js"
+  },
+  "/_nuxt/CJ7128eL.js.br": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": "br",
+    "etag": "\"e0a3-Myj1qEPx4apAldUCfcYh8DHJLY4\"",
+    "mtime": "2026-09-29T07:39:33.813Z",
+    "size": 57507,
+    "path": "../public/_nuxt/CJ7128eL.js.br"
+  },
+  "/_nuxt/CKnQfYe_.js": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": null,
+    "etag": "\"9a1f-PQrPz//XtcSFTRN3hrArOpIEKHM\"",
+    "mtime": "2026-09-29T07:39:32.966Z",
+    "size": 39455,
+    "path": "../public/_nuxt/CKnQfYe_.js"
+  },
+  "/_nuxt/CLbkNvSf.js": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": null,
+    "etag": "\"3216-u4CmMQkmjw+HsPD49DAWTK8bxNY\"",
+    "mtime": "2026-09-29T07:39:32.966Z",
+    "size": 12822,
+    "path": "../public/_nuxt/CLbkNvSf.js"
+  },
+  "/_nuxt/CKnQfYe_.js.br": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": "br",
+    "etag": "\"2f4a-JuGz0+ARZjN81BCsIoVaANDNC0I\"",
+    "mtime": "2026-09-29T07:39:33.449Z",
+    "size": 12106,
+    "path": "../public/_nuxt/CKnQfYe_.js.br"
+  },
+  "/_nuxt/CKnQfYe_.js.gz": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": "gzip",
+    "etag": "\"33f8-CCy7BSjc3lrjCwObYpNVO7WXeck\"",
+    "mtime": "2026-09-29T07:39:33.397Z",
+    "size": 13304,
+    "path": "../public/_nuxt/CKnQfYe_.js.gz"
+  },
+  "/_nuxt/CO8vdnok.js": {
+    "type": "text/javascript; charset=utf-8",
+    "etag": "\"1f9-lo3Q2u66rLFSjqHfMr75GbMfMbk\"",
+    "mtime": "2026-09-29T07:39:32.966Z",
+    "size": 505,
+    "path": "../public/_nuxt/CO8vdnok.js"
+  },
+  "/_nuxt/CS5X-e0h.js": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": null,
+    "etag": "\"d9a7-xtxp7wZz88T7Q/Nsp2duOai5us8\"",
+    "mtime": "2026-09-29T07:39:32.970Z",
+    "size": 55719,
+    "path": "../public/_nuxt/CS5X-e0h.js"
+  },
+  "/_nuxt/CLbkNvSf.js.br": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": "br",
+    "etag": "\"ce3-LkrbVExKuvoBvsbpBdgw+A0sSyI\"",
+    "mtime": "2026-09-29T07:39:33.446Z",
+    "size": 3299,
+    "path": "../public/_nuxt/CLbkNvSf.js.br"
+  },
+  "/_nuxt/CJ7128eL.js.gz": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": "gzip",
+    "etag": "\"1235c-1tgqKDDq+t4FRym8bo29NVR2yBU\"",
+    "mtime": "2026-09-29T07:39:33.446Z",
+    "size": 74588,
+    "path": "../public/_nuxt/CJ7128eL.js.gz"
+  },
+  "/_nuxt/CSOqPfww.js": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": null,
+    "etag": "\"37f2-e6631fsw/dasiCXVZmOjtIrKPYQ\"",
+    "mtime": "2026-09-29T07:39:32.967Z",
+    "size": 14322,
+    "path": "../public/_nuxt/CSOqPfww.js"
+  },
+  "/_nuxt/CLbkNvSf.js.gz": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": "gzip",
+    "etag": "\"ef2-KNd/2hvxOzail6PE73u6R8uosiA\"",
+    "mtime": "2026-09-29T07:39:33.446Z",
+    "size": 3826,
+    "path": "../public/_nuxt/CLbkNvSf.js.gz"
+  },
+  "/_nuxt/CSOqPfww.js.br": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": "br",
+    "etag": "\"edf-9A/s6tBsiBZ1vyNvOBz3lCIN5fw\"",
+    "mtime": "2026-09-29T07:39:33.498Z",
+    "size": 3807,
+    "path": "../public/_nuxt/CSOqPfww.js.br"
+  },
+  "/_nuxt/CS5X-e0h.js.gz": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": "gzip",
+    "etag": "\"4603-ORiiddN78t1AR9tgWr7XMojacys\"",
+    "mtime": "2026-09-29T07:39:33.451Z",
+    "size": 17923,
+    "path": "../public/_nuxt/CS5X-e0h.js.gz"
+  },
+  "/_nuxt/CT1HF_yz.js": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": null,
+    "etag": "\"6be-TKaujg3stGtuXp/XfHmP5N4MNsk\"",
+    "mtime": "2026-09-29T07:39:32.969Z",
+    "size": 1726,
+    "path": "../public/_nuxt/CT1HF_yz.js"
+  },
+  "/_nuxt/CSOqPfww.js.gz": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": "gzip",
+    "etag": "\"1190-68C6MEjofBbLkKlFqvIAg3Rr+g0\"",
+    "mtime": "2026-09-29T07:39:33.450Z",
+    "size": 4496,
+    "path": "../public/_nuxt/CSOqPfww.js.gz"
+  },
+  "/_nuxt/CUajFl2N.js": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": null,
+    "etag": "\"9388-9RaMSOF+GsYdR8FPMrqaWg8awe8\"",
+    "mtime": "2026-09-29T07:39:32.968Z",
+    "size": 37768,
+    "path": "../public/_nuxt/CUajFl2N.js"
+  },
+  "/_nuxt/CT1HF_yz.js.br": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": "br",
+    "etag": "\"35d-3Q29gr49qIjYaExYJPJuBBD1Sgc\"",
+    "mtime": "2026-09-29T07:39:33.451Z",
+    "size": 861,
+    "path": "../public/_nuxt/CT1HF_yz.js.br"
+  },
+  "/_nuxt/CT1HF_yz.js.gz": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": "gzip",
+    "etag": "\"3c4-44+ctJp+1Mw46kkDAq4Ls4ntIYc\"",
+    "mtime": "2026-09-29T07:39:33.451Z",
+    "size": 964,
+    "path": "../public/_nuxt/CT1HF_yz.js.gz"
+  },
+  "/_nuxt/CWSsqcAT.js": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": null,
+    "etag": "\"73e7-m9jT/Ov83cyCoO9MdrYbi7jucLA\"",
+    "mtime": "2026-09-29T07:39:32.970Z",
+    "size": 29671,
+    "path": "../public/_nuxt/CWSsqcAT.js"
+  },
+  "/_nuxt/CUajFl2N.js.gz": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": "gzip",
+    "etag": "\"21fb-vG+0fo0rWDyXz+FkgkQUa/qhcIo\"",
+    "mtime": "2026-09-29T07:39:33.498Z",
+    "size": 8699,
+    "path": "../public/_nuxt/CUajFl2N.js.gz"
+  },
+  "/_nuxt/CWSsqcAT.js.gz": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": "gzip",
+    "etag": "\"228a-XAXkfap//V2wyWGmhovz9ysje5o\"",
+    "mtime": "2026-09-29T07:39:33.499Z",
+    "size": 8842,
+    "path": "../public/_nuxt/CWSsqcAT.js.gz"
+  },
+  "/_nuxt/C_iT_QTw.js": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": null,
+    "etag": "\"b78-wLsHwVZi4zPaVBUEiZwmx7w53c0\"",
+    "mtime": "2026-09-29T07:39:32.968Z",
+    "size": 2936,
+    "path": "../public/_nuxt/C_iT_QTw.js"
+  },
+  "/_nuxt/C_iT_QTw.js.br": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": "br",
+    "etag": "\"457-DKGuUq/y+ToOJxg0LLUG4yJVh6w\"",
+    "mtime": "2026-09-29T07:39:33.507Z",
+    "size": 1111,
+    "path": "../public/_nuxt/C_iT_QTw.js.br"
+  },
+  "/_nuxt/CS5X-e0h.js.br": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": "br",
+    "etag": "\"3b91-RDjonWDCf7wIO8wngk0Ovgm6B6g\"",
+    "mtime": "2026-09-29T07:39:33.499Z",
+    "size": 15249,
+    "path": "../public/_nuxt/CS5X-e0h.js.br"
+  },
+  "/_nuxt/CUajFl2N.js.br": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": "br",
+    "etag": "\"1d30-Mg8oVZ+TaNPlIXDw1wGTxPGnn7s\"",
+    "mtime": "2026-09-29T07:39:33.499Z",
+    "size": 7472,
+    "path": "../public/_nuxt/CUajFl2N.js.br"
+  },
+  "/_nuxt/CWSsqcAT.js.br": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": "br",
+    "etag": "\"1dd0-7xxjZmqUjdAroPBPfucp4vXlQ1o\"",
+    "mtime": "2026-09-29T07:39:33.502Z",
+    "size": 7632,
+    "path": "../public/_nuxt/CWSsqcAT.js.br"
+  },
+  "/_nuxt/CbNvywii.js": {
+    "type": "text/javascript; charset=utf-8",
+    "etag": "\"35c-fsqpAIBpNs5LFtE/rnAOmjSITiM\"",
+    "mtime": "2026-09-29T07:39:32.968Z",
+    "size": 860,
+    "path": "../public/_nuxt/CbNvywii.js"
   },
   "/_nuxt/CcW1DWJo.js": {
     "type": "text/javascript; charset=utf-8",
     "encoding": null,
     "etag": "\"f60-r4ctmlveo3DASJA24jzfAQHarDs\"",
-    "mtime": "2026-09-28T12:01:46.905Z",
+    "mtime": "2026-09-29T07:39:32.969Z",
     "size": 3936,
     "path": "../public/_nuxt/CcW1DWJo.js"
+  },
+  "/_nuxt/CcmIav1b.js": {
+    "type": "text/javascript; charset=utf-8",
+    "etag": "\"197-GsTdyXSDwWVYfgy1eB7m/y+Y4T0\"",
+    "mtime": "2026-09-29T07:39:32.970Z",
+    "size": 407,
+    "path": "../public/_nuxt/CcmIav1b.js"
+  },
+  "/_nuxt/CeMyMhlJ.js": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": null,
+    "etag": "\"4081-HUxCHHAy/DEnrUIhxgGgL3IGFvE\"",
+    "mtime": "2026-09-29T07:39:32.969Z",
+    "size": 16513,
+    "path": "../public/_nuxt/CeMyMhlJ.js"
+  },
+  "/_nuxt/CeMyMhlJ.js.br": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": "br",
+    "etag": "\"1007-6Rtqr007XlCLAF4MX1pCVtWwpGY\"",
+    "mtime": "2026-09-29T07:39:33.530Z",
+    "size": 4103,
+    "path": "../public/_nuxt/CeMyMhlJ.js.br"
+  },
+  "/_nuxt/C_iT_QTw.js.gz": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": "gzip",
+    "etag": "\"4e0-WkHuD/6WfzrNgHt8JgvK7Oc5QlQ\"",
+    "mtime": "2026-09-29T07:39:33.499Z",
+    "size": 1248,
+    "path": "../public/_nuxt/C_iT_QTw.js.gz"
   },
   "/_nuxt/CcW1DWJo.js.br": {
     "type": "text/javascript; charset=utf-8",
     "encoding": "br",
     "etag": "\"544-sAfVZgxSev0gEqdsQvEABdn2vaI\"",
-    "mtime": "2026-09-28T12:01:48.415Z",
+    "mtime": "2026-09-29T07:39:33.510Z",
     "size": 1348,
     "path": "../public/_nuxt/CcW1DWJo.js.br"
   },
@@ -24560,30 +24532,70 @@ const assets = {
     "type": "text/javascript; charset=utf-8",
     "encoding": "gzip",
     "etag": "\"690-CIfNq9Wzwg75WDyTB7uTN7LdUXM\"",
-    "mtime": "2026-09-28T12:01:48.415Z",
+    "mtime": "2026-09-29T07:39:33.502Z",
     "size": 1680,
     "path": "../public/_nuxt/CcW1DWJo.js.gz"
   },
-  "/_nuxt/CfUeQAYv.js": {
+  "/_nuxt/Ceg6u2eM.js": {
     "type": "text/javascript; charset=utf-8",
-    "etag": "\"1ea-KqOWA0q5LUdfPhIhrwWccokydtg\"",
-    "mtime": "2026-09-28T12:01:46.905Z",
-    "size": 490,
-    "path": "../public/_nuxt/CfUeQAYv.js"
+    "encoding": null,
+    "etag": "\"1568-WFQt7/ikIxaQeIaEIZOXWvO7wco\"",
+    "mtime": "2026-09-29T07:39:32.969Z",
+    "size": 5480,
+    "path": "../public/_nuxt/Ceg6u2eM.js"
+  },
+  "/_nuxt/CfFOUGAi.js": {
+    "type": "text/javascript; charset=utf-8",
+    "etag": "\"1e5-TrwOzDV1Ivgu7fqXwdXEjE+feoI\"",
+    "mtime": "2026-09-29T07:39:32.971Z",
+    "size": 485,
+    "path": "../public/_nuxt/CfFOUGAi.js"
   },
   "/_nuxt/CfYFMnge.js": {
     "type": "text/javascript; charset=utf-8",
     "encoding": null,
     "etag": "\"cafc-6glbFNdkx2TnW0jbFvrPBgV/CwY\"",
-    "mtime": "2026-09-28T12:01:46.906Z",
+    "mtime": "2026-09-29T07:39:32.972Z",
     "size": 51964,
     "path": "../public/_nuxt/CfYFMnge.js"
+  },
+  "/_nuxt/Ceg6u2eM.js.gz": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": "gzip",
+    "etag": "\"8ef-LW1y0KMmcmIomDIP1tcNTS5tKpE\"",
+    "mtime": "2026-09-29T07:39:33.510Z",
+    "size": 2287,
+    "path": "../public/_nuxt/Ceg6u2eM.js.gz"
+  },
+  "/_nuxt/Ceg6u2eM.js.br": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": "br",
+    "etag": "\"82b-HC2osWJgmi4y0eKIBEhyjhUJrpw\"",
+    "mtime": "2026-09-29T07:39:33.513Z",
+    "size": 2091,
+    "path": "../public/_nuxt/Ceg6u2eM.js.br"
+  },
+  "/_nuxt/CeMyMhlJ.js.gz": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": "gzip",
+    "etag": "\"1302-70w+8Hfk6usDJciYzoYLAo4cmJU\"",
+    "mtime": "2026-09-29T07:39:33.507Z",
+    "size": 4866,
+    "path": "../public/_nuxt/CeMyMhlJ.js.gz"
+  },
+  "/_nuxt/Cg5j3oLG.js": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": null,
+    "etag": "\"62f-uHk2u/82wLS3m9uywJpVKbHeEIQ\"",
+    "mtime": "2026-09-29T07:39:32.971Z",
+    "size": 1583,
+    "path": "../public/_nuxt/Cg5j3oLG.js"
   },
   "/_nuxt/CfYFMnge.js.br": {
     "type": "text/javascript; charset=utf-8",
     "encoding": "br",
     "etag": "\"3049-yosPVpmCPdUBFMCgzeGn3xpCmOM\"",
-    "mtime": "2026-09-28T12:01:48.416Z",
+    "mtime": "2026-09-29T07:39:33.577Z",
     "size": 12361,
     "path": "../public/_nuxt/CfYFMnge.js.br"
   },
@@ -24591,151 +24603,148 @@ const assets = {
     "type": "text/javascript; charset=utf-8",
     "encoding": "gzip",
     "etag": "\"357f-OjfARjsRrQ7x7B1z1frSW+XTVsk\"",
-    "mtime": "2026-09-28T12:01:48.415Z",
+    "mtime": "2026-09-29T07:39:33.513Z",
     "size": 13695,
     "path": "../public/_nuxt/CfYFMnge.js.gz"
+  },
+  "/_nuxt/CgpndNpD.js": {
+    "type": "text/javascript; charset=utf-8",
+    "etag": "\"27c-KoG9Z/F4BHRh54utKdWcpqcn59I\"",
+    "mtime": "2026-09-29T07:39:32.972Z",
+    "size": 636,
+    "path": "../public/_nuxt/CgpndNpD.js"
+  },
+  "/_nuxt/ChbQVwuK.js": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": null,
+    "etag": "\"1ccb-SZ+yB/6cMMi7dqNDXMZ6bZGNelU\"",
+    "mtime": "2026-09-29T07:39:32.971Z",
+    "size": 7371,
+    "path": "../public/_nuxt/ChbQVwuK.js"
+  },
+  "/_nuxt/Cg5j3oLG.js.br": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": "br",
+    "etag": "\"28e-WE6F52Imp+crf5IXQqMCluqArJg\"",
+    "mtime": "2026-09-29T07:39:33.513Z",
+    "size": 654,
+    "path": "../public/_nuxt/Cg5j3oLG.js.br"
+  },
+  "/_nuxt/Cg5j3oLG.js.gz": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": "gzip",
+    "etag": "\"2d8-+4awoxY6r3CKROfyyavM11uMr+E\"",
+    "mtime": "2026-09-29T07:39:33.513Z",
+    "size": 728,
+    "path": "../public/_nuxt/Cg5j3oLG.js.gz"
+  },
+  "/_nuxt/ChbQVwuK.js.br": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": "br",
+    "etag": "\"88b-ctsYntRLr/3ZVLnSoMEZLrrxcfM\"",
+    "mtime": "2026-09-29T07:39:33.529Z",
+    "size": 2187,
+    "path": "../public/_nuxt/ChbQVwuK.js.br"
   },
   "/_nuxt/CiMvGMz0.js": {
     "type": "text/javascript; charset=utf-8",
     "encoding": null,
     "etag": "\"1276e-nr5Lzv1p5O/DSGGSQMWsUCLZgyw\"",
-    "mtime": "2026-09-28T12:01:46.906Z",
+    "mtime": "2026-09-29T07:39:32.976Z",
     "size": 75630,
     "path": "../public/_nuxt/CiMvGMz0.js"
+  },
+  "/_nuxt/ChbQVwuK.js.gz": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": "gzip",
+    "etag": "\"9a6-d4XbRdWAUZcvMWlzVljduNQYDTM\"",
+    "mtime": "2026-09-29T07:39:33.525Z",
+    "size": 2470,
+    "path": "../public/_nuxt/ChbQVwuK.js.gz"
   },
   "/_nuxt/CiMvGMz0.js.br": {
     "type": "text/javascript; charset=utf-8",
     "encoding": "br",
     "etag": "\"4517-mj+ndblkKQaS6+cIqyEfSHcUFbU\"",
-    "mtime": "2026-09-28T12:01:48.419Z",
+    "mtime": "2026-09-29T07:39:33.641Z",
     "size": 17687,
     "path": "../public/_nuxt/CiMvGMz0.js.br"
   },
-  "/_nuxt/CSHrEDDM.js.br": {
-    "type": "text/javascript; charset=utf-8",
-    "encoding": "br",
-    "etag": "\"31f-e0yRPZQ/AOI8WkfJqBbbIZFqO7s\"",
-    "mtime": "2026-09-28T12:01:48.260Z",
-    "size": 799,
-    "path": "../public/_nuxt/CSHrEDDM.js.br"
-  },
-  "/_nuxt/CcJT5fNx.js.br": {
-    "type": "text/javascript; charset=utf-8",
-    "encoding": "br",
-    "etag": "\"303-4/XxgQFKMJ7wwmGitjZ25xMSjYE\"",
-    "mtime": "2026-09-28T12:01:48.362Z",
-    "size": 771,
-    "path": "../public/_nuxt/CcJT5fNx.js.br"
-  },
-  "/_nuxt/CcJT5fNx.js.gz": {
-    "type": "text/javascript; charset=utf-8",
-    "encoding": "gzip",
-    "etag": "\"371-8R15EHCgIqI0uXAD82y2gi7+WdI\"",
-    "mtime": "2026-09-28T12:01:48.362Z",
-    "size": 881,
-    "path": "../public/_nuxt/CcJT5fNx.js.gz"
-  },
-  "/_nuxt/CiMvGMz0.js.gz": {
-    "type": "text/javascript; charset=utf-8",
-    "encoding": "gzip",
-    "etag": "\"526c-XM1na7kplGn01hVqW9cUZ97W3zo\"",
-    "mtime": "2026-09-28T12:01:48.417Z",
-    "size": 21100,
-    "path": "../public/_nuxt/CiMvGMz0.js.gz"
-  },
-  "/_nuxt/CiwJKRhf.js": {
+  "/_nuxt/CjDuJ2cE.js": {
     "type": "text/javascript; charset=utf-8",
     "encoding": null,
-    "etag": "\"12047-y66dbD6FQHWsRwVcfqYZF/Ch4lc\"",
-    "mtime": "2026-09-28T12:01:46.906Z",
-    "size": 73799,
-    "path": "../public/_nuxt/CiwJKRhf.js"
+    "etag": "\"23be7-QK8gblhWh3rhMA8TWufyzqEjBYo\"",
+    "mtime": "2026-09-29T07:39:32.973Z",
+    "size": 146407,
+    "path": "../public/_nuxt/CjDuJ2cE.js"
   },
-  "/_nuxt/ClTkluOl.js": {
-    "type": "text/javascript; charset=utf-8",
-    "encoding": null,
-    "etag": "\"c5cf-3hWghHzHx4qJiQ9iSI1BWl//ris\"",
-    "mtime": "2026-09-28T12:01:46.907Z",
-    "size": 50639,
-    "path": "../public/_nuxt/ClTkluOl.js"
-  },
-  "/_nuxt/ClTkluOl.js.br": {
+  "/_nuxt/CiPgSBhD.js.br": {
     "type": "text/javascript; charset=utf-8",
     "encoding": "br",
-    "etag": "\"268a-XRWFDE3Xjqxm1vW9T0Asr0Zn5Xo\"",
-    "mtime": "2026-09-28T12:01:48.453Z",
-    "size": 9866,
-    "path": "../public/_nuxt/ClTkluOl.js.br"
+    "etag": "\"321-xdyKqX7dDl1fZCoDKiD9Y1Zata0\"",
+    "mtime": "2026-09-29T07:39:33.577Z",
+    "size": 801,
+    "path": "../public/_nuxt/CiPgSBhD.js.br"
   },
-  "/_nuxt/CmE-7hqu.js": {
-    "type": "text/javascript; charset=utf-8",
-    "encoding": null,
-    "etag": "\"2ee4-iXynQ7di6S0rJy2Xs3DP36F2ZAg\"",
-    "mtime": "2026-09-28T12:01:46.907Z",
-    "size": 12004,
-    "path": "../public/_nuxt/CmE-7hqu.js"
-  },
-  "/_nuxt/CiwJKRhf.js.br": {
-    "type": "text/javascript; charset=utf-8",
-    "encoding": "br",
-    "etag": "\"4962-lygxrits7tkr+Iv5f3K3IJxT/3w\"",
-    "mtime": "2026-09-28T12:01:48.419Z",
-    "size": 18786,
-    "path": "../public/_nuxt/CiwJKRhf.js.br"
-  },
-  "/_nuxt/CiwJKRhf.js.gz": {
+  "/_nuxt/CiPgSBhD.js.gz": {
     "type": "text/javascript; charset=utf-8",
     "encoding": "gzip",
-    "etag": "\"5129-lxjUT0HVUkMpl35ehktNIpo9CCY\"",
-    "mtime": "2026-09-28T12:01:48.417Z",
-    "size": 20777,
-    "path": "../public/_nuxt/CiwJKRhf.js.gz"
+    "etag": "\"36c-ocjgSC0MHMJxY5g75b1OopdTqz8\"",
+    "mtime": "2026-09-29T07:39:33.577Z",
+    "size": 876,
+    "path": "../public/_nuxt/CiPgSBhD.js.gz"
   },
-  "/_nuxt/ClTkluOl.js.gz": {
+  "/_nuxt/CkeW7zQJ.js": {
     "type": "text/javascript; charset=utf-8",
-    "encoding": "gzip",
-    "etag": "\"2b05-9HlvLYMnsnNq4ZxRFjHSPUw3tQ0\"",
-    "mtime": "2026-09-28T12:01:48.416Z",
-    "size": 11013,
-    "path": "../public/_nuxt/ClTkluOl.js.gz"
+    "etag": "\"20a-Ybh5nAtJH+FOCdlJmqpB0OcQ8qQ\"",
+    "mtime": "2026-09-29T07:39:32.972Z",
+    "size": 522,
+    "path": "../public/_nuxt/CkeW7zQJ.js"
   },
   "/_nuxt/CnYAAz4r.js": {
     "type": "text/javascript; charset=utf-8",
     "encoding": null,
     "etag": "\"5955-H7dOm+mkStccADrV/TXVm5W8fII\"",
-    "mtime": "2026-09-28T12:01:46.907Z",
+    "mtime": "2026-09-29T07:39:32.972Z",
     "size": 22869,
     "path": "../public/_nuxt/CnYAAz4r.js"
   },
-  "/_nuxt/CmE-7hqu.js.br": {
+  "/_nuxt/CjDuJ2cE.js.br": {
     "type": "text/javascript; charset=utf-8",
     "encoding": "br",
-    "etag": "\"d99-bSNq/TsXva3ucPEMEUiH0ZzvPlY\"",
-    "mtime": "2026-09-28T12:01:48.453Z",
-    "size": 3481,
-    "path": "../public/_nuxt/CmE-7hqu.js.br"
+    "etag": "\"c55d-XqHnIenpP8g7lX7S64+IP6te9x8\"",
+    "mtime": "2026-09-29T07:39:33.818Z",
+    "size": 50525,
+    "path": "../public/_nuxt/CjDuJ2cE.js.br"
   },
-  "/_nuxt/Cq-vMvpl.js": {
-    "type": "text/javascript; charset=utf-8",
-    "encoding": null,
-    "etag": "\"81ed-jS1rwCl1CLgHGZs7NKYHfaV4UzA\"",
-    "mtime": "2026-09-28T12:01:46.907Z",
-    "size": 33261,
-    "path": "../public/_nuxt/Cq-vMvpl.js"
-  },
-  "/_nuxt/CmE-7hqu.js.gz": {
+  "/_nuxt/CiMvGMz0.js.gz": {
     "type": "text/javascript; charset=utf-8",
     "encoding": "gzip",
-    "etag": "\"ffa-N7sJLY5ByygegvPeYKyWU3Rg/A4\"",
-    "mtime": "2026-09-28T12:01:48.419Z",
-    "size": 4090,
-    "path": "../public/_nuxt/CmE-7hqu.js.gz"
+    "etag": "\"526c-XM1na7kplGn01hVqW9cUZ97W3zo\"",
+    "mtime": "2026-09-29T07:39:33.577Z",
+    "size": 21100,
+    "path": "../public/_nuxt/CiMvGMz0.js.gz"
+  },
+  "/_nuxt/Cnsothab.js": {
+    "type": "text/javascript; charset=utf-8",
+    "etag": "\"198-peV0JB6ftchxh3WQAp7tMuahIWM\"",
+    "mtime": "2026-09-29T07:39:32.972Z",
+    "size": 408,
+    "path": "../public/_nuxt/Cnsothab.js"
+  },
+  "/_nuxt/CojaPwXt.js": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": null,
+    "etag": "\"5f124-5sqmCsj8iNxR8zmZpn8KWNcC0ew\"",
+    "mtime": "2026-09-29T07:39:32.974Z",
+    "size": 389412,
+    "path": "../public/_nuxt/CojaPwXt.js"
   },
   "/_nuxt/CnYAAz4r.js.br": {
     "type": "text/javascript; charset=utf-8",
     "encoding": "br",
     "etag": "\"1691-Jrq2Jfu6bonFTHvEagFBXlg+kPM\"",
-    "mtime": "2026-09-28T12:01:48.460Z",
+    "mtime": "2026-09-29T07:39:33.632Z",
     "size": 5777,
     "path": "../public/_nuxt/CnYAAz4r.js.br"
   },
@@ -24743,480 +24752,450 @@ const assets = {
     "type": "text/javascript; charset=utf-8",
     "encoding": "gzip",
     "etag": "\"1b74-yD9pFB6GHBjIZMC0HaiqMZC48xU\"",
-    "mtime": "2026-09-28T12:01:48.453Z",
+    "mtime": "2026-09-29T07:39:33.632Z",
     "size": 7028,
     "path": "../public/_nuxt/CnYAAz4r.js.gz"
   },
-  "/_nuxt/CqaigpXe.js": {
+  "/_nuxt/Cq4j_wyu.js": {
+    "type": "text/javascript; charset=utf-8",
+    "etag": "\"20e-8p+DkuXAxBYujtr3NjJdUvo1xVA\"",
+    "mtime": "2026-09-29T07:39:32.972Z",
+    "size": 526,
+    "path": "../public/_nuxt/Cq4j_wyu.js"
+  },
+  "/_nuxt/Cr1BERek.js": {
     "type": "text/javascript; charset=utf-8",
     "encoding": null,
-    "etag": "\"32e3-TilSjjVgNs0I79nVmnW9Sou2TY4\"",
-    "mtime": "2026-09-28T12:01:46.907Z",
-    "size": 13027,
-    "path": "../public/_nuxt/CqaigpXe.js"
+    "etag": "\"466-meh1vnBayI02hIkZ4WkbxuFDuFE\"",
+    "mtime": "2026-09-29T07:39:32.973Z",
+    "size": 1126,
+    "path": "../public/_nuxt/Cr1BERek.js"
   },
-  "/_nuxt/Cq-vMvpl.js.br": {
+  "/_nuxt/CjDuJ2cE.js.gz": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": "gzip",
+    "etag": "\"dd5e-mjHs2bo7gh4skU7xMznNFvtdYgY\"",
+    "mtime": "2026-09-29T07:39:33.632Z",
+    "size": 56670,
+    "path": "../public/_nuxt/CjDuJ2cE.js.gz"
+  },
+  "/_nuxt/Cr1BERek.js.br": {
     "type": "text/javascript; charset=utf-8",
     "encoding": "br",
-    "etag": "\"1f7c-jz+J5iuy64UGdgnM8nX4jUoAVvo\"",
-    "mtime": "2026-09-28T12:01:48.496Z",
-    "size": 8060,
-    "path": "../public/_nuxt/Cq-vMvpl.js.br"
+    "etag": "\"262-qsgEiRDymw87fWHKxkqDzdxvQOo\"",
+    "mtime": "2026-09-29T07:39:33.776Z",
+    "size": 610,
+    "path": "../public/_nuxt/Cr1BERek.js.br"
   },
-  "/_nuxt/CrWFshhw.js": {
+  "/_nuxt/Cr1BERek.js.gz": {
     "type": "text/javascript; charset=utf-8",
-    "etag": "\"297-O3Qxw6lnb6bSOHEX+w9aQRHZ+Wc\"",
-    "mtime": "2026-09-28T12:01:46.908Z",
-    "size": 663,
-    "path": "../public/_nuxt/CrWFshhw.js"
+    "encoding": "gzip",
+    "etag": "\"294-7n1zp0Pg17y51Eaal2Z90/nqYj4\"",
+    "mtime": "2026-09-29T07:39:33.776Z",
+    "size": 660,
+    "path": "../public/_nuxt/Cr1BERek.js.gz"
   },
-  "/_nuxt/Ctl6ib89.js": {
-    "type": "text/javascript; charset=utf-8",
-    "etag": "\"2bd-V3Fmo8MgalkrH7tFLcZO/cnWLHs\"",
-    "mtime": "2026-09-28T12:01:46.907Z",
-    "size": 701,
-    "path": "../public/_nuxt/Ctl6ib89.js"
-  },
-  "/_nuxt/CuISvcUx.js": {
-    "type": "text/javascript; charset=utf-8",
-    "etag": "\"1a0-ko1sraxz+H1X1SP+E6HnLhJ4tyE\"",
-    "mtime": "2026-09-28T12:01:46.908Z",
-    "size": 416,
-    "path": "../public/_nuxt/CuISvcUx.js"
-  },
-  "/_nuxt/CwgFUWJ8.js": {
+  "/_nuxt/CrPy9BoB.js": {
     "type": "text/javascript; charset=utf-8",
     "encoding": null,
-    "etag": "\"5b6e-N3WoeOomEUrA1iEeegEPwZIyoqI\"",
-    "mtime": "2026-09-28T12:01:46.908Z",
-    "size": 23406,
-    "path": "../public/_nuxt/CwgFUWJ8.js"
+    "etag": "\"81ed-oco0h85OZef+Ar7o5Sh4HmR0E7Y\"",
+    "mtime": "2026-09-29T07:39:32.974Z",
+    "size": 33261,
+    "path": "../public/_nuxt/CrPy9BoB.js"
   },
-  "/_nuxt/CqaigpXe.js.br": {
+  "/_nuxt/CojaPwXt.js.br": {
     "type": "text/javascript; charset=utf-8",
     "encoding": "br",
-    "etag": "\"10e7-vgRlRNH55SwRUad7QNbAMWFumqQ\"",
-    "mtime": "2026-09-28T12:01:48.454Z",
-    "size": 4327,
-    "path": "../public/_nuxt/CqaigpXe.js.br"
+    "etag": "\"19855-wJZr1M7oLQyb4XhfY2WE3qS4PrI\"",
+    "mtime": "2026-09-29T07:39:34.684Z",
+    "size": 104533,
+    "path": "../public/_nuxt/CojaPwXt.js.br"
   },
-  "/_nuxt/CqaigpXe.js.gz": {
+  "/_nuxt/CiPgSBhD.js": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": null,
+    "etag": "\"6da-C8xkWMKK40U0E+xJPBPHtrkTg2k\"",
+    "mtime": "2026-09-29T07:39:32.972Z",
+    "size": 1754,
+    "path": "../public/_nuxt/CiPgSBhD.js"
+  },
+  "/_nuxt/CojaPwXt.js.gz": {
     "type": "text/javascript; charset=utf-8",
     "encoding": "gzip",
-    "etag": "\"13b7-kO1nfHNySyFBqmNuLoAtxMDKS1g\"",
-    "mtime": "2026-09-28T12:01:48.454Z",
-    "size": 5047,
-    "path": "../public/_nuxt/CqaigpXe.js.gz"
+    "etag": "\"1dd87-klaQwA5n9s7PUqe/LOnZ98p8lrU\"",
+    "mtime": "2026-09-29T07:39:33.814Z",
+    "size": 122247,
+    "path": "../public/_nuxt/CojaPwXt.js.gz"
   },
-  "/_nuxt/Cq-vMvpl.js.gz": {
+  "/_nuxt/CrPy9BoB.js.br": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": "br",
+    "etag": "\"1f72-ZT9ZBq7gAwZamkPWtz2jFhmF84E\"",
+    "mtime": "2026-09-29T07:39:33.777Z",
+    "size": 8050,
+    "path": "../public/_nuxt/CrPy9BoB.js.br"
+  },
+  "/_nuxt/CrPy9BoB.js.gz": {
     "type": "text/javascript; charset=utf-8",
     "encoding": "gzip",
-    "etag": "\"25f5-CCBHTZVCx9+Ru7vQY/NwHCZZnB4\"",
-    "mtime": "2026-09-28T12:01:48.453Z",
-    "size": 9717,
-    "path": "../public/_nuxt/Cq-vMvpl.js.gz"
+    "etag": "\"25fa-G7R1ML+fqXhtBaQIpYqFXJqietw\"",
+    "mtime": "2026-09-29T07:39:33.777Z",
+    "size": 9722,
+    "path": "../public/_nuxt/CrPy9BoB.js.gz"
+  },
+  "/_nuxt/CsknpyLq.js": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": null,
+    "etag": "\"1a0fd-t9jpjK5oAjsTAK/D9qSZbEys2Co\"",
+    "mtime": "2026-09-29T07:39:32.974Z",
+    "size": 106749,
+    "path": "../public/_nuxt/CsknpyLq.js"
+  },
+  "/_nuxt/CsknpyLq.js.br": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": "br",
+    "etag": "\"5569-py/4GALT2aRftqvolLYqjXxmFLc\"",
+    "mtime": "2026-09-29T07:39:33.858Z",
+    "size": 21865,
+    "path": "../public/_nuxt/CsknpyLq.js.br"
+  },
+  "/_nuxt/CsknpyLq.js.gz": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": "gzip",
+    "etag": "\"6719-l39LgmfONW8LRTPrn+VDwt6WnSs\"",
+    "mtime": "2026-09-29T07:39:33.796Z",
+    "size": 26393,
+    "path": "../public/_nuxt/CsknpyLq.js.gz"
+  },
+  "/_nuxt/Csr0TGv5.js": {
+    "type": "text/javascript; charset=utf-8",
+    "etag": "\"206-wcAlinEj58M/G4GdWxa5xdxu2ZU\"",
+    "mtime": "2026-09-29T07:39:32.974Z",
+    "size": 518,
+    "path": "../public/_nuxt/Csr0TGv5.js"
+  },
+  "/_nuxt/CtENbyuZ.js": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": null,
+    "etag": "\"5bc7-q+M7NQID82j4IXvaNGpfJd1STPw\"",
+    "mtime": "2026-09-29T07:39:32.974Z",
+    "size": 23495,
+    "path": "../public/_nuxt/CtENbyuZ.js"
+  },
+  "/_nuxt/CuMOh-ly.js": {
+    "type": "text/javascript; charset=utf-8",
+    "etag": "\"29b-Pf5Ba9G+LYVRU2oNLAO8uusnZoY\"",
+    "mtime": "2026-09-29T07:39:32.973Z",
+    "size": 667,
+    "path": "../public/_nuxt/CuMOh-ly.js"
+  },
+  "/_nuxt/CvgfrDFV.js": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": null,
+    "etag": "\"3828-LOfR3ZmomL6V9HdKnl8Y84mEQEc\"",
+    "mtime": "2026-09-29T07:39:32.975Z",
+    "size": 14376,
+    "path": "../public/_nuxt/CvgfrDFV.js"
+  },
+  "/_nuxt/CvgfrDFV.js.br": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": "br",
+    "etag": "\"1196-5UXiM8wS+wOfPReBt4C5T/iDNpQ\"",
+    "mtime": "2026-09-29T07:39:33.833Z",
+    "size": 4502,
+    "path": "../public/_nuxt/CvgfrDFV.js.br"
   },
   "/_nuxt/CxMhfPgu.js": {
     "type": "text/javascript; charset=utf-8",
     "encoding": null,
     "etag": "\"755-WxuPSQ76gi9BCb7ogv3VWUVj8Ro\"",
-    "mtime": "2026-09-28T12:01:46.908Z",
+    "mtime": "2026-09-29T07:39:32.975Z",
     "size": 1877,
     "path": "../public/_nuxt/CxMhfPgu.js"
   },
-  "/_nuxt/CwgFUWJ8.js.br": {
+  "/_nuxt/CtENbyuZ.js.br": {
     "type": "text/javascript; charset=utf-8",
     "encoding": "br",
-    "etag": "\"170f-6TcNm2kVQWBiYT9m9d5lRIWOsI8\"",
-    "mtime": "2026-09-28T12:01:48.496Z",
-    "size": 5903,
-    "path": "../public/_nuxt/CwgFUWJ8.js.br"
+    "etag": "\"18fe-U4wMZ13d2/f+zrtONzz48VWmtHg\"",
+    "mtime": "2026-09-29T07:39:33.818Z",
+    "size": 6398,
+    "path": "../public/_nuxt/CtENbyuZ.js.br"
   },
-  "/_nuxt/CwgFUWJ8.js.gz": {
+  "/_nuxt/CtENbyuZ.js.gz": {
     "type": "text/javascript; charset=utf-8",
     "encoding": "gzip",
-    "etag": "\"1ba6-tXnj0P9Rycbx5d0w2zWOUS6aGnE\"",
-    "mtime": "2026-09-28T12:01:48.460Z",
-    "size": 7078,
-    "path": "../public/_nuxt/CwgFUWJ8.js.gz"
+    "etag": "\"1e43-WWx1ARVIcFGzaPkXKRHWkH+XPrM\"",
+    "mtime": "2026-09-29T07:39:33.797Z",
+    "size": 7747,
+    "path": "../public/_nuxt/CtENbyuZ.js.gz"
+  },
+  "/_nuxt/CvgfrDFV.js.gz": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": "gzip",
+    "etag": "\"1473-T4MCT5hswA+Urcwm8yfR2AjXlbA\"",
+    "mtime": "2026-09-29T07:39:33.818Z",
+    "size": 5235,
+    "path": "../public/_nuxt/CvgfrDFV.js.gz"
+  },
+  "/_nuxt/Cy0jKMk3.js": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": null,
+    "etag": "\"37f8-WtWSJITpybQYs4QvuyMDlGxqW1M\"",
+    "mtime": "2026-09-29T07:39:32.975Z",
+    "size": 14328,
+    "path": "../public/_nuxt/Cy0jKMk3.js"
   },
   "/_nuxt/CxMhfPgu.js.br": {
     "type": "text/javascript; charset=utf-8",
     "encoding": "br",
     "etag": "\"272-y/YDB2jRTyXzJO97JEL/zfyDjUc\"",
-    "mtime": "2026-09-28T12:01:48.460Z",
+    "mtime": "2026-09-29T07:39:33.820Z",
     "size": 626,
     "path": "../public/_nuxt/CxMhfPgu.js.br"
-  },
-  "/_nuxt/CznI_IXQ.js": {
-    "type": "text/javascript; charset=utf-8",
-    "etag": "\"3d9-FFOQwFeYyk5vTsnerxPQIqDThdI\"",
-    "mtime": "2026-09-28T12:01:46.909Z",
-    "size": 985,
-    "path": "../public/_nuxt/CznI_IXQ.js"
-  },
-  "/_nuxt/D-Y011wA.js": {
-    "type": "text/javascript; charset=utf-8",
-    "etag": "\"38c-dLGQXnXP1QT/NO3mqOzz3vOvHgU\"",
-    "mtime": "2026-09-28T12:01:46.908Z",
-    "size": 908,
-    "path": "../public/_nuxt/D-Y011wA.js"
   },
   "/_nuxt/D-pctMGk.js": {
     "type": "text/javascript; charset=utf-8",
     "encoding": null,
     "etag": "\"412-inEFlcCql3bPPdHGI/Nq8giKjX8\"",
-    "mtime": "2026-09-28T12:01:46.909Z",
+    "mtime": "2026-09-29T07:39:32.975Z",
     "size": 1042,
     "path": "../public/_nuxt/D-pctMGk.js"
   },
-  "/_nuxt/D-pctMGk.js.gz": {
+  "/_nuxt/Cy0jKMk3.js.gz": {
     "type": "text/javascript; charset=utf-8",
     "encoding": "gzip",
-    "etag": "\"262-k3/DKAZFqzgnMNNuEbtYpUVDYaE\"",
-    "mtime": "2026-09-28T12:01:48.496Z",
-    "size": 610,
-    "path": "../public/_nuxt/D-pctMGk.js.gz"
-  },
-  "/_nuxt/D-pctMGk.js.br": {
-    "type": "text/javascript; charset=utf-8",
-    "encoding": "br",
-    "etag": "\"20c-vWDGzzbCCYRsBpBNHCu2oSEFT0c\"",
-    "mtime": "2026-09-28T12:01:48.496Z",
-    "size": 524,
-    "path": "../public/_nuxt/D-pctMGk.js.br"
-  },
-  "/_nuxt/D1rI-wlv.js": {
-    "type": "text/javascript; charset=utf-8",
-    "encoding": null,
-    "etag": "\"204ca-J5+Emlo4zafJcgDD15IArCRghkg\"",
-    "mtime": "2026-09-28T12:01:46.911Z",
-    "size": 132298,
-    "path": "../public/_nuxt/D1rI-wlv.js"
-  },
-  "/_nuxt/D2Pxg_rm.js": {
-    "type": "text/javascript; charset=utf-8",
-    "encoding": null,
-    "etag": "\"37f2-vopCN5Z/prw/ailrfG2S2GSEVXw\"",
-    "mtime": "2026-09-28T12:01:46.909Z",
-    "size": 14322,
-    "path": "../public/_nuxt/D2Pxg_rm.js"
+    "etag": "\"1507-b5cDJSQVaHNYXZIENwQUVIRCbMI\"",
+    "mtime": "2026-09-29T07:39:33.833Z",
+    "size": 5383,
+    "path": "../public/_nuxt/Cy0jKMk3.js.gz"
   },
   "/_nuxt/CxMhfPgu.js.gz": {
     "type": "text/javascript; charset=utf-8",
     "encoding": "gzip",
     "etag": "\"2c3-DLIkR+uLVeu1nfyCncrveSm9rgU\"",
-    "mtime": "2026-09-28T12:01:48.460Z",
+    "mtime": "2026-09-29T07:39:33.820Z",
     "size": 707,
     "path": "../public/_nuxt/CxMhfPgu.js.gz"
   },
-  "/_nuxt/D2Pxg_rm.js.br": {
+  "/_nuxt/Cy0jKMk3.js.br": {
     "type": "text/javascript; charset=utf-8",
     "encoding": "br",
-    "etag": "\"ecc-J6HiTd3AAULZMrVKrBj3RKmrkS8\"",
-    "mtime": "2026-09-28T12:01:48.497Z",
-    "size": 3788,
-    "path": "../public/_nuxt/D2Pxg_rm.js.br"
+    "etag": "\"12c0-EcI7kKOfmSbw22EvnrDi5CBV3Rc\"",
+    "mtime": "2026-09-29T07:39:33.844Z",
+    "size": 4800,
+    "path": "../public/_nuxt/Cy0jKMk3.js.br"
   },
-  "/_nuxt/D2Pxg_rm.js.gz": {
-    "type": "text/javascript; charset=utf-8",
-    "encoding": "gzip",
-    "etag": "\"118b-PNOIRwBbvw9JNzH4LlQQok0yKdU\"",
-    "mtime": "2026-09-28T12:01:48.496Z",
-    "size": 4491,
-    "path": "../public/_nuxt/D2Pxg_rm.js.gz"
-  },
-  "/_nuxt/D1rI-wlv.js.br": {
-    "type": "text/javascript; charset=utf-8",
-    "encoding": "br",
-    "etag": "\"9844-P1nh9nRMtAh2iBBe/g8P2xyPKcY\"",
-    "mtime": "2026-09-28T12:01:48.721Z",
-    "size": 38980,
-    "path": "../public/_nuxt/D1rI-wlv.js.br"
-  },
-  "/_nuxt/D6DmHtDC.js": {
-    "type": "text/javascript; charset=utf-8",
-    "etag": "\"14a-50Fkf4mRtzDBNZFW+MzrjlTJG/o\"",
-    "mtime": "2026-09-28T12:01:46.911Z",
-    "size": 330,
-    "path": "../public/_nuxt/D6DmHtDC.js"
-  },
-  "/_nuxt/D1rI-wlv.js.gz": {
-    "type": "text/javascript; charset=utf-8",
-    "encoding": "gzip",
-    "etag": "\"ad04-DEqa4vlZT15UmyWXBOBgyJ4KPjw\"",
-    "mtime": "2026-09-28T12:01:48.497Z",
-    "size": 44292,
-    "path": "../public/_nuxt/D1rI-wlv.js.gz"
-  },
-  "/_nuxt/D5DEhCBq.js": {
+  "/_nuxt/D1gjF7FB.js": {
     "type": "text/javascript; charset=utf-8",
     "encoding": null,
-    "etag": "\"4dc6-GShmn2MydnN0yzGmsM3xYkBVQqM\"",
-    "mtime": "2026-09-28T12:01:46.911Z",
-    "size": 19910,
-    "path": "../public/_nuxt/D5DEhCBq.js"
+    "etag": "\"26e8-pjJDfwCR4whqjvdKq+UHKwPz+VU\"",
+    "mtime": "2026-09-29T07:39:32.975Z",
+    "size": 9960,
+    "path": "../public/_nuxt/D1gjF7FB.js"
   },
-  "/_nuxt/D8gHaHZD.js": {
-    "type": "text/javascript; charset=utf-8",
-    "encoding": null,
-    "etag": "\"6d8-qBx2QVJfx5FzMh5X/Vy2b8BKMRw\"",
-    "mtime": "2026-09-28T12:01:46.911Z",
-    "size": 1752,
-    "path": "../public/_nuxt/D8gHaHZD.js"
-  },
-  "/_nuxt/D5DEhCBq.js.br": {
+  "/_nuxt/D-pctMGk.js.br": {
     "type": "text/javascript; charset=utf-8",
     "encoding": "br",
-    "etag": "\"158e-6ZtfLkhU9rp+010rlUW3cw95dIc\"",
-    "mtime": "2026-09-28T12:01:48.524Z",
-    "size": 5518,
-    "path": "../public/_nuxt/D5DEhCBq.js.br"
+    "etag": "\"20c-vWDGzzbCCYRsBpBNHCu2oSEFT0c\"",
+    "mtime": "2026-09-29T07:39:33.834Z",
+    "size": 524,
+    "path": "../public/_nuxt/D-pctMGk.js.br"
   },
-  "/_nuxt/D9H3Mt9w.js": {
+  "/_nuxt/D-pctMGk.js.gz": {
     "type": "text/javascript; charset=utf-8",
-    "encoding": null,
-    "etag": "\"4081-HwNINJeg438zbZ8E9QA31j6czO8\"",
-    "mtime": "2026-09-28T12:01:46.911Z",
-    "size": 16513,
-    "path": "../public/_nuxt/D9H3Mt9w.js"
+    "encoding": "gzip",
+    "etag": "\"262-k3/DKAZFqzgnMNNuEbtYpUVDYaE\"",
+    "mtime": "2026-09-29T07:39:33.833Z",
+    "size": 610,
+    "path": "../public/_nuxt/D-pctMGk.js.gz"
   },
-  "/_nuxt/D8gHaHZD.js.br": {
+  "/_nuxt/D86qhkMR.js": {
+    "type": "text/javascript; charset=utf-8",
+    "etag": "\"1fc-LqpDwYyDupnphcxgszEzqxS9EK0\"",
+    "mtime": "2026-09-29T07:39:32.975Z",
+    "size": 508,
+    "path": "../public/_nuxt/D86qhkMR.js"
+  },
+  "/_nuxt/D8GSRL26.js": {
+    "type": "text/javascript; charset=utf-8",
+    "etag": "\"34b-ER52KL3LxjVDF4DH1xZug2Clv2I\"",
+    "mtime": "2026-09-29T07:39:32.976Z",
+    "size": 843,
+    "path": "../public/_nuxt/D8GSRL26.js"
+  },
+  "/_nuxt/D1gjF7FB.js.br": {
     "type": "text/javascript; charset=utf-8",
     "encoding": "br",
-    "etag": "\"314-s+9xojproJEMOtcdGs7CQ5K9txU\"",
-    "mtime": "2026-09-28T12:01:48.524Z",
-    "size": 788,
-    "path": "../public/_nuxt/D8gHaHZD.js.br"
+    "etag": "\"b96-WeSUWGUzeNUUP6GN+jd8wJxbc3o\"",
+    "mtime": "2026-09-29T07:39:33.834Z",
+    "size": 2966,
+    "path": "../public/_nuxt/D1gjF7FB.js.br"
   },
-  "/_nuxt/D5DEhCBq.js.gz": {
+  "/_nuxt/D1gjF7FB.js.gz": {
     "type": "text/javascript; charset=utf-8",
     "encoding": "gzip",
-    "etag": "\"19bb-N6+rtL4wd9SuAarWnt/nobUI5Fc\"",
-    "mtime": "2026-09-28T12:01:48.497Z",
-    "size": 6587,
-    "path": "../public/_nuxt/D5DEhCBq.js.gz"
+    "etag": "\"cb8-FA5yKj9USxmvUPXwvrm56G8t4S0\"",
+    "mtime": "2026-09-29T07:39:33.834Z",
+    "size": 3256,
+    "path": "../public/_nuxt/D1gjF7FB.js.gz"
   },
-  "/_nuxt/D8gHaHZD.js.gz": {
-    "type": "text/javascript; charset=utf-8",
-    "encoding": "gzip",
-    "etag": "\"371-0Hp7Ty3IRinouElvcPIx2wTAioc\"",
-    "mtime": "2026-09-28T12:01:48.524Z",
-    "size": 881,
-    "path": "../public/_nuxt/D8gHaHZD.js.gz"
-  },
-  "/_nuxt/D9fY6EhJ.js": {
+  "/_nuxt/D8a25S3i.js": {
     "type": "text/javascript; charset=utf-8",
     "encoding": null,
-    "etag": "\"53e5-NkiRHEC9Vq3O4SRbQOEHtGo/UKk\"",
-    "mtime": "2026-09-28T12:01:46.911Z",
-    "size": 21477,
-    "path": "../public/_nuxt/D9fY6EhJ.js"
+    "etag": "\"9b3-aR+Lk9XRznlT9D8WoY/geW+d2uY\"",
+    "mtime": "2026-09-29T07:39:32.976Z",
+    "size": 2483,
+    "path": "../public/_nuxt/D8a25S3i.js"
   },
-  "/_nuxt/D9H3Mt9w.js.br": {
+  "/_nuxt/D8a25S3i.js.br": {
     "type": "text/javascript; charset=utf-8",
     "encoding": "br",
-    "etag": "\"1004-f3PVD8UgGGGxJjGVxQkuzc/uWQo\"",
-    "mtime": "2026-09-28T12:01:48.525Z",
-    "size": 4100,
-    "path": "../public/_nuxt/D9H3Mt9w.js.br"
+    "etag": "\"440-fdQWFrDK76rhAEiypNvxOHI32G8\"",
+    "mtime": "2026-09-29T07:39:33.845Z",
+    "size": 1088,
+    "path": "../public/_nuxt/D8a25S3i.js.br"
   },
-  "/_nuxt/D9H3Mt9w.js.gz": {
+  "/_nuxt/D8a25S3i.js.gz": {
     "type": "text/javascript; charset=utf-8",
     "encoding": "gzip",
-    "etag": "\"1300-4rjroiyWwcsgvw+YH1fswQAnLh0\"",
-    "mtime": "2026-09-28T12:01:48.524Z",
-    "size": 4864,
-    "path": "../public/_nuxt/D9H3Mt9w.js.gz"
+    "etag": "\"4e3-Cmn5cRWdEBG/Xxupl4JPPk00t3E\"",
+    "mtime": "2026-09-29T07:39:33.844Z",
+    "size": 1251,
+    "path": "../public/_nuxt/D8a25S3i.js.gz"
   },
-  "/_nuxt/D9fY6EhJ.js.br": {
-    "type": "text/javascript; charset=utf-8",
-    "encoding": "br",
-    "etag": "\"16a9-2wcnO05NnGl+llRCVvPVykuRSh8\"",
-    "mtime": "2026-09-28T12:01:48.548Z",
-    "size": 5801,
-    "path": "../public/_nuxt/D9fY6EhJ.js.br"
-  },
-  "/_nuxt/D9fY6EhJ.js.gz": {
-    "type": "text/javascript; charset=utf-8",
-    "encoding": "gzip",
-    "etag": "\"1b56-kWfgKfQ4ny3UgUwlVbMGSYxeNNc\"",
-    "mtime": "2026-09-28T12:01:48.524Z",
-    "size": 6998,
-    "path": "../public/_nuxt/D9fY6EhJ.js.gz"
-  },
-  "/_nuxt/D9z-Lrs9.js": {
+  "/_nuxt/D9-nwQPO.js": {
     "type": "text/javascript; charset=utf-8",
     "encoding": null,
-    "etag": "\"18de-GYdOhXCst3ILe7sVdy2+CTODVIA\"",
-    "mtime": "2026-09-28T12:01:46.911Z",
-    "size": 6366,
-    "path": "../public/_nuxt/D9z-Lrs9.js"
+    "etag": "\"eb9-03QF92LcOPSUmYIlBodBzY13frY\"",
+    "mtime": "2026-09-29T07:39:32.976Z",
+    "size": 3769,
+    "path": "../public/_nuxt/D9-nwQPO.js"
   },
-  "/_nuxt/DAEwBEdh.js": {
+  "/_nuxt/D92tK1np.js": {
     "type": "text/javascript; charset=utf-8",
     "encoding": null,
-    "etag": "\"4c8-5vpun7nr9aB1ef9Hv/Cz9Sbsgdc\"",
-    "mtime": "2026-09-28T12:01:46.911Z",
-    "size": 1224,
-    "path": "../public/_nuxt/DAEwBEdh.js"
+    "etag": "\"887-P3C0h4gfWPdlSVHFCI0A5uthi6Y\"",
+    "mtime": "2026-09-29T07:39:32.976Z",
+    "size": 2183,
+    "path": "../public/_nuxt/D92tK1np.js"
   },
-  "/_nuxt/D9z-Lrs9.js.gz": {
+  "/_nuxt/D9-nwQPO.js.gz": {
     "type": "text/javascript; charset=utf-8",
     "encoding": "gzip",
-    "etag": "\"861-z8GIcNPsNWBlgfdq9pwX+GWPf1M\"",
-    "mtime": "2026-09-28T12:01:48.548Z",
-    "size": 2145,
-    "path": "../public/_nuxt/D9z-Lrs9.js.gz"
+    "etag": "\"623-EQFq1I1eQxsBQ25jpcssBZ78sNg\"",
+    "mtime": "2026-09-29T07:39:33.845Z",
+    "size": 1571,
+    "path": "../public/_nuxt/D9-nwQPO.js.gz"
   },
-  "/_nuxt/D9z-Lrs9.js.br": {
-    "type": "text/javascript; charset=utf-8",
-    "encoding": "br",
-    "etag": "\"756-QbIYGwalHZYsCAmmNe/p3kT0KnI\"",
-    "mtime": "2026-09-28T12:01:48.548Z",
-    "size": 1878,
-    "path": "../public/_nuxt/D9z-Lrs9.js.br"
-  },
-  "/_nuxt/DAId26nj.js": {
+  "/_nuxt/D9zIT6kj.js": {
     "type": "text/javascript; charset=utf-8",
     "encoding": null,
-    "etag": "\"1e58-4ZO96SfJkhL42ppsblThbEftBhY\"",
-    "mtime": "2026-09-28T12:01:46.912Z",
-    "size": 7768,
-    "path": "../public/_nuxt/DAId26nj.js"
+    "etag": "\"638-qmbEq7448+xWbDJWOyhdxlR3sbM\"",
+    "mtime": "2026-09-29T07:39:32.978Z",
+    "size": 1592,
+    "path": "../public/_nuxt/D9zIT6kj.js"
   },
-  "/_nuxt/DAEwBEdh.js.br": {
+  "/_nuxt/D92tK1np.js.br": {
     "type": "text/javascript; charset=utf-8",
     "encoding": "br",
-    "etag": "\"230-UoUbN2Va9/g/9BIdPC3D3ebsB8E\"",
-    "mtime": "2026-09-28T12:01:48.548Z",
-    "size": 560,
-    "path": "../public/_nuxt/DAEwBEdh.js.br"
+    "etag": "\"303-Q0em+vT0kuSRCnZsvuIm8gj8+h4\"",
+    "mtime": "2026-09-29T07:39:33.856Z",
+    "size": 771,
+    "path": "../public/_nuxt/D92tK1np.js.br"
   },
-  "/_nuxt/DAEwBEdh.js.gz": {
+  "/_nuxt/D9-nwQPO.js.br": {
     "type": "text/javascript; charset=utf-8",
-    "encoding": "gzip",
-    "etag": "\"254-I5HoP47lQwX+TWp1K+ZDzHMemIw\"",
-    "mtime": "2026-09-28T12:01:48.548Z",
-    "size": 596,
-    "path": "../public/_nuxt/DAEwBEdh.js.gz"
+    "encoding": "br",
+    "etag": "\"556-jrJx4vpl+sob94W1AcPwP9ZTTQQ\"",
+    "mtime": "2026-09-29T07:39:33.856Z",
+    "size": 1366,
+    "path": "../public/_nuxt/D9-nwQPO.js.br"
   },
   "/_nuxt/DAPCDeni.js": {
     "type": "text/javascript; charset=utf-8",
     "encoding": null,
     "etag": "\"43c7-oOKUn+/GSZxw9uSMVyuYLvu6IGs\"",
-    "mtime": "2026-09-28T12:01:46.912Z",
+    "mtime": "2026-09-29T07:39:32.978Z",
     "size": 17351,
     "path": "../public/_nuxt/DAPCDeni.js"
   },
-  "/_nuxt/DAId26nj.js.br": {
-    "type": "text/javascript; charset=utf-8",
-    "encoding": "br",
-    "etag": "\"9b6-lkPF/rfblBHyjqP2uj25t4f7KYc\"",
-    "mtime": "2026-09-28T12:01:48.548Z",
-    "size": 2486,
-    "path": "../public/_nuxt/DAId26nj.js.br"
-  },
-  "/_nuxt/DBJ6isq5.js": {
-    "type": "text/javascript; charset=utf-8",
-    "etag": "\"55-0uy/4CzGMGaMKPVX9mY39oo1LkY\"",
-    "mtime": "2026-09-28T12:01:46.912Z",
-    "size": 85,
-    "path": "../public/_nuxt/DBJ6isq5.js"
-  },
-  "/_nuxt/DAId26nj.js.gz": {
+  "/_nuxt/D92tK1np.js.gz": {
     "type": "text/javascript; charset=utf-8",
     "encoding": "gzip",
-    "etag": "\"b8d-KYD8EqV7qnfRQmB2URt1rCCeV2o\"",
-    "mtime": "2026-09-28T12:01:48.548Z",
-    "size": 2957,
-    "path": "../public/_nuxt/DAId26nj.js.gz"
+    "etag": "\"372-k0i+f5ZIfXyDJmaSjhHVnVD00yQ\"",
+    "mtime": "2026-09-29T07:39:33.856Z",
+    "size": 882,
+    "path": "../public/_nuxt/D92tK1np.js.gz"
   },
-  "/_nuxt/DBJK-SDw.js": {
-    "type": "text/javascript; charset=utf-8",
-    "encoding": null,
-    "etag": "\"346b-lBVDPZeaFnmvPm5771Bd5FbYLi0\"",
-    "mtime": "2026-09-28T12:01:46.912Z",
-    "size": 13419,
-    "path": "../public/_nuxt/DBJK-SDw.js"
-  },
-  "/_nuxt/DAPCDeni.js.br": {
+  "/_nuxt/D9zIT6kj.js.br": {
     "type": "text/javascript; charset=utf-8",
     "encoding": "br",
-    "etag": "\"1090-CCKpcnzcixWMlvk4hQBW+cQyy+U\"",
-    "mtime": "2026-09-28T12:01:48.569Z",
-    "size": 4240,
-    "path": "../public/_nuxt/DAPCDeni.js.br"
+    "etag": "\"2f3-LT+W9yHn9jRAKPWbjys4oIXZ6mk\"",
+    "mtime": "2026-09-29T07:39:33.856Z",
+    "size": 755,
+    "path": "../public/_nuxt/D9zIT6kj.js.br"
   },
-  "/_nuxt/DCfPM1c4.js": {
+  "/_nuxt/DCSUMaNw.js": {
     "type": "text/javascript; charset=utf-8",
     "encoding": null,
-    "etag": "\"bec-hjLZUZ2rdj6CpPdm3WLP9fzbSbs\"",
-    "mtime": "2026-09-28T12:01:46.913Z",
-    "size": 3052,
-    "path": "../public/_nuxt/DCfPM1c4.js"
+    "etag": "\"3013-HZB725ooBFDAODyEA0mw/APTI5E\"",
+    "mtime": "2026-09-29T07:39:32.977Z",
+    "size": 12307,
+    "path": "../public/_nuxt/DCSUMaNw.js"
   },
-  "/_nuxt/DBJK-SDw.js.br": {
+  "/_nuxt/D9zIT6kj.js.gz": {
     "type": "text/javascript; charset=utf-8",
-    "encoding": "br",
-    "etag": "\"fc9-2fwlBCa46nouXMGZFT+XkTNwo4c\"",
-    "mtime": "2026-09-28T12:01:48.568Z",
-    "size": 4041,
-    "path": "../public/_nuxt/DBJK-SDw.js.br"
+    "encoding": "gzip",
+    "etag": "\"35a-oylYgaZiKGdOi4MsSrjR7Jn5Nu0\"",
+    "mtime": "2026-09-29T07:39:33.856Z",
+    "size": 858,
+    "path": "../public/_nuxt/D9zIT6kj.js.gz"
   },
   "/_nuxt/DAPCDeni.js.gz": {
     "type": "text/javascript; charset=utf-8",
     "encoding": "gzip",
     "etag": "\"145a-bLPYcWVSyjWCi4PREXIANO2ycq0\"",
-    "mtime": "2026-09-28T12:01:48.548Z",
+    "mtime": "2026-09-29T07:39:33.856Z",
     "size": 5210,
     "path": "../public/_nuxt/DAPCDeni.js.gz"
+  },
+  "/_nuxt/DAPCDeni.js.br": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": "br",
+    "etag": "\"1090-CCKpcnzcixWMlvk4hQBW+cQyy+U\"",
+    "mtime": "2026-09-29T07:39:33.885Z",
+    "size": 4240,
+    "path": "../public/_nuxt/DAPCDeni.js.br"
+  },
+  "/_nuxt/DCSUMaNw.js.br": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": "br",
+    "etag": "\"daa-vuDgkngQW8xWmZHy+VFiXUG36gY\"",
+    "mtime": "2026-09-29T07:39:33.879Z",
+    "size": 3498,
+    "path": "../public/_nuxt/DCSUMaNw.js.br"
+  },
+  "/_nuxt/DCSUMaNw.js.gz": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": "gzip",
+    "etag": "\"fef-8jGUADcT5MSqrVB7zD4tOCCumKk\"",
+    "mtime": "2026-09-29T07:39:33.857Z",
+    "size": 4079,
+    "path": "../public/_nuxt/DCSUMaNw.js.gz"
   },
   "/_nuxt/DE7Al3Ew.js": {
     "type": "text/javascript; charset=utf-8",
     "encoding": null,
     "etag": "\"1818-gk+QxTb21sWSGuKQKtHG54AtM+c\"",
-    "mtime": "2026-09-28T12:01:46.912Z",
+    "mtime": "2026-09-29T07:39:32.976Z",
     "size": 6168,
     "path": "../public/_nuxt/DE7Al3Ew.js"
-  },
-  "/_nuxt/DBJK-SDw.js.gz": {
-    "type": "text/javascript; charset=utf-8",
-    "encoding": "gzip",
-    "etag": "\"1257-lIJtyeRhMJSfKHrPzzI9UTPGEHs\"",
-    "mtime": "2026-09-28T12:01:48.568Z",
-    "size": 4695,
-    "path": "../public/_nuxt/DBJK-SDw.js.gz"
-  },
-  "/_nuxt/DCfPM1c4.js.gz": {
-    "type": "text/javascript; charset=utf-8",
-    "encoding": "gzip",
-    "etag": "\"59d-D2fDN8D6HcyAgaUIEcvF+hi667Y\"",
-    "mtime": "2026-09-28T12:01:48.569Z",
-    "size": 1437,
-    "path": "../public/_nuxt/DCfPM1c4.js.gz"
-  },
-  "/_nuxt/DCfPM1c4.js.br": {
-    "type": "text/javascript; charset=utf-8",
-    "encoding": "br",
-    "etag": "\"50f-o/QsjKecZ1OGx1DmzfilV5lhS7g\"",
-    "mtime": "2026-09-28T12:01:48.614Z",
-    "size": 1295,
-    "path": "../public/_nuxt/DCfPM1c4.js.br"
-  },
-  "/_nuxt/DEBLHLeD.js": {
-    "type": "text/javascript; charset=utf-8",
-    "encoding": null,
-    "etag": "\"343f-VzK+1ZY8AIEAv+j4J2i/0/SFvRg\"",
-    "mtime": "2026-09-28T12:01:46.912Z",
-    "size": 13375,
-    "path": "../public/_nuxt/DEBLHLeD.js"
   },
   "/_nuxt/DE7Al3Ew.js.br": {
     "type": "text/javascript; charset=utf-8",
     "encoding": "br",
     "etag": "\"4a9-/nQ9pywDCR1EKw/iIJF3gWapsM0\"",
-    "mtime": "2026-09-28T12:01:48.614Z",
+    "mtime": "2026-09-29T07:39:33.857Z",
     "size": 1193,
     "path": "../public/_nuxt/DE7Al3Ew.js.br"
   },
@@ -25224,103 +25203,47 @@ const assets = {
     "type": "text/javascript; charset=utf-8",
     "encoding": "gzip",
     "etag": "\"599-tC0NEZGhWXIqzDoLOSpFYxJboys\"",
-    "mtime": "2026-09-28T12:01:48.614Z",
+    "mtime": "2026-09-29T07:39:33.857Z",
     "size": 1433,
     "path": "../public/_nuxt/DE7Al3Ew.js.gz"
   },
-  "/_nuxt/DEBLHLeD.js.br": {
+  "/_nuxt/DFYnHY1q.js.br": {
     "type": "text/javascript; charset=utf-8",
     "encoding": "br",
-    "etag": "\"f09-uRUmi28VY1pKlcvwuDVBGjh1MFs\"",
-    "mtime": "2026-09-28T12:01:48.615Z",
-    "size": 3849,
-    "path": "../public/_nuxt/DEBLHLeD.js.br"
-  },
-  "/_nuxt/DEBLHLeD.js.gz": {
-    "type": "text/javascript; charset=utf-8",
-    "encoding": "gzip",
-    "etag": "\"10bf-2CHyB0SmAoy3U+VZPAEf0rOgnnI\"",
-    "mtime": "2026-09-28T12:01:48.614Z",
-    "size": 4287,
-    "path": "../public/_nuxt/DEBLHLeD.js.gz"
-  },
-  "/_nuxt/DEnzHLL7.js": {
-    "type": "text/javascript; charset=utf-8",
-    "encoding": null,
-    "etag": "\"9a1f-t/6H1G/H6x76WK/GKFZh2GdG4z8\"",
-    "mtime": "2026-09-28T12:01:46.913Z",
-    "size": 39455,
-    "path": "../public/_nuxt/DEnzHLL7.js"
-  },
-  "/_nuxt/DFEyzgeO.js": {
-    "type": "text/javascript; charset=utf-8",
-    "encoding": null,
-    "etag": "\"23a0-MHqOK8rC/Ve4I3SjWS16QxI7Iuc\"",
-    "mtime": "2026-09-28T12:01:46.913Z",
-    "size": 9120,
-    "path": "../public/_nuxt/DFEyzgeO.js"
-  },
-  "/_nuxt/DEnzHLL7.js.gz": {
-    "type": "text/javascript; charset=utf-8",
-    "encoding": "gzip",
-    "etag": "\"33f8-CKcb7c4fN3M9/WUKUms3Ro7IRUs\"",
-    "mtime": "2026-09-28T12:01:48.615Z",
-    "size": 13304,
-    "path": "../public/_nuxt/DEnzHLL7.js.gz"
-  },
-  "/_nuxt/DFEyzgeO.js.gz": {
-    "type": "text/javascript; charset=utf-8",
-    "encoding": "gzip",
-    "etag": "\"9e0-7uaRYmSPbeSYfZq3ps9JsNjBD7g\"",
-    "mtime": "2026-09-28T12:01:48.615Z",
-    "size": 2528,
-    "path": "../public/_nuxt/DFEyzgeO.js.gz"
-  },
-  "/_nuxt/DFEyzgeO.js.br": {
-    "type": "text/javascript; charset=utf-8",
-    "encoding": "br",
-    "etag": "\"8b6-XXO3VIczXD092bPLo/v/9evs3eQ\"",
-    "mtime": "2026-09-28T12:01:48.615Z",
-    "size": 2230,
-    "path": "../public/_nuxt/DFEyzgeO.js.br"
+    "etag": "\"2cd50-gg4H63gBDsiDhswjnkw8dC4hMJM\"",
+    "mtime": "2026-09-29T07:39:35.570Z",
+    "size": 183632,
+    "path": "../public/_nuxt/DFYnHY1q.js.br"
   },
   "/_nuxt/DFqwV4UN.js": {
     "type": "text/javascript; charset=utf-8",
     "encoding": null,
     "etag": "\"1f26-/4Eia5QWldACGDrrg8/5EHiKjh8\"",
-    "mtime": "2026-09-28T12:01:46.913Z",
+    "mtime": "2026-09-29T07:39:32.981Z",
     "size": 7974,
     "path": "../public/_nuxt/DFqwV4UN.js"
   },
-  "/_nuxt/DK8yQ86J.js": {
+  "/_nuxt/DFYnHY1q.js.gz": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": "gzip",
+    "etag": "\"37c22-R82zeymLYH3OZAGtOcVzI2F9fDQ\"",
+    "mtime": "2026-09-29T07:39:34.232Z",
+    "size": 228386,
+    "path": "../public/_nuxt/DFYnHY1q.js.gz"
+  },
+  "/_nuxt/DGFdBsYY.js": {
     "type": "text/javascript; charset=utf-8",
     "encoding": null,
-    "etag": "\"f00f-x536k7LlC5C+OUCxgKlTqcQCZ/o\"",
-    "mtime": "2026-09-28T12:01:46.914Z",
-    "size": 61455,
-    "path": "../public/_nuxt/DK8yQ86J.js"
-  },
-  "/_nuxt/DEnzHLL7.js.br": {
-    "type": "text/javascript; charset=utf-8",
-    "encoding": "br",
-    "etag": "\"2f55-aKv0942rAHbFg9HDpPEuGZIc3e8\"",
-    "mtime": "2026-09-28T12:01:48.657Z",
-    "size": 12117,
-    "path": "../public/_nuxt/DEnzHLL7.js.br"
-  },
-  "/_nuxt/DKQ0lUAZ.js": {
-    "type": "text/javascript; charset=utf-8",
-    "encoding": null,
-    "etag": "\"47ab-E/xd5dt7gnmlDZWXngLWcPYkcfY\"",
-    "mtime": "2026-09-28T12:01:46.913Z",
-    "size": 18347,
-    "path": "../public/_nuxt/DKQ0lUAZ.js"
+    "etag": "\"1cbc-q5JRIppozjIjHIn5n9FmKCBWRdk\"",
+    "mtime": "2026-09-29T07:39:32.977Z",
+    "size": 7356,
+    "path": "../public/_nuxt/DGFdBsYY.js"
   },
   "/_nuxt/DFqwV4UN.js.gz": {
     "type": "text/javascript; charset=utf-8",
     "encoding": "gzip",
     "etag": "\"7f1-uLdCAquRJVb9l1yzbyUJ/ylAAXg\"",
-    "mtime": "2026-09-28T12:01:48.615Z",
+    "mtime": "2026-09-29T07:39:33.885Z",
     "size": 2033,
     "path": "../public/_nuxt/DFqwV4UN.js.gz"
   },
@@ -25328,70 +25251,158 @@ const assets = {
     "type": "text/javascript; charset=utf-8",
     "encoding": "br",
     "etag": "\"65c-tm11cgnOdSfkayRjNWZv+Pv8uMU\"",
-    "mtime": "2026-09-28T12:01:48.615Z",
+    "mtime": "2026-09-29T07:39:33.885Z",
     "size": 1628,
     "path": "../public/_nuxt/DFqwV4UN.js.br"
   },
-  "/_nuxt/DK8yQ86J.js.br": {
+  "/_nuxt/DFYnHY1q.js": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": null,
+    "etag": "\"b457d-ttg9qrRLXklW6vWNmOMTeDXYb58\"",
+    "mtime": "2026-09-29T07:39:32.981Z",
+    "size": 738685,
+    "path": "../public/_nuxt/DFYnHY1q.js"
+  },
+  "/_nuxt/DGvKgx39.js": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": null,
+    "etag": "\"202f-+Bt3rDZxq8VaBsrPEBRu9ml7xQY\"",
+    "mtime": "2026-09-29T07:39:32.979Z",
+    "size": 8239,
+    "path": "../public/_nuxt/DGvKgx39.js"
+  },
+  "/_nuxt/DGFdBsYY.js.br": {
     "type": "text/javascript; charset=utf-8",
     "encoding": "br",
-    "etag": "\"3276-xkB9TGRZDEXfLi3qJYr4MUZNb8s\"",
-    "mtime": "2026-09-28T12:01:48.734Z",
-    "size": 12918,
-    "path": "../public/_nuxt/DK8yQ86J.js.br"
+    "etag": "\"988-cOySfQpcSWXsXDFkuFFXjiF1DHQ\"",
+    "mtime": "2026-09-29T07:39:33.885Z",
+    "size": 2440,
+    "path": "../public/_nuxt/DGFdBsYY.js.br"
   },
-  "/_nuxt/DK8yQ86J.js.gz": {
+  "/_nuxt/DGFdBsYY.js.gz": {
     "type": "text/javascript; charset=utf-8",
     "encoding": "gzip",
-    "etag": "\"3a63-V8Y7haWF3xPZgjGYg8quoz8xPH0\"",
-    "mtime": "2026-09-28T12:01:48.657Z",
-    "size": 14947,
-    "path": "../public/_nuxt/DK8yQ86J.js.gz"
+    "etag": "\"b0b-RBFfzM2hNxx41qkfrEnKtmih9Dw\"",
+    "mtime": "2026-09-29T07:39:33.885Z",
+    "size": 2827,
+    "path": "../public/_nuxt/DGFdBsYY.js.gz"
   },
-  "/_nuxt/DLOr3Dxi.js": {
+  "/_nuxt/DGvKgx39.js.br": {
     "type": "text/javascript; charset=utf-8",
-    "etag": "\"107-cLY7VQ7WAvQh0UEBOy/L/n1WR20\"",
-    "mtime": "2026-09-28T12:01:46.913Z",
-    "size": 263,
-    "path": "../public/_nuxt/DLOr3Dxi.js"
+    "encoding": "br",
+    "etag": "\"7b1-ZzXRTQrixEdwPjmwNgauNFWEG1k\"",
+    "mtime": "2026-09-29T07:39:33.888Z",
+    "size": 1969,
+    "path": "../public/_nuxt/DGvKgx39.js.br"
+  },
+  "/_nuxt/DHFOU_YD.js": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": null,
+    "etag": "\"22d6-k8fT5n4qtzB6ZPdxdIDKQ5wRx7E\"",
+    "mtime": "2026-09-29T07:39:32.977Z",
+    "size": 8918,
+    "path": "../public/_nuxt/DHFOU_YD.js"
+  },
+  "/_nuxt/DId1zo3q.js": {
+    "type": "text/javascript; charset=utf-8",
+    "etag": "\"2b0-EEowBtafJIs1UMvvYRTun3Z547U\"",
+    "mtime": "2026-09-29T07:39:32.978Z",
+    "size": 688,
+    "path": "../public/_nuxt/DId1zo3q.js"
+  },
+  "/_nuxt/DGvKgx39.js.gz": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": "gzip",
+    "etag": "\"8af-ZUN1Qzccaia3c8Vi63MEpaBvRws\"",
+    "mtime": "2026-09-29T07:39:33.885Z",
+    "size": 2223,
+    "path": "../public/_nuxt/DGvKgx39.js.gz"
+  },
+  "/_nuxt/DJsmineA.js": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": null,
+    "etag": "\"469e-+gjVm9zfDLv4R1Lsg6OeCp+bwdo\"",
+    "mtime": "2026-09-29T07:39:32.979Z",
+    "size": 18078,
+    "path": "../public/_nuxt/DJsmineA.js"
+  },
+  "/_nuxt/DHFOU_YD.js.br": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": "br",
+    "etag": "\"c71-5n1JK5Sg6hy4d2rMFlq2kuDSeBw\"",
+    "mtime": "2026-09-29T07:39:33.895Z",
+    "size": 3185,
+    "path": "../public/_nuxt/DHFOU_YD.js.br"
+  },
+  "/_nuxt/DHFOU_YD.js.gz": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": "gzip",
+    "etag": "\"e08-5/xMAuRLNMKAK07vUsrcglAZhyk\"",
+    "mtime": "2026-09-29T07:39:33.888Z",
+    "size": 3592,
+    "path": "../public/_nuxt/DHFOU_YD.js.gz"
+  },
+  "/_nuxt/DJsmineA.js.br": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": "br",
+    "etag": "\"1162-vG3MDJVKypQ0tgdTUunkt1sb/WM\"",
+    "mtime": "2026-09-29T07:39:33.918Z",
+    "size": 4450,
+    "path": "../public/_nuxt/DJsmineA.js.br"
+  },
+  "/_nuxt/DJsmineA.js.gz": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": "gzip",
+    "etag": "\"145a-k83qrItZidh4qsUesNc0kqXDCCE\"",
+    "mtime": "2026-09-29T07:39:33.895Z",
+    "size": 5210,
+    "path": "../public/_nuxt/DJsmineA.js.gz"
+  },
+  "/_nuxt/DKQ0lUAZ.js": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": null,
+    "etag": "\"47ab-E/xd5dt7gnmlDZWXngLWcPYkcfY\"",
+    "mtime": "2026-09-29T07:39:32.978Z",
+    "size": 18347,
+    "path": "../public/_nuxt/DKQ0lUAZ.js"
   },
   "/_nuxt/DMFBKZMQ.js": {
     "type": "text/javascript; charset=utf-8",
     "encoding": null,
     "etag": "\"987-XbWXSfPtXgr/DoC1jBj2VFkJuHk\"",
-    "mtime": "2026-09-28T12:01:46.914Z",
+    "mtime": "2026-09-29T07:39:32.977Z",
     "size": 2439,
     "path": "../public/_nuxt/DMFBKZMQ.js"
-  },
-  "/_nuxt/DKQ0lUAZ.js.br": {
-    "type": "text/javascript; charset=utf-8",
-    "encoding": "br",
-    "etag": "\"fc6-zqmkTnRrBZBMqdGc6+FSd+Ct0ug\"",
-    "mtime": "2026-09-28T12:01:48.658Z",
-    "size": 4038,
-    "path": "../public/_nuxt/DKQ0lUAZ.js.br"
-  },
-  "/_nuxt/DMKR5z43.js": {
-    "type": "text/javascript; charset=utf-8",
-    "encoding": null,
-    "etag": "\"1b7d-fHAvLRJzvmzR2QTlnM9U/iR1hHs\"",
-    "mtime": "2026-09-28T12:01:46.914Z",
-    "size": 7037,
-    "path": "../public/_nuxt/DMKR5z43.js"
   },
   "/_nuxt/DKQ0lUAZ.js.gz": {
     "type": "text/javascript; charset=utf-8",
     "encoding": "gzip",
     "etag": "\"12e9-nDUWulYkBSqVAdkNXvXvgzbQPgM\"",
-    "mtime": "2026-09-28T12:01:48.658Z",
+    "mtime": "2026-09-29T07:39:33.918Z",
     "size": 4841,
     "path": "../public/_nuxt/DKQ0lUAZ.js.gz"
+  },
+  "/_nuxt/DMt7mmCo.js": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": null,
+    "etag": "\"4dc6-7EPG1ozzI+I0wifrLX55i+rrfak\"",
+    "mtime": "2026-09-29T07:39:32.978Z",
+    "size": 19910,
+    "path": "../public/_nuxt/DMt7mmCo.js"
+  },
+  "/_nuxt/DKQ0lUAZ.js.br": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": "br",
+    "etag": "\"fc6-zqmkTnRrBZBMqdGc6+FSd+Ct0ug\"",
+    "mtime": "2026-09-29T07:39:33.939Z",
+    "size": 4038,
+    "path": "../public/_nuxt/DKQ0lUAZ.js.br"
   },
   "/_nuxt/DMFBKZMQ.js.gz": {
     "type": "text/javascript; charset=utf-8",
     "encoding": "gzip",
     "etag": "\"4fb-Z3lSj4nVQM631p+KU7v6ZqqOOvA\"",
-    "mtime": "2026-09-28T12:01:48.695Z",
+    "mtime": "2026-09-29T07:39:33.933Z",
     "size": 1275,
     "path": "../public/_nuxt/DMFBKZMQ.js.gz"
   },
@@ -25399,508 +25410,582 @@ const assets = {
     "type": "text/javascript; charset=utf-8",
     "encoding": "br",
     "etag": "\"3e4-w5a5YQx/ajzJ+Lx19/0IfkDTr/Y\"",
-    "mtime": "2026-09-28T12:01:48.695Z",
+    "mtime": "2026-09-29T07:39:33.933Z",
     "size": 996,
     "path": "../public/_nuxt/DMFBKZMQ.js.br"
   },
-  "/_nuxt/DPdPjJeq.js": {
+  "/_nuxt/DMxwL5B6.js": {
+    "type": "text/javascript; charset=utf-8",
+    "etag": "\"2bd-NNFGQsVnsFNjq34nuOFjFxrty9k\"",
+    "mtime": "2026-09-29T07:39:32.979Z",
+    "size": 701,
+    "path": "../public/_nuxt/DMxwL5B6.js"
+  },
+  "/_nuxt/DVC9J4xi.js": {
     "type": "text/javascript; charset=utf-8",
     "encoding": null,
-    "etag": "\"3216-TPRCMi0QHn2ErY73x9gAQPcau/0\"",
-    "mtime": "2026-09-28T12:01:46.914Z",
-    "size": 12822,
-    "path": "../public/_nuxt/DPdPjJeq.js"
+    "etag": "\"23a0-n368FVGFFKP6MAUEYJAeNHqwH2M\"",
+    "mtime": "2026-09-29T07:39:32.980Z",
+    "size": 9120,
+    "path": "../public/_nuxt/DVC9J4xi.js"
   },
-  "/_nuxt/DMKR5z43.js.br": {
+  "/_nuxt/DMt7mmCo.js.br": {
     "type": "text/javascript; charset=utf-8",
     "encoding": "br",
-    "etag": "\"7c8-g9cSSEnaLK1hWztchk8ENm7Xk3c\"",
-    "mtime": "2026-09-28T12:01:48.695Z",
-    "size": 1992,
-    "path": "../public/_nuxt/DMKR5z43.js.br"
+    "etag": "\"1597-MvhdZ0tsGt2fk/0kNwWX99oIOok\"",
+    "mtime": "2026-09-29T07:39:34.162Z",
+    "size": 5527,
+    "path": "../public/_nuxt/DMt7mmCo.js.br"
   },
-  "/_nuxt/DMKR5z43.js.gz": {
+  "/_nuxt/DMt7mmCo.js.gz": {
     "type": "text/javascript; charset=utf-8",
     "encoding": "gzip",
-    "etag": "\"8a5-LvBkqLxUwzRQEjegRAwzpoJln2c\"",
-    "mtime": "2026-09-28T12:01:48.695Z",
-    "size": 2213,
-    "path": "../public/_nuxt/DMKR5z43.js.gz"
+    "etag": "\"19c2-nBOAPlUPlVDodVrwO3J6WHIpmCY\"",
+    "mtime": "2026-09-29T07:39:33.939Z",
+    "size": 6594,
+    "path": "../public/_nuxt/DMt7mmCo.js.gz"
   },
-  "/_nuxt/DPdPjJeq.js.br": {
+  "/_nuxt/DVC9J4xi.js.br": {
     "type": "text/javascript; charset=utf-8",
     "encoding": "br",
-    "etag": "\"ce5-ZYwrH1z9gxA+69I8SyWehyK0q/o\"",
-    "mtime": "2026-09-28T12:01:48.696Z",
-    "size": 3301,
-    "path": "../public/_nuxt/DPdPjJeq.js.br"
+    "etag": "\"8ba-ABEOKU8hPoLVp3A/FiS8cCaN8t8\"",
+    "mtime": "2026-09-29T07:39:33.941Z",
+    "size": 2234,
+    "path": "../public/_nuxt/DVC9J4xi.js.br"
   },
-  "/_nuxt/DPdPjJeq.js.gz": {
+  "/_nuxt/DVC9J4xi.js.gz": {
     "type": "text/javascript; charset=utf-8",
     "encoding": "gzip",
-    "etag": "\"ef0-LZRkQyvuKTO+Ea2dtilwmuppISo\"",
-    "mtime": "2026-09-28T12:01:48.695Z",
-    "size": 3824,
-    "path": "../public/_nuxt/DPdPjJeq.js.gz"
+    "etag": "\"9e3-EmxZTB3c0HHV4GrQMc6zSzyvigs\"",
+    "mtime": "2026-09-29T07:39:33.941Z",
+    "size": 2531,
+    "path": "../public/_nuxt/DVC9J4xi.js.gz"
   },
-  "/_nuxt/DR9Qobuk.js": {
+  "/_nuxt/DXW6lv6Y.js": {
     "type": "text/javascript; charset=utf-8",
     "encoding": null,
-    "etag": "\"15f5-St1zybxW0/VeJzhk15jWCcLbQ9s\"",
-    "mtime": "2026-09-28T12:01:46.914Z",
-    "size": 5621,
-    "path": "../public/_nuxt/DR9Qobuk.js"
+    "etag": "\"1042-niIskE7WlvqwlN5nNNI9SHlOBB8\"",
+    "mtime": "2026-09-29T07:39:32.980Z",
+    "size": 4162,
+    "path": "../public/_nuxt/DXW6lv6Y.js"
   },
-  "/_nuxt/DUwJGUfq.js": {
+  "/_nuxt/DaUhYNOR.js": {
+    "type": "text/javascript; charset=utf-8",
+    "etag": "\"3dc-dJzVXVOFGN3n6h/vEYnYUEoea84\"",
+    "mtime": "2026-09-29T07:39:32.979Z",
+    "size": 988,
+    "path": "../public/_nuxt/DaUhYNOR.js"
+  },
+  "/_nuxt/DacoUe2V.js": {
     "type": "text/javascript; charset=utf-8",
     "encoding": null,
-    "etag": "\"103b4-NBiAuAyVv7XCqa7QwUMaRGIJ7E8\"",
-    "mtime": "2026-09-28T12:01:46.915Z",
-    "size": 66484,
-    "path": "../public/_nuxt/DUwJGUfq.js"
+    "etag": "\"439-tQFNa0SXxnafLOt/9qbFJ8WAnWs\"",
+    "mtime": "2026-09-29T07:39:32.980Z",
+    "size": 1081,
+    "path": "../public/_nuxt/DacoUe2V.js"
   },
-  "/_nuxt/DQsqL_gN.js": {
+  "/_nuxt/DbQ-hNVo.js": {
     "type": "text/javascript; charset=utf-8",
     "encoding": null,
-    "etag": "\"c24e-L5tEJPXIIYPwT8jk6Sdvy0on9Tw\"",
-    "mtime": "2026-09-28T12:01:46.915Z",
-    "size": 49742,
-    "path": "../public/_nuxt/DQsqL_gN.js"
+    "etag": "\"32e3-tt8zpEQW1f2qZn6ZyeRbV9zFlbs\"",
+    "mtime": "2026-09-29T07:39:32.982Z",
+    "size": 13027,
+    "path": "../public/_nuxt/DbQ-hNVo.js"
   },
-  "/_nuxt/DR9Qobuk.js.gz": {
+  "/_nuxt/DacoUe2V.js.gz": {
     "type": "text/javascript; charset=utf-8",
     "encoding": "gzip",
-    "etag": "\"7e9-A15Xc+IfBo4RLPTE0DtDwH+i4l4\"",
-    "mtime": "2026-09-28T12:01:48.734Z",
-    "size": 2025,
-    "path": "../public/_nuxt/DR9Qobuk.js.gz"
+    "etag": "\"2c9-qDQs8qecb2Yi99FwffyOD1RqOh0\"",
+    "mtime": "2026-09-29T07:39:34.207Z",
+    "size": 713,
+    "path": "../public/_nuxt/DacoUe2V.js.gz"
   },
-  "/_nuxt/DQsqL_gN.js.br": {
+  "/_nuxt/DacoUe2V.js.br": {
     "type": "text/javascript; charset=utf-8",
     "encoding": "br",
-    "etag": "\"319a-2Mcp2feZx8UMXr6PO/DScFW/HIQ\"",
-    "mtime": "2026-09-28T12:01:48.851Z",
-    "size": 12698,
-    "path": "../public/_nuxt/DQsqL_gN.js.br"
+    "etag": "\"251-cgG2+s1Dvf5oTJoAa6eBdsQZnco\"",
+    "mtime": "2026-09-29T07:39:34.218Z",
+    "size": 593,
+    "path": "../public/_nuxt/DacoUe2V.js.br"
   },
-  "/_nuxt/DQsqL_gN.js.gz": {
+  "/_nuxt/DXW6lv6Y.js.gz": {
     "type": "text/javascript; charset=utf-8",
     "encoding": "gzip",
-    "etag": "\"3c1f-S0CHv1ReWO5x+/J4XIGMvHSC6JY\"",
-    "mtime": "2026-09-28T12:01:48.696Z",
-    "size": 15391,
-    "path": "../public/_nuxt/DQsqL_gN.js.gz"
+    "etag": "\"6ed-V9o5kT6PbZj2TItbiLNk1dL0WRQ\"",
+    "mtime": "2026-09-29T07:39:33.941Z",
+    "size": 1773,
+    "path": "../public/_nuxt/DXW6lv6Y.js.gz"
   },
-  "/_nuxt/DUwJGUfq.js.br": {
+  "/_nuxt/DXW6lv6Y.js.br": {
     "type": "text/javascript; charset=utf-8",
     "encoding": "br",
-    "etag": "\"470c-SnKl7gbacGpZ04Rt2EvvdyJJ8aw\"",
-    "mtime": "2026-09-28T12:01:48.914Z",
-    "size": 18188,
-    "path": "../public/_nuxt/DUwJGUfq.js.br"
+    "etag": "\"639-MFz8e2C6bAry0s76tIaMFiqF1JY\"",
+    "mtime": "2026-09-29T07:39:33.941Z",
+    "size": 1593,
+    "path": "../public/_nuxt/DXW6lv6Y.js.br"
   },
-  "/_nuxt/DW25ijJy.js": {
+  "/_nuxt/DctpcEwz.js": {
     "type": "text/javascript; charset=utf-8",
-    "etag": "\"3bd-3xuw27nLb7JEYS5o3skDHnWpmT0\"",
-    "mtime": "2026-09-28T12:01:46.915Z",
-    "size": 957,
-    "path": "../public/_nuxt/DW25ijJy.js"
+    "etag": "\"16f-fjs7BWpM5FVSdhtvIbDbz9bqh+A\"",
+    "mtime": "2026-09-29T07:39:32.981Z",
+    "size": 367,
+    "path": "../public/_nuxt/DctpcEwz.js"
   },
-  "/_nuxt/DXhH3JZh.js": {
+  "/_nuxt/Dbpu1e5H.js": {
     "type": "text/javascript; charset=utf-8",
-    "etag": "\"1f3-ua2seT2xqlWT6OFk8cY4z3s5/t4\"",
-    "mtime": "2026-09-28T12:01:46.915Z",
-    "size": 499,
-    "path": "../public/_nuxt/DXhH3JZh.js"
-  },
-  "/_nuxt/DZbLglZ3.js": {
-    "type": "text/javascript; charset=utf-8",
-    "etag": "\"299-88uGxn67Wim2d6bOcF/MLxNVqNY\"",
-    "mtime": "2026-09-28T12:01:46.916Z",
-    "size": 665,
-    "path": "../public/_nuxt/DZbLglZ3.js"
-  },
-  "/_nuxt/DaNXanXm.js": {
-    "type": "text/javascript; charset=utf-8",
-    "encoding": null,
-    "etag": "\"6d9-euAWzzruJpkCWGU4kcCX8ehw1FU\"",
-    "mtime": "2026-09-28T12:01:46.915Z",
-    "size": 1753,
-    "path": "../public/_nuxt/DaNXanXm.js"
-  },
-  "/_nuxt/DR9Qobuk.js.br": {
-    "type": "text/javascript; charset=utf-8",
-    "encoding": "br",
-    "etag": "\"6e2-DIqZqOw3aLbq/FQja/IiMRkUkWY\"",
-    "mtime": "2026-09-28T12:01:48.734Z",
-    "size": 1762,
-    "path": "../public/_nuxt/DR9Qobuk.js.br"
-  },
-  "/_nuxt/DauEZIjT.js": {
-    "type": "text/javascript; charset=utf-8",
-    "etag": "\"1fc-w3W8ve4mW5V/S34OjjKYetbgXoA\"",
-    "mtime": "2026-09-28T12:01:46.915Z",
-    "size": 508,
-    "path": "../public/_nuxt/DauEZIjT.js"
-  },
-  "/_nuxt/Ddhlg9cr.js": {
-    "type": "text/javascript; charset=utf-8",
-    "etag": "\"2b0-axYvDQbaX8xk3rPW3k+620LBlL4\"",
-    "mtime": "2026-09-28T12:01:46.916Z",
-    "size": 688,
-    "path": "../public/_nuxt/Ddhlg9cr.js"
+    "etag": "\"23d-9ERIJDaAxUGiUIDO5ZdJINIIvz4\"",
+    "mtime": "2026-09-29T07:39:32.980Z",
+    "size": 573,
+    "path": "../public/_nuxt/Dbpu1e5H.js"
   },
   "/_nuxt/Ddyvc1_j.js": {
     "type": "text/javascript; charset=utf-8",
     "etag": "\"27e-aqzSgGJEtNFfsMqWSz8/NYcn5T8\"",
-    "mtime": "2026-09-28T12:01:46.916Z",
+    "mtime": "2026-09-29T07:39:32.984Z",
     "size": 638,
     "path": "../public/_nuxt/Ddyvc1_j.js"
   },
-  "/_nuxt/DgJenYc7.js": {
+  "/_nuxt/DeXhoKKT.js": {
     "type": "text/javascript; charset=utf-8",
     "encoding": null,
-    "etag": "\"15ef-l3fYj1BIXyeRHikGjXXlA4G2TZQ\"",
-    "mtime": "2026-09-28T12:01:46.916Z",
-    "size": 5615,
-    "path": "../public/_nuxt/DgJenYc7.js"
+    "etag": "\"6db-bH8m9O00oBQ4ZjBHucdqo21ZfyU\"",
+    "mtime": "2026-09-29T07:39:32.981Z",
+    "size": 1755,
+    "path": "../public/_nuxt/DeXhoKKT.js"
   },
-  "/_nuxt/DUwJGUfq.js.gz": {
-    "type": "text/javascript; charset=utf-8",
-    "encoding": "gzip",
-    "etag": "\"5138-4eAf+GThIVxpvxjwL3G/QkUzPUI\"",
-    "mtime": "2026-09-28T12:01:48.762Z",
-    "size": 20792,
-    "path": "../public/_nuxt/DUwJGUfq.js.gz"
-  },
-  "/_nuxt/DaNXanXm.js.br": {
+  "/_nuxt/DbQ-hNVo.js.br": {
     "type": "text/javascript; charset=utf-8",
     "encoding": "br",
-    "etag": "\"312-Z13vgWFaOeAYN4dZmJUFFXAoL30\"",
-    "mtime": "2026-09-28T12:01:48.771Z",
-    "size": 786,
-    "path": "../public/_nuxt/DaNXanXm.js.br"
+    "etag": "\"10f6-keXwSY578yzcmJ3Kbv87EkFPo+I\"",
+    "mtime": "2026-09-29T07:39:34.405Z",
+    "size": 4342,
+    "path": "../public/_nuxt/DbQ-hNVo.js.br"
   },
-  "/_nuxt/DaNXanXm.js.gz": {
+  "/_nuxt/DbQ-hNVo.js.gz": {
     "type": "text/javascript; charset=utf-8",
     "encoding": "gzip",
-    "etag": "\"371-p9L+NCq/Ub+L6ljTreTqsgFbXoM\"",
-    "mtime": "2026-09-28T12:01:48.771Z",
-    "size": 881,
-    "path": "../public/_nuxt/DaNXanXm.js.gz"
+    "etag": "\"13bc-T3QNt3QZd4XfxVKylBUi0aD3GN4\"",
+    "mtime": "2026-09-29T07:39:34.383Z",
+    "size": 5052,
+    "path": "../public/_nuxt/DbQ-hNVo.js.gz"
   },
-  "/_nuxt/DgJenYc7.js.br": {
-    "type": "text/javascript; charset=utf-8",
-    "encoding": "br",
-    "etag": "\"814-z3V8+TGP+Tbbl/2rE3QfM2P6eFc\"",
-    "mtime": "2026-09-28T12:01:48.849Z",
-    "size": 2068,
-    "path": "../public/_nuxt/DgJenYc7.js.br"
-  },
-  "/_nuxt/DiUuLXNn.js": {
-    "type": "text/javascript; charset=utf-8",
-    "etag": "\"38d-J/5boh4gXpiayz0DEAtHA/kfbSg\"",
-    "mtime": "2026-09-28T12:01:46.916Z",
-    "size": 909,
-    "path": "../public/_nuxt/DiUuLXNn.js"
-  },
-  "/_nuxt/DiZCnaBh.js": {
+  "/_nuxt/DewVYDi9.js": {
     "type": "text/javascript; charset=utf-8",
     "encoding": null,
-    "etag": "\"73e7-Ux0Fw/MLI6Ws4qBgL3p3+qbxkXQ\"",
-    "mtime": "2026-09-28T12:01:46.917Z",
-    "size": 29671,
-    "path": "../public/_nuxt/DiZCnaBh.js"
+    "etag": "\"177c-hAGrbkrjj83zEyUV7zZWkPN+BG4\"",
+    "mtime": "2026-09-29T07:39:32.982Z",
+    "size": 6012,
+    "path": "../public/_nuxt/DewVYDi9.js"
   },
-  "/_nuxt/DgJenYc7.js.gz": {
-    "type": "text/javascript; charset=utf-8",
-    "encoding": "gzip",
-    "etag": "\"917-KynvfNPce5dOH5Y8OOe9EGteP3c\"",
-    "mtime": "2026-09-28T12:01:48.849Z",
-    "size": 2327,
-    "path": "../public/_nuxt/DgJenYc7.js.gz"
-  },
-  "/_nuxt/DiZCnaBh.js.br": {
+  "/_nuxt/DeXhoKKT.js.br": {
     "type": "text/javascript; charset=utf-8",
     "encoding": "br",
-    "etag": "\"1dcf-KH1a8isKcglCLtKXxzynW2yHqAg\"",
-    "mtime": "2026-09-28T12:01:48.858Z",
-    "size": 7631,
-    "path": "../public/_nuxt/DiZCnaBh.js.br"
+    "etag": "\"2d1-IoCCkXcYCVz6yfE0T4wMHCdL1dI\"",
+    "mtime": "2026-09-29T07:39:34.663Z",
+    "size": 721,
+    "path": "../public/_nuxt/DeXhoKKT.js.br"
   },
-  "/_nuxt/DiZCnaBh.js.gz": {
+  "/_nuxt/DeXhoKKT.js.gz": {
     "type": "text/javascript; charset=utf-8",
     "encoding": "gzip",
-    "etag": "\"2286-vorDLFXoDp+pnED3i3JaL1elY8Q\"",
-    "mtime": "2026-09-28T12:01:48.851Z",
-    "size": 8838,
-    "path": "../public/_nuxt/DiZCnaBh.js.gz"
+    "etag": "\"318-dNkAKWz96jsnykxKZT0yQFAZYAk\"",
+    "mtime": "2026-09-29T07:39:34.663Z",
+    "size": 792,
+    "path": "../public/_nuxt/DeXhoKKT.js.gz"
   },
-  "/_nuxt/DiiGA3Dd.js": {
+  "/_nuxt/DgMwEA6j.js": {
     "type": "text/javascript; charset=utf-8",
     "encoding": null,
-    "etag": "\"23be7-WaFMp4xpGrAVNivd1jll6pJbgyc\"",
-    "mtime": "2026-09-28T12:01:46.917Z",
-    "size": 146407,
-    "path": "../public/_nuxt/DiiGA3Dd.js"
+    "etag": "\"17f5-BfCu3+i5/gtpvw0PLjQiHvlsy2U\"",
+    "mtime": "2026-09-29T07:39:32.983Z",
+    "size": 6133,
+    "path": "../public/_nuxt/DgMwEA6j.js"
   },
-  "/_nuxt/DivbPEBm.js": {
-    "type": "text/javascript; charset=utf-8",
-    "etag": "\"22c-yTLcC67lOd7gtrvkgTZFm1hEauY\"",
-    "mtime": "2026-09-28T12:01:46.916Z",
-    "size": 556,
-    "path": "../public/_nuxt/DivbPEBm.js"
-  },
-  "/_nuxt/DjCJHI0C.js": {
-    "type": "text/javascript; charset=utf-8",
-    "etag": "\"19e-Rx/EXI5pQjIUwxngQ/70LEPE2rc\"",
-    "mtime": "2026-09-28T12:01:46.917Z",
-    "size": 414,
-    "path": "../public/_nuxt/DjCJHI0C.js"
-  },
-  "/_nuxt/DkaA_kJZ.js": {
-    "type": "text/javascript; charset=utf-8",
-    "etag": "\"22f-/iZem4defEsjAz0A0Dbv9XD5AOA\"",
-    "mtime": "2026-09-28T12:01:46.917Z",
-    "size": 559,
-    "path": "../public/_nuxt/DkaA_kJZ.js"
-  },
-  "/_nuxt/Dm4zT6xB.js": {
-    "type": "text/javascript; charset=utf-8",
-    "etag": "\"189-nWMiRuGWuBVxISIn92UndKVERdA\"",
-    "mtime": "2026-09-28T12:01:46.917Z",
-    "size": 393,
-    "path": "../public/_nuxt/Dm4zT6xB.js"
-  },
-  "/_nuxt/DmGj32Sx.js": {
-    "type": "text/javascript; charset=utf-8",
-    "encoding": null,
-    "etag": "\"805-PX1dWjPrvFouRJSjksfBJoJszI4\"",
-    "mtime": "2026-09-28T12:01:46.917Z",
-    "size": 2053,
-    "path": "../public/_nuxt/DmGj32Sx.js"
-  },
-  "/_nuxt/DmGj32Sx.js.br": {
+  "/_nuxt/DewVYDi9.js.br": {
     "type": "text/javascript; charset=utf-8",
     "encoding": "br",
-    "etag": "\"272-t74649mbTPT09bsaCxonqSlLLGY\"",
-    "mtime": "2026-09-28T12:01:48.894Z",
-    "size": 626,
-    "path": "../public/_nuxt/DmGj32Sx.js.br"
+    "etag": "\"59d-q4QvVYV6d3pajIuPqLSfxlEkiKg\"",
+    "mtime": "2026-09-29T07:39:34.664Z",
+    "size": 1437,
+    "path": "../public/_nuxt/DewVYDi9.js.br"
+  },
+  "/_nuxt/DewVYDi9.js.gz": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": "gzip",
+    "etag": "\"68b-OQWNf2c6d/Zjl10rvZiQG5WFDs4\"",
+    "mtime": "2026-09-29T07:39:34.664Z",
+    "size": 1675,
+    "path": "../public/_nuxt/DewVYDi9.js.gz"
+  },
+  "/_nuxt/Difyu6kJ.js.br": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": "br",
+    "etag": "\"9858-Vp/Ok3l9zewRlw+YUHT1mlulzoE\"",
+    "mtime": "2026-09-29T07:39:34.974Z",
+    "size": 39000,
+    "path": "../public/_nuxt/Difyu6kJ.js.br"
+  },
+  "/_nuxt/Difyu6kJ.js": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": null,
+    "etag": "\"204ca-Sbujgp6evx2aCfwmntcDGDSntAw\"",
+    "mtime": "2026-09-29T07:39:32.984Z",
+    "size": 132298,
+    "path": "../public/_nuxt/Difyu6kJ.js"
+  },
+  "/_nuxt/DgMwEA6j.js.br": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": "br",
+    "etag": "\"5fe-uh5iX343cnztu5k1PR2d7p0kHmg\"",
+    "mtime": "2026-09-29T07:39:34.723Z",
+    "size": 1534,
+    "path": "../public/_nuxt/DgMwEA6j.js.br"
+  },
+  "/_nuxt/DgMwEA6j.js.gz": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": "gzip",
+    "etag": "\"6c6-nkyQhUMLGKF28cD8pX0cuQpWF0M\"",
+    "mtime": "2026-09-29T07:39:34.668Z",
+    "size": 1734,
+    "path": "../public/_nuxt/DgMwEA6j.js.gz"
+  },
+  "/_nuxt/Difyu6kJ.js.gz": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": "gzip",
+    "etag": "\"ad03-csqkzoHxf5hxJlpj3xBmKJlDYCk\"",
+    "mtime": "2026-09-29T07:39:34.684Z",
+    "size": 44291,
+    "path": "../public/_nuxt/Difyu6kJ.js.gz"
+  },
+  "/_nuxt/DjyaQe6B.js": {
+    "type": "text/javascript; charset=utf-8",
+    "etag": "\"291-VHas3a6xRkmid2yF597s9wxr47w\"",
+    "mtime": "2026-09-29T07:39:32.982Z",
+    "size": 657,
+    "path": "../public/_nuxt/DjyaQe6B.js"
+  },
+  "/_nuxt/DkfiPy0_.js": {
+    "type": "text/javascript; charset=utf-8",
+    "etag": "\"1f3-ANjOWvPD5J/C7ReqITgktUiA04I\"",
+    "mtime": "2026-09-29T07:39:32.984Z",
+    "size": 499,
+    "path": "../public/_nuxt/DkfiPy0_.js"
+  },
+  "/_nuxt/DnuC2TEv.js": {
+    "type": "text/javascript; charset=utf-8",
+    "etag": "\"1a0-wRQT2PPu4YXKsSVeCvxXjtEljFk\"",
+    "mtime": "2026-09-29T07:39:32.983Z",
+    "size": 416,
+    "path": "../public/_nuxt/DnuC2TEv.js"
   },
   "/_nuxt/Do3lw9QQ.js": {
     "type": "text/javascript; charset=utf-8",
     "encoding": null,
     "etag": "\"182e-ynSREB+90409ptbtWRxn6R/laCw\"",
-    "mtime": "2026-09-28T12:01:46.918Z",
+    "mtime": "2026-09-29T07:39:32.983Z",
     "size": 6190,
     "path": "../public/_nuxt/Do3lw9QQ.js"
   },
-  "/_nuxt/DmGj32Sx.js.gz": {
-    "type": "text/javascript; charset=utf-8",
-    "encoding": "gzip",
-    "etag": "\"2c4-Dk3/j8+Qzzo0LLh7315kQFc09hw\"",
-    "mtime": "2026-09-28T12:01:48.894Z",
-    "size": 708,
-    "path": "../public/_nuxt/DmGj32Sx.js.gz"
-  },
-  "/_nuxt/DiiGA3Dd.js.br": {
-    "type": "text/javascript; charset=utf-8",
-    "encoding": "br",
-    "etag": "\"c531-nTKXUg+W6ZiCSxh5s+ydbBx6Whk\"",
-    "mtime": "2026-09-28T12:01:49.137Z",
-    "size": 50481,
-    "path": "../public/_nuxt/DiiGA3Dd.js.br"
-  },
-  "/_nuxt/DiiGA3Dd.js.gz": {
-    "type": "text/javascript; charset=utf-8",
-    "encoding": "gzip",
-    "etag": "\"dd5e-fffLHXdAqnrq09DaAEh9HK6uCsY\"",
-    "mtime": "2026-09-28T12:01:48.863Z",
-    "size": 56670,
-    "path": "../public/_nuxt/DiiGA3Dd.js.gz"
-  },
-  "/_nuxt/Ds3yw3C_.js": {
+  "/_nuxt/DoimJZLr.js": {
     "type": "text/javascript; charset=utf-8",
     "encoding": null,
-    "etag": "\"34c1b-5AgJobnCaI3N97f+a2h3Li4MwnM\"",
-    "mtime": "2026-09-28T12:01:46.921Z",
-    "size": 216091,
-    "path": "../public/_nuxt/Ds3yw3C_.js"
-  },
-  "/_nuxt/Do3lw9QQ.js.br": {
-    "type": "text/javascript; charset=utf-8",
-    "encoding": "br",
-    "etag": "\"525-YR+HVDjZ+cWBosupIepwL44+4nY\"",
-    "mtime": "2026-09-28T12:01:48.911Z",
-    "size": 1317,
-    "path": "../public/_nuxt/Do3lw9QQ.js.br"
+    "etag": "\"5b6e-B/65AYD5TG9p/IPXK+qnhqsjXWY\"",
+    "mtime": "2026-09-29T07:39:32.985Z",
+    "size": 23406,
+    "path": "../public/_nuxt/DoimJZLr.js"
   },
   "/_nuxt/Do3lw9QQ.js.gz": {
     "type": "text/javascript; charset=utf-8",
     "encoding": "gzip",
     "etag": "\"6ed-sN02+1Th9Sh1HwMBYoU6hEdr574\"",
-    "mtime": "2026-09-28T12:01:48.898Z",
+    "mtime": "2026-09-29T07:39:34.723Z",
     "size": 1773,
     "path": "../public/_nuxt/Do3lw9QQ.js.gz"
   },
-  "/_nuxt/DscxYYms.js": {
+  "/_nuxt/Do3lw9QQ.js.br": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": "br",
+    "etag": "\"525-YR+HVDjZ+cWBosupIepwL44+4nY\"",
+    "mtime": "2026-09-29T07:39:34.742Z",
+    "size": 1317,
+    "path": "../public/_nuxt/Do3lw9QQ.js.br"
+  },
+  "/_nuxt/DpZo5t21.js": {
     "type": "text/javascript; charset=utf-8",
     "encoding": null,
-    "etag": "\"fe5-CvEnfvi9PHf243U51cvRnoFHEW8\"",
-    "mtime": "2026-09-28T12:01:46.918Z",
-    "size": 4069,
-    "path": "../public/_nuxt/DscxYYms.js"
+    "etag": "\"6bd7-F8Tbsa6o0TXdJwnLElJHOpqv7+o\"",
+    "mtime": "2026-09-29T07:39:32.985Z",
+    "size": 27607,
+    "path": "../public/_nuxt/DpZo5t21.js"
   },
-  "/_nuxt/DscxYYms.js.gz": {
+  "/_nuxt/DoimJZLr.js.br": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": "br",
+    "etag": "\"172c-2r7q49NO/fWgPGMkSSMLt7cOe70\"",
+    "mtime": "2026-09-29T07:39:34.747Z",
+    "size": 5932,
+    "path": "../public/_nuxt/DoimJZLr.js.br"
+  },
+  "/_nuxt/DoimJZLr.js.gz": {
     "type": "text/javascript; charset=utf-8",
     "encoding": "gzip",
-    "etag": "\"54c-Ddb5CZRQwz+FR2hgbKhav4gAjVw\"",
-    "mtime": "2026-09-28T12:01:48.914Z",
-    "size": 1356,
-    "path": "../public/_nuxt/DscxYYms.js.gz"
+    "etag": "\"1ba5-6AcsjC42xq5pJK+QlVDQDpgadkE\"",
+    "mtime": "2026-09-29T07:39:34.742Z",
+    "size": 7077,
+    "path": "../public/_nuxt/DoimJZLr.js.gz"
+  },
+  "/_nuxt/DpkYoDma.js": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": null,
+    "etag": "\"2f33-oS8rsy60+QKsDzpILaGbEsLzexc\"",
+    "mtime": "2026-09-29T07:39:32.983Z",
+    "size": 12083,
+    "path": "../public/_nuxt/DpkYoDma.js"
+  },
+  "/_nuxt/DpZo5t21.js.gz": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": "gzip",
+    "etag": "\"1ea5-EIvs+NR0uF1apt3By/rggYQF8rE\"",
+    "mtime": "2026-09-29T07:39:34.747Z",
+    "size": 7845,
+    "path": "../public/_nuxt/DpZo5t21.js.gz"
+  },
+  "/_nuxt/DpZo5t21.js.br": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": "br",
+    "etag": "\"1a13-Mp+Hg4xfnV8wXFKB7u/wrtAQYfw\"",
+    "mtime": "2026-09-29T07:39:34.838Z",
+    "size": 6675,
+    "path": "../public/_nuxt/DpZo5t21.js.br"
+  },
+  "/_nuxt/DqCR7WXs.js": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": null,
+    "etag": "\"80e2-eMKW/qOa9kR5h236/LgBWr/pTBk\"",
+    "mtime": "2026-09-29T07:39:32.984Z",
+    "size": 32994,
+    "path": "../public/_nuxt/DqCR7WXs.js"
+  },
+  "/_nuxt/DpkYoDma.js.gz": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": "gzip",
+    "etag": "\"fa2-mj5wkOqHlhQMThhOVcnhomtehuk\"",
+    "mtime": "2026-09-29T07:39:34.838Z",
+    "size": 4002,
+    "path": "../public/_nuxt/DpkYoDma.js.gz"
+  },
+  "/_nuxt/DpkYoDma.js.br": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": "br",
+    "etag": "\"d5a-8BMagHREQXZwv2sXZgaiCcs6mKo\"",
+    "mtime": "2026-09-29T07:39:34.839Z",
+    "size": 3418,
+    "path": "../public/_nuxt/DpkYoDma.js.br"
+  },
+  "/_nuxt/DqOCL9sF.js": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": null,
+    "etag": "\"119ae-+V3InzPo0ldf//aSSp2AC0CkaRk\"",
+    "mtime": "2026-09-29T07:39:32.986Z",
+    "size": 72110,
+    "path": "../public/_nuxt/DqOCL9sF.js"
+  },
+  "/_nuxt/DqOCL9sF.js.br": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": "br",
+    "etag": "\"3770-0Dfv9RwZAcfAvrdI9T7NbKzY2kg\"",
+    "mtime": "2026-09-29T07:39:34.920Z",
+    "size": 14192,
+    "path": "../public/_nuxt/DqOCL9sF.js.br"
+  },
+  "/_nuxt/DqoQf2G1.js": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": null,
+    "etag": "\"d2a-SMHh3jN4qIwc0gIX+iFzBkTc3zY\"",
+    "mtime": "2026-09-29T07:39:32.985Z",
+    "size": 3370,
+    "path": "../public/_nuxt/DqoQf2G1.js"
+  },
+  "/_nuxt/DqCR7WXs.js.br": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": "br",
+    "etag": "\"2160-IhrxaXgYdbzfRrKXJFVlpdQdmaY\"",
+    "mtime": "2026-09-29T07:39:34.839Z",
+    "size": 8544,
+    "path": "../public/_nuxt/DqCR7WXs.js.br"
+  },
+  "/_nuxt/DqCR7WXs.js.gz": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": "gzip",
+    "etag": "\"2811-+3c0UggAL0QL/PnEgB56ppUcoOQ\"",
+    "mtime": "2026-09-29T07:39:34.839Z",
+    "size": 10257,
+    "path": "../public/_nuxt/DqCR7WXs.js.gz"
+  },
+  "/_nuxt/DqOCL9sF.js.gz": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": "gzip",
+    "etag": "\"4336-/JnVaQ0MJlcn9hXLwEBkpF6c7ZI\"",
+    "mtime": "2026-09-29T07:39:34.839Z",
+    "size": 17206,
+    "path": "../public/_nuxt/DqOCL9sF.js.gz"
+  },
+  "/_nuxt/DqoQf2G1.js.br": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": "br",
+    "etag": "\"452-f8P+E5sVllftQ/A+ZznS44nf9Tg\"",
+    "mtime": "2026-09-29T07:39:34.870Z",
+    "size": 1106,
+    "path": "../public/_nuxt/DqoQf2G1.js.br"
+  },
+  "/_nuxt/DqoQf2G1.js.gz": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": "gzip",
+    "etag": "\"4e1-MK3A4+oBcW2ypGx7jq9o9J2AkQI\"",
+    "mtime": "2026-09-29T07:39:34.870Z",
+    "size": 1249,
+    "path": "../public/_nuxt/DqoQf2G1.js.gz"
+  },
+  "/_nuxt/DrKhyE5n.js": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": null,
+    "etag": "\"4457-dUyEoo7Pajlkn0XQCU/o2UgWfX8\"",
+    "mtime": "2026-09-29T07:39:32.988Z",
+    "size": 17495,
+    "path": "../public/_nuxt/DrKhyE5n.js"
+  },
+  "/_nuxt/DsesfKy6.js": {
+    "type": "text/javascript; charset=utf-8",
+    "etag": "\"38c-4xXuzehbKf9pCZQgn7ln5OMMlpo\"",
+    "mtime": "2026-09-29T07:39:32.989Z",
+    "size": 908,
+    "path": "../public/_nuxt/DsesfKy6.js"
   },
   "/_nuxt/Dtrtw0zj.js": {
     "type": "text/javascript; charset=utf-8",
     "encoding": null,
     "etag": "\"8ec-t/8yON9u9zlH31H2vzAFCzU+lvo\"",
-    "mtime": "2026-09-28T12:01:46.918Z",
+    "mtime": "2026-09-29T07:39:32.994Z",
     "size": 2284,
     "path": "../public/_nuxt/Dtrtw0zj.js"
-  },
-  "/_nuxt/DscxYYms.js.br": {
-    "type": "text/javascript; charset=utf-8",
-    "encoding": "br",
-    "etag": "\"498-ypYNYh2AxGvR92iUAjAJbVF4Hvk\"",
-    "mtime": "2026-09-28T12:01:48.914Z",
-    "size": 1176,
-    "path": "../public/_nuxt/DscxYYms.js.br"
-  },
-  "/_nuxt/Ds3yw3C_.js.br": {
-    "type": "text/javascript; charset=utf-8",
-    "encoding": "br",
-    "etag": "\"e066-D53UJveZAF1022noQBYcnWMh7SE\"",
-    "mtime": "2026-09-28T12:01:49.337Z",
-    "size": 57446,
-    "path": "../public/_nuxt/Ds3yw3C_.js.br"
-  },
-  "/_nuxt/Ds3yw3C_.js.gz": {
-    "type": "text/javascript; charset=utf-8",
-    "encoding": "gzip",
-    "etag": "\"1235c-KoHDcY317nEi4tFpi0+Mse9/F5M\"",
-    "mtime": "2026-09-28T12:01:48.917Z",
-    "size": 74588,
-    "path": "../public/_nuxt/Ds3yw3C_.js.gz"
   },
   "/_nuxt/Dtrtw0zj.js.br": {
     "type": "text/javascript; charset=utf-8",
     "encoding": "br",
     "etag": "\"387-AScbTNuNpMswOBV6e5UZF0lDcYg\"",
-    "mtime": "2026-09-28T12:01:48.915Z",
+    "mtime": "2026-09-29T07:39:34.900Z",
     "size": 903,
     "path": "../public/_nuxt/Dtrtw0zj.js.br"
+  },
+  "/_nuxt/DuYobSKD.js.br": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": "br",
+    "etag": "\"263b-IjBxeLF2pPLymdjYlT9JyU+tdRo\"",
+    "mtime": "2026-09-29T07:39:34.942Z",
+    "size": 9787,
+    "path": "../public/_nuxt/DuYobSKD.js.br"
   },
   "/_nuxt/Dtrtw0zj.js.gz": {
     "type": "text/javascript; charset=utf-8",
     "encoding": "gzip",
     "etag": "\"3f5-KKkRhANAOwhjYXFyh/i13F5noVE\"",
-    "mtime": "2026-09-28T12:01:48.915Z",
+    "mtime": "2026-09-29T07:39:34.900Z",
     "size": 1013,
     "path": "../public/_nuxt/Dtrtw0zj.js.gz"
   },
-  "/_nuxt/DtzUGNGJ.js": {
-    "type": "text/javascript; charset=utf-8",
-    "encoding": null,
-    "etag": "\"246b-rwgHqjXiMxJmZCfU1ftfdxBZbj0\"",
-    "mtime": "2026-09-28T12:01:46.919Z",
-    "size": 9323,
-    "path": "../public/_nuxt/DtzUGNGJ.js"
-  },
-  "/_nuxt/DtzUGNGJ.js.br": {
-    "type": "text/javascript; charset=utf-8",
-    "encoding": "br",
-    "etag": "\"b15-gQncmbfnPxh5ZVMe4z/xmmpENRY\"",
-    "mtime": "2026-09-28T12:01:48.916Z",
-    "size": 2837,
-    "path": "../public/_nuxt/DtzUGNGJ.js.br"
-  },
-  "/_nuxt/DtzUGNGJ.js.gz": {
+  "/_nuxt/DrKhyE5n.js.gz": {
     "type": "text/javascript; charset=utf-8",
     "encoding": "gzip",
-    "etag": "\"d03-JxqCGFI4qioe417H8qb1E6RJDTc\"",
-    "mtime": "2026-09-28T12:01:48.916Z",
-    "size": 3331,
-    "path": "../public/_nuxt/DtzUGNGJ.js.gz"
+    "etag": "\"1319-JL8G/qqbmOU6Uqhmh3SxRHX7fqc\"",
+    "mtime": "2026-09-29T07:39:34.874Z",
+    "size": 4889,
+    "path": "../public/_nuxt/DrKhyE5n.js.gz"
   },
-  "/_nuxt/Du2C0X2n.js": {
-    "type": "text/javascript; charset=utf-8",
-    "encoding": null,
-    "etag": "\"638-XDJHct6818qREyaWpjXd/BruvjM\"",
-    "mtime": "2026-09-28T12:01:46.918Z",
-    "size": 1592,
-    "path": "../public/_nuxt/Du2C0X2n.js"
-  },
-  "/_nuxt/DxUa4qu_.js": {
-    "type": "text/javascript; charset=utf-8",
-    "encoding": null,
-    "etag": "\"3160-ct5NRmViA/ZIhsJmkd5xrz6jCao\"",
-    "mtime": "2026-09-28T12:01:46.918Z",
-    "size": 12640,
-    "path": "../public/_nuxt/DxUa4qu_.js"
-  },
-  "/_nuxt/DxUa4qu_.js.br": {
-    "type": "text/javascript; charset=utf-8",
-    "encoding": "br",
-    "etag": "\"10b6-Et/c20vT7KPNt9LIGVtEARxWPuY\"",
-    "mtime": "2026-09-28T12:01:49.032Z",
-    "size": 4278,
-    "path": "../public/_nuxt/DxUa4qu_.js.br"
-  },
-  "/_nuxt/Du2C0X2n.js.br": {
-    "type": "text/javascript; charset=utf-8",
-    "encoding": "br",
-    "etag": "\"2f0-6b6Fn5jIbPTtlZNAaku25fFG4P4\"",
-    "mtime": "2026-09-28T12:01:48.916Z",
-    "size": 752,
-    "path": "../public/_nuxt/Du2C0X2n.js.br"
-  },
-  "/_nuxt/Du2C0X2n.js.gz": {
+  "/_nuxt/DuYobSKD.js.gz": {
     "type": "text/javascript; charset=utf-8",
     "encoding": "gzip",
-    "etag": "\"35b-t39FR09SfvKtP0T75JmtRCLGCqE\"",
-    "mtime": "2026-09-28T12:01:48.916Z",
-    "size": 859,
-    "path": "../public/_nuxt/Du2C0X2n.js.gz"
+    "etag": "\"2b06-7OYsfo7M4Asm61hMAG046hanQb0\"",
+    "mtime": "2026-09-29T07:39:34.920Z",
+    "size": 11014,
+    "path": "../public/_nuxt/DuYobSKD.js.gz"
   },
-  "/_nuxt/DxUa4qu_.js.gz": {
-    "type": "text/javascript; charset=utf-8",
-    "encoding": "gzip",
-    "etag": "\"1247-2EvpCT6VWhnsBJfn7obzbgYdhgU\"",
-    "mtime": "2026-09-28T12:01:49.032Z",
-    "size": 4679,
-    "path": "../public/_nuxt/DxUa4qu_.js.gz"
-  },
-  "/_nuxt/DyQ9YHBd.js": {
+  "/_nuxt/Dymzb9mP.js": {
     "type": "text/javascript; charset=utf-8",
     "encoding": null,
-    "etag": "\"c46f-y6ktwleL/rC6hnWllZEMdiRAFi8\"",
-    "mtime": "2026-09-28T12:01:46.921Z",
-    "size": 50287,
-    "path": "../public/_nuxt/DyQ9YHBd.js"
+    "etag": "\"1390-iYEW4+mCMP9Nfx/Z0UcZRef5yJ0\"",
+    "mtime": "2026-09-29T07:39:32.986Z",
+    "size": 5008,
+    "path": "../public/_nuxt/Dymzb9mP.js"
+  },
+  "/_nuxt/DuYobSKD.js": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": null,
+    "etag": "\"c5cf-28IFou6ddkfqDlSvOqfM2Vr6h88\"",
+    "mtime": "2026-09-29T07:39:32.986Z",
+    "size": 50639,
+    "path": "../public/_nuxt/DuYobSKD.js"
+  },
+  "/_nuxt/Dymzb9mP.js.br": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": "br",
+    "etag": "\"6dc-SZ+nMRti6GWahD23X6mGVgZF48g\"",
+    "mtime": "2026-09-29T07:39:34.925Z",
+    "size": 1756,
+    "path": "../public/_nuxt/Dymzb9mP.js.br"
+  },
+  "/_nuxt/DrKhyE5n.js.br": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": "br",
+    "etag": "\"10e1-NJPBH1CEMnrpbHlsYoB3jxaNeC4\"",
+    "mtime": "2026-09-29T07:39:34.874Z",
+    "size": 4321,
+    "path": "../public/_nuxt/DrKhyE5n.js.br"
+  },
+  "/_nuxt/Dymzb9mP.js.gz": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": "gzip",
+    "etag": "\"7e3-moVmxTaALUYIPBErefnKOdBS444\"",
+    "mtime": "2026-09-29T07:39:34.925Z",
+    "size": 2019,
+    "path": "../public/_nuxt/Dymzb9mP.js.gz"
+  },
+  "/_nuxt/DzdG5Env.js": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": null,
+    "etag": "\"3b3e-cLb9vt99+DdEtXda3l7+lnwE4sM\"",
+    "mtime": "2026-09-29T07:39:32.987Z",
+    "size": 15166,
+    "path": "../public/_nuxt/DzdG5Env.js"
+  },
+  "/_nuxt/DzdG5Env.js.br": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": "br",
+    "etag": "\"11c9-QbqUsltGL1+MPOfI7sKP8ZQeTuU\"",
+    "mtime": "2026-09-29T07:39:34.925Z",
+    "size": 4553,
+    "path": "../public/_nuxt/DzdG5Env.js.br"
   },
   "/_nuxt/DztA19fs.js": {
     "type": "text/javascript; charset=utf-8",
     "encoding": null,
     "etag": "\"b97-K2b1qbCcwcGPcLsmTAYCckU0xb0\"",
-    "mtime": "2026-09-28T12:01:46.919Z",
+    "mtime": "2026-09-29T07:39:32.986Z",
     "size": 2967,
     "path": "../public/_nuxt/DztA19fs.js"
+  },
+  "/_nuxt/DzdG5Env.js.gz": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": "gzip",
+    "etag": "\"153f-pYA8aS7wnq+eGoY1B5KH4ixgl88\"",
+    "mtime": "2026-09-29T07:39:34.925Z",
+    "size": 5439,
+    "path": "../public/_nuxt/DzdG5Env.js.gz"
   },
   "/_nuxt/DztA19fs.js.br": {
     "type": "text/javascript; charset=utf-8",
     "encoding": "br",
     "etag": "\"425-qv2H1pt5mf/oh7st1hopf+ZpePI\"",
-    "mtime": "2026-09-28T12:01:49.133Z",
+    "mtime": "2026-09-29T07:39:34.926Z",
     "size": 1061,
     "path": "../public/_nuxt/DztA19fs.js.br"
   },
@@ -25908,847 +25993,760 @@ const assets = {
     "type": "text/javascript; charset=utf-8",
     "encoding": "gzip",
     "etag": "\"530-gPMZlA7Ak/0WWYkKTrQDy4MyN7A\"",
-    "mtime": "2026-09-28T12:01:49.133Z",
+    "mtime": "2026-09-29T07:39:34.926Z",
     "size": 1328,
     "path": "../public/_nuxt/DztA19fs.js.gz"
   },
-  "/_nuxt/ETyrl5v-.js": {
+  "/_nuxt/EfvURU9P.js": {
     "type": "text/javascript; charset=utf-8",
     "encoding": null,
-    "etag": "\"1568-/fL+/JM9M4Ll0OGrAVuCTFh+FWY\"",
-    "mtime": "2026-09-28T12:01:46.920Z",
-    "size": 5480,
-    "path": "../public/_nuxt/ETyrl5v-.js"
+    "etag": "\"85f-UnyZ2C7kGOfEaO2tmfHwJ/7l40U\"",
+    "mtime": "2026-09-29T07:39:32.986Z",
+    "size": 2143,
+    "path": "../public/_nuxt/EfvURU9P.js"
   },
-  "/_nuxt/FQftdq4k.js": {
-    "type": "text/javascript; charset=utf-8",
-    "encoding": null,
-    "etag": "\"104c8-6LmBYZ55JltOMw7M3yhN6pGI+2E\"",
-    "mtime": "2026-09-28T12:01:46.921Z",
-    "size": 66760,
-    "path": "../public/_nuxt/FQftdq4k.js"
-  },
-  "/_nuxt/DyQ9YHBd.js.gz": {
+  "/_nuxt/EfvURU9P.js.gz": {
     "type": "text/javascript; charset=utf-8",
     "encoding": "gzip",
-    "etag": "\"49b2-MsNe7Rkmvale5U5RXArb/SXnxiU\"",
-    "mtime": "2026-09-28T12:01:49.133Z",
-    "size": 18866,
-    "path": "../public/_nuxt/DyQ9YHBd.js.gz"
+    "etag": "\"419-jBTN2nv0ExScc3FgyhfvvQfyWqk\"",
+    "mtime": "2026-09-29T07:39:34.929Z",
+    "size": 1049,
+    "path": "../public/_nuxt/EfvURU9P.js.gz"
   },
-  "/_nuxt/DyQ9YHBd.js.br": {
+  "/_nuxt/EfvURU9P.js.br": {
     "type": "text/javascript; charset=utf-8",
     "encoding": "br",
-    "etag": "\"3d67-OyOhyao68P7qY3g6hOJINZp1Vwo\"",
-    "mtime": "2026-09-28T12:01:49.128Z",
-    "size": 15719,
-    "path": "../public/_nuxt/DyQ9YHBd.js.br"
+    "etag": "\"3ac-3VhgTLHqXfhTC7vB7SPtiSCtDmg\"",
+    "mtime": "2026-09-29T07:39:34.929Z",
+    "size": 940,
+    "path": "../public/_nuxt/EfvURU9P.js.br"
   },
-  "/_nuxt/ETyrl5v-.js.br": {
+  "/_nuxt/G0PYaIrU.js": {
     "type": "text/javascript; charset=utf-8",
-    "encoding": "br",
-    "etag": "\"82f-iIL7fj+2d0DmarR73pMFHyeAj+E\"",
-    "mtime": "2026-09-28T12:01:49.133Z",
-    "size": 2095,
-    "path": "../public/_nuxt/ETyrl5v-.js.br"
+    "etag": "\"3c2-hxSr+rEyF4C2hV6Z5yZVbAZWVFw\"",
+    "mtime": "2026-09-29T07:39:32.987Z",
+    "size": 962,
+    "path": "../public/_nuxt/G0PYaIrU.js"
   },
-  "/_nuxt/GUQW7nU_.js": {
+  "/_nuxt/GkP0BltL.js": {
     "type": "text/javascript; charset=utf-8",
-    "etag": "\"21e-jEUw1nn+vydUm29X4nLXAB4iHBQ\"",
-    "mtime": "2026-09-28T12:01:46.922Z",
-    "size": 542,
-    "path": "../public/_nuxt/GUQW7nU_.js"
+    "etag": "\"273-Gfae6wrfDK7leRHeFtltniBKZcY\"",
+    "mtime": "2026-09-29T07:39:32.986Z",
+    "size": 627,
+    "path": "../public/_nuxt/GkP0BltL.js"
   },
-  "/_nuxt/HXFUkNTX.js": {
+  "/_nuxt/HGsNnFO4.js": {
     "type": "text/javascript; charset=utf-8",
     "encoding": null,
-    "etag": "\"9fd-rcjyzZs55/+wOkP2dowGOi20uSg\"",
-    "mtime": "2026-09-28T12:01:46.921Z",
-    "size": 2557,
-    "path": "../public/_nuxt/HXFUkNTX.js"
+    "etag": "\"d34-V3uOzzxCuaUICmaa57ZKVAbPewQ\"",
+    "mtime": "2026-09-29T07:39:32.988Z",
+    "size": 3380,
+    "path": "../public/_nuxt/HGsNnFO4.js"
   },
-  "/_nuxt/ETyrl5v-.js.gz": {
-    "type": "text/javascript; charset=utf-8",
-    "encoding": "gzip",
-    "etag": "\"8ee-Q+KvEAI3giQtYljl2384jpEJ9jI\"",
-    "mtime": "2026-09-28T12:01:49.133Z",
-    "size": 2286,
-    "path": "../public/_nuxt/ETyrl5v-.js.gz"
-  },
-  "/_nuxt/FQftdq4k.js.br": {
+  "/_nuxt/HGsNnFO4.js.br": {
     "type": "text/javascript; charset=utf-8",
     "encoding": "br",
-    "etag": "\"352b-xSodg8SD6cV8QLTswKpphNYLqqs\"",
-    "mtime": "2026-09-28T12:01:49.137Z",
-    "size": 13611,
-    "path": "../public/_nuxt/FQftdq4k.js.br"
+    "etag": "\"4bc-JQvOvL5gP8QRg7CHy5DLYD/XhrM\"",
+    "mtime": "2026-09-29T07:39:34.935Z",
+    "size": 1212,
+    "path": "../public/_nuxt/HGsNnFO4.js.br"
   },
-  "/_nuxt/FQftdq4k.js.gz": {
+  "/_nuxt/HGsNnFO4.js.gz": {
     "type": "text/javascript; charset=utf-8",
     "encoding": "gzip",
-    "etag": "\"407d-TEdDCkIy+lPfSOg0c7kxYi8V2/M\"",
-    "mtime": "2026-09-28T12:01:49.135Z",
-    "size": 16509,
-    "path": "../public/_nuxt/FQftdq4k.js.gz"
+    "etag": "\"537-A0q4eHuST/YeRmYaBUH2q3m0m/U\"",
+    "mtime": "2026-09-29T07:39:34.935Z",
+    "size": 1335,
+    "path": "../public/_nuxt/HGsNnFO4.js.gz"
   },
-  "/_nuxt/IPBHwpwf.js": {
+  "/_nuxt/HVCfES3_.js": {
     "type": "text/javascript; charset=utf-8",
-    "etag": "\"1f4-nQq8UbHRJmKw+lv3mJ7+DOa3VGM\"",
-    "mtime": "2026-09-28T12:01:46.923Z",
-    "size": 500,
-    "path": "../public/_nuxt/IPBHwpwf.js"
+    "etag": "\"1ac-yBLc5KNuddk+MQacZiujJpKZUbM\"",
+    "mtime": "2026-09-29T07:39:32.987Z",
+    "size": 428,
+    "path": "../public/_nuxt/HVCfES3_.js"
   },
-  "/_nuxt/HXFUkNTX.js.br": {
+  "/_nuxt/HrVNjJHZ.js": {
     "type": "text/javascript; charset=utf-8",
-    "encoding": "br",
-    "etag": "\"4d3-6fYI5l1Wn9lcxNJj7sMCkflXl6Y\"",
-    "mtime": "2026-09-28T12:01:49.135Z",
-    "size": 1235,
-    "path": "../public/_nuxt/HXFUkNTX.js.br"
+    "etag": "\"107-ZCc0BA9WXDD/4xgxIWBuf1EfIzA\"",
+    "mtime": "2026-09-29T07:39:32.988Z",
+    "size": 263,
+    "path": "../public/_nuxt/HrVNjJHZ.js"
   },
-  "/_nuxt/HXFUkNTX.js.gz": {
-    "type": "text/javascript; charset=utf-8",
-    "encoding": "gzip",
-    "etag": "\"565-M1z/uev0vBgfDGRYacXtkyOxG7M\"",
-    "mtime": "2026-09-28T12:01:49.134Z",
-    "size": 1381,
-    "path": "../public/_nuxt/HXFUkNTX.js.gz"
-  },
-  "/_nuxt/IyVDFvNc.js": {
+  "/_nuxt/JgPDfl5z.js": {
     "type": "text/javascript; charset=utf-8",
     "encoding": null,
-    "etag": "\"167b-sa0tD5F8iohYDZiTGZkCJlm2V8Q\"",
-    "mtime": "2026-09-28T12:01:46.923Z",
-    "size": 5755,
-    "path": "../public/_nuxt/IyVDFvNc.js"
+    "etag": "\"1530-5azPKOcstsDnDH4XBctl7eGwR3w\"",
+    "mtime": "2026-09-29T07:39:32.987Z",
+    "size": 5424,
+    "path": "../public/_nuxt/JgPDfl5z.js"
   },
-  "/_nuxt/IyVDFvNc.js.br": {
+  "/_nuxt/JgPDfl5z.js.br": {
     "type": "text/javascript; charset=utf-8",
     "encoding": "br",
-    "etag": "\"73c-YvSKqEtBAIXjU7s8aTF9QQ4gIiw\"",
-    "mtime": "2026-09-28T12:01:49.175Z",
-    "size": 1852,
-    "path": "../public/_nuxt/IyVDFvNc.js.br"
+    "etag": "\"6fb-Y+FwNsCUsN647HboUJDnQ6ONi2E\"",
+    "mtime": "2026-09-29T07:39:34.942Z",
+    "size": 1787,
+    "path": "../public/_nuxt/JgPDfl5z.js.br"
   },
-  "/_nuxt/IyVDFvNc.js.gz": {
+  "/_nuxt/JgPDfl5z.js.gz": {
     "type": "text/javascript; charset=utf-8",
     "encoding": "gzip",
-    "etag": "\"81e-ruCtKbzX5tEnHu4YAVzjGsQaCis\"",
-    "mtime": "2026-09-28T12:01:49.172Z",
-    "size": 2078,
-    "path": "../public/_nuxt/IyVDFvNc.js.gz"
+    "etag": "\"7b7-sy6iAVuh4BmQbQoQ0UR3Wfrvhjk\"",
+    "mtime": "2026-09-29T07:39:34.941Z",
+    "size": 1975,
+    "path": "../public/_nuxt/JgPDfl5z.js.gz"
   },
-  "/_nuxt/JItSRC8m.js": {
+  "/_nuxt/Jj-D5ie5.js": {
     "type": "text/javascript; charset=utf-8",
-    "etag": "\"29b-M3zTZe8m+WJDuDq+JU1ZwmmXXpo\"",
-    "mtime": "2026-09-28T12:01:46.923Z",
-    "size": 667,
-    "path": "../public/_nuxt/JItSRC8m.js"
+    "etag": "\"189-XF7Nqh26iNUOXUYCYVciG/DMp18\"",
+    "mtime": "2026-09-29T07:39:32.988Z",
+    "size": 393,
+    "path": "../public/_nuxt/Jj-D5ie5.js"
   },
-  "/_nuxt/JbFguzYr.js": {
-    "type": "text/javascript; charset=utf-8",
-    "encoding": null,
-    "etag": "\"1c9e-NwMH9FL/4WEzgQfy0C5sUfw4odk\"",
-    "mtime": "2026-09-28T12:01:46.923Z",
-    "size": 7326,
-    "path": "../public/_nuxt/JbFguzYr.js"
-  },
-  "/_nuxt/Jy2mczYu.js": {
+  "/_nuxt/KCgjHiWA.js": {
     "type": "text/javascript; charset=utf-8",
     "encoding": null,
-    "etag": "\"b899-eOLz8hH2rt5F3Evvjt1toIMCV9E\"",
-    "mtime": "2026-09-28T12:01:46.924Z",
-    "size": 47257,
-    "path": "../public/_nuxt/Jy2mczYu.js"
+    "etag": "\"fe5-3bBLnNuauKG9Ym/BW3QRcPSsEI8\"",
+    "mtime": "2026-09-29T07:39:32.989Z",
+    "size": 4069,
+    "path": "../public/_nuxt/KCgjHiWA.js"
   },
-  "/_nuxt/JbFguzYr.js.br": {
+  "/_nuxt/KCgjHiWA.js.br": {
     "type": "text/javascript; charset=utf-8",
     "encoding": "br",
-    "etag": "\"a22-tKqXpa36dghs7fVyN6CwlfLpERs\"",
-    "mtime": "2026-09-28T12:01:49.175Z",
-    "size": 2594,
-    "path": "../public/_nuxt/JbFguzYr.js.br"
+    "etag": "\"497-feEXUW0YAcmO/768LhMuZ50dQlc\"",
+    "mtime": "2026-09-29T07:39:34.942Z",
+    "size": 1175,
+    "path": "../public/_nuxt/KCgjHiWA.js.br"
   },
-  "/_nuxt/JbFguzYr.js.gz": {
+  "/_nuxt/KCgjHiWA.js.gz": {
     "type": "text/javascript; charset=utf-8",
     "encoding": "gzip",
-    "etag": "\"bd6-U2D5D6RJfahag1DC9dIt6RwO8KI\"",
-    "mtime": "2026-09-28T12:01:49.175Z",
-    "size": 3030,
-    "path": "../public/_nuxt/JbFguzYr.js.gz"
+    "etag": "\"550-L0FRG9O7qRQvB0sworxnjMRNACg\"",
+    "mtime": "2026-09-29T07:39:34.942Z",
+    "size": 1360,
+    "path": "../public/_nuxt/KCgjHiWA.js.gz"
   },
-  "/_nuxt/LUjuPPUY.js": {
+  "/_nuxt/KFaU1VH1.js": {
     "type": "text/javascript; charset=utf-8",
-    "encoding": null,
-    "etag": "\"2065-9mX+a7CNktgo5lB9LVPM4hoFniM\"",
-    "mtime": "2026-09-28T12:01:46.924Z",
-    "size": 8293,
-    "path": "../public/_nuxt/LUjuPPUY.js"
+    "etag": "\"176-XFYoK0KYR4UXErgPbBQ3/8vVZv0\"",
+    "mtime": "2026-09-29T07:39:32.988Z",
+    "size": 374,
+    "path": "../public/_nuxt/KFaU1VH1.js"
   },
-  "/_nuxt/Jy2mczYu.js.br": {
+  "/_nuxt/L7TRUGkv.js": {
     "type": "text/javascript; charset=utf-8",
-    "encoding": "br",
-    "etag": "\"2942-KobjxC2czKLg4iEkowzKK2+vgqI\"",
-    "mtime": "2026-09-28T12:01:49.220Z",
-    "size": 10562,
-    "path": "../public/_nuxt/Jy2mczYu.js.br"
+    "etag": "\"3bd-eLB9iLHax6eeDY+oOA3YCEqOSHc\"",
+    "mtime": "2026-09-29T07:39:32.989Z",
+    "size": 957,
+    "path": "../public/_nuxt/L7TRUGkv.js"
   },
   "/_nuxt/LVG_eY9u.js": {
     "type": "text/javascript; charset=utf-8",
     "encoding": null,
     "etag": "\"948-QG26pf/JC91P4klg7Q49eOHG5Bc\"",
-    "mtime": "2026-09-28T12:01:46.923Z",
+    "mtime": "2026-09-29T07:39:32.994Z",
     "size": 2376,
     "path": "../public/_nuxt/LVG_eY9u.js"
-  },
-  "/_nuxt/Jy2mczYu.js.gz": {
-    "type": "text/javascript; charset=utf-8",
-    "encoding": "gzip",
-    "etag": "\"2f85-6LJSNKJGel+K9eRgsK1g0/LECQY\"",
-    "mtime": "2026-09-28T12:01:49.175Z",
-    "size": 12165,
-    "path": "../public/_nuxt/Jy2mczYu.js.gz"
-  },
-  "/_nuxt/LUjuPPUY.js.gz": {
-    "type": "text/javascript; charset=utf-8",
-    "encoding": "gzip",
-    "etag": "\"a20-yi41IdYoozXkaSQTEkO3Dzx02OY\"",
-    "mtime": "2026-09-28T12:01:49.175Z",
-    "size": 2592,
-    "path": "../public/_nuxt/LUjuPPUY.js.gz"
   },
   "/_nuxt/LVG_eY9u.js.br": {
     "type": "text/javascript; charset=utf-8",
     "encoding": "br",
     "etag": "\"3f5-66YP/yRhRrOr4FQ7a6zfJeVzOuI\"",
-    "mtime": "2026-09-28T12:01:49.200Z",
+    "mtime": "2026-09-29T07:39:34.957Z",
     "size": 1013,
     "path": "../public/_nuxt/LVG_eY9u.js.br"
-  },
-  "/_nuxt/LUjuPPUY.js.br": {
-    "type": "text/javascript; charset=utf-8",
-    "encoding": "br",
-    "etag": "\"90b-W6zTtGQVThKS4cKtCXOn5CiSPvY\"",
-    "mtime": "2026-09-28T12:01:49.175Z",
-    "size": 2315,
-    "path": "../public/_nuxt/LUjuPPUY.js.br"
   },
   "/_nuxt/LVG_eY9u.js.gz": {
     "type": "text/javascript; charset=utf-8",
     "encoding": "gzip",
     "etag": "\"463-FowHLYMAYpWofCAednDKD7Dy/sg\"",
-    "mtime": "2026-09-28T12:01:49.200Z",
+    "mtime": "2026-09-29T07:39:34.942Z",
     "size": 1123,
     "path": "../public/_nuxt/LVG_eY9u.js.gz"
   },
-  "/_nuxt/LcvkxiHj.js": {
+  "/_nuxt/N6OG9jMb.js": {
     "type": "text/javascript; charset=utf-8",
-    "encoding": null,
-    "etag": "\"1a0fd-Cgu7dPcOsap6enwKG0Izfo/RLwk\"",
-    "mtime": "2026-09-28T12:01:46.925Z",
-    "size": 106749,
-    "path": "../public/_nuxt/LcvkxiHj.js"
+    "etag": "\"55-Q5cxETkUb+vhwhdCr2aoQ803SoY\"",
+    "mtime": "2026-09-29T07:39:32.993Z",
+    "size": 85,
+    "path": "../public/_nuxt/N6OG9jMb.js"
   },
-  "/_nuxt/LcvkxiHj.js.br": {
+  "/_nuxt/NOKKCuIZ.js": {
     "type": "text/javascript; charset=utf-8",
-    "encoding": "br",
-    "etag": "\"553f-eK20J+hZeyJuiULiKa3AhciFE8s\"",
-    "mtime": "2026-09-28T12:01:49.348Z",
-    "size": 21823,
-    "path": "../public/_nuxt/LcvkxiHj.js.br"
-  },
-  "/_nuxt/LcvkxiHj.js.gz": {
-    "type": "text/javascript; charset=utf-8",
-    "encoding": "gzip",
-    "etag": "\"6717-2J+OsGMRQE/iLOzaBQrfd2NOWfs\"",
-    "mtime": "2026-09-28T12:01:49.201Z",
-    "size": 26391,
-    "path": "../public/_nuxt/LcvkxiHj.js.gz"
-  },
-  "/_nuxt/LylSZPpL.js": {
-    "type": "text/javascript; charset=utf-8",
-    "etag": "\"273-vqWLtFVIZFHoOtQR6EIafb1utYw\"",
-    "mtime": "2026-09-28T12:01:46.924Z",
-    "size": 627,
-    "path": "../public/_nuxt/LylSZPpL.js"
-  },
-  "/_nuxt/MCCiaCfk.js": {
-    "type": "text/javascript; charset=utf-8",
-    "encoding": null,
-    "etag": "\"2732-SpFSiXHlyHA4YCvK0QiBP0XZml8\"",
-    "mtime": "2026-09-28T12:01:46.924Z",
-    "size": 10034,
-    "path": "../public/_nuxt/MCCiaCfk.js"
-  },
-  "/_nuxt/MCCiaCfk.js.br": {
-    "type": "text/javascript; charset=utf-8",
-    "encoding": "br",
-    "etag": "\"b98-cKl3LR/7YbF+xihzANP1WnJxlbE\"",
-    "mtime": "2026-09-28T12:01:49.200Z",
-    "size": 2968,
-    "path": "../public/_nuxt/MCCiaCfk.js.br"
-  },
-  "/_nuxt/MCCiaCfk.js.gz": {
-    "type": "text/javascript; charset=utf-8",
-    "encoding": "gzip",
-    "etag": "\"d9d-Fi3jxPCZav85L1eIndC7TS0IFhg\"",
-    "mtime": "2026-09-28T12:01:49.200Z",
-    "size": 3485,
-    "path": "../public/_nuxt/MCCiaCfk.js.gz"
-  },
-  "/_nuxt/NWJtGu2U.js": {
-    "type": "text/javascript; charset=utf-8",
-    "encoding": null,
-    "etag": "\"2b02-twXHefH6gfre8V0zlQJ8Lo/qG6U\"",
-    "mtime": "2026-09-28T12:01:46.925Z",
-    "size": 11010,
-    "path": "../public/_nuxt/NWJtGu2U.js"
-  },
-  "/_nuxt/NWJtGu2U.js.br": {
-    "type": "text/javascript; charset=utf-8",
-    "encoding": "br",
-    "etag": "\"aa5-9u03At8bpKbjSRd0bitByujR3LI\"",
-    "mtime": "2026-09-28T12:01:49.219Z",
-    "size": 2725,
-    "path": "../public/_nuxt/NWJtGu2U.js.br"
-  },
-  "/_nuxt/NWJtGu2U.js.gz": {
-    "type": "text/javascript; charset=utf-8",
-    "encoding": "gzip",
-    "etag": "\"c5b-umugplV9C9UVXMJHBRWdCNMfFDk\"",
-    "mtime": "2026-09-28T12:01:49.219Z",
-    "size": 3163,
-    "path": "../public/_nuxt/NWJtGu2U.js.gz"
+    "etag": "\"84-Y9UnmLxLinfXPUJw1v95vvVUgLk\"",
+    "mtime": "2026-09-29T07:39:32.993Z",
+    "size": 132,
+    "path": "../public/_nuxt/NOKKCuIZ.js"
   },
   "/_nuxt/Nav.BJkJjAQ2.css": {
     "type": "text/css; charset=utf-8",
     "etag": "\"9a-r3MrujeyIg5Ucx4C/vIkpy0+sh0\"",
-    "mtime": "2026-09-28T12:01:46.924Z",
+    "mtime": "2026-09-29T07:39:32.993Z",
     "size": 154,
     "path": "../public/_nuxt/Nav.BJkJjAQ2.css"
   },
-  "/_nuxt/O9bVE7n2.js": {
+  "/_nuxt/PGBXXcrB.js": {
     "type": "text/javascript; charset=utf-8",
-    "etag": "\"1f4-QT2uAP5CVdr6bksa0TzPwjvxfuw\"",
-    "mtime": "2026-09-28T12:01:46.925Z",
-    "size": 500,
-    "path": "../public/_nuxt/O9bVE7n2.js"
+    "etag": "\"1c2-jk56lHCLtRWpCU/qC8MHvkyUBaM\"",
+    "mtime": "2026-09-29T07:39:32.994Z",
+    "size": 450,
+    "path": "../public/_nuxt/PGBXXcrB.js"
   },
-  "/_nuxt/R3uofjP3.js": {
+  "/_nuxt/PdIjYKr6.js": {
+    "type": "text/javascript; charset=utf-8",
+    "etag": "\"d0-DYHUWkTPJ+Kb184Lf7wyA+FRFnM\"",
+    "mtime": "2026-09-29T07:39:32.993Z",
+    "size": 208,
+    "path": "../public/_nuxt/PdIjYKr6.js"
+  },
+  "/_nuxt/QenYMBwg.js": {
     "type": "text/javascript; charset=utf-8",
     "encoding": null,
-    "etag": "\"dfc-Ae5FRE7JHW5/sCfCpN90L1xvxGY\"",
-    "mtime": "2026-09-28T12:01:46.925Z",
-    "size": 3580,
-    "path": "../public/_nuxt/R3uofjP3.js"
+    "etag": "\"2b02-tY0k8xTTpkZZWWGE1SW5wvxdB5E\"",
+    "mtime": "2026-09-29T07:39:32.994Z",
+    "size": 11010,
+    "path": "../public/_nuxt/QenYMBwg.js"
   },
-  "/_nuxt/Rhxyr7nv.js": {
+  "/_nuxt/QenYMBwg.js.br": {
     "type": "text/javascript; charset=utf-8",
-    "etag": "\"23d-1Kdy91nDKuIfdy0bjp+9+fE/62Y\"",
-    "mtime": "2026-09-28T12:01:46.925Z",
-    "size": 573,
-    "path": "../public/_nuxt/Rhxyr7nv.js"
+    "encoding": "br",
+    "etag": "\"aab-Myctl9ETDLPkYErQdvyc6zoHoBs\"",
+    "mtime": "2026-09-29T07:39:34.974Z",
+    "size": 2731,
+    "path": "../public/_nuxt/QenYMBwg.js.br"
+  },
+  "/_nuxt/QenYMBwg.js.gz": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": "gzip",
+    "etag": "\"c5d-vVMI7wDvG6WAlZYyqFNHO3B8chA\"",
+    "mtime": "2026-09-29T07:39:34.957Z",
+    "size": 3165,
+    "path": "../public/_nuxt/QenYMBwg.js.gz"
+  },
+  "/_nuxt/Qjqpr_JR.js": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": null,
+    "etag": "\"eb3b-BR3oJdPRvDy2yK5JIMn+e34Xt/s\"",
+    "mtime": "2026-09-29T07:39:32.995Z",
+    "size": 60219,
+    "path": "../public/_nuxt/Qjqpr_JR.js"
+  },
+  "/_nuxt/Qjqpr_JR.js.br": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": "br",
+    "etag": "\"4f4b-7HvLLTyIkUrEcyfIy6i/WJmjB5k\"",
+    "mtime": "2026-09-29T07:39:35.036Z",
+    "size": 20299,
+    "path": "../public/_nuxt/Qjqpr_JR.js.br"
+  },
+  "/_nuxt/Qjqpr_JR.js.gz": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": "gzip",
+    "etag": "\"5eb0-0tj4UwpV+j+aKXB8G5MqnZ8V1m0\"",
+    "mtime": "2026-09-29T07:39:34.974Z",
+    "size": 24240,
+    "path": "../public/_nuxt/Qjqpr_JR.js.gz"
+  },
+  "/_nuxt/REZa1Qad.js": {
+    "type": "text/javascript; charset=utf-8",
+    "etag": "\"1ea-tw5/KH1lPUqQ+ic16s3jLEtJoEM\"",
+    "mtime": "2026-09-29T07:39:32.994Z",
+    "size": 490,
+    "path": "../public/_nuxt/REZa1Qad.js"
   },
   "/_nuxt/RichEditor.CAjjQC0A.css": {
     "type": "text/css; charset=utf-8",
     "encoding": null,
     "etag": "\"790-U+C3txmyoC5Z3UB+thY148e+S20\"",
-    "mtime": "2026-09-28T12:01:46.925Z",
+    "mtime": "2026-09-29T07:39:32.994Z",
     "size": 1936,
     "path": "../public/_nuxt/RichEditor.CAjjQC0A.css"
-  },
-  "/_nuxt/R3uofjP3.js.br": {
-    "type": "text/javascript; charset=utf-8",
-    "encoding": "br",
-    "etag": "\"4bf-UYu+42THfanxCw1rPi/I5QNEn3M\"",
-    "mtime": "2026-09-28T12:01:49.224Z",
-    "size": 1215,
-    "path": "../public/_nuxt/R3uofjP3.js.br"
-  },
-  "/_nuxt/SAvVJwR0.js": {
-    "type": "text/javascript; charset=utf-8",
-    "etag": "\"1e5-bU4SiBzfvPNKLkduJZsW4g9nSJA\"",
-    "mtime": "2026-09-28T12:01:46.926Z",
-    "size": 485,
-    "path": "../public/_nuxt/SAvVJwR0.js"
   },
   "/_nuxt/RichEditor.CAjjQC0A.css.br": {
     "type": "text/css; charset=utf-8",
     "encoding": "br",
     "etag": "\"1cc-EEFhETXCQSu9bIgiNQZSxTsaBDU\"",
-    "mtime": "2026-09-28T12:01:49.224Z",
+    "mtime": "2026-09-29T07:39:34.974Z",
     "size": 460,
     "path": "../public/_nuxt/RichEditor.CAjjQC0A.css.br"
-  },
-  "/_nuxt/ThfVbaT3.js": {
-    "type": "text/javascript; charset=utf-8",
-    "encoding": null,
-    "etag": "\"638-ux7DON+mgHeZT1/mwdm/etZpPKY\"",
-    "mtime": "2026-09-28T12:01:46.925Z",
-    "size": 1592,
-    "path": "../public/_nuxt/ThfVbaT3.js"
   },
   "/_nuxt/RichEditor.CAjjQC0A.css.gz": {
     "type": "text/css; charset=utf-8",
     "encoding": "gzip",
     "etag": "\"238-aG/aqfcaD9Ytmd5t5CiclXzlKYg\"",
-    "mtime": "2026-09-28T12:01:49.224Z",
+    "mtime": "2026-09-29T07:39:34.974Z",
     "size": 568,
     "path": "../public/_nuxt/RichEditor.CAjjQC0A.css.gz"
   },
-  "/_nuxt/R3uofjP3.js.gz": {
+  "/_nuxt/SaTxo_Qr.js.br": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": "br",
+    "etag": "\"f12-7LqxAibMkarEvNaNn0fmQQHvjWk\"",
+    "mtime": "2026-09-29T07:39:34.974Z",
+    "size": 3858,
+    "path": "../public/_nuxt/SaTxo_Qr.js.br"
+  },
+  "/_nuxt/SaTxo_Qr.js.gz": {
     "type": "text/javascript; charset=utf-8",
     "encoding": "gzip",
-    "etag": "\"571-nhQwuDe/NWh82HyINMVQ+P29Lrc\"",
-    "mtime": "2026-09-28T12:01:49.219Z",
-    "size": 1393,
-    "path": "../public/_nuxt/R3uofjP3.js.gz"
+    "etag": "\"10c5-1/ky3Gup8PrckfGcC7nv1OWKajY\"",
+    "mtime": "2026-09-29T07:39:34.974Z",
+    "size": 4293,
+    "path": "../public/_nuxt/SaTxo_Qr.js.gz"
   },
-  "/_nuxt/WAnnS6ra.js": {
-    "type": "text/javascript; charset=utf-8",
-    "etag": "\"291-O6semsOYvYllok6pSVYeiLaszfA\"",
-    "mtime": "2026-09-28T12:01:46.926Z",
-    "size": 657,
-    "path": "../public/_nuxt/WAnnS6ra.js"
-  },
-  "/_nuxt/WLUpytc2.js": {
-    "type": "text/javascript; charset=utf-8",
-    "etag": "\"20e-wQNSzBGz6tISPv7LgIRXfoJ6vdM\"",
-    "mtime": "2026-09-28T12:01:46.926Z",
-    "size": 526,
-    "path": "../public/_nuxt/WLUpytc2.js"
-  },
-  "/_nuxt/WkcZMZyE.js": {
+  "/_nuxt/WwnGmh8R.js": {
     "type": "text/javascript; charset=utf-8",
     "encoding": null,
-    "etag": "\"1b5f-2jH1WJ4bFqAI61nXuY2NxLhzjdM\"",
-    "mtime": "2026-09-28T12:01:46.926Z",
-    "size": 7007,
-    "path": "../public/_nuxt/WkcZMZyE.js"
+    "etag": "\"346b-9fvevaT1qyp8wcEcppFwt1Xiy3c\"",
+    "mtime": "2026-09-29T07:39:32.995Z",
+    "size": 13419,
+    "path": "../public/_nuxt/WwnGmh8R.js"
   },
-  "/_nuxt/ThfVbaT3.js.br": {
-    "type": "text/javascript; charset=utf-8",
-    "encoding": "br",
-    "etag": "\"2f3-M7jAqsXmKpSdp7wdn/TF5R7mRPk\"",
-    "mtime": "2026-09-28T12:01:49.230Z",
-    "size": 755,
-    "path": "../public/_nuxt/ThfVbaT3.js.br"
-  },
-  "/_nuxt/YNkksG2P.js": {
+  "/_nuxt/SaTxo_Qr.js": {
     "type": "text/javascript; charset=utf-8",
     "encoding": null,
-    "etag": "\"6be-Jmgdp05Eu4HNcVnZu8/Uf5w1kcI\"",
-    "mtime": "2026-09-28T12:01:46.926Z",
-    "size": 1726,
-    "path": "../public/_nuxt/YNkksG2P.js"
+    "etag": "\"343f-jVW79HDkRCDlqLLYSjuN7mNrl9Q\"",
+    "mtime": "2026-09-29T07:39:32.994Z",
+    "size": 13375,
+    "path": "../public/_nuxt/SaTxo_Qr.js"
   },
-  "/_nuxt/ThfVbaT3.js.gz": {
-    "type": "text/javascript; charset=utf-8",
-    "encoding": "gzip",
-    "etag": "\"35c-D5jWatwqWkLcUJKHmP2ubxL3qMk\"",
-    "mtime": "2026-09-28T12:01:49.224Z",
-    "size": 860,
-    "path": "../public/_nuxt/ThfVbaT3.js.gz"
-  },
-  "/_nuxt/WkcZMZyE.js.br": {
+  "/_nuxt/WwnGmh8R.js.br": {
     "type": "text/javascript; charset=utf-8",
     "encoding": "br",
-    "etag": "\"8aa-X56VBvbcl+n0Ra1cPthqD99xzK4\"",
-    "mtime": "2026-09-28T12:01:49.236Z",
-    "size": 2218,
-    "path": "../public/_nuxt/WkcZMZyE.js.br"
+    "etag": "\"fd1-eFeZ4phaZ2TmbpHfsdmhV3iAntc\"",
+    "mtime": "2026-09-29T07:39:34.974Z",
+    "size": 4049,
+    "path": "../public/_nuxt/WwnGmh8R.js.br"
   },
-  "/_nuxt/WkcZMZyE.js.gz": {
+  "/_nuxt/WwnGmh8R.js.gz": {
     "type": "text/javascript; charset=utf-8",
     "encoding": "gzip",
-    "etag": "\"9ba-LFQHnwh8HRJd2gE+GryPTLUbFOc\"",
-    "mtime": "2026-09-28T12:01:49.229Z",
-    "size": 2490,
-    "path": "../public/_nuxt/WkcZMZyE.js.gz"
+    "etag": "\"125a-cmrH5K38G8zeOZAC+aQ6kEDYrR8\"",
+    "mtime": "2026-09-29T07:39:34.974Z",
+    "size": 4698,
+    "path": "../public/_nuxt/WwnGmh8R.js.gz"
   },
-  "/_nuxt/_g2zVV-2.js": {
+  "/_nuxt/X7LIVbxx.js.br": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": "br",
+    "etag": "\"e6b-ebATwjB+Yu2h7MdX6PVnWlKeycQ\"",
+    "mtime": "2026-09-29T07:39:34.992Z",
+    "size": 3691,
+    "path": "../public/_nuxt/X7LIVbxx.js.br"
+  },
+  "/_nuxt/X7LIVbxx.js": {
     "type": "text/javascript; charset=utf-8",
     "encoding": null,
-    "etag": "\"eb9-U7iANc1jvk0JNrzTOlDsuE77EM4\"",
-    "mtime": "2026-09-28T12:01:46.926Z",
-    "size": 3769,
-    "path": "../public/_nuxt/_g2zVV-2.js"
+    "etag": "\"34bb-7fMipK7OiHCPG/gLdQp2a/Lp6Eg\"",
+    "mtime": "2026-09-29T07:39:32.995Z",
+    "size": 13499,
+    "path": "../public/_nuxt/X7LIVbxx.js"
   },
-  "/_nuxt/YNkksG2P.js.br": {
-    "type": "text/javascript; charset=utf-8",
-    "encoding": "br",
-    "etag": "\"355-/SXUUHhNtU9oDRw8zwENdALk1l0\"",
-    "mtime": "2026-09-28T12:01:49.235Z",
-    "size": 853,
-    "path": "../public/_nuxt/YNkksG2P.js.br"
-  },
-  "/_nuxt/YNkksG2P.js.gz": {
+  "/_nuxt/X7LIVbxx.js.gz": {
     "type": "text/javascript; charset=utf-8",
     "encoding": "gzip",
-    "etag": "\"3bf-VQB+BAPtpFHP0dyW5eNdBUhNzow\"",
-    "mtime": "2026-09-28T12:01:49.235Z",
-    "size": 959,
-    "path": "../public/_nuxt/YNkksG2P.js.gz"
+    "etag": "\"10d1-m8FUCJnxKJP02hqUuq3iaXtD15E\"",
+    "mtime": "2026-09-29T07:39:34.974Z",
+    "size": 4305,
+    "path": "../public/_nuxt/X7LIVbxx.js.gz"
   },
-  "/_nuxt/_g2zVV-2.js.br": {
+  "/_nuxt/XUvSK1nP.js": {
     "type": "text/javascript; charset=utf-8",
-    "encoding": "br",
-    "etag": "\"555-BB/rLShXQjOnVZJhqYAQYfv5Dcs\"",
-    "mtime": "2026-09-28T12:01:49.242Z",
-    "size": 1365,
-    "path": "../public/_nuxt/_g2zVV-2.js.br"
+    "encoding": null,
+    "etag": "\"16a2-TWtv2Lc/pmhBF3bhS4/6xG1jf7o\"",
+    "mtime": "2026-09-29T07:39:32.995Z",
+    "size": 5794,
+    "path": "../public/_nuxt/XUvSK1nP.js"
   },
-  "/_nuxt/_g2zVV-2.js.gz": {
+  "/_nuxt/XUvSK1nP.js.gz": {
     "type": "text/javascript; charset=utf-8",
     "encoding": "gzip",
-    "etag": "\"622-iQ8yiXCAGjLdr54zzlXRHTtqVzc\"",
-    "mtime": "2026-09-28T12:01:49.236Z",
-    "size": 1570,
-    "path": "../public/_nuxt/_g2zVV-2.js.gz"
+    "etag": "\"846-BJ5M2g1kBYqxLdU4OFfH3SnX7i0\"",
+    "mtime": "2026-09-29T07:39:34.982Z",
+    "size": 2118,
+    "path": "../public/_nuxt/XUvSK1nP.js.gz"
+  },
+  "/_nuxt/XmA6vqw-.js": {
+    "type": "text/javascript; charset=utf-8",
+    "etag": "\"282-d1nYiLvw89jVxt9Tg/Efhx6Ojbs\"",
+    "mtime": "2026-09-29T07:39:32.996Z",
+    "size": 642,
+    "path": "../public/_nuxt/XmA6vqw-.js"
+  },
+  "/_nuxt/YfJrWffa.js": {
+    "type": "text/javascript; charset=utf-8",
+    "etag": "\"27f-okfh3Vd3ssGU4dGJO65jrUf/Aa8\"",
+    "mtime": "2026-09-29T07:39:32.995Z",
+    "size": 639,
+    "path": "../public/_nuxt/YfJrWffa.js"
+  },
+  "/_nuxt/XUvSK1nP.js.br": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": "br",
+    "etag": "\"72f-06WvUBeB+4rVEYnH6843vBBRdig\"",
+    "mtime": "2026-09-29T07:39:34.982Z",
+    "size": 1839,
+    "path": "../public/_nuxt/XUvSK1nP.js.br"
+  },
+  "/_nuxt/_a3ZxsWq.js.gz": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": "gzip",
+    "etag": "\"8d2-kxl6+ZmhGk8JCXNWPLLXgZIDbEY\"",
+    "mtime": "2026-09-29T07:39:34.992Z",
+    "size": 2258,
+    "path": "../public/_nuxt/_a3ZxsWq.js.gz"
+  },
+  "/_nuxt/_a3ZxsWq.js": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": null,
+    "etag": "\"1747-NUWafnbwCGjhE/nui48yn0poNBg\"",
+    "mtime": "2026-09-29T07:39:32.996Z",
+    "size": 5959,
+    "path": "../public/_nuxt/_a3ZxsWq.js"
   },
   "/_nuxt/_slug_.BQjPBTc2.css": {
     "type": "text/css; charset=utf-8",
     "encoding": null,
     "etag": "\"fe2-qvs7E6++QJ89TZNkGQxcsFVF+z0\"",
-    "mtime": "2026-09-28T12:01:46.926Z",
+    "mtime": "2026-09-29T07:39:32.996Z",
     "size": 4066,
     "path": "../public/_nuxt/_slug_.BQjPBTc2.css"
+  },
+  "/_nuxt/_a3ZxsWq.js.br": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": "br",
+    "etag": "\"744-UPWvDsAlg6mesBr88DRdQm/B+8s\"",
+    "mtime": "2026-09-29T07:39:35.000Z",
+    "size": 1860,
+    "path": "../public/_nuxt/_a3ZxsWq.js.br"
   },
   "/_nuxt/_slug_.BQjPBTc2.css.br": {
     "type": "text/css; charset=utf-8",
     "encoding": "br",
     "etag": "\"240-fmHJghO6Iu4Wemi1OxW33gZWeDo\"",
-    "mtime": "2026-09-28T12:01:49.246Z",
+    "mtime": "2026-09-29T07:39:35.001Z",
     "size": 576,
     "path": "../public/_nuxt/_slug_.BQjPBTc2.css.br"
-  },
-  "/_nuxt/admin.CKAGKqkg.css": {
-    "type": "text/css; charset=utf-8",
-    "etag": "\"29a-34GjMCAyMQv6jDvSbsCcPkbC9FY\"",
-    "mtime": "2026-09-28T12:01:46.926Z",
-    "size": 666,
-    "path": "../public/_nuxt/admin.CKAGKqkg.css"
   },
   "/_nuxt/_slug_.BQjPBTc2.css.gz": {
     "type": "text/css; charset=utf-8",
     "encoding": "gzip",
     "etag": "\"2b0-tKeU2yGQcdj4ZZQnAJ+vf985tKs\"",
-    "mtime": "2026-09-28T12:01:49.242Z",
+    "mtime": "2026-09-29T07:39:35.000Z",
     "size": 688,
     "path": "../public/_nuxt/_slug_.BQjPBTc2.css.gz"
   },
-  "/_nuxt/akfT96Zo.js": {
+  "/_nuxt/admin.CKAGKqkg.css": {
+    "type": "text/css; charset=utf-8",
+    "etag": "\"29a-34GjMCAyMQv6jDvSbsCcPkbC9FY\"",
+    "mtime": "2026-09-29T07:39:32.996Z",
+    "size": 666,
+    "path": "../public/_nuxt/admin.CKAGKqkg.css"
+  },
+  "/_nuxt/bI2CvrJk.js": {
     "type": "text/javascript; charset=utf-8",
     "encoding": null,
-    "etag": "\"1747-iv2VfyAhJddy7fo4hkIoF8cp21E\"",
-    "mtime": "2026-09-28T12:01:46.927Z",
-    "size": 5959,
-    "path": "../public/_nuxt/akfT96Zo.js"
+    "etag": "\"2065-39pL3/S8QojGQ+p42qOlW4o4gyk\"",
+    "mtime": "2026-09-29T07:39:32.996Z",
+    "size": 8293,
+    "path": "../public/_nuxt/bI2CvrJk.js"
   },
-  "/_nuxt/b5h9r7cC.js": {
-    "type": "text/javascript; charset=utf-8",
-    "encoding": null,
-    "etag": "\"3828-+QoEyP3Mc8n60ZOOnRipgsjXepo\"",
-    "mtime": "2026-09-28T12:01:46.927Z",
-    "size": 14376,
-    "path": "../public/_nuxt/b5h9r7cC.js"
-  },
-  "/_nuxt/akfT96Zo.js.gz": {
-    "type": "text/javascript; charset=utf-8",
-    "encoding": "gzip",
-    "etag": "\"8d0-LEL3Xs5ByCzw89VT8EWX7TnfHvA\"",
-    "mtime": "2026-09-28T12:01:49.246Z",
-    "size": 2256,
-    "path": "../public/_nuxt/akfT96Zo.js.gz"
-  },
-  "/_nuxt/akfT96Zo.js.br": {
+  "/_nuxt/bI2CvrJk.js.br": {
     "type": "text/javascript; charset=utf-8",
     "encoding": "br",
-    "etag": "\"742-Z0f7j+cH8q/bPE5qV/9TGaUw8Ek\"",
-    "mtime": "2026-09-28T12:01:49.246Z",
-    "size": 1858,
-    "path": "../public/_nuxt/akfT96Zo.js.br"
+    "etag": "\"90c-DUyNq9gtoXkQUohDs3WAoXdRE3c\"",
+    "mtime": "2026-09-29T07:39:35.008Z",
+    "size": 2316,
+    "path": "../public/_nuxt/bI2CvrJk.js.br"
+  },
+  "/_nuxt/bI2CvrJk.js.gz": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": "gzip",
+    "etag": "\"a1e-LMuyzO2nNgwj6tji397Ib2TU3as\"",
+    "mtime": "2026-09-29T07:39:35.001Z",
+    "size": 2590,
+    "path": "../public/_nuxt/bI2CvrJk.js.gz"
+  },
+  "/_nuxt/cHRE9HSx.js.br": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": "br",
+    "etag": "\"495c-HRlTJE2T6J16A5k5zTrAnE9xLVA\"",
+    "mtime": "2026-09-29T07:39:35.084Z",
+    "size": 18780,
+    "path": "../public/_nuxt/cHRE9HSx.js.br"
+  },
+  "/_nuxt/cHRE9HSx.js.gz": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": "gzip",
+    "etag": "\"512a-vRFt4VKWV6x0slpJ43BvoGXmiHQ\"",
+    "mtime": "2026-09-29T07:39:35.008Z",
+    "size": 20778,
+    "path": "../public/_nuxt/cHRE9HSx.js.gz"
+  },
+  "/_nuxt/cHRE9HSx.js": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": null,
+    "etag": "\"12047-1Jg2MqyTjjlqUPOW0CwZjyG77wY\"",
+    "mtime": "2026-09-29T07:39:32.998Z",
+    "size": 73799,
+    "path": "../public/_nuxt/cHRE9HSx.js"
+  },
+  "/_nuxt/cOs_l7wn.js": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": null,
+    "etag": "\"12ce-KqiwWg1KbsGJLzbS6glLnL+YayM\"",
+    "mtime": "2026-09-29T07:39:32.997Z",
+    "size": 4814,
+    "path": "../public/_nuxt/cOs_l7wn.js"
+  },
+  "/_nuxt/cOs_l7wn.js.br": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": "br",
+    "etag": "\"776-wxXhiPxCZdSIBb3PcHyT3oAOgcM\"",
+    "mtime": "2026-09-29T07:39:35.010Z",
+    "size": 1910,
+    "path": "../public/_nuxt/cOs_l7wn.js.br"
+  },
+  "/_nuxt/cOs_l7wn.js.gz": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": "gzip",
+    "etag": "\"8a9-YUtmpwIB+OrrOV5pX7fbJrrPlzM\"",
+    "mtime": "2026-09-29T07:39:35.010Z",
+    "size": 2217,
+    "path": "../public/_nuxt/cOs_l7wn.js.gz"
   },
   "/_nuxt/dashboard.CL0O2wzH.css": {
     "type": "text/css; charset=utf-8",
     "etag": "\"152-FGN0z27JDN7KvA5TBFT2RRh2HOk\"",
-    "mtime": "2026-09-28T12:01:46.927Z",
+    "mtime": "2026-09-29T07:39:32.997Z",
     "size": 338,
     "path": "../public/_nuxt/dashboard.CL0O2wzH.css"
   },
-  "/_nuxt/entry.Cvl8ho_w.css.br": {
-    "type": "text/css; charset=utf-8",
-    "encoding": "br",
-    "etag": "\"1022f-eksuRiWuNj70HW7TbC4Lei9sA1U\"",
-    "mtime": "2026-09-28T12:01:51.021Z",
-    "size": 66095,
-    "path": "../public/_nuxt/entry.Cvl8ho_w.css.br"
-  },
-  "/_nuxt/f0Mep8g1.js": {
+  "/_nuxt/elIDb8D3.js": {
     "type": "text/javascript; charset=utf-8",
     "encoding": null,
-    "etag": "\"564-SouKSFMgWv66gC/EaQ6BU8SUmcE\"",
-    "mtime": "2026-09-28T12:01:46.927Z",
-    "size": 1380,
-    "path": "../public/_nuxt/f0Mep8g1.js"
-  },
-  "/_nuxt/b5h9r7cC.js.gz": {
-    "type": "text/javascript; charset=utf-8",
-    "encoding": "gzip",
-    "etag": "\"1472-Zc0IWw3zlAvi0K/5RENoYoGuXzY\"",
-    "mtime": "2026-09-28T12:01:49.246Z",
-    "size": 5234,
-    "path": "../public/_nuxt/b5h9r7cC.js.gz"
-  },
-  "/_nuxt/b5h9r7cC.js.br": {
-    "type": "text/javascript; charset=utf-8",
-    "encoding": "br",
-    "etag": "\"1195-bg3esh5ekNsUH2O+lkD6XipLu28\"",
-    "mtime": "2026-09-28T12:01:49.273Z",
-    "size": 4501,
-    "path": "../public/_nuxt/b5h9r7cC.js.br"
-  },
-  "/_nuxt/f_uYadTV.js": {
-    "type": "text/javascript; charset=utf-8",
-    "encoding": null,
-    "etag": "\"1042-K3bZJkQVMVkhMVqYZMp5PZEPb8Y\"",
-    "mtime": "2026-09-28T12:01:46.927Z",
-    "size": 4162,
-    "path": "../public/_nuxt/f_uYadTV.js"
-  },
-  "/_nuxt/entry.Cvl8ho_w.css.gz": {
-    "type": "text/css; charset=utf-8",
-    "encoding": "gzip",
-    "etag": "\"16e10-UDRVQYEa9ToywOqNB2oLBNRFgj0\"",
-    "mtime": "2026-09-28T12:01:49.302Z",
-    "size": 93712,
-    "path": "../public/_nuxt/entry.Cvl8ho_w.css.gz"
-  },
-  "/_nuxt/f0Mep8g1.js.br": {
-    "type": "text/javascript; charset=utf-8",
-    "encoding": "br",
-    "etag": "\"230-uY8WPxENeFQdMMfhyGtoAzvrx2E\"",
-    "mtime": "2026-09-28T12:01:49.287Z",
-    "size": 560,
-    "path": "../public/_nuxt/f0Mep8g1.js.br"
-  },
-  "/_nuxt/febBBv_o.js": {
-    "type": "text/javascript; charset=utf-8",
-    "encoding": null,
-    "etag": "\"136a-uOxkar4VhVoT+g50p2zCBaU9U7I\"",
-    "mtime": "2026-09-28T12:01:46.927Z",
-    "size": 4970,
-    "path": "../public/_nuxt/febBBv_o.js"
-  },
-  "/_nuxt/f_uYadTV.js.br": {
-    "type": "text/javascript; charset=utf-8",
-    "encoding": "br",
-    "etag": "\"641-K4vjbBPIgOnWfZPqex8n9O2KDFg\"",
-    "mtime": "2026-09-28T12:01:49.301Z",
-    "size": 1601,
-    "path": "../public/_nuxt/f_uYadTV.js.br"
-  },
-  "/_nuxt/f0Mep8g1.js.gz": {
-    "type": "text/javascript; charset=utf-8",
-    "encoding": "gzip",
-    "etag": "\"274-7YliVJ1Bg58l2uJXoJR+NYL3JdI\"",
-    "mtime": "2026-09-28T12:01:49.287Z",
-    "size": 628,
-    "path": "../public/_nuxt/f0Mep8g1.js.gz"
-  },
-  "/_nuxt/g0cyngAV.js": {
-    "type": "text/javascript; charset=utf-8",
-    "encoding": null,
-    "etag": "\"40b-AAVjtI//JvPMhj3lA2ri8m21DHc\"",
-    "mtime": "2026-09-28T12:01:46.928Z",
+    "etag": "\"40b-Ym4j53ql+KvG+TyJ8n6t/YiWDqQ\"",
+    "mtime": "2026-09-29T07:39:32.997Z",
     "size": 1035,
-    "path": "../public/_nuxt/g0cyngAV.js"
+    "path": "../public/_nuxt/elIDb8D3.js"
   },
-  "/_nuxt/f_uYadTV.js.gz": {
-    "type": "text/javascript; charset=utf-8",
-    "encoding": "gzip",
-    "etag": "\"6ee-GjtPSqrnqwMKgMcTeLJlp+SeTGY\"",
-    "mtime": "2026-09-28T12:01:49.301Z",
-    "size": 1774,
-    "path": "../public/_nuxt/f_uYadTV.js.gz"
-  },
-  "/_nuxt/febBBv_o.js.gz": {
-    "type": "text/javascript; charset=utf-8",
-    "encoding": "gzip",
-    "etag": "\"7c0-CIJ/gkWWNgtwY2WzxIjTcBsl1Mc\"",
-    "mtime": "2026-09-28T12:01:49.302Z",
-    "size": 1984,
-    "path": "../public/_nuxt/febBBv_o.js.gz"
-  },
-  "/_nuxt/febBBv_o.js.br": {
+  "/_nuxt/elIDb8D3.js.br": {
     "type": "text/javascript; charset=utf-8",
     "encoding": "br",
-    "etag": "\"704-320bOo9DK6XaJ3l2Ngdrdd2LBs0\"",
-    "mtime": "2026-09-28T12:01:49.302Z",
-    "size": 1796,
-    "path": "../public/_nuxt/febBBv_o.js.br"
+    "etag": "\"22c-u/+0zIYACtmnueP3JxRum9RMEHU\"",
+    "mtime": "2026-09-29T07:39:35.011Z",
+    "size": 556,
+    "path": "../public/_nuxt/elIDb8D3.js.br"
   },
-  "/_nuxt/g0cyngAV.js.br": {
-    "type": "text/javascript; charset=utf-8",
-    "encoding": "br",
-    "etag": "\"229-dvba6hAk6vE1n3KmjtiLyVHlbe0\"",
-    "mtime": "2026-09-28T12:01:49.302Z",
-    "size": 553,
-    "path": "../public/_nuxt/g0cyngAV.js.br"
-  },
-  "/_nuxt/g0cyngAV.js.gz": {
+  "/_nuxt/elIDb8D3.js.gz": {
     "type": "text/javascript; charset=utf-8",
     "encoding": "gzip",
-    "etag": "\"29c-vQJfavBwlobs0KHyCTP/cX7jvR8\"",
-    "mtime": "2026-09-28T12:01:49.302Z",
-    "size": 668,
-    "path": "../public/_nuxt/g0cyngAV.js.gz"
+    "etag": "\"29d-6UItjUhlTJhoY9koEOWUWyTlpxM\"",
+    "mtime": "2026-09-29T07:39:35.011Z",
+    "size": 669,
+    "path": "../public/_nuxt/elIDb8D3.js.gz"
   },
-  "/_nuxt/entry.Cvl8ho_w.css": {
+  "/_nuxt/entry.BWCfGg7q.css.br": {
     "type": "text/css; charset=utf-8",
-    "encoding": null,
-    "etag": "\"e5de9-qm0F7c+W7BD/158sCm5C3VDn+1g\"",
-    "mtime": "2026-09-28T12:01:46.929Z",
-    "size": 941545,
-    "path": "../public/_nuxt/entry.Cvl8ho_w.css"
+    "encoding": "br",
+    "etag": "\"10307-czbiZgfVc7+nGB89H+z2qxWL+Cs\"",
+    "mtime": "2026-09-29T07:39:36.520Z",
+    "size": 66311,
+    "path": "../public/_nuxt/entry.BWCfGg7q.css.br"
   },
-  "/_nuxt/gd4U9Gsl.js": {
+  "/_nuxt/kShyoCL5.js": {
     "type": "text/javascript; charset=utf-8",
-    "etag": "\"2bd-i1fuQqbu9WVxuYsPf3KSlSL64ZE\"",
-    "mtime": "2026-09-28T12:01:46.928Z",
-    "size": 701,
-    "path": "../public/_nuxt/gd4U9Gsl.js"
-  },
-  "/_nuxt/me3cJg5p.js": {
-    "type": "text/javascript; charset=utf-8",
-    "etag": "\"84-KOq9clteJnC3/ljSipoLtQEYdEo\"",
-    "mtime": "2026-09-28T12:01:46.928Z",
-    "size": 132,
-    "path": "../public/_nuxt/me3cJg5p.js"
+    "etag": "\"21e-waE4zeRfWC8t2qbKup9N0kUPiGc\"",
+    "mtime": "2026-09-29T07:39:32.997Z",
+    "size": 542,
+    "path": "../public/_nuxt/kShyoCL5.js"
   },
   "/_nuxt/mhJ-osCf.js": {
     "type": "text/javascript; charset=utf-8",
     "encoding": null,
     "etag": "\"63d-k+e6wp4VdGsQZ6xL3ecMKNGnomo\"",
-    "mtime": "2026-09-28T12:01:46.928Z",
+    "mtime": "2026-09-29T07:39:33.001Z",
     "size": 1597,
     "path": "../public/_nuxt/mhJ-osCf.js"
   },
-  "/_nuxt/mhJ-osCf.js.br": {
-    "type": "text/javascript; charset=utf-8",
-    "encoding": "br",
-    "etag": "\"2bd-19X1RH2qYb4xV+/q5rwlWKFTAQo\"",
-    "mtime": "2026-09-28T12:01:49.314Z",
-    "size": 701,
-    "path": "../public/_nuxt/mhJ-osCf.js.br"
-  },
-  "/_nuxt/nXV6RjQE.js": {
-    "type": "text/javascript; charset=utf-8",
-    "etag": "\"22e-CvyPgT875x2zNARangBP3mpTtgo\"",
-    "mtime": "2026-09-28T12:01:46.928Z",
-    "size": 558,
-    "path": "../public/_nuxt/nXV6RjQE.js"
+  "/_nuxt/entry.BWCfGg7q.css.gz": {
+    "type": "text/css; charset=utf-8",
+    "encoding": "gzip",
+    "etag": "\"16ed7-+kHv/PKHSDtXMH8QyTlCEDX/7aw\"",
+    "mtime": "2026-09-29T07:39:35.084Z",
+    "size": 93911,
+    "path": "../public/_nuxt/entry.BWCfGg7q.css.gz"
   },
   "/_nuxt/mhJ-osCf.js.gz": {
     "type": "text/javascript; charset=utf-8",
     "encoding": "gzip",
     "etag": "\"300-+/5X7ZG3ArU2jvBO8d/qvcls/xs\"",
-    "mtime": "2026-09-28T12:01:49.314Z",
+    "mtime": "2026-09-29T07:39:35.045Z",
     "size": 768,
     "path": "../public/_nuxt/mhJ-osCf.js.gz"
   },
-  "/_nuxt/phcnpphi.js": {
+  "/_nuxt/nFRyZUv0.js": {
+    "type": "text/javascript; charset=utf-8",
+    "etag": "\"22e-lsLy+kHT2q6F1tAuuFbVsPclvpU\"",
+    "mtime": "2026-09-29T07:39:32.997Z",
+    "size": 558,
+    "path": "../public/_nuxt/nFRyZUv0.js"
+  },
+  "/_nuxt/mhJ-osCf.js.br": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": "br",
+    "etag": "\"2bd-19X1RH2qYb4xV+/q5rwlWKFTAQo\"",
+    "mtime": "2026-09-29T07:39:35.045Z",
+    "size": 701,
+    "path": "../public/_nuxt/mhJ-osCf.js.br"
+  },
+  "/_nuxt/oh-iMO0t.js": {
     "type": "text/javascript; charset=utf-8",
     "encoding": null,
-    "etag": "\"d27-k0Pu707HW7h6xMyntwVUNFdqbMk\"",
-    "mtime": "2026-09-28T12:01:46.929Z",
-    "size": 3367,
-    "path": "../public/_nuxt/phcnpphi.js"
+    "etag": "\"1b5f-qzhU8wneDLJIJVBRXO3izUEnsZo\"",
+    "mtime": "2026-09-29T07:39:32.999Z",
+    "size": 7007,
+    "path": "../public/_nuxt/oh-iMO0t.js"
   },
-  "/_nuxt/phv5yQWd.js": {
+  "/_nuxt/oh-iMO0t.js.br": {
     "type": "text/javascript; charset=utf-8",
-    "encoding": null,
-    "etag": "\"80c-ewtpW1TM6BG0d8ckzx31EYoX79U\"",
-    "mtime": "2026-09-28T12:01:46.928Z",
-    "size": 2060,
-    "path": "../public/_nuxt/phv5yQWd.js"
+    "encoding": "br",
+    "etag": "\"8ad-g/K2MuvEe6RzxMqSlynXvrVV4cM\"",
+    "mtime": "2026-09-29T07:39:35.082Z",
+    "size": 2221,
+    "path": "../public/_nuxt/oh-iMO0t.js.br"
   },
-  "/_nuxt/phcnpphi.js.gz": {
+  "/_nuxt/oh-iMO0t.js.gz": {
     "type": "text/javascript; charset=utf-8",
     "encoding": "gzip",
-    "etag": "\"3a0-YgWjeeemN1P2Gh3xHzYB+uR5jUU\"",
-    "mtime": "2026-09-28T12:01:49.315Z",
-    "size": 928,
-    "path": "../public/_nuxt/phcnpphi.js.gz"
+    "etag": "\"9bc-Pt0YZxLx/MT7040564qczbC2LaY\"",
+    "mtime": "2026-09-29T07:39:35.082Z",
+    "size": 2492,
+    "path": "../public/_nuxt/oh-iMO0t.js.gz"
   },
-  "/_nuxt/qTww29RW.js": {
-    "type": "text/javascript; charset=utf-8",
-    "etag": "\"d0-84Om3Zw23fGYmikiwDojm/XoRik\"",
-    "mtime": "2026-09-28T12:01:46.928Z",
-    "size": 208,
-    "path": "../public/_nuxt/qTww29RW.js"
+  "/_nuxt/entry.BWCfGg7q.css": {
+    "type": "text/css; charset=utf-8",
+    "encoding": null,
+    "etag": "\"e66f1-ZP8Am/WhjhHuwQL+CfHtvKa5mHE\"",
+    "mtime": "2026-09-29T07:39:33.000Z",
+    "size": 943857,
+    "path": "../public/_nuxt/entry.BWCfGg7q.css"
   },
-  "/_nuxt/v3EW4kap.js": {
+  "/_nuxt/ojjoaVo9.js": {
     "type": "text/javascript; charset=utf-8",
     "encoding": null,
-    "etag": "\"d2a-hiqGs389aULBEtCOIyiWP4vxXBY\"",
-    "mtime": "2026-09-28T12:01:46.929Z",
-    "size": 3370,
-    "path": "../public/_nuxt/v3EW4kap.js"
+    "etag": "\"bec6-sqIesltcQmpeDoZcu4/N0U9fIuE\"",
+    "mtime": "2026-09-29T07:39:32.998Z",
+    "size": 48838,
+    "path": "../public/_nuxt/ojjoaVo9.js"
   },
-  "/_nuxt/phcnpphi.js.br": {
+  "/_nuxt/ojjoaVo9.js.br": {
     "type": "text/javascript; charset=utf-8",
     "encoding": "br",
-    "etag": "\"35a-w0Bvn3IyMJH3DfI9qy4aWCYPztk\"",
-    "mtime": "2026-09-28T12:01:49.315Z",
-    "size": 858,
-    "path": "../public/_nuxt/phcnpphi.js.br"
+    "etag": "\"27a0-RzBbNaDnmZoh+ylbH9Vh5WKktCc\"",
+    "mtime": "2026-09-29T07:39:35.129Z",
+    "size": 10144,
+    "path": "../public/_nuxt/ojjoaVo9.js.br"
   },
-  "/_nuxt/phv5yQWd.js.br": {
+  "/_nuxt/qp5omTl6.js": {
+    "type": "text/javascript; charset=utf-8",
+    "etag": "\"3e2-+35dUeBu9L/vNP7yUCsNWmx2fg4\"",
+    "mtime": "2026-09-29T07:39:32.998Z",
+    "size": 994,
+    "path": "../public/_nuxt/qp5omTl6.js"
+  },
+  "/_nuxt/ojjoaVo9.js.gz": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": "gzip",
+    "etag": "\"2f21-y6wcKnUzXVDsJhyUsEjJiY+vbMY\"",
+    "mtime": "2026-09-29T07:39:35.084Z",
+    "size": 12065,
+    "path": "../public/_nuxt/ojjoaVo9.js.gz"
+  },
+  "/_nuxt/rniUWoNF.js": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": null,
+    "etag": "\"4c8-JRX0J5b3+f0xvsDCO2J0/fjakvo\"",
+    "mtime": "2026-09-29T07:39:32.998Z",
+    "size": 1224,
+    "path": "../public/_nuxt/rniUWoNF.js"
+  },
+  "/_nuxt/rniUWoNF.js.br": {
     "type": "text/javascript; charset=utf-8",
     "encoding": "br",
-    "etag": "\"37a-ioA/lrsRZhnpZjNC2GChoL6mLR0\"",
-    "mtime": "2026-09-28T12:01:49.316Z",
-    "size": 890,
-    "path": "../public/_nuxt/phv5yQWd.js.br"
+    "etag": "\"22d-RsEWafnSWsTST1Z3oviQO09AZ0U\"",
+    "mtime": "2026-09-29T07:39:35.084Z",
+    "size": 557,
+    "path": "../public/_nuxt/rniUWoNF.js.br"
+  },
+  "/_nuxt/rniUWoNF.js.gz": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": "gzip",
+    "etag": "\"255-xceSS/N13XlKu6RBkvjhBShA4S0\"",
+    "mtime": "2026-09-29T07:39:35.084Z",
+    "size": 597,
+    "path": "../public/_nuxt/rniUWoNF.js.gz"
+  },
+  "/_nuxt/suK2nvYt.js": {
+    "type": "text/javascript; charset=utf-8",
+    "etag": "\"14a-ZoDghrvvIhXGMibmZS1lodlohCM\"",
+    "mtime": "2026-09-29T07:39:32.998Z",
+    "size": 330,
+    "path": "../public/_nuxt/suK2nvYt.js"
+  },
+  "/_nuxt/uAz4r5Fj.js": {
+    "type": "text/javascript; charset=utf-8",
+    "etag": "\"1f4-prejfTDo1Oq70Lgz3k8Fqhw/+AY\"",
+    "mtime": "2026-09-29T07:39:32.999Z",
+    "size": 500,
+    "path": "../public/_nuxt/uAz4r5Fj.js"
+  },
+  "/_nuxt/ue2dopj5.js": {
+    "type": "text/javascript; charset=utf-8",
+    "etag": "\"22e-kyzz6+oCIv8kQ0q3FZuoOF8aJ+o\"",
+    "mtime": "2026-09-29T07:39:32.999Z",
+    "size": 558,
+    "path": "../public/_nuxt/ue2dopj5.js"
+  },
+  "/_nuxt/vFO4a20J.js": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": null,
+    "etag": "\"3c1d-oRlNwnbb2cXFcRHvS/82Ew1M7bo\"",
+    "mtime": "2026-09-29T07:39:32.999Z",
+    "size": 15389,
+    "path": "../public/_nuxt/vFO4a20J.js"
+  },
+  "/_nuxt/vFO4a20J.js.gz": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": "gzip",
+    "etag": "\"1438-NPpDiH7wTiWzXWFy4akn4NpIy6c\"",
+    "mtime": "2026-09-29T07:39:35.129Z",
+    "size": 5176,
+    "path": "../public/_nuxt/vFO4a20J.js.gz"
+  },
+  "/_nuxt/vFO4a20J.js.br": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": "br",
+    "etag": "\"114f-pmbUUyGjETMny33NhmW1yTScgPM\"",
+    "mtime": "2026-09-29T07:39:35.129Z",
+    "size": 4431,
+    "path": "../public/_nuxt/vFO4a20J.js.br"
   },
   "/_nuxt/vTUoMwxW.js": {
     "type": "text/javascript; charset=utf-8",
     "encoding": null,
     "etag": "\"6458-cH91L/CRbLIokFTbRsBAeUnpAnw\"",
-    "mtime": "2026-09-28T12:01:46.929Z",
+    "mtime": "2026-09-29T07:39:33.000Z",
     "size": 25688,
     "path": "../public/_nuxt/vTUoMwxW.js"
-  },
-  "/_nuxt/phv5yQWd.js.gz": {
-    "type": "text/javascript; charset=utf-8",
-    "encoding": "gzip",
-    "etag": "\"3e4-YP27VhXlGR1a1m5keKn4zHMQPnw\"",
-    "mtime": "2026-09-28T12:01:49.315Z",
-    "size": 996,
-    "path": "../public/_nuxt/phv5yQWd.js.gz"
-  },
-  "/_nuxt/v3EW4kap.js.br": {
-    "type": "text/javascript; charset=utf-8",
-    "encoding": "br",
-    "etag": "\"44f-OsPoulnFYGkdN1oZZATDaF2kYrw\"",
-    "mtime": "2026-09-28T12:01:49.336Z",
-    "size": 1103,
-    "path": "../public/_nuxt/v3EW4kap.js.br"
-  },
-  "/_nuxt/v3EW4kap.js.gz": {
-    "type": "text/javascript; charset=utf-8",
-    "encoding": "gzip",
-    "etag": "\"4de-d9toryeBy9/5ukE0lBv4Qx2+yQA\"",
-    "mtime": "2026-09-28T12:01:49.336Z",
-    "size": 1246,
-    "path": "../public/_nuxt/v3EW4kap.js.gz"
   },
   "/_nuxt/vTUoMwxW.js.br": {
     "type": "text/javascript; charset=utf-8",
     "encoding": "br",
     "etag": "\"151b-4/nWQ9IusbpnOsPv7hxpjo58MO4\"",
-    "mtime": "2026-09-28T12:01:49.360Z",
+    "mtime": "2026-09-29T07:39:35.144Z",
     "size": 5403,
     "path": "../public/_nuxt/vTUoMwxW.js.br"
   },
@@ -26756,144 +26754,223 @@ const assets = {
     "type": "text/javascript; charset=utf-8",
     "encoding": "gzip",
     "etag": "\"1947-yShLE5HCZrT8NYpEQQfPeto9Bw4\"",
-    "mtime": "2026-09-28T12:01:49.336Z",
+    "mtime": "2026-09-29T07:39:35.129Z",
     "size": 6471,
     "path": "../public/_nuxt/vTUoMwxW.js.gz"
+  },
+  "/_nuxt/vm0Jybsu.js.br": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": "br",
+    "etag": "\"2c2e-kUaSZt1vA88EZrmlP9VscRSQAsg\"",
+    "mtime": "2026-09-29T07:39:35.184Z",
+    "size": 11310,
+    "path": "../public/_nuxt/vm0Jybsu.js.br"
+  },
+  "/_nuxt/vm0Jybsu.js": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": null,
+    "etag": "\"dd22-TMz7rW8qpb6y1Q9OWFYsYF01vIc\"",
+    "mtime": "2026-09-29T07:39:33.001Z",
+    "size": 56610,
+    "path": "../public/_nuxt/vm0Jybsu.js"
+  },
+  "/_nuxt/vm0Jybsu.js.gz": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": "gzip",
+    "etag": "\"32da-3iiZNcYUGTo930pvCDR6cwFBLdY\"",
+    "mtime": "2026-09-29T07:39:35.144Z",
+    "size": 13018,
+    "path": "../public/_nuxt/vm0Jybsu.js.gz"
+  },
+  "/_nuxt/vx5X2RtB.js.br": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": "br",
+    "etag": "\"7c6-bKpNSWH+1ykNDAlXP0AzkFBX9n8\"",
+    "mtime": "2026-09-29T07:39:35.147Z",
+    "size": 1990,
+    "path": "../public/_nuxt/vx5X2RtB.js.br"
+  },
+  "/_nuxt/vx5X2RtB.js": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": null,
+    "etag": "\"1b7d-YZJhV9Fy2x76s8oQ3ti232ipwQE\"",
+    "mtime": "2026-09-29T07:39:33.000Z",
+    "size": 7037,
+    "path": "../public/_nuxt/vx5X2RtB.js"
+  },
+  "/_nuxt/vx5X2RtB.js.gz": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": "gzip",
+    "etag": "\"8a9-D6HKFeQBR6/fc1wTZm51JuYNlow\"",
+    "mtime": "2026-09-29T07:39:35.147Z",
+    "size": 2217,
+    "path": "../public/_nuxt/vx5X2RtB.js.gz"
   },
   "/_nuxt/wrqBHFeW.js": {
     "type": "text/javascript; charset=utf-8",
     "encoding": null,
     "etag": "\"b27-wdlq5AEpSpfKVKeSlqdiD6+4u10\"",
-    "mtime": "2026-09-28T12:01:46.929Z",
+    "mtime": "2026-09-29T07:39:32.999Z",
     "size": 2855,
     "path": "../public/_nuxt/wrqBHFeW.js"
-  },
-  "/__nuxt_content/docs_en/sql_dump.txt": {
-    "type": "text/plain; charset=utf-8",
-    "encoding": null,
-    "etag": "\"16138-BQF2xJ/f0dyWLR9hdOU80iVCEtM\"",
-    "mtime": "2026-09-28T12:01:46.658Z",
-    "size": 90424,
-    "path": "../public/__nuxt_content/docs_en/sql_dump.txt"
-  },
-  "/_nuxt/wrqBHFeW.js.br": {
-    "type": "text/javascript; charset=utf-8",
-    "encoding": "br",
-    "etag": "\"4a4-d5pquh/yETALe+rhk+eIXETB88M\"",
-    "mtime": "2026-09-28T12:01:49.337Z",
-    "size": 1188,
-    "path": "../public/_nuxt/wrqBHFeW.js.br"
   },
   "/_nuxt/wrqBHFeW.js.gz": {
     "type": "text/javascript; charset=utf-8",
     "encoding": "gzip",
     "etag": "\"521-9TT4j6PIv0RvuzYp1WyC2I5FW5c\"",
-    "mtime": "2026-09-28T12:01:49.337Z",
+    "mtime": "2026-09-29T07:39:35.148Z",
     "size": 1313,
     "path": "../public/_nuxt/wrqBHFeW.js.gz"
   },
-  "/__nuxt_content/docs_en/sql_dump.txt.br": {
-    "type": "text/plain; charset=utf-8",
+  "/_nuxt/wrqBHFeW.js.br": {
+    "type": "text/javascript; charset=utf-8",
     "encoding": "br",
-    "etag": "\"108e1-D5FumcD443myEccpDXMtI3ZMT6I\"",
-    "mtime": "2026-09-28T12:01:46.805Z",
-    "size": 67809,
-    "path": "../public/__nuxt_content/docs_en/sql_dump.txt.br"
+    "etag": "\"4a4-d5pquh/yETALe+rhk+eIXETB88M\"",
+    "mtime": "2026-09-29T07:39:35.148Z",
+    "size": 1188,
+    "path": "../public/_nuxt/wrqBHFeW.js.br"
   },
-  "/__nuxt_content/docs_zh/sql_dump.txt": {
-    "type": "text/plain; charset=utf-8",
+  "/_nuxt/yIKNoKXD.js.gz": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": "gzip",
+    "etag": "\"277-0tZhzdIY5dKZ8aS04l4Ec2OP/xg\"",
+    "mtime": "2026-09-29T07:39:35.148Z",
+    "size": 631,
+    "path": "../public/_nuxt/yIKNoKXD.js.gz"
+  },
+  "/_nuxt/yIKNoKXD.js": {
+    "type": "text/javascript; charset=utf-8",
     "encoding": null,
-    "etag": "\"1769c-m8XnT81eZ5OkgmmubGDS+xtHuEY\"",
-    "mtime": "2026-09-28T12:01:46.658Z",
-    "size": 95900,
-    "path": "../public/__nuxt_content/docs_zh/sql_dump.txt"
+    "etag": "\"564-1CfXzNNs9s1pbQOVYdCeCyB2I8s\"",
+    "mtime": "2026-09-29T07:39:33.000Z",
+    "size": 1380,
+    "path": "../public/_nuxt/yIKNoKXD.js"
   },
-  "/__nuxt_content/docs_en/sql_dump.txt.gz": {
-    "type": "text/plain; charset=utf-8",
-    "encoding": "gzip",
-    "etag": "\"109ec-hPPvY9gXSJqj1iVSYrxsyRVANN0\"",
-    "mtime": "2026-09-28T12:01:46.666Z",
-    "size": 68076,
-    "path": "../public/__nuxt_content/docs_en/sql_dump.txt.gz"
-  },
-  "/__nuxt_content/docs_zh/sql_dump.txt.br": {
-    "type": "text/plain; charset=utf-8",
-    "encoding": "br",
-    "etag": "\"1191b-GmS0U8A+mlZAmQkQ4/Bmc8fkoKc\"",
-    "mtime": "2026-09-28T12:01:46.800Z",
-    "size": 71963,
-    "path": "../public/__nuxt_content/docs_zh/sql_dump.txt.br"
-  },
-  "/__nuxt_content/docs_zh/sql_dump.txt.gz": {
-    "type": "text/plain; charset=utf-8",
-    "encoding": "gzip",
-    "etag": "\"119af-tskZUOsmud0LeIME2p9ThywJlQg\"",
-    "mtime": "2026-09-28T12:01:46.666Z",
-    "size": 72111,
-    "path": "../public/__nuxt_content/docs_zh/sql_dump.txt.gz"
-  },
-  "/themes/hoxi/favicon.svg": {
-    "type": "image/svg+xml",
-    "etag": "\"3d8-qHvXjO4XzHlj8TwAh4CaFocMLgQ\"",
-    "mtime": "2026-09-28T12:01:46.940Z",
-    "size": 984,
-    "path": "../public/themes/hoxi/favicon.svg"
+  "/_nuxt/zMTaR6ag.js": {
+    "type": "text/javascript; charset=utf-8",
+    "etag": "\"2bd-pdYGKjbYLV9YvPFoDpT02tzpua8\"",
+    "mtime": "2026-09-29T07:39:33.000Z",
+    "size": 701,
+    "path": "../public/_nuxt/zMTaR6ag.js"
   },
   "/themes/hoxi/avatar-blue.png": {
     "type": "image/png",
     "etag": "\"49b5-MA48j01BzF9lpyxxTdNBWZfo+90\"",
-    "mtime": "2026-09-28T12:01:46.940Z",
+    "mtime": "2026-09-29T07:39:33.011Z",
     "size": 18869,
     "path": "../public/themes/hoxi/avatar-blue.png"
+  },
+  "/__nuxt_content/docs_en/sql_dump.txt.gz": {
+    "type": "text/plain; charset=utf-8",
+    "encoding": "gzip",
+    "etag": "\"10a69-kA1nbaT3Z+RAKKe7lbkmyV2EX1o\"",
+    "mtime": "2026-09-29T07:39:32.731Z",
+    "size": 68201,
+    "path": "../public/__nuxt_content/docs_en/sql_dump.txt.gz"
+  },
+  "/__nuxt_content/docs_en/sql_dump.txt": {
+    "type": "text/plain; charset=utf-8",
+    "encoding": null,
+    "etag": "\"161bc-9RCnjgXJJHmxc5zR6KFuYUtDJOs\"",
+    "mtime": "2026-09-29T07:39:32.725Z",
+    "size": 90556,
+    "path": "../public/__nuxt_content/docs_en/sql_dump.txt"
+  },
+  "/__nuxt_content/docs_en/sql_dump.txt.br": {
+    "type": "text/plain; charset=utf-8",
+    "encoding": "br",
+    "etag": "\"10a1c-+ysobFG33+RtTPWsEKFyNa1brTM\"",
+    "mtime": "2026-09-29T07:39:32.871Z",
+    "size": 68124,
+    "path": "../public/__nuxt_content/docs_en/sql_dump.txt.br"
   },
   "/themes/hoxi/avatar.png": {
     "type": "image/png",
     "etag": "\"4a21-0Q65CT2uhigvLmwLb+64rXxYxVo\"",
-    "mtime": "2026-09-28T12:01:46.939Z",
+    "mtime": "2026-09-29T07:39:33.011Z",
     "size": 18977,
     "path": "../public/themes/hoxi/avatar.png"
   },
   "/themes/hoxi/avatar-light.png": {
     "type": "image/png",
     "etag": "\"4a61-OJN8b3yFSubnbrZ1kE6e5/nzHdQ\"",
-    "mtime": "2026-09-28T12:01:46.940Z",
+    "mtime": "2026-09-29T07:39:33.011Z",
     "size": 19041,
     "path": "../public/themes/hoxi/avatar-light.png"
+  },
+  "/_nuxt/yIKNoKXD.js.br": {
+    "type": "text/javascript; charset=utf-8",
+    "encoding": "br",
+    "etag": "\"230-V69rUDcT5VDIp5OhCF8lCUVl+kA\"",
+    "mtime": "2026-09-29T07:39:35.148Z",
+    "size": 560,
+    "path": "../public/_nuxt/yIKNoKXD.js.br"
+  },
+  "/themes/hoxi/favicon.svg": {
+    "type": "image/svg+xml",
+    "etag": "\"3d8-qHvXjO4XzHlj8TwAh4CaFocMLgQ\"",
+    "mtime": "2026-09-29T07:39:33.011Z",
+    "size": 984,
+    "path": "../public/themes/hoxi/favicon.svg"
+  },
+  "/themes/hoxi/logo.png": {
+    "type": "image/png",
+    "etag": "\"4843-MGoXy4hbACSysIM6Zew3KjoKKFE\"",
+    "mtime": "2026-09-29T07:39:33.011Z",
+    "size": 18499,
+    "path": "../public/themes/hoxi/logo.png"
   },
   "/themes/hoxi/logo.svg": {
     "type": "image/svg+xml",
     "etag": "\"33c-f0n+A2dod436DkB50Epvusnp238\"",
-    "mtime": "2026-09-28T12:01:46.940Z",
+    "mtime": "2026-09-29T07:39:33.011Z",
     "size": 828,
     "path": "../public/themes/hoxi/logo.svg"
   },
   "/themes/hoxi/qrcode_for_gh_258.jpg": {
     "type": "image/jpeg",
     "etag": "\"6ddb-Rwfz35MHK0KYkWZvuXTIHsuWKfA\"",
-    "mtime": "2026-09-28T12:01:46.940Z",
+    "mtime": "2026-09-29T07:39:33.011Z",
     "size": 28123,
     "path": "../public/themes/hoxi/qrcode_for_gh_258.jpg"
   },
-  "/themes/hoxi/logo.png": {
-    "type": "image/png",
-    "etag": "\"4843-MGoXy4hbACSysIM6Zew3KjoKKFE\"",
-    "mtime": "2026-09-28T12:01:46.940Z",
-    "size": 18499,
-    "path": "../public/themes/hoxi/logo.png"
-  },
-  "/_nuxt/builds/meta/4b6c07d3-cbd0-4acf-ad9c-45f4a9e65765.json": {
-    "type": "application/json",
-    "etag": "\"58-dUAV+3WFU5CcgsUGADhpkTu4hpk\"",
-    "mtime": "2026-09-28T12:01:46.840Z",
-    "size": 88,
-    "path": "../public/_nuxt/builds/meta/4b6c07d3-cbd0-4acf-ad9c-45f4a9e65765.json"
+  "/__nuxt_content/docs_zh/sql_dump.txt": {
+    "type": "text/plain; charset=utf-8",
+    "encoding": null,
+    "etag": "\"17754-uDhMQCwYvZBc0el/5Z1EikuZbAw\"",
+    "mtime": "2026-09-29T07:39:32.725Z",
+    "size": 96084,
+    "path": "../public/__nuxt_content/docs_zh/sql_dump.txt"
   },
   "/_nuxt/builds/latest.json": {
     "type": "application/json",
-    "etag": "\"47-AluNz2/CUEwKCZfLSYO7ncoE1J8\"",
-    "mtime": "2026-09-28T12:01:46.843Z",
+    "etag": "\"47-rw902Cqx6ePFdX/0lRMSEeA08tU\"",
+    "mtime": "2026-09-29T07:39:32.910Z",
     "size": 71,
     "path": "../public/_nuxt/builds/latest.json"
+  },
+  "/__nuxt_content/docs_zh/sql_dump.txt.br": {
+    "type": "text/plain; charset=utf-8",
+    "encoding": "br",
+    "etag": "\"119dd-FN8AOExTg5hfO5g5xWYHlUb/hQk\"",
+    "mtime": "2026-09-29T07:39:32.859Z",
+    "size": 72157,
+    "path": "../public/__nuxt_content/docs_zh/sql_dump.txt.br"
+  },
+  "/__nuxt_content/docs_zh/sql_dump.txt.gz": {
+    "type": "text/plain; charset=utf-8",
+    "encoding": "gzip",
+    "etag": "\"11a6c-F6l1qorZ7ta9X44oK+eTQufgoc4\"",
+    "mtime": "2026-09-29T07:39:32.731Z",
+    "size": 72300,
+    "path": "../public/__nuxt_content/docs_zh/sql_dump.txt.gz"
+  },
+  "/_nuxt/builds/meta/152cb8ea-76bb-4634-8ccf-10bfb52e56d1.json": {
+    "type": "application/json",
+    "etag": "\"58-KMyzG6FXjFUes5/BFmCmCLQFJxU\"",
+    "mtime": "2026-09-29T07:39:32.906Z",
+    "size": 88,
+    "path": "../public/_nuxt/builds/meta/152cb8ea-76bb-4634-8ccf-10bfb52e56d1.json"
   }
 };
 
@@ -31354,10 +31431,10 @@ let initPromise = null;
 const ensureHoxiTables = async (db2) => {
   if (initPromise) return initPromise;
   initPromise = (async () => {
-    var _a, _b, _c, _d, _e, _f, _g, _h, _i, _j, _k, _l, _m, _n, _o, _p, _q, _r, _s, _t, _u, _v, _w, _x, _y, _z, _A, _B, _C, _D, _E, _F, _G, _H, _I, _J, _K, _L, _M, _N, _O, _P, _Q, _R, _S, _T, _U, _V, _W, _X, _Y, _Z, __, _$, _aa;
+    var _a, _b, _c, _d, _e, _f, _g, _h, _i, _j, _k, _l, _m, _n, _o, _p, _q, _r, _s, _t, _u, _v, _w, _x, _y, _z, _A, _B, _C, _D, _E, _F, _G, _H, _I, _J, _K, _L, _M, _N, _O, _P, _Q, _R, _S, _T, _U, _V, _W, _X, _Y, _Z, __, _$, _aa, _ba, _ca, _da, _ea, _fa, _ga, _ha, _ia;
     try {
       try {
-        await dbQuery(db2, sql`SELECT id, slug, name, vendor, currency, price_input, price_output, price_cache_read, price_cache_write, context_window, max_output_tokens, scores, badges, scenes, modalities, reasoning, open_weights, is_free, hidden, released_at, updated_at, billing, sources, summary, highlights, caveats, perf, benchmark_variant, aa_slug, created_at FROM hoxi_models LIMIT 0`);
+        await dbQuery(db2, sql`SELECT id, slug, name, vendor, currency, price_input, price_output, price_cache_read, price_cache_write, context_window, max_output_tokens, scores, badges, scenes, modalities, reasoning, open_weights, is_free, hidden, released_at, updated_at, billing, sources, summary, highlights, caveats, perf, benchmark_variant, aa_slug, api_name, gateway_model_name, created_at FROM hoxi_models LIMIT 0`);
         await dbQuery(db2, sql`SELECT id, name, domain, url, models, primary_model_key, latency_ms, uptime, price_per_m, price_label, official_price_cny, savings_percent, is_self_operated, badge, badge_tone, base_url, features, caveat, recommended_models, hidden, sort_order, created_at FROM hoxi_gateways LIMIT 0`);
         await dbQuery(db2, sql`SELECT slug, name, vendor, vendor_label, vendor_color, region, type, price_label, price_monthly_cny, payment_methods, network_requirement, period, quota_note, models, tools, highlights, caveats, recommended_models, status, official_url, guide_url, hidden, sort_order, created_at FROM hoxi_coding_plans LIMIT 0`);
         await dbQuery(db2, sql`SELECT id, role, overall_score, tier, archetype, strongest_dimension, weakest_dimension, scores, answers, client_id, created_at FROM hoxi_readiness_submissions LIMIT 0`);
@@ -31376,7 +31453,8 @@ const ensureHoxiTables = async (db2) => {
               slug, name, vendor, currency, price_input, price_output,
               price_cache_read, price_cache_write, context_window, max_output_tokens,
               scores, badges, scenes, modalities, reasoning, open_weights, is_free, hidden,
-              released_at, updated_at, billing, sources, summary, highlights, caveats
+              released_at, updated_at, billing, sources, summary, highlights, caveats,
+              perf, benchmark_variant, aa_slug, api_name, gateway_model_name
             ) VALUES (
               ${m.slug}, ${m.name}, ${m.vendor}, ${m.price.currency}, ${m.price.input}, ${m.price.output},
               ${(_b = m.price.cacheRead) != null ? _b : null}, ${(_c = m.price.cacheWrite) != null ? _c : null}, ${m.contextWindow}, ${(_d = m.maxOutputTokens) != null ? _d : null},
@@ -31385,7 +31463,9 @@ const ensureHoxiTables = async (db2) => {
               ${m.reasoning ? 1 : 0}, ${m.openWeights ? 1 : 0}, ${m.isFree ? 1 : 0}, 0,
               ${(_e = m.releasedAt) != null ? _e : null}, ${m.updatedAt}, ${m.billing ? JSON.stringify(m.billing) : null},
               ${JSON.stringify(m.sources || [])}, ${m.summary || ""},
-              ${JSON.stringify(m.highlights || [])}, ${JSON.stringify(m.caveats || [])}
+              ${JSON.stringify(m.highlights || [])}, ${JSON.stringify(m.caveats || [])},
+              ${m.perf ? JSON.stringify(m.perf) : null}, ${(_f = m.benchmarkVariant) != null ? _f : null}, ${(_g = m.aaSlug) != null ? _g : null},
+              ${(_h = m.apiName) != null ? _h : null}, ${(_i = m.gatewayModelName) != null ? _i : null}
             )
             ON CONFLICT(slug) DO NOTHING
           `;
@@ -31397,16 +31477,19 @@ const ensureHoxiTables = async (db2) => {
                 slug, name, vendor, currency, price_input, price_output,
                 price_cache_read, price_cache_write, context_window, max_output_tokens,
                 scores, badges, scenes, modalities, reasoning, open_weights, is_free, hidden,
-                released_at, updated_at, billing, sources, summary, highlights, caveats
+                released_at, updated_at, billing, sources, summary, highlights, caveats,
+                perf, benchmark_variant, aa_slug, api_name, gateway_model_name
               ) VALUES (
                 ${m.slug}, ${m.name}, ${m.vendor}, ${m.price.currency}, ${m.price.input}, ${m.price.output},
-                ${(_f = m.price.cacheRead) != null ? _f : null}, ${(_g = m.price.cacheWrite) != null ? _g : null}, ${m.contextWindow}, ${(_h = m.maxOutputTokens) != null ? _h : null},
+                ${(_j = m.price.cacheRead) != null ? _j : null}, ${(_k = m.price.cacheWrite) != null ? _k : null}, ${m.contextWindow}, ${(_l = m.maxOutputTokens) != null ? _l : null},
                 ${JSON.stringify(m.scores)}, ${JSON.stringify(m.badges || [])}, ${JSON.stringify(m.scenes || [])},
                 ${JSON.stringify(m.modalities || ["text"])},
                 ${m.reasoning ? 1 : 0}, ${m.openWeights ? 1 : 0}, ${m.isFree ? 1 : 0}, 0,
-                ${(_i = m.releasedAt) != null ? _i : null}, ${m.updatedAt}, ${m.billing ? JSON.stringify(m.billing) : null},
+                ${(_m = m.releasedAt) != null ? _m : null}, ${m.updatedAt}, ${m.billing ? JSON.stringify(m.billing) : null},
                 ${JSON.stringify(m.sources || [])}, ${m.summary || ""},
-                ${JSON.stringify(m.highlights || [])}, ${JSON.stringify(m.caveats || [])}
+                ${JSON.stringify(m.highlights || [])}, ${JSON.stringify(m.caveats || [])},
+                ${m.perf ? JSON.stringify(m.perf) : null}, ${(_n = m.benchmarkVariant) != null ? _n : null}, ${(_o = m.aaSlug) != null ? _o : null},
+                ${(_p = m.apiName) != null ? _p : null}, ${(_q = m.gatewayModelName) != null ? _q : null}
               )
               ON DUPLICATE KEY UPDATE updated_at = VALUES(updated_at)
             `).catch(() => {
@@ -31415,7 +31498,7 @@ const ensureHoxiTables = async (db2) => {
         }
       }
       const gatewaysCountResult = await dbQuery(db2, sql`SELECT count(*) as count FROM hoxi_gateways`);
-      const gatewaysCount = Number(((_j = gatewaysCountResult == null ? void 0 : gatewaysCountResult[0]) == null ? void 0 : _j.count) || 0);
+      const gatewaysCount = Number(((_r = gatewaysCountResult == null ? void 0 : gatewaysCountResult[0]) == null ? void 0 : _r.count) || 0);
       if (gatewaysCount === 0) {
         let order = 0;
         for (const gw of hoxiGateways) {
@@ -31429,8 +31512,8 @@ const ensureHoxiTables = async (db2) => {
               ${gw.id}, ${gw.name}, ${gw.domain}, ${gw.url}, ${JSON.stringify(gw.models)},
               ${gw.primaryModelKey}, ${gw.latencyMs}, ${gw.uptime}, ${gw.pricePerM},
               ${gw.priceLabel}, ${gw.officialPriceCNY}, ${gw.savingsPercent},
-              ${gw.isSelfOperated ? 1 : 0}, ${(_k = gw.badge) != null ? _k : null}, ${(_l = gw.badgeTone) != null ? _l : null},
-              ${gw.baseUrl}, ${JSON.stringify(gw.features)}, ${(_m = gw.caveat) != null ? _m : null},
+              ${gw.isSelfOperated ? 1 : 0}, ${(_s = gw.badge) != null ? _s : null}, ${(_t = gw.badgeTone) != null ? _t : null},
+              ${gw.baseUrl}, ${JSON.stringify(gw.features)}, ${(_u = gw.caveat) != null ? _u : null},
               ${JSON.stringify(gw.recommendedModels || [])}, 0, ${order}
             )
             ON CONFLICT(id) DO NOTHING
@@ -31447,8 +31530,8 @@ const ensureHoxiTables = async (db2) => {
                 ${gw.id}, ${gw.name}, ${gw.domain}, ${gw.url}, ${JSON.stringify(gw.models)},
                 ${gw.primaryModelKey}, ${gw.latencyMs}, ${gw.uptime}, ${gw.pricePerM},
                 ${gw.priceLabel}, ${gw.officialPriceCNY}, ${gw.savingsPercent},
-                ${gw.isSelfOperated ? 1 : 0}, ${(_n = gw.badge) != null ? _n : null}, ${(_o = gw.badgeTone) != null ? _o : null},
-                ${gw.baseUrl}, ${JSON.stringify(gw.features)}, ${(_p = gw.caveat) != null ? _p : null},
+                ${gw.isSelfOperated ? 1 : 0}, ${(_v = gw.badge) != null ? _v : null}, ${(_w = gw.badgeTone) != null ? _w : null},
+                ${gw.baseUrl}, ${JSON.stringify(gw.features)}, ${(_x = gw.caveat) != null ? _x : null},
                 ${JSON.stringify(gw.recommendedModels || [])}, 0, ${order}
               )
               ON DUPLICATE KEY UPDATE name = VALUES(name)
@@ -31458,7 +31541,7 @@ const ensureHoxiTables = async (db2) => {
         }
       }
       const plansCountResult = await dbQuery(db2, sql`SELECT count(*) as count FROM hoxi_coding_plans`);
-      const plansCount = Number(((_q = plansCountResult == null ? void 0 : plansCountResult[0]) == null ? void 0 : _q.count) || 0);
+      const plansCount = Number(((_y = plansCountResult == null ? void 0 : plansCountResult[0]) == null ? void 0 : _y.count) || 0);
       if (plansCount === 0) {
         let order = 0;
         for (const p of hoxiPlans) {
@@ -31476,8 +31559,8 @@ const ensureHoxiTables = async (db2) => {
               ${p.period}, ${p.quotaNote}, ${JSON.stringify(p.models)},
               ${JSON.stringify(p.tools || [])}, ${JSON.stringify(p.highlights)},
               ${JSON.stringify(p.caveats)}, ${JSON.stringify(p.recommendedModels || [])},
-              ${p.status}, ${(_r = p.officialUrl) != null ? _r : null},
-              ${(_s = p.guideUrl) != null ? _s : null}, 0, ${order}
+              ${p.status}, ${(_z = p.officialUrl) != null ? _z : null},
+              ${(_A = p.guideUrl) != null ? _A : null}, 0, ${order}
             )
             ON CONFLICT(slug) DO NOTHING
           `;
@@ -31497,8 +31580,8 @@ const ensureHoxiTables = async (db2) => {
                 ${p.period}, ${p.quotaNote}, ${JSON.stringify(p.models)},
                 ${JSON.stringify(p.tools || [])}, ${JSON.stringify(p.highlights)},
                 ${JSON.stringify(p.caveats)}, ${JSON.stringify(p.recommendedModels || [])},
-                ${p.status}, ${(_t = p.officialUrl) != null ? _t : null},
-                ${(_u = p.guideUrl) != null ? _u : null}, 0, ${order}
+                ${p.status}, ${(_B = p.officialUrl) != null ? _B : null},
+                ${(_C = p.guideUrl) != null ? _C : null}, 0, ${order}
               )
               ON DUPLICATE KEY UPDATE name = VALUES(name)
             `).catch(() => {
@@ -31507,7 +31590,7 @@ const ensureHoxiTables = async (db2) => {
         }
       }
       const toolsCountResult = await dbQuery(db2, sql`SELECT count(*) as count FROM hoxi_tools`);
-      const toolsCount = Number(((_v = toolsCountResult == null ? void 0 : toolsCountResult[0]) == null ? void 0 : _v.count) || 0);
+      const toolsCount = Number(((_D = toolsCountResult == null ? void 0 : toolsCountResult[0]) == null ? void 0 : _D.count) || 0);
       if (toolsCount === 0) {
         let order = 0;
         for (const t of defaultHoxiTools) {
@@ -31518,8 +31601,8 @@ const ensureHoxiTables = async (db2) => {
               badge, badge_tone, icon, pricing, hidden, sort_order
             ) VALUES (
               ${t.id}, ${t.name}, ${t.category}, ${t.categoryLabel}, ${t.description},
-              ${t.url}, ${(_w = t.affiliateUrl) != null ? _w : null}, ${(_x = t.badge) != null ? _x : null}, ${(_y = t.badgeTone) != null ? _y : null},
-              ${(_z = t.icon) != null ? _z : null}, ${(_A = t.pricing) != null ? _A : null}, ${t.hidden ? 1 : 0}, ${(_B = t.order) != null ? _B : order}
+              ${t.url}, ${(_E = t.affiliateUrl) != null ? _E : null}, ${(_F = t.badge) != null ? _F : null}, ${(_G = t.badgeTone) != null ? _G : null},
+              ${(_H = t.icon) != null ? _H : null}, ${(_I = t.pricing) != null ? _I : null}, ${t.hidden ? 1 : 0}, ${(_J = t.order) != null ? _J : order}
             )
             ON CONFLICT(id) DO NOTHING
           `;
@@ -31532,8 +31615,8 @@ const ensureHoxiTables = async (db2) => {
                 badge, badge_tone, icon, pricing, hidden, sort_order
               ) VALUES (
                 ${t.id}, ${t.name}, ${t.category}, ${t.categoryLabel}, ${t.description},
-                ${t.url}, ${(_C = t.affiliateUrl) != null ? _C : null}, ${(_D = t.badge) != null ? _D : null}, ${(_E = t.badgeTone) != null ? _E : null},
-                ${(_F = t.icon) != null ? _F : null}, ${(_G = t.pricing) != null ? _G : null}, ${t.hidden ? 1 : 0}, ${(_H = t.order) != null ? _H : order}
+                ${t.url}, ${(_K = t.affiliateUrl) != null ? _K : null}, ${(_L = t.badge) != null ? _L : null}, ${(_M = t.badgeTone) != null ? _M : null},
+                ${(_N = t.icon) != null ? _N : null}, ${(_O = t.pricing) != null ? _O : null}, ${t.hidden ? 1 : 0}, ${(_P = t.order) != null ? _P : order}
               )
               ON DUPLICATE KEY UPDATE name = VALUES(name)
             `).catch(() => {
@@ -31542,7 +31625,7 @@ const ensureHoxiTables = async (db2) => {
         }
       }
       const projectsCountResult = await dbQuery(db2, sql`SELECT count(*) as count FROM hoxi_projects`);
-      const projectsCount = Number(((_I = projectsCountResult == null ? void 0 : projectsCountResult[0]) == null ? void 0 : _I.count) || 0);
+      const projectsCount = Number(((_Q = projectsCountResult == null ? void 0 : projectsCountResult[0]) == null ? void 0 : _Q.count) || 0);
       if (projectsCount === 0) {
         let order = 0;
         for (const p of defaultHoxiProjects) {
@@ -31554,11 +31637,11 @@ const ensureHoxiTables = async (db2) => {
               icon, url, github_url, story_url, highlights, hidden, sort_order
             ) VALUES (
               ${p.id}, ${p.name}, ${p.tagline}, ${p.description}, ${p.category}, ${p.categoryLabel},
-              ${p.status}, ${(_J = p.statusLabel) != null ? _J : null}, ${(_K = p.modelUsed) != null ? _K : null}, ${(_L = p.monthlyCost) != null ? _L : null},
-              ${JSON.stringify(p.techStack || [])}, ${p.author}, ${(_M = p.authorUrl) != null ? _M : null},
-              ${(_N = p.badge) != null ? _N : null}, ${(_O = p.badgeTone) != null ? _O : null}, ${(_P = p.icon) != null ? _P : null}, ${p.url},
-              ${(_Q = p.githubUrl) != null ? _Q : null}, ${(_R = p.storyUrl) != null ? _R : null}, ${JSON.stringify(p.highlights || [])},
-              ${p.hidden ? 1 : 0}, ${(_S = p.order) != null ? _S : order}
+              ${p.status}, ${(_R = p.statusLabel) != null ? _R : null}, ${(_S = p.modelUsed) != null ? _S : null}, ${(_T = p.monthlyCost) != null ? _T : null},
+              ${JSON.stringify(p.techStack || [])}, ${p.author}, ${(_U = p.authorUrl) != null ? _U : null},
+              ${(_V = p.badge) != null ? _V : null}, ${(_W = p.badgeTone) != null ? _W : null}, ${(_X = p.icon) != null ? _X : null}, ${p.url},
+              ${(_Y = p.githubUrl) != null ? _Y : null}, ${(_Z = p.storyUrl) != null ? _Z : null}, ${JSON.stringify(p.highlights || [])},
+              ${p.hidden ? 1 : 0}, ${(__ = p.order) != null ? __ : order}
             )
             ON CONFLICT(id) DO NOTHING
           `;
@@ -31572,11 +31655,11 @@ const ensureHoxiTables = async (db2) => {
                 icon, url, github_url, story_url, highlights, hidden, sort_order
               ) VALUES (
                 ${p.id}, ${p.name}, ${p.tagline}, ${p.description}, ${p.category}, ${p.categoryLabel},
-                ${p.status}, ${(_T = p.statusLabel) != null ? _T : null}, ${(_U = p.modelUsed) != null ? _U : null}, ${(_V = p.monthlyCost) != null ? _V : null},
-                ${JSON.stringify(p.techStack || [])}, ${p.author}, ${(_W = p.authorUrl) != null ? _W : null},
-                ${(_X = p.badge) != null ? _X : null}, ${(_Y = p.badgeTone) != null ? _Y : null}, ${(_Z = p.icon) != null ? _Z : null}, ${p.url},
-                ${(__ = p.githubUrl) != null ? __ : null}, ${(_$ = p.storyUrl) != null ? _$ : null}, ${JSON.stringify(p.highlights || [])},
-                ${p.hidden ? 1 : 0}, ${(_aa = p.order) != null ? _aa : order}
+                ${p.status}, ${(_$ = p.statusLabel) != null ? _$ : null}, ${(_aa = p.modelUsed) != null ? _aa : null}, ${(_ba = p.monthlyCost) != null ? _ba : null},
+                ${JSON.stringify(p.techStack || [])}, ${p.author}, ${(_ca = p.authorUrl) != null ? _ca : null},
+                ${(_da = p.badge) != null ? _da : null}, ${(_ea = p.badgeTone) != null ? _ea : null}, ${(_fa = p.icon) != null ? _fa : null}, ${p.url},
+                ${(_ga = p.githubUrl) != null ? _ga : null}, ${(_ha = p.storyUrl) != null ? _ha : null}, ${JSON.stringify(p.highlights || [])},
+                ${p.hidden ? 1 : 0}, ${(_ia = p.order) != null ? _ia : order}
               )
               ON DUPLICATE KEY UPDATE name = VALUES(name)
             `).catch(() => {
@@ -32335,6 +32418,8 @@ const fullModelSchema = z.object({
     ttft: z.number().optional()
   }).optional(),
   aaSlug: z.string().optional(),
+  apiName: z.string().optional(),
+  gatewayModelName: z.string().optional(),
   releasedAt: z.string().optional(),
   summary: z.string().optional().default(""),
   highlights: z.array(z.string()).optional().default([]),
@@ -32375,7 +32460,7 @@ const bodySchema$5 = z.object({
   homeSettings: homeSettingsSchema.optional()
 });
 const _6E2o6N = defineEventHandler(async (event) => {
-  var _a, _b, _c, _d, _e, _f, _g, _h, _i, _j, _k, _l;
+  var _a, _b, _c, _d, _e, _f, _g, _h, _i, _j, _k, _l, _m, _n, _o, _p;
   await ensureHoxiTables(db$1);
   const body = bodySchema$5.parse(await readBody(event));
   const today = (/* @__PURE__ */ new Date()).toISOString().split("T")[0];
@@ -32387,7 +32472,7 @@ const _6E2o6N = defineEventHandler(async (event) => {
           price_cache_read, price_cache_write, context_window, max_output_tokens,
           scores, badges, scenes, modalities, reasoning, open_weights, is_free, hidden,
           released_at, updated_at, billing, sources, summary, highlights, caveats,
-          perf, benchmark_variant, aa_slug
+          perf, benchmark_variant, aa_slug, api_name, gateway_model_name
         ) VALUES (
           ${m.slug}, ${m.name}, ${m.vendor}, ${m.price.currency}, ${m.price.input}, ${m.price.output},
           ${(_a = m.price.cacheRead) != null ? _a : null}, ${(_b = m.price.cacheWrite) != null ? _b : null}, ${m.contextWindow}, ${(_c = m.maxOutputTokens) != null ? _c : null},
@@ -32397,7 +32482,8 @@ const _6E2o6N = defineEventHandler(async (event) => {
           ${(_d = m.releasedAt) != null ? _d : null}, ${m.updatedAt || today}, ${m.billing ? JSON.stringify(m.billing) : null},
           ${JSON.stringify(m.sources || [])}, ${m.summary || ""},
           ${JSON.stringify(m.highlights || [])}, ${JSON.stringify(m.caveats || [])},
-          ${m.perf ? JSON.stringify(m.perf) : null}, ${(_e = m.benchmarkVariant) != null ? _e : null}, ${(_f = m.aaSlug) != null ? _f : null}
+          ${m.perf ? JSON.stringify(m.perf) : null}, ${(_e = m.benchmarkVariant) != null ? _e : null}, ${(_f = m.aaSlug) != null ? _f : null},
+          ${(_g = m.apiName) != null ? _g : null}, ${(_h = m.gatewayModelName) != null ? _h : null}
         )
         ON CONFLICT(slug) DO UPDATE SET
           name = EXCLUDED.name,
@@ -32422,6 +32508,8 @@ const _6E2o6N = defineEventHandler(async (event) => {
           perf = EXCLUDED.perf,
           benchmark_variant = EXCLUDED.benchmark_variant,
           aa_slug = EXCLUDED.aa_slug,
+          api_name = EXCLUDED.api_name,
+          gateway_model_name = EXCLUDED.gateway_model_name,
           updated_at = EXCLUDED.updated_at
       `;
       await dbRun(db$1, upsertSql);
@@ -32443,17 +32531,18 @@ const _6E2o6N = defineEventHandler(async (event) => {
         price_cache_read, price_cache_write, context_window, max_output_tokens,
         scores, badges, scenes, modalities, reasoning, open_weights, is_free, hidden,
         released_at, updated_at, billing, sources, summary, highlights, caveats,
-        perf, benchmark_variant, aa_slug
+        perf, benchmark_variant, aa_slug, api_name, gateway_model_name
       ) VALUES (
         ${m.slug}, ${m.name}, ${m.vendor}, ${m.price.currency}, ${m.price.input}, ${m.price.output},
-        ${(_g = m.price.cacheRead) != null ? _g : null}, ${(_h = m.price.cacheWrite) != null ? _h : null}, ${m.contextWindow}, ${(_i = m.maxOutputTokens) != null ? _i : null},
+        ${(_i = m.price.cacheRead) != null ? _i : null}, ${(_j = m.price.cacheWrite) != null ? _j : null}, ${m.contextWindow}, ${(_k = m.maxOutputTokens) != null ? _k : null},
         ${JSON.stringify(m.scores)}, ${JSON.stringify(m.badges)}, ${JSON.stringify(m.scenes)},
         ${JSON.stringify(m.modalities || ["text"])},
         ${m.reasoning ? 1 : 0}, ${m.openWeights ? 1 : 0}, ${m.isFree ? 1 : 0}, ${m.hidden ? 1 : 0},
-        ${(_j = m.releasedAt) != null ? _j : null}, ${today}, ${m.billing ? JSON.stringify(m.billing) : null},
+        ${(_l = m.releasedAt) != null ? _l : null}, ${today}, ${m.billing ? JSON.stringify(m.billing) : null},
         ${JSON.stringify(m.sources)}, ${m.summary || ""},
         ${JSON.stringify(m.highlights)}, ${JSON.stringify(m.caveats)},
-        ${m.perf ? JSON.stringify(m.perf) : null}, ${(_k = m.benchmarkVariant) != null ? _k : null}, ${(_l = m.aaSlug) != null ? _l : null}
+        ${m.perf ? JSON.stringify(m.perf) : null}, ${(_m = m.benchmarkVariant) != null ? _m : null}, ${(_n = m.aaSlug) != null ? _n : null},
+        ${(_o = m.apiName) != null ? _o : null}, ${(_p = m.gatewayModelName) != null ? _p : null}
       )
       ON CONFLICT(slug) DO UPDATE SET
         name = EXCLUDED.name,
@@ -32479,6 +32568,8 @@ const _6E2o6N = defineEventHandler(async (event) => {
         perf = EXCLUDED.perf,
         benchmark_variant = EXCLUDED.benchmark_variant,
         aa_slug = EXCLUDED.aa_slug,
+        api_name = EXCLUDED.api_name,
+        gateway_model_name = EXCLUDED.gateway_model_name,
         updated_at = ${today}
     `;
     await dbRun(db$1, upsertSql);
@@ -33206,6 +33297,8 @@ const _EoMSIk = defineEventHandler(async () => {
     benchmarkVariant: row.benchmark_variant || void 0,
     perf: safeJsonParse(row.perf, void 0),
     aaSlug: row.aa_slug || void 0,
+    apiName: row.api_name || void 0,
+    gatewayModelName: row.gateway_model_name || void 0,
     releasedAt: row.released_at || void 0,
     updatedAt: row.updated_at || "",
     billing: safeJsonParse(row.billing, void 0),
@@ -35285,7 +35378,7 @@ function getAppStoreStats() {
   }
 }
 
-const _PMP7DN = defineEventHandler(async (event) => {
+const _u4f4cx = defineEventHandler(async (event) => {
   const body = await readBody(event).catch(() => ({}));
   try {
     const result = await buildAppStore({
@@ -35595,7 +35688,7 @@ async function resetPackage(key, version) {
   }
 }
 
-const _68vRfH = defineEventHandler(async (event) => {
+const _kXL_41 = defineEventHandler(async (event) => {
   const method = getMethod(event);
   const query = getQuery(event);
   const key = String(query.key || "").trim();
@@ -35672,7 +35765,7 @@ const _68vRfH = defineEventHandler(async (event) => {
   return { code: 405, message: "\u4E0D\u652F\u6301\u7684 HTTP \u8BF7\u6C42\u65B9\u6CD5" };
 });
 
-const _LHytWQ = defineEventHandler(async () => {
+const _yFiolC = defineEventHandler(async () => {
   const stats = getAppStoreStats();
   return {
     code: 0,
@@ -35680,6 +35773,255 @@ const _LHytWQ = defineEventHandler(async () => {
   };
 });
 
+const INSTALL_EVENTS = ["install_success", "upgrade_success", "upgrade_failed", "agent_upgrade_success"];
+const DEDUPE_WINDOW_MS = 10 * 60 * 1e3;
+const ACTIVE_WINDOW_MS = 30 * 24 * 60 * 60 * 1e3;
+let dialectCache = null;
+const currentDialect = () => {
+  dialectCache || (dialectCache = getD1Binding() ? "sqlite" : resolveCoreDatabaseTarget().dialect);
+  return dialectCache;
+};
+const queryRows = async (query) => {
+  const dialect = currentDialect();
+  if (dialect === "postgresql") return [...await db$1.execute(query)];
+  if (dialect === "mysql") {
+    const [rows] = await db$1.execute(query);
+    return rows;
+  }
+  return await db$1.all(query);
+};
+const runStatement = async (query) => {
+  if (currentDialect() === "sqlite") await db$1.run(query);
+  else await db$1.execute(query);
+};
+const camelKey = (key) => key.replace(/_([a-z])/g, (_match, letter) => letter.toUpperCase());
+const NUMERIC_KEYS = /* @__PURE__ */ new Set(["id", "installCount", "upgradeCount", "upgradeFailedCount", "total"]);
+const toCamelRow = (row) => Object.fromEntries(
+  Object.entries(row).map(([key, value]) => {
+    const name = camelKey(key);
+    return [name, NUMERIC_KEYS.has(name) && value !== null ? Number(value) : value];
+  })
+);
+const countOf = (rows, key = "total") => {
+  var _a, _b;
+  return Number((_b = (_a = rows[0]) == null ? void 0 : _a[key]) != null ? _b : 0);
+};
+const limitClause = (page, pageSize) => sql.raw(`LIMIT ${Math.trunc(pageSize)} OFFSET ${Math.trunc((page - 1) * pageSize)}`);
+const versionEffects = (report) => {
+  switch (report.event) {
+    case "install_success":
+      return { firstVersion: report.version, currentVersion: report.version, agentVersion: null };
+    case "upgrade_success":
+      return { firstVersion: report.fromVersion, currentVersion: report.version, agentVersion: null };
+    case "upgrade_failed":
+      return { firstVersion: report.fromVersion, currentVersion: report.fromVersion, agentVersion: null };
+    case "agent_upgrade_success":
+      return { firstVersion: null, currentVersion: null, agentVersion: report.version };
+  }
+};
+const insertEvent = (report, now) => runStatement(sql`
+  INSERT INTO panel_install_events (
+    package, install_id, event, version, from_version, source, public_ip, country, region, city,
+    channel, os, arch, distro, machine, kernel, runtime, user_agent, created_at
+  ) VALUES (
+    ${report.package}, ${report.installId}, ${report.event}, ${report.version}, ${report.fromVersion},
+    ${report.source}, ${report.publicIp}, ${report.country}, ${report.region}, ${report.city},
+    ${report.channel}, ${report.os}, ${report.arch}, ${report.distro}, ${report.machine},
+    ${report.kernel}, ${report.runtime}, ${report.userAgent}, ${now}
+  )
+`);
+const insertInstall = (report, now) => {
+  const versions = versionEffects(report);
+  return runStatement(sql`
+    INSERT INTO panel_installs (
+      package, install_id, public_ip, country, region, city, channel, source,
+      first_version, current_version, agent_version, os, arch, distro, machine, kernel, runtime,
+      install_count, upgrade_count, upgrade_failed_count,
+      first_seen_at, last_installed_at, last_upgraded_at, last_seen_at
+    ) VALUES (
+      ${report.package}, ${report.installId}, ${report.publicIp}, ${report.country}, ${report.region},
+      ${report.city}, ${report.channel}, ${report.source},
+      ${versions.firstVersion}, ${versions.currentVersion}, ${versions.agentVersion},
+      ${report.os}, ${report.arch}, ${report.distro}, ${report.machine}, ${report.kernel}, ${report.runtime},
+      ${report.event === "install_success" ? 1 : 0}, ${report.event === "upgrade_success" ? 1 : 0},
+      ${report.event === "upgrade_failed" ? 1 : 0},
+      ${now}, ${report.event === "install_success" ? now : null},
+      ${report.event === "upgrade_success" ? now : null}, ${now}
+    )
+  `);
+};
+const updateInstall = (report, now) => {
+  const versions = versionEffects(report);
+  const location = report.publicIp ? sql`public_ip = ${report.publicIp}, country = ${report.country}, region = ${report.region}, city = ${report.city},` : sql``;
+  return runStatement(sql`
+    UPDATE panel_installs SET
+      ${location}
+      channel = COALESCE(${report.channel}, channel),
+      source = COALESCE(${report.source}, source),
+      first_version = COALESCE(first_version, ${versions.firstVersion}),
+      current_version = COALESCE(${versions.currentVersion}, current_version),
+      agent_version = COALESCE(${versions.agentVersion}, agent_version),
+      os = COALESCE(${report.os}, os),
+      arch = COALESCE(${report.arch}, arch),
+      distro = COALESCE(${report.distro}, distro),
+      machine = COALESCE(${report.machine}, machine),
+      kernel = COALESCE(${report.kernel}, kernel),
+      runtime = COALESCE(${report.runtime}, runtime),
+      install_count = install_count + ${report.event === "install_success" ? 1 : 0},
+      upgrade_count = upgrade_count + ${report.event === "upgrade_success" ? 1 : 0},
+      upgrade_failed_count = upgrade_failed_count + ${report.event === "upgrade_failed" ? 1 : 0},
+      last_installed_at = COALESCE(${report.event === "install_success" ? now : null}, last_installed_at),
+      last_upgraded_at = COALESCE(${report.event === "upgrade_success" ? now : null}, last_upgraded_at),
+      last_seen_at = ${now}
+    WHERE package = ${report.package} AND install_id = ${report.installId}
+  `);
+};
+const installExists = async (report) => (await queryRows(sql`
+  SELECT install_id FROM panel_installs
+  WHERE package = ${report.package} AND install_id = ${report.installId}
+  LIMIT 1
+`)).length > 0;
+const recordInstallEvent = async (report) => {
+  var _a;
+  const nowMs = Date.now();
+  const now = new Date(nowMs).toISOString();
+  const dedupeSince = new Date(nowMs - DEDUPE_WINDOW_MS).toISOString();
+  const duplicate = await queryRows(sql`
+    SELECT id FROM panel_install_events
+    WHERE package = ${report.package} AND install_id = ${report.installId} AND event = ${report.event}
+      AND COALESCE(version, '') = ${(_a = report.version) != null ? _a : ""} AND created_at >= ${dedupeSince}
+    LIMIT 1
+  `);
+  if (duplicate.length) return { deduped: true };
+  await insertEvent(report, now);
+  if (await installExists(report)) {
+    await updateInstall(report, now);
+    return { deduped: false };
+  }
+  try {
+    await insertInstall(report, now);
+  } catch (error) {
+    if (!await installExists(report)) throw error;
+    await updateInstall(report, now);
+  }
+  return { deduped: false };
+};
+
+const _2fdz5R = defineEventHandler(async (event) => {
+  const query = getQuery(event);
+  const pkg = typeof query.pkg === "string" && query.pkg ? query.pkg.slice(0, 32) : "gopanel";
+  const page = Math.max(1, Math.trunc(Number(query.page)) || 1);
+  const pageSize = Math.min(Math.max(1, Math.trunc(Number(query.pageSize)) || 25), 100);
+  const installId = typeof query.installId === "string" ? query.installId.trim().slice(0, 64) : "";
+  const eventName = typeof query.event === "string" && INSTALL_EVENTS.includes(query.event) ? query.event : "";
+  const conditions = [sql`package = ${pkg}`];
+  if (installId) conditions.push(sql`install_id = ${installId}`);
+  if (eventName) conditions.push(sql`event = ${eventName}`);
+  const where = sql.join(conditions, sql` AND `);
+  const [countRows, rows] = await Promise.all([
+    queryRows(sql`SELECT COUNT(*) AS total FROM panel_install_events WHERE ${where}`),
+    queryRows(sql`
+      SELECT * FROM panel_install_events
+      WHERE ${where}
+      ORDER BY created_at DESC, id DESC
+      ${limitClause(page, pageSize)}
+    `)
+  ]);
+  return {
+    total: countOf(countRows),
+    page,
+    pageSize,
+    events: rows.map(toCamelRow)
+  };
+});
+
+const _PaFnQq = defineEventHandler(async (event) => {
+  const query = getQuery(event);
+  const pkg = typeof query.pkg === "string" && query.pkg ? query.pkg.slice(0, 32) : "gopanel";
+  const page = Math.max(1, Math.trunc(Number(query.page)) || 1);
+  const pageSize = Math.min(Math.max(1, Math.trunc(Number(query.pageSize)) || 25), 100);
+  const keyword = typeof query.q === "string" ? query.q.trim().slice(0, 64) : "";
+  const pattern = `%${keyword}%`;
+  const where = keyword ? sql`package = ${pkg} AND (install_id LIKE ${pattern} OR public_ip LIKE ${pattern})` : sql`package = ${pkg}`;
+  const [countRows, rows] = await Promise.all([
+    queryRows(sql`SELECT COUNT(*) AS total FROM panel_installs WHERE ${where}`),
+    queryRows(sql`
+      SELECT * FROM panel_installs
+      WHERE ${where}
+      ORDER BY last_seen_at DESC, install_id ASC
+      ${limitClause(page, pageSize)}
+    `)
+  ]);
+  return {
+    total: countOf(countRows),
+    page,
+    pageSize,
+    servers: rows.map(toCamelRow)
+  };
+});
+
+const DISTRIBUTION_COLUMNS = {
+  versions: "current_version",
+  countries: "country",
+  os: "os",
+  arch: "arch",
+  distros: "distro",
+  channels: "channel"
+};
+const _DnkeTE = defineEventHandler(async (event) => {
+  const query = getQuery(event);
+  const pkg = typeof query.pkg === "string" && query.pkg ? query.pkg.slice(0, 32) : "gopanel";
+  const activeSince = new Date(Date.now() - ACTIVE_WINDOW_MS).toISOString();
+  const loadDistribution = async (column) => {
+    const rows = await queryRows(sql`
+      SELECT ${sql.raw(column)} AS name, COUNT(*) AS total
+      FROM panel_installs
+      WHERE package = ${pkg}
+      GROUP BY ${sql.raw(column)}
+      ORDER BY total DESC
+      LIMIT 10
+    `);
+    return rows.map((row) => ({ name: row.name ? String(row.name) : "", total: Number(row.total) || 0 }));
+  };
+  const [totalRows, recentRows, ...distributionRows] = await Promise.all([
+    queryRows(sql`
+      SELECT
+        COUNT(*) AS servers,
+        COUNT(DISTINCT public_ip) AS ips,
+        COALESCE(SUM(install_count), 0) AS installs,
+        COALESCE(SUM(upgrade_count), 0) AS upgrades,
+        COALESCE(SUM(upgrade_failed_count), 0) AS upgrade_failures,
+        COALESCE(SUM(CASE WHEN last_seen_at >= ${activeSince} THEN 1 ELSE 0 END), 0) AS active
+      FROM panel_installs
+      WHERE package = ${pkg}
+    `),
+    queryRows(sql`
+      SELECT event, COUNT(*) AS total
+      FROM panel_install_events
+      WHERE package = ${pkg} AND created_at >= ${activeSince}
+      GROUP BY event
+    `),
+    ...Object.values(DISTRIBUTION_COLUMNS).map(loadDistribution)
+  ]);
+  const totals = totalRows[0] || {};
+  const distributions = Object.fromEntries(
+    Object.keys(DISTRIBUTION_COLUMNS).map((key, index) => [key, distributionRows[index] || []])
+  );
+  return {
+    totals: {
+      servers: Number(totals.servers) || 0,
+      ips: Number(totals.ips) || 0,
+      active: Number(totals.active) || 0,
+      installs: Number(totals.installs) || 0,
+      upgrades: Number(totals.upgrades) || 0,
+      upgradeFailures: Number(totals.upgrade_failures) || 0
+    },
+    recent: Object.fromEntries(recentRows.map((row) => [String(row.event), Number(row.total) || 0])),
+    distributions
+  };
+});
+
+const PACKAGE_SEGMENT_PATTERN = /^[A-Za-z0-9][A-Za-z0-9._-]{0,63}$/;
 let cachedAppsData = null;
 function loadAppsData(forceReload = false) {
   if (cachedAppsData && !forceReload) return cachedAppsData;
@@ -35721,32 +36063,18 @@ const _OnF7Aq = defineEventHandler(async (event) => {
   const key = query.key || "";
   const version = query.version || "";
   const format = query.format || "";
-  if (action === "stats") {
-    return {
-      code: 0,
-      data: getAppStoreStats()
-    };
-  }
-  if (action === "build" || method === "POST" && !query.action) {
-    const body = await readBody(event).catch(() => ({}));
-    try {
-      const res = await buildAppStore({
-        sourceUrl: body == null ? void 0 : body.sourceUrl,
-        sourcePath: body == null ? void 0 : body.sourcePath,
-        force: true
-      });
-      loadAppsData(true);
-      return { code: 0, message: "\u6784\u5EFA\u6210\u529F", data: res };
-    } catch (err) {
-      setResponseStatus(event, 500);
-      return { code: 500, message: (err == null ? void 0 : err.message) || "\u6784\u5EFA\u5931\u8D25" };
-    }
+  if (method !== "GET" && method !== "HEAD") {
+    setResponseStatus(event, 405);
+    return { code: 405, message: "\u4E0D\u652F\u6301\u7684 HTTP \u8BF7\u6C42\u65B9\u6CD5" };
   }
   if (action === "download" || action === "package" || format === "zip") {
     if (key && version) {
-      const force = query.force === "1" || query.force === "true";
+      if (!PACKAGE_SEGMENT_PATTERN.test(key) || !PACKAGE_SEGMENT_PATTERN.test(version)) {
+        setResponseStatus(event, 400);
+        return { code: 400, message: "\u975E\u6CD5\u7684 key \u6216 version" };
+      }
       try {
-        const { filePath } = await ensureCleanedPackage(key, version, { force });
+        const { filePath } = await ensureCleanedPackage(key, version);
         if (fs$1.existsSync(filePath)) {
           const stat = fs$1.statSync(filePath);
           setHeader(event, "Content-Type", "application/gzip");
@@ -35777,41 +36105,6 @@ const _OnF7Aq = defineEventHandler(async (event) => {
       }
     }
   }
-  if (action === "compose" && key && version) {
-    if (method === "GET") {
-      try {
-        const data = await getPackageCompose(key, version);
-        return { code: 0, message: "\u8BFB\u53D6\u6210\u529F", data };
-      } catch (err) {
-        setResponseStatus(event, 500);
-        return { code: 500, message: (err == null ? void 0 : err.message) || "\u8BFB\u53D6 docker-compose.yml \u5931\u8D25" };
-      }
-    }
-    if (method === "POST") {
-      const body = await readBody(event).catch(() => ({}));
-      const composeContent = typeof (body == null ? void 0 : body.compose) === "string" ? body.compose : "";
-      if (!composeContent.trim()) {
-        setResponseStatus(event, 400);
-        return { code: 400, message: "docker-compose.yml \u5185\u5BB9\u4E0D\u80FD\u4E3A\u7A7A" };
-      }
-      try {
-        const data = await savePackageCompose(key, version, composeContent);
-        return { code: 0, message: "docker-compose.yml \u5DF2\u66F4\u65B0\u5E76\u91CD\u65B0\u6253\u5305\u8986\u76D6\uFF01", data };
-      } catch (err) {
-        setResponseStatus(event, 500);
-        return { code: 500, message: (err == null ? void 0 : err.message) || "\u66F4\u65B0\u91CD\u6253\u5305\u5931\u8D25" };
-      }
-    }
-    if (method === "DELETE") {
-      try {
-        const data = await resetPackage(key, version);
-        return { code: 0, message: "\u5DF2\u6062\u590D\u4E0A\u6E38\u5B98\u65B9\u6E05\u6D17\u5305", data };
-      } catch (err) {
-        setResponseStatus(event, 500);
-        return { code: 500, message: (err == null ? void 0 : err.message) || "\u91CD\u7F6E\u5931\u8D25" };
-      }
-    }
-  }
   const appsData = loadAppsData();
   if (action === "detail" && key) {
     setHeader(event, "Cache-Control", "public, max-age=300, stale-while-revalidate=600");
@@ -35829,262 +36122,83 @@ const _OnF7Aq = defineEventHandler(async (event) => {
   return appsData;
 });
 
-const normalize$3 = (value) => {
-  if (typeof value !== "string") return "";
-  return value.replace(/"/g, "").trim();
+const INSTALL_ID_PATTERN = /^[A-Za-z0-9_-]{8,64}$/;
+const PACKAGE_PATTERN = /^[a-z0-9_-]{1,32}$/;
+const SOURCE_PATTERN = /^[a-z_-]{1,16}$/;
+const text$2 = (value, maxLength) => {
+  if (typeof value !== "string") return null;
+  const cleaned = value.replace(/[\u0000-\u001f"]/g, "").trim();
+  return cleaned ? cleaned.slice(0, maxLength) : null;
 };
-const safeJson = (value) => {
-  if (!value) return {};
-  try {
-    return JSON.parse(value);
-  } catch (_) {
-    return {};
-  }
+const versionText = (value) => {
+  var _a;
+  return ((_a = text$2(value, 64)) == null ? void 0 : _a.replace(/^v(?=\d)/i, "")) || null;
 };
-const _ZLmAmf = defineEventHandler(async (event) => {
-  const query = getQuery(event);
-  const pkg = normalize$3(query.package || query.pkg) || "gopanel";
-  const eventName = normalize$3(query.event || query.eventName);
-  const installId = normalize$3(query.install_id || query.installId || query.id);
-  const page = Number(query.page || 1) || 1;
-  const pageSize = Math.min(Number(query.pageSize || 50) || 50, 200);
-  const offset = (page - 1) * pageSize;
-  const source = "gopanel.install";
-  const conditions = [
-    eq(logs.source, source),
-    like(logs.message, `${pkg}:%`)
-  ];
-  if (eventName) {
-    conditions.push(like(logs.message, `${pkg}:${eventName}:%`));
-  }
-  if (installId) {
-    conditions.push(like(logs.message, `%:${installId}:%`));
-  }
-  const [{ value: total }] = await db$1.select({ value: count() }).from(logs).where(and(...conditions));
-  const rows = await db$1.select().from(logs).where(and(...conditions)).orderBy(desc(logs.createdAt)).limit(pageSize).offset(offset);
-  const records = rows.map((row) => {
-    const details = safeJson(row.details);
-    return {
-      id: row.id,
-      createdAt: row.createdAt ? new Date(row.createdAt).toISOString() : "",
-      message: row.message,
-      package: details.package || pkg,
-      eventName: details.eventName || "",
-      installId: details.installId || "",
-      version: details.version || "",
-      channel: details.channel || "",
-      os: details.os || "",
-      arch: details.arch || "",
-      distro: details.distro || "",
-      machine: details.machine || "",
-      kernel: details.kernel || "",
-      runtime: details.runtime || "",
-      ip: details.ip || "",
-      userAgent: details.userAgent || ""
-    };
-  });
-  return {
-    package: pkg,
-    total,
-    page,
-    pageSize,
-    records
-  };
-});
-
-const normalize$2 = (value) => {
-  if (typeof value !== "string") return "";
-  return value.replace(/"/g, "").trim();
+const isInstallEvent = (value) => Boolean(value) && INSTALL_EVENTS.includes(value);
+const resolveReporter = async (event) => {
+  var _a, _b, _c, _d, _e, _f;
+  const geo = await resolveRequestGeo(event);
+  if (isPublicIp(geo.ip)) return geo;
+  const forwardedFor = (_b = (_a = getHeader(event, "x-forwarded-for")) == null ? void 0 : _a.split(",").pop()) == null ? void 0 : _b.trim();
+  const forwarded = ((_c = getHeader(event, "x-real-ip")) == null ? void 0 : _c.trim()) || forwardedFor || null;
+  if (!forwarded || !isPublicIp(forwarded)) return geo;
+  const local = await lookupLocalGeo(forwarded);
+  return { ip: forwarded, country: (_d = local == null ? void 0 : local.country) != null ? _d : null, region: (_e = local == null ? void 0 : local.region) != null ? _e : null, city: (_f = local == null ? void 0 : local.city) != null ? _f : null };
 };
-const readJson = (value) => {
-  if (!value) return {};
-  try {
-    return JSON.parse(value);
-  } catch (_) {
-    return {};
-  }
-};
-const _d8uLDi = defineEventHandler(async (event) => {
-  var _a, _b, _c, _d, _e, _f, _g, _h, _i;
-  const query = getQuery(event);
-  const pkg = normalize$2(query.package || query.pkg) || "gopanel";
-  const installPrefix = `${pkg}.install_success.`;
-  const upgradePrefix = `${pkg}.upgrade_success.`;
-  const totalInstall = await db$1.select().from(settings).where(eq(settings.key, `${installPrefix}total`)).limit(1);
-  const totalUpgrade = await db$1.select().from(settings).where(eq(settings.key, `${upgradePrefix}total`)).limit(1);
-  const installByChannel = await db$1.select().from(settings).where(eq(settings.key, `${installPrefix}by_channel`)).limit(1);
-  const upgradeByChannel = await db$1.select().from(settings).where(eq(settings.key, `${upgradePrefix}by_channel`)).limit(1);
-  const upgradeByVersion = await db$1.select().from(settings).where(eq(settings.key, `${upgradePrefix}by_version`)).limit(1);
-  const installByOs = await db$1.select().from(settings).where(eq(settings.key, `${installPrefix}by_os`)).limit(1);
-  const installByArch = await db$1.select().from(settings).where(eq(settings.key, `${installPrefix}by_arch`)).limit(1);
-  const upgradeByOs = await db$1.select().from(settings).where(eq(settings.key, `${upgradePrefix}by_os`)).limit(1);
-  const upgradeByArch = await db$1.select().from(settings).where(eq(settings.key, `${upgradePrefix}by_arch`)).limit(1);
-  const extraKeys = await db$1.select().from(settings).where(like(settings.key, `${pkg}.%`));
-  return {
-    package: pkg,
-    totals: {
-      installs: Number(((_a = totalInstall[0]) == null ? void 0 : _a.value) || 0),
-      upgrades: Number(((_b = totalUpgrade[0]) == null ? void 0 : _b.value) || 0)
-    },
-    installs: {
-      byChannel: readJson(((_c = installByChannel[0]) == null ? void 0 : _c.value) || ""),
-      byOs: readJson(((_d = installByOs[0]) == null ? void 0 : _d.value) || ""),
-      byArch: readJson(((_e = installByArch[0]) == null ? void 0 : _e.value) || "")
-    },
-    upgrades: {
-      byChannel: readJson(((_f = upgradeByChannel[0]) == null ? void 0 : _f.value) || ""),
-      byVersion: readJson(((_g = upgradeByVersion[0]) == null ? void 0 : _g.value) || ""),
-      byOs: readJson(((_h = upgradeByOs[0]) == null ? void 0 : _h.value) || ""),
-      byArch: readJson(((_i = upgradeByArch[0]) == null ? void 0 : _i.value) || "")
-    },
-    rawKeys: extraKeys.map((item) => ({ key: item.key, value: item.value }))
-  };
-});
-
-const allowedEvents = /* @__PURE__ */ new Set(["install_success", "upgrade_success"]);
-const normalize$1 = (value) => {
-  if (typeof value !== "string") return "";
-  return value.replace(/"/g, "").trim();
-};
-const resolveDialect = () => {
-  const explicit = normalize$1(process.env.DB_DIALECT).toLowerCase();
-  if (explicit === "postgresql" || explicit === "sqlite" || explicit === "mysql") {
-    return explicit;
-  }
-  const connectionUrl = normalize$1(
-    process.env.DATABASE_URL || process.env.MYSQL_URL || process.env.POSTGRES_URL || process.env.POSTGRESQL_URL || process.env.NUXT_DATABASE_URL || process.env.LIBSQL_URL || ""
-  ).toLowerCase();
-  if (connectionUrl.startsWith("postgres://") || connectionUrl.startsWith("postgresql://")) {
-    return "postgresql";
-  }
-  if (connectionUrl.startsWith("mysql://")) {
-    return "mysql";
-  }
-  return "sqlite";
-};
-const getSetting = async (key) => {
-  var _a, _b;
-  const existing = await db$1.select().from(settings).where(eq(settings.key, key)).limit(1);
-  return (_b = (_a = existing[0]) == null ? void 0 : _a.value) != null ? _b : "";
-};
-const setSetting = async (key, value) => {
-  const existing = await db$1.select().from(settings).where(eq(settings.key, key)).limit(1);
-  if (existing.length) {
-    await db$1.update(settings).set({ value }).where(eq(settings.key, key));
-    return;
-  }
-  await db$1.insert(settings).values({ key, value });
-};
-const bumpNumber = async (key, delta = 1) => {
-  if (resolveDialect() === "postgresql") {
-    await db$1.execute(sql`
-      insert into ${settings} ("key", "value")
-      values (${key}, ${String(delta)})
-      on conflict ("key") do update
-      set "value" = ((coalesce(nullif(${settings.value}, ''), '0'))::integer + ${delta})::text
-    `);
-    return;
-  }
-  const current = Number(await getSetting(key)) || 0;
-  await setSetting(key, String(current + delta));
-};
-const bumpJsonMap = async (key, mapKey, delta = 1) => {
-  if (resolveDialect() === "postgresql") {
-    const initialValue = JSON.stringify({ [mapKey]: delta });
-    const currentJson = sql`case
-      when coalesce(nullif(${settings.value}, ''), '') = '' then '{}'::jsonb
-      else ${settings.value}::jsonb
-    end`;
-    await db$1.execute(sql`
-      insert into ${settings} ("key", "value")
-      values (${key}, ${initialValue})
-      on conflict ("key") do update
-      set "value" = jsonb_set(
-        ${currentJson},
-        array[${mapKey}],
-        to_jsonb(coalesce((${currentJson} ->> ${mapKey})::integer, 0) + ${delta}),
-        true
-      )::text
-    `);
-    return;
-  }
-  const raw = await getSetting(key);
-  let obj = {};
-  try {
-    obj = raw ? JSON.parse(raw) : {};
-  } catch (_) {
-    obj = {};
-  }
-  obj[mapKey] = (Number(obj[mapKey]) || 0) + delta;
-  await setSetting(key, JSON.stringify(obj));
+const readSetting$1 = async (key) => {
+  var _a;
+  const rows = await db$1.select().from(settings).where(eq(settings.key, key)).limit(1);
+  return typeof ((_a = rows[0]) == null ? void 0 : _a.value) === "string" ? rows[0].value : "";
 };
 const _Vc1616 = defineEventHandler(async (event) => {
   const query = getQuery(event);
-  const eventName = normalize$1(query.event || query.eventName);
-  if (!allowedEvents.has(eventName)) {
+  const eventName = text$2(query.event || query.eventName, 32);
+  if (!isInstallEvent(eventName)) {
     throw createError$1({ statusCode: 400, statusMessage: "Invalid install event" });
   }
-  const installId = normalize$1(query.install_id || query.installId || query.id);
-  if (!installId) {
-    throw createError$1({ statusCode: 400, statusMessage: "Missing install_id" });
+  const installId = text$2(query.install_id || query.installId || query.id, 64);
+  if (!installId || !INSTALL_ID_PATTERN.test(installId)) {
+    throw createError$1({ statusCode: 400, statusMessage: "Invalid install_id" });
   }
-  const pkg = normalize$1(query.package || query.pkg) || "gopanel";
-  const version = normalize$1(query.version) || "";
-  const channel = normalize$1(query.channel);
-  const os = normalize$1(query.os);
-  const arch = normalize$1(query.arch);
-  const distro = normalize$1(query.distro);
-  const machine = normalize$1(query.machine);
-  const kernel = normalize$1(query.kernel);
-  const runtime = normalize$1(query.runtime);
-  const token = normalize$1(query.token);
+  const pkg = text$2(query.package || query.pkg, 32) || "gopanel";
+  if (!PACKAGE_PATTERN.test(pkg)) {
+    throw createError$1({ statusCode: 400, statusMessage: "Invalid package" });
+  }
+  const version = versionText(query.version);
   if (eventName === "upgrade_success" && !version) {
     throw createError$1({ statusCode: 400, statusMessage: "Missing version" });
   }
-  const requiredToken = await getSetting(`${pkg}.install_token`);
-  if (requiredToken && token !== requiredToken) {
+  const geo = await resolveReporter(event);
+  const limit = checkIpRateLimit(`panel-install-track:${geo.ip || "unknown"}`, { max: 30, windowMs: 6e4 });
+  if (!limit.ok) {
+    throw createError$1({ statusCode: 429, statusMessage: "Too many install reports" });
+  }
+  const requiredToken = await readSetting$1(`${pkg}.install_token`);
+  if (requiredToken && text$2(query.token, 256) !== requiredToken) {
     throw createError$1({ statusCode: 401, statusMessage: "Invalid token" });
   }
-  const source = "gopanel.install";
-  const dedupeKey = `${pkg}:${eventName}:${installId}:${version}`;
-  const existed = await db$1.select({ id: logs.id }).from(logs).where(and(eq(logs.source, source), eq(logs.message, dedupeKey))).limit(1);
-  if (existed.length) {
-    return { success: true, deduped: true };
-  }
-  const ip = getRequestIP(event, { xForwardedFor: true }) || "";
-  const userAgent = getHeader(event, "user-agent") || "";
-  await db$1.insert(logs).values({
-    level: "info",
-    source,
-    message: dedupeKey,
-    details: JSON.stringify({
-      package: pkg,
-      eventName,
-      installId,
-      version,
-      channel,
-      os,
-      arch,
-      distro,
-      machine,
-      kernel,
-      runtime,
-      ip,
-      userAgent,
-      path: event.path
-    })
+  const source = text$2(query.source, 16);
+  const result = await recordInstallEvent({
+    package: pkg,
+    installId,
+    event: eventName,
+    version,
+    fromVersion: versionText(query.from_version || query.fromVersion),
+    source: source && SOURCE_PATTERN.test(source) ? source : null,
+    channel: text$2(query.channel, 64),
+    os: text$2(query.os, 32),
+    arch: text$2(query.arch, 32),
+    distro: text$2(query.distro, 128),
+    machine: text$2(query.machine, 64),
+    kernel: text$2(query.kernel, 128),
+    runtime: text$2(query.runtime, 32),
+    publicIp: text$2(geo.ip, 64),
+    country: text$2(geo.country, 64),
+    region: text$2(geo.region, 128),
+    city: text$2(geo.city, 128),
+    userAgent: text$2(getHeader(event, "user-agent"), 255)
   });
-  const prefix = `${pkg}.${eventName}`;
-  await bumpNumber(`${prefix}.total`, 1);
-  if (channel) {
-    await bumpJsonMap(`${prefix}.by_channel`, channel, 1);
-  }
-  if (eventName === "upgrade_success") {
-    await bumpJsonMap(`${prefix}.by_version`, version, 1);
-  }
-  if (os) await bumpJsonMap(`${prefix}.by_os`, os, 1);
-  if (arch) await bumpJsonMap(`${prefix}.by_arch`, arch, 1);
-  return { success: true };
+  return { success: true, deduped: result.deduped };
 });
 
 const _EBTkR8 = defineCachedEventHandler(async (event) => {
@@ -105704,8 +105818,12 @@ const _lazy_nxP4zV = () => import('../routes/api/admin/logs/clear.delete.mjs');
 const _lazy_YS8wyY = () => import('../routes/api/admin/index.get6.mjs');
 const _lazy_t371ci = () => import('../routes/api/admin/operation-logs/cleanup.post.mjs');
 const _lazy_IWg8p1 = () => import('../routes/api/admin/index.get7.mjs');
+const _lazy_pKBwUu = () => import('../routes/api/admin/orders/_id_.delete.mjs');
+const _lazy_I2fJtX = () => import('../routes/api/admin/orders/_id_.get.mjs');
 const _lazy_5nv1Mr = () => import('../routes/api/admin/orders/_id_.put.mjs');
+const _lazy_J6cw3D = () => import('../routes/api/admin/orders/_id/fulfill.post.mjs');
 const _lazy_9Xg6_9 = () => import('../routes/api/admin/orders/_id/reconcile.post.mjs');
+const _lazy_5DQD3Z = () => import('../routes/api/admin/orders/_id/restore.post.mjs');
 const _lazy_t49GpO = () => import('../routes/api/admin/index2.mjs');
 const _lazy_mCEwOG = () => import('../routes/api/admin/orders/reconcile-sweep.post.mjs');
 const _lazy_raax0t = () => import('../routes/api/admin/payments/_id_.mjs');
@@ -105761,6 +105879,7 @@ const _lazy_GtRDgI = () => import('../routes/api/admin/tickets/_id/reply.post.mj
 const _lazy_9LzuVN = () => import('../routes/api/admin/tickets/_id/status.put.mjs');
 const _lazy_nwb2Lf = () => import('../routes/api/admin/index.get10.mjs');
 const _lazy_E4D4Ch = () => import('../routes/api/admin/tickets/upload.post.mjs');
+const _lazy_9Iqxm5 = () => import('../routes/api/admin/topups/_id_.get.mjs');
 const _lazy_d9TEJM = () => import('../routes/api/admin/index.get11.mjs');
 const _lazy_SZfCuj = () => import('../routes/api/admin/topups/retry.post.mjs');
 const _lazy_eX5vLW = () => import('../routes/api/admin/upload/delete.delete.mjs');
@@ -105918,8 +106037,12 @@ const handlers = [
   { route: '/api/admin/logs', handler: _lazy_YS8wyY, lazy: true, middleware: false, method: "get" },
   { route: '/api/admin/operation-logs/cleanup', handler: _lazy_t371ci, lazy: true, middleware: false, method: "post" },
   { route: '/api/admin/operation-logs', handler: _lazy_IWg8p1, lazy: true, middleware: false, method: "get" },
+  { route: '/api/admin/orders/:id', handler: _lazy_pKBwUu, lazy: true, middleware: false, method: "delete" },
+  { route: '/api/admin/orders/:id', handler: _lazy_I2fJtX, lazy: true, middleware: false, method: "get" },
   { route: '/api/admin/orders/:id', handler: _lazy_5nv1Mr, lazy: true, middleware: false, method: "put" },
+  { route: '/api/admin/orders/:id/fulfill', handler: _lazy_J6cw3D, lazy: true, middleware: false, method: "post" },
   { route: '/api/admin/orders/:id/reconcile', handler: _lazy_9Xg6_9, lazy: true, middleware: false, method: "post" },
+  { route: '/api/admin/orders/:id/restore', handler: _lazy_5DQD3Z, lazy: true, middleware: false, method: "post" },
   { route: '/api/admin/orders', handler: _lazy_t49GpO, lazy: true, middleware: false, method: undefined },
   { route: '/api/admin/orders/reconcile-sweep', handler: _lazy_mCEwOG, lazy: true, middleware: false, method: "post" },
   { route: '/api/admin/payments/:id', handler: _lazy_raax0t, lazy: true, middleware: false, method: undefined },
@@ -105975,6 +106098,7 @@ const handlers = [
   { route: '/api/admin/tickets/:id/status', handler: _lazy_9LzuVN, lazy: true, middleware: false, method: "put" },
   { route: '/api/admin/tickets', handler: _lazy_nwb2Lf, lazy: true, middleware: false, method: "get" },
   { route: '/api/admin/tickets/upload', handler: _lazy_E4D4Ch, lazy: true, middleware: false, method: "post" },
+  { route: '/api/admin/topups/:id', handler: _lazy_9Iqxm5, lazy: true, middleware: false, method: "get" },
   { route: '/api/admin/topups', handler: _lazy_d9TEJM, lazy: true, middleware: false, method: "get" },
   { route: '/api/admin/topups/retry', handler: _lazy_SZfCuj, lazy: true, middleware: false, method: "post" },
   { route: '/api/admin/upload/delete', handler: _lazy_eX5vLW, lazy: true, middleware: false, method: "delete" },
@@ -106199,12 +106323,19 @@ const handlers = [
   { route: '/api/minimal/payment/order', handler: _u5IX7j, lazy: false, middleware: false, method: "get" },
   { route: '/api/minimal/payment/status', handler: _J_4Kgi, lazy: false, middleware: false, method: "get" },
   { route: '/api/minimal/public-external', handler: _5vndhi, lazy: false, middleware: false, method: undefined },
-  { route: '/api/panel/apps/build', handler: _PMP7DN, lazy: false, middleware: false, method: "post" },
-  { route: '/api/panel/apps/compose', handler: _68vRfH, lazy: false, middleware: false, method: undefined },
-  { route: '/api/panel/apps/stats', handler: _LHytWQ, lazy: false, middleware: false, method: "get" },
+  { route: '/api/admin/panel/apps/build', handler: _u4f4cx, lazy: false, middleware: false, method: "post" },
+  { route: '/api/panel/admin/apps/build', handler: _u4f4cx, lazy: false, middleware: false, method: "post" },
+  { route: '/api/admin/panel/apps/compose', handler: _kXL_41, lazy: false, middleware: false, method: undefined },
+  { route: '/api/panel/admin/apps/compose', handler: _kXL_41, lazy: false, middleware: false, method: undefined },
+  { route: '/api/admin/panel/apps/stats', handler: _yFiolC, lazy: false, middleware: false, method: "get" },
+  { route: '/api/panel/admin/apps/stats', handler: _yFiolC, lazy: false, middleware: false, method: "get" },
+  { route: '/api/admin/panel/installs/events', handler: _2fdz5R, lazy: false, middleware: false, method: "get" },
+  { route: '/api/panel/admin/installs/events', handler: _2fdz5R, lazy: false, middleware: false, method: "get" },
+  { route: '/api/admin/panel/installs/servers', handler: _PaFnQq, lazy: false, middleware: false, method: "get" },
+  { route: '/api/panel/admin/installs/servers', handler: _PaFnQq, lazy: false, middleware: false, method: "get" },
+  { route: '/api/admin/panel/installs/stats', handler: _DnkeTE, lazy: false, middleware: false, method: "get" },
+  { route: '/api/panel/admin/installs/stats', handler: _DnkeTE, lazy: false, middleware: false, method: "get" },
   { route: '/api/panel/apps', handler: _OnF7Aq, lazy: false, middleware: false, method: undefined },
-  { route: '/api/panel/installs/records', handler: _ZLmAmf, lazy: false, middleware: false, method: undefined },
-  { route: '/api/panel/installs/stats', handler: _d8uLDi, lazy: false, middleware: false, method: undefined },
   { route: '/api/panel/installs/track', handler: _Vc1616, lazy: false, middleware: false, method: undefined },
   { route: '/api/panel/upgrade', handler: _EBTkR8, lazy: false, middleware: false, method: undefined },
   { route: '/api/admin/qingpu/ainode-funds', handler: _Ckcuwn, lazy: false, middleware: false, method: undefined },
@@ -106921,4 +107052,4 @@ trapUnhandledNodeErrors();
 setupGracefulShutdown(listener, nitroApp);
 const nodeServer = {};
 
-export { consumeCaptchaTicket as $, ADMIN_PERMISSIONS$1 as A, aggregateOrderAccountingTotals as B, visitorProfiles as C, getConfiguredTimezone as D, getStartOfDayUtc as E, shiftZonedDay as F, buildLocaleCurrencyQuote as G, subscriptions as H, topups as I, loadVisitorReport as J, getRequestHost as K, tickets as L, resolveOrderCurrencyAmounts as M, getCurrencyTotal as N, ORDER_PAY_STATUS as O, getCurrentHour as P, defaultEmailTemplates as Q, emailLogs as R, emailProviders as S, deliverEmail as T, getLocalizedSettingValue as U, sendEmail as V, eventRules as W, loadActiveThemeEventRules as X, resolveClientIp as Y, checkIpRateLimit as Z, getAdminLoginSecurityState as _, accessLogs as a, runSchedulerJob as a$, verifyPassword as a0, clearAdminLoginFailure as a1, setUserSession as a2, recordOperationFromEvent as a3, recordAdminLoginFailure as a4, clearUserSession as a5, logs as a6, operationLogs as a7, findSubscriptionRefundImpact as a8, describeSubscriptionRefundImpact as a9, sweepPendingOrders as aA, paymentMethods as aB, failures as aC, applyLocalPaymentPluginDefaults as aD, dispatchExtensionApi as aE, posts as aF, findUniqueViolation as aG, promoMembers as aH, PROMO_ROLE as aI, listPromoAgents as aJ, assignPromoAgentByUserId as aK, promoApplications as aL, promoCommissions as aM, listPromoCommissions as aN, ensureDefaultPromoTiers as aO, getPromoOverview as aP, listPromoAttributions as aQ, listPromoAgentRelations as aR, disablePromoAgentRelation as aS, updatePromoAgentRelation as aT, settings as aU, listMasterAgentTeamOrders as aV, getMasterAgentTeamReport as aW, promoAgentTiers as aX, listSchedulerStatus as aY, saveSchedulerJobs as aZ, loadSchedulerJobs as a_, isMinimalCheckoutRelayOrder as aa, readMinimalCheckoutBridgeMeta as ab, createOrderAttribution as ac, settlePaidTopup as ad, recoverCreditedApayTopup as ae, fulfillMinimalCheckoutRelay as af, fulfillOrder as ag, settlePromoCommission as ah, emitEvent as ai, cancelPromoCommission as aj, revokeSubscriptionForOrder as ak, refundTopup as al, SUBSCRIPTION_REFUND_IMPACT_CODE as am, reconcileOrder as an, requireTrustedRequestOrigin as ao, ensurePromoMember as ap, getSiteLocaleConfig as aq, resolveRequestLocale as ar, resolveCurrencyRate as as, roundCurrencyAmount as at, getMinimalCheckoutAdminConfig as au, buildMinimalCheckoutBridgeMeta as av, mergeMinimalCheckoutMeta as aw, prepareOrderMetaForInsert as ax, ORDER_STATUS as ay, ensureTopupRecordForOrder as az, db$1 as b, endWebSession as b$, getUserSession as b0, extensionManifests as b1, readExtensionMigrationStatus as b2, readEnabledExtensionIds as b3, migrateExtensionDatabase as b4, normalizeEnabledExtensionIds as b5, ENABLED_EXTENSIONS_SETTING_KEY as b6, EMAIL_VERIFY_POLICY_KEY as b7, invalidateEmailVerifyPolicyCache as b8, isUniqueViolation as b9, userTokens as bA, validateEmail as bB, normalizeEmail$1 as bC, revokeEmailVerifyTokens as bD, EMAIL_VERIFY_TOKEN_NAME as bE, proxyExternalRequest as bF, invalidateExternalUsersCache as bG, fetchExternalUsersMap as bH, isTrackableVisitorPath as bI, trackVisitorEvent as bJ, verifyCaptchaChallengeToken as bK, issueCaptchaTicket as bL, createCaptchaChallengeToken as bM, generateCaptchaBackgroundWithSlot as bN, generateCaptchaPiece as bO, PUZZLE_PATH as bP, CAPTCHA_BACKGROUNDS as bQ, defineOAuthGitHubEventHandler as bR, handleOAuthLogin as bS, logger as bT, sendLocalizedRedirect as bU, defineOAuthGoogleEventHandler as bV, getUserLoginSecurityState as bW, clearUserLoginFailure as bX, issueWebSession as bY, ensureVisitorId as bZ, recordUserLoginFailure as b_, parseStatsRange as ba, toZonedDateKey as bb, buildVisitorSourceMetrics as bc, visitorEvents as bd, clampStatsPage as be, clampStatsPageSize as bf, toIsoTimestampOrEpoch as bg, formatSourceBrand as bh, visitorSourceLabel as bi, matchesVisitorReportRow as bj, usesAINodeWallet as bk, appendRevokedPeriod as bl, syncWalletTierFromRemaining as bm, ticketMessages as bn, userWallets as bo, fromScaled as bp, getWalletBackend as bq, getHeader as br, changeAINodeWallet as bs, changeBalance as bt, notifications as bu, uploadTicketAttachment as bv, BALANCE_SCALE as bw, retryIncompleteTopups as bx, readFormData as by, oauthAccounts as bz, getRequestLocale as c, balanceLogs as c$, requireUserSession as c0, overwriteSessionUser as c1, mergePromoTracking as c2, capturePromoTracking as c3, readPromoTracking as c4, bindInviteRelation as c5, requestPromoAgentJoin as c6, promoAgentRelations as c7, promoInviteRelations as c8, getEmailVerifySendCooldown as c9, isPaymentMethodAvailableForLocale as cA, resolvePaymentPluginConfig as cB, isPaymentMethodCurrencySupported as cC, resolvePaymentMethodCurrencies as cD, getRequestHeaders as cE, executeCreateScript as cF, defineCachedEventHandler as cG, getAIGatewayUrl as cH, normalizeImageProxyUrl as cI, setResponseStatus as cJ, setResponseHeader as cK, getImageProxyReferer as cL, isPublicSettingKey as cM, getOrCreateUserWallet as cN, requireOrderOwnership as cO, checkUserPromoAccess as cP, listUserPromoCommissions as cQ, listUserPromoInviteRelations as cR, getUserPromoOverview as cS, listPendingPromoAgentRelations as cT, approvePendingPromoAgentRelation as cU, rejectPendingPromoAgentRelation as cV, listUserPromoTeam as cW, diagnoseTicketIssue as cX, apiTokenScope as cY, API_TOKEN_PREFIX as cZ, TOPUP_STATUS as c_, issueEmailVerification as ca, EMAIL_VERIFY_SEND_COOLDOWN_SECONDS as cb, getRequestIP as cc, checkCommentRateLimit as cd, sanitizeComment as ce, getRequestHeader as cf, useRuntimeConfig as cg, generateRenewalInvoices as ch, RENEWAL_LEAD_DAYS as ci, queryCollection as cj, likes as ck, syncLikesCount as cl, stripReservedOrderMeta as cm, MINIMAL_CHECKOUT_SOURCE as cn, getSubscriptionEntitlement as co, getAffectedRows as cp, createNotification as cq, createFreeOrderCompletionHandler as cr, resolveOrderAccess as cs, getCookie as ct, getTopupRules as cu, buildTopupQuote as cv, TopupValidationError as cw, ensureTopupCarrierProduct as cx, createTopupRecord as cy, lockLegacyPendingOrderCurrency as cz, defineEventHandler as d, registerPlannedGenerationSlots as d$, listBalanceLogs as d0, listUserTopups as d1, setHeader as d2, readRawBody as d3, executeCallbackScript as d4, markOrderPaid as d5, markTopupPaymentFailed as d6, resolveServerSeoContext as d7, collectSitemapEntries as d8, seoRouteRegistry as d9, enqueueAndDeliverAINodeSync as dA, getQingpuAINodeTenantToken as dB, retryIdempotentAINodeCall as dC, creditAINodeCustomerBalance as dD, planSubscriptionRevoke as dE, grantEventId as dF, readShoplyPlanMeta as dG, pushShoplyLicense as dH, getPublishAggregatesForUser as dI, getListingPricingDefaultsByUser as dJ, rebuildProductAggregate as dK, ensureProductVisionFactsForImages as dL, shouldBlockImageGenerationForVision as dM, hasChannelImageBlueprint as dN, getListingAutomationByUser as dO, customizeBlueprint as dP, resolveChannelImageBlueprint as dQ, filterBlueprintPlanByEffectiveSkus as dR, buildImageBlueprintPlan as dS, buildListingBlueprintImageTaskSpecs as dT, getChannelPromptEngine as dU, resolveChannelPromptSnapshotForSelector as dV, assertListingBlueprintImageTaskSpecs as dW, listBlueprintTaskItems as dX, completeBlueprintTaskItem as dY, settleListingBlueprintStep as dZ, ensureBlueprintTaskItems as d_, classifySeoRoute as da, renderSitemapXml as db, sendStream as dc, buildAssetsURL as dd, getResponseStatusText as de, getResponseStatus as df, defineRenderHandler as dg, publicAssetsURL as dh, destr as di, getRouteRules as dj, joinURL as dk, useNitroApp as dl, getListingModelSettingsByUser as dm, getQingpuAINodeBaseUrl as dn, normalizeAinodeCrawl1688Product as dp, extract1688OfferId as dq, hoxiModels as dr, normalizeIsoDate as ds, syncSubscriptionToAINode as dt, sendMinimalCheckoutPaidNotification as du, ensureAINodeApiKey as dv, persistModelCredentials as dw, markQingpuTrialPaymentReceived as dx, fulfillPaidTrialOrder as dy, formatTrialErrorMessage as dz, createError$1 as e, persistGeneratedImageWorkspace as e0, assertImageGenerationTaskSpec as e1, isTaskControlInterrupt as e2, isGenerationTaskStateUnknown as e3, classifyGenerationError as e4, failBlueprintTaskItem as e5, startBlueprintTaskItem as e6, runProductImageGenerationTaskSpec as e7, updateBlueprintTaskItemStage as e8, enqueueIdempotentToolTask as e9, themeImageProxyDirectHostIncludes as eA, nodeServer as eB, serialize$1 as ea, getRequestURL as eb, defu as ec, isEqual as ed, resolveActiveTheme as ee, upperFirst as ef, defuFn as eg, appendResponseHeader as eh, resolveLocalizedSetting as ei, parse as ej, sanitizeStatusCode as ek, getContext as el, setCookie as em, deleteCookie as en, SEO_LOCALE_LANGUAGE as eo, $fetch$1 as ep, baseURL as eq, hash$1 as er, createHooks as es, executeAsync as et, normalizeSiteOrigin as eu, stripLocalePrefix as ev, localePathForSeo as ew, safeJsonLd as ex, getRequestProtocol as ey, themeHostConfigs as ez, getRouterParam as f, getQuery as g, admins as h, isSuperAdmin$1 as i, hashPassword as j, hasAllPermissions$1 as k, adminTokens as l, cards as m, normalizePermissions as n, comments as o, products as p, syncPostCommentCount as q, readBody as r, setAuditMeta as s, toIsoTimestamp as t, users as u, getCommentAvatarUrl as v, commentSyncSources as w, syncExternalComments as x, runAutoCommentSync as y, orders as z };
+export { consumeCaptchaTicket as $, ADMIN_PERMISSIONS$1 as A, aggregateOrderAccountingTotals as B, visitorProfiles as C, getConfiguredTimezone as D, getStartOfDayUtc as E, shiftZonedDay as F, buildLocaleCurrencyQuote as G, subscriptions as H, topups as I, loadVisitorReport as J, getRequestHost as K, tickets as L, resolveOrderCurrencyAmounts as M, getCurrencyTotal as N, ORDER_PAY_STATUS as O, getCurrentHour as P, defaultEmailTemplates as Q, emailLogs as R, emailProviders as S, deliverEmail as T, getLocalizedSettingValue as U, sendEmail as V, eventRules as W, loadActiveThemeEventRules as X, resolveClientIp as Y, checkIpRateLimit as Z, getAdminLoginSecurityState as _, accessLogs as a, runSchedulerJob as a$, verifyPassword as a0, clearAdminLoginFailure as a1, setUserSession as a2, recordOperationFromEvent as a3, recordAdminLoginFailure as a4, clearUserSession as a5, logs as a6, operationLogs as a7, findSubscriptionRefundImpact as a8, describeSubscriptionRefundImpact as a9, sweepPendingOrders as aA, paymentMethods as aB, failures as aC, applyLocalPaymentPluginDefaults as aD, dispatchExtensionApi as aE, posts as aF, findUniqueViolation as aG, promoMembers as aH, PROMO_ROLE as aI, listPromoAgents as aJ, assignPromoAgentByUserId as aK, promoApplications as aL, promoCommissions as aM, listPromoCommissions as aN, ensureDefaultPromoTiers as aO, getPromoOverview as aP, listPromoAttributions as aQ, listPromoAgentRelations as aR, disablePromoAgentRelation as aS, updatePromoAgentRelation as aT, settings as aU, listMasterAgentTeamOrders as aV, getMasterAgentTeamReport as aW, promoAgentTiers as aX, listSchedulerStatus as aY, saveSchedulerJobs as aZ, loadSchedulerJobs as a_, isMinimalCheckoutRelayOrder as aa, readMinimalCheckoutBridgeMeta as ab, createOrderAttribution as ac, settlePaidTopup as ad, recoverCreditedApayTopup as ae, fulfillMinimalCheckoutRelay as af, fulfillOrder as ag, settlePromoCommission as ah, emitEvent as ai, cancelPromoCommission as aj, revokeSubscriptionForOrder as ak, refundTopup as al, SUBSCRIPTION_REFUND_IMPACT_CODE as am, reconcileOrder as an, ORDER_STATUS as ao, requireTrustedRequestOrigin as ap, ensurePromoMember as aq, getSiteLocaleConfig as ar, resolveRequestLocale as as, resolveCurrencyRate as at, roundCurrencyAmount as au, getMinimalCheckoutAdminConfig as av, buildMinimalCheckoutBridgeMeta as aw, mergeMinimalCheckoutMeta as ax, prepareOrderMetaForInsert as ay, ensureTopupRecordForOrder as az, db$1 as b, recordUserLoginFailure as b$, getUserSession as b0, extensionManifests as b1, readExtensionMigrationStatus as b2, readEnabledExtensionIds as b3, migrateExtensionDatabase as b4, normalizeEnabledExtensionIds as b5, ENABLED_EXTENSIONS_SETTING_KEY as b6, EMAIL_VERIFY_POLICY_KEY as b7, invalidateEmailVerifyPolicyCache as b8, isUniqueViolation as b9, oauthAccounts as bA, userTokens as bB, validateEmail as bC, normalizeEmail$1 as bD, revokeEmailVerifyTokens as bE, EMAIL_VERIFY_TOKEN_NAME as bF, proxyExternalRequest as bG, invalidateExternalUsersCache as bH, fetchExternalUsersMap as bI, isTrackableVisitorPath as bJ, trackVisitorEvent as bK, verifyCaptchaChallengeToken as bL, issueCaptchaTicket as bM, createCaptchaChallengeToken as bN, generateCaptchaBackgroundWithSlot as bO, generateCaptchaPiece as bP, PUZZLE_PATH as bQ, CAPTCHA_BACKGROUNDS as bR, defineOAuthGitHubEventHandler as bS, handleOAuthLogin as bT, logger as bU, sendLocalizedRedirect as bV, defineOAuthGoogleEventHandler as bW, getUserLoginSecurityState as bX, clearUserLoginFailure as bY, issueWebSession as bZ, ensureVisitorId as b_, parseStatsRange as ba, toZonedDateKey as bb, buildVisitorSourceMetrics as bc, visitorEvents as bd, clampStatsPage as be, clampStatsPageSize as bf, toIsoTimestampOrEpoch as bg, formatSourceBrand as bh, visitorSourceLabel as bi, matchesVisitorReportRow as bj, usesAINodeWallet as bk, appendRevokedPeriod as bl, syncWalletTierFromRemaining as bm, ticketMessages as bn, userWallets as bo, fromScaled as bp, getWalletBackend as bq, getHeader as br, changeAINodeWallet as bs, changeBalance as bt, notifications as bu, uploadTicketAttachment as bv, balanceLogs as bw, BALANCE_SCALE as bx, retryIncompleteTopups as by, readFormData as bz, getRequestLocale as c, TOPUP_STATUS as c$, endWebSession as c0, requireUserSession as c1, overwriteSessionUser as c2, mergePromoTracking as c3, capturePromoTracking as c4, readPromoTracking as c5, bindInviteRelation as c6, requestPromoAgentJoin as c7, promoAgentRelations as c8, promoInviteRelations as c9, lockLegacyPendingOrderCurrency as cA, isPaymentMethodAvailableForLocale as cB, resolvePaymentPluginConfig as cC, isPaymentMethodCurrencySupported as cD, resolvePaymentMethodCurrencies as cE, getRequestHeaders as cF, executeCreateScript as cG, defineCachedEventHandler as cH, getAIGatewayUrl as cI, normalizeImageProxyUrl as cJ, setResponseStatus as cK, setResponseHeader as cL, getImageProxyReferer as cM, isPublicSettingKey as cN, getOrCreateUserWallet as cO, requireOrderOwnership as cP, checkUserPromoAccess as cQ, listUserPromoCommissions as cR, listUserPromoInviteRelations as cS, getUserPromoOverview as cT, listPendingPromoAgentRelations as cU, approvePendingPromoAgentRelation as cV, rejectPendingPromoAgentRelation as cW, listUserPromoTeam as cX, diagnoseTicketIssue as cY, apiTokenScope as cZ, API_TOKEN_PREFIX as c_, getEmailVerifySendCooldown as ca, issueEmailVerification as cb, EMAIL_VERIFY_SEND_COOLDOWN_SECONDS as cc, getRequestIP as cd, checkCommentRateLimit as ce, sanitizeComment as cf, getRequestHeader as cg, useRuntimeConfig as ch, generateRenewalInvoices as ci, RENEWAL_LEAD_DAYS as cj, queryCollection as ck, likes as cl, syncLikesCount as cm, stripReservedOrderMeta as cn, MINIMAL_CHECKOUT_SOURCE as co, getSubscriptionEntitlement as cp, getAffectedRows as cq, createNotification as cr, createFreeOrderCompletionHandler as cs, resolveOrderAccess as ct, getCookie as cu, getTopupRules as cv, buildTopupQuote as cw, TopupValidationError as cx, ensureTopupCarrierProduct as cy, createTopupRecord as cz, defineEventHandler as d, settleListingBlueprintStep as d$, listBalanceLogs as d0, listUserTopups as d1, setHeader as d2, readRawBody as d3, executeCallbackScript as d4, markOrderPaid as d5, markTopupPaymentFailed as d6, resolveServerSeoContext as d7, collectSitemapEntries as d8, seoRouteRegistry as d9, fulfillPaidTrialOrder as dA, formatTrialErrorMessage as dB, enqueueAndDeliverAINodeSync as dC, getQingpuAINodeTenantToken as dD, retryIdempotentAINodeCall as dE, creditAINodeCustomerBalance as dF, planSubscriptionRevoke as dG, grantEventId as dH, readShoplyPlanMeta as dI, pushShoplyLicense as dJ, getPublishAggregatesForUser as dK, getListingPricingDefaultsByUser as dL, rebuildProductAggregate as dM, ensureProductVisionFactsForImages as dN, shouldBlockImageGenerationForVision as dO, hasChannelImageBlueprint as dP, getListingAutomationByUser as dQ, customizeBlueprint as dR, resolveChannelImageBlueprint as dS, filterBlueprintPlanByEffectiveSkus as dT, buildImageBlueprintPlan as dU, buildListingBlueprintImageTaskSpecs as dV, getChannelPromptEngine as dW, resolveChannelPromptSnapshotForSelector as dX, assertListingBlueprintImageTaskSpecs as dY, listBlueprintTaskItems as dZ, completeBlueprintTaskItem as d_, classifySeoRoute as da, renderSitemapXml as db, sendStream as dc, buildAssetsURL as dd, getResponseStatusText as de, getResponseStatus as df, defineRenderHandler as dg, publicAssetsURL as dh, destr as di, getRouteRules as dj, joinURL as dk, useNitroApp as dl, getListingModelSettingsByUser as dm, getQingpuAINodeBaseUrl as dn, normalizeAinodeCrawl1688Product as dp, extract1688OfferId as dq, hoxiGateways as dr, hoxiPlans as ds, hoxiModels as dt, normalizeIsoDate as du, syncSubscriptionToAINode as dv, sendMinimalCheckoutPaidNotification as dw, ensureAINodeApiKey as dx, persistModelCredentials as dy, markQingpuTrialPaymentReceived as dz, createError$1 as e, ensureBlueprintTaskItems as e0, registerPlannedGenerationSlots as e1, persistGeneratedImageWorkspace as e2, assertImageGenerationTaskSpec as e3, isTaskControlInterrupt as e4, isGenerationTaskStateUnknown as e5, classifyGenerationError as e6, failBlueprintTaskItem as e7, startBlueprintTaskItem as e8, runProductImageGenerationTaskSpec as e9, getRequestProtocol as eA, themeHostConfigs as eB, themeImageProxyDirectHostIncludes as eC, nodeServer as eD, updateBlueprintTaskItemStage as ea, enqueueIdempotentToolTask as eb, serialize$1 as ec, getRequestURL as ed, defu as ee, isEqual as ef, resolveActiveTheme as eg, upperFirst as eh, defuFn as ei, appendResponseHeader as ej, resolveLocalizedSetting as ek, parse as el, sanitizeStatusCode as em, getContext as en, setCookie as eo, deleteCookie as ep, SEO_LOCALE_LANGUAGE as eq, $fetch$1 as er, baseURL as es, hash$1 as et, createHooks as eu, executeAsync as ev, normalizeSiteOrigin as ew, stripLocalePrefix as ex, localePathForSeo as ey, safeJsonLd as ez, getRouterParam as f, getQuery as g, admins as h, isSuperAdmin$1 as i, hashPassword as j, hasAllPermissions$1 as k, adminTokens as l, cards as m, normalizePermissions as n, comments as o, products as p, syncPostCommentCount as q, readBody as r, setAuditMeta as s, toIsoTimestamp as t, users as u, getCommentAvatarUrl as v, commentSyncSources as w, syncExternalComments as x, runAutoCommentSync as y, orders as z };

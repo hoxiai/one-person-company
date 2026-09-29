@@ -1,4 +1,4 @@
-import { d as defineEventHandler, c as getRequestLocale, b0 as getUserSession, b$ as endWebSession, a5 as clearUserSession } from '../../../nitro/nitro.mjs';
+import { d as defineEventHandler, c as getRequestLocale, b0 as getUserSession, c0 as endWebSession, a5 as clearUserSession } from '../../../nitro/nitro.mjs';
 import 'drizzle-orm';
 import 'node:crypto';
 import 'crypto';

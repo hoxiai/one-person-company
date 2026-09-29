@@ -1,4 +1,4 @@
-import { d as defineEventHandler, c as getRequestLocale, g as getQuery, z as orders, p as products, u as users, b as db, r as readBody, e as createError, ao as requireTrustedRequestOrigin, ap as ensurePromoMember, aq as getSiteLocaleConfig, ar as resolveRequestLocale, as as resolveCurrencyRate, at as roundCurrencyAmount, au as getMinimalCheckoutAdminConfig, av as buildMinimalCheckoutBridgeMeta, aw as mergeMinimalCheckoutMeta, O as ORDER_PAY_STATUS, ax as prepareOrderMetaForInsert, ay as ORDER_STATUS, ac as createOrderAttribution, az as ensureTopupRecordForOrder, ad as settlePaidTopup, aa as isMinimalCheckoutRelayOrder, af as fulfillMinimalCheckoutRelay, ag as fulfillOrder, ah as settlePromoCommission, ai as emitEvent, U as getLocalizedSettingValue, V as sendEmail, s as setAuditMeta } from '../../../nitro/nitro.mjs';
+import { d as defineEventHandler, c as getRequestLocale, g as getQuery, z as orders, p as products, u as users, b as db, r as readBody, e as createError, ap as requireTrustedRequestOrigin, aq as ensurePromoMember, ar as getSiteLocaleConfig, as as resolveRequestLocale, at as resolveCurrencyRate, au as roundCurrencyAmount, av as getMinimalCheckoutAdminConfig, aw as buildMinimalCheckoutBridgeMeta, ax as mergeMinimalCheckoutMeta, O as ORDER_PAY_STATUS, ay as prepareOrderMetaForInsert, ao as ORDER_STATUS, ac as createOrderAttribution, az as ensureTopupRecordForOrder, ad as settlePaidTopup, aa as isMinimalCheckoutRelayOrder, af as fulfillMinimalCheckoutRelay, ag as fulfillOrder, ah as settlePromoCommission, ai as emitEvent, U as getLocalizedSettingValue, V as sendEmail, s as setAuditMeta } from '../../../nitro/nitro.mjs';
 import { or, eq, and, ne, like, sql, count, desc } from 'drizzle-orm';
 import crypto from 'crypto';
 import { z } from 'zod';
@@ -119,18 +119,25 @@ const index = defineEventHandler(async (event) => {
       id: orders.id,
       amount: orders.amount,
       currency: orders.currency,
+      source: orders.source,
+      externalOrderId: orders.externalOrderId,
       status: orders.status,
       payStatus: orders.payStatus,
       contactEmail: orders.contactEmail,
       payMethod: orders.payMethod,
       tradeNo: orders.tradeNo,
       visitorId: orders.visitorId,
+      deliveryInfo: orders.deliveryInfo,
+      metaData: orders.metaData,
       createdAt: orders.createdAt,
+      paidAt: orders.paidAt,
       productName: products.name,
       productSlug: products.slug,
       productId: products.id,
       productImage: products.imageUrl,
       productType: products.type,
+      productPrice: products.price,
+      userId: orders.userId,
       userNickname: users.nickname,
       userEmail: users.email
     }).from(orders).leftJoin(products, eq(orders.productId, products.id)).leftJoin(users, eq(orders.userId, users.id));

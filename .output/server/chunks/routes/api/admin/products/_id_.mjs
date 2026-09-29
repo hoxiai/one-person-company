@@ -1,4 +1,4 @@
-import { d as defineEventHandler, c as getRequestLocale, f as getRouterParam, e as createError, r as readBody, b as db, p as products, s as setAuditMeta } from '../../../../nitro/nitro.mjs';
+import { d as defineEventHandler, c as getRequestLocale, f as getRouterParam, e as createError, b as db, p as products, r as readBody, s as setAuditMeta } from '../../../../nitro/nitro.mjs';
 import { eq } from 'drizzle-orm';
 import 'node:crypto';
 import 'crypto';
@@ -69,6 +69,22 @@ const _id_ = defineEventHandler(async (event) => {
   const locale = getRequestLocale(event);
   const id = getRouterParam(event, "id");
   if (!id) throw createError({ statusCode: 400, message: locale === "zh" ? "\u7F3A\u5C11 ID" : "Missing id" });
+  if (event.method === "GET") {
+    const productId = parseInt(id);
+    if (isNaN(productId)) {
+      throw createError({ statusCode: 400, message: locale === "zh" ? "\u65E0\u6548 ID" : "Invalid id" });
+    }
+    const [product] = await db.select().from(products).where(eq(products.id, productId)).limit(1);
+    if (!product) {
+      throw createError({ statusCode: 404, message: locale === "zh" ? "\u5546\u54C1\u4E0D\u5B58\u5728" : "Product not found" });
+    }
+    product.imageUrls = normalizeImageUrls(product.imageUrls);
+    product.metaData = normalizeMetaData(product.metaData);
+    return {
+      code: 0,
+      data: product
+    };
+  }
   if (event.method === "PUT") {
     const body = await readBody(event);
     const updateData = { ...body };

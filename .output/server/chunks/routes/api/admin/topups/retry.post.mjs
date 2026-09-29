@@ -1,5 +1,5 @@
-import { d as defineEventHandler, r as readBody, bx as retryIncompleteTopups, s as setAuditMeta } from '../../../../nitro/nitro.mjs';
-import 'drizzle-orm';
+import { d as defineEventHandler, r as readBody, b as db, I as topups, e as createError, ad as settlePaidTopup, ae as recoverCreditedApayTopup, s as setAuditMeta, by as retryIncompleteTopups } from '../../../../nitro/nitro.mjs';
+import { eq } from 'drizzle-orm';
 import 'node:crypto';
 import 'crypto';
 import 'fs';
@@ -37,8 +37,35 @@ import '@adonisjs/hash';
 import '@adonisjs/hash/drivers/scrypt';
 
 const retry_post = defineEventHandler(async (event) => {
+  var _a, _b, _c;
   const body = await readBody(event).catch(() => ({}));
-  const report = await retryIncompleteTopups(body.limit);
+  if (body == null ? void 0 : body.orderId) {
+    const orderId = String(body.orderId).trim();
+    const existing = await db.select().from(topups).where(eq(topups.orderId, orderId)).limit(1);
+    if (!existing[0]) {
+      throw createError({ statusCode: 404, message: `Top-up record for order ${orderId} not found` });
+    }
+    const outcome = await settlePaidTopup(orderId);
+    if (outcome === "credited" || outcome === "already_credited") {
+      await recoverCreditedApayTopup(orderId);
+    }
+    const updated = await db.select().from(topups).where(eq(topups.orderId, orderId)).limit(1);
+    const report2 = {
+      orderId,
+      outcome,
+      status: (_a = updated[0]) == null ? void 0 : _a.status,
+      retryCount: (_b = updated[0]) == null ? void 0 : _b.retryCount,
+      lastError: (_c = updated[0]) == null ? void 0 : _c.lastError
+    };
+    setAuditMeta(event, {
+      action: "topups.retry_single",
+      resource: "topups",
+      summary: `Retried top-up order ${orderId}, outcome: ${outcome}`,
+      details: report2
+    });
+    return { code: 0, data: report2 };
+  }
+  const report = await retryIncompleteTopups(body == null ? void 0 : body.limit);
   setAuditMeta(event, {
     action: "topups.retry",
     resource: "topups",

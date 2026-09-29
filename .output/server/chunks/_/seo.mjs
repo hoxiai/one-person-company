@@ -1,4 +1,4 @@
-import { dr as hoxiModels, ds as normalizeIsoDate } from '../nitro/nitro.mjs';
+import { dr as hoxiGateways, ds as hoxiPlans, dt as hoxiModels, du as normalizeIsoDate } from '../nitro/nitro.mjs';
 import 'drizzle-orm';
 import 'node:crypto';
 import 'crypto';
@@ -36,9 +36,21 @@ import 'node:net';
 import '@adonisjs/hash';
 import '@adonisjs/hash/drivers/scrypt';
 
-const getSitemapEntries = () => hoxiModels.map((model) => ({
-  path: `/models/${model.slug}`,
-  lastmod: normalizeIsoDate(model.updatedAt)
-}));
+const getSitemapEntries = async (source) => {
+  if (source === "hoxi-gateways") {
+    return hoxiGateways.filter((gw) => !gw.hidden).map((gw) => ({
+      path: `/gateways/${gw.id}`
+    }));
+  }
+  if (source === "hoxi-coding-plans") {
+    return hoxiPlans.filter((p) => !p.hidden).map((p) => ({
+      path: `/coding-plans/${p.slug}`
+    }));
+  }
+  return hoxiModels.map((model) => ({
+    path: `/models/${model.slug}`,
+    lastmod: normalizeIsoDate(model.updatedAt)
+  }));
+};
 
 export { getSitemapEntries };

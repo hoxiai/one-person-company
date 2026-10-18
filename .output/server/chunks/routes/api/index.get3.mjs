@@ -1,5 +1,5 @@
-import { cH as defineCachedEventHandler, g as getQuery, aF as posts, b as db } from '../../nitro/nitro.mjs';
-import { eq, or, like, and, count, desc, asc } from 'drizzle-orm';
+import { d as defineEventHandler, g as getQuery, e as createError, b3 as getUserSession, c3 as ensureVisitorId, b as db, cq as likes } from '../../nitro/nitro.mjs';
+import { sql, and, eq, or, isNull } from 'drizzle-orm';
 import 'node:crypto';
 import 'crypto';
 import 'fs';
@@ -23,90 +23,63 @@ import 'drizzle-orm/sqlite-core';
 import 'drizzle-orm/mysql-core';
 import 'maxmind';
 import 'node:os';
-import '@libsql/client';
 import 'node:url';
+import 'zod';
 import '@iconify/utils';
 import 'consola';
 import 'ioredis';
-import 'zod';
 import 'node:child_process';
+import 'process';
+import 'buffer';
 import 'node:fs/promises';
 import 'node:dns/promises';
 import 'node:net';
 import '@adonisjs/hash';
 import '@adonisjs/hash/drivers/scrypt';
 
-const index_get = defineCachedEventHandler(async (event) => {
-  var _a, _b;
+const index_get = defineEventHandler(async (event) => {
   const query = getQuery(event);
-  const rawType = query.type;
-  const postKey = (_a = query.key) == null ? void 0 : _a.trim();
-  const order = query.order;
-  const includeContent = query.include_content === "1" || query.include_content === "true" || query.content === "1" || query.content === "true";
-  const page = Math.max(parseInt(query.page) || 1, 1);
-  const pageSize = Math.min(Math.max(parseInt(query.pageSize) || 12, 1), 100);
-  const offset = (page - 1) * pageSize;
-  const conditions = [eq(posts.isActive, true)];
-  if (rawType) {
-    conditions.push(eq(posts.type, rawType));
-  } else if (!postKey) {
-    conditions.push(eq(posts.type, "blog"));
+  const targetType = String(query.targetType || "").trim().toLowerCase();
+  const targetId = String(query.targetId || "").trim();
+  if (!targetType || !targetId) {
+    throw createError({
+      statusCode: 400,
+      statusMessage: "targetType and targetId are required"
+    });
   }
-  if (postKey) {
-    conditions.push(or(eq(posts.key, postKey), like(posts.key, `${postKey}%`)));
+  const session = await getUserSession(event).catch(() => null);
+  const user = session == null ? void 0 : session.user;
+  const userId = (user == null ? void 0 : user.id) ? Number(user.id) : null;
+  const visitorId = ensureVisitorId(event);
+  const [countRow] = await db.select({ count: sql`count(*)` }).from(likes).where(and(eq(likes.targetType, targetType), eq(likes.targetId, targetId)));
+  const totalCount = Number((countRow == null ? void 0 : countRow.count) || 0);
+  let hasLiked = false;
+  if (userId) {
+    const userLikes = await db.select({ id: likes.id }).from(likes).where(
+      and(
+        eq(likes.targetType, targetType),
+        eq(likes.targetId, targetId),
+        or(eq(likes.userId, userId), and(isNull(likes.userId), eq(likes.visitorId, visitorId)))
+      )
+    ).limit(1);
+    hasLiked = userLikes.length > 0;
+  } else {
+    const visitorLikes = await db.select({ id: likes.id }).from(likes).where(
+      and(
+        eq(likes.targetType, targetType),
+        eq(likes.targetId, targetId),
+        eq(likes.visitorId, visitorId),
+        isNull(likes.userId)
+      )
+    ).limit(1);
+    hasLiked = visitorLikes.length > 0;
   }
-  const whereClause = and(...conditions);
-  const totalResult = await db.select({ value: count() }).from(posts).where(whereClause);
-  const total = ((_b = totalResult[0]) == null ? void 0 : _b.value) || 0;
-  let orderClause = desc(posts.createdAt);
-  if (order === "sort_asc") {
-    orderClause = asc(posts.sort);
-  } else if (order === "sort_desc") {
-    orderClause = desc(posts.sort);
-  } else if (order === "asc") {
-    orderClause = asc(posts.createdAt);
-  } else if (order === "likes_desc" || order === "popular") {
-    orderClause = desc(posts.likes);
-  } else if (order === "comments_desc") {
-    orderClause = desc(posts.comments);
-  } else if (order === "views_desc") {
-    orderClause = desc(posts.views);
-  }
-  const selectFields = {
-    id: posts.id,
-    key: posts.key,
-    sort: posts.sort,
-    slug: posts.slug,
-    title: posts.title,
-    description: posts.description,
-    imageUrl: posts.imageUrl,
-    type: posts.type,
-    views: posts.views,
-    likes: posts.likes,
-    comments: posts.comments,
-    createdAt: posts.createdAt,
-    updatedAt: posts.updatedAt,
-    metaData: posts.metaData
-  };
-  if (includeContent) {
-    selectFields.content = posts.content;
-  }
-  const result = await db.select(selectFields).from(posts).where(whereClause).orderBy(orderClause).limit(pageSize).offset(offset);
   return {
-    data: result,
-    total,
-    page,
-    pageSize
+    success: true,
+    count: totalCount,
+    hasLiked
   };
-}, {
-  maxAge: 60,
-  // cache for 60 seconds
-  swr: true,
-  name: "posts-list",
-  getKey: (event) => {
-    const query = getQuery(event);
-    return `posts-${query.type || ""}-k-${query.key || ""}-c-${query.include_content || query.content || "0"}-o-${query.order || ""}-page-${query.page || 1}-size-${query.pageSize || 12}`;
-  }
 });
 
 export { index_get as default };
+//# sourceMappingURL=index.get3.mjs.map

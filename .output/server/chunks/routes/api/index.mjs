@@ -1,4 +1,4 @@
-import { d as defineEventHandler, c as getRequestLocale, g as getQuery, b0 as getUserSession, cu as getCookie, e as createError, z as orders, b as db, u as users, p as products } from '../../nitro/nitro.mjs';
+import { d as defineEventHandler, c as getRequestLocale, g as getQuery, b3 as getUserSession, cD as getCookie, e as createError, z as orders, b as db, u as users, p as products } from '../../nitro/nitro.mjs';
 import { or, eq, count, desc } from 'drizzle-orm';
 import 'node:crypto';
 import 'crypto';
@@ -23,13 +23,14 @@ import 'drizzle-orm/sqlite-core';
 import 'drizzle-orm/mysql-core';
 import 'maxmind';
 import 'node:os';
-import '@libsql/client';
 import 'node:url';
+import 'zod';
 import '@iconify/utils';
 import 'consola';
 import 'ioredis';
-import 'zod';
 import 'node:child_process';
+import 'process';
+import 'buffer';
 import 'node:fs/promises';
 import 'node:dns/promises';
 import 'node:net';
@@ -82,3 +83,4 @@ const index = defineEventHandler(async (event) => {
 });
 
 export { index as default };
+//# sourceMappingURL=index.mjs.map

@@ -1,4 +1,4 @@
-import { d as defineEventHandler, c as getRequestLocale, r as readBody, e as createError, b as db, aF as posts, aG as findUniqueViolation } from '../../../nitro/nitro.mjs';
+import { d as defineEventHandler, c as getRequestLocale, r as readBody, e as createError, aH as normalizePostLocale, b as db, aG as posts, aI as findUniqueViolation } from '../../../nitro/nitro.mjs';
 import 'drizzle-orm';
 import 'node:crypto';
 import 'crypto';
@@ -23,13 +23,14 @@ import 'drizzle-orm/sqlite-core';
 import 'drizzle-orm/mysql-core';
 import 'maxmind';
 import 'node:os';
-import '@libsql/client';
 import 'node:url';
+import 'zod';
 import '@iconify/utils';
 import 'consola';
 import 'ioredis';
-import 'zod';
 import 'node:child_process';
+import 'process';
+import 'buffer';
 import 'node:fs/promises';
 import 'node:dns/promises';
 import 'node:net';
@@ -43,16 +44,19 @@ const index_post = defineEventHandler(async (event) => {
     throw createError({ statusCode: 400, message: locale === "zh" ? "\u6807\u9898\u548C slug \u4E0D\u80FD\u4E3A\u7A7A" : "Title and slug are required" });
   }
   try {
+    const postType = body.type || "blog";
     const normalizedKey = typeof body.key === "string" ? body.key.trim() : "";
     const normalizedSort = body.sort === "" || body.sort === null || body.sort === void 0 ? null : Number.isFinite(Number(body.sort)) ? Number(body.sort) : null;
+    const normalizedLocale = postType === "blog" && typeof body.locale === "string" && body.locale.trim() ? normalizePostLocale(body.locale) || null : null;
     const postData = {
       title: body.title,
       slug: body.slug,
       key: normalizedKey || null,
       sort: normalizedSort,
+      locale: normalizedLocale,
       description: body.description || null,
       content: body.content || null,
-      type: body.type || "blog",
+      type: postType,
       imageUrl: body.imageUrl || null,
       isActive: body.isActive !== void 0 ? body.isActive : true,
       metaData: body.metaData ? process.env.NUXT_HUB_DATABASE ? body.metaData : JSON.stringify(body.metaData) : null,
@@ -75,3 +79,4 @@ const index_post = defineEventHandler(async (event) => {
 });
 
 export { index_post as default };
+//# sourceMappingURL=index.post3.mjs.map

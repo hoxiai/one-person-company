@@ -1,4 +1,4 @@
-import { d as defineEventHandler, ap as requireTrustedRequestOrigin, c as getRequestLocale, r as readBody, ct as resolveOrderAccess, O as ORDER_PAY_STATUS, b as db, aB as paymentMethods, ar as getSiteLocaleConfig, as as resolveRequestLocale, cB as isPaymentMethodAvailableForLocale, cC as resolvePaymentPluginConfig, cE as resolvePaymentMethodCurrencies, cD as isPaymentMethodCurrencySupported, cd as getRequestIP, cF as getRequestHeaders, cG as executeCreateScript, z as orders, an as reconcileOrder } from '../../../nitro/nitro.mjs';
+import { d as defineEventHandler, aq as requireTrustedRequestOrigin, c as getRequestLocale, r as readBody, cC as resolveOrderAccess, O as ORDER_PAY_STATUS, b as db, aC as paymentMethods, as as getSiteLocaleConfig, at as resolveRequestLocale, cK as isPaymentMethodAvailableForLocale, cL as resolvePaymentPluginConfig, cN as resolvePaymentMethodCurrencies, cM as isPaymentMethodCurrencySupported, ci as getRequestIP, cO as getRequestHeaders, cP as executeCreateScript, z as orders, ao as reconcileOrder } from '../../../nitro/nitro.mjs';
 import fs from 'fs';
 import path from 'path';
 import { z } from 'zod';
@@ -24,12 +24,13 @@ import 'drizzle-orm/sqlite-core';
 import 'drizzle-orm/mysql-core';
 import 'maxmind';
 import 'node:os';
-import '@libsql/client';
 import 'node:url';
 import '@iconify/utils';
 import 'consola';
 import 'ioredis';
 import 'node:child_process';
+import 'process';
+import 'buffer';
 import 'node:fs/promises';
 import 'node:dns/promises';
 import 'node:net';
@@ -186,3 +187,4 @@ const initiate_post = defineEventHandler(async (event) => {
 });
 
 export { initiate_post as default };
+//# sourceMappingURL=initiate.post.mjs.map

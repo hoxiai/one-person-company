@@ -130,3 +130,4 @@ const cleanMetaPresets = (presets) => {
 const presetFieldsForType = (presets, productType) => (presets[productType] || []).filter((field) => isValidPresetFieldName(field.name));
 
 export { PRESET_FIELD_TYPES as P, cleanProductFeatures as a, parseProductFeatures as b, cleanServiceSchemaFields as c, parseServiceSchemaFields as d, cleanMetaPresets as e, PRODUCT_META_PRESETS_KEY as f, parseMetaPresets as g, isValidPresetFieldName as i, presetFieldsForType as p, stripUiIds as s };
+//# sourceMappingURL=adminProductFormData-BiTP6ur1.mjs.map

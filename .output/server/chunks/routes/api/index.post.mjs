@@ -1,4 +1,4 @@
-import { d as defineEventHandler, cd as getRequestIP, ce as checkCommentRateLimit, e as createError, b0 as getUserSession, r as readBody, b as db, bA as oauthAccounts, cf as sanitizeComment, cg as getRequestHeader, aU as settings, o as comments, q as syncPostCommentCount, v as getCommentAvatarUrl } from '../../nitro/nitro.mjs';
+import { d as defineEventHandler, ci as getRequestIP, cj as checkCommentRateLimit, e as createError, b3 as getUserSession, r as readBody, b as db, bD as oauthAccounts, ck as sanitizeComment, cl as getRequestHeader, aX as settings, o as comments, q as syncPostCommentCount, v as getCommentAvatarUrl } from '../../nitro/nitro.mjs';
 import { and, eq } from 'drizzle-orm';
 import 'node:crypto';
 import 'crypto';
@@ -23,13 +23,14 @@ import 'drizzle-orm/sqlite-core';
 import 'drizzle-orm/mysql-core';
 import 'maxmind';
 import 'node:os';
-import '@libsql/client';
 import 'node:url';
+import 'zod';
 import '@iconify/utils';
 import 'consola';
 import 'ioredis';
-import 'zod';
 import 'node:child_process';
+import 'process';
+import 'buffer';
 import 'node:fs/promises';
 import 'node:dns/promises';
 import 'node:net';
@@ -176,3 +177,4 @@ const index_post = defineEventHandler(async (event) => {
 });
 
 export { index_post as default };
+//# sourceMappingURL=index.post.mjs.map

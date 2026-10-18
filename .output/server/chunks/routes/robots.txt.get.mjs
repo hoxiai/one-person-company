@@ -1,4 +1,4 @@
-import { d as defineEventHandler, d2 as setHeader, d7 as resolveServerSeoContext } from '../nitro/nitro.mjs';
+import { d as defineEventHandler, df as setHeader, dn as resolveServerSeoContext } from '../nitro/nitro.mjs';
 import 'drizzle-orm';
 import 'node:crypto';
 import 'crypto';
@@ -23,13 +23,14 @@ import 'drizzle-orm/sqlite-core';
 import 'drizzle-orm/mysql-core';
 import 'maxmind';
 import 'node:os';
-import '@libsql/client';
 import 'node:url';
+import 'zod';
 import '@iconify/utils';
 import 'consola';
 import 'ioredis';
-import 'zod';
 import 'node:child_process';
+import 'process';
+import 'buffer';
 import 'node:fs/promises';
 import 'node:dns/promises';
 import 'node:net';
@@ -54,3 +55,4 @@ const robots_txt_get = defineEventHandler(async (event) => {
 });
 
 export { robots_txt_get as default };
+//# sourceMappingURL=robots.txt.get.mjs.map

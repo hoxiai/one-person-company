@@ -1,4 +1,4 @@
-import { d as defineEventHandler, c1 as requireUserSession, e as createError, bv as uploadTicketAttachment } from '../../../../nitro/nitro.mjs';
+import { d as defineEventHandler, c6 as requireUserSession, e as createError, by as uploadTicketAttachment } from '../../../../nitro/nitro.mjs';
 import 'drizzle-orm';
 import 'node:crypto';
 import 'crypto';
@@ -23,13 +23,14 @@ import 'drizzle-orm/sqlite-core';
 import 'drizzle-orm/mysql-core';
 import 'maxmind';
 import 'node:os';
-import '@libsql/client';
 import 'node:url';
+import 'zod';
 import '@iconify/utils';
 import 'consola';
 import 'ioredis';
-import 'zod';
 import 'node:child_process';
+import 'process';
+import 'buffer';
 import 'node:fs/promises';
 import 'node:dns/promises';
 import 'node:net';
@@ -43,3 +44,4 @@ const upload_post = defineEventHandler(async (event) => {
 });
 
 export { upload_post as default };
+//# sourceMappingURL=upload.post.mjs.map

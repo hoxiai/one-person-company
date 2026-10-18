@@ -34,3 +34,4 @@ _sfc_main.setup = (props, ctx) => {
 const __nuxt_component_1 = Object.assign(_sfc_main, { __name: "HoxiVendorDot" });
 
 export { __nuxt_component_1 as default };
+//# sourceMappingURL=HoxiVendorDot-BLwK_ZsG.mjs.map

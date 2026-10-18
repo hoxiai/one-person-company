@@ -1,0 +1,230 @@
+<style>
+body { margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+#alipay-container {
+  width: 100%;
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  box-sizing: border-box;
+}
+.alipay-card {
+  width: 100%;
+  max-width: 420px;
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 18px;
+  padding: 20px;
+  box-sizing: border-box;
+  box-shadow: 0 12px 30px rgba(15, 23, 42, 0.08);
+  text-align: center;
+}
+.pay-btn {
+  width: 100%;
+  border: none;
+  border-radius: 12px;
+  background: #1677ff;
+  color: #fff;
+  padding: 14px 16px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.pay-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+.hint {
+  color: #6b7280;
+  font-size: 13px;
+  line-height: 1.6;
+  margin-top: 10px;
+}
+.status {
+  color: #111827;
+  font-size: 14px;
+  margin-top: 14px;
+}
+.error-msg {
+  color: #dc2626;
+  font-size: 14px;
+  margin-top: 12px;
+}
+.fallback-link {
+  display: none;
+  margin-top: 12px;
+  color: #1677ff;
+  font-size: 13px;
+  word-break: break-all;
+}
+</style>
+
+<div id="alipay-container">
+  <div class="alipay-card">
+    <button id="alipay-btn" class="pay-btn" onclick="startAlipayCheckout()">
+      支付宝支付
+    </button>
+    <div id="alipay-init-hint" class="hint">
+      点击后将生成支付宝扫码支付，支持电脑网页扫码和手机支付。
+    </div>
+    
+    <div id="alipay-iframe-wrapper" style="display: none; flex-direction: column; align-items: center; justify-content: center; margin: 12px 0;">
+      <div style="width: 230px; height: 230px; border-radius: 16px; overflow: hidden; background: #fff; box-shadow: 0 8px 24px rgba(0,0,0,0.06); border: 1px solid #e5e7eb; display: flex; align-items: center; justify-content: center;">
+        <iframe id="alipay-iframe" src="" style="width: 100%; height: 100%; border: none; overflow: hidden;" scrolling="no"></iframe>
+      </div>
+      <div class="hint" style="margin-top: 12px; font-weight: 500; color: #1677ff;">
+        请使用支付宝 App 扫一扫完成支付
+      </div>
+    </div>
+
+    <a id="alipay-link" class="fallback-link" target="_top" rel="noopener noreferrer"></a>
+    <div id="status" class="status"></div>
+    <div id="error" class="error-msg"></div>
+  </div>
+</div>
+
+<script>
+window.isAlipayPayProcessing = false;
+window.alipayPayPollingTimer = null;
+
+function stopAlipayPolling() {
+  if (window.alipayPayPollingTimer) {
+    clearInterval(window.alipayPayPollingTimer);
+    window.alipayPayPollingTimer = null;
+  }
+}
+
+async function pollAlipayOrder(orderId) {
+  stopAlipayPolling();
+  const statusEl = document.getElementById('status');
+  const errorEl = document.getElementById('error');
+  window.alipayPayPollingTimer = setInterval(async () => {
+    try {
+      const response = await fetch(`/api/orders/status?orderId=${encodeURIComponent(orderId)}`, {
+        credentials: 'same-origin'
+      });
+      const res = await response.json();
+      if (res.code === 0 && res.data?.payStatus === 'paid') {
+        stopAlipayPolling();
+        statusEl.innerText = '支付成功，订单已确认';
+        window.dispatchEvent(new CustomEvent('payment-qr-clear', {
+          detail: { orderId }
+        }));
+        window.dispatchEvent(new CustomEvent('order-success', {
+          detail: { orderId }
+        }));
+      }
+    } catch (error) {
+      errorEl.innerText = error.message || '查询支付状态失败';
+    }
+  }, 2500);
+}
+
+window.startAlipayCheckout = async function() {
+  if (window.isAlipayPayProcessing) return;
+  window.isAlipayPayProcessing = true;
+
+  const btn = document.getElementById('alipay-btn');
+  const initHint = document.getElementById('alipay-init-hint');
+  const iframeWrapper = document.getElementById('alipay-iframe-wrapper');
+  const iframe = document.getElementById('alipay-iframe');
+  const statusEl = document.getElementById('status');
+  const errorEl = document.getElementById('error');
+  const linkEl = document.getElementById('alipay-link');
+
+  btn.disabled = true;
+  window.dispatchEvent(new CustomEvent('payment-qr-clear', {
+    detail: { orderId: '{$orderId}' }
+  }));
+  statusEl.innerText = '正在创建支付宝订单...';
+  errorEl.innerText = '';
+  linkEl.style.display = 'none';
+  linkEl.innerText = '';
+  linkEl.href = '#';
+
+  try {
+    const orderId = '{$orderId}';
+    const response = await fetch('/api/payments/initiate', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        orderId,
+        methodCode: 'alipay',
+        returnUrl: window.location.origin + '/callback/' + orderId,
+        cancelUrl: window.location.origin + '/callback/cancel?orderId=' + orderId
+      })
+    });
+
+    const res = await response.json();
+    const paymentUrl = res?.data?.paymentUrl || '';
+    const qrCodeText = res?.data?.qrCodeText || '';
+    const tradeType = String(res?.data?.tradeType || '').toLowerCase();
+    const qrPayMode = String(res?.data?.qrPayMode || '').trim();
+    if (res.code !== 0 || (!paymentUrl && !qrCodeText)) {
+      throw new Error(res.message || 'Failed to create Alipay session');
+    }
+
+    if (tradeType === 'wap') {
+      statusEl.innerText = '即将跳转到支付宝支付...';
+      linkEl.style.display = 'block';
+      linkEl.innerText = '若未自动跳转，请点此打开支付宝收银台';
+      linkEl.href = paymentUrl;
+      window.dispatchEvent(new CustomEvent('payment-qr-clear', {
+        detail: { orderId }
+      }));
+      window.top.location.href = paymentUrl;
+      return;
+    }
+
+    // 电脑端：直接派发 payment-qr-ready 事件，由收银台页面绘制高清支付宝二维码
+    statusEl.innerText = '请使用支付宝扫一扫完成支付';
+    const qrPayload = qrCodeText || paymentUrl;
+    window.dispatchEvent(new CustomEvent('payment-qr-ready', {
+      detail: {
+        orderId,
+        methodCode: 'alipay',
+        qrCodeText: qrPayload,
+        paymentUrl,
+        message: '请使用支付宝扫一扫完成支付'
+      }
+    }));
+
+    if (paymentUrl) {
+      linkEl.style.display = 'block';
+      linkEl.innerText = '若扫码不可用，请点此打开支付宝收银台';
+      linkEl.href = paymentUrl;
+    }
+
+    pollAlipayOrder(orderId);
+  } catch (error) {
+    btn.disabled = false;
+    statusEl.innerText = '';
+    errorEl.innerText = error.message || 'Alipay init failed';
+    window.isAlipayPayProcessing = false;
+    window.dispatchEvent(new CustomEvent('payment-qr-clear', {
+      detail: { orderId: '{$orderId}' }
+    }));
+  }
+};
+
+window.addEventListener('order-success', function() {
+  const btn = document.getElementById('alipay-btn');
+  if (btn) btn.disabled = false;
+  window.isAlipayPayProcessing = false;
+  stopAlipayPolling();
+});
+
+window.addEventListener('order-error', function() {
+  const btn = document.getElementById('alipay-btn');
+  if (btn) btn.disabled = false;
+  window.isAlipayPayProcessing = false;
+  stopAlipayPolling();
+  window.dispatchEvent(new CustomEvent('payment-qr-clear', {
+    detail: { orderId: '{$orderId}' }
+  }));
+});
+</script>

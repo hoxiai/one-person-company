@@ -1,4 +1,4 @@
-import { d as defineEventHandler, c as getRequestLocale, r as readBody, ct as resolveOrderAccess, ar as getSiteLocaleConfig, as as resolveRequestLocale, cA as lockLegacyPendingOrderCurrency, b as db, aB as paymentMethods, aD as applyLocalPaymentPluginDefaults, cB as isPaymentMethodAvailableForLocale, cC as resolvePaymentPluginConfig, cD as isPaymentMethodCurrencySupported } from '../../../nitro/nitro.mjs';
+import { d as defineEventHandler, c as getRequestLocale, r as readBody, cC as resolveOrderAccess, as as getSiteLocaleConfig, at as resolveRequestLocale, cJ as lockLegacyPendingOrderCurrency, b as db, aC as paymentMethods, aE as applyLocalPaymentPluginDefaults, cK as isPaymentMethodAvailableForLocale, cL as resolvePaymentPluginConfig, cM as isPaymentMethodCurrencySupported } from '../../../nitro/nitro.mjs';
 import { eq } from 'drizzle-orm';
 import fs from 'fs';
 import path from 'path';
@@ -23,13 +23,14 @@ import 'drizzle-orm/sqlite-core';
 import 'drizzle-orm/mysql-core';
 import 'maxmind';
 import 'node:os';
-import '@libsql/client';
 import 'node:url';
+import 'zod';
 import '@iconify/utils';
 import 'consola';
 import 'ioredis';
-import 'zod';
 import 'node:child_process';
+import 'process';
+import 'buffer';
 import 'node:fs/promises';
 import 'node:dns/promises';
 import 'node:net';
@@ -64,9 +65,7 @@ const info_post = defineEventHandler(async (event) => {
     order = await lockLegacyPendingOrderCurrency(order, requestLocale);
     let activeMethods = (await db.select().from(paymentMethods).where(eq(paymentMethods.isActive, true))).map((method) => applyLocalPaymentPluginDefaults({ ...method }));
     const localeFilteredMethods = activeMethods.filter((method) => isPaymentMethodAvailableForLocale(method, requestLocale, localeConfig));
-    if (localeFilteredMethods.length > 0) {
-      activeMethods = localeFilteredMethods;
-    }
+    activeMethods = localeFilteredMethods;
     if (activeMethods.length === 0) {
       return { code: 1, message: messages.noActiveMethods };
     }
@@ -151,3 +150,4 @@ const info_post = defineEventHandler(async (event) => {
 });
 
 export { info_post as default };
+//# sourceMappingURL=info.post.mjs.map

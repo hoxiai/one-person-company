@@ -1,0 +1,60 @@
+<div id="checkoutcom-payment-container">
+  <div class="text-center py-6">
+    <p class="mb-4 text-gray-600 dark:text-gray-300">
+      You are about to securely pay with Checkout.com.
+    </p>
+    <button 
+      id="checkoutcom-pay-btn" 
+      class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-6 rounded-lg shadow-md transition duration-300 w-full"
+    >
+      Proceed to Checkout.com
+    </button>
+    <p id="checkoutcom-error-msg" class="text-red-500 mt-3 text-sm hidden"></p>
+  </div>
+</div>
+
+<script>
+(function() {
+  const payBtn = document.getElementById('checkoutcom-pay-btn');
+  const errorMsg = document.getElementById('checkoutcom-error-msg');
+
+  if (!payBtn) return;
+
+  payBtn.addEventListener('click', async () => {
+    try {
+      payBtn.disabled = true;
+      payBtn.innerHTML = '<span class="inline-block animate-spin mr-2">⟳</span>Processing...';
+      errorMsg.classList.add('hidden');
+
+      // checkoutData globally injected by PaymentModal component
+      const requestData = window.checkoutData || {};
+      requestData.payMethod = 'checkoutcom';
+
+      const response = await fetch('/api/payments/initiate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(requestData)
+      });
+
+      const result = await response.json();
+
+      if (!response.ok) {
+        throw new Error(result.message || 'Failed to initiate Checkout.com payment');
+      }
+
+      if (result.paymentUrl) {
+        window.location.href = result.paymentUrl;
+      } else {
+        throw new Error('Checkout.com did not return a valid payment link');
+      }
+
+    } catch (err) {
+      console.error('Checkout.com Error:', err);
+      errorMsg.textContent = err.message;
+      errorMsg.classList.remove('hidden');
+      payBtn.disabled = false;
+      payBtn.innerHTML = 'Proceed to Checkout.com';
+    }
+  });
+})();
+</script>

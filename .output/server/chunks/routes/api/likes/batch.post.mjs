@@ -1,4 +1,4 @@
-import { d as defineEventHandler, r as readBody, e as createError, b0 as getUserSession, b_ as ensureVisitorId, b as db, cl as likes } from '../../../nitro/nitro.mjs';
+import { d as defineEventHandler, r as readBody, e as createError, b3 as getUserSession, c3 as ensureVisitorId, b as db, cq as likes } from '../../../nitro/nitro.mjs';
 import { sql, and, eq, inArray, or, isNull } from 'drizzle-orm';
 import 'node:crypto';
 import 'crypto';
@@ -23,13 +23,14 @@ import 'drizzle-orm/sqlite-core';
 import 'drizzle-orm/mysql-core';
 import 'maxmind';
 import 'node:os';
-import '@libsql/client';
 import 'node:url';
+import 'zod';
 import '@iconify/utils';
 import 'consola';
 import 'ioredis';
-import 'zod';
 import 'node:child_process';
+import 'process';
+import 'buffer';
 import 'node:fs/promises';
 import 'node:dns/promises';
 import 'node:net';
@@ -91,3 +92,4 @@ const batch_post = defineEventHandler(async (event) => {
 });
 
 export { batch_post as default };
+//# sourceMappingURL=batch.post.mjs.map

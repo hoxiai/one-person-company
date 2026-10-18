@@ -1,4 +1,4 @@
-import { d as defineEventHandler, ap as requireTrustedRequestOrigin, c as getRequestLocale, r as readBody, b0 as getUserSession, b as db, u as users, e as createError, ca as getEmailVerifySendCooldown, bE as revokeEmailVerifyTokens, cb as issueEmailVerification, cc as EMAIL_VERIFY_SEND_COOLDOWN_SECONDS } from '../../../nitro/nitro.mjs';
+import { d as defineEventHandler, aq as requireTrustedRequestOrigin, c as getRequestLocale, r as readBody, b3 as getUserSession, b as db, u as users, e as createError, cf as getEmailVerifySendCooldown, bH as revokeEmailVerifyTokens, cg as issueEmailVerification, ch as EMAIL_VERIFY_SEND_COOLDOWN_SECONDS } from '../../../nitro/nitro.mjs';
 import { eq } from 'drizzle-orm';
 import 'node:crypto';
 import 'crypto';
@@ -23,13 +23,14 @@ import 'drizzle-orm/sqlite-core';
 import 'drizzle-orm/mysql-core';
 import 'maxmind';
 import 'node:os';
-import '@libsql/client';
 import 'node:url';
+import 'zod';
 import '@iconify/utils';
 import 'consola';
 import 'ioredis';
-import 'zod';
 import 'node:child_process';
+import 'process';
+import 'buffer';
 import 'node:fs/promises';
 import 'node:dns/promises';
 import 'node:net';
@@ -100,3 +101,4 @@ const resendVerification_post = defineEventHandler(async (event) => {
 });
 
 export { resendVerification_post as default };
+//# sourceMappingURL=resend-verification.post.mjs.map

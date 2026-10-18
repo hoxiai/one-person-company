@@ -1,0 +1,91 @@
+<!-- 
+  Lemon Squeezy Payment Integration Template 
+  Variable placeholders: 
+  {$orderId} - Replaced dynamically
+  {$amount} - Replaced dynamically
+-->
+<div id="lemonsqueezy-payment-container" class="flex flex-col items-center justify-center py-6 w-full">
+  
+  <div class="text-center mb-6">
+    <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-[#1C1D1E] border border-[#2B2D31] shadow-lg mb-4">
+      <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M16 2C8.26801 2 2 8.26801 2 16C2 23.732 8.26801 30 16 30C23.732 30 30 23.732 30 16C30 8.26801 23.732 2 16 2ZM22.5187 18.064C22.0693 21.056 19.3813 23.2347 16.2987 23.2347C12.8747 23.2347 10.1 20.46 10.1 17.036C10.1 13.9533 12.2787 11.2653 15.2707 10.816C15.548 10.7747 15.82 10.9667 15.8613 11.244C15.9027 11.5213 15.7107 11.7933 15.4333 11.8347C13.064 12.1893 11.2827 14.316 11.2827 17.036C11.2827 19.808 13.5267 22.052 16.2987 22.052C19.0187 22.052 21.1453 20.2707 21.5 17.9013C21.5413 17.624 21.8133 17.432 22.0907 17.4733C22.368 17.5147 22.56 17.7867 22.5187 18.064ZM18.232 15.6547C17.6533 15.8893 17.0187 16.0173 16.3653 16.0173C13.432 16.0173 11.0453 13.6307 11.0453 10.6973C11.0453 10.42 11.2693 10.196 11.5467 10.196C11.824 10.196 12.048 10.42 12.048 10.6973C12.048 13.0787 13.984 15.0147 16.3653 15.0147C16.9253 15.0147 17.4693 14.904 17.9627 14.7013C18.22 14.596 18.5133 14.7173 18.6187 14.9747C18.724 15.232 18.6027 15.5253 18.3453 15.6307V15.6547Z" fill="#7047EB"/>
+      </svg>
+    </div>
+    <h3 class="text-xl font-bold text-white mb-2">Secure Checkout via Lemon Squeezy</h3>
+    <p class="text-sm text-gray-400 max-w-sm mx-auto">
+      You will be redirected to Lemon Squeezy to complete your purchase securely. Supports global cards, PayPal, and more.
+    </p>
+  </div>
+
+  <button 
+    id="ls-pay-button"
+    class="relative group overflow-hidden w-full max-w-md bg-[#7047EB] text-white font-semibold rounded-xl px-6 py-4 transition-all duration-300 hover:scale-[1.02] hover:shadow-[0_0_20px_rgba(112,71,235,0.4)] flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed"
+  >
+    <div class="absolute inset-0 bg-gradient-to-r from-purple-500 to-[#7047EB] opacity-0 group-hover:opacity-100 transition-opacity"></div>
+    <span class="relative flex items-center gap-2">
+      <span>Proceed to Lemon Squeezy</span>
+      <svg class="w-5 h-5 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+      </svg>
+    </span>
+  </button>
+
+  <div id="ls-error-message" class="mt-4 text-red-400 text-sm hidden"></div>
+</div>
+
+<script>
+  (function() {
+    const orderId = '{$orderId}';
+    const amount = '{$amount}';
+    const button = document.getElementById('ls-pay-button');
+    const errorContainer = document.getElementById('ls-error-message');
+    
+    if (window._lsPaymentInitialized === orderId) return;
+    window._lsPaymentInitialized = orderId;
+
+    const showError = (msg) => {
+      if (errorContainer) {
+        errorContainer.textContent = msg;
+        errorContainer.classList.remove('hidden');
+      }
+      button.disabled = false;
+      button.innerHTML = '<span class="relative flex items-center gap-2"><span>Try Again</span></span>';
+    };
+
+    button.addEventListener('click', async () => {
+      try {
+        button.disabled = true;
+        button.innerHTML = '<span class="relative flex items-center gap-2"><svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-white" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg><span>Connecting...</span></span>';
+        if (errorContainer) errorContainer.classList.add('hidden');
+
+        const successUrl = window.location.origin + '/callback/' + orderId;
+        const cancelUrl = window.location.origin + '/callback/cancel?orderId=' + orderId;
+        
+        // Unified generic endpoint!
+        const response = await fetch('/api/payments/initiate', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            orderId: orderId,
+            methodCode: 'lemonsqueezy',
+            returnUrl: successUrl,
+            cancelUrl: cancelUrl
+          })
+        });
+
+        const result = await response.json();
+
+        if (result.code === 0 && result.data && result.data.paymentUrl) {
+          window.location.href = result.data.paymentUrl;
+        } else {
+          showError(result.message || 'Failed to initialize Lemon Squeezy checkout. Please try again.');
+        }
+
+      } catch (error) {
+        console.error('Lemon Squeezy init error:', error);
+        showError('Network error occurred. Please check your connection and try again.');
+      }
+    });
+  })();
+</script>

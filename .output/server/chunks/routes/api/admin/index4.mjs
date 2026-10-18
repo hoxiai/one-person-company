@@ -1,4 +1,4 @@
-import { d as defineEventHandler, g as getQuery, p as products, b as db, r as readBody, e as createError, c as getRequestLocale } from '../../../nitro/nitro.mjs';
+import { d as defineEventHandler, g as getQuery, p as products, b as db, r as readBody, e as createError, c as getRequestLocale, aJ as normalizeProductLocalePrices } from '../../../nitro/nitro.mjs';
 import { or, like, sql, and, count, desc } from 'drizzle-orm';
 import 'node:crypto';
 import 'crypto';
@@ -23,13 +23,14 @@ import 'drizzle-orm/sqlite-core';
 import 'drizzle-orm/mysql-core';
 import 'maxmind';
 import 'node:os';
-import '@libsql/client';
 import 'node:url';
+import 'zod';
 import '@iconify/utils';
 import 'consola';
 import 'ioredis';
-import 'zod';
 import 'node:child_process';
+import 'process';
+import 'buffer';
 import 'node:fs/promises';
 import 'node:dns/promises';
 import 'node:net';
@@ -119,7 +120,7 @@ const index = defineEventHandler(async (event) => {
       insertData.slug = insertData.name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)+/g, "");
     }
     insertData.imageUrls = normalizeImageUrls(insertData.imageUrls);
-    insertData.metaData = normalizeMetaData(insertData.metaData);
+    insertData.metaData = await normalizeProductLocalePrices(normalizeMetaData(insertData.metaData));
     if (insertData.status) {
       insertData.isActive = insertData.status !== "inactive";
     } else if (insertData.isActive !== void 0) {
@@ -136,3 +137,4 @@ const index = defineEventHandler(async (event) => {
 });
 
 export { index as default };
+//# sourceMappingURL=index4.mjs.map

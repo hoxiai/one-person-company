@@ -1,0 +1,143 @@
+<!-- NowPayments 加密货币收银台前端页面 -->
+<style>
+body { margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+#nowpayments-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  box-sizing: border-box;
+}
+.pay-btn {
+  background-color: #0b0f19;
+  color: #fff;
+  border: 1px solid #2a3441;
+  padding: 14px 24px;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  width: 100%;
+  max-width: 400px;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+.pay-btn:hover {
+  background-color: #161e2e;
+  border-color: #3f4e61;
+  transform: translateY(-1px);
+}
+.pay-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+.loading-text {
+  color: #8b949e;
+  font-size: 14px;
+  margin-top: 12px;
+  display: none;
+}
+.error-msg {
+  color: #ef4444;
+  font-size: 14px;
+  margin-top: 12px;
+  text-align: center;
+}
+.crypto-icons {
+  display: flex;
+  gap: -5px;
+  margin-top: 16px;
+}
+.crypto-icons svg {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #fff;
+  border: 2px solid #0b0f19;
+}
+</style>
+
+<div id="nowpayments-container">
+  <button id="np-btn" class="pay-btn" onclick="startCryptoCheckout()">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M2 17L12 22L22 17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M2 12L12 17L22 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    Pay with Crypto
+  </button>
+  
+  <div class="crypto-icons">
+    <div style="font-size:12px; color:#6b7280; display:flex; align-items:center; gap:6px;">
+      Accepts USDT, BTC, ETH & 50+ more
+    </div>
+  </div>
+
+  <div id="loading" class="loading-text">Generating crypto invoice...</div>
+  <div id="error" class="error-msg"></div>
+</div>
+
+<script>
+window.isProcessing = false;
+
+window.startCryptoCheckout = async function() {
+  if (window.isProcessing) return;
+  window.isProcessing = true;
+  
+  const btn = document.getElementById('np-btn');
+  const loading = document.getElementById('loading');
+  const errorMsg = document.getElementById('error');
+  
+  btn.disabled = true;
+  loading.style.display = 'block';
+  errorMsg.innerText = '';
+  
+  try {
+    const amount = '{$amount}';
+    const orderId = '{$orderId}';
+    
+    // 我们需要通过自己的后端去调用 NowPayments，避免暴露 API Key
+    // 假设您在系统里新增了一个通用端点 /api/payments/nowpayments/create
+    const returnUrl = window.location.origin + '/callback/' + orderId;
+    const cancelUrl = window.location.origin + '/callback/cancel?orderId=' + orderId;
+    
+    const response = await fetch('/api/payments/initiate', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        orderId: orderId,
+        methodCode: 'nowpayments',
+        returnUrl: returnUrl,
+        cancelUrl: cancelUrl
+      })
+    });
+    
+    const res = await response.json();
+    
+    if (res.code !== 0 || !res.paymentUrl) {
+      throw new Error(res.message || "Failed to create Crypto invoice");
+    }
+
+    // 跳转到 NowPayments 生成的官方收银台 (invoice_url)
+    window.top.location.href = res.paymentUrl;
+
+  } catch (error) {
+    console.error("NowPayments checkout error:", error);
+    
+    btn.disabled = false;
+    loading.style.display = 'none';
+    errorMsg.innerText = error.message || 'Payment initiation failed, please try again';
+    window.isProcessing = false;
+  }
+}
+</script>

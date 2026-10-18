@@ -1,4 +1,4 @@
-import { d as defineEventHandler, ap as requireTrustedRequestOrigin, c3 as mergePromoTracking, c5 as readPromoTracking, c4 as capturePromoTracking, cd as getRequestIP, e as createError, r as readBody, c1 as requireUserSession, b as db, u as users, a5 as clearUserSession, aU as settings, b_ as ensureVisitorId, p as products, as as resolveRequestLocale, ar as getSiteLocaleConfig, G as buildLocaleCurrencyQuote, av as getMinimalCheckoutAdminConfig, cn as stripReservedOrderMeta, aw as buildMinimalCheckoutBridgeMeta, ax as mergeMinimalCheckoutMeta, aa as isMinimalCheckoutRelayOrder, co as MINIMAL_CHECKOUT_SOURCE, af as fulfillMinimalCheckoutRelay, ag as fulfillOrder, ai as emitEvent, cp as getSubscriptionEntitlement, z as orders, O as ORDER_PAY_STATUS, ay as prepareOrderMetaForInsert, az as ensureTopupRecordForOrder, ac as createOrderAttribution, bK as trackVisitorEvent, ao as ORDER_STATUS, cq as getAffectedRows, ad as settlePaidTopup, c as getRequestLocale, U as getLocalizedSettingValue, V as sendEmail, cr as createNotification } from '../../../nitro/nitro.mjs';
+import { d as defineEventHandler, aq as requireTrustedRequestOrigin, c8 as mergePromoTracking, ca as readPromoTracking, c9 as capturePromoTracking, ci as getRequestIP, e as createError, r as readBody, c6 as requireUserSession, b as db, u as users, a5 as clearUserSession, aX as settings, c3 as ensureVisitorId, p as products, at as resolveRequestLocale, as as getSiteLocaleConfig, cs as getProductPricingContext, ct as quoteProductPrice, cu as ProductPricingError, cv as roundPrice, aw as getMinimalCheckoutAdminConfig, cw as stripReservedOrderMeta, ax as buildMinimalCheckoutBridgeMeta, ay as mergeMinimalCheckoutMeta, aa as isMinimalCheckoutRelayOrder, cx as MINIMAL_CHECKOUT_SOURCE, af as fulfillMinimalCheckoutRelay, ag as fulfillOrder, ai as emitEvent, cy as getSubscriptionEntitlement, z as orders, O as ORDER_PAY_STATUS, az as prepareOrderMetaForInsert, aA as ensureTopupRecordForOrder, ac as createOrderAttribution, bN as trackVisitorEvent, ap as ORDER_STATUS, cz as getAffectedRows, ad as settlePaidTopup, c as getRequestLocale, U as getLocalizedSettingValue, V as sendEmail, cA as createNotification } from '../../../nitro/nitro.mjs';
 import { eq, and, or, isNull, gte, desc } from 'drizzle-orm';
 import crypto from 'crypto';
 import { z } from 'zod';
@@ -24,12 +24,13 @@ import 'drizzle-orm/sqlite-core';
 import 'drizzle-orm/mysql-core';
 import 'maxmind';
 import 'node:os';
-import '@libsql/client';
 import 'node:url';
 import '@iconify/utils';
 import 'consola';
 import 'ioredis';
 import 'node:child_process';
+import 'process';
+import 'buffer';
 import 'node:fs/promises';
 import 'node:dns/promises';
 import 'node:net';
@@ -72,7 +73,7 @@ const matchesCurrencySnapshot = (value, snapshot) => {
   var _a, _b;
   const current = parseOrderMetaData(value).currencySnapshot;
   if (!current || typeof current !== "object") return false;
-  const basicMatches = current.locale === snapshot.locale && current.baseCurrency === snapshot.baseCurrency && Number(current.baseAmount) === Number(snapshot.baseAmount) && current.currency === snapshot.currency && Number(current.exchangeRate) === Number(snapshot.exchangeRate) && Number(current.amount) === Number(snapshot.amount) && current.source === snapshot.source;
+  const basicMatches = current.locale === snapshot.locale && current.baseCurrency === snapshot.baseCurrency && Number(current.baseAmount) === Number(snapshot.baseAmount) && current.currency === snapshot.currency && Number(current.exchangeRate) === Number(snapshot.exchangeRate) && Number(current.amount) === Number(snapshot.amount) && current.source === snapshot.source && current.unitPrice === snapshot.unitPrice && current.originalPrice === snapshot.originalPrice;
   if (!basicMatches) return false;
   const currentRate = Number(((_a = current.discountDetails) == null ? void 0 : _a.combinedDiscountRate) || 1);
   const targetRate = Number(((_b = snapshot.discountDetails) == null ? void 0 : _b.combinedDiscountRate) || 1);
@@ -231,8 +232,6 @@ const checkout_post = defineEventHandler(async (event) => {
         productMetaData = {};
       }
     }
-    const originalBaseAmount = Number((product.price * productNum).toFixed(4));
-    let effectiveBaseAmount = originalBaseAmount;
     let volumeDiscountRate = 1;
     const rawVolumeDiscounts = productMetaData == null ? void 0 : productMetaData.volume_discounts;
     if (Array.isArray(rawVolumeDiscounts) && rawVolumeDiscounts.length > 0) {
@@ -267,12 +266,18 @@ const checkout_post = defineEventHandler(async (event) => {
       }
     }
     const combinedDiscountRate = Number((volumeDiscountRate * promoDiscountRate).toFixed(4));
-    if (combinedDiscountRate < 1) {
-      effectiveBaseAmount = Number((originalBaseAmount * combinedDiscountRate).toFixed(4));
+    const checkoutLocale = resolveRequestLocale(event, parsedBody.locale, await getSiteLocaleConfig());
+    const pricingContext = await getProductPricingContext();
+    let currencyQuote;
+    try {
+      currencyQuote = quoteProductPrice(product, checkoutLocale, pricingContext, productNum, combinedDiscountRate);
+    } catch (error) {
+      if (error instanceof ProductPricingError) throw createError({ statusCode: 400, message: error.message });
+      throw error;
     }
-    const discountBaseAmount = Number((originalBaseAmount - effectiveBaseAmount).toFixed(4));
+    const { originalBaseAmount, baseAmount: effectiveBaseAmount, discountBaseAmount } = currencyQuote;
     const discountDetails = {
-      originalPrice: product.price,
+      originalPrice: originalBaseAmount / productNum,
       quantity: productNum,
       originalBaseAmount,
       volumeDiscountRate: volumeDiscountRate < 1 ? volumeDiscountRate : null,
@@ -281,14 +286,9 @@ const checkout_post = defineEventHandler(async (event) => {
       discountBaseAmount,
       finalBaseAmount: effectiveBaseAmount
     };
-    const checkoutLocale = resolveRequestLocale(event, parsedBody.locale, await getSiteLocaleConfig());
-    const currencyQuote = await buildLocaleCurrencyQuote(
-      effectiveBaseAmount,
-      checkoutLocale
-    );
     const totalAmount = currencyQuote.amount;
     const configuredRechargeAmount = Number(productMetaData.recharge_amount || 0);
-    const rechargeAmount = configuredRechargeAmount > 0 ? configuredRechargeAmount * productNum : currencyQuote.baseAmount;
+    const rechargeAmount = configuredRechargeAmount > 0 ? configuredRechargeAmount * productNum : currencyQuote.source === "product-locale-price" ? roundPrice(product.price * productNum * combinedDiscountRate, pricingContext.baseCurrency) : currencyQuote.baseAmount;
     if (product.type === "topup" && (!(totalAmount > 0) || !(rechargeAmount > 0))) {
       throw createError({ statusCode: 400, message: messages.invalidTopupAmount });
     }
@@ -302,6 +302,8 @@ const checkout_post = defineEventHandler(async (event) => {
       exchangeRate: currencyQuote.rate,
       amount: currencyQuote.amount,
       source: currencyQuote.source,
+      unitPrice: currencyQuote.unitPrice,
+      ...currencyQuote.originalPrice !== void 0 ? { originalPrice: currencyQuote.originalPrice } : {},
       ...combinedDiscountRate < 1 ? { discountDetails } : {}
     };
     const minimalCheckoutConfig = await getMinimalCheckoutAdminConfig();
@@ -312,6 +314,7 @@ const checkout_post = defineEventHandler(async (event) => {
       ...promoTracking.promoCode ? { promoCode: promoTracking.promoCode } : {},
       ...promoTracking.agentCode ? { agentCode: promoTracking.agentCode } : {},
       order_quantity: productNum,
+      ...product.type === "topup" ? { recharge_amount: rechargeAmount } : {},
       ...combinedDiscountRate < 1 ? { discountDetails } : {},
       currencySnapshot
     };
@@ -579,3 +582,4 @@ const checkout_post = defineEventHandler(async (event) => {
 });
 
 export { checkout_post as default };
+//# sourceMappingURL=checkout.post.mjs.map

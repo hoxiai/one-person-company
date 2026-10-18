@@ -1,5 +1,5 @@
-import { d as defineEventHandler, g as getQuery, b as db, a6 as logs, t as toIsoTimestamp } from '../../../nitro/nitro.mjs';
-import { count, desc } from 'drizzle-orm';
+import { d as defineEventHandler, g as getQuery, a6 as logs, b as db, t as toIsoTimestamp } from '../../../nitro/nitro.mjs';
+import { or, like, count, desc } from 'drizzle-orm';
 import 'node:crypto';
 import 'crypto';
 import 'fs';
@@ -23,13 +23,14 @@ import 'drizzle-orm/sqlite-core';
 import 'drizzle-orm/mysql-core';
 import 'maxmind';
 import 'node:os';
-import '@libsql/client';
 import 'node:url';
+import 'zod';
 import '@iconify/utils';
 import 'consola';
 import 'ioredis';
-import 'zod';
 import 'node:child_process';
+import 'process';
+import 'buffer';
 import 'node:fs/promises';
 import 'node:dns/promises';
 import 'node:net';
@@ -38,10 +39,12 @@ import '@adonisjs/hash/drivers/scrypt';
 
 const index_get = defineEventHandler(async (event) => {
   const query = getQuery(event);
-  const page = parseInt(query.page) || 1;
-  const pageSize = parseInt(query.pageSize) || 50;
+  const page = Math.max(1, parseInt(String(query.page)) || 1);
+  const pageSize = Math.min(100, Math.max(1, parseInt(String(query.pageSize)) || 50));
+  const search = typeof query.search === "string" ? query.search.trim().slice(0, 200) : "";
+  const filter = search ? or(like(logs.message, `%${search}%`), like(logs.details, `%${search}%`)) : void 0;
   const offset = (page - 1) * pageSize;
-  const [{ value: total }] = await db.select({ value: count() }).from(logs);
+  const [{ value: total }] = await db.select({ value: count() }).from(logs).where(filter);
   const result = await db.select({
     id: logs.id,
     level: logs.level,
@@ -49,7 +52,7 @@ const index_get = defineEventHandler(async (event) => {
     details: logs.details,
     source: logs.source,
     createdAt: logs.createdAt
-  }).from(logs).orderBy(desc(logs.createdAt)).limit(pageSize).offset(offset);
+  }).from(logs).where(filter).orderBy(desc(logs.createdAt)).limit(pageSize).offset(offset);
   const normalizedLogs = result.map((log) => ({
     ...log,
     createdAt: toIsoTimestamp(log.createdAt)
@@ -63,3 +66,4 @@ const index_get = defineEventHandler(async (event) => {
 });
 
 export { index_get as default };
+//# sourceMappingURL=index.get6.mjs.map

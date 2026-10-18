@@ -1,4 +1,4 @@
-import { d as defineEventHandler, ap as requireTrustedRequestOrigin, c as getRequestLocale, r as readBody, c3 as mergePromoTracking, c4 as capturePromoTracking, c5 as readPromoTracking, e as createError, bC as validateEmail, b as db, u as users, j as hashPassword, aq as ensurePromoMember, c6 as bindInviteRelation, c7 as requestPromoAgentJoin, ai as emitEvent, c8 as promoAgentRelations, c9 as promoInviteRelations, aH as promoMembers, bZ as issueWebSession, bK as trackVisitorEvent, b_ as ensureVisitorId, bB as userTokens, bF as EMAIL_VERIFY_TOKEN_NAME, U as getLocalizedSettingValue, V as sendEmail } from '../../../nitro/nitro.mjs';
+import { d as defineEventHandler, aq as requireTrustedRequestOrigin, c as getRequestLocale, r as readBody, c8 as mergePromoTracking, c9 as capturePromoTracking, ca as readPromoTracking, e as createError, bF as validateEmail, b as db, u as users, j as hashPassword, ar as ensurePromoMember, cb as bindInviteRelation, cc as requestPromoAgentJoin, ai as emitEvent, cd as promoAgentRelations, ce as promoInviteRelations, aK as promoMembers, c2 as issueWebSession, bN as trackVisitorEvent, c3 as ensureVisitorId, bE as userTokens, bI as EMAIL_VERIFY_TOKEN_NAME, U as getLocalizedSettingValue, V as sendEmail } from '../../../nitro/nitro.mjs';
 import { eq } from 'drizzle-orm';
 import 'node:crypto';
 import 'crypto';
@@ -23,13 +23,14 @@ import 'drizzle-orm/sqlite-core';
 import 'drizzle-orm/mysql-core';
 import 'maxmind';
 import 'node:os';
-import '@libsql/client';
 import 'node:url';
+import 'zod';
 import '@iconify/utils';
 import 'consola';
 import 'ioredis';
-import 'zod';
 import 'node:child_process';
+import 'process';
+import 'buffer';
 import 'node:fs/promises';
 import 'node:dns/promises';
 import 'node:net';
@@ -166,3 +167,4 @@ const register_post = defineEventHandler(async (event) => {
 });
 
 export { register_post as default };
+//# sourceMappingURL=register.post.mjs.map

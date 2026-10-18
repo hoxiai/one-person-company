@@ -1,4 +1,4 @@
-import { cH as defineCachedEventHandler, f as getRouterParam, c as getRequestLocale, e as createError, b as db, p as products } from '../../../nitro/nitro.mjs';
+import { cQ as defineCachedEventHandler, f as getRouterParam, c as getRequestLocale, e as createError, b as db, p as products } from '../../../nitro/nitro.mjs';
 import { and, eq, ne, sql } from 'drizzle-orm';
 import 'node:crypto';
 import 'crypto';
@@ -23,13 +23,14 @@ import 'drizzle-orm/sqlite-core';
 import 'drizzle-orm/mysql-core';
 import 'maxmind';
 import 'node:os';
-import '@libsql/client';
 import 'node:url';
+import 'zod';
 import '@iconify/utils';
 import 'consola';
 import 'ioredis';
-import 'zod';
 import 'node:child_process';
+import 'process';
+import 'buffer';
 import 'node:fs/promises';
 import 'node:dns/promises';
 import 'node:net';
@@ -75,3 +76,4 @@ const _slug__get = defineCachedEventHandler(async (event) => {
 });
 
 export { _slug__get as default };
+//# sourceMappingURL=_slug_.get.mjs.map

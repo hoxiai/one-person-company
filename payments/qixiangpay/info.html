@@ -1,0 +1,170 @@
+<style>
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background: transparent;
+  color: #e5e7eb;
+}
+
+#qixiangpay-container {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 20px;
+}
+
+.qixiangpay-card {
+  max-width: 420px;
+  margin: 0 auto;
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  border-radius: 18px;
+  background: rgba(15, 23, 42, 0.9);
+  box-shadow: 0 20px 40px rgba(15, 23, 42, 0.28);
+  padding: 24px;
+  text-align: center;
+}
+
+.qixiangpay-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  border-radius: 999px;
+  background: rgba(59, 130, 246, 0.15);
+  border: 1px solid rgba(59, 130, 246, 0.28);
+  color: #60a5fa;
+  margin-bottom: 16px;
+}
+
+.qixiangpay-title {
+  margin: 0 0 8px;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.qixiangpay-desc {
+  margin: 0 0 20px;
+  color: #94a3b8;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.qixiangpay-amount {
+  margin-bottom: 20px;
+  font-size: 28px;
+  font-weight: 800;
+  color: #f8fafc;
+}
+
+.qixiangpay-button {
+  width: 100%;
+  border: 0;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #22c55e, #16a34a);
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 700;
+  padding: 14px 18px;
+  cursor: pointer;
+  transition: transform 0.15s ease, opacity 0.2s ease;
+}
+
+.qixiangpay-button:hover {
+  transform: translateY(-1px);
+}
+
+.qixiangpay-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.qixiangpay-status {
+  margin-top: 14px;
+  font-size: 14px;
+  color: #94a3b8;
+}
+
+.qixiangpay-error {
+  margin-top: 14px;
+  color: #f87171;
+  font-size: 14px;
+  min-height: 20px;
+}
+</style>
+
+<div id="qixiangpay-container">
+  <div class="qixiangpay-card">
+    <div class="qixiangpay-badge">
+      <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.8">
+        <path d="M12 3v18" stroke-linecap="round"></path>
+        <path d="M17 8.5c0-1.933-2.239-3.5-5-3.5s-5 1.567-5 3.5 2.239 3.5 5 3.5 5 1.567 5 3.5-2.239 3.5-5 3.5-5-1.567-5-3.5" stroke-linecap="round"></path>
+      </svg>
+    </div>
+    <h3 class="qixiangpay-title">前往奇翔支付收银台</h3>
+    <p class="qixiangpay-desc">
+      将跳转到奇翔支付完成付款。接口会根据设备环境自动适配 H5、扫码或微信内支付。
+    </p>
+    <div class="qixiangpay-amount">¥ {$amount}</div>
+    <button id="qixiangpay-button" class="qixiangpay-button">立即支付</button>
+    <div id="qixiangpay-status" class="qixiangpay-status"></div>
+    <div id="qixiangpay-error" class="qixiangpay-error"></div>
+  </div>
+</div>
+
+<script>
+(function () {
+  const orderId = '{$orderId}';
+  const button = document.getElementById('qixiangpay-button');
+  const statusEl = document.getElementById('qixiangpay-status');
+  const errorEl = document.getElementById('qixiangpay-error');
+
+  if (!button || window.__qixiangpayBound === orderId) return;
+  window.__qixiangpayBound = orderId;
+
+  const setLoading = (loading) => {
+    button.disabled = loading;
+    button.textContent = loading ? '正在创建支付...' : '立即支付';
+    statusEl.textContent = loading ? '正在请求支付网关，请稍候...' : '';
+  };
+
+  const setError = (message) => {
+    errorEl.textContent = message || '';
+  };
+
+  button.addEventListener('click', async function () {
+    setError('');
+    setLoading(true);
+
+    try {
+      const returnUrl = window.location.origin + '/callback/' + orderId;
+      const cancelUrl = window.location.origin + '/callback/cancel?orderId=' + encodeURIComponent(orderId);
+
+      const response = await fetch('/api/payments/initiate', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          orderId: orderId,
+          methodCode: 'qixiangpay',
+          returnUrl: returnUrl,
+          cancelUrl: cancelUrl
+        })
+      });
+
+      const result = await response.json();
+      const paymentUrl = result && result.data ? result.data.paymentUrl : '';
+
+      if (result.code !== 0 || !paymentUrl) {
+        throw new Error(result.message || '创建支付失败');
+      }
+
+      window.top.location.href = paymentUrl;
+    } catch (error) {
+      setLoading(false);
+      setError(error && error.message ? error.message : '支付发起失败，请稍后重试');
+    }
+  });
+})();
+</script>

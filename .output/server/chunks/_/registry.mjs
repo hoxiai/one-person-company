@@ -12,3 +12,4 @@ const resolveCollectProvider = (url) => {
 };
 
 export { registerCollectProvider, resolveCollectProvider };
+//# sourceMappingURL=registry.mjs.map

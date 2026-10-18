@@ -1,4 +1,4 @@
-import { d as defineEventHandler, ap as requireTrustedRequestOrigin, c as getRequestLocale, c1 as requireUserSession, e as createError, r as readBody, bC as validateEmail, b as db, u as users, a0 as verifyPassword, bD as normalizeEmail, ca as getEmailVerifySendCooldown, bE as revokeEmailVerifyTokens, cb as issueEmailVerification, c2 as overwriteSessionUser } from '../../../nitro/nitro.mjs';
+import { d as defineEventHandler, aq as requireTrustedRequestOrigin, c as getRequestLocale, c6 as requireUserSession, e as createError, r as readBody, bF as validateEmail, b as db, u as users, a0 as verifyPassword, bG as normalizeEmail, cf as getEmailVerifySendCooldown, bH as revokeEmailVerifyTokens, cg as issueEmailVerification, c7 as overwriteSessionUser } from '../../../nitro/nitro.mjs';
 import { eq } from 'drizzle-orm';
 import 'node:crypto';
 import 'crypto';
@@ -23,13 +23,14 @@ import 'drizzle-orm/sqlite-core';
 import 'drizzle-orm/mysql-core';
 import 'maxmind';
 import 'node:os';
-import '@libsql/client';
 import 'node:url';
+import 'zod';
 import '@iconify/utils';
 import 'consola';
 import 'ioredis';
-import 'zod';
 import 'node:child_process';
+import 'process';
+import 'buffer';
 import 'node:fs/promises';
 import 'node:dns/promises';
 import 'node:net';
@@ -138,3 +139,4 @@ const email_put = defineEventHandler(async (event) => {
 });
 
 export { email_put as default };
+//# sourceMappingURL=email.put.mjs.map

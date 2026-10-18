@@ -1,4 +1,4 @@
-import { d as defineEventHandler, c as getRequestLocale, bz as readFormData, e as createError } from '../../../nitro/nitro.mjs';
+import { d as defineEventHandler, c as getRequestLocale, bC as readFormData, e as createError } from '../../../nitro/nitro.mjs';
 import fs from 'node:fs';
 import path from 'node:path';
 import crypto from 'node:crypto';
@@ -23,13 +23,14 @@ import 'drizzle-orm/sqlite-core';
 import 'drizzle-orm/mysql-core';
 import 'maxmind';
 import 'node:os';
-import '@libsql/client';
 import 'node:url';
+import 'zod';
 import '@iconify/utils';
 import 'consola';
 import 'ioredis';
-import 'zod';
 import 'node:child_process';
+import 'process';
+import 'buffer';
 import 'node:fs/promises';
 import 'node:dns/promises';
 import 'node:net';
@@ -87,3 +88,4 @@ const index_post = defineEventHandler(async (event) => {
 });
 
 export { index_post as default };
+//# sourceMappingURL=index.post4.mjs.map

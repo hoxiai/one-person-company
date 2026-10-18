@@ -1,0 +1,60 @@
+<div id="airwallex-payment-container">
+  <div class="text-center py-6">
+    <p class="mb-4 text-gray-600 dark:text-gray-300">
+      You are about to securely pay with Airwallex.
+    </p>
+    <button 
+      id="airwallex-pay-btn" 
+      class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg shadow-md transition duration-300 w-full"
+    >
+      Proceed to Airwallex
+    </button>
+    <p id="airwallex-error-msg" class="text-red-500 mt-3 text-sm hidden"></p>
+  </div>
+</div>
+
+<script>
+(function() {
+  const payBtn = document.getElementById('airwallex-pay-btn');
+  const errorMsg = document.getElementById('airwallex-error-msg');
+
+  if (!payBtn) return;
+
+  payBtn.addEventListener('click', async () => {
+    try {
+      payBtn.disabled = true;
+      payBtn.innerHTML = '<span class="inline-block animate-spin mr-2">⟳</span>Processing...';
+      errorMsg.classList.add('hidden');
+
+      // checkoutData globally injected by PaymentModal component
+      const requestData = window.checkoutData || {};
+      requestData.payMethod = 'airwallex';
+
+      const response = await fetch('/api/payments/initiate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(requestData)
+      });
+
+      const result = await response.json();
+
+      if (!response.ok) {
+        throw new Error(result.message || 'Failed to initiate Airwallex payment');
+      }
+
+      if (result.paymentUrl) {
+        window.location.href = result.paymentUrl;
+      } else {
+        throw new Error('Airwallex did not return a valid payment link');
+      }
+
+    } catch (err) {
+      console.error('Airwallex Error:', err);
+      errorMsg.textContent = err.message;
+      errorMsg.classList.remove('hidden');
+      payBtn.disabled = false;
+      payBtn.innerHTML = 'Proceed to Airwallex';
+    }
+  });
+})();
+</script>

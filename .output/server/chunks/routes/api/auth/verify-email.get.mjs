@@ -1,4 +1,4 @@
-import { d as defineEventHandler, g as getQuery, bV as sendLocalizedRedirect, b as db, bB as userTokens, bF as EMAIL_VERIFY_TOKEN_NAME, u as users, z as orders, b0 as getUserSession, a2 as setUserSession } from '../../../nitro/nitro.mjs';
+import { d as defineEventHandler, g as getQuery, b_ as sendLocalizedRedirect, b as db, bE as userTokens, bI as EMAIL_VERIFY_TOKEN_NAME, u as users, z as orders, b3 as getUserSession, a2 as setUserSession } from '../../../nitro/nitro.mjs';
 import { eq, and, isNull } from 'drizzle-orm';
 import 'node:crypto';
 import 'crypto';
@@ -23,13 +23,14 @@ import 'drizzle-orm/sqlite-core';
 import 'drizzle-orm/mysql-core';
 import 'maxmind';
 import 'node:os';
-import '@libsql/client';
 import 'node:url';
+import 'zod';
 import '@iconify/utils';
 import 'consola';
 import 'ioredis';
-import 'zod';
 import 'node:child_process';
+import 'process';
+import 'buffer';
 import 'node:fs/promises';
 import 'node:dns/promises';
 import 'node:net';
@@ -80,3 +81,4 @@ const verifyEmail_get = defineEventHandler(async (event) => {
 });
 
 export { verifyEmail_get as default };
+//# sourceMappingURL=verify-email.get.mjs.map

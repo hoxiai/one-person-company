@@ -9,3 +9,4 @@ const renderSlot = (slots, name, props, ...rest) => {
 };
 
 export { renderSlot as r };
+//# sourceMappingURL=slot-D7Fr0_4_.mjs.map

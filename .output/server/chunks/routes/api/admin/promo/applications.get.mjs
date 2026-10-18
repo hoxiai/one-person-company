@@ -1,4 +1,4 @@
-import { d as defineEventHandler, g as getQuery, b as db, aL as promoApplications, u as users } from '../../../../nitro/nitro.mjs';
+import { d as defineEventHandler, g as getQuery, b as db, aO as promoApplications, u as users } from '../../../../nitro/nitro.mjs';
 import { sql, eq, desc } from 'drizzle-orm';
 import 'node:crypto';
 import 'crypto';
@@ -23,13 +23,14 @@ import 'drizzle-orm/sqlite-core';
 import 'drizzle-orm/mysql-core';
 import 'maxmind';
 import 'node:os';
-import '@libsql/client';
 import 'node:url';
+import 'zod';
 import '@iconify/utils';
 import 'consola';
 import 'ioredis';
-import 'zod';
 import 'node:child_process';
+import 'process';
+import 'buffer';
 import 'node:fs/promises';
 import 'node:dns/promises';
 import 'node:net';
@@ -68,3 +69,4 @@ const applications_get = defineEventHandler(async (event) => {
 });
 
 export { applications_get as default };
+//# sourceMappingURL=applications.get.mjs.map

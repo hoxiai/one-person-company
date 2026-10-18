@@ -1,4 +1,4 @@
-import { dm as getListingModelSettingsByUser, dn as getQingpuAINodeBaseUrl, dp as normalizeAinodeCrawl1688Product, dq as extract1688OfferId } from '../nitro/nitro.mjs';
+import { dD as getListingModelSettingsByUser, dE as getQingpuAINodeBaseUrl, dF as normalizeAinodeCrawl1688Product, dG as extract1688OfferId } from '../nitro/nitro.mjs';
 import { registerCollectProvider } from './registry.mjs';
 import 'drizzle-orm';
 import 'node:crypto';
@@ -24,13 +24,14 @@ import 'drizzle-orm/sqlite-core';
 import 'drizzle-orm/mysql-core';
 import 'maxmind';
 import 'node:os';
-import '@libsql/client';
 import 'node:url';
+import 'zod';
 import '@iconify/utils';
 import 'consola';
 import 'ioredis';
-import 'zod';
 import 'node:child_process';
+import 'process';
+import 'buffer';
 import 'node:fs/promises';
 import 'node:dns/promises';
 import 'node:net';
@@ -246,3 +247,4 @@ registerCollectProvider({
     return { ok: true, input };
   }
 });
+//# sourceMappingURL=ainode-crawl-provider.mjs.map

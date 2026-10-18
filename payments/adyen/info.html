@@ -1,0 +1,61 @@
+<div id="adyen-payment-container">
+  <div class="text-center py-6">
+    <p class="mb-4 text-gray-600 dark:text-gray-300">
+      You are about to securely pay with Adyen.
+    </p>
+    <button 
+      id="adyen-pay-btn" 
+      class="bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-6 rounded-lg shadow-md transition duration-300 w-full"
+    >
+      Proceed to Adyen
+    </button>
+    <p id="adyen-error-msg" class="text-red-500 mt-3 text-sm hidden"></p>
+  </div>
+</div>
+
+<script>
+(function() {
+  const payBtn = document.getElementById('adyen-pay-btn');
+  const errorMsg = document.getElementById('adyen-error-msg');
+
+  if (!payBtn) return;
+
+  payBtn.addEventListener('click', async () => {
+    try {
+      payBtn.disabled = true;
+      payBtn.innerHTML = '<span class="inline-block animate-spin mr-2">⟳</span>Processing...';
+      errorMsg.classList.add('hidden');
+
+      // The `checkoutData` object is globally provided by the Nuxt PaymentModal component
+      const requestData = window.checkoutData || {};
+      // Ensure we explicitly declare the gateway method
+      requestData.payMethod = 'adyen';
+
+      const response = await fetch('/api/payments/initiate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(requestData)
+      });
+
+      const result = await response.json();
+
+      if (!response.ok) {
+        throw new Error(result.message || 'Failed to initiate Adyen payment');
+      }
+
+      if (result.paymentUrl) {
+        window.location.href = result.paymentUrl;
+      } else {
+        throw new Error('Adyen did not return a valid payment link');
+      }
+
+    } catch (err) {
+      console.error('Adyen Error:', err);
+      errorMsg.textContent = err.message;
+      errorMsg.classList.remove('hidden');
+      payBtn.disabled = false;
+      payBtn.innerHTML = 'Proceed to Adyen';
+    }
+  });
+})();
+</script>

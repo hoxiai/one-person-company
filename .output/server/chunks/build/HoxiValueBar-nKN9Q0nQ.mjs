@@ -29,3 +29,4 @@ _sfc_main.setup = (props, ctx) => {
 const __nuxt_component_2 = Object.assign(_sfc_main, { __name: "HoxiValueBar" });
 
 export { __nuxt_component_2 as default };
+//# sourceMappingURL=HoxiValueBar-nKN9Q0nQ.mjs.map

@@ -1,4 +1,4 @@
-import { d as defineEventHandler, c as getRequestLocale, f as getRouterParam, e as createError, r as readBody, b as db, z as orders, O as ORDER_PAY_STATUS, a8 as findSubscriptionRefundImpact, a9 as describeSubscriptionRefundImpact, s as setAuditMeta, aa as isMinimalCheckoutRelayOrder, ab as readMinimalCheckoutBridgeMeta, ac as createOrderAttribution, ad as settlePaidTopup, ae as recoverCreditedApayTopup, af as fulfillMinimalCheckoutRelay, ag as fulfillOrder, ah as settlePromoCommission, ai as emitEvent, aj as cancelPromoCommission, ak as revokeSubscriptionForOrder, al as refundTopup, am as SUBSCRIPTION_REFUND_IMPACT_CODE } from '../../../../nitro/nitro.mjs';
+import { d as defineEventHandler, c as getRequestLocale, f as getRouterParam, e as createError, r as readBody, b as db, z as orders, O as ORDER_PAY_STATUS, a8 as findSubscriptionRefundImpact, a9 as describeSubscriptionRefundImpact, s as setAuditMeta, aa as isMinimalCheckoutRelayOrder, ab as readMinimalCheckoutBridgeMeta, ac as createOrderAttribution, ad as settlePaidTopup, ae as recoverCreditedApayTopup, af as fulfillMinimalCheckoutRelay, ag as fulfillOrder, ah as settlePromoCommission, ai as emitEvent, aj as cancelPromoCommission, ak as revokeSubscriptionForOrder, al as refundTopup, am as sendMinimalCheckoutRefundNotification, an as SUBSCRIPTION_REFUND_IMPACT_CODE } from '../../../../nitro/nitro.mjs';
 import { eq } from 'drizzle-orm';
 import 'node:crypto';
 import 'crypto';
@@ -23,13 +23,14 @@ import 'drizzle-orm/sqlite-core';
 import 'drizzle-orm/mysql-core';
 import 'maxmind';
 import 'node:os';
-import '@libsql/client';
 import 'node:url';
+import 'zod';
 import '@iconify/utils';
 import 'consola';
 import 'ioredis';
-import 'zod';
 import 'node:child_process';
+import 'process';
+import 'buffer';
 import 'node:fs/promises';
 import 'node:dns/promises';
 import 'node:net';
@@ -130,7 +131,14 @@ const _id__put = defineEventHandler(async (event) => {
       }
     }
   }
+  if (body.payStatus === ORDER_PAY_STATUS.REFUNDED && wasCharged && result[0]) {
+    const notification = await sendMinimalCheckoutRefundNotification(result[0]);
+    if (!notification.skipped && !notification.delivered) {
+      throw createError({ statusCode: 502, message: locale === "zh" ? "\u9000\u6B3E\u72B6\u6001\u5DF2\u4FDD\u5B58\uFF0C\u4E0B\u6E38\u901A\u77E5\u5931\u8D25\uFF0C\u8BF7\u91CD\u8BD5" : "Refund saved; downstream notification failed, retry required" });
+    }
+  }
   return result[0];
 });
 
 export { _id__put as default };
+//# sourceMappingURL=_id_.put.mjs.map

@@ -1,4 +1,4 @@
-import { d as defineEventHandler, c as getRequestLocale, b as db, aC as failures, z as orders, e as createError } from '../../../../nitro/nitro.mjs';
+import { d as defineEventHandler, c as getRequestLocale, b as db, aD as failures, z as orders, e as createError } from '../../../../nitro/nitro.mjs';
 import { eq, desc } from 'drizzle-orm';
 import 'node:crypto';
 import 'crypto';
@@ -23,13 +23,14 @@ import 'drizzle-orm/sqlite-core';
 import 'drizzle-orm/mysql-core';
 import 'maxmind';
 import 'node:os';
-import '@libsql/client';
 import 'node:url';
+import 'zod';
 import '@iconify/utils';
 import 'consola';
 import 'ioredis';
-import 'zod';
 import 'node:child_process';
+import 'process';
+import 'buffer';
 import 'node:fs/promises';
 import 'node:dns/promises';
 import 'node:net';
@@ -63,3 +64,4 @@ const failures_get = defineEventHandler(async (event) => {
 });
 
 export { failures_get as default };
+//# sourceMappingURL=failures.get.mjs.map

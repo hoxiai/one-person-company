@@ -1,4 +1,4 @@
-import { d as defineEventHandler, Y as resolveClientIp, Z as checkIpRateLimit, e as createError, r as readBody, bL as verifyCaptchaChallengeToken, bM as issueCaptchaTicket } from '../../../../nitro/nitro.mjs';
+import { d as defineEventHandler, Y as resolveClientIp, Z as checkIpRateLimit, e as createError, r as readBody, bQ as verifyCaptchaChallengeToken, bR as issueCaptchaTicket } from '../../../../nitro/nitro.mjs';
 import 'drizzle-orm';
 import 'node:crypto';
 import 'crypto';
@@ -23,13 +23,14 @@ import 'drizzle-orm/sqlite-core';
 import 'drizzle-orm/mysql-core';
 import 'maxmind';
 import 'node:os';
-import '@libsql/client';
 import 'node:url';
+import 'zod';
 import '@iconify/utils';
 import 'consola';
 import 'ioredis';
-import 'zod';
 import 'node:child_process';
+import 'process';
+import 'buffer';
 import 'node:fs/promises';
 import 'node:dns/promises';
 import 'node:net';
@@ -77,3 +78,4 @@ const check_post = defineEventHandler(async (event) => {
 });
 
 export { check_post as default };
+//# sourceMappingURL=check.post.mjs.map

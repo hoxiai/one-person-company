@@ -1,4 +1,4 @@
-import { d as defineEventHandler, c as getRequestLocale, c1 as requireUserSession, e as createError, b as db, p as products, H as subscriptions } from '../../../nitro/nitro.mjs';
+import { d as defineEventHandler, c as getRequestLocale, b3 as getUserSession, b as db, p as products, H as subscriptions } from '../../../nitro/nitro.mjs';
 import { eq, and, or, isNull, gt, desc } from 'drizzle-orm';
 import 'node:crypto';
 import 'crypto';
@@ -23,13 +23,14 @@ import 'drizzle-orm/sqlite-core';
 import 'drizzle-orm/mysql-core';
 import 'maxmind';
 import 'node:os';
-import '@libsql/client';
 import 'node:url';
+import 'zod';
 import '@iconify/utils';
 import 'consola';
 import 'ioredis';
-import 'zod';
 import 'node:child_process';
+import 'process';
+import 'buffer';
 import 'node:fs/promises';
 import 'node:dns/promises';
 import 'node:net';
@@ -38,9 +39,9 @@ import '@adonisjs/hash/drivers/scrypt';
 
 const index_get = defineEventHandler(async (event) => {
   const locale = getRequestLocale(event);
-  const session = await requireUserSession(event);
-  if (!session.user) {
-    throw createError({ statusCode: 401, message: locale === "zh" ? "\u672A\u767B\u5F55" : "Unauthorized" });
+  const session = await getUserSession(event).catch(() => null);
+  if (!(session == null ? void 0 : session.user)) {
+    return { data: null };
   }
   const userId = session.user.id;
   const subRows = await db.select({
@@ -95,3 +96,4 @@ const index_get = defineEventHandler(async (event) => {
 });
 
 export { index_get as default };
+//# sourceMappingURL=index.get2.mjs.map

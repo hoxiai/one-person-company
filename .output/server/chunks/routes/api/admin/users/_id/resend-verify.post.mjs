@@ -1,4 +1,4 @@
-import { d as defineEventHandler, ap as requireTrustedRequestOrigin, c as getRequestLocale, f as getRouterParam, e as createError, b as db, u as users, bB as userTokens, bF as EMAIL_VERIFY_TOKEN_NAME, U as getLocalizedSettingValue, V as sendEmail } from '../../../../../nitro/nitro.mjs';
+import { d as defineEventHandler, aq as requireTrustedRequestOrigin, c as getRequestLocale, f as getRouterParam, e as createError, b as db, u as users, bE as userTokens, bI as EMAIL_VERIFY_TOKEN_NAME, U as getLocalizedSettingValue, V as sendEmail } from '../../../../../nitro/nitro.mjs';
 import { eq } from 'drizzle-orm';
 import 'node:crypto';
 import 'crypto';
@@ -23,13 +23,14 @@ import 'drizzle-orm/sqlite-core';
 import 'drizzle-orm/mysql-core';
 import 'maxmind';
 import 'node:os';
-import '@libsql/client';
 import 'node:url';
+import 'zod';
 import '@iconify/utils';
 import 'consola';
 import 'ioredis';
-import 'zod';
 import 'node:child_process';
+import 'process';
+import 'buffer';
 import 'node:fs/promises';
 import 'node:dns/promises';
 import 'node:net';
@@ -83,3 +84,4 @@ const resendVerify_post = defineEventHandler(async (event) => {
 });
 
 export { resendVerify_post as default };
+//# sourceMappingURL=resend-verify.post.mjs.map

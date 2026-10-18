@@ -1,0 +1,125 @@
+<!-- PayPal 收银台前端页面 -->
+<style>
+body { margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+#paypal-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  box-sizing: border-box;
+}
+.pay-btn {
+  background-color: #ffc439;
+  color: #003087;
+  border: none;
+  padding: 14px 24px;
+  border-radius: 4px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  width: 100%;
+  max-width: 400px;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+.pay-btn:hover {
+  background-color: #f2ba36;
+}
+.pay-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+.loading-text {
+  color: #fff;
+  font-size: 14px;
+  margin-top: 10px;
+  display: none;
+}
+.error-msg {
+  color: #ff4d4f;
+  font-size: 14px;
+  margin-top: 10px;
+  text-align: center;
+}
+</style>
+
+<div id="paypal-container">
+  <!-- 使用一个经典的 PayPal 按钮样式 -->
+  <button id="paypal-btn" class="pay-btn" onclick="startPayPalCheckout()">
+    <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
+      <path d="M7.076 21.337H2.47a.641.641 0 0 1-.633-.74L4.944.901C5.026.382 5.474 0 6.007 0h7.46c2.535 0 4.601 1.052 5.077 3.121.317 1.384.07 3.011-.963 4.381-1.045 1.385-2.916 2.193-5.322 2.193h-.726a1.18 1.18 0 0 0-1.166 1.018L9.07 19.467c-.07.419-.434.723-.858.723h-1.136z" fill="#003087"/>
+      <path d="M21.527 8.52c-.896 2.378-2.981 3.526-5.918 3.526h-1.782a1.868 1.868 0 0 0-1.848 1.583l-1.306 8.257c-.066.42.25.795.674.795h3.468c.51 0 .938-.37 1.01-.87l.013-.053 1.018-6.442a.862.862 0 0 1 .85-.726h.547c2.428 0 4.32-.937 4.965-2.98.406-1.282.264-2.583-.404-3.553a3.523 3.523 0 0 0-1.287-1.066V8.52z" fill="#009cde"/>
+    </svg>
+    Pay with PayPal
+  </button>
+  <div id="loading" class="loading-text">Redirecting to PayPal...</div>
+  <div id="error" class="error-msg"></div>
+</div>
+
+<script>
+window.isProcessing = false;
+
+window.startPayPalCheckout = async function() {
+  if (window.isProcessing) return;
+  window.isProcessing = true;
+  
+  const btn = document.getElementById('paypal-btn');
+  const loading = document.getElementById('loading');
+  const errorMsg = document.getElementById('error');
+  
+  btn.disabled = true;
+  loading.style.display = 'block';
+  errorMsg.innerText = '';
+  
+  try {
+    const amount = '{$amount}';
+    const orderId = '{$orderId}';
+    
+    // 这里我们假设后端有一个统一下单接口来生成 PayPal 支付链接
+    // 因为 PayPal 的 Client ID 和 Secret 不能暴露在前端，必须由后端调用 PayPal API 创建 Order
+    
+    // 1. 同步跳转地址 (用户支付完跳回的页面)
+    const returnUrl = window.location.origin + '/callback/' + orderId;
+    const cancelUrl = window.location.origin + '/callback/cancel?orderId=' + orderId;
+    
+    // 我们向自己的后端发起请求，让后端去和 PayPal 通信获取 checkout URL
+    // 使用通用路由 /api/payments/initiate 并传递 methodCode
+    const response = await fetch('/api/payments/initiate', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        orderId: orderId,
+        methodCode: 'paypal',
+        returnUrl: returnUrl,
+        cancelUrl: cancelUrl
+      })
+    });
+    
+    const res = await response.json();
+    
+    if (res.code !== 0 || !res.data?.paymentUrl) {
+      throw new Error(res.message || "Failed to create PayPal session");
+    }
+
+    // 将顶层窗口跳转到 PayPal 支付页面
+    window.top.location.href = res.data.paymentUrl;
+
+  } catch (error) {
+    console.error("PayPal checkout error:", error);
+    
+    btn.disabled = false;
+    loading.style.display = 'none';
+    errorMsg.innerText = error.message || 'Payment initiation failed, please try again';
+    window.isProcessing = false;
+  }
+}
+</script>

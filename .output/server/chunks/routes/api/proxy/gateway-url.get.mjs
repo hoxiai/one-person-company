@@ -1,4 +1,4 @@
-import { d as defineEventHandler, cI as getAIGatewayUrl } from '../../../nitro/nitro.mjs';
+import { d as defineEventHandler, cT as getAIGatewayUrl } from '../../../nitro/nitro.mjs';
 import 'drizzle-orm';
 import 'node:crypto';
 import 'crypto';
@@ -23,13 +23,14 @@ import 'drizzle-orm/sqlite-core';
 import 'drizzle-orm/mysql-core';
 import 'maxmind';
 import 'node:os';
-import '@libsql/client';
 import 'node:url';
+import 'zod';
 import '@iconify/utils';
 import 'consola';
 import 'ioredis';
-import 'zod';
 import 'node:child_process';
+import 'process';
+import 'buffer';
 import 'node:fs/promises';
 import 'node:dns/promises';
 import 'node:net';
@@ -42,3 +43,4 @@ const gatewayUrl_get = defineEventHandler(async () => {
 });
 
 export { gatewayUrl_get as default };
+//# sourceMappingURL=gateway-url.get.mjs.map

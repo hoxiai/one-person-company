@@ -1,4 +1,4 @@
-import { d as defineEventHandler, c as getRequestLocale, g as getQuery, z as orders, p as products, u as users, b as db, r as readBody, e as createError, ap as requireTrustedRequestOrigin, aq as ensurePromoMember, ar as getSiteLocaleConfig, as as resolveRequestLocale, at as resolveCurrencyRate, au as roundCurrencyAmount, av as getMinimalCheckoutAdminConfig, aw as buildMinimalCheckoutBridgeMeta, ax as mergeMinimalCheckoutMeta, O as ORDER_PAY_STATUS, ay as prepareOrderMetaForInsert, ao as ORDER_STATUS, ac as createOrderAttribution, az as ensureTopupRecordForOrder, ad as settlePaidTopup, aa as isMinimalCheckoutRelayOrder, af as fulfillMinimalCheckoutRelay, ag as fulfillOrder, ah as settlePromoCommission, ai as emitEvent, U as getLocalizedSettingValue, V as sendEmail, s as setAuditMeta } from '../../../nitro/nitro.mjs';
+import { d as defineEventHandler, c as getRequestLocale, g as getQuery, z as orders, p as products, u as users, b as db, r as readBody, e as createError, aq as requireTrustedRequestOrigin, ar as ensurePromoMember, as as getSiteLocaleConfig, at as resolveRequestLocale, au as resolveCurrencyRate, av as roundCurrencyAmount, aw as getMinimalCheckoutAdminConfig, ax as buildMinimalCheckoutBridgeMeta, ay as mergeMinimalCheckoutMeta, O as ORDER_PAY_STATUS, az as prepareOrderMetaForInsert, ap as ORDER_STATUS, ac as createOrderAttribution, aA as ensureTopupRecordForOrder, ad as settlePaidTopup, aa as isMinimalCheckoutRelayOrder, af as fulfillMinimalCheckoutRelay, ag as fulfillOrder, ah as settlePromoCommission, ai as emitEvent, U as getLocalizedSettingValue, V as sendEmail, s as setAuditMeta } from '../../../nitro/nitro.mjs';
 import { or, eq, and, ne, like, sql, count, desc } from 'drizzle-orm';
 import crypto from 'crypto';
 import { z } from 'zod';
@@ -24,12 +24,13 @@ import 'drizzle-orm/sqlite-core';
 import 'drizzle-orm/mysql-core';
 import 'maxmind';
 import 'node:os';
-import '@libsql/client';
 import 'node:url';
 import '@iconify/utils';
 import 'consola';
 import 'ioredis';
 import 'node:child_process';
+import 'process';
+import 'buffer';
 import 'node:fs/promises';
 import 'node:dns/promises';
 import 'node:net';
@@ -398,3 +399,4 @@ const index = defineEventHandler(async (event) => {
 });
 
 export { index as default };
+//# sourceMappingURL=index2.mjs.map

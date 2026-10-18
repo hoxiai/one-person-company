@@ -1,4 +1,4 @@
-import { d as defineEventHandler, b1 as extensionManifests, b2 as readExtensionMigrationStatus, b3 as readEnabledExtensionIds, e as createError, r as readBody, b4 as migrateExtensionDatabase, s as setAuditMeta, b5 as normalizeEnabledExtensionIds, b as db, aU as settings, b6 as ENABLED_EXTENSIONS_SETTING_KEY } from '../../../../nitro/nitro.mjs';
+import { d as defineEventHandler, b4 as extensionManifests, b5 as readExtensionMigrationStatus, b6 as readEnabledExtensionIds, e as createError, r as readBody, b7 as migrateExtensionDatabase, s as setAuditMeta, b8 as normalizeEnabledExtensionIds, b as db, aX as settings, b9 as ENABLED_EXTENSIONS_SETTING_KEY } from '../../../../nitro/nitro.mjs';
 import { eq } from 'drizzle-orm';
 import 'node:crypto';
 import 'crypto';
@@ -23,13 +23,14 @@ import 'drizzle-orm/sqlite-core';
 import 'drizzle-orm/mysql-core';
 import 'maxmind';
 import 'node:os';
-import '@libsql/client';
 import 'node:url';
+import 'zod';
 import '@iconify/utils';
 import 'consola';
 import 'ioredis';
-import 'zod';
 import 'node:child_process';
+import 'process';
+import 'buffer';
 import 'node:fs/promises';
 import 'node:dns/promises';
 import 'node:net';
@@ -120,3 +121,4 @@ const extensions = defineEventHandler(async (event) => {
 });
 
 export { extensions as default };
+//# sourceMappingURL=extensions.mjs.map

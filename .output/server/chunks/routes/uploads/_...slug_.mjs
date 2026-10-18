@@ -1,6 +1,6 @@
 import fs from 'node:fs';
 import path from 'node:path';
-import { d as defineEventHandler, e as createError, d2 as setHeader, br as getHeader, cK as setResponseStatus, dc as sendStream } from '../../nitro/nitro.mjs';
+import { d as defineEventHandler, e as createError, df as setHeader, bu as getHeader, cV as setResponseStatus, dt as sendStream } from '../../nitro/nitro.mjs';
 import { blob } from '@nuxthub/blob';
 import 'drizzle-orm';
 import 'node:crypto';
@@ -23,13 +23,14 @@ import 'drizzle-orm/sqlite-core';
 import 'drizzle-orm/mysql-core';
 import 'maxmind';
 import 'node:os';
-import '@libsql/client';
 import 'node:url';
+import 'zod';
 import '@iconify/utils';
 import 'consola';
 import 'ioredis';
-import 'zod';
 import 'node:child_process';
+import 'process';
+import 'buffer';
 import 'node:fs/promises';
 import 'node:dns/promises';
 import 'node:net';
@@ -94,3 +95,4 @@ const ____slug_ = defineEventHandler(async (event) => {
 });
 
 export { ____slug_ as default };
+//# sourceMappingURL=_...slug_.mjs.map

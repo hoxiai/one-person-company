@@ -23,13 +23,14 @@ import 'drizzle-orm/sqlite-core';
 import 'drizzle-orm/mysql-core';
 import 'maxmind';
 import 'node:os';
-import '@libsql/client';
 import 'node:url';
+import 'zod';
 import '@iconify/utils';
 import 'consola';
 import 'ioredis';
-import 'zod';
 import 'node:child_process';
+import 'process';
+import 'buffer';
 import 'node:fs/promises';
 import 'node:dns/promises';
 import 'node:net';
@@ -52,6 +53,7 @@ const index_get = defineEventHandler(async (event) => {
     cancelAtPeriodEnd: subscriptions.cancelAtPeriodEnd,
     productId: products.id,
     productName: products.name,
+    productMetaData: products.metaData,
     userId: users.id,
     userEmail: users.email,
     userNickname: users.nickname
@@ -83,3 +85,4 @@ const index_get = defineEventHandler(async (event) => {
 });
 
 export { index_get as default };
+//# sourceMappingURL=index.get9.mjs.map

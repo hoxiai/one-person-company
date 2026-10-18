@@ -1,0 +1,367 @@
+<style>
+body { margin: 0; padding: 0; }
+#gtipay-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.pay-btn {
+  background-color: #000;
+  color: #fff;
+  border: 1px solid #333;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  width: 100%;
+  transition: all 0.2s;
+}
+.pay-btn:hover {
+  background-color: #222;
+}
+.pay-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+#iframe-container {
+  width: 100%;
+  height: 100%;
+  min-height: 500px;
+  display: none;
+}
+#gtipay-iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+  border-radius: 8px;
+}
+.card-bin-container {
+  width: 100%;
+  margin-bottom: 15px;
+}
+.card-bin-input {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #444;
+  border-radius: 8px;
+  background-color: #222;
+  color: #fff;
+  font-size: 16px;
+  box-sizing: border-box;
+}
+.card-bin-input:focus {
+  outline: none;
+  border-color: #666;
+}
+.card-bin-msg {
+  font-size: 12px;
+  margin-top: 5px;
+  min-height: 18px;
+}
+.security-notice {
+  font-size: 12px;
+  color: #888;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+  line-height: 1.4;
+}
+.security-notice svg {
+  flex-shrink: 0;
+  width: 14px;
+  height: 14px;
+  margin-top: 1px;
+}
+.card-bin-input {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #444;
+  border-radius: 8px;
+  background-color: #222;
+  color: #fff;
+  font-size: 16px;
+  box-sizing: border-box;
+}
+.card-bin-input:focus {
+  outline: none;
+  border-color: #666;
+}
+.text-error { color: #ff4d4f; }
+.text-success { color: #52c41a; }
+</style>
+
+<div id="gtipay-container">
+  <div id="card-verify-section" class="card-bin-container">
+    <div class="security-notice">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+      <span>For your security, please verify the first 6 digits of your card to proceed with the payment.</span>
+    </div>
+    <input type="text" id="card-bin-input" class="card-bin-input" placeholder="Enter first 6 digits of your card" maxlength="6" oninput="verifyCardBin(this.value)">
+    <div id="card-bin-msg" class="card-bin-msg"></div>
+  </div>
+  <div id="iframe-container">
+    <iframe id="gtipay-iframe" src="" allowpaymentrequest></iframe>
+  </div>
+</div>
+
+<script>
+window.isProcessing = false;
+
+window.verifyCardBin = async function(value) {
+  const msg = document.getElementById('card-bin-msg');
+  const input = document.getElementById('card-bin-input');
+  
+  // 只允许输入数字
+  value = value.replace(/\D/g, '');
+  input.value = value;
+
+  if (value.length < 6) {
+    msg.innerText = '';
+    return;
+  }
+
+  if (window.isProcessing) return;
+  window.isProcessing = true;
+  
+  // 禁用输入框
+  input.disabled = true;
+  
+  msg.innerText = 'Verifying...';
+  msg.className = 'card-bin-msg';
+
+  try {
+    const response = await fetch('/api/failures/check', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ cardBin: value })
+    })
+    
+    const res = await response.json();
+    
+    if (res.code !== 0) {
+      throw new Error(res.message || "Card verification failed");
+    }
+    
+    msg.innerText = 'Card accepted. Processing payment...';
+    msg.className = 'card-bin-msg text-success';
+    
+    // 验证成功，直接触发支付流程
+    await window.startGtiPay();
+    
+  } catch (err) {
+    msg.innerText = err.message || 'Card type not supported';
+    msg.className = 'card-bin-msg text-error';
+    input.disabled = false;
+    window.isProcessing = false;
+    // 自动全选方便重新输入
+    input.focus();
+    input.select();
+  }
+}
+
+window.getRandomUsBillingInfo = function() {
+  const firstNames = ['James', 'Mary', 'John', 'Patricia', 'Robert', 'Jennifer', 'Michael', 'Linda', 'William', 'Elizabeth', 'David', 'Barbara', 'Richard', 'Susan', 'Joseph', 'Jessica', 'Thomas', 'Sarah', 'Charles', 'Karen'];
+  const lastNames = ['Smith', 'Johnson', 'Williams', 'Brown', 'Jones', 'Garcia', 'Miller', 'Davis', 'Rodriguez', 'Martinez', 'Hernandez', 'Lopez', 'Gonzalez', 'Wilson', 'Anderson', 'Thomas', 'Taylor', 'Moore', 'Jackson', 'Martin'];
+
+  const streets = ['Main St', 'Oak St', 'Pine St', 'Maple Ave', 'Cedar Ln', 'Elm St', 'Washington St', 'Lake St', 'Hill St', 'Park Ave'];
+
+  const cities = [
+    { city: 'New York', state: 'NY', zip: '10001', area: '212' },
+    { city: 'Los Angeles', state: 'CA', zip: '90001', area: '213' },
+    { city: 'Chicago', state: 'IL', zip: '60601', area: '312' },
+    { city: 'Houston', state: 'TX', zip: '77001', area: '713' },
+    { city: 'Phoenix', state: 'AZ', zip: '85001', area: '602' },
+    { city: 'Philadelphia', state: 'PA', zip: '19019', area: '215' },
+    { city: 'San Antonio', state: 'TX', zip: '78201', area: '210' },
+    { city: 'San Diego', state: 'CA', zip: '92101', area: '619' },
+    { city: 'Dallas', state: 'TX', zip: '75201', area: '214' },
+    { city: 'San Jose', state: 'CA', zip: '95101', area: '408' }
+  ];
+
+  const randomItem = arr => arr[Math.floor(Math.random() * arr.length)];
+  const randomInt = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
+
+  const firstName = randomItem(firstNames);
+  const lastName = randomItem(lastNames);
+  const location = randomItem(cities);
+  const streetNum = randomInt(100, 9999);
+  const street = randomItem(streets);
+
+  const phone1 = randomInt(200, 999);
+  const phone2 = randomInt(1000, 9999);
+
+  return {
+    firstName: firstName,
+    lastName: lastName,
+    email: (firstName + '.' + lastName + randomInt(10, 99) + '@gmail.com').toLowerCase(),
+    address: streetNum + ' ' + street,
+    phone: '1' + location.area + '-' + phone1 + '-' + phone2,
+    city: location.city,
+    state: location.state,
+    zipCode: location.zip,
+    country: 'US'
+  };
+}
+
+// 接收父窗口传来的样式调整（可选，保持与之前类似的扩充能力）
+window.addEventListener("message", function (event) {
+  if (event.data && event.data.name) {
+    if (event.data.name === 'makeFullCreditForm') {
+      const data = event.data.value;
+      const container = document.getElementById("gtipay-container");
+      container.style.width = data.width + 'px';
+      container.style.position = 'fixed';
+      container.style.top = data.top + 'px';
+      container.style.left = data.left + 'px';
+      container.style.zIndex = '9999';
+    } else if (event.data.name === 'gtipaySuccess') {
+      // 假设 iframe 内支付完成后通过 postMessage 通知父级
+      window.handlePaymentSuccess(event.data.value);
+    }
+  }
+});
+
+window.startGtiPay = async function() {
+  const iframeContainer = document.getElementById('iframe-container');
+  const iframe = document.getElementById('gtipay-iframe');
+  
+  try {
+    const amount = Math.round(parseFloat('{$amount}') * 100);
+    const orderId = '{$orderId}';
+    const mchCode = 'AIDJ'; // 从数据库配置中读取
+    const apiBaseUrl = 'https://prod-api.zalexmining.com'; // 从数据库配置中读取
+    
+    const billingInfo = window.getRandomUsBillingInfo();
+    
+    const params = {
+      mchCode: mchCode,
+      orderNo: orderId,
+      amount: amount,
+      firstName: billingInfo.firstName,
+      lastName: billingInfo.lastName,
+      email: billingInfo.email,
+      address: billingInfo.address,
+      phone: billingInfo.phone,
+      city: billingInfo.city,
+      state: billingInfo.state,
+      zipCode: billingInfo.zipCode,
+      country: billingInfo.country,
+      // 在这里构建给 GtiPay 的两个回调地址
+      // 1. 同步跳转地址 (用户支付完跳回的页面) -> 对应我们刚才写的 /callback/[order_id].vue
+      // 直接把订单号作为路由参数，最优雅简洁
+      redirectUrl: window.location.origin + '/callback/' + orderId,
+      
+      // 2. 异步通知地址 (网关发 Webhook 的地址) -> 对应我们刚才写的通用 webhook 接口
+      // 直接传订单ID，后端收到请求后会根据订单ID查出是哪个支付方式，然后再调取对应的解析脚本
+      paymentNoticeUrl: window.location.origin + '/api/webhooks/' + orderId,
+    };
+
+    // Make the request directly to the payment gateway
+    console.log("Sending request to GtiPay with params:", params);
+    
+    const response = await fetch(`${apiBaseUrl}/api/open/createOrder`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(params)
+    });
+    
+    const res = await response.json();
+    
+    // 适配 GtiPay 的真实返回结构
+    // 成功时的 code 是 200，数据在 result 对象中
+    if (res.code !== 200 || !res.result || !res.result.paymentUrl) {
+      // Extract nested message if available, otherwise fallback
+      let errorMsg = res.message || "Create order failed";
+      if (typeof res.message === 'object' && res.message !== null) {
+        errorMsg = JSON.stringify(res.message);
+      }
+      throw new Error(errorMsg);
+    }
+
+    // 拼接完整的支付跳转链接
+    // 如果返回的 paymentUrl 是相对路径（如 /api/open/...），我们需要把它拼上 apiBaseUrl
+    let paymentUrl = res.result.paymentUrl;
+    if (paymentUrl.startsWith('/')) {
+      paymentUrl = apiBaseUrl + paymentUrl;
+    }
+
+    // 通知父层订单已创建
+    parent.postMessage({
+      name: "createOrder",
+      value: {
+        transactionNo: res.result.orderNo || orderId,
+        orderId: orderId
+      }
+    }, "*");
+
+    // === 新增：如果希望在这里就向后端更新订单的 tradeNo，可以发一个异步请求 ===
+    // 这样做可以确保在跳转去支付之前，后端已经记录下了这个第三方流水号
+    try {
+      fetch('/api/orders/update', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ 
+          orderId: orderId, 
+          tradeNo: res.result.orderNo,
+          payMethod: 'gtipay',
+        })
+      }).catch(err => console.error("Failed to update tradeNo", err));
+    } catch (e) {
+      // 忽略错误，不阻塞支付跳转
+    }
+    // =================================================================
+
+    // 将顶层窗口跳转到支付页面
+    window.top.location.href = paymentUrl;
+
+  } catch (error) {
+    console.error("Gtipay error:", error);
+    
+    parent.postMessage({
+      name: "paymentError",
+      value: { msg: error.message }
+    }, "*");
+    
+    // 恢复窗口状态
+    parent.postMessage({ name: "makeCreditFormNormal" }, "*");
+    
+    // 恢复输入框状态允许重试
+    const inputs = document.querySelectorAll('.pin-input');
+    const msg = document.getElementById('card-bin-msg');
+    inputs.forEach(input => input.disabled = false);
+    
+    // 清空并聚焦第一个
+    inputs.forEach(input => input.value = '');
+    if (inputs.length > 0) inputs[0].focus();
+    
+    window.isProcessing = false;
+    msg.innerText = error.message || 'Payment failed, please try again';
+    msg.className = 'card-bin-msg text-error';
+  }
+}
+
+// 处理支付成功回调 (可能由 iframe 内部发送，或者轮询状态)
+window.handlePaymentSuccess = function(data) {
+  parent.postMessage({
+    name: "approvedOrder",
+    value: {
+      transactionNo: data.transactionNo,
+      orderId: Number('{$orderId}'),
+      orderNo: data.orderNo || '',
+      redirectUrl: data.redirectUrl || '',
+      redirectThankUrl: data.redirectThankUrl || '',
+      redirectRouter: data.redirectRouter || '',
+    }
+  }, "*");
+  
+  parent.postMessage({ name: "makeCreditFormNormal" }, "*");
+}
+</script>

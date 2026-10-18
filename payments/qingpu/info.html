@@ -1,0 +1,204 @@
+<style>
+body {
+  margin: 0;
+  padding: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+#qingpu-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+}
+
+.qingpu-wrapper {
+  width: 100%;
+  max-width: 480px;
+  background: #ffffff;
+  border-radius: 20px;
+  overflow: hidden;
+  box-sizing: border-box;
+  position: relative;
+  min-height: 540px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.qingpu-iframe {
+  width: 100%;
+  height: 560px;
+  border: none;
+  display: block;
+  background: transparent;
+  transition: opacity 0.3s ease;
+}
+
+.qingpu-loading-mask {
+  position: absolute;
+  inset: 0;
+  background: #ffffff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  z-index: 10;
+  transition: opacity 0.3s ease;
+}
+
+.qingpu-spinner {
+  width: 38px;
+  height: 38px;
+  border: 3px solid #f3f4f6;
+  border-top-color: #2563eb;
+  border-radius: 50%;
+  animation: qp-spin 0.8s linear infinite;
+}
+
+@keyframes qp-spin {
+  to { transform: rotate(360deg); }
+}
+
+.qingpu-loading-text {
+  font-size: 14px;
+  color: #4b5563;
+  font-weight: 500;
+}
+
+.qingpu-fallback {
+  margin-top: 12px;
+  text-align: center;
+}
+
+.qingpu-fallback a {
+  color: #2563eb;
+  font-size: 12px;
+  text-decoration: none;
+}
+
+.qingpu-fallback a:hover {
+  text-decoration: underline;
+}
+
+.qingpu-error {
+  color: #dc2626;
+  font-size: 13px;
+  text-align: center;
+  padding: 24px;
+}
+</style>
+
+<div id="qingpu-container">
+  <div class="qingpu-wrapper">
+    <div id="qingpu-loading" class="qingpu-loading-mask">
+      <div class="qingpu-spinner"></div>
+      <div class="qingpu-loading-text">正在加载安全收银台...</div>
+    </div>
+    <iframe id="qingpu-frame" class="qingpu-iframe" style="opacity: 0;" src="" allow="payment"></iframe>
+    <div id="qingpu-error-box" class="qingpu-error" style="display: none;"></div>
+  </div>
+  <div class="qingpu-fallback">
+    <a id="qingpu-external-link" href="#" target="_blank" rel="noopener noreferrer" style="display: none;">
+      若收银台加载缓慢，点此在新窗口打开
+    </a>
+  </div>
+</div>
+
+<script>
+(function () {
+  const orderId = '{$orderId}';
+  const loadingEl = document.getElementById('qingpu-loading');
+  const iframeEl = document.getElementById('qingpu-frame');
+  const errorBox = document.getElementById('qingpu-error-box');
+  const externalLink = document.getElementById('qingpu-external-link');
+
+  let pollingTimer = null;
+
+  function stopPolling() {
+    if (pollingTimer) {
+      clearInterval(pollingTimer);
+      pollingTimer = null;
+    }
+  }
+
+  function startPolling() {
+    stopPolling();
+    pollingTimer = setInterval(async () => {
+      try {
+        const response = await fetch('/api/orders/status?orderId=' + encodeURIComponent(orderId), {
+          credentials: 'same-origin'
+        });
+        const res = await response.json();
+        if (res.code === 0 && res.data?.payStatus === 'paid') {
+          stopPolling();
+          window.dispatchEvent(new CustomEvent('order-success', { detail: { orderId } }));
+          window.location.href = '/callback/mini/' + orderId;
+        }
+      } catch (err) {}
+    }, 2000);
+  }
+
+  async function initQingpuCheckout() {
+    if (loadingEl) loadingEl.style.display = 'flex';
+    if (errorBox) errorBox.style.display = 'none';
+
+    try {
+      const response = await fetch('/api/payments/initiate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          orderId,
+          methodCode: 'qingpu',
+          returnUrl: window.location.origin + '/callback/mini/' + orderId,
+          cancelUrl: window.location.origin + '/callback/cancel?orderId=' + encodeURIComponent(orderId)
+        })
+      });
+
+      const result = await response.json();
+      let paymentUrl = result?.data?.paymentUrl || '';
+
+      if (result.code !== 0 || !paymentUrl) {
+        throw new Error(result.message || '获取收银台地址失败');
+      }
+
+      if (!paymentUrl.includes('platform=')) {
+        const sep = paymentUrl.includes('?') ? '&' : '?';
+        paymentUrl += sep + 'platform=mini';
+      }
+
+      iframeEl.src = paymentUrl;
+      iframeEl.onload = function () {
+        if (loadingEl) loadingEl.style.display = 'none';
+        iframeEl.style.opacity = '1';
+      };
+
+      if (externalLink) {
+        externalLink.href = paymentUrl;
+        externalLink.style.display = 'inline-block';
+      }
+
+      startPolling();
+    } catch (error) {
+      if (loadingEl) loadingEl.style.display = 'none';
+      if (errorBox) {
+        errorBox.textContent = error && error.message ? error.message : '收银台加载失败，请稍后重试';
+        errorBox.style.display = 'block';
+      }
+    }
+  }
+
+  initQingpuCheckout();
+
+  window.addEventListener('order-success', function () {
+    stopPolling();
+  });
+  window.addEventListener('order-error', function () {
+    stopPolling();
+  });
+})();
+</script>

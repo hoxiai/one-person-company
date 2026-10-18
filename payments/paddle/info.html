@@ -1,0 +1,97 @@
+<!-- 
+  Paddle Payment Integration Template 
+  Variable placeholders: 
+  {$orderId} - Replaced dynamically
+  {$amount} - Replaced dynamically
+  {$config.vendorId} - Replaced dynamically from configJson
+-->
+<div id="paddle-payment-container" class="flex flex-col items-center justify-center py-6 w-full">
+  
+  <div class="text-center mb-6">
+    <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-[#1C1D1E] border border-[#2B2D31] shadow-lg mb-4">
+      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM11 19.93C7.06 19.43 4 16.05 4 12C4 7.95 7.06 4.57 11 4.07V19.93ZM13 4.07C16.94 4.57 20 7.95 20 12C20 16.05 16.94 19.43 13 19.93V4.07Z" fill="#3B82F6"/>
+      </svg>
+    </div>
+    <h3 class="text-xl font-bold text-white mb-2">Secure Checkout via Paddle</h3>
+    <p class="text-sm text-gray-400 max-w-sm mx-auto">
+      You will be redirected to Paddle's secure checkout page to complete your payment. Paddle supports Credit Cards, PayPal, and Apple Pay.
+    </p>
+  </div>
+
+  <button 
+    id="paddle-pay-button"
+    class="relative group overflow-hidden w-full max-w-md bg-white text-black font-semibold rounded-xl px-6 py-4 transition-all duration-300 hover:scale-[1.02] hover:shadow-[0_0_20px_rgba(255,255,255,0.3)] flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed"
+  >
+    <div class="absolute inset-0 bg-gradient-to-r from-gray-100 to-white opacity-0 group-hover:opacity-100 transition-opacity"></div>
+    <span class="relative flex items-center gap-2">
+      <span>Proceed to Paddle</span>
+      <svg class="w-5 h-5 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+      </svg>
+    </span>
+  </button>
+
+  <div id="paddle-error-message" class="mt-4 text-red-400 text-sm hidden"></div>
+</div>
+
+<script>
+  (function() {
+    const orderId = '{$orderId}';
+    const amount = '{$amount}';
+    const button = document.getElementById('paddle-pay-button');
+    const errorContainer = document.getElementById('paddle-error-message');
+    
+    // Check if scripts are already running to prevent duplicates in SPA
+    if (window._paddlePaymentInitialized === orderId) return;
+    window._paddlePaymentInitialized = orderId;
+
+    const showError = (msg) => {
+      if (errorContainer) {
+        errorContainer.textContent = msg;
+        errorContainer.classList.remove('hidden');
+      }
+      button.disabled = false;
+      button.innerHTML = '<span class="relative flex items-center gap-2"><span>Try Again</span></span>';
+    };
+
+    button.addEventListener('click', async () => {
+      try {
+        button.disabled = true;
+        button.innerHTML = '<span class="relative flex items-center gap-2"><svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-black" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg><span>Connecting...</span></span>';
+        if (errorContainer) errorContainer.classList.add('hidden');
+
+        // 1. URL setup
+        const successUrl = window.location.origin + '/callback/' + orderId;
+        const cancelUrl = window.location.origin + '/callback/cancel?orderId=' + orderId;
+        
+        // 2. Call our unified payment initiate endpoint
+        const response = await fetch('/api/payments/initiate', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            orderId: orderId,
+            methodCode: 'paddle', // This matches the folder name and db code
+            returnUrl: successUrl,
+            cancelUrl: cancelUrl
+          })
+        });
+
+        const result = await response.json();
+
+        if (result.code === 0 && result.data && result.data.paymentUrl) {
+          // Redirect to Paddle's hosted checkout page
+          window.location.href = result.data.paymentUrl;
+        } else {
+          showError(result.message || 'Failed to initialize Paddle checkout. Please try again.');
+        }
+
+      } catch (error) {
+        console.error('Paddle initialization error:', error);
+        showError('Network error occurred. Please check your connection and try again.');
+      }
+    });
+  })();
+</script>

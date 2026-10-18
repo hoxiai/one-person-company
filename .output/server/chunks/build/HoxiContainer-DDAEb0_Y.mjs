@@ -26,3 +26,4 @@ _sfc_main.setup = (props, ctx) => {
 const __nuxt_component_0 = Object.assign(_sfc_main, { __name: "HoxiContainer" });
 
 export { __nuxt_component_0 as default };
+//# sourceMappingURL=HoxiContainer-DDAEb0_Y.mjs.map

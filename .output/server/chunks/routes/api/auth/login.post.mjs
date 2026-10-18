@@ -1,4 +1,4 @@
-import { d as defineEventHandler, c as getRequestLocale, Y as resolveClientIp, Z as checkIpRateLimit, e as createError, r as readBody, bX as getUserLoginSecurityState, $ as consumeCaptchaTicket, b as db, u as users, a0 as verifyPassword, bY as clearUserLoginFailure, bZ as issueWebSession, bK as trackVisitorEvent, b_ as ensureVisitorId, b$ as recordUserLoginFailure } from '../../../nitro/nitro.mjs';
+import { d as defineEventHandler, c as getRequestLocale, Y as resolveClientIp, Z as checkIpRateLimit, e as createError, r as readBody, c0 as getUserLoginSecurityState, $ as consumeCaptchaTicket, b as db, u as users, a0 as verifyPassword, c1 as clearUserLoginFailure, c2 as issueWebSession, bN as trackVisitorEvent, c3 as ensureVisitorId, c4 as recordUserLoginFailure } from '../../../nitro/nitro.mjs';
 import { eq } from 'drizzle-orm';
 import 'node:crypto';
 import 'crypto';
@@ -23,13 +23,14 @@ import 'drizzle-orm/sqlite-core';
 import 'drizzle-orm/mysql-core';
 import 'maxmind';
 import 'node:os';
-import '@libsql/client';
 import 'node:url';
+import 'zod';
 import '@iconify/utils';
 import 'consola';
 import 'ioredis';
-import 'zod';
 import 'node:child_process';
+import 'process';
+import 'buffer';
 import 'node:fs/promises';
 import 'node:dns/promises';
 import 'node:net';
@@ -146,3 +147,4 @@ const login_post = defineEventHandler(async (event) => {
 });
 
 export { login_post as default };
+//# sourceMappingURL=login.post.mjs.map

@@ -1,0 +1,169 @@
+<style>
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background: transparent;
+  color: #e5e7eb;
+}
+
+#zpay-container {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 20px;
+}
+
+.zpay-card {
+  max-width: 420px;
+  margin: 0 auto;
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  border-radius: 18px;
+  background: rgba(15, 23, 42, 0.9);
+  box-shadow: 0 20px 40px rgba(15, 23, 42, 0.28);
+  padding: 24px;
+  text-align: center;
+}
+
+.zpay-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  border-radius: 999px;
+  background: rgba(99, 102, 241, 0.15);
+  border: 1px solid rgba(99, 102, 241, 0.28);
+  color: #818cf8;
+  margin-bottom: 16px;
+}
+
+.zpay-title {
+  margin: 0 0 8px;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.zpay-desc {
+  margin: 0 0 20px;
+  color: #94a3b8;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.zpay-amount {
+  margin-bottom: 20px;
+  font-size: 28px;
+  font-weight: 800;
+  color: #f8fafc;
+}
+
+.zpay-button {
+  width: 100%;
+  border: 0;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #6366f1, #4f46e5);
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 700;
+  padding: 14px 18px;
+  cursor: pointer;
+  transition: transform 0.15s ease, opacity 0.2s ease;
+}
+
+.zpay-button:hover {
+  transform: translateY(-1px);
+}
+
+.zpay-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.zpay-status {
+  margin-top: 14px;
+  font-size: 14px;
+  color: #94a3b8;
+}
+
+.zpay-error {
+  margin-top: 14px;
+  color: #f87171;
+  font-size: 14px;
+  min-height: 20px;
+}
+</style>
+
+<div id="zpay-container">
+  <div class="zpay-card">
+    <div class="zpay-badge">
+      <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M4 4h16l-10 16h10" stroke-linecap="round" stroke-linejoin="round"></path>
+      </svg>
+    </div>
+    <h3 class="zpay-title">前往 Z-Pay 收银台</h3>
+    <p class="zpay-desc">
+      将跳转到 Z-Pay 完成付款，支持支付宝、微信支付等方式。
+    </p>
+    <div class="zpay-amount">¥ {$amount}</div>
+    <button id="zpay-button" class="zpay-button">立即支付</button>
+    <div id="zpay-status" class="zpay-status"></div>
+    <div id="zpay-error" class="zpay-error"></div>
+  </div>
+</div>
+
+<script>
+(function () {
+  const orderId = '{$orderId}';
+  const button = document.getElementById('zpay-button');
+  const statusEl = document.getElementById('zpay-status');
+  const errorEl = document.getElementById('zpay-error');
+
+  if (!button || window.__zpayBound === orderId) return;
+  window.__zpayBound = orderId;
+
+  const setLoading = (loading) => {
+    button.disabled = loading;
+    button.textContent = loading ? '正在创建支付...' : '立即支付';
+    statusEl.textContent = loading ? '正在请求支付网关，请稍候...' : '';
+  };
+
+  const setError = (message) => {
+    errorEl.textContent = message || '';
+  };
+
+  button.addEventListener('click', async function () {
+    setError('');
+    setLoading(true);
+
+    try {
+      const returnUrl = window.location.origin + '/callback/' + orderId;
+      const cancelUrl = window.location.origin + '/callback/cancel?orderId=' + encodeURIComponent(orderId);
+
+      const response = await fetch('/api/payments/initiate', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          orderId: orderId,
+          methodCode: 'zpay',
+          returnUrl: returnUrl,
+          cancelUrl: cancelUrl
+        })
+      });
+
+      const result = await response.json();
+      const paymentUrl = result && result.data ? result.data.paymentUrl : '';
+
+      if (result.code !== 0 || !paymentUrl) {
+        throw new Error(result.message || '创建支付失败');
+      }
+
+      window.top.location.href = paymentUrl;
+    } catch (error) {
+      setLoading(false);
+      setError(error && error.message ? error.message : '支付发起失败，请稍后重试');
+    }
+  });
+})();
+</script>

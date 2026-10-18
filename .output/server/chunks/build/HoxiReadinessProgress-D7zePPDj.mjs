@@ -40,3 +40,4 @@ _sfc_main.setup = (props, ctx) => {
 const __nuxt_component_2 = Object.assign(_sfc_main, { __name: "HoxiReadinessProgress" });
 
 export { __nuxt_component_2 as default };
+//# sourceMappingURL=HoxiReadinessProgress-D7zePPDj.mjs.map

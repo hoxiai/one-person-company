@@ -1,4 +1,4 @@
-import { d as defineEventHandler, c as getRequestLocale, b as db, aB as paymentMethods, aD as applyLocalPaymentPluginDefaults, r as readBody, e as createError } from '../../../nitro/nitro.mjs';
+import { d as defineEventHandler, c as getRequestLocale, b as db, aC as paymentMethods, aE as applyLocalPaymentPluginDefaults, r as readBody, e as createError } from '../../../nitro/nitro.mjs';
 import fs from 'fs';
 import path from 'path';
 import 'drizzle-orm';
@@ -23,13 +23,14 @@ import 'drizzle-orm/sqlite-core';
 import 'drizzle-orm/mysql-core';
 import 'maxmind';
 import 'node:os';
-import '@libsql/client';
 import 'node:url';
+import 'zod';
 import '@iconify/utils';
 import 'consola';
 import 'ioredis';
-import 'zod';
 import 'node:child_process';
+import 'process';
+import 'buffer';
 import 'node:fs/promises';
 import 'node:dns/promises';
 import 'node:net';
@@ -114,3 +115,4 @@ const index = defineEventHandler(async (event) => {
 });
 
 export { index as default };
+//# sourceMappingURL=index3.mjs.map

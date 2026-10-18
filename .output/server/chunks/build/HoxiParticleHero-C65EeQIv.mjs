@@ -37,3 +37,4 @@ _sfc_main.setup = (props, ctx) => {
 const HoxiParticleHero = Object.assign(_sfc_main, { __name: "HoxiParticleHero" });
 
 export { HoxiParticleHero as default };
+//# sourceMappingURL=HoxiParticleHero-C65EeQIv.mjs.map

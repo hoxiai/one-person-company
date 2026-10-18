@@ -1,5 +1,5 @@
 import { eq } from 'drizzle-orm';
-import { b as db, p as products, dI as readShoplyPlanMeta, dJ as pushShoplyLicense } from '../nitro/nitro.mjs';
+import { dY as getShoplyPartnerConnection, b as db, u as users, dZ as resolveShoplyEntitlement, d_ as syncShoplyLicense, p as products, d$ as readShoplyPlanMeta } from '../nitro/nitro.mjs';
 import 'node:crypto';
 import 'crypto';
 import 'fs';
@@ -23,18 +23,38 @@ import 'drizzle-orm/sqlite-core';
 import 'drizzle-orm/mysql-core';
 import 'maxmind';
 import 'node:os';
-import '@libsql/client';
 import 'node:url';
+import 'zod';
 import '@iconify/utils';
 import 'consola';
 import 'ioredis';
-import 'zod';
 import 'node:child_process';
+import 'process';
+import 'buffer';
 import 'node:fs/promises';
 import 'node:dns/promises';
 import 'node:net';
 import '@adonisjs/hash';
 import '@adonisjs/hash/drivers/scrypt';
+
+async function pushShoplyLicense(userId, options) {
+  if (!getShoplyPartnerConnection()) return { skipped: true, reason: "not_configured" };
+  const rows = await db.select({
+    id: users.id,
+    email: users.email,
+    nickname: users.nickname,
+    avatarUrl: users.avatarUrl
+  }).from(users).where(eq(users.id, userId)).limit(1);
+  const user = rows[0];
+  if (!user) return { skipped: true, reason: "user_not_found" };
+  const entitlement = await resolveShoplyEntitlement(userId);
+  const result = await syncShoplyLicense({
+    id: Number(user.id),
+    nickname: String(user.nickname || String(user.email || "").split("@")[0] || ""),
+    avatarUrl: String(user.avatarUrl || "")
+  }, entitlement.license, { ...options, ensure: options.ensure === "paid" ? entitlement.source === "subscription" : options.ensure });
+  return { skipped: false, ...result };
+}
 
 function getThemeEventRules() {
   return [
@@ -57,7 +77,7 @@ function getThemeEventRules() {
           const result = await pushShoplyLicense(userId, { ensure: true, force: false });
           if (result.skipped) {
             console.warn(`[ShoplyLicense] order ${String(order.id)} skipped: ${result.reason}`);
-            return { ok: result.reason !== "user_not_found" };
+            return { ok: false, errorMessage: result.reason };
           }
           if (result.failed.length) {
             return { ok: false, errorMessage: `license not applied to stores ${result.failed.join(",")}` };
@@ -89,7 +109,7 @@ function getThemeEventRules() {
         }
         try {
           const result = await pushShoplyLicense(userId, { ensure: false, force: false });
-          if (result.skipped) return { ok: result.reason !== "user_not_found" };
+          if (result.skipped) return { ok: false, errorMessage: result.reason };
           if (result.failed.length) {
             return { ok: false, errorMessage: `license not applied to stores ${result.failed.join(",")}` };
           }
@@ -105,3 +125,4 @@ function getThemeEventRules() {
 }
 
 export { getThemeEventRules };
+//# sourceMappingURL=events4.mjs.map

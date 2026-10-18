@@ -1,1 +1,0 @@
-import{bz as o,X as t}from"./THH9vMGU.js";import{ag as s,aa as e}from"./Dl8C_x33.js";import"./EJTmfC_d.js";import"./CfYFMnge.js";const c=o("/themes/hoxi/logo.svg"),n={},r={src:c,alt:"",width:"64",height:"64",class:"shrink-0"};function _(a,i){return s(),e("img",r)}const f=Object.assign(t(n,[["render",_]]),{__name:"HoxiLogoIcon"});export{f as default};

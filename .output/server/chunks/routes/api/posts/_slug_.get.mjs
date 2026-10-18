@@ -68,6 +68,7 @@ const _slug__get = defineCachedEventHandler(async (event) => {
   // 1 minute
   swr: true,
   name: "post-detail",
+  varies: ["cookie", "accept-language", "referer", "x-apay-ssr-path", "host", "x-forwarded-host"],
   getKey: (event) => {
     const slug = getRouterParam(event, "slug") || "unknown";
     const localeKey = resolvePostRequestLocaleHint(event);

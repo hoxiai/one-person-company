@@ -118,6 +118,7 @@ const index_get = defineCachedEventHandler(async (event) => {
   // cache for 60 seconds
   swr: true,
   name: "posts-list",
+  varies: ["cookie", "accept-language", "referer", "x-apay-ssr-path", "host", "x-forwarded-host"],
   getKey: (event) => {
     const query = getQuery(event);
     const localeKey = resolvePostRequestLocaleHint(event, query.locale);

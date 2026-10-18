@@ -884,7 +884,7 @@ const _routes = [
     name: "admin-posts-create",
     path: "/admin/posts/create",
     meta: __nuxt_page_meta$t || {},
-    component: () => import('./create-DbQS-VpE.mjs')
+    component: () => import('./create-Dt4EVvDG.mjs')
   },
   {
     name: "admin-products-create",
@@ -926,7 +926,7 @@ const _routes = [
     name: "admin-posts-id",
     path: "/admin/posts/:id()",
     meta: __nuxt_page_meta$m || {},
-    component: () => import('./_id_-BLgsuDXy.mjs')
+    component: () => import('./_id_-CsqMFppw.mjs')
   },
   {
     name: "admin-products-id",
@@ -994,7 +994,7 @@ const _routes = [
     name: "admin-login",
     path: "/admin/login",
     meta: __nuxt_page_meta$e || {},
-    component: () => import('./login-B8Q10zr6.mjs')
+    component: () => import('./login-CfgA_5fs.mjs')
   },
   {
     name: "admin-logs",
@@ -1018,7 +1018,7 @@ const _routes = [
     name: "admin-posts",
     path: "/admin/posts",
     meta: __nuxt_page_meta$a || {},
-    component: () => import('./index-BfM7EliT.mjs')
+    component: () => import('./index-DUl7SGMV.mjs')
   },
   {
     name: "admin-products",
@@ -5578,7 +5578,7 @@ const cfg0 = defineAppConfig({
   }
 });
 const inlineConfig = {
-  "appVersion": "1.0.13",
+  "appVersion": "1.0.14",
   "nuxt": {},
   "ui": {
     "colors": {
@@ -15665,19 +15665,20 @@ function useSwitchLocalePath() {
 }
 const useLocaleRouter = () => {
   const resolveLocalePath = useLocalePath();
-  const localePath2 = (target) => {
+  const localePath2 = (target, locale) => {
+    const normalizedLocale = typeof locale === "string" ? locale.trim() : "";
     if (typeof target === "string") {
       const normalizedPath = target.startsWith("/") ? target : `/${target}`;
-      return resolveLocalePath(normalizedPath);
+      return normalizedLocale ? resolveLocalePath(normalizedPath, normalizedLocale) : resolveLocalePath(normalizedPath);
     }
     if (target && typeof target === "object" && typeof target.path === "string") {
       const normalizedPath = target.path.startsWith("/") ? target.path : `/${target.path}`;
-      return resolveLocalePath({ ...target, path: normalizedPath });
+      return normalizedLocale ? resolveLocalePath({ ...target, path: normalizedPath }, normalizedLocale) : resolveLocalePath({ ...target, path: normalizedPath });
     }
-    return resolveLocalePath(target);
+    return normalizedLocale ? resolveLocalePath(target, normalizedLocale) : resolveLocalePath(target);
   };
-  const localePush = (target) => {
-    return navigateTo(localePath2(target));
+  const localePush = (target, locale) => {
+    return navigateTo(localePath2(target, locale));
   };
   return {
     localePush,
@@ -24806,7 +24807,7 @@ const corePageModules = Object.fromEntries(Object.entries(/* @__PURE__ */ Object
   "/core/pages/user/tokens/index.vue": __vite_glob_0_10
 })).map(([file, module]) => [file.replace("/", "../"), module]));
 const themePageModules = {
-  ...Object.fromEntries(Object.entries(/* @__PURE__ */ Object.assign({ "/themes/hoxi/pages/about.vue": () => import('./about-Cyv9HOWb.mjs'), "/themes/hoxi/pages/auth/authorize-desktop/done.vue": () => import('./done-2Vs8lq-N.mjs'), "/themes/hoxi/pages/auth/authorize-desktop/index.vue": () => import('./index-9Vpy06Xs.mjs'), "/themes/hoxi/pages/blog/[slug].vue": () => import('./_slug_-n60u0h1G.mjs'), "/themes/hoxi/pages/blog/index.vue": () => import('./index-2CBgOzT3.mjs'), "/themes/hoxi/pages/coding-plans/[slug].vue": () => import('./_slug_-DbP8UO95.mjs'), "/themes/hoxi/pages/coding-plans/index.vue": () => import('./index-DNNZHXYE.mjs'), "/themes/hoxi/pages/compare.vue": () => import('./compare-B6Tc46Qy.mjs'), "/themes/hoxi/pages/gateways/[slug].vue": () => import('./_slug_--7kNyO71.mjs'), "/themes/hoxi/pages/gateways/index.vue": () => import('./index-DoRxTStb.mjs'), "/themes/hoxi/pages/index.vue": () => import('./index-BFYSVsV4.mjs'), "/themes/hoxi/pages/models/[slug].vue": () => import('./_slug_-DkuzUlLi.mjs'), "/themes/hoxi/pages/models/index.vue": () => import('./index-DqtW212z.mjs'), "/themes/hoxi/pages/one-person-company.vue": () => import('./one-person-company-CDlhmk77.mjs'), "/themes/hoxi/pages/projects.vue": () => import('./projects-ffIWAH8H.mjs'), "/themes/hoxi/pages/readiness.vue": () => import('./readiness-Bk7vHchx.mjs'), "/themes/hoxi/pages/refactoring-the-self.vue": () => import('./refactoring-the-self-B2ssTxGN.mjs'), "/themes/hoxi/pages/savings.vue": () => import('./savings-Bhgzg2fa.mjs'), "/themes/hoxi/pages/tools.vue": () => import('./tools-DbGFkpIf.mjs') })).map(([file, module]) => [file.replace("/", "../"), module]))
+  ...Object.fromEntries(Object.entries(/* @__PURE__ */ Object.assign({ "/themes/hoxi/pages/about.vue": () => import('./about-Cyv9HOWb.mjs'), "/themes/hoxi/pages/auth/authorize-desktop/done.vue": () => import('./done-2Vs8lq-N.mjs'), "/themes/hoxi/pages/auth/authorize-desktop/index.vue": () => import('./index-6Xt9VrRR.mjs'), "/themes/hoxi/pages/auth/login.vue": () => import('./login-C6rTiUES.mjs'), "/themes/hoxi/pages/auth/register.vue": () => import('./register-DPytIyle.mjs'), "/themes/hoxi/pages/blog/[slug].vue": () => import('./_slug_-i0hymAv7.mjs'), "/themes/hoxi/pages/blog/index.vue": () => import('./index-BP-SoRjN.mjs'), "/themes/hoxi/pages/coding-plans/[slug].vue": () => import('./_slug_-DbP8UO95.mjs'), "/themes/hoxi/pages/coding-plans/index.vue": () => import('./index-DNNZHXYE.mjs'), "/themes/hoxi/pages/compare.vue": () => import('./compare-B6Tc46Qy.mjs'), "/themes/hoxi/pages/gateways/[slug].vue": () => import('./_slug_--7kNyO71.mjs'), "/themes/hoxi/pages/gateways/index.vue": () => import('./index-DoRxTStb.mjs'), "/themes/hoxi/pages/index.vue": () => import('./index-BFYSVsV4.mjs'), "/themes/hoxi/pages/models/[slug].vue": () => import('./_slug_-CnMgjRhD.mjs'), "/themes/hoxi/pages/models/index.vue": () => import('./index-DqtW212z.mjs'), "/themes/hoxi/pages/one-person-company.vue": () => import('./one-person-company-DZwLbMfG.mjs'), "/themes/hoxi/pages/projects.vue": () => import('./projects-ffIWAH8H.mjs'), "/themes/hoxi/pages/readiness.vue": () => import('./readiness-Bk7vHchx.mjs'), "/themes/hoxi/pages/refactoring-the-self.vue": () => import('./refactoring-the-self-BUgWqp0v.mjs'), "/themes/hoxi/pages/savings.vue": () => import('./savings-Bhgzg2fa.mjs'), "/themes/hoxi/pages/tools.vue": () => import('./tools-DbGFkpIf.mjs') })).map(([file, module]) => [file.replace("/", "../"), module]))
 };
 const themeAdminManifestModules = {
   ...Object.fromEntries(Object.entries(/* @__PURE__ */ Object.assign({
@@ -24827,7 +24828,7 @@ const themeAdminLocaleZhModules = {
   })).map(([file, module]) => [file.replace("/", "../"), module]))
 };
 const themeLayoutLoaders = {
-  "hoxi": () => import('./default-DGLNz7Xq.mjs')
+  "hoxi": () => import('./default-5xjGJ2kK.mjs')
 };
 const schemaVersion$2 = 1;
 const id$2 = "apps";
@@ -35622,7 +35623,7 @@ const LazyHoxiModelTable = defineAsyncComponent(() => import('./HoxiModelTable-C
 const LazyHoxiPageHeader = defineAsyncComponent(() => import('./HoxiPageHeader-BFh30DFm.mjs').then((r) => r["default"] || r.default || r));
 const LazyHoxiParticleCanvas = defineAsyncComponent(() => import('./HoxiParticleCanvas--DRAGi5Y.mjs').then((r) => r["default"] || r.default || r));
 const LazyHoxiParticleHero = defineAsyncComponent(() => import('./HoxiParticleHero-C65EeQIv.mjs').then((r) => r["default"] || r.default || r));
-const LazyHoxiPostItem = defineAsyncComponent(() => import('./HoxiPostItem-BG8NKZNj.mjs').then((r) => r["default"] || r.default || r));
+const LazyHoxiPostItem = defineAsyncComponent(() => import('./HoxiPostItem-BUn5vU_x.mjs').then((r) => r["default"] || r.default || r));
 const LazyHoxiReadinessProgress = defineAsyncComponent(() => import('./HoxiReadinessProgress-D7zePPDj.mjs').then((r) => r["default"] || r.default || r));
 const LazyHoxiReadinessQuestion = defineAsyncComponent(() => import('./HoxiReadinessQuestion-DRLwZv41.mjs').then((n) => n.H).then((r) => r["default"] || r.default || r));
 const LazyHoxiReadinessRadar = defineAsyncComponent(() => import('./HoxiReadinessRadar-DzvZLZvS.mjs').then((r) => r["default"] || r.default || r));
@@ -39459,8 +39460,8 @@ const __nuxt_component_1 = defineComponent({
   }
 });
 const layouts = {
-  admin: defineAsyncComponent(() => import('./admin-B5T-7nP_.mjs').then((m) => m.default || m)),
-  default: defineAsyncComponent(() => import('./default-BXY18K-s.mjs').then((m) => m.default || m)),
+  admin: defineAsyncComponent(() => import('./admin-CL3aUX1M.mjs').then((m) => m.default || m)),
+  default: defineAsyncComponent(() => import('./default-BwaW-7WJ.mjs').then((m) => m.default || m)),
   empty: defineAsyncComponent(() => import('./empty-DyM_sw7C.mjs').then((m) => m.default || m))
 };
 const routeRulesMatcher = _routeRulesMatcher;
@@ -40273,5 +40274,5 @@ let entry;
 }
 const entry_default = ((ssrContext) => entry(ssrContext));
 
-export { PopperRoot_default as $, ADMIN_PERMISSIONS as A, _sfc_main$i as B, publishedOptionalThemes as C, useLocaleRouter as D, useProductPricing as E, useCurrencyFormat as F, useRoute as G, themeAdminLocaleEnModules as H, themeAdminLocaleZhModules as I, useHead as J, useExtensions as K, setResponseStatus as L, stripLocalePrefix as M, __nuxt_component_3$3 as N, _export_sfc as O, useAdminSession as P, firstAllowedAdminRoute as Q, PageRequestError as R, _sfc_main$k as S, __nuxt_component_0$1 as T, useRequestURL as U, useLocaleCurrency as V, PopperAnchor_default as W, PopperArrow_default as X, createSharedComposable as Y, useDirection as Z, _sfc_main$S as _, _sfc_main$t as a, useParentElement as a$, createContext as a0, useVModel as a1, useFocusGuards as a2, useBodyScrollLock as a3, useForwardExpose as a4, useTypeahead as a5, getActiveElement as a6, FocusScope_default as a7, DismissableLayer_default as a8, RovingFocusGroup_default as a9, useAppConfig as aA, usePortal as aB, createReusableTemplate as aC, isArrayOfArray as aD, _sfc_main$Q as aE, get as aF, _sfc_main$O as aG, pickLinkProps as aH, _sfc_main$P as aI, omit as aJ, useComponentUI as aK, reactivePick as aL, tv as aM, useFormControl as aN, VisuallyHiddenInput_default as aO, useFormField as aP, Label_default as aQ, createEventHook as aR, useFieldGroup as aS, useComponentIcons as aT, compare as aU, _sfc_main$R as aV, looseToNumber as aW, getDisplayValue as aX, getFocusIntent as aY, refAutoReset as aZ, handleAndDispatchCustomEvent$1 as a_, PopperContent_default as aa, getOpenState as ab, PopperContentPropsDefaultValue as ac, isPointerInGraceArea as ad, isMouseEvent as ae, FIRST_LAST_KEYS as af, LAST_KEYS as ag, focusFirst$1 as ah, useCollection as ai, Primitive as aj, SELECTION_KEYS$1 as ak, ITEM_SELECT as al, Presence_default as am, isIndeterminate$1 as an, getCheckedState as ao, reactiveOmit as ap, useForwardProps as aq, useForwardPropsEmits as ar, useHideOthers as as, useId as at, Teleport_default as au, SUB_CLOSE_KEYS as av, SUB_OPEN_KEYS as aw, useEmitAsProps as ax, usePrimitiveElement as ay, useLocale as az, _sfc_main$s as b, MAP_KEY_TO_FOCUS_INTENT as b0, getNextMatch as b1, useResizeObserver as b2, RovingFocusItem_default as b3, useNuxtApp as b4, tryOnScopeDispose$1 as b5, injectTooltipProviderContext as b6, useTimeoutFn as b7, VisuallyHidden_default as b8, usePageFailureLog as b9, useActiveElement as bA, _sfc_main$m as bB, useLocalizedSettings as bC, useCookie as bD, pointerDownOutside as bE, DialogOverlay_default as bF, DialogContent_default as bG, DialogTitle_default as bH, DialogDescription_default as bI, DialogClose_default as bJ, themeLayoutLoaders as bK, useRequestEvent as ba, corePageModules as bb, themePageModules as bc, useActiveTheme as bd, __nuxt_component_4$1 as be, isPathLocaleAllowed as bf, useUserSession as bg, __nuxt_component_2$2 as bh, useState as bi, isValueEqualOrExist as bj, transformUI as bk, useEventListener$1 as bl, useRuntimeConfig as bm, resolveBaseURL as bn, ImageComponent as bo, DialogRoot_default as bp, DialogTrigger_default as bq, DialogPortal_default as br, useClipboard as bs, useSeoMeta as bt, useJsonLd as bu, usePageResourceState as bv, __nuxt_component_3$2 as bw, createError as bx, refThrottled as by, useDebounceFn as bz, _sfc_main$o as c, useFormatTime as d, entry_default as default, useToast as e, useAdminPermissions as f, useAdminExtensions as g, moduleEditCode as h, _sfc_main$N as i, _sfc_main$p as j, _sfc_main$I as k, _sfc_main$r as l, moduleViewCode as m, _sfc_main$C as n, navigateTo as o, useRouter as p, useConfirm as q, useSettings as r, useRequestFetch as s, useAsyncData as t, useI18n as u, _sfc_main$l as v, themeExtensionPermissionCode as w, usePagination as x, useFetch as y, _sfc_main$v as z };
+export { PopperRoot_default as $, ADMIN_PERMISSIONS as A, _sfc_main$i as B, publishedOptionalThemes as C, useLocaleRouter as D, useProductPricing as E, useCurrencyFormat as F, useRoute as G, themeAdminLocaleEnModules as H, themeAdminLocaleZhModules as I, useHead as J, useExtensions as K, setResponseStatus as L, stripLocalePrefix as M, __nuxt_component_3$3 as N, _export_sfc as O, useAdminSession as P, firstAllowedAdminRoute as Q, PageRequestError as R, _sfc_main$k as S, __nuxt_component_0$1 as T, useRequestURL as U, useLocaleCurrency as V, PopperAnchor_default as W, PopperArrow_default as X, createSharedComposable as Y, useDirection as Z, _sfc_main$S as _, _sfc_main$t as a, useParentElement as a$, createContext as a0, useVModel as a1, useFocusGuards as a2, useBodyScrollLock as a3, useForwardExpose as a4, useTypeahead as a5, getActiveElement as a6, FocusScope_default as a7, DismissableLayer_default as a8, RovingFocusGroup_default as a9, useAppConfig as aA, usePortal as aB, createReusableTemplate as aC, isArrayOfArray as aD, _sfc_main$Q as aE, get as aF, _sfc_main$O as aG, pickLinkProps as aH, _sfc_main$P as aI, omit as aJ, useComponentUI as aK, reactivePick as aL, tv as aM, useFormControl as aN, VisuallyHiddenInput_default as aO, useFormField as aP, Label_default as aQ, createEventHook as aR, useFieldGroup as aS, useComponentIcons as aT, compare as aU, _sfc_main$R as aV, looseToNumber as aW, getDisplayValue as aX, getFocusIntent as aY, refAutoReset as aZ, handleAndDispatchCustomEvent$1 as a_, PopperContent_default as aa, getOpenState as ab, PopperContentPropsDefaultValue as ac, isPointerInGraceArea as ad, isMouseEvent as ae, FIRST_LAST_KEYS as af, LAST_KEYS as ag, focusFirst$1 as ah, useCollection as ai, Primitive as aj, SELECTION_KEYS$1 as ak, ITEM_SELECT as al, Presence_default as am, isIndeterminate$1 as an, getCheckedState as ao, reactiveOmit as ap, useForwardProps as aq, useForwardPropsEmits as ar, useHideOthers as as, useId as at, Teleport_default as au, SUB_CLOSE_KEYS as av, SUB_OPEN_KEYS as aw, useEmitAsProps as ax, usePrimitiveElement as ay, useLocale as az, _sfc_main$s as b, MAP_KEY_TO_FOCUS_INTENT as b0, getNextMatch as b1, useResizeObserver as b2, RovingFocusItem_default as b3, useNuxtApp as b4, tryOnScopeDispose$1 as b5, injectTooltipProviderContext as b6, useTimeoutFn as b7, VisuallyHidden_default as b8, usePageFailureLog as b9, useDebounceFn as bA, useActiveElement as bB, _sfc_main$m as bC, useLocalizedSettings as bD, useCookie as bE, pointerDownOutside as bF, DialogOverlay_default as bG, DialogContent_default as bH, DialogTitle_default as bI, DialogDescription_default as bJ, DialogClose_default as bK, themeLayoutLoaders as bL, useRequestEvent as ba, corePageModules as bb, themePageModules as bc, useActiveTheme as bd, __nuxt_component_4$1 as be, isPathLocaleAllowed as bf, useUserSession as bg, __nuxt_component_2$2 as bh, useState as bi, isValueEqualOrExist as bj, transformUI as bk, useEventListener$1 as bl, useRuntimeConfig as bm, resolveBaseURL as bn, ImageComponent as bo, DialogRoot_default as bp, DialogTrigger_default as bq, DialogPortal_default as br, useClipboard as bs, useSeoMeta as bt, useJsonLd as bu, useCustomerAuth as bv, usePageResourceState as bw, __nuxt_component_3$2 as bx, createError as by, refThrottled as bz, _sfc_main$o as c, useFormatTime as d, entry_default as default, useToast as e, useAdminPermissions as f, useAdminExtensions as g, moduleEditCode as h, _sfc_main$N as i, _sfc_main$p as j, _sfc_main$I as k, _sfc_main$r as l, moduleViewCode as m, _sfc_main$C as n, navigateTo as o, useRouter as p, useConfirm as q, useSettings as r, useRequestFetch as s, useAsyncData as t, useI18n as u, _sfc_main$l as v, themeExtensionPermissionCode as w, usePagination as x, useFetch as y, _sfc_main$v as z };
 //# sourceMappingURL=server.mjs.map

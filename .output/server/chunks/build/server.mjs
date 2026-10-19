@@ -5578,7 +5578,7 @@ const cfg0 = defineAppConfig({
   }
 });
 const inlineConfig = {
-  "appVersion": "1.0.16",
+  "appVersion": "1.0.17",
   "nuxt": {},
   "ui": {
     "colors": {
@@ -24828,7 +24828,7 @@ const themeAdminLocaleZhModules = {
   })).map(([file, module]) => [file.replace("/", "../"), module]))
 };
 const themeLayoutLoaders = {
-  "hoxi": () => import('./default-5xjGJ2kK.mjs')
+  "hoxi": () => import('./default-DThpOkK-.mjs')
 };
 const schemaVersion$2 = 1;
 const id$2 = "apps";

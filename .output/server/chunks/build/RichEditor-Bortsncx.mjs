@@ -1,4 +1,4 @@
-import { e as useToast, u as useI18n, i as _sfc_main$N, _ as _sfc_main$S, n as _sfc_main$C, b as _sfc_main$s } from './server.mjs';
+import { e as useToast, u as useI18n, i as _sfc_main$Q, _ as _sfc_main$V, n as _sfc_main$F, b as _sfc_main$v } from './server.mjs';
 import { defineComponent, ref, computed, shallowRef, watch, mergeProps, withCtx, createVNode, toDisplayString, resolveDynamicComponent, unref, createTextVNode, openBlock, createBlock, withKeys, createCommentVNode, withModifiers, Fragment, nextTick, useSSRContext } from 'vue';
 import { ssrRenderAttrs, ssrRenderComponent, ssrInterpolate, ssrRenderClass, ssrRenderAttr, ssrRenderStyle, ssrRenderVNode } from 'vue/server-renderer';
 import { marked } from 'marked';
@@ -372,10 +372,10 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
     };
     return (_ctx, _push, _parent, _attrs) => {
       var _a;
-      const _component_UButton = _sfc_main$N;
-      const _component_UIcon = _sfc_main$S;
-      const _component_UModal = _sfc_main$C;
-      const _component_UInput = _sfc_main$s;
+      const _component_UButton = _sfc_main$Q;
+      const _component_UIcon = _sfc_main$V;
+      const _component_UModal = _sfc_main$F;
+      const _component_UInput = _sfc_main$v;
       _push(`<div${ssrRenderAttrs(mergeProps({ class: "rich-editor border border-gray-200 dark:border-gray-800 rounded-xl overflow-hidden bg-white dark:bg-[#121214] flex flex-col shadow-xs" }, _attrs))}><div class="border-b border-gray-200 dark:border-gray-800 bg-gray-50/80 dark:bg-gray-900/60 p-2 flex flex-wrap gap-1.5 items-center justify-between sticky top-0 z-10 backdrop-blur-xs">`);
       if (currentMode.value === "visual" && editor.value) {
         _push(`<div class="flex flex-wrap gap-1 items-center">`);

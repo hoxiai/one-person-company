@@ -1,4 +1,4 @@
-import { u as useI18n, e as useToast, D as useLocaleRouter, q as useConfirm, r as useSettings, f as useAdminPermissions, i as _sfc_main$N, k as _sfc_main$I, _ as _sfc_main$S, b as _sfc_main$s, c as _sfc_main$o } from './server.mjs';
+import { u as useI18n, e as useToast, D as useLocaleRouter, q as useConfirm, r as useSettings, f as useAdminPermissions, i as _sfc_main$Q, k as _sfc_main$L, _ as _sfc_main$V, b as _sfc_main$v, c as _sfc_main$r } from './server.mjs';
 import { _ as _sfc_main$1 } from './Switch-ABf4y-g_.mjs';
 import { _ as _sfc_main$2 } from './SelectMenu-D0Qxpb63.mjs';
 import { defineComponent, defineAsyncComponent, computed, ref, reactive, watch, mergeProps, withCtx, createTextVNode, toDisplayString, unref, useSSRContext } from 'vue';
@@ -398,11 +398,11 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
       return true;
     });
     return (_ctx, _push, _parent, _attrs) => {
-      const _component_UButton = _sfc_main$N;
-      const _component_UBadge = _sfc_main$I;
-      const _component_UIcon = _sfc_main$S;
-      const _component_UInput = _sfc_main$s;
-      const _component_UTextarea = _sfc_main$o;
+      const _component_UButton = _sfc_main$Q;
+      const _component_UBadge = _sfc_main$L;
+      const _component_UIcon = _sfc_main$V;
+      const _component_UInput = _sfc_main$v;
+      const _component_UTextarea = _sfc_main$r;
       const _component_USwitch = _sfc_main$1;
       const _component_USelectMenu = _sfc_main$2;
       _push(`<div${ssrRenderAttrs(mergeProps({ class: "min-h-full flex flex-col pb-12" }, _attrs))}><div class="sticky top-0 z-20 bg-white/90 dark:bg-[#121214]/90 backdrop-blur-md border-b border-gray-200/80 dark:border-gray-800/80 -mx-4 sm:-mx-6 lg:-mx-8 px-4 sm:px-6 lg:px-8 py-3 mb-6 transition-all"><div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 max-w-7xl mx-auto"><div class="flex items-center gap-3 min-w-0">`);

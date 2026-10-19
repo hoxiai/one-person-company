@@ -1,5 +1,5 @@
 import __nuxt_component_0 from './HoxiContainer-DDAEb0_Y.mjs';
-import { u as useI18n, D as useLocaleRouter, bt as useSeoMeta, N as __nuxt_component_3$3, _ as _sfc_main$S, bh as __nuxt_component_2$2 } from './server.mjs';
+import { u as useI18n, D as useLocaleRouter, bt as useSeoMeta, N as __nuxt_component_3$3, _ as _sfc_main$V, bh as __nuxt_component_2$2 } from './server.mjs';
 import __nuxt_component_3 from './HoxiHomeTools-BvSvgUnL.mjs';
 import { defineComponent, ref, withCtx, createVNode, toDisplayString, unref, openBlock, createBlock, Fragment, renderList, createCommentVNode, Teleport, Transition, withModifiers, createTextVNode, useSSRContext } from 'vue';
 import { ssrRenderComponent, ssrInterpolate, ssrRenderList, ssrRenderAttr } from 'vue/server-renderer';
@@ -95,7 +95,7 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
     return (_ctx, _push, _parent, _attrs) => {
       const _component_HoxiContainer = __nuxt_component_0;
       const _component_NuxtLink = __nuxt_component_3$3;
-      const _component_UIcon = _sfc_main$S;
+      const _component_UIcon = _sfc_main$V;
       const _component_HoxiHomeTools = __nuxt_component_3;
       const _component_ClientOnly = __nuxt_component_2$2;
       _push(ssrRenderComponent(_component_HoxiContainer, _attrs, {

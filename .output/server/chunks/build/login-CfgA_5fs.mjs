@@ -1,4 +1,4 @@
-import { r as useSettings, g as useAdminExtensions, P as useAdminSession, u as useI18n, t as useAsyncData, G as useRoute, p as useRouter, Q as firstAllowedAdminRoute, o as navigateTo, _ as _sfc_main$S } from './server.mjs';
+import { r as useSettings, g as useAdminExtensions, P as useAdminSession, u as useI18n, t as useAsyncData, G as useRoute, p as useRouter, Q as firstAllowedAdminRoute, o as navigateTo, _ as _sfc_main$V } from './server.mjs';
 import { _ as __nuxt_component_3 } from './CaptchaSlider-Cs9hB6kV.mjs';
 import { defineComponent, withAsyncContext, reactive, ref, computed, unref, mergeProps, useSSRContext } from 'vue';
 import { ssrRenderAttrs, ssrRenderStyle, ssrRenderAttr, ssrRenderComponent, ssrRenderList, ssrRenderClass, ssrInterpolate, ssrRenderDynamicModel, ssrIncludeBooleanAttr } from 'vue/server-renderer';
@@ -155,7 +155,7 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
       router.push(redirectTarget);
     };
     return (_ctx, _push, _parent, _attrs) => {
-      const _component_UIcon = _sfc_main$S;
+      const _component_UIcon = _sfc_main$V;
       const _component_CaptchaSlider = __nuxt_component_3;
       _push(`<div${ssrRenderAttrs(mergeProps({ class: "min-h-screen flex items-center justify-center p-4 relative overflow-hidden bg-black selection:bg-white selection:text-black" }, _attrs))}><div class="absolute inset-0 pointer-events-none"><div class="absolute inset-0 bg-cover bg-center opacity-30 mix-blend-luminosity grayscale" style="${ssrRenderStyle(unref(backgroundStyle))}"></div><div class="absolute inset-0 bg-gradient-to-t from-black via-black/80 to-transparent"></div><div class="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.05)_0%,transparent_100%)]"></div></div><div class="w-full max-w-md relative z-10">`);
       if (unref(switchableLocales).length > 1) {

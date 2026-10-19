@@ -1,4 +1,4 @@
-import { u as useI18n, G as useRoute, D as useLocaleRouter, bv as useCustomerAuth, bt as useSeoMeta, N as __nuxt_component_3$3, _ as _sfc_main$S, o as navigateTo } from './server.mjs';
+import { u as useI18n, G as useRoute, D as useLocaleRouter, bv as useCustomerAuth, bt as useSeoMeta, N as __nuxt_component_3$3, _ as _sfc_main$V, o as navigateTo } from './server.mjs';
 import __nuxt_component_2 from './HoxiLogoIcon-CLwAteRV.mjs';
 import { _ as __nuxt_component_3 } from './CaptchaSlider-Cs9hB6kV.mjs';
 import { defineComponent, reactive, ref, computed, mergeProps, unref, withCtx, createVNode, createTextVNode, toDisplayString, useSSRContext } from 'vue';
@@ -137,7 +137,7 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
     return (_ctx, _push, _parent, _attrs) => {
       const _component_NuxtLink = __nuxt_component_3$3;
       const _component_HoxiLogoIcon = __nuxt_component_2;
-      const _component_UIcon = _sfc_main$S;
+      const _component_UIcon = _sfc_main$V;
       const _component_CaptchaSlider = __nuxt_component_3;
       _push(`<div${ssrRenderAttrs(mergeProps({ class: "min-h-[calc(100vh-8rem)] flex items-center justify-center px-4 py-12 bg-slate-50/60 dark:bg-slate-950 font-sans" }, _attrs))}><div class="w-full max-w-md rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-7 sm:p-8 shadow-sm"><div class="flex flex-col items-center text-center mb-6">`);
       _push(ssrRenderComponent(_component_NuxtLink, {

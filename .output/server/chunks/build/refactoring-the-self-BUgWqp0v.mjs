@@ -1,5 +1,5 @@
 import __nuxt_component_0 from './HoxiContainer-DDAEb0_Y.mjs';
-import { D as useLocaleRouter, d as useFormatTime, y as useFetch, bt as useSeoMeta, N as __nuxt_component_3$3, _ as _sfc_main$S } from './server.mjs';
+import { D as useLocaleRouter, d as useFormatTime, y as useFetch, bt as useSeoMeta, N as __nuxt_component_3$3, _ as _sfc_main$V } from './server.mjs';
 import { defineComponent, ref, withAsyncContext, computed, withCtx, unref, createTextVNode, toDisplayString, createVNode, openBlock, createBlock, createCommentVNode, Fragment, renderList, useSSRContext } from 'vue';
 import { ssrRenderComponent, ssrInterpolate, ssrRenderClass, ssrRenderList } from 'vue/server-renderer';
 import '../nitro/nitro.mjs';
@@ -139,7 +139,7 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
     return (_ctx, _push, _parent, _attrs) => {
       const _component_HoxiContainer = __nuxt_component_0;
       const _component_NuxtLink = __nuxt_component_3$3;
-      const _component_UIcon = _sfc_main$S;
+      const _component_UIcon = _sfc_main$V;
       _push(ssrRenderComponent(_component_HoxiContainer, _attrs, {
         default: withCtx((_, _push2, _parent2, _scopeId) => {
           var _a, _b;

@@ -1,7 +1,7 @@
 import { computed, mergeProps, useSSRContext } from 'vue';
 import { ssrRenderComponent } from 'vue/server-renderer';
 import { ex as defu } from '../nitro/nitro.mjs';
-import { aA as useAppConfig, _ as _sfc_main$S } from './server.mjs';
+import { aA as useAppConfig, _ as _sfc_main$V } from './server.mjs';
 import 'drizzle-orm';
 import 'node:crypto';
 import 'crypto';
@@ -157,7 +157,7 @@ const _sfc_main = {
     });
     return (_ctx, _push, _parent, _attrs) => {
       if (icon.value) {
-        _push(ssrRenderComponent(_sfc_main$S, mergeProps({ name: icon.value }, _attrs), null, _parent));
+        _push(ssrRenderComponent(_sfc_main$V, mergeProps({ name: icon.value }, _attrs), null, _parent));
       } else {
         _push(`<!---->`);
       }

@@ -1,4 +1,4 @@
-import { D as useLocaleRouter, _ as _sfc_main$S, N as __nuxt_component_3$3 } from './server.mjs';
+import { D as useLocaleRouter, _ as _sfc_main$V, N as __nuxt_component_3$3 } from './server.mjs';
 import __nuxt_component_1 from './HoxiReadinessRadar-DzvZLZvS.mjs';
 import { defineComponent, ref, mergeProps, unref, withCtx, createVNode, toDisplayString, useSSRContext } from 'vue';
 import { ssrRenderAttrs, ssrRenderClass, ssrInterpolate, ssrRenderComponent, ssrRenderList, ssrRenderStyle } from 'vue/server-renderer';
@@ -75,7 +75,7 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
     useHoxiCommunity();
     const copied = ref(false);
     return (_ctx, _push, _parent, _attrs) => {
-      const _component_UIcon = _sfc_main$S;
+      const _component_UIcon = _sfc_main$V;
       const _component_HoxiReadinessRadar = __nuxt_component_1;
       const _component_NuxtLink = __nuxt_component_3$3;
       _push(`<div${ssrRenderAttrs(mergeProps({ class: "space-y-8 md:space-y-12" }, _attrs))}><div class="rounded-3xl border border-slate-200 bg-gradient-to-br from-slate-50 via-white to-blue-50/30 p-4 sm:p-6 md:p-8 shadow-xs relative overflow-hidden dark:border-slate-800 dark:from-slate-900 dark:via-slate-900 dark:to-blue-950/30"><div class="max-w-3xl"><div class="flex flex-wrap items-center gap-2 mb-3"><span class="${ssrRenderClass([__props.result.tier.badgeColor, "px-2.5 py-0.5 rounded-full text-xs font-semibold border"])}">${ssrInterpolate(__props.result.tier.title)}</span><span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-white border border-slate-200 text-slate-800 shadow-2xs dark:bg-slate-900 dark:border-slate-800 dark:text-slate-200">`);

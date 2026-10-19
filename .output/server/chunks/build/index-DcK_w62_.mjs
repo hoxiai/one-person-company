@@ -1,4 +1,4 @@
-import { u as useI18n, G as useRoute, p as useRouter, e as useToast, q as useConfirm, f as useAdminPermissions, F as useCurrencyFormat, r as useSettings, x as usePagination, y as useFetch, _ as _sfc_main$S, b as _sfc_main$s, l as _sfc_main$r, i as _sfc_main$N, j as _sfc_main$p, k as _sfc_main$I, z as _sfc_main$v } from './server.mjs';
+import { u as useI18n, G as useRoute, p as useRouter, e as useToast, q as useConfirm, f as useAdminPermissions, F as useCurrencyFormat, r as useSettings, x as usePagination, y as useFetch, _ as _sfc_main$V, b as _sfc_main$v, l as _sfc_main$u, i as _sfc_main$Q, j as _sfc_main$s, k as _sfc_main$L, z as _sfc_main$y } from './server.mjs';
 import { _ as _sfc_main$1 } from './Tooltip-BTaeSdzd.mjs';
 import { defineComponent, withAsyncContext, computed, ref, watch, mergeProps, unref, withCtx, createTextVNode, toDisplayString, createVNode, openBlock, createBlock, createCommentVNode, Fragment, renderList, isRef, useSSRContext } from 'vue';
 import { ssrRenderAttrs, ssrInterpolate, ssrRenderClass, ssrRenderComponent, ssrRenderList, ssrRenderAttr } from 'vue/server-renderer';
@@ -275,14 +275,14 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
       }
     };
     return (_ctx, _push, _parent, _attrs) => {
-      const _component_UIcon = _sfc_main$S;
-      const _component_UInput = _sfc_main$s;
-      const _component_USelect = _sfc_main$r;
-      const _component_UButton = _sfc_main$N;
-      const _component_UTable = _sfc_main$p;
-      const _component_UBadge = _sfc_main$I;
+      const _component_UIcon = _sfc_main$V;
+      const _component_UInput = _sfc_main$v;
+      const _component_USelect = _sfc_main$u;
+      const _component_UButton = _sfc_main$Q;
+      const _component_UTable = _sfc_main$s;
+      const _component_UBadge = _sfc_main$L;
       const _component_UTooltip = _sfc_main$1;
-      const _component_UPagination = _sfc_main$v;
+      const _component_UPagination = _sfc_main$y;
       _push(`<div${ssrRenderAttrs(mergeProps({ class: "h-[calc(100vh-7rem)] flex flex-col" }, _attrs))}><div class="flex flex-col sm:flex-row sm:justify-between sm:items-end gap-4 mb-4 shrink-0"><div><h1 class="text-3xl font-bold text-gray-900 dark:text-white tracking-tight">${ssrInterpolate(activeTab.value === "cards" ? _ctx.$t("admin.cards.title", "\u5361\u5BC6\u5E93\u5B58") : activeTab.value === "subscriptions" ? _ctx.$t("admin.subscriptions.title", "\u8BA2\u9605\u7BA1\u7406") : _ctx.$t("admin.products.title", "\u4EA7\u54C1\u7BA1\u7406"))}</h1><p class="text-gray-500 dark:text-gray-400 mt-1.5 text-sm">${ssrInterpolate(activeTab.value === "cards" ? _ctx.$t("admin.cards.subtitle", "\u7BA1\u7406\u5361\u5BC6\u578B\u5546\u54C1\u7684\u6279\u91CF\u5BFC\u5165\u4E0E\u4F7F\u7528\u72B6\u6001") : activeTab.value === "subscriptions" ? _ctx.$t("admin.subscriptions.subtitle", "\u67E5\u770B\u4E0E\u7BA1\u7406\u5BA2\u6237\u5468\u671F\u6027\u8BA2\u9605\u8BA1\u5212") : _ctx.$t("admin.products.subtitle", "\u7BA1\u7406\u5546\u57CE\u6240\u6709\u5B9E\u7269\u3001\u6570\u5B57\u3001\u5361\u5BC6\u53CA\u8BA2\u9605\u5546\u54C1"))}</p></div><div class="flex items-center gap-1.5 bg-gray-100 dark:bg-white/5 p-1 rounded-xl shrink-0"><button type="button" class="${ssrRenderClass([activeTab.value === "products" ? "bg-white dark:bg-[#1a1a1e] text-gray-900 dark:text-white shadow-xs" : "text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white", "flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg text-xs font-semibold transition cursor-pointer"])}">`);
       _push(ssrRenderComponent(_component_UIcon, {
         name: "ph:package-bold",

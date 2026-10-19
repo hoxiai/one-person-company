@@ -1,4 +1,4 @@
-import { u as useI18n, d as useFormatTime, F as useCurrencyFormat, e as useToast, q as useConfirm, r as useSettings, f as useAdminPermissions, y as useFetch, p as useRouter, i as _sfc_main$N, j as _sfc_main$p, k as _sfc_main$I, _ as _sfc_main$S, a as _sfc_main$t, b as _sfc_main$s, B as _sfc_main$i, c as _sfc_main$o, n as _sfc_main$C } from './server.mjs';
+import { u as useI18n, d as useFormatTime, F as useCurrencyFormat, e as useToast, q as useConfirm, r as useSettings, f as useAdminPermissions, y as useFetch, p as useRouter, i as _sfc_main$Q, j as _sfc_main$s, k as _sfc_main$L, _ as _sfc_main$V, a as _sfc_main$w, b as _sfc_main$v, B as _sfc_main$l, c as _sfc_main$r, n as _sfc_main$F } from './server.mjs';
 import { _ as _sfc_main$1 } from './Tabs-BgVamcva.mjs';
 import { _ as _sfc_main$2 } from './Switch-ABf4y-g_.mjs';
 import { _ as __nuxt_component_7 } from './FullScreenModal-Dpul9c_Q.mjs';
@@ -356,18 +356,18 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
       }
     };
     return (_ctx, _push, _parent, _attrs) => {
-      const _component_UButton = _sfc_main$N;
+      const _component_UButton = _sfc_main$Q;
       const _component_UTabs = _sfc_main$1;
-      const _component_UTable = _sfc_main$p;
-      const _component_UIcon = _sfc_main$S;
-      const _component_UBadge = _sfc_main$I;
+      const _component_UTable = _sfc_main$s;
+      const _component_UIcon = _sfc_main$V;
+      const _component_UBadge = _sfc_main$L;
       const _component_USwitch = _sfc_main$2;
       const _component_FullScreenModal = __nuxt_component_7;
-      const _component_UFormField = _sfc_main$t;
-      const _component_UInput = _sfc_main$s;
-      const _component_UCheckbox = _sfc_main$i;
-      const _component_UTextarea = _sfc_main$o;
-      const _component_UModal = _sfc_main$C;
+      const _component_UFormField = _sfc_main$w;
+      const _component_UInput = _sfc_main$v;
+      const _component_UCheckbox = _sfc_main$l;
+      const _component_UTextarea = _sfc_main$r;
+      const _component_UModal = _sfc_main$F;
       _push(`<div${ssrRenderAttrs(_attrs)}><div class="flex justify-between items-end mb-8"><div><h1 class="text-3xl font-bold text-gray-900 dark:text-white tracking-tight">${ssrInterpolate(_ctx.$t("admin.payments.page.title"))}</h1><p class="text-gray-500 dark:text-gray-400 mt-2 text-sm">${ssrInterpolate(_ctx.$t("admin.payments.page.subtitle"))}</p></div>`);
       if (activeTab.value === "methods" && unref(hasAdminPerm)("payments:edit")) {
         _push(ssrRenderComponent(_component_UButton, {

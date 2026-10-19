@@ -1,5 +1,5 @@
 import { _ as _sfc_main$5 } from './Tabs-BgVamcva.mjs';
-import { u as useI18n, G as useRoute, d as useFormatTime, f as useAdminPermissions, e as useToast, q as useConfirm, x as usePagination, y as useFetch, i as _sfc_main$N, b as _sfc_main$s, R as PageRequestError, j as _sfc_main$p, k as _sfc_main$I, n as _sfc_main$C, S as _sfc_main$k, _ as _sfc_main$S, T as __nuxt_component_0$1, z as _sfc_main$v } from './server.mjs';
+import { u as useI18n, G as useRoute, d as useFormatTime, f as useAdminPermissions, e as useToast, q as useConfirm, x as usePagination, y as useFetch, i as _sfc_main$Q, b as _sfc_main$v, R as PageRequestError, j as _sfc_main$s, k as _sfc_main$L, n as _sfc_main$F, S as _sfc_main$n, _ as _sfc_main$V, T as __nuxt_component_0$1, z as _sfc_main$y } from './server.mjs';
 import { defineComponent, ref, computed, mergeProps, unref, withCtx, createTextVNode, toDisplayString, createVNode, openBlock, createBlock, createCommentVNode, useSSRContext } from 'vue';
 import { ssrRenderAttrs, ssrInterpolate, ssrRenderComponent, ssrRenderTeleport, ssrRenderAttr, ssrRenderClass, ssrRenderSlot } from 'vue/server-renderer';
 import { eG as errorData, eF as errorRecord } from '../nitro/nitro.mjs';
@@ -80,7 +80,7 @@ const _sfc_main$4 = /* @__PURE__ */ defineComponent({
   setup(__props, { emit: __emit }) {
     const emit = __emit;
     return (_ctx, _push, _parent, _attrs) => {
-      const _component_UPagination = _sfc_main$v;
+      const _component_UPagination = _sfc_main$y;
       _push(`<div${ssrRenderAttrs(mergeProps({ class: "bg-white dark:bg-[#121214] border border-gray-200/60 dark:border-gray-800/50 rounded-2xl shadow-sm overflow-hidden flex flex-col flex-1 min-h-0" }, _attrs))}><div class="flex-1 overflow-auto">`);
       ssrRenderSlot(_ctx.$slots, "default", {}, null, _push, _parent);
       _push(`</div><div class="p-4 border-t border-gray-200 dark:border-gray-800/50 flex items-center justify-between shrink-0 bg-white dark:bg-[#121214] rounded-b-2xl"><span class="text-sm text-gray-500 dark:text-gray-400">${ssrInterpolate(_ctx.$t("admin.common.showing"))} ${ssrInterpolate(__props.rowCount > 0 ? (__props.page - 1) * __props.pageSize + 1 : 0)} ${ssrInterpolate(_ctx.$t("admin.common.to"))} ${ssrInterpolate(Math.min(__props.page * __props.pageSize, __props.total))} ${ssrInterpolate(_ctx.$t("admin.common.of"))} ${ssrInterpolate(__props.total)} ${ssrInterpolate(_ctx.$t("admin.common.results"))}</span>`);
@@ -288,15 +288,15 @@ const _sfc_main$3 = /* @__PURE__ */ defineComponent({
       }
     };
     return (_ctx, _push, _parent, _attrs) => {
-      const _component_UButton = _sfc_main$N;
-      const _component_UInput = _sfc_main$s;
+      const _component_UButton = _sfc_main$Q;
+      const _component_UInput = _sfc_main$v;
       const _component_PageRequestError = PageRequestError;
       const _component_AdminLogsTableCard = __nuxt_component_4;
-      const _component_UTable = _sfc_main$p;
-      const _component_UBadge = _sfc_main$I;
-      const _component_UModal = _sfc_main$C;
-      const _component_UCard = _sfc_main$k;
-      const _component_UIcon = _sfc_main$S;
+      const _component_UTable = _sfc_main$s;
+      const _component_UBadge = _sfc_main$L;
+      const _component_UModal = _sfc_main$F;
+      const _component_UCard = _sfc_main$n;
+      const _component_UIcon = _sfc_main$V;
       _push(`<!--[-->`);
       ssrRenderTeleport(_push, (_push2) => {
         if (unref(hasAdminPerm)("logs:edit")) {
@@ -792,10 +792,10 @@ const _sfc_main$2 = /* @__PURE__ */ defineComponent({
     return (_ctx, _push, _parent, _attrs) => {
       const _component_Icon = __nuxt_component_0$1;
       const _component_USelectMenu = _sfc_main$6;
-      const _component_UButton = _sfc_main$N;
+      const _component_UButton = _sfc_main$Q;
       const _component_AdminLogsTableCard = __nuxt_component_4;
-      const _component_UTable = _sfc_main$p;
-      const _component_UBadge = _sfc_main$I;
+      const _component_UTable = _sfc_main$s;
+      const _component_UBadge = _sfc_main$L;
       _push(`<!--[--><div class="mb-4 flex flex-wrap items-center gap-3"><div class="relative w-64">`);
       _push(ssrRenderComponent(_component_Icon, {
         name: "ph:magnifying-glass",
@@ -1168,16 +1168,16 @@ const _sfc_main$1 = /* @__PURE__ */ defineComponent({
       }
     };
     return (_ctx, _push, _parent, _attrs) => {
-      const _component_UInput = _sfc_main$s;
-      const _component_UButton = _sfc_main$N;
+      const _component_UInput = _sfc_main$v;
+      const _component_UButton = _sfc_main$Q;
       const _component_Icon = __nuxt_component_0$1;
       const _component_USelectMenu = _sfc_main$6;
       const _component_AdminLogsTableCard = __nuxt_component_4;
-      const _component_UTable = _sfc_main$p;
-      const _component_UBadge = _sfc_main$I;
-      const _component_UModal = _sfc_main$C;
-      const _component_UCard = _sfc_main$k;
-      const _component_UIcon = _sfc_main$S;
+      const _component_UTable = _sfc_main$s;
+      const _component_UBadge = _sfc_main$L;
+      const _component_UModal = _sfc_main$F;
+      const _component_UCard = _sfc_main$n;
+      const _component_UIcon = _sfc_main$V;
       _push(`<!--[-->`);
       ssrRenderTeleport(_push, (_push2) => {
         if (unref(hasAdminPerm)("logs:edit")) {

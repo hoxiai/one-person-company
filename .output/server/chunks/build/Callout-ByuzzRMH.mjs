@@ -1,7 +1,7 @@
 import { computed, mergeProps, unref, withCtx, createVNode, useSSRContext } from 'vue';
 import { ssrRenderAttrs, ssrRenderComponent } from 'vue/server-renderer';
 import { s as ssrRenderSlot } from './ssrSlot-D0eYVb8V.mjs';
-import { aA as useAppConfig, aK as useComponentUI, aM as tv, aG as _sfc_main$O, _ as _sfc_main$S } from './server.mjs';
+import { aA as useAppConfig, aK as useComponentUI, aM as tv, aG as _sfc_main$R, _ as _sfc_main$V } from './server.mjs';
 import '../nitro/nitro.mjs';
 import 'drizzle-orm';
 import 'node:crypto';
@@ -210,7 +210,7 @@ const _sfc_main = /* @__PURE__ */ Object.assign({ inheritAttrs: false }, {
         class: ui.value.base({ class: [(_a = unref(uiProp)) == null ? void 0 : _a.base, props.class] })
       }, _attrs))}>`);
       if (__props.to) {
-        _push(ssrRenderComponent(_sfc_main$O, mergeProps({ to: __props.to, target: target.value, ..._ctx.$attrs }, {
+        _push(ssrRenderComponent(_sfc_main$R, mergeProps({ to: __props.to, target: target.value, ..._ctx.$attrs }, {
           class: "focus:outline-none",
           raw: ""
         }), {
@@ -232,7 +232,7 @@ const _sfc_main = /* @__PURE__ */ Object.assign({ inheritAttrs: false }, {
         _push(`<!---->`);
       }
       if (__props.icon) {
-        _push(ssrRenderComponent(_sfc_main$S, {
+        _push(ssrRenderComponent(_sfc_main$V, {
           name: __props.icon,
           class: ui.value.icon({ class: (_b = unref(uiProp)) == null ? void 0 : _b.icon })
         }, null, _parent));
@@ -240,7 +240,7 @@ const _sfc_main = /* @__PURE__ */ Object.assign({ inheritAttrs: false }, {
         _push(`<!---->`);
       }
       if (!!__props.to && target.value === "_blank") {
-        _push(ssrRenderComponent(_sfc_main$S, {
+        _push(ssrRenderComponent(_sfc_main$V, {
           name: unref(appConfig).ui.icons.external,
           class: ui.value.externalIcon({ class: (_c = unref(uiProp)) == null ? void 0 : _c.externalIcon })
         }, null, _parent));

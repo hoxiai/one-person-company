@@ -1,4 +1,4 @@
-import { r as useSettings, u as useI18n, e as useToast, f as useAdminPermissions, G as useRoute, _ as _sfc_main$S, i as _sfc_main$N, b as _sfc_main$s, a as _sfc_main$t, c as _sfc_main$o, B as _sfc_main$i, l as _sfc_main$r, k as _sfc_main$I, y as useFetch, n as _sfc_main$C, N as __nuxt_component_3$3, aA as useAppConfig, aK as useComponentUI, aq as useForwardProps, aL as reactivePick, aM as tv, aE as _sfc_main$Q, aj as Primitive } from './server.mjs';
+import { r as useSettings, u as useI18n, e as useToast, f as useAdminPermissions, G as useRoute, _ as _sfc_main$V, i as _sfc_main$Q, b as _sfc_main$v, a as _sfc_main$w, c as _sfc_main$r, B as _sfc_main$l, l as _sfc_main$u, k as _sfc_main$L, y as useFetch, n as _sfc_main$F, N as __nuxt_component_3$3, aA as useAppConfig, aK as useComponentUI, aq as useForwardProps, aL as reactivePick, aM as tv, aE as _sfc_main$T, aj as Primitive } from './server.mjs';
 import { i as isSettingsTabId, _ as __nuxt_component_2 } from './Nav-eYDapY_z.mjs';
 import { _ as _sfc_main$c } from './Switch-ABf4y-g_.mjs';
 import { defineComponent, ref, watch, mergeProps, unref, withCtx, createTextVNode, toDisplayString, createVNode, computed, openBlock, createBlock, Fragment, renderList, withModifiers, reactive, watchEffect, isRef, createCommentVNode, useSlots, renderSlot, normalizeProps, guardReactiveProps, useSSRContext } from 'vue';
@@ -239,11 +239,11 @@ const _sfc_main$b = /* @__PURE__ */ defineComponent({
       }
     };
     return (_ctx, _push, _parent, _attrs) => {
-      const _component_UIcon = _sfc_main$S;
-      const _component_UFormField = _sfc_main$t;
-      const _component_UInput = _sfc_main$s;
-      const _component_UTextarea = _sfc_main$o;
-      const _component_UButton = _sfc_main$N;
+      const _component_UIcon = _sfc_main$V;
+      const _component_UFormField = _sfc_main$w;
+      const _component_UInput = _sfc_main$v;
+      const _component_UTextarea = _sfc_main$r;
+      const _component_UButton = _sfc_main$Q;
       const _component_USwitch = _sfc_main$c;
       _push(`<div${ssrRenderAttrs(mergeProps({ class: "bg-white dark:bg-[#121214] border border-gray-200 dark:border-gray-800/60 shadow-xl rounded-2xl overflow-hidden" }, _attrs))}><div class="px-6 py-5 border-b border-gray-200 dark:border-gray-800/60 bg-gray-100 dark:bg-gray-900/20 flex items-center gap-3"><div class="w-8 h-8 rounded-lg bg-blue-500/20 flex items-center justify-center text-blue-400">`);
       _push(ssrRenderComponent(_component_UIcon, {
@@ -757,13 +757,13 @@ const _sfc_main$a = {
                 if (__props.label) {
                   _push2(`<span data-slot="label" class="${ssrRenderClass(ui.value.label({ class: (_a3 = unref(uiProp)) == null ? void 0 : _a3.label }))}"${_scopeId}>${ssrInterpolate(__props.label)}</span>`);
                 } else if (__props.icon) {
-                  _push2(ssrRenderComponent(_sfc_main$S, {
+                  _push2(ssrRenderComponent(_sfc_main$V, {
                     name: __props.icon,
                     "data-slot": "icon",
                     class: ui.value.icon({ class: (_b2 = unref(uiProp)) == null ? void 0 : _b2.icon })
                   }, null, _parent2, _scopeId));
                 } else if (__props.avatar) {
-                  _push2(ssrRenderComponent(_sfc_main$Q, mergeProps({
+                  _push2(ssrRenderComponent(_sfc_main$T, mergeProps({
                     size: ((_c2 = unref(uiProp)) == null ? void 0 : _c2.avatarSize) || ui.value.avatarSize()
                   }, __props.avatar, {
                     "data-slot": "avatar",
@@ -795,12 +795,12 @@ const _sfc_main$a = {
                         key: 0,
                         "data-slot": "label",
                         class: ui.value.label({ class: (_a3 = unref(uiProp)) == null ? void 0 : _a3.label })
-                      }, toDisplayString(__props.label), 3)) : __props.icon ? (openBlock(), createBlock(_sfc_main$S, {
+                      }, toDisplayString(__props.label), 3)) : __props.icon ? (openBlock(), createBlock(_sfc_main$V, {
                         key: 1,
                         name: __props.icon,
                         "data-slot": "icon",
                         class: ui.value.icon({ class: (_b2 = unref(uiProp)) == null ? void 0 : _b2.icon })
-                      }, null, 8, ["name", "class"])) : __props.avatar ? (openBlock(), createBlock(_sfc_main$Q, mergeProps({
+                      }, null, 8, ["name", "class"])) : __props.avatar ? (openBlock(), createBlock(_sfc_main$T, mergeProps({
                         key: 2,
                         size: ((_c2 = unref(uiProp)) == null ? void 0 : _c2.avatarSize) || ui.value.avatarSize()
                       }, __props.avatar, {
@@ -1049,12 +1049,12 @@ const _sfc_main$9 = /* @__PURE__ */ defineComponent({
       }))
     );
     return (_ctx, _push, _parent, _attrs) => {
-      const _component_UIcon = _sfc_main$S;
-      const _component_UFormField = _sfc_main$t;
+      const _component_UIcon = _sfc_main$V;
+      const _component_UFormField = _sfc_main$w;
       const _component_USelectMenu = _sfc_main$d;
       const _component_USeparator = _sfc_main$a;
-      const _component_UCheckbox = _sfc_main$i;
-      const _component_UInput = _sfc_main$s;
+      const _component_UCheckbox = _sfc_main$l;
+      const _component_UInput = _sfc_main$v;
       _push(`<div${ssrRenderAttrs(mergeProps({ class: "bg-white dark:bg-[#121214] border border-gray-200 dark:border-gray-800/60 shadow-xl rounded-2xl overflow-hidden" }, _attrs))}><div class="px-6 py-5 border-b border-gray-200 dark:border-gray-800/60 bg-gray-100 dark:bg-gray-900/20 flex items-center gap-3"><div class="w-8 h-8 rounded-lg bg-indigo-500/20 flex items-center justify-center text-indigo-400">`);
       _push(ssrRenderComponent(_component_UIcon, {
         name: "ph:translate-fill",
@@ -1410,10 +1410,10 @@ const _sfc_main$8 = /* @__PURE__ */ defineComponent({
       { immediate: true, deep: true }
     );
     return (_ctx, _push, _parent, _attrs) => {
-      const _component_UIcon = _sfc_main$S;
-      const _component_UFormField = _sfc_main$t;
-      const _component_UInput = _sfc_main$s;
-      const _component_UTextarea = _sfc_main$o;
+      const _component_UIcon = _sfc_main$V;
+      const _component_UFormField = _sfc_main$w;
+      const _component_UInput = _sfc_main$v;
+      const _component_UTextarea = _sfc_main$r;
       _push(`<div${ssrRenderAttrs(mergeProps({ class: "bg-white dark:bg-[#121214] border border-gray-200 dark:border-gray-800/60 shadow-xl rounded-2xl overflow-hidden" }, _attrs))}><div class="px-6 py-5 border-b border-gray-200 dark:border-gray-800/60 bg-gray-100 dark:bg-gray-900/20 flex items-center gap-3"><div class="w-8 h-8 rounded-lg bg-teal-500/20 flex items-center justify-center text-teal-400">`);
       _push(ssrRenderComponent(_component_UIcon, {
         name: "ph:magnifying-glass-fill",
@@ -1547,7 +1547,7 @@ const _sfc_main$7 = /* @__PURE__ */ defineComponent({
   },
   setup(__props) {
     return (_ctx, _push, _parent, _attrs) => {
-      const _component_UIcon = _sfc_main$S;
+      const _component_UIcon = _sfc_main$V;
       const _component_USwitch = _sfc_main$c;
       _push(`<div${ssrRenderAttrs(mergeProps({ class: "bg-white dark:bg-[#121214] border border-gray-200 dark:border-gray-800/60 shadow-xl rounded-2xl overflow-hidden" }, _attrs))}><div class="px-6 py-5 border-b border-gray-200 dark:border-gray-800/60 bg-gray-100 dark:bg-gray-900/20 flex items-center gap-3"><div class="w-8 h-8 rounded-lg bg-pink-500/20 flex items-center justify-center text-pink-400">`);
       _push(ssrRenderComponent(_component_UIcon, {
@@ -1679,10 +1679,10 @@ const _sfc_main$6 = /* @__PURE__ */ defineComponent({
       props.form.topup_rules = serialize();
     }, { deep: true });
     return (_ctx, _push, _parent, _attrs) => {
-      const _component_UIcon = _sfc_main$S;
+      const _component_UIcon = _sfc_main$V;
       const _component_USwitch = _sfc_main$c;
-      const _component_UInput = _sfc_main$s;
-      const _component_UButton = _sfc_main$N;
+      const _component_UInput = _sfc_main$v;
+      const _component_UButton = _sfc_main$Q;
       _push(`<div${ssrRenderAttrs(mergeProps({ class: "bg-white dark:bg-[#121214] border border-gray-200 dark:border-gray-800/60 shadow-xl rounded-2xl overflow-hidden" }, _attrs))}><div class="px-6 py-5 border-b border-gray-200 dark:border-gray-800/60 bg-gray-100 dark:bg-gray-900/20 flex items-center gap-3"><div class="w-8 h-8 rounded-lg bg-emerald-500/20 flex items-center justify-center text-emerald-400">`);
       _push(ssrRenderComponent(_component_UIcon, {
         name: "ph:wallet-fill",
@@ -1834,10 +1834,10 @@ const _sfc_main$5 = /* @__PURE__ */ defineComponent({
     }
     return (_ctx, _push, _parent, _attrs) => {
       const _component_FullScreenModal = __nuxt_component_7$1;
-      const _component_UFormField = _sfc_main$t;
-      const _component_UInput = _sfc_main$s;
-      const _component_UTextarea = _sfc_main$o;
-      const _component_UButton = _sfc_main$N;
+      const _component_UFormField = _sfc_main$w;
+      const _component_UInput = _sfc_main$v;
+      const _component_UTextarea = _sfc_main$r;
+      const _component_UButton = _sfc_main$Q;
       _push(ssrRenderComponent(_component_FullScreenModal, mergeProps({
         "model-value": __props.open,
         title: __props.title,
@@ -2666,14 +2666,14 @@ const _sfc_main$4 = /* @__PURE__ */ defineComponent({
     };
     return (_ctx, _push, _parent, _attrs) => {
       var _a;
-      const _component_UIcon = _sfc_main$S;
-      const _component_UFormField = _sfc_main$t;
-      const _component_USelect = _sfc_main$r;
-      const _component_UInput = _sfc_main$s;
+      const _component_UIcon = _sfc_main$V;
+      const _component_UFormField = _sfc_main$w;
+      const _component_USelect = _sfc_main$u;
+      const _component_UInput = _sfc_main$v;
       const _component_USwitch = _sfc_main$c;
-      const _component_UTextarea = _sfc_main$o;
-      const _component_UButton = _sfc_main$N;
-      const _component_UBadge = _sfc_main$I;
+      const _component_UTextarea = _sfc_main$r;
+      const _component_UButton = _sfc_main$Q;
+      const _component_UBadge = _sfc_main$L;
       const _component_FullScreenModal = __nuxt_component_7$1;
       _push(`<div${ssrRenderAttrs(mergeProps({ class: "space-y-8" }, _attrs))}><div class="bg-white dark:bg-[#121214] border border-gray-200 dark:border-gray-800/60 shadow-xl rounded-2xl overflow-hidden"><div class="px-6 py-5 border-b border-gray-200 dark:border-gray-800/60 bg-gray-100 dark:bg-gray-900/20 flex items-center gap-3"><div class="w-8 h-8 rounded-lg bg-emerald-500/20 flex items-center justify-center text-emerald-500">`);
       _push(ssrRenderComponent(_component_UIcon, {
@@ -3432,11 +3432,11 @@ const _sfc_main$3 = /* @__PURE__ */ defineComponent({
       }
     };
     return (_ctx, _push, _parent, _attrs) => {
-      const _component_UIcon = _sfc_main$S;
-      const _component_UFormField = _sfc_main$t;
-      const _component_UInput = _sfc_main$s;
-      const _component_UTextarea = _sfc_main$o;
-      const _component_UButton = _sfc_main$N;
+      const _component_UIcon = _sfc_main$V;
+      const _component_UFormField = _sfc_main$w;
+      const _component_UInput = _sfc_main$v;
+      const _component_UTextarea = _sfc_main$r;
+      const _component_UButton = _sfc_main$Q;
       _push(`<div${ssrRenderAttrs(mergeProps({ class: "bg-white dark:bg-[#121214] border border-gray-200 dark:border-gray-800/60 shadow-xl rounded-2xl overflow-hidden" }, _attrs))}><div class="px-6 py-5 border-b border-gray-200 dark:border-gray-800/60 bg-gray-100 dark:bg-gray-900/20 flex items-center gap-3"><div class="w-8 h-8 rounded-lg bg-orange-500/20 flex items-center justify-center text-orange-400">`);
       _push(ssrRenderComponent(_component_UIcon, {
         name: "ph:buildings-fill",
@@ -4056,12 +4056,12 @@ const _sfc_main$2 = /* @__PURE__ */ defineComponent({
       }
     };
     return (_ctx, _push, _parent, _attrs) => {
-      const _component_UButton = _sfc_main$N;
-      const _component_UIcon = _sfc_main$S;
+      const _component_UButton = _sfc_main$Q;
+      const _component_UIcon = _sfc_main$V;
       const _component_USwitch = _sfc_main$c;
-      const _component_UModal = _sfc_main$C;
-      const _component_USelect = _sfc_main$r;
-      const _component_UInput = _sfc_main$s;
+      const _component_UModal = _sfc_main$F;
+      const _component_USelect = _sfc_main$u;
+      const _component_UInput = _sfc_main$v;
       _push(`<div${ssrRenderAttrs(mergeProps({ class: "space-y-5" }, _attrs))}><div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between"><div><h2 class="text-lg font-semibold text-gray-900 dark:text-white">${ssrInterpolate(_ctx.$t("admin.settings.automations.title"))}</h2><p class="text-sm text-gray-500 dark:text-gray-400 mt-1">${ssrInterpolate(_ctx.$t("admin.settings.automations.subtitle"))}</p></div>`);
       if (unref(hasAdminPerm)("settings:edit")) {
         _push(ssrRenderComponent(_component_UButton, {
@@ -4671,13 +4671,13 @@ const _sfc_main$1 = /* @__PURE__ */ defineComponent({
       return new Date(value).toLocaleString("zh-CN", { hour12: false });
     };
     return (_ctx, _push, _parent, _attrs) => {
-      const _component_UButton = _sfc_main$N;
-      const _component_UIcon = _sfc_main$S;
+      const _component_UButton = _sfc_main$Q;
+      const _component_UIcon = _sfc_main$V;
       const _component_USwitch = _sfc_main$c;
       const _component_NuxtLink = __nuxt_component_3$3;
-      const _component_UModal = _sfc_main$C;
-      const _component_UInput = _sfc_main$s;
-      const _component_USelect = _sfc_main$r;
+      const _component_UModal = _sfc_main$F;
+      const _component_UInput = _sfc_main$v;
+      const _component_USelect = _sfc_main$u;
       _push(`<div${ssrRenderAttrs(mergeProps({ class: "space-y-5" }, _attrs))}><div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between"><div><h2 class="text-lg font-semibold text-gray-900 dark:text-white">\u5B9A\u65F6\u4EFB\u52A1</h2><p class="text-sm text-gray-500 dark:text-gray-400 mt-1"> \u5230\u70B9\u5BF9\u7AD9\u5185\u8DEF\u5F84\u53D1\u8D77\u8BF7\u6C42\u7684\u5B9A\u65F6 Webhook\uFF0C\u72EC\u7ACB\u4E8E\u4E0A\u65B9\u300C\u4E8B\u4EF6\u89C4\u5219\u300D\u2014\u2014\u4E8B\u4EF6\u89C4\u5219\u662F&quot;\u4E8B\u60C5\u53D1\u751F\u65F6&quot;\u89E6\u53D1\uFF0C\u8FD9\u91CC\u662F&quot;\u5230\u65F6\u95F4\u4E86&quot;\u89E6\u53D1\u3002\u76EE\u6807\u7AEF\u70B9\u81EA\u5E26\u9274\u6743\u4E14\u5FC5\u987B\u5E42\u7B49 </p></div>`);
       if (unref(hasAdminPerm)("system:edit")) {
         _push(ssrRenderComponent(_component_UButton, {
@@ -5086,11 +5086,11 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
       (_a = faviconInput.value) == null ? void 0 : _a.click();
     };
     return (_ctx, _push, _parent, _attrs) => {
-      const _component_UIcon = _sfc_main$S;
-      const _component_UButton = _sfc_main$N;
+      const _component_UIcon = _sfc_main$V;
+      const _component_UButton = _sfc_main$Q;
       const _component_AdminSettingsNav = __nuxt_component_2;
       const _component_AdminSettingsGeneralTab = __nuxt_component_3;
-      const _component_UInput = _sfc_main$s;
+      const _component_UInput = _sfc_main$v;
       const _component_AdminSettingsLocalizationTab = __nuxt_component_5;
       const _component_AdminSettingsSEOTab = __nuxt_component_6;
       const _component_AdminSettingsCheckoutTab = __nuxt_component_7;

@@ -1,4 +1,4 @@
-import { O as _export_sfc, N as __nuxt_component_3$3, _ as _sfc_main$S } from './server.mjs';
+import { O as _export_sfc, N as __nuxt_component_3$3, _ as _sfc_main$V } from './server.mjs';
 import { defineComponent, unref, createVNode, resolveDynamicComponent, withCtx, createTextVNode, toDisplayString, useSSRContext } from 'vue';
 import { ssrRenderList, ssrRenderVNode, ssrRenderComponent, ssrInterpolate } from 'vue/server-renderer';
 
@@ -33,7 +33,7 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
       if (!tab.route) emit("select", tab.id);
     };
     return (_ctx, _push, _parent, _attrs) => {
-      const _component_UIcon = _sfc_main$S;
+      const _component_UIcon = _sfc_main$V;
       _push(`<!--[--><div class="settings-nav-scroll block lg:hidden overflow-x-auto pb-2 -mx-4 px-4 sm:mx-0 sm:px-0" data-v-3007fcd7><nav class="flex space-x-2" data-v-3007fcd7><!--[-->`);
       ssrRenderList(unref(SETTINGS_NAV_TABS), (tab) => {
         ssrRenderVNode(_push, createVNode(resolveDynamicComponent(tab.route ? unref(NuxtLink) : "button"), {

@@ -1,4 +1,4 @@
-import { u as useI18n, _ as _sfc_main$S } from './server.mjs';
+import { u as useI18n, _ as _sfc_main$V } from './server.mjs';
 import __nuxt_component_1 from './HoxiVendorDot-BLwK_ZsG.mjs';
 import { defineComponent, computed, mergeProps, useSSRContext } from 'vue';
 import { ssrRenderAttrs, ssrRenderComponent, ssrRenderAttr, ssrRenderClass, ssrInterpolate, ssrRenderList } from 'vue/server-renderer';
@@ -90,7 +90,7 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
       () => props.selectedVendors.length > 0 || props.reasoning !== void 0 || props.maxPrice !== void 0 || props.searchQuery.trim().length > 0 || props.selectedScene && props.selectedScene !== "all"
     );
     return (_ctx, _push, _parent, _attrs) => {
-      const _component_UIcon = _sfc_main$S;
+      const _component_UIcon = _sfc_main$V;
       const _component_HoxiVendorDot = __nuxt_component_1;
       _push(`<div${ssrRenderAttrs(mergeProps({ class: "space-y-4" }, _attrs))}><div class="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3"><div class="relative flex-1 max-w-md">`);
       _push(ssrRenderComponent(_component_UIcon, {

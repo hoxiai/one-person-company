@@ -1,4 +1,4 @@
-import { u as useI18n, e as useToast, d as useFormatTime, F as useCurrencyFormat, r as useSettings, f as useAdminPermissions, y as useFetch, i as _sfc_main$N, _ as _sfc_main$S, k as _sfc_main$I, b as _sfc_main$s, l as _sfc_main$r, j as _sfc_main$p, a as _sfc_main$t, n as _sfc_main$C, c as _sfc_main$o } from './server.mjs';
+import { u as useI18n, e as useToast, d as useFormatTime, F as useCurrencyFormat, r as useSettings, f as useAdminPermissions, y as useFetch, i as _sfc_main$Q, _ as _sfc_main$V, k as _sfc_main$L, b as _sfc_main$v, l as _sfc_main$u, j as _sfc_main$s, a as _sfc_main$w, n as _sfc_main$F, c as _sfc_main$r } from './server.mjs';
 import { _ as _sfc_main$1 } from './Switch-ABf4y-g_.mjs';
 import { defineComponent, withAsyncContext, computed, ref, reactive, watchEffect, mergeProps, unref, withCtx, createTextVNode, toDisplayString, createVNode, openBlock, createBlock, createCommentVNode, useSSRContext } from 'vue';
 import { ssrRenderAttrs, ssrInterpolate, ssrRenderComponent, ssrRenderList, ssrRenderClass } from 'vue/server-renderer';
@@ -547,16 +547,16 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
     }
     return (_ctx, _push, _parent, _attrs) => {
       var _a, _b, _c, _d, _e, _f, _g, _h, _i;
-      const _component_UButton = _sfc_main$N;
-      const _component_UIcon = _sfc_main$S;
-      const _component_UBadge = _sfc_main$I;
-      const _component_UInput = _sfc_main$s;
-      const _component_USelect = _sfc_main$r;
-      const _component_UTable = _sfc_main$p;
-      const _component_UFormField = _sfc_main$t;
-      const _component_UModal = _sfc_main$C;
+      const _component_UButton = _sfc_main$Q;
+      const _component_UIcon = _sfc_main$V;
+      const _component_UBadge = _sfc_main$L;
+      const _component_UInput = _sfc_main$v;
+      const _component_USelect = _sfc_main$u;
+      const _component_UTable = _sfc_main$s;
+      const _component_UFormField = _sfc_main$w;
+      const _component_UModal = _sfc_main$F;
       const _component_USwitch = _sfc_main$1;
-      const _component_UTextarea = _sfc_main$o;
+      const _component_UTextarea = _sfc_main$r;
       _push(`<div${ssrRenderAttrs(mergeProps({ class: "min-h-[calc(100vh-7rem)] flex flex-col gap-6" }, _attrs))}><div class="flex flex-col gap-4 md:flex-row md:items-end md:justify-between shrink-0"><div><h1 class="text-3xl font-bold text-gray-900 dark:text-white tracking-tight">${ssrInterpolate(_ctx.$t("admin.promo.title"))}</h1><p class="text-gray-500 dark:text-gray-400 mt-2 text-sm">${ssrInterpolate(_ctx.$t("admin.promo.subtitle"))}</p></div><div class="flex items-center gap-3">`);
       if (activeTab.value === "settings" && unref(hasAdminPerm)("promo:edit")) {
         _push(ssrRenderComponent(_component_UButton, {

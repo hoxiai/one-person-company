@@ -1,6 +1,6 @@
 import { useSlots, computed, ref, watch, unref, withCtx, createVNode, openBlock, createBlock, toDisplayString, createCommentVNode, Fragment, renderList, mergeProps, resolveDynamicComponent, defineComponent, withModifiers, withKeys, renderSlot, toRefs, nextTick, useSSRContext } from 'vue';
 import { ssrRenderComponent, ssrRenderList, ssrRenderClass, ssrInterpolate, ssrRenderAttrs, ssrRenderVNode } from 'vue/server-renderer';
-import { aA as useAppConfig, aK as useComponentUI, aC as createReusableTemplate, aM as tv, _ as _sfc_main$S, ai as useCollection, b3 as RovingFocusItem_default, aj as Primitive, a5 as useTypeahead, Z as useDirection, a1 as useVModel, a9 as RovingFocusGroup_default, a0 as createContext, a_ as handleAndDispatchCustomEvent$1, a6 as getActiveElement, aR as createEventHook, b0 as MAP_KEY_TO_FOCUS_INTENT } from './server.mjs';
+import { aA as useAppConfig, aK as useComponentUI, aC as createReusableTemplate, aM as tv, _ as _sfc_main$V, ai as useCollection, b3 as RovingFocusItem_default, aj as Primitive, a5 as useTypeahead, Z as useDirection, a1 as useVModel, a9 as RovingFocusGroup_default, a0 as createContext, a_ as handleAndDispatchCustomEvent$1, a6 as getActiveElement, aR as createEventHook, b0 as MAP_KEY_TO_FOCUS_INTENT } from './server.mjs';
 import { f as findValuesBetween } from './arrays-DNHUHQBd.mjs';
 import _sfc_main$1 from './CodeIcon-DzbCedTx.mjs';
 import '../nitro/nitro.mjs';
@@ -671,7 +671,7 @@ const _sfc_main = /* @__PURE__ */ Object.assign({ inheritAttrs: false }, {
                   if (_push3) {
                     _push3(`<button type="button" class="${ssrRenderClass(ui.value.link({ class: (_a4 = unref(uiProp)) == null ? void 0 : _a4.link, active: isSelected }))}"${_scopeId2}>`);
                     if ((_b4 = item.children) == null ? void 0 : _b4.length) {
-                      _push3(ssrRenderComponent(_sfc_main$S, {
+                      _push3(ssrRenderComponent(_sfc_main$V, {
                         name: isExpanded ? unref(appConfig).ui.icons.folderOpen : unref(appConfig).ui.icons.folder,
                         class: ui.value.linkLeadingIcon({ class: (_c2 = unref(uiProp)) == null ? void 0 : _c2.linkLeadingIcon })
                       }, null, _parent3, _scopeId2));
@@ -684,7 +684,7 @@ const _sfc_main = /* @__PURE__ */ Object.assign({ inheritAttrs: false }, {
                     _push3(`<span class="${ssrRenderClass(ui.value.linkLabel({ class: (_e = unref(uiProp)) == null ? void 0 : _e.linkLabel }))}"${_scopeId2}>${ssrInterpolate(item.label)}</span>`);
                     if ((_f = item.children) == null ? void 0 : _f.length) {
                       _push3(`<span class="${ssrRenderClass(ui.value.linkTrailing({ class: (_g = unref(uiProp)) == null ? void 0 : _g.linkTrailing }))}"${_scopeId2}>`);
-                      _push3(ssrRenderComponent(_sfc_main$S, {
+                      _push3(ssrRenderComponent(_sfc_main$V, {
                         name: unref(appConfig).ui.icons.chevronDown,
                         class: ui.value.linkTrailingIcon({ class: (_h = unref(uiProp)) == null ? void 0 : _h.linkTrailingIcon })
                       }, null, _parent3, _scopeId2));
@@ -709,7 +709,7 @@ const _sfc_main = /* @__PURE__ */ Object.assign({ inheritAttrs: false }, {
                         type: "button",
                         class: ui.value.link({ class: (_k = unref(uiProp)) == null ? void 0 : _k.link, active: isSelected })
                       }, [
-                        ((_l = item.children) == null ? void 0 : _l.length) ? (openBlock(), createBlock(_sfc_main$S, {
+                        ((_l = item.children) == null ? void 0 : _l.length) ? (openBlock(), createBlock(_sfc_main$V, {
                           key: 0,
                           name: isExpanded ? unref(appConfig).ui.icons.folderOpen : unref(appConfig).ui.icons.folder,
                           class: ui.value.linkLeadingIcon({ class: (_m = unref(uiProp)) == null ? void 0 : _m.linkLeadingIcon })
@@ -725,7 +725,7 @@ const _sfc_main = /* @__PURE__ */ Object.assign({ inheritAttrs: false }, {
                           key: 2,
                           class: ui.value.linkTrailing({ class: (_q = unref(uiProp)) == null ? void 0 : _q.linkTrailing })
                         }, [
-                          createVNode(_sfc_main$S, {
+                          createVNode(_sfc_main$V, {
                             name: unref(appConfig).ui.icons.chevronDown,
                             class: ui.value.linkTrailingIcon({ class: (_r = unref(uiProp)) == null ? void 0 : _r.linkTrailingIcon })
                           }, null, 8, ["name", "class"])
@@ -770,7 +770,7 @@ const _sfc_main = /* @__PURE__ */ Object.assign({ inheritAttrs: false }, {
                           type: "button",
                           class: ui.value.link({ class: (_a4 = unref(uiProp)) == null ? void 0 : _a4.link, active: isSelected })
                         }, [
-                          ((_b4 = item.children) == null ? void 0 : _b4.length) ? (openBlock(), createBlock(_sfc_main$S, {
+                          ((_b4 = item.children) == null ? void 0 : _b4.length) ? (openBlock(), createBlock(_sfc_main$V, {
                             key: 0,
                             name: isExpanded ? unref(appConfig).ui.icons.folderOpen : unref(appConfig).ui.icons.folder,
                             class: ui.value.linkLeadingIcon({ class: (_c2 = unref(uiProp)) == null ? void 0 : _c2.linkLeadingIcon })
@@ -786,7 +786,7 @@ const _sfc_main = /* @__PURE__ */ Object.assign({ inheritAttrs: false }, {
                             key: 2,
                             class: ui.value.linkTrailing({ class: (_g = unref(uiProp)) == null ? void 0 : _g.linkTrailing })
                           }, [
-                            createVNode(_sfc_main$S, {
+                            createVNode(_sfc_main$V, {
                               name: unref(appConfig).ui.icons.chevronDown,
                               class: ui.value.linkTrailingIcon({ class: (_h = unref(uiProp)) == null ? void 0 : _h.linkTrailingIcon })
                             }, null, 8, ["name", "class"])

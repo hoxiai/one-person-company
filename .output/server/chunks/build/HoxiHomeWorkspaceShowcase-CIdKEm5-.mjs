@@ -1,4 +1,4 @@
-import { u as useI18n, _ as _sfc_main$S } from './server.mjs';
+import { u as useI18n, _ as _sfc_main$V } from './server.mjs';
 import { defineComponent, computed, ref, mergeProps, useSSRContext } from 'vue';
 import { ssrRenderAttrs, ssrInterpolate, ssrRenderList, ssrRenderAttr, ssrRenderClass, ssrRenderComponent } from 'vue/server-renderer';
 import '../nitro/nitro.mjs';
@@ -117,7 +117,7 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
       }
     });
     return (_ctx, _push, _parent, _attrs) => {
-      const _component_UIcon = _sfc_main$S;
+      const _component_UIcon = _sfc_main$V;
       _push(`<section${ssrRenderAttrs(mergeProps({ id: "home-desktop" }, _attrs))}><div class="text-center max-w-2xl mx-auto mb-7 md:mb-9"><p class="font-mono text-xs font-bold uppercase tracking-widest text-blue-600 dark:text-blue-400 mb-2.5">${ssrInterpolate(_ctx.$t("hoxi.desktop.archBadge"))}</p><h2 class="text-2xl sm:text-3xl md:text-4xl font-extrabold tracking-tighter text-slate-950 dark:text-white">${ssrInterpolate(_ctx.$t("hoxi.desktop.archTitle"))}</h2><p class="mt-2.5 text-sm md:text-base text-slate-500 dark:text-slate-400">${ssrInterpolate(_ctx.$t("hoxi.desktop.archSubtitle"))}</p></div><div class="flex justify-center mb-5"><div class="inline-flex flex-wrap items-center justify-center rounded-lg border border-slate-200 dark:border-slate-800 bg-slate-100/80 dark:bg-[#111319] p-1 gap-1" role="tablist"><!--[-->`);
       ssrRenderList(tabs.value, (tab) => {
         _push(`<button type="button" role="tab"${ssrRenderAttr("aria-selected", activeTab.value === tab.id)} class="${ssrRenderClass([activeTab.value === tab.id ? "bg-slate-950 text-white dark:bg-blue-600 dark:text-white shadow-2xs" : "text-slate-600 dark:text-slate-400 hover:text-slate-950 dark:hover:text-white", "inline-flex items-center gap-2 rounded-md px-3.5 py-1.5 font-mono text-xs font-semibold transition-all cursor-pointer"])}">`);

@@ -1,4 +1,4 @@
-import { r as useSettings, bg as useUserSession, u as useI18n, _ as _sfc_main$S } from './server.mjs';
+import { r as useSettings, bg as useUserSession, u as useI18n, _ as _sfc_main$V } from './server.mjs';
 import { defineComponent, mergeProps, withCtx, createTextVNode, toDisplayString, createVNode, computed, ref, watch, unref, useSSRContext } from 'vue';
 import { ssrRenderComponent, ssrInterpolate, ssrRenderAttrs, ssrRenderSlot, ssrRenderAttr, ssrIncludeBooleanAttr, ssrRenderList } from 'vue/server-renderer';
 import __nuxt_component_8 from './HoxiSectionLabel-5Ppz2V54.mjs';
@@ -147,7 +147,7 @@ const _sfc_main$1 = /* @__PURE__ */ defineComponent({
       });
     }
     return (_ctx, _push, _parent, _attrs) => {
-      const _component_UIcon = _sfc_main$S;
+      const _component_UIcon = _sfc_main$V;
       if (isEnabled.value) {
         _push(`<section${ssrRenderAttrs(mergeProps({ class: "mt-14 pt-8 border-t border-gray-100 dark:border-gray-800" }, _attrs))}>`);
         ssrRenderSlot(_ctx.$slots, "header", {}, () => {

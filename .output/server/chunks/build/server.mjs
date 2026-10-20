@@ -5578,7 +5578,7 @@ const cfg0 = defineAppConfig({
   }
 });
 const inlineConfig = {
-  "appVersion": "1.0.18",
+  "appVersion": "1.0.19",
   "nuxt": {},
   "ui": {
     "colors": {
@@ -24734,7 +24734,7 @@ const __vite_glob_0_10 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.de
   default: _sfc_main$t
 }, Symbol.toStringTag, { value: "Module" }));
 const name$3 = "可喜";
-const pages = [{ "key": "models", "title": "模型管理", "description": "不发版调整模型价格、限时促销标记与上下架，并选择首页展示的推荐场景。", "route": "/admin/extensions/models", "component": "models.vue", "icon": "ph:cpu", "order": 10 }, { "key": "cheap", "title": "中转站管理", "description": "管理 AI 中转站天梯榜数据、专线节点、输入单价、实测延迟与 Base URL。", "route": "/admin/extensions/cheap", "component": "cheap.vue", "icon": "ph:broadcast", "order": 20 }, { "key": "coding-plans", "title": "Coding Plan 管理", "description": "管理国内外各大 IDE 与官方 Coding Plan 编程套餐对比、价格、额度与避坑指南。", "route": "/admin/extensions/coding-plans", "component": "coding-plans.vue", "icon": "ph:credit-card", "order": 30 }, { "key": "tools", "title": "工具箱管理", "description": "管理一人公司极简全栈工具箱、推荐分类、站长评语与返佣链接。", "route": "/admin/extensions/tools", "component": "tools.vue", "icon": "ph:wrench", "order": 40 }, { "key": "projects", "title": "项目管理", "description": "管理一人公司实战落地项目库、技术栈、核心模型与算力账本，支持上下架与排序。", "route": "/admin/extensions/projects", "component": "projects.vue", "icon": "ph:rocket-launch", "order": 50 }];
+const pages = [{ "key": "models", "title": "模型管理", "description": "不发版调整模型价格、限时促销标记与上下架，并选择首页展示的推荐场景。", "route": "/admin/extensions/models", "component": "models.vue", "icon": "ph:cpu", "order": 10 }, { "key": "cheap", "title": "中转站管理", "description": "管理 AI 中转站天梯榜数据、专线节点、输入单价、实测延迟与 Base URL。", "route": "/admin/extensions/cheap", "component": "cheap.vue", "icon": "ph:broadcast", "order": 20 }, { "key": "free-tiers", "title": "免费额度宝典", "description": "管理 Hoxi 桌面端「智能轮询池 · 免费额度宝典」官方免费 API 渠道、白嫖步骤与推荐模型。", "route": "/admin/extensions/free-tiers", "component": "free-tiers.vue", "icon": "ph:gift", "order": 25 }, { "key": "coding-plans", "title": "Coding Plan 管理", "description": "管理国内外各大 IDE 与官方 Coding Plan 编程套餐对比、价格、额度与避坑指南。", "route": "/admin/extensions/coding-plans", "component": "coding-plans.vue", "icon": "ph:credit-card", "order": 30 }, { "key": "tools", "title": "工具箱管理", "description": "管理一人公司极简全栈工具箱、推荐分类、站长评语与返佣链接。", "route": "/admin/extensions/tools", "component": "tools.vue", "icon": "ph:wrench", "order": 40 }, { "key": "projects", "title": "项目管理", "description": "管理一人公司实战落地项目库、技术栈、核心模型与算力账本，支持上下架与排序。", "route": "/admin/extensions/projects", "component": "projects.vue", "icon": "ph:rocket-launch", "order": 50 }, { "key": "clients", "title": "客户端观测", "description": "观测 Hoxi 桌面/移动客户端的授权设备、启动活跃、版本与平台分布、下载量。", "route": "/admin/extensions/clients", "component": "clients.vue", "icon": "ph:desktop", "order": 60 }];
 const __vite_glob_2_0 = {
   name: name$3,
   pages
@@ -24807,7 +24807,7 @@ const corePageModules = Object.fromEntries(Object.entries(/* @__PURE__ */ Object
   "/core/pages/user/tokens/index.vue": __vite_glob_0_10
 })).map(([file, module]) => [file.replace("/", "../"), module]));
 const themePageModules = {
-  ...Object.fromEntries(Object.entries(/* @__PURE__ */ Object.assign({ "/themes/hoxi/pages/about.vue": () => import('./about-Cyv9HOWb.mjs'), "/themes/hoxi/pages/auth/authorize-desktop/done.vue": () => import('./done-2Vs8lq-N.mjs'), "/themes/hoxi/pages/auth/authorize-desktop/index.vue": () => import('./index-6Xt9VrRR.mjs'), "/themes/hoxi/pages/auth/login.vue": () => import('./login-C6rTiUES.mjs'), "/themes/hoxi/pages/auth/register.vue": () => import('./register-DPytIyle.mjs'), "/themes/hoxi/pages/blog/[slug].vue": () => import('./_slug_-i0hymAv7.mjs'), "/themes/hoxi/pages/blog/index.vue": () => import('./index-BP-SoRjN.mjs'), "/themes/hoxi/pages/coding-plans/[slug].vue": () => import('./_slug_-DbP8UO95.mjs'), "/themes/hoxi/pages/coding-plans/index.vue": () => import('./index-DNNZHXYE.mjs'), "/themes/hoxi/pages/compare.vue": () => import('./compare-B6Tc46Qy.mjs'), "/themes/hoxi/pages/gateways/[slug].vue": () => import('./_slug_--7kNyO71.mjs'), "/themes/hoxi/pages/gateways/index.vue": () => import('./index-DoRxTStb.mjs'), "/themes/hoxi/pages/index.vue": () => import('./index-DmCx2DV4.mjs'), "/themes/hoxi/pages/models/[slug].vue": () => import('./_slug_-CnMgjRhD.mjs'), "/themes/hoxi/pages/models/index.vue": () => import('./index-DqtW212z.mjs'), "/themes/hoxi/pages/one-person-company.vue": () => import('./one-person-company-DZwLbMfG.mjs'), "/themes/hoxi/pages/projects.vue": () => import('./projects-ffIWAH8H.mjs'), "/themes/hoxi/pages/readiness.vue": () => import('./readiness-Bk7vHchx.mjs'), "/themes/hoxi/pages/refactoring-the-self.vue": () => import('./refactoring-the-self-BUgWqp0v.mjs'), "/themes/hoxi/pages/savings.vue": () => import('./savings-Bhgzg2fa.mjs'), "/themes/hoxi/pages/tools.vue": () => import('./tools-DbGFkpIf.mjs') })).map(([file, module]) => [file.replace("/", "../"), module]))
+  ...Object.fromEntries(Object.entries(/* @__PURE__ */ Object.assign({ "/themes/hoxi/pages/about.vue": () => import('./about-Cyv9HOWb.mjs'), "/themes/hoxi/pages/auth/authorize-desktop/done.vue": () => import('./done-2Vs8lq-N.mjs'), "/themes/hoxi/pages/auth/authorize-desktop/index.vue": () => import('./index-6Xt9VrRR.mjs'), "/themes/hoxi/pages/auth/login.vue": () => import('./login-C6rTiUES.mjs'), "/themes/hoxi/pages/auth/register.vue": () => import('./register-DPytIyle.mjs'), "/themes/hoxi/pages/blog/[slug].vue": () => import('./_slug_-i0hymAv7.mjs'), "/themes/hoxi/pages/blog/index.vue": () => import('./index-BP-SoRjN.mjs'), "/themes/hoxi/pages/coding-plans/[slug].vue": () => import('./_slug_-DbP8UO95.mjs'), "/themes/hoxi/pages/coding-plans/index.vue": () => import('./index-DNNZHXYE.mjs'), "/themes/hoxi/pages/compare.vue": () => import('./compare-B6Tc46Qy.mjs'), "/themes/hoxi/pages/download.vue": () => import('./download-6W3eCZbP.mjs'), "/themes/hoxi/pages/gateways/[slug].vue": () => import('./_slug_--7kNyO71.mjs'), "/themes/hoxi/pages/gateways/index.vue": () => import('./index-DoRxTStb.mjs'), "/themes/hoxi/pages/index.vue": () => import('./index-4CryJDn_.mjs'), "/themes/hoxi/pages/models/[slug].vue": () => import('./_slug_-CnMgjRhD.mjs'), "/themes/hoxi/pages/models/index.vue": () => import('./index-DqtW212z.mjs'), "/themes/hoxi/pages/one-person-company.vue": () => import('./one-person-company-DZwLbMfG.mjs'), "/themes/hoxi/pages/projects.vue": () => import('./projects-ffIWAH8H.mjs'), "/themes/hoxi/pages/readiness.vue": () => import('./readiness-Bk7vHchx.mjs'), "/themes/hoxi/pages/refactoring-the-self.vue": () => import('./refactoring-the-self-BUgWqp0v.mjs'), "/themes/hoxi/pages/savings.vue": () => import('./savings-Bhgzg2fa.mjs'), "/themes/hoxi/pages/tools.vue": () => import('./tools-DbGFkpIf.mjs') })).map(([file, module]) => [file.replace("/", "../"), module]))
 };
 const themeAdminManifestModules = {
   ...Object.fromEntries(Object.entries(/* @__PURE__ */ Object.assign({
@@ -24815,7 +24815,7 @@ const themeAdminManifestModules = {
   })).map(([file, module]) => [file.replace("/", "../"), module]))
 };
 const themeAdminPageModules = {
-  ...Object.fromEntries(Object.entries(/* @__PURE__ */ Object.assign({ "/themes/hoxi/admin/pages/cheap.vue": () => import('./cheap-zichS0W4.mjs'), "/themes/hoxi/admin/pages/coding-plans.vue": () => import('./coding-plans-BPaEHvwa.mjs'), "/themes/hoxi/admin/pages/models.vue": () => import('./models-BhpTOyVK.mjs'), "/themes/hoxi/admin/pages/projects.vue": () => import('./projects-To6K9mzR.mjs'), "/themes/hoxi/admin/pages/tools.vue": () => import('./tools-CEEgZynW.mjs') })).map(([file, module]) => [file.replace("/", "../"), module]))
+  ...Object.fromEntries(Object.entries(/* @__PURE__ */ Object.assign({ "/themes/hoxi/admin/pages/cheap.vue": () => import('./cheap-zichS0W4.mjs'), "/themes/hoxi/admin/pages/clients.vue": () => import('./clients-DnwzKJUI.mjs'), "/themes/hoxi/admin/pages/coding-plans.vue": () => import('./coding-plans-BPaEHvwa.mjs'), "/themes/hoxi/admin/pages/free-tiers.vue": () => import('./free-tiers-DDk2FoAQ.mjs'), "/themes/hoxi/admin/pages/models.vue": () => import('./models-BhpTOyVK.mjs'), "/themes/hoxi/admin/pages/projects.vue": () => import('./projects-To6K9mzR.mjs'), "/themes/hoxi/admin/pages/tools.vue": () => import('./tools-CEEgZynW.mjs') })).map(([file, module]) => [file.replace("/", "../"), module]))
 };
 const themeAdminLocaleEnModules = {
   ...Object.fromEntries(Object.entries(/* @__PURE__ */ Object.assign({
@@ -24828,7 +24828,7 @@ const themeAdminLocaleZhModules = {
   })).map(([file, module]) => [file.replace("/", "../"), module]))
 };
 const themeLayoutLoaders = {
-  "hoxi": () => import('./default-1O8LAPkb.mjs')
+  "hoxi": () => import('./default-BCscENG-.mjs')
 };
 const schemaVersion$2 = 1;
 const id$2 = "apps";
@@ -41761,6 +41761,7 @@ const plugin_MeUvTuoKUi51yb_kBguab6hdcExVXeTtZtTg9TZZBB8 = /* @__PURE__ */ defin
 const LazyHoxiComment = defineAsyncComponent(() => import('./HoxiComment-CPospSmQ.mjs').then((r) => r["default"] || r.default || r));
 const LazyHoxiCommunityModal = defineAsyncComponent(() => import('./HoxiCommunityModal-CuljoxR-.mjs').then((r) => r["default"] || r.default || r));
 const LazyHoxiContainer = defineAsyncComponent(() => import('./HoxiContainer-DDAEb0_Y.mjs').then((r) => r["default"] || r.default || r));
+const LazyHoxiDownloadCard = defineAsyncComponent(() => import('./HoxiDownloadCard-BSCdXKPH.mjs').then((r) => r["default"] || r.default || r));
 const LazyHoxiHairlineLink = defineAsyncComponent(() => import('./HoxiHairlineLink-D3R1gSHp.mjs').then((r) => r["default"] || r.default || r));
 const LazyHoxiHomeReadiness = defineAsyncComponent(() => import('./HoxiHomeReadiness-BqfSzwrT.mjs').then((r) => r["default"] || r.default || r));
 const LazyHoxiHomeSavingsCard = defineAsyncComponent(() => import('./HoxiHomeSavingsCard-By7K8PzZ.mjs').then((r) => r["default"] || r.default || r));
@@ -41837,6 +41838,7 @@ const lazyGlobalComponents = [
   ["HoxiComment", LazyHoxiComment],
   ["HoxiCommunityModal", LazyHoxiCommunityModal],
   ["HoxiContainer", LazyHoxiContainer],
+  ["HoxiDownloadCard", LazyHoxiDownloadCard],
   ["HoxiHairlineLink", LazyHoxiHairlineLink],
   ["HoxiHomeReadiness", LazyHoxiHomeReadiness],
   ["HoxiHomeSavingsCard", LazyHoxiHomeSavingsCard],

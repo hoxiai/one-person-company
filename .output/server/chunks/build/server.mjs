@@ -5578,7 +5578,7 @@ const cfg0 = defineAppConfig({
   }
 });
 const inlineConfig = {
-  "appVersion": "1.0.20",
+  "appVersion": "1.0.21",
   "nuxt": {},
   "ui": {
     "colors": {
@@ -24807,7 +24807,7 @@ const corePageModules = Object.fromEntries(Object.entries(/* @__PURE__ */ Object
   "/core/pages/user/tokens/index.vue": __vite_glob_0_10
 })).map(([file, module]) => [file.replace("/", "../"), module]));
 const themePageModules = {
-  ...Object.fromEntries(Object.entries(/* @__PURE__ */ Object.assign({ "/themes/hoxi/pages/about.vue": () => import('./about-Cyv9HOWb.mjs'), "/themes/hoxi/pages/auth/authorize-desktop/done.vue": () => import('./done-2Vs8lq-N.mjs'), "/themes/hoxi/pages/auth/authorize-desktop/index.vue": () => import('./index-6Xt9VrRR.mjs'), "/themes/hoxi/pages/auth/login.vue": () => import('./login-C6rTiUES.mjs'), "/themes/hoxi/pages/auth/register.vue": () => import('./register-DPytIyle.mjs'), "/themes/hoxi/pages/blog/[slug].vue": () => import('./_slug_-i0hymAv7.mjs'), "/themes/hoxi/pages/blog/index.vue": () => import('./index-BP-SoRjN.mjs'), "/themes/hoxi/pages/coding-plans/[slug].vue": () => import('./_slug_-DbP8UO95.mjs'), "/themes/hoxi/pages/coding-plans/index.vue": () => import('./index-DNNZHXYE.mjs'), "/themes/hoxi/pages/compare.vue": () => import('./compare-B6Tc46Qy.mjs'), "/themes/hoxi/pages/download.vue": () => import('./download-dN1SaeCx.mjs'), "/themes/hoxi/pages/gateways/[slug].vue": () => import('./_slug_--7kNyO71.mjs'), "/themes/hoxi/pages/gateways/index.vue": () => import('./index-DoRxTStb.mjs'), "/themes/hoxi/pages/index.vue": () => import('./index-CzV4OyJy.mjs'), "/themes/hoxi/pages/models/[slug].vue": () => import('./_slug_-CnMgjRhD.mjs'), "/themes/hoxi/pages/models/index.vue": () => import('./index-DqtW212z.mjs'), "/themes/hoxi/pages/one-person-company.vue": () => import('./one-person-company-DZwLbMfG.mjs'), "/themes/hoxi/pages/projects.vue": () => import('./projects-ffIWAH8H.mjs'), "/themes/hoxi/pages/readiness.vue": () => import('./readiness-Bk7vHchx.mjs'), "/themes/hoxi/pages/refactoring-the-self.vue": () => import('./refactoring-the-self-BUgWqp0v.mjs'), "/themes/hoxi/pages/savings.vue": () => import('./savings-Bhgzg2fa.mjs'), "/themes/hoxi/pages/tools.vue": () => import('./tools-DbGFkpIf.mjs') })).map(([file, module]) => [file.replace("/", "../"), module]))
+  ...Object.fromEntries(Object.entries(/* @__PURE__ */ Object.assign({ "/themes/hoxi/pages/about.vue": () => import('./about-Cyv9HOWb.mjs'), "/themes/hoxi/pages/auth/authorize-desktop/done.vue": () => import('./done-2Vs8lq-N.mjs'), "/themes/hoxi/pages/auth/authorize-desktop/index.vue": () => import('./index-6Xt9VrRR.mjs'), "/themes/hoxi/pages/auth/login.vue": () => import('./login-C6rTiUES.mjs'), "/themes/hoxi/pages/auth/register.vue": () => import('./register-DPytIyle.mjs'), "/themes/hoxi/pages/blog/[slug].vue": () => import('./_slug_-i0hymAv7.mjs'), "/themes/hoxi/pages/blog/index.vue": () => import('./index-BP-SoRjN.mjs'), "/themes/hoxi/pages/coding-plans/[slug].vue": () => import('./_slug_-DbP8UO95.mjs'), "/themes/hoxi/pages/coding-plans/index.vue": () => import('./index-DNNZHXYE.mjs'), "/themes/hoxi/pages/compare.vue": () => import('./compare-B6Tc46Qy.mjs'), "/themes/hoxi/pages/download.vue": () => import('./download-C5bdiKgQ.mjs'), "/themes/hoxi/pages/gateways/[slug].vue": () => import('./_slug_--7kNyO71.mjs'), "/themes/hoxi/pages/gateways/index.vue": () => import('./index-DoRxTStb.mjs'), "/themes/hoxi/pages/index.vue": () => import('./index-Bc7y89Yk.mjs'), "/themes/hoxi/pages/models/[slug].vue": () => import('./_slug_-CnMgjRhD.mjs'), "/themes/hoxi/pages/models/index.vue": () => import('./index-DqtW212z.mjs'), "/themes/hoxi/pages/one-person-company.vue": () => import('./one-person-company-DZwLbMfG.mjs'), "/themes/hoxi/pages/projects.vue": () => import('./projects-ffIWAH8H.mjs'), "/themes/hoxi/pages/readiness.vue": () => import('./readiness-Bk7vHchx.mjs'), "/themes/hoxi/pages/refactoring-the-self.vue": () => import('./refactoring-the-self-BUgWqp0v.mjs'), "/themes/hoxi/pages/savings.vue": () => import('./savings-Bhgzg2fa.mjs'), "/themes/hoxi/pages/tools.vue": () => import('./tools-DbGFkpIf.mjs') })).map(([file, module]) => [file.replace("/", "../"), module]))
 };
 const themeAdminManifestModules = {
   ...Object.fromEntries(Object.entries(/* @__PURE__ */ Object.assign({
@@ -24815,7 +24815,7 @@ const themeAdminManifestModules = {
   })).map(([file, module]) => [file.replace("/", "../"), module]))
 };
 const themeAdminPageModules = {
-  ...Object.fromEntries(Object.entries(/* @__PURE__ */ Object.assign({ "/themes/hoxi/admin/pages/cheap.vue": () => import('./cheap-zichS0W4.mjs'), "/themes/hoxi/admin/pages/clients.vue": () => import('./clients-DnwzKJUI.mjs'), "/themes/hoxi/admin/pages/coding-plans.vue": () => import('./coding-plans-BPaEHvwa.mjs'), "/themes/hoxi/admin/pages/free-tiers.vue": () => import('./free-tiers-DDk2FoAQ.mjs'), "/themes/hoxi/admin/pages/models.vue": () => import('./models-BhpTOyVK.mjs'), "/themes/hoxi/admin/pages/projects.vue": () => import('./projects-To6K9mzR.mjs'), "/themes/hoxi/admin/pages/tools.vue": () => import('./tools-CEEgZynW.mjs') })).map(([file, module]) => [file.replace("/", "../"), module]))
+  ...Object.fromEntries(Object.entries(/* @__PURE__ */ Object.assign({ "/themes/hoxi/admin/pages/cheap.vue": () => import('./cheap-zichS0W4.mjs'), "/themes/hoxi/admin/pages/clients.vue": () => import('./clients-CgyGMzed.mjs'), "/themes/hoxi/admin/pages/coding-plans.vue": () => import('./coding-plans-BPaEHvwa.mjs'), "/themes/hoxi/admin/pages/free-tiers.vue": () => import('./free-tiers-DDk2FoAQ.mjs'), "/themes/hoxi/admin/pages/models.vue": () => import('./models-BhpTOyVK.mjs'), "/themes/hoxi/admin/pages/projects.vue": () => import('./projects-To6K9mzR.mjs'), "/themes/hoxi/admin/pages/tools.vue": () => import('./tools-CEEgZynW.mjs') })).map(([file, module]) => [file.replace("/", "../"), module]))
 };
 const themeAdminLocaleEnModules = {
   ...Object.fromEntries(Object.entries(/* @__PURE__ */ Object.assign({
@@ -24828,7 +24828,7 @@ const themeAdminLocaleZhModules = {
   })).map(([file, module]) => [file.replace("/", "../"), module]))
 };
 const themeLayoutLoaders = {
-  "hoxi": () => import('./default-BCscENG-.mjs')
+  "hoxi": () => import('./default-Dcq2QU34.mjs')
 };
 const schemaVersion$2 = 1;
 const id$2 = "apps";
@@ -41761,7 +41761,7 @@ const plugin_MeUvTuoKUi51yb_kBguab6hdcExVXeTtZtTg9TZZBB8 = /* @__PURE__ */ defin
 const LazyHoxiComment = defineAsyncComponent(() => import('./HoxiComment-CPospSmQ.mjs').then((r) => r["default"] || r.default || r));
 const LazyHoxiCommunityModal = defineAsyncComponent(() => import('./HoxiCommunityModal-CuljoxR-.mjs').then((r) => r["default"] || r.default || r));
 const LazyHoxiContainer = defineAsyncComponent(() => import('./HoxiContainer-DDAEb0_Y.mjs').then((r) => r["default"] || r.default || r));
-const LazyHoxiDownloadCard = defineAsyncComponent(() => import('./HoxiDownloadCard-bKqCKlTU.mjs').then((r) => r["default"] || r.default || r));
+const LazyHoxiDownloadCard = defineAsyncComponent(() => import('./HoxiDownloadCard-DnM_k61O.mjs').then((r) => r["default"] || r.default || r));
 const LazyHoxiHairlineLink = defineAsyncComponent(() => import('./HoxiHairlineLink-D3R1gSHp.mjs').then((r) => r["default"] || r.default || r));
 const LazyHoxiHomeReadiness = defineAsyncComponent(() => import('./HoxiHomeReadiness-BqfSzwrT.mjs').then((r) => r["default"] || r.default || r));
 const LazyHoxiHomeSavingsCard = defineAsyncComponent(() => import('./HoxiHomeSavingsCard-By7K8PzZ.mjs').then((r) => r["default"] || r.default || r));

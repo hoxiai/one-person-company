@@ -1,4 +1,4 @@
-import { _ as _sfc_main$V } from './server.mjs';
+import { _ as _sfc_main$W } from './server.mjs';
 import { defineComponent, computed, mergeProps, useSSRContext } from 'vue';
 import { ssrRenderAttrs, ssrRenderClass, ssrRenderStyle, ssrRenderAttr, ssrRenderComponent } from 'vue/server-renderer';
 
@@ -26,7 +26,7 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
     });
     return (_ctx, _push, _parent, _attrs) => {
       var _a, _b;
-      const _component_UIcon = _sfc_main$V;
+      const _component_UIcon = _sfc_main$W;
       _push(`<div${ssrRenderAttrs(mergeProps({
         class: ["inline-flex items-center justify-center overflow-hidden", __props.containerClass],
         style: __props.containerStyle

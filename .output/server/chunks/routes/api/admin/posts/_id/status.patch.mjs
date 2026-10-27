@@ -1,4 +1,4 @@
-import { d as defineEventHandler, c as getRequestLocale, f as getRouterParam, e as createError, r as readBody, b as db, aG as posts } from '../../../../../nitro/nitro.mjs';
+import { d as defineEventHandler, c as getRequestLocale, f as getRouterParam, e as createError, r as readBody, b as db, aJ as posts, aK as assertPostMutable, aM as notifyIndexNowEntityChange } from '../../../../../nitro/nitro.mjs';
 import { eq } from 'drizzle-orm';
 import 'node:crypto';
 import 'crypto';
@@ -27,7 +27,9 @@ import 'node:url';
 import 'zod';
 import '@iconify/utils';
 import 'consola';
+import 'node:zlib';
 import 'ioredis';
+import 'jose';
 import 'node:child_process';
 import 'process';
 import 'buffer';
@@ -46,12 +48,25 @@ const status_patch = defineEventHandler(async (event) => {
   if (typeof (body == null ? void 0 : body.isActive) !== "boolean") {
     throw createError({ statusCode: 400, message: locale === "zh" ? "\u7F3A\u5C11\u72B6\u6001\u53C2\u6570" : "isActive must be a boolean" });
   }
+  const existing = await db.select().from(posts).where(eq(posts.id, id)).limit(1);
+  if (!existing.length) {
+    throw createError({ statusCode: 404, message: locale === "zh" ? "\u6587\u7AE0\u4E0D\u5B58\u5728" : "Post not found" });
+  }
+  assertPostMutable(existing[0], locale);
   const updated = await db.update(posts).set({
     isActive: body.isActive,
     updatedAt: /* @__PURE__ */ new Date()
   }).where(eq(posts.id, id)).returning();
   if (updated.length === 0) {
     throw createError({ statusCode: 404, message: locale === "zh" ? "\u6587\u7AE0\u4E0D\u5B58\u5728" : "Post not found" });
+  }
+  const updatedPost = updated[0];
+  if ((updatedPost == null ? void 0 : updatedPost.isActive) && updatedPost.type === "blog" && updatedPost.slug) {
+    notifyIndexNowEntityChange(event, {
+      entityType: "post",
+      slug: updatedPost.slug,
+      locale: updatedPost.locale
+    });
   }
   return {
     code: 0,

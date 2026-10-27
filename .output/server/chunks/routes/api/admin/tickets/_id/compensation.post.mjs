@@ -1,4 +1,4 @@
-import { d as defineEventHandler, f as getRouterParam, e as createError, b as db, L as tickets, r as readBody, bn as usesAINodeWallet, bu as getHeader, bv as changeAINodeWallet, bw as changeBalance, bq as ticketMessages, bx as notifications } from '../../../../../nitro/nitro.mjs';
+import { d as defineEventHandler, f as getRouterParam, e as createError, b as db, L as tickets, r as readBody, c3 as usesExternalWallet, ca as getHeader, cb as creditExternalWalletCompensation, cc as changeBalance, c6 as ticketMessages, cd as notifications } from '../../../../../nitro/nitro.mjs';
 import { eq } from 'drizzle-orm';
 import 'node:crypto';
 import 'crypto';
@@ -27,7 +27,9 @@ import 'node:url';
 import 'zod';
 import '@iconify/utils';
 import 'consola';
+import 'node:zlib';
 import 'ioredis';
+import 'jose';
 import 'node:child_process';
 import 'process';
 import 'buffer';
@@ -51,9 +53,12 @@ const compensation_post = defineEventHandler(async (event) => {
   if (!ticket) {
     throw createError({ statusCode: 404, statusMessage: "\u5DE5\u5355\u4E0D\u5B58\u5728" });
   }
+  if (!ticket.userId) {
+    throw createError({ statusCode: 400, statusMessage: "\u8BBF\u5BA2\u54A8\u8BE2\u672A\u7ED1\u5B9A\u6CE8\u518C\u8D26\u53F7\uFF0C\u65E0\u6CD5\u76F4\u63A5\u53D1\u653E\u94B1\u5305\u8865\u507F" });
+  }
   const body = await readBody(event);
   const amount = Math.abs(Number(body.amount || 0));
-  const balanceType = usesAINodeWallet() || body.balanceType === "cash" ? "cash" : "grant";
+  const balanceType = usesExternalWallet() || body.balanceType === "cash" ? "cash" : "grant";
   const reason = String(body.reason || "\u5DE5\u5355\u95EE\u9898\u6838\u5B9E\u8865\u507F").trim();
   const idempotencyKey = String(body.idempotencyKey || getHeader(event, "idempotency-key") || "").trim();
   if (!(amount > 0)) {
@@ -64,15 +69,13 @@ const compensation_post = defineEventHandler(async (event) => {
   }
   const eventId = `ticket-comp:${ticket.id}:${idempotencyKey}`;
   const remark = `[\u5DE5\u5355 ${ticket.ticketNo}] ${reason}`;
-  const balanceResult = usesAINodeWallet() ? await changeAINodeWallet({
+  const balanceResult = usesExternalWallet() ? await creditExternalWalletCompensation({
     userId: ticket.userId,
-    direction: "credit",
     amount,
     eventId,
-    type: "admin_recharge",
     sourceId: String(ticket.id),
     remark
-  }).then((result) => ({ applied: !result.alreadyProcessed, balance: null })) : await changeBalance({
+  }) : await changeBalance({
     userId: ticket.userId,
     balanceType,
     amount,

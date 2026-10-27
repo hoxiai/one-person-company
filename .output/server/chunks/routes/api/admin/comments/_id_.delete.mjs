@@ -1,5 +1,5 @@
-import { d as defineEventHandler, f as getRouterParam, e as createError, b as db, o as comments } from '../../../../nitro/nitro.mjs';
-import { or, eq } from 'drizzle-orm';
+import { d as defineEventHandler, f as getRouterParam, e as createError, b as db, o as comments, q as syncPostCommentCount } from '../../../../nitro/nitro.mjs';
+import { eq, or } from 'drizzle-orm';
 import 'node:crypto';
 import 'crypto';
 import 'fs';
@@ -27,7 +27,9 @@ import 'node:url';
 import 'zod';
 import '@iconify/utils';
 import 'consola';
+import 'node:zlib';
 import 'ioredis';
+import 'jose';
 import 'node:child_process';
 import 'process';
 import 'buffer';
@@ -42,7 +44,11 @@ const _id__delete = defineEventHandler(async (event) => {
   if (!id || isNaN(id)) {
     throw createError({ statusCode: 400, statusMessage: "\u975E\u6CD5\u7684\u8BC4\u8BBA ID" });
   }
+  const [targetRow] = await db.select({ targetType: comments.targetType, targetId: comments.targetId }).from(comments).where(eq(comments.id, id)).limit(1);
   await db.delete(comments).where(or(eq(comments.id, id), eq(comments.parentId, id)));
+  if ((targetRow == null ? void 0 : targetRow.targetType) === "post") {
+    await syncPostCommentCount(targetRow.targetId);
+  }
   return {
     success: true,
     data: { id }

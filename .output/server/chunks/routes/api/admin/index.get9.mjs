@@ -1,5 +1,5 @@
-import { d as defineEventHandler, b as db, u as users, p as products, H as subscriptions, z as orders } from '../../../nitro/nitro.mjs';
-import { eq, desc, inArray } from 'drizzle-orm';
+import { desc } from 'drizzle-orm';
+import { d as defineEventHandler, g as getQuery, b8 as normalizeAppKey, b9 as normalizeReleaseChannel, b as db, ba as releases, bb as mapDbRowToReleaseEntry, bc as compareSemVer, bd as listReleaseApps } from '../../../nitro/nitro.mjs';
 import 'node:crypto';
 import 'crypto';
 import 'fs';
@@ -27,7 +27,9 @@ import 'node:url';
 import 'zod';
 import '@iconify/utils';
 import 'consola';
+import 'node:zlib';
 import 'ioredis';
+import 'jose';
 import 'node:child_process';
 import 'process';
 import 'buffer';
@@ -38,50 +40,76 @@ import '@adonisjs/hash';
 import '@adonisjs/hash/drivers/scrypt';
 
 const index_get = defineEventHandler(async (event) => {
-  const subs = await db.select({
-    id: subscriptions.id,
-    gatewaySubId: subscriptions.gatewaySubId,
-    amount: subscriptions.amount,
-    currency: subscriptions.currency,
-    interval: subscriptions.interval,
-    intervalCount: subscriptions.intervalCount,
-    status: subscriptions.status,
-    payMethod: subscriptions.payMethod,
-    createdAt: subscriptions.createdAt,
-    currentPeriodStart: subscriptions.currentPeriodStart,
-    currentPeriodEnd: subscriptions.currentPeriodEnd,
-    cancelAtPeriodEnd: subscriptions.cancelAtPeriodEnd,
-    productId: products.id,
-    productName: products.name,
-    productMetaData: products.metaData,
-    userId: users.id,
-    userEmail: users.email,
-    userNickname: users.nickname
-  }).from(subscriptions).leftJoin(products, eq(subscriptions.productId, products.id)).leftJoin(users, eq(subscriptions.userId, users.id)).orderBy(desc(subscriptions.createdAt));
-  if (!subs.length) return [];
-  const subIds = subs.map((s) => s.id).filter(Boolean);
-  const relatedOrders = subIds.length > 0 ? await db.select({
-    id: orders.id,
-    subscriptionId: orders.subscriptionId,
-    contactEmail: orders.contactEmail
-  }).from(orders).where(inArray(orders.subscriptionId, subIds)).orderBy(desc(orders.createdAt)) : [];
-  const orderMap = /* @__PURE__ */ new Map();
-  for (const ord of relatedOrders) {
-    if (ord.subscriptionId && !orderMap.has(ord.subscriptionId)) {
-      orderMap.set(ord.subscriptionId, {
-        id: ord.id,
-        contactEmail: ord.contactEmail
-      });
-    }
+  const query = getQuery(event);
+  const rawApp = String(query.appKey || query.app || "all").trim();
+  const filterAppKey = rawApp && rawApp !== "all" ? normalizeAppKey(rawApp) : null;
+  const rawChannel = String(query.channel || "all").trim();
+  const filterChannel = rawChannel && rawChannel !== "all" ? normalizeReleaseChannel(rawChannel) : null;
+  const filterStatus = String(query.status || "all").trim().toLowerCase();
+  const keyword = String(query.keyword || query.q || "").trim().toLowerCase();
+  const page = Math.max(1, Number.parseInt(String(query.page || "1"), 10) || 1);
+  const pageSize = Math.min(100, Math.max(1, Number.parseInt(String(query.pageSize || "20"), 10) || 20));
+  const rows = await db.select().from(releases).orderBy(desc(releases.versionCode), desc(releases.id));
+  const allEntries = rows.map(mapDbRowToReleaseEntry);
+  const stats = {
+    total: allEntries.length,
+    published: allEntries.filter((r) => r.isActive !== false && !r.withdrawn_at).length,
+    withdrawn: allEntries.filter((r) => Boolean(r.withdrawn_at)).length,
+    draft: allEntries.filter((r) => r.isActive === false && !r.withdrawn_at).length,
+    appsCount: new Set(allEntries.map((r) => r.appKey)).size
+  };
+  let filtered = allEntries;
+  if (filterAppKey) {
+    filtered = filtered.filter((r) => r.appKey === filterAppKey);
   }
-  return subs.map((sub) => {
-    const linked = orderMap.get(sub.id);
-    return {
-      ...sub,
-      orderId: (linked == null ? void 0 : linked.id) || sub.gatewaySubId || sub.id,
-      contactEmail: (linked == null ? void 0 : linked.contactEmail) || sub.userEmail
-    };
+  if (filterChannel) {
+    filtered = filtered.filter((r) => r.channel === filterChannel);
+  }
+  if (filterStatus === "published") {
+    filtered = filtered.filter((r) => r.isActive !== false && !r.withdrawn_at);
+  } else if (filterStatus === "withdrawn") {
+    filtered = filtered.filter((r) => Boolean(r.withdrawn_at));
+  } else if (filterStatus === "draft") {
+    filtered = filtered.filter((r) => r.isActive === false && !r.withdrawn_at);
+  }
+  if (keyword) {
+    filtered = filtered.filter((item) => {
+      const haystack = [
+        item.appKey,
+        item.channel,
+        item.version,
+        item.tag_name,
+        item.name,
+        item.commit,
+        item.title,
+        item.summary,
+        JSON.stringify(item.locales || {})
+      ].join(" ").toLowerCase();
+      return haystack.includes(keyword);
+    });
+  }
+  filtered.sort((a, b) => {
+    if (a.appKey === b.appKey) {
+      const diff = compareSemVer(b.version, a.version);
+      if (diff !== 0) return diff;
+    }
+    return new Date(b.releasedAt).getTime() - new Date(a.releasedAt).getTime();
   });
+  const total = filtered.length;
+  const offset = (page - 1) * pageSize;
+  const items = filtered.slice(offset, offset + pageSize);
+  const apps = await listReleaseApps(db);
+  return {
+    code: 0,
+    data: {
+      items,
+      total,
+      page,
+      pageSize,
+      stats,
+      apps
+    }
+  };
 });
 
 export { index_get as default };

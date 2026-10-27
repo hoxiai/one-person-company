@@ -1,4 +1,4 @@
-import { d as defineEventHandler, c as getRequestLocale, b3 as getUserSession, c5 as endWebSession, a5 as clearUserSession } from '../../../nitro/nitro.mjs';
+import { d as defineEventHandler, c as getRequestLocale, bs as getUserSession, cS as endWebSession, a8 as clearUserSession } from '../../../nitro/nitro.mjs';
 import 'drizzle-orm';
 import 'node:crypto';
 import 'crypto';
@@ -27,7 +27,9 @@ import 'node:url';
 import 'zod';
 import '@iconify/utils';
 import 'consola';
+import 'node:zlib';
 import 'ioredis';
+import 'jose';
 import 'node:child_process';
 import 'process';
 import 'buffer';

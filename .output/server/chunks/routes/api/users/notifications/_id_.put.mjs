@@ -1,5 +1,5 @@
-import { d as defineEventHandler, c as getRequestLocale, b3 as getUserSession, f as getRouterParam, e as createError, bx as notifications, cD as getCookie, b as db } from '../../../../nitro/nitro.mjs';
-import { eq, and } from 'drizzle-orm';
+import { d as defineEventHandler, c as getRequestLocale, bs as getUserSession, f as getRouterParam, e as createError, cd as notifications, db as getCookie, b as db } from '../../../../nitro/nitro.mjs';
+import { eq, isNull, and } from 'drizzle-orm';
 import 'node:crypto';
 import 'crypto';
 import 'fs';
@@ -27,7 +27,9 @@ import 'node:url';
 import 'zod';
 import '@iconify/utils';
 import 'consola';
+import 'node:zlib';
 import 'ioredis';
+import 'jose';
 import 'node:child_process';
 import 'process';
 import 'buffer';
@@ -50,9 +52,9 @@ const _id__put = defineEventHandler(async (event) => {
   if (userId) {
     conditions.push(eq(notifications.userId, userId));
   } else {
-    const visitorId = getCookie(event, "visitorId") || "";
+    const visitorId = getCookie(event, "visitor_id") || getCookie(event, "visitorId") || "";
     if (visitorId) {
-      conditions.push(eq(notifications.visitorId, visitorId));
+      conditions.push(eq(notifications.visitorId, visitorId), isNull(notifications.userId));
     } else {
       throw createError({ statusCode: 401, message: locale === "zh" ? "\u672A\u767B\u5F55" : "Unauthorized" });
     }

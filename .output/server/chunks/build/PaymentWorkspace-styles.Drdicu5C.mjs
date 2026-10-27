@@ -1,0 +1,8 @@
+const PaymentWorkspace_vue_vue_type_style_index_0_scoped_f68870a6_lang = ".payment-html-panel[data-v-f68870a6]{background:transparent}.payment-html-wrapper[data-v-f68870a6] *{box-sizing:border-box;max-width:100%}.payment-html-wrapper[data-v-f68870a6] canvas,.payment-html-wrapper[data-v-f68870a6] iframe,.payment-html-wrapper[data-v-f68870a6] img,.payment-html-wrapper[data-v-f68870a6] svg{max-width:100%}.payment-html-wrapper[data-v-f68870a6] iframe{display:block}.payment-html-wrapper[data-v-f68870a6] #alipay-container,.payment-html-wrapper[data-v-f68870a6] #paypal-container,.payment-html-wrapper[data-v-f68870a6] #stripe-container,.payment-html-wrapper[data-v-f68870a6] #wechat-container,.payment-html-wrapper[data-v-f68870a6] #zpay-container{min-height:auto!important;padding:8px 4px!important}.payment-html-wrapper[data-v-f68870a6] .alipay-card,.payment-html-wrapper[data-v-f68870a6] .wechat-card,.payment-html-wrapper[data-v-f68870a6] .zpay-card{border-radius:12px!important;box-shadow:0 2px 12px #0f172a0d!important;padding:14px 16px!important}.payment-html-wrapper[data-v-f68870a6] .pay-btn,.payment-html-wrapper[data-v-f68870a6] .zpay-button{border-radius:8px!important;font-size:13px!important;padding:9px 16px!important}.payment-html-wrapper[data-v-f68870a6] .hint{font-size:11px!important;margin-top:6px!important}.payment-html-wrapper[data-v-f68870a6] .error-msg,.payment-html-wrapper[data-v-f68870a6] .status{font-size:12px!important;margin-top:8px!important}";
+
+const PaymentWorkspaceStyles_Drdicu5C = [
+  PaymentWorkspace_vue_vue_type_style_index_0_scoped_f68870a6_lang
+];
+
+export { PaymentWorkspaceStyles_Drdicu5C as default };
+//# sourceMappingURL=PaymentWorkspace-styles.Drdicu5C.mjs.map

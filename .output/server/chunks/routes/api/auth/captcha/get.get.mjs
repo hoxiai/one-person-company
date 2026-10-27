@@ -1,4 +1,4 @@
-import { d as defineEventHandler, Y as resolveClientIp, Z as checkIpRateLimit, e as createError, bS as createCaptchaChallengeToken, bT as generateCaptchaBackgroundWithSlot, bU as generateCaptchaPiece, bV as PUZZLE_PATH, bW as CAPTCHA_BACKGROUNDS } from '../../../../nitro/nitro.mjs';
+import { d as defineEventHandler, $ as resolveClientIp, a0 as checkIpRateLimit, e as createError, cC as createCaptchaChallengeToken, cD as generateCaptchaBackgroundWithSlot, cE as generateCaptchaPiece, cF as PUZZLE_PATH, cG as CAPTCHA_BACKGROUNDS } from '../../../../nitro/nitro.mjs';
 import 'drizzle-orm';
 import 'node:crypto';
 import 'crypto';
@@ -27,7 +27,9 @@ import 'node:url';
 import 'zod';
 import '@iconify/utils';
 import 'consola';
+import 'node:zlib';
 import 'ioredis';
+import 'jose';
 import 'node:child_process';
 import 'process';
 import 'buffer';

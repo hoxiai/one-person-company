@@ -1,4 +1,4 @@
-import { d as defineEventHandler, aq as requireTrustedRequestOrigin, c as getRequestLocale, r as readBody, b3 as getUserSession, b as db, u as users, e as createError, cf as getEmailVerifySendCooldown, bH as revokeEmailVerifyTokens, cg as issueEmailVerification, ch as EMAIL_VERIFY_SEND_COOLDOWN_SECONDS } from '../../../nitro/nitro.mjs';
+import { d as defineEventHandler, at as requireTrustedRequestOrigin, c as getRequestLocale, r as readBody, bs as getUserSession, b as db, u as users, e as createError, d0 as getEmailVerifySendCooldown, cp as revokeEmailVerifyTokens, d1 as issueEmailVerification, d2 as EMAIL_VERIFY_SEND_COOLDOWN_SECONDS } from '../../../nitro/nitro.mjs';
 import { eq } from 'drizzle-orm';
 import 'node:crypto';
 import 'crypto';
@@ -27,7 +27,9 @@ import 'node:url';
 import 'zod';
 import '@iconify/utils';
 import 'consola';
+import 'node:zlib';
 import 'ioredis';
+import 'jose';
 import 'node:child_process';
 import 'process';
 import 'buffer';

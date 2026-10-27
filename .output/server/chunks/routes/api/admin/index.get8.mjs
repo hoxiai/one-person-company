@@ -1,4 +1,4 @@
-import { d as defineEventHandler, g as getQuery, aG as posts, aH as normalizePostLocale, b as db } from '../../../nitro/nitro.mjs';
+import { d as defineEventHandler, g as getQuery, aJ as posts, aL as normalizePostLocale, b as db } from '../../../nitro/nitro.mjs';
 import { eq, or, like, and, count, desc, sql } from 'drizzle-orm';
 import 'node:crypto';
 import 'crypto';
@@ -27,7 +27,9 @@ import 'node:url';
 import 'zod';
 import '@iconify/utils';
 import 'consola';
+import 'node:zlib';
 import 'ioredis';
+import 'jose';
 import 'node:child_process';
 import 'process';
 import 'buffer';
@@ -86,7 +88,17 @@ const index_get = defineEventHandler(async (event) => {
     totalViews: sql`COALESCE(SUM(${posts.views}), 0)`
   }).from(posts);
   return {
-    data: result,
+    data: result.map((row) => {
+      let metaData = row.metaData;
+      if (typeof metaData === "string") {
+        try {
+          metaData = JSON.parse(metaData);
+        } catch {
+          metaData = null;
+        }
+      }
+      return { ...row, metaData };
+    }),
     total,
     page,
     pageSize,

@@ -1,4 +1,4 @@
-import { d as defineEventHandler, c as getRequestLocale, f as getRouterParam, e as createError, r as readBody, b as db, z as orders, O as ORDER_PAY_STATUS, a8 as findSubscriptionRefundImpact, a9 as describeSubscriptionRefundImpact, s as setAuditMeta, aa as isMinimalCheckoutRelayOrder, ab as readMinimalCheckoutBridgeMeta, ac as createOrderAttribution, ad as settlePaidTopup, ae as recoverCreditedApayTopup, af as fulfillMinimalCheckoutRelay, ag as fulfillOrder, ah as settlePromoCommission, ai as emitEvent, aj as cancelPromoCommission, ak as revokeSubscriptionForOrder, al as refundTopup, am as sendMinimalCheckoutRefundNotification, an as SUBSCRIPTION_REFUND_IMPACT_CODE } from '../../../../nitro/nitro.mjs';
+import { d as defineEventHandler, c as getRequestLocale, f as getRouterParam, e as createError, r as readBody, b as db, z as orders, O as ORDER_PAY_STATUS, ab as findSubscriptionRefundImpact, ac as describeSubscriptionRefundImpact, s as setAuditMeta, ad as isMinimalCheckoutRelayOrder, ae as readMinimalCheckoutBridgeMeta, af as createOrderAttribution, ag as settlePaidTopup, ah as recoverCreditedApayTopup, ai as fulfillMinimalCheckoutRelay, aj as fulfillOrder, ak as settlePromoCommission, al as emitEvent, am as cancelPromoCommission, an as revokeSubscriptionForOrder, ao as refundTopup, ap as sendMinimalCheckoutRefundNotification, aq as SUBSCRIPTION_REFUND_IMPACT_CODE } from '../../../../nitro/nitro.mjs';
 import { eq } from 'drizzle-orm';
 import 'node:crypto';
 import 'crypto';
@@ -27,7 +27,9 @@ import 'node:url';
 import 'zod';
 import '@iconify/utils';
 import 'consola';
+import 'node:zlib';
 import 'ioredis';
+import 'jose';
 import 'node:child_process';
 import 'process';
 import 'buffer';
@@ -57,6 +59,12 @@ const _id__put = defineEventHandler(async (event) => {
     throw createError({
       statusCode: 400,
       message: locale === "zh" ? "\u5DF2\u652F\u4ED8\u6216\u5DF2\u9000\u6B3E\u7684\u8BA2\u5355\u4E0D\u80FD\u76F4\u63A5\u6539\u56DE\u5F85\u652F\u4ED8\u72B6\u6001\u3002\u5982\u9700\u53D6\u6D88\u6216\u9000\u6B3E\uFF0C\u8BF7\u4FEE\u6539\u4E3A\u201C\u5DF2\u9000\u6B3E\u201D\u6216\u201C\u5DF2\u53D6\u6D88\u201D\u3002" : 'Paid or refunded orders cannot be set back to pending. Please select "refunded" or "cancelled".'
+    });
+  }
+  if ((previousPayStatus === ORDER_PAY_STATUS.REFUNDED || previousPayStatus === ORDER_PAY_STATUS.CANCELLED) && body.payStatus === ORDER_PAY_STATUS.PAID) {
+    throw createError({
+      statusCode: 400,
+      message: locale === "zh" ? "\u5DF2\u9000\u6B3E\u6216\u5DF2\u53D6\u6D88\u7684\u8BA2\u5355\u4E0D\u80FD\u518D\u6B21\u4FEE\u6539\u4E3A\u201C\u5DF2\u652F\u4ED8\u201D\u72B6\u6001\u3002" : "Refunded or cancelled orders cannot be changed back to paid."
     });
   }
   if (endsCharge && wasCharged && previousPayStatus !== body.payStatus && body.confirmSubscriptionImpact !== true) {
@@ -119,7 +127,7 @@ const _id__put = defineEventHandler(async (event) => {
         console.error(`[Subscription] failed to revoke for refunded order ${id}:`, error);
       }
     }
-    if (body.payStatus === ORDER_PAY_STATUS.REFUNDED && (refundedOrder == null ? void 0 : refundedOrder.userId)) {
+    if ((body.payStatus === ORDER_PAY_STATUS.REFUNDED || wasCharged) && (refundedOrder == null ? void 0 : refundedOrder.userId)) {
       try {
         const clawback = await refundTopup(id);
         if (clawback.shortfall > 0) {

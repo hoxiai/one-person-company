@@ -1,4 +1,4 @@
-import { d as defineEventHandler, c as getRequestLocale, c6 as requireUserSession, e as createError, b as db, u as users, a5 as clearUserSession, ci as getRequestIP, r as readBody, cE as getTopupRules, cF as buildTopupQuote, cG as TopupValidationError, cH as ensureTopupCarrierProduct, c3 as ensureVisitorId, c8 as mergePromoTracking, c9 as capturePromoTracking, ca as readPromoTracking, aw as getMinimalCheckoutAdminConfig, ax as buildMinimalCheckoutBridgeMeta, ay as mergeMinimalCheckoutMeta, z as orders, O as ORDER_PAY_STATUS, ap as ORDER_STATUS, az as prepareOrderMetaForInsert, cI as createTopupRecord, ac as createOrderAttribution, bN as trackVisitorEvent, cA as createNotification } from '../../../nitro/nitro.mjs';
+import { d as defineEventHandler, c as getRequestLocale, cT as requireUserSession, e as createError, b as db, u as users, a8 as clearUserSession, d3 as getRequestIP, r as readBody, dX as getTopupRules, dY as buildTopupQuote, dZ as TopupValidationError, d_ as ensureTopupCarrierProduct, cQ as ensureVisitorId, cV as mergePromoTracking, cW as capturePromoTracking, cX as readPromoTracking, az as getMinimalCheckoutAdminConfig, aA as buildMinimalCheckoutBridgeMeta, aB as mergeMinimalCheckoutMeta, z as orders, O as ORDER_PAY_STATUS, as as ORDER_STATUS, aC as prepareOrderMetaForInsert, d$ as createTopupRecord, af as createOrderAttribution, cx as trackVisitorEvent, dU as createNotification } from '../../../nitro/nitro.mjs';
 import crypto from 'crypto';
 import { z } from 'zod';
 import { eq } from 'drizzle-orm';
@@ -27,7 +27,9 @@ import 'node:os';
 import 'node:url';
 import '@iconify/utils';
 import 'consola';
+import 'node:zlib';
 import 'ioredis';
+import 'jose';
 import 'node:child_process';
 import 'process';
 import 'buffer';
@@ -37,13 +39,22 @@ import 'node:net';
 import '@adonisjs/hash';
 import '@adonisjs/hash/drivers/scrypt';
 
+var _a, _b;
 const bodySchema = z.object({
   currency: z.string().min(1).max(8),
   amount: z.number().positive()
 });
 const rateLimitMap = /* @__PURE__ */ new Map();
+function pruneRateLimitMap(now = Date.now()) {
+  for (const [key, val] of rateLimitMap) {
+    if (val.resetTime <= now) rateLimitMap.delete(key);
+  }
+}
+if (typeof setInterval !== "undefined") {
+  (_b = (_a = setInterval(() => pruneRateLimitMap(), 6e4)).unref) == null ? void 0 : _b.call(_a);
+}
 const topup_post = defineEventHandler(async (event) => {
-  var _a, _b, _c, _d, _e, _f;
+  var _a2, _b2, _c, _d, _e, _f, _g, _h, _i;
   const locale = getRequestLocale(event);
   const messages = locale === "zh" ? {
     loginRequired: "\u8BF7\u5148\u767B\u5F55\u540E\u518D\u5145\u503C",
@@ -59,7 +70,7 @@ const topup_post = defineEventHandler(async (event) => {
     created: "Top-up order created successfully"
   };
   const session = await requireUserSession(event).catch(() => null);
-  const userId = (_a = session == null ? void 0 : session.user) == null ? void 0 : _a.id;
+  const userId = (_a2 = session == null ? void 0 : session.user) == null ? void 0 : _a2.id;
   if (!userId) {
     throw createError({ statusCode: 401, message: messages.loginRequired });
   }
@@ -68,8 +79,10 @@ const topup_post = defineEventHandler(async (event) => {
     await clearUserSession(event).catch(() => null);
     throw createError({ statusCode: 401, message: messages.loginRequired });
   }
-  const ip = getRequestIP(event, { xForwardedFor: true }) || "unknown";
+  const trustProxy = ["1", "true", "yes", "on"].includes(String(process.env.APAY_TRUST_PROXY || "").trim().toLowerCase());
+  const ip = getRequestIP(event, { xForwardedFor: trustProxy }) || ((_d = (_c = (_b2 = event == null ? void 0 : event.node) == null ? void 0 : _b2.req) == null ? void 0 : _c.socket) == null ? void 0 : _d.remoteAddress) || "unknown";
   const now = Date.now();
+  if (rateLimitMap.size > 1e3) pruneRateLimitMap(now);
   const rateData = rateLimitMap.get(ip);
   if (!rateData || rateData.resetTime < now) {
     rateLimitMap.set(ip, { count: 1, resetTime: now + 6e4 });
@@ -99,7 +112,7 @@ const topup_post = defineEventHandler(async (event) => {
   }
   const carrier = await ensureTopupCarrierProduct();
   const visitorId = ensureVisitorId(event);
-  const contactEmail = String(((_b = session == null ? void 0 : session.user) == null ? void 0 : _b.email) || "").trim() || `${visitorId}@example.com`;
+  const contactEmail = String(((_e = session == null ? void 0 : session.user) == null ? void 0 : _e.email) || "").trim() || `${visitorId}@example.com`;
   const promoTracking = mergePromoTracking(
     readPromoTracking(event),
     await capturePromoTracking(event)
@@ -111,7 +124,7 @@ const topup_post = defineEventHandler(async (event) => {
     topup: {
       currency: quote.currency,
       paidAmount: quote.amount,
-      rate: (_d = (_c = rules.options[quote.currency]) == null ? void 0 : _c.rate) != null ? _d : 1,
+      rate: (_g = (_f = rules.options[quote.currency]) == null ? void 0 : _f.rate) != null ? _g : 1,
       accountingCurrency: quote.accountingCurrency
     },
     ...promoTracking.inviteCode ? { inviteCode: promoTracking.inviteCode } : {},
@@ -146,7 +159,7 @@ const topup_post = defineEventHandler(async (event) => {
       productName: carrier.name,
       productMeta: carrier.metaData,
       userId,
-      topupRate: (_f = (_e = rules.options[quote.currency]) == null ? void 0 : _e.rate) != null ? _f : 1,
+      topupRate: (_i = (_h = rules.options[quote.currency]) == null ? void 0 : _h.rate) != null ? _i : 1,
       topupRateDirection: "payment_to_recharge"
     }
   });

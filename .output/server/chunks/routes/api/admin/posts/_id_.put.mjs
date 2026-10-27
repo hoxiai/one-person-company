@@ -1,4 +1,4 @@
-import { d as defineEventHandler, c as getRequestLocale, f as getRouterParam, e as createError, r as readBody, aH as normalizePostLocale, b as db, aG as posts, aI as findUniqueViolation } from '../../../../nitro/nitro.mjs';
+import { d as defineEventHandler, c as getRequestLocale, f as getRouterParam, e as createError, r as readBody, b as db, aJ as posts, aK as assertPostMutable, aL as normalizePostLocale, aM as notifyIndexNowEntityChange, aN as notifySubscribersOnPostPublished, aO as findUniqueViolation } from '../../../../nitro/nitro.mjs';
 import { eq } from 'drizzle-orm';
 import 'node:crypto';
 import 'crypto';
@@ -27,7 +27,9 @@ import 'node:url';
 import 'zod';
 import '@iconify/utils';
 import 'consola';
+import 'node:zlib';
 import 'ioredis';
+import 'jose';
 import 'node:child_process';
 import 'process';
 import 'buffer';
@@ -37,11 +39,28 @@ import 'node:net';
 import '@adonisjs/hash';
 import '@adonisjs/hash/drivers/scrypt';
 
+const normalizePostMetaData = (value) => {
+  if (value === null || value === void 0 || value === "") return null;
+  if (typeof value === "string") {
+    try {
+      const parsed = JSON.parse(value);
+      return parsed && typeof parsed === "object" ? parsed : null;
+    } catch {
+      return null;
+    }
+  }
+  return typeof value === "object" ? value : null;
+};
 const _id__put = defineEventHandler(async (event) => {
   const locale = getRequestLocale(event);
   const id = getRouterParam(event, "id");
   if (!id) throw createError({ statusCode: 400, message: locale === "zh" ? "\u7F3A\u5C11 ID" : "Missing id" });
   const body = await readBody(event);
+  const existing = await db.select().from(posts).where(eq(posts.id, parseInt(id))).limit(1);
+  if (!existing.length) {
+    throw createError({ statusCode: 404, message: locale === "zh" ? "\u6587\u7AE0\u4E0D\u5B58\u5728" : "Post not found" });
+  }
+  assertPostMutable(existing[0], locale);
   if (!body.title || !body.slug) {
     throw createError({ statusCode: 400, message: locale === "zh" ? "\u6807\u9898\u548C slug \u4E0D\u80FD\u4E3A\u7A7A" : "Title and slug are required" });
   }
@@ -62,11 +81,38 @@ const _id__put = defineEventHandler(async (event) => {
       imageUrl: body.imageUrl || null,
       isActive: body.isActive !== void 0 ? Boolean(body.isActive) : void 0,
       // 处理跨数据库布尔值
-      metaData: body.metaData ? process.env.NUXT_HUB_DATABASE ? body.metaData : JSON.stringify(body.metaData) : null,
+      metaData: normalizePostMetaData(body.metaData),
       updatedAt: /* @__PURE__ */ new Date()
     };
     const result = await db.update(posts).set(postData).where(eq(posts.id, parseInt(id))).returning();
-    return { code: 0, message: locale === "zh" ? "\u6587\u7AE0\u66F4\u65B0\u6210\u529F" : "Post updated successfully", data: result[0] };
+    const updatedPost = result[0];
+    if (updatedPost && updatedPost.isActive && postType === "blog" && updatedPost.slug) {
+      notifyIndexNowEntityChange(event, {
+        entityType: "post",
+        slug: updatedPost.slug,
+        locale: updatedPost.locale
+      });
+    }
+    let newsletterResult = null;
+    if (updatedPost && updatedPost.isActive && postType === "blog" && Boolean(body.notifySubscribers)) {
+      newsletterResult = await notifySubscribersOnPostPublished({
+        id: updatedPost.id,
+        title: updatedPost.title,
+        slug: updatedPost.slug,
+        description: updatedPost.description,
+        locale: updatedPost.locale,
+        type: updatedPost.type
+      }).catch((err) => {
+        console.error("[Newsletter] Failed to notify subscribers on post update:", err);
+        return null;
+      });
+    }
+    return {
+      code: 0,
+      message: locale === "zh" ? "\u6587\u7AE0\u66F4\u65B0\u6210\u529F" : "Post updated successfully",
+      data: updatedPost,
+      newsletter: newsletterResult
+    };
   } catch (error) {
     console.error("Update post error:", error);
     const duplicate = findUniqueViolation(error);

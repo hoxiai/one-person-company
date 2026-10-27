@@ -1,5 +1,5 @@
-import { d as defineEventHandler, g as getQuery, I as topups, z as orders, u as users, b as db, bA as BALANCE_SCALE } from '../../../nitro/nitro.mjs';
-import { eq, or, like, sql, and, desc } from 'drizzle-orm';
+import { d as defineEventHandler, g as getQuery, L as tickets, u as users, b as db } from '../../../nitro/nitro.mjs';
+import { eq, or, like, and, desc, count } from 'drizzle-orm';
 import 'node:crypto';
 import 'crypto';
 import 'fs';
@@ -27,7 +27,9 @@ import 'node:url';
 import 'zod';
 import '@iconify/utils';
 import 'consola';
+import 'node:zlib';
 import 'ioredis';
+import 'jose';
 import 'node:child_process';
 import 'process';
 import 'buffer';
@@ -40,75 +42,90 @@ import '@adonisjs/hash/drivers/scrypt';
 const index_get = defineEventHandler(async (event) => {
   var _a;
   const query = getQuery(event);
-  const page = Math.max(1, Number(query.page) || 1);
-  const pageSize = Math.min(100, Math.max(1, Number(query.pageSize) || 20));
-  const status = String(query.status || "").trim();
-  const search = String(query.search || query.q || "").trim();
-  const filterConditions = [];
-  if (status && status !== "all") {
-    filterConditions.push(eq(topups.status, status));
+  const page = Math.max(parseInt(query.page) || 1, 1);
+  const pageSize = Math.min(Math.max(parseInt(query.pageSize) || 15, 1), 100);
+  const offset = (page - 1) * pageSize;
+  const status = typeof query.status === "string" && query.status.trim() ? query.status.trim() : "";
+  const category = typeof query.category === "string" && query.category.trim() ? query.category.trim() : "";
+  const priority = typeof query.priority === "string" && query.priority.trim() ? query.priority.trim() : "";
+  const keyword = typeof query.keyword === "string" && query.keyword.trim() ? query.keyword.trim() : "";
+  const conditions = [];
+  if (status) {
+    conditions.push(eq(tickets.status, status));
   }
-  if (search) {
-    const searchPattern = `%${search.toLowerCase()}%`;
-    filterConditions.push(or(
-      like(sql`lower(${topups.orderId})`, searchPattern),
-      like(sql`lower(coalesce(${orders.tradeNo}, ''))`, searchPattern),
-      like(sql`lower(coalesce(${users.email}, ''))`, searchPattern),
-      like(sql`lower(coalesce(${users.nickname}, ''))`, searchPattern),
-      like(sql`lower(coalesce(${orders.contactEmail}, ''))`, searchPattern)
-    ));
+  if (category) {
+    conditions.push(eq(tickets.category, category));
   }
-  const whereClause = filterConditions.length > 0 ? and(...filterConditions) : void 0;
-  const listQuery = db.select({
-    id: topups.id,
-    orderId: topups.orderId,
-    userId: topups.userId,
+  if (priority) {
+    conditions.push(eq(tickets.priority, priority));
+  }
+  if (keyword) {
+    const pattern = `%${keyword}%`;
+    conditions.push(
+      or(
+        like(tickets.ticketNo, pattern),
+        like(tickets.title, pattern),
+        like(users.email, pattern),
+        like(tickets.contactEmail, pattern),
+        like(tickets.contactName, pattern),
+        like(tickets.contactInfo, pattern)
+      )
+    );
+  }
+  const whereClause = conditions.length > 0 ? and(...conditions) : void 0;
+  const queryBuilder = db.select({
+    id: tickets.id,
+    ticketNo: tickets.ticketNo,
+    userId: tickets.userId,
+    visitorId: tickets.visitorId,
+    contactName: tickets.contactName,
+    contactEmail: tickets.contactEmail,
+    contactInfo: tickets.contactInfo,
     userEmail: users.email,
     userNickname: users.nickname,
-    paymentAmount: topups.paymentAmount,
-    paymentCurrency: topups.paymentCurrency,
-    creditAmountCents: topups.creditAmountCents,
-    creditCurrency: topups.creditCurrency,
-    exchangeRate: topups.exchangeRate,
-    balanceType: topups.balanceType,
-    status: topups.status,
-    retryCount: topups.retryCount,
-    shortfallCents: topups.shortfallCents,
-    lastError: topups.lastError,
-    paidAt: topups.paidAt,
-    creditedAt: topups.creditedAt,
-    refundedAt: topups.refundedAt,
-    createdAt: topups.createdAt,
-    updatedAt: topups.updatedAt,
-    creditEventId: topups.creditEventId,
-    refundEventId: topups.refundEventId,
-    source: topups.source,
-    walletId: topups.walletId,
-    payMethod: orders.payMethod,
-    tradeNo: orders.tradeNo,
-    orderPayStatus: orders.payStatus,
-    orderStatus: orders.status,
-    contactEmail: orders.contactEmail
-  }).from(topups).leftJoin(users, eq(users.id, topups.userId)).leftJoin(orders, eq(orders.id, topups.orderId));
-  const countQuery = db.select({ count: sql`count(*)` }).from(topups).leftJoin(users, eq(users.id, topups.userId)).leftJoin(orders, eq(orders.id, topups.orderId));
-  const [rows, totalRows] = await Promise.all([
-    listQuery.where(whereClause).orderBy(desc(topups.createdAt)).limit(pageSize).offset((page - 1) * pageSize),
-    countQuery.where(whereClause)
+    category: tickets.category,
+    title: tickets.title,
+    status: tickets.status,
+    priority: tickets.priority,
+    context: tickets.context,
+    lastRepliedAt: tickets.lastRepliedAt,
+    lastRepliedBy: tickets.lastRepliedBy,
+    createdAt: tickets.createdAt,
+    updatedAt: tickets.updatedAt
+  }).from(tickets).leftJoin(users, eq(tickets.userId, users.id)).where(whereClause).orderBy(desc(tickets.lastRepliedAt)).limit(pageSize).offset(offset);
+  const [totalResult, list, statusCounts] = await Promise.all([
+    db.select({ total: count() }).from(tickets).leftJoin(users, eq(tickets.userId, users.id)).where(whereClause),
+    queryBuilder,
+    db.select({
+      status: tickets.status,
+      count: count()
+    }).from(tickets).groupBy(tickets.status)
   ]);
+  const total = Number(((_a = totalResult[0]) == null ? void 0 : _a.total) || 0);
+  const summary = {
+    all: 0,
+    open: 0,
+    in_progress: 0,
+    auto_resolved: 0,
+    resolved: 0,
+    closed: 0
+  };
+  for (const item of statusCounts) {
+    const cnt = Number(item.count || 0);
+    summary.all += cnt;
+    if (item.status in summary) {
+      summary[item.status] = cnt;
+    }
+  }
   return {
-    code: 0,
-    data: {
+    code: 200,
+    data: list,
+    summary,
+    pagination: {
       page,
       pageSize,
-      total: Number(((_a = totalRows[0]) == null ? void 0 : _a.count) || 0),
-      list: rows.map((row) => {
-        const { creditAmountCents, shortfallCents, ...rest } = row;
-        return {
-          ...rest,
-          creditAmount: Number(creditAmountCents || 0) / BALANCE_SCALE,
-          shortfall: Number(shortfallCents || 0) / BALANCE_SCALE
-        };
-      })
+      total,
+      totalPages: Math.ceil(total / pageSize)
     }
   };
 });

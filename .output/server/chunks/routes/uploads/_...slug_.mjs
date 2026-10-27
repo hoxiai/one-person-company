@@ -1,6 +1,6 @@
 import fs from 'node:fs';
 import path from 'node:path';
-import { d as defineEventHandler, e as createError, df as setHeader, bu as getHeader, cV as setResponseStatus, dt as sendStream } from '../../nitro/nitro.mjs';
+import { d as defineEventHandler, e as createError, eh as setHeader, ca as getHeader, dh as setResponseStatus, eU as sendStream } from '../../nitro/nitro.mjs';
 import { blob } from '@nuxthub/blob';
 import 'drizzle-orm';
 import 'node:crypto';
@@ -27,7 +27,9 @@ import 'node:url';
 import 'zod';
 import '@iconify/utils';
 import 'consola';
+import 'node:zlib';
 import 'ioredis';
+import 'jose';
 import 'node:child_process';
 import 'process';
 import 'buffer';
@@ -85,7 +87,7 @@ const ____slug_ = defineEventHandler(async (event) => {
     setHeader(event, "Content-Length", String(size));
     return sendStream(event, fs.createReadStream(filePath));
   }
-  if (slug.startsWith("tickets/")) {
+  if (slug && filePath !== uploadsRoot) {
     return blob.serve(event, `uploads/${slug}`);
   }
   throw createError({

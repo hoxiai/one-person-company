@@ -1,4 +1,4 @@
-import { d as defineEventHandler, c as getRequestLocale, c6 as requireUserSession, e as createError, g as getQuery, bn as usesAINodeWallet, c$ as getOrCreateUserWallet, b as db, br as userWallets, z as orders, B as aggregateOrderAccountingTotals, p as products, t as toIsoTimestamp } from '../../../nitro/nitro.mjs';
+import { d as defineEventHandler, c as getRequestLocale, cT as requireUserSession, e as createError, g as getQuery, c3 as usesExternalWallet, eq as getOrCreateUserWallet, b as db, c7 as userWallets, z as orders, B as aggregateOrderAccountingTotals, p as products, t as toIsoTimestamp } from '../../../nitro/nitro.mjs';
 import { eq, and, gte, ne, desc, inArray } from 'drizzle-orm';
 import 'node:crypto';
 import 'crypto';
@@ -27,7 +27,9 @@ import 'node:url';
 import 'zod';
 import '@iconify/utils';
 import 'consola';
+import 'node:zlib';
 import 'ioredis';
+import 'jose';
 import 'node:child_process';
 import 'process';
 import 'buffer';
@@ -54,7 +56,7 @@ const billing_get = defineEventHandler(async (event) => {
   const offset = (page - 1) * limit;
   const tab = query.tab || "pending";
   let availableBalance = 0;
-  if (!usesAINodeWallet()) {
+  if (!usesExternalWallet()) {
     const walletRecord = await getOrCreateUserWallet(Number(userId));
     const userRecord = await db.select().from(userWallets).where(eq(userWallets.id, walletRecord.id)).limit(1);
     const cash = Number(((_a = userRecord[0]) == null ? void 0 : _a.cashBalance) || 0) / 1e8;

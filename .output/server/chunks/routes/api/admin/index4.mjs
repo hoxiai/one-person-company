@@ -1,4 +1,4 @@
-import { d as defineEventHandler, g as getQuery, p as products, b as db, r as readBody, e as createError, c as getRequestLocale, aJ as normalizeProductLocalePrices } from '../../../nitro/nitro.mjs';
+import { d as defineEventHandler, g as getQuery, p as products, b as db, r as readBody, e as createError, c as getRequestLocale, aP as normalizeProductLocalePrices, aM as notifyIndexNowEntityChange } from '../../../nitro/nitro.mjs';
 import { or, like, sql, and, count, desc } from 'drizzle-orm';
 import 'node:crypto';
 import 'crypto';
@@ -27,7 +27,9 @@ import 'node:url';
 import 'zod';
 import '@iconify/utils';
 import 'consola';
+import 'node:zlib';
 import 'ioredis';
+import 'jose';
 import 'node:child_process';
 import 'process';
 import 'buffer';
@@ -132,7 +134,15 @@ const index = defineEventHandler(async (event) => {
     if (insertData.createdAt) {
       delete insertData.createdAt;
     }
-    return await db.insert(products).values(insertData).returning();
+    const created = await db.insert(products).values(insertData).returning();
+    const createdProduct = created[0];
+    if ((createdProduct == null ? void 0 : createdProduct.isActive) && createdProduct.slug) {
+      notifyIndexNowEntityChange(event, {
+        entityType: "product",
+        slug: createdProduct.slug
+      });
+    }
+    return created;
   }
 });
 

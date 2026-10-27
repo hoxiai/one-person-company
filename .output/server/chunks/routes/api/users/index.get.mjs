@@ -1,5 +1,5 @@
-import { d as defineEventHandler, b3 as getUserSession, g as getQuery, bx as notifications, cD as getCookie, b as db } from '../../../nitro/nitro.mjs';
-import { eq, and, count, desc } from 'drizzle-orm';
+import { d as defineEventHandler, bs as getUserSession, g as getQuery, cd as notifications, db as getCookie, b as db } from '../../../nitro/nitro.mjs';
+import { eq, isNull, and, count, desc } from 'drizzle-orm';
 import 'node:crypto';
 import 'crypto';
 import 'fs';
@@ -27,7 +27,9 @@ import 'node:url';
 import 'zod';
 import '@iconify/utils';
 import 'consola';
+import 'node:zlib';
 import 'ioredis';
+import 'jose';
 import 'node:child_process';
 import 'process';
 import 'buffer';
@@ -75,9 +77,9 @@ const index_get = defineEventHandler(async (event) => {
   if (userId) {
     conditions.push(eq(notifications.userId, userId));
   } else {
-    const visitorId = getCookie(event, "visitorId") || "";
+    const visitorId = getCookie(event, "visitor_id") || getCookie(event, "visitorId") || "";
     if (visitorId) {
-      conditions.push(eq(notifications.visitorId, visitorId));
+      conditions.push(eq(notifications.visitorId, visitorId), isNull(notifications.userId));
     } else {
       return { data: [], total: 0, page, pageSize };
     }

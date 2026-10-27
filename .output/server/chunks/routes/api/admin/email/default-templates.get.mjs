@@ -1,4 +1,4 @@
-import { d as defineEventHandler, g as getQuery, Q as defaultEmailTemplates } from '../../../../nitro/nitro.mjs';
+import { d as defineEventHandler, g as getQuery, R as defaultEmailTemplates } from '../../../../nitro/nitro.mjs';
 import 'drizzle-orm';
 import 'node:crypto';
 import 'crypto';
@@ -27,7 +27,9 @@ import 'node:url';
 import 'zod';
 import '@iconify/utils';
 import 'consola';
+import 'node:zlib';
 import 'ioredis';
+import 'jose';
 import 'node:child_process';
 import 'process';
 import 'buffer';

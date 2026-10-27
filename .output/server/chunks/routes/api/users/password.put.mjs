@@ -1,4 +1,4 @@
-import { d as defineEventHandler, c as getRequestLocale, c6 as requireUserSession, e as createError, r as readBody, b as db, u as users, a0 as verifyPassword, j as hashPassword } from '../../../nitro/nitro.mjs';
+import { d as defineEventHandler, c as getRequestLocale, cT as requireUserSession, e as createError, r as readBody, cm as PASSWORD_MIN_LENGTH, b as db, u as users, a3 as verifyPassword, j as hashPassword } from '../../../nitro/nitro.mjs';
 import { eq } from 'drizzle-orm';
 import 'node:crypto';
 import 'crypto';
@@ -27,7 +27,9 @@ import 'node:url';
 import 'zod';
 import '@iconify/utils';
 import 'consola';
+import 'node:zlib';
 import 'ioredis';
+import 'jose';
 import 'node:child_process';
 import 'process';
 import 'buffer';
@@ -42,6 +44,7 @@ const password_put = defineEventHandler(async (event) => {
   const messages = locale === "zh" ? {
     unauthorized: "\u672A\u767B\u5F55",
     passwordsRequired: "\u65E7\u5BC6\u7801\u548C\u65B0\u5BC6\u7801\u4E0D\u80FD\u4E3A\u7A7A",
+    passwordTooShort: `\u65B0\u5BC6\u7801\u957F\u5EA6\u4E0D\u80FD\u5C11\u4E8E ${PASSWORD_MIN_LENGTH} \u4F4D`,
     userNotFound: "\u7528\u6237\u4E0D\u5B58\u5728",
     incorrectOldPassword: "\u65E7\u5BC6\u7801\u9519\u8BEF",
     passwordUpdated: "\u5BC6\u7801\u66F4\u65B0\u6210\u529F",
@@ -49,6 +52,7 @@ const password_put = defineEventHandler(async (event) => {
   } : {
     unauthorized: "Unauthorized",
     passwordsRequired: "Old and new passwords are required",
+    passwordTooShort: `New password must be at least ${PASSWORD_MIN_LENGTH} characters`,
     userNotFound: "User not found",
     incorrectOldPassword: "Incorrect old password",
     passwordUpdated: "Password updated successfully",
@@ -62,6 +66,9 @@ const password_put = defineEventHandler(async (event) => {
   const { oldPassword, newPassword } = body;
   if (!oldPassword || !newPassword) {
     return { code: 1, message: messages.passwordsRequired };
+  }
+  if (typeof newPassword !== "string" || newPassword.length < PASSWORD_MIN_LENGTH) {
+    return { code: 1, message: messages.passwordTooShort };
   }
   try {
     const userRecords = await db.select().from(users).where(eq(users.id, session.user.id));

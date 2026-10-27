@@ -1,4 +1,4 @@
-import { d as defineEventHandler, c as getRequestLocale, f as getRouterParam, e as createError, b as db, aG as posts } from '../../../../nitro/nitro.mjs';
+import { d as defineEventHandler, c as getRequestLocale, f as getRouterParam, e as createError, b as db, aJ as posts, aK as assertPostMutable } from '../../../../nitro/nitro.mjs';
 import { eq } from 'drizzle-orm';
 import 'node:crypto';
 import 'crypto';
@@ -27,7 +27,9 @@ import 'node:url';
 import 'zod';
 import '@iconify/utils';
 import 'consola';
+import 'node:zlib';
 import 'ioredis';
+import 'jose';
 import 'node:child_process';
 import 'process';
 import 'buffer';
@@ -41,6 +43,11 @@ const _id__delete = defineEventHandler(async (event) => {
   const locale = getRequestLocale(event);
   const id = getRouterParam(event, "id");
   if (!id) throw createError({ statusCode: 400, message: locale === "zh" ? "\u7F3A\u5C11 ID" : "Missing id" });
+  const existing = await db.select().from(posts).where(eq(posts.id, parseInt(id))).limit(1);
+  if (!existing.length) {
+    throw createError({ statusCode: 404, message: locale === "zh" ? "\u6587\u7AE0\u4E0D\u5B58\u5728" : "Post not found" });
+  }
+  assertPostMutable(existing[0], locale);
   try {
     await db.delete(posts).where(eq(posts.id, parseInt(id)));
     return { code: 0, message: locale === "zh" ? "\u6587\u7AE0\u5220\u9664\u6210\u529F" : "Post deleted successfully" };

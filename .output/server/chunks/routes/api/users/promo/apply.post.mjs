@@ -1,4 +1,4 @@
-import { d as defineEventHandler, c as getRequestLocale, c6 as requireUserSession, e as createError, r as readBody, d1 as checkUserPromoAccess, b as db, aO as promoApplications } from '../../../../nitro/nitro.mjs';
+import { d as defineEventHandler, c as getRequestLocale, cT as requireUserSession, e as createError, r as readBody, es as checkUserPromoAccess, b as db, aU as promoApplications } from '../../../../nitro/nitro.mjs';
 import { eq, desc } from 'drizzle-orm';
 import 'node:crypto';
 import 'crypto';
@@ -27,7 +27,9 @@ import 'node:url';
 import 'zod';
 import '@iconify/utils';
 import 'consola';
+import 'node:zlib';
 import 'ioredis';
+import 'jose';
 import 'node:child_process';
 import 'process';
 import 'buffer';

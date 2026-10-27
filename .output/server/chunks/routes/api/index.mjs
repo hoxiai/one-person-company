@@ -1,5 +1,5 @@
-import { d as defineEventHandler, c as getRequestLocale, g as getQuery, b3 as getUserSession, cD as getCookie, e as createError, z as orders, b as db, u as users, p as products } from '../../nitro/nitro.mjs';
-import { or, eq, count, desc } from 'drizzle-orm';
+import { d as defineEventHandler, df as applyMcpPublicCors, dg as resolveMcpServerOrigin, bs as getUserSession, dh as setResponseStatus, di as setResponseHeader, d6 as getRequestHeader, e as createError, r as readBody, dj as getActiveThemeName, dk as dispatchMcpJsonRpcRequest, dl as buildMcpWwwAuthenticateHeader } from '../../nitro/nitro.mjs';
+import 'drizzle-orm';
 import 'node:crypto';
 import 'crypto';
 import 'fs';
@@ -27,7 +27,9 @@ import 'node:url';
 import 'zod';
 import '@iconify/utils';
 import 'consola';
+import 'node:zlib';
 import 'ioredis';
+import 'jose';
 import 'node:child_process';
 import 'process';
 import 'buffer';
@@ -38,48 +40,81 @@ import '@adonisjs/hash';
 import '@adonisjs/hash/drivers/scrypt';
 
 const index = defineEventHandler(async (event) => {
-  var _a, _b;
-  const locale = getRequestLocale(event);
-  const query = getQuery(event);
-  const page = parseInt(query.page) || 1;
-  const pageSize = parseInt(query.pageSize) || 15;
-  const offset = (page - 1) * pageSize;
-  const session = await getUserSession(event);
-  const userId = (_a = session == null ? void 0 : session.user) == null ? void 0 : _a.id;
-  const visitorId = getCookie(event, "visitor_id");
-  if (!userId && !visitorId) {
-    throw createError({
-      statusCode: 401,
-      message: locale === "zh" ? "\u672A\u767B\u5F55\uFF0C\u4E14\u672A\u627E\u5230\u8BBF\u5BA2\u51ED\u8BC1" : "Unauthorized: No user session or visitor cookie found"
-    });
+  var _a, _b, _c;
+  if (applyMcpPublicCors(event)) return null;
+  const origin = resolveMcpServerOrigin(event);
+  const session = await getUserSession(event).catch(() => null);
+  if (!((_a = session == null ? void 0 : session.user) == null ? void 0 : _a.id) || !event.context.authenticatedFromToken) {
+    setResponseStatus(event, 401);
+    setResponseHeader(event, "WWW-Authenticate", buildMcpWwwAuthenticateHeader(origin));
+    return {
+      error: "unauthorized",
+      error_description: "Bearer token required. Discover OAuth 2.1 endpoints via /.well-known/oauth-protected-resource"
+    };
   }
-  const authCondition = userId ? or(eq(orders.userId, userId), eq(orders.visitorId, visitorId || "")) : eq(orders.visitorId, visitorId);
-  const totalResult = await db.select({ value: count() }).from(orders).where(authCondition);
-  const total = ((_b = totalResult[0]) == null ? void 0 : _b.value) || 0;
-  const result = await db.select({
-    id: orders.id,
-    amount: orders.amount,
-    currency: orders.currency,
-    status: orders.status,
-    contactEmail: orders.contactEmail,
-    payMethod: orders.payMethod,
-    tradeNo: orders.tradeNo,
-    visitorId: orders.visitorId,
-    createdAt: orders.createdAt,
-    productName: products.name,
-    productSlug: products.slug,
-    productId: products.id,
-    productImage: products.imageUrl,
-    productType: products.type,
-    userNickname: users.nickname,
-    userEmail: users.email
-  }).from(orders).leftJoin(products, eq(orders.productId, products.id)).leftJoin(users, eq(orders.userId, users.id)).where(authCondition).orderBy(desc(orders.createdAt)).limit(pageSize).offset(offset);
-  return {
-    data: result,
-    total,
-    page,
-    pageSize
+  if (event.method === "DELETE") {
+    setResponseStatus(event, 204);
+    return null;
+  }
+  if (event.method === "GET") {
+    const accept = (getRequestHeader(event, "accept") || "").toLowerCase();
+    if (accept.includes("text/event-stream") && !accept.includes("text/html")) {
+      setResponseStatus(event, 405);
+      setResponseHeader(event, "Allow", "POST, DELETE");
+      return {
+        error: "method_not_allowed",
+        error_description: "Server does not offer standalone GET SSE streams; send JSON-RPC requests via POST /api/mcp."
+      };
+    }
+    return {
+      name: "APay Core MCP Server",
+      version: "1.0.0",
+      protocol: "streamable-http",
+      user: {
+        id: session.user.id,
+        email: session.user.email
+      },
+      scopes: (_b = event.context.tokenScopes) != null ? _b : ["*"]
+    };
+  }
+  if (event.method !== "POST") {
+    throw createError({ statusCode: 405, statusMessage: "Method Not Allowed" });
+  }
+  const body = await readBody(event).catch(() => null);
+  if (!body || typeof body !== "object") {
+    setResponseStatus(event, 400);
+    return {
+      jsonrpc: "2.0",
+      id: null,
+      error: { code: -32700, message: "Parse error: invalid JSON body" }
+    };
+  }
+  const activeTheme = await getActiveThemeName().catch(() => "");
+  const ctx = {
+    event,
+    userId: Number(session.user.id),
+    userEmail: String(session.user.email || ""),
+    scopes: (_c = event.context.tokenScopes) != null ? _c : null,
+    activeTheme
   };
+  if (Array.isArray(body)) {
+    const responses = [];
+    for (const item of body) {
+      const res = await dispatchMcpJsonRpcRequest(item, ctx);
+      if (res) responses.push(res);
+    }
+    if (responses.length === 0) {
+      setResponseStatus(event, 202);
+      return null;
+    }
+    return responses;
+  }
+  const response = await dispatchMcpJsonRpcRequest(body, ctx);
+  if (!response) {
+    setResponseStatus(event, 202);
+    return null;
+  }
+  return response;
 });
 
 export { index as default };

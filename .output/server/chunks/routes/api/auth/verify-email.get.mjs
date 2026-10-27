@@ -1,4 +1,4 @@
-import { d as defineEventHandler, g as getQuery, b_ as sendLocalizedRedirect, b as db, bE as userTokens, bI as EMAIL_VERIFY_TOKEN_NAME, u as users, z as orders, b3 as getUserSession, a2 as setUserSession } from '../../../nitro/nitro.mjs';
+import { d as defineEventHandler, g as getQuery, cL as sendLocalizedRedirect, b as db, cl as userTokens, cq as EMAIL_VERIFY_TOKEN_NAME, u as users, z as orders, bs as getUserSession, a5 as setUserSession } from '../../../nitro/nitro.mjs';
 import { eq, and, isNull } from 'drizzle-orm';
 import 'node:crypto';
 import 'crypto';
@@ -27,7 +27,9 @@ import 'node:url';
 import 'zod';
 import '@iconify/utils';
 import 'consola';
+import 'node:zlib';
 import 'ioredis';
+import 'jose';
 import 'node:child_process';
 import 'process';
 import 'buffer';

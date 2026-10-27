@@ -1,5 +1,5 @@
-import { d as defineEventHandler, b3 as getUserSession, e as createError, f as getRouterParam, b as db, L as tickets, r as readBody, bq as ticketMessages } from '../../../../../nitro/nitro.mjs';
-import { and, eq } from 'drizzle-orm';
+import { d as defineEventHandler, bs as getUserSession, e as createError, f as getRouterParam, L as tickets, b as db, r as readBody, c6 as ticketMessages } from '../../../../../nitro/nitro.mjs';
+import { or, eq, and } from 'drizzle-orm';
 import 'node:crypto';
 import 'crypto';
 import 'fs';
@@ -27,7 +27,9 @@ import 'node:url';
 import 'zod';
 import '@iconify/utils';
 import 'consola';
+import 'node:zlib';
 import 'ioredis';
+import 'jose';
 import 'node:child_process';
 import 'process';
 import 'buffer';
@@ -41,6 +43,7 @@ const reply_post = defineEventHandler(async (event) => {
   const session = await getUserSession(event).catch(() => null);
   const user = session == null ? void 0 : session.user;
   const userId = user == null ? void 0 : user.id;
+  const userEmail = (user == null ? void 0 : user.email) ? String(user.email).trim().toLowerCase() : "";
   if (!userId) {
     throw createError({ statusCode: 401, statusMessage: "Unauthorized" });
   }
@@ -49,7 +52,8 @@ const reply_post = defineEventHandler(async (event) => {
   if (!ticketId || isNaN(ticketId)) {
     throw createError({ statusCode: 400, statusMessage: "\u65E0\u6548\u7684\u5DE5\u5355 ID" });
   }
-  const [ticket] = await db.select().from(tickets).where(and(eq(tickets.id, ticketId), eq(tickets.userId, userId)));
+  const ownerCondition = userEmail ? or(eq(tickets.userId, userId), eq(tickets.contactEmail, userEmail)) : eq(tickets.userId, userId);
+  const [ticket] = await db.select().from(tickets).where(and(eq(tickets.id, ticketId), ownerCondition));
   if (!ticket) {
     throw createError({ statusCode: 404, statusMessage: "\u5DE5\u5355\u4E0D\u5B58\u5728\u6216\u65E0\u6743\u64CD\u4F5C" });
   }
@@ -74,6 +78,7 @@ const reply_post = defineEventHandler(async (event) => {
   }).returning();
   const newStatus = ticket.status === "resolved" || ticket.status === "auto_resolved" ? "in_progress" : ticket.status;
   await db.update(tickets).set({
+    ...ticket.userId ? {} : { userId },
     status: newStatus,
     lastRepliedAt: /* @__PURE__ */ new Date(),
     lastRepliedBy: "user",

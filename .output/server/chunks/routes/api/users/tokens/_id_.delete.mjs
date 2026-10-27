@@ -1,4 +1,4 @@
-import { d as defineEventHandler, c as getRequestLocale, c6 as requireUserSession, e as createError, f as getRouterParam, b as db, bE as userTokens } from '../../../../nitro/nitro.mjs';
+import { d as defineEventHandler, c as getRequestLocale, cT as requireUserSession, e as createError, f as getRouterParam, b as db, cl as userTokens, cs as MCP_OAUTH_REFRESH_TOKEN_NAME } from '../../../../nitro/nitro.mjs';
 import { and, eq } from 'drizzle-orm';
 import 'node:crypto';
 import 'crypto';
@@ -27,7 +27,9 @@ import 'node:url';
 import 'zod';
 import '@iconify/utils';
 import 'consola';
+import 'node:zlib';
 import 'ioredis';
+import 'jose';
 import 'node:child_process';
 import 'process';
 import 'buffer';
@@ -41,7 +43,7 @@ const _id__delete = defineEventHandler(async (event) => {
   const locale = getRequestLocale(event);
   const session = await requireUserSession(event);
   const userId = session.user.id;
-  if (event.context.authenticatedFromToken) {
+  if (event.context.authenticatedFromToken || session.employee) {
     throw createError({
       statusCode: 403,
       message: locale === "zh" ? "\u8BF7\u4F7F\u7528\u767B\u5F55\u4F1A\u8BDD\u7BA1\u7406 API Token\uFF0C\u4E0D\u80FD\u7528 Token \u672C\u8EAB\u64CD\u4F5C" : "Manage API tokens from a logged-in session, not via another token"
@@ -51,11 +53,24 @@ const _id__delete = defineEventHandler(async (event) => {
   if (!id) {
     throw createError({ statusCode: 400, message: locale === "zh" ? "\u8BF7\u6C42\u65E0\u6548" : "Invalid request" });
   }
-  const existing = await db.select({ id: userTokens.id }).from(userTokens).where(and(eq(userTokens.id, id), eq(userTokens.userId, userId))).limit(1);
+  const existing = await db.select({
+    id: userTokens.id,
+    clientId: userTokens.clientId
+  }).from(userTokens).where(and(eq(userTokens.id, id), eq(userTokens.userId, userId))).limit(1);
   if (existing.length === 0) {
     throw createError({ statusCode: 404, message: locale === "zh" ? "Token \u4E0D\u5B58\u5728" : "Token not found" });
   }
   await db.update(userTokens).set({ revoked: true }).where(eq(userTokens.id, id));
+  const clientId = existing[0].clientId;
+  if (clientId && clientId !== "manual-mcp-token") {
+    await db.delete(userTokens).where(
+      and(
+        eq(userTokens.userId, userId),
+        eq(userTokens.name, MCP_OAUTH_REFRESH_TOKEN_NAME),
+        eq(userTokens.clientId, clientId)
+      )
+    );
+  }
   return { success: true };
 });
 

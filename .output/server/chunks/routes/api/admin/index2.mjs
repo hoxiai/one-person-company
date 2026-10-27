@@ -1,5 +1,5 @@
-import { d as defineEventHandler, c as getRequestLocale, g as getQuery, z as orders, p as products, u as users, b as db, r as readBody, e as createError, aq as requireTrustedRequestOrigin, ar as ensurePromoMember, as as getSiteLocaleConfig, at as resolveRequestLocale, au as resolveCurrencyRate, av as roundCurrencyAmount, aw as getMinimalCheckoutAdminConfig, ax as buildMinimalCheckoutBridgeMeta, ay as mergeMinimalCheckoutMeta, O as ORDER_PAY_STATUS, az as prepareOrderMetaForInsert, ap as ORDER_STATUS, ac as createOrderAttribution, aA as ensureTopupRecordForOrder, ad as settlePaidTopup, aa as isMinimalCheckoutRelayOrder, af as fulfillMinimalCheckoutRelay, ag as fulfillOrder, ah as settlePromoCommission, ai as emitEvent, U as getLocalizedSettingValue, V as sendEmail, s as setAuditMeta } from '../../../nitro/nitro.mjs';
-import { or, eq, and, ne, like, sql, count, desc } from 'drizzle-orm';
+import { d as defineEventHandler, c as getRequestLocale, g as getQuery, z as orders, p as products, u as users, b as db, r as readBody, e as createError, at as requireTrustedRequestOrigin, au as ensurePromoMember, av as getSiteLocaleConfig, aw as resolveRequestLocale, ax as resolveCurrencyRate, ay as roundCurrencyAmount, az as getMinimalCheckoutAdminConfig, aA as buildMinimalCheckoutBridgeMeta, aB as mergeMinimalCheckoutMeta, O as ORDER_PAY_STATUS, aC as prepareOrderMetaForInsert, as as ORDER_STATUS, af as createOrderAttribution, aD as ensureTopupRecordForOrder, ag as settlePaidTopup, ah as recoverCreditedApayTopup, ad as isMinimalCheckoutRelayOrder, ai as fulfillMinimalCheckoutRelay, aj as fulfillOrder, ak as settlePromoCommission, al as emitEvent, X as getLocalizedSettingValue, Y as sendEmail, s as setAuditMeta } from '../../../nitro/nitro.mjs';
+import { or, eq, and, ne, like, sql, count, desc, isNull } from 'drizzle-orm';
 import crypto from 'crypto';
 import { z } from 'zod';
 import 'node:crypto';
@@ -27,7 +27,9 @@ import 'node:os';
 import 'node:url';
 import '@iconify/utils';
 import 'consola';
+import 'node:zlib';
 import 'ioredis';
+import 'jose';
 import 'node:child_process';
 import 'process';
 import 'buffer';
@@ -204,7 +206,7 @@ const index = defineEventHandler(async (event) => {
         if (userRecord == null ? void 0 : userRecord.id) {
           await ensurePromoMember(userRecord.id).catch(() => {
           });
-          await db.update(orders).set({ userId: userRecord.id }).where(eq(orders.contactEmail, userRecord.email)).catch(() => {
+          await db.update(orders).set({ userId: userRecord.id }).where(and(eq(orders.contactEmail, userRecord.email), isNull(orders.userId))).catch(() => {
           });
         }
       }
@@ -340,8 +342,10 @@ const index = defineEventHandler(async (event) => {
       if (product.type === "topup") {
         await ensureTopupRecordForOrder(orderId);
         await settlePaidTopup(orderId);
-      }
-      if (body.autoFulfill) {
+        if (body.autoFulfill) {
+          await recoverCreditedApayTopup(orderId, { paidTransition: true }).catch((e) => console.error("[ManualOrder] recoverCreditedApayTopup failed:", e));
+        }
+      } else if (body.autoFulfill) {
         const isMinimalRelay = isMinimalCheckoutRelayOrder(createdOrder);
         const fulfilledOrder = isMinimalRelay ? await fulfillMinimalCheckoutRelay(orderId) : await fulfillOrder(orderId);
         if (fulfilledOrder) {

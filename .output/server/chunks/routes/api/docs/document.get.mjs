@@ -1,4 +1,4 @@
-import { d as defineEventHandler, g as getQuery, c as getRequestLocale, e as createError, cp as queryCollection } from '../../../nitro/nitro.mjs';
+import { d as defineEventHandler, g as getQuery, c as getRequestLocale, e as createError, da as queryCollection } from '../../../nitro/nitro.mjs';
 import 'drizzle-orm';
 import 'node:crypto';
 import 'crypto';
@@ -27,7 +27,9 @@ import 'node:url';
 import 'zod';
 import '@iconify/utils';
 import 'consola';
+import 'node:zlib';
 import 'ioredis';
+import 'jose';
 import 'node:child_process';
 import 'process';
 import 'buffer';
@@ -42,7 +44,7 @@ const document_get = defineEventHandler(async (event) => {
   const query = getQuery(event);
   const rawPath = query.path;
   const locale = (_a = query.locale) != null ? _a : getRequestLocale(event);
-  if (typeof rawPath !== "string" || rawPath.length > 512 || typeof locale !== "string" || !["en", "zh", "zh-HK", "ru", "id"].includes(locale) || !/^\/docs(?:\/|$)/.test(rawPath) || rawPath.includes("\0") || rawPath.split("/").some((segment) => segment === "." || segment === "..")) {
+  if (typeof rawPath !== "string" || rawPath.length > 512 || typeof locale !== "string" || !["en", "zh", "zh-HK", "ru", "id", "ja", "ko", "es", "pt", "de", "fr"].includes(locale) || !/^\/docs(?:\/|$)/.test(rawPath) || rawPath.includes("\0") || rawPath.split("/").some((segment) => segment === "." || segment === "..")) {
     throw createError({ statusCode: 400, statusMessage: "Invalid document path or locale" });
   }
   const path = rawPath.replace(/\/+$/, "") || "/docs";

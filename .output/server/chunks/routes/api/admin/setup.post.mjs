@@ -1,4 +1,4 @@
-import { d as defineEventHandler, c as getRequestLocale, Y as resolveClientIp, Z as checkIpRateLimit, e as createError, b as db, h as admins, r as readBody, j as hashPassword, bc as isUniqueViolation, a3 as recordOperationFromEvent } from '../../../nitro/nitro.mjs';
+import { d as defineEventHandler, c as getRequestLocale, $ as resolveClientIp, a0 as checkIpRateLimit, e as createError, b as db, h as admins, r as readBody, j as hashPassword, bS as isUniqueViolation, a6 as recordOperationFromEvent } from '../../../nitro/nitro.mjs';
 import 'drizzle-orm';
 import 'node:crypto';
 import 'crypto';
@@ -27,7 +27,9 @@ import 'node:url';
 import 'zod';
 import '@iconify/utils';
 import 'consola';
+import 'node:zlib';
 import 'ioredis';
+import 'jose';
 import 'node:child_process';
 import 'process';
 import 'buffer';

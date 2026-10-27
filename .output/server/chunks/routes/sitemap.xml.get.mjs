@@ -1,4 +1,4 @@
-import { d as defineEventHandler, dn as resolveServerSeoContext, dp as collectSitemapEntries, dq as seoRouteRegistry, dr as classifySeoRoute, ds as renderSitemapXml, df as setHeader, e as createError } from '../nitro/nitro.mjs';
+import { d as defineEventHandler, bD as resolveServerSeoContext, g as getQuery, eR as generateAdaptiveSitemapXml, bL as seoRouteRegistry, bK as classifySeoRoute, eh as setHeader, e as createError } from '../nitro/nitro.mjs';
 import 'drizzle-orm';
 import 'node:crypto';
 import 'crypto';
@@ -27,7 +27,9 @@ import 'node:url';
 import 'zod';
 import '@iconify/utils';
 import 'consola';
+import 'node:zlib';
 import 'ioredis';
+import 'jose';
 import 'node:child_process';
 import 'process';
 import 'buffer';
@@ -41,8 +43,21 @@ const sitemap_xml_get = defineEventHandler(async (event) => {
   try {
     const { origin, theme, locales, defaultLocale, seoOptions } = await resolveServerSeoContext(event);
     if (!origin) throw new Error("settings.site_url must be a valid absolute HTTP(S) origin");
-    const entries = (await collectSitemapEntries(seoRouteRegistry.core, seoRouteRegistry.themes[theme], theme)).filter((entry) => classifySeoRoute(seoRouteRegistry, theme, entry.path).kind === "public");
-    const xml = renderSitemapXml(entries, origin, locales, defaultLocale, seoOptions);
+    const query = getQuery(event) || {};
+    const forceIndex = query.index === "1" || query.index === "true";
+    const xml = await generateAdaptiveSitemapXml(
+      seoRouteRegistry.core,
+      seoRouteRegistry.themes[theme],
+      theme,
+      origin,
+      locales,
+      defaultLocale,
+      seoOptions,
+      {
+        isPublicPath: (path) => classifySeoRoute(seoRouteRegistry, theme, path).kind === "public",
+        forceIndex
+      }
+    );
     setHeader(event, "content-type", "application/xml; charset=utf-8");
     setHeader(event, "cache-control", "public, max-age=300, stale-while-revalidate=3600");
     return xml;

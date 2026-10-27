@@ -1,4 +1,4 @@
-import { d as defineEventHandler, b as db, aX as settings, r as readBody, s as setAuditMeta, ba as EMAIL_VERIFY_POLICY_KEY, bb as invalidateEmailVerifyPolicyCache } from '../../../nitro/nitro.mjs';
+import { d as defineEventHandler, b as db, b1 as settings, r as readBody, s as setAuditMeta, bz as EMAIL_VERIFY_POLICY_KEY, bA as invalidateEmailVerifyPolicyCache } from '../../../nitro/nitro.mjs';
 import { eq } from 'drizzle-orm';
 import 'node:crypto';
 import 'crypto';
@@ -27,7 +27,9 @@ import 'node:url';
 import 'zod';
 import '@iconify/utils';
 import 'consola';
+import 'node:zlib';
 import 'ioredis';
+import 'jose';
 import 'node:child_process';
 import 'process';
 import 'buffer';
@@ -37,15 +39,37 @@ import 'node:net';
 import '@adonisjs/hash';
 import '@adonisjs/hash/drivers/scrypt';
 
+const INTERNAL_RUNTIME_SETTING_PREFIXES = [
+  "shoply_license_version.",
+  "shoply_custom_store_limit.",
+  "scheduler_state.",
+  "extension_migration:",
+  "extension_migration_failure:",
+  "extension_migration_lock:",
+  "extension_migrations:"
+];
+const INTERNAL_RUNTIME_SETTING_KEYS = /* @__PURE__ */ new Set([
+  "shoply_license_reconcile_state",
+  "shoply_leads_records",
+  "shoply_expiry_reminder_sent_log",
+  "enabled_extensions",
+  "ainode_subscription_sync_since"
+]);
+const isInternalRuntimeSettingKey = (key) => {
+  if (INTERNAL_RUNTIME_SETTING_KEYS.has(key)) return true;
+  return INTERNAL_RUNTIME_SETTING_PREFIXES.some((prefix) => key.startsWith(prefix));
+};
 const index = defineEventHandler(async (event) => {
   var _a;
   if (event.method === "GET") {
-    return await db.select().from(settings);
+    const rows = await db.select().from(settings);
+    return rows.filter((row) => !isInternalRuntimeSettingKey(row.key));
   }
   if (event.method === "POST") {
     const body = await readBody(event);
     const changes = {};
-    for (const [key, value] of Object.entries(body)) {
+    for (const [key, value] of Object.entries(body || {})) {
+      if (isInternalRuntimeSettingKey(key)) continue;
       const existing = await db.select().from(settings).where(eq(settings.key, key)).limit(1);
       if (existing.length) {
         await db.update(settings).set({ value: String(value) }).where(eq(settings.key, key));
@@ -70,5 +94,5 @@ const index = defineEventHandler(async (event) => {
   }
 });
 
-export { index as default };
+export { index as default, isInternalRuntimeSettingKey };
 //# sourceMappingURL=index5.mjs.map

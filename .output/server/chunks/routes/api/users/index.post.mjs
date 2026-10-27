@@ -1,6 +1,6 @@
-import { d as defineEventHandler, b3 as getUserSession, e as createError, r as readBody, d9 as diagnoseTicketIssue, b as db, L as tickets, bq as ticketMessages } from '../../../nitro/nitro.mjs';
+import { d as defineEventHandler, bs as getUserSession, e as createError, r as readBody, db as getCookie, dc as diagnoseTicketIssue, b as db, L as tickets, c6 as ticketMessages } from '../../../nitro/nitro.mjs';
+import crypto from 'node:crypto';
 import 'drizzle-orm';
-import 'node:crypto';
 import 'crypto';
 import 'fs';
 import 'path';
@@ -27,7 +27,9 @@ import 'node:url';
 import 'zod';
 import '@iconify/utils';
 import 'consola';
+import 'node:zlib';
 import 'ioredis';
+import 'jose';
 import 'node:child_process';
 import 'process';
 import 'buffer';
@@ -49,6 +51,9 @@ const index_post = defineEventHandler(async (event) => {
   const content = String(body.content || "").trim();
   const category = String(body.category || "other").trim();
   const priority = String(body.priority || "normal").trim();
+  const contactInfo = String(body.contactInfo || "").trim().slice(0, 190);
+  const visitorCookie = getCookie(event, "apay_vid") || "";
+  const visitorId = String(body.visitorId || visitorCookie || "").trim().slice(0, 64);
   const context = body.context && typeof body.context === "object" ? body.context : null;
   const attachments = Array.isArray(body.attachments) ? body.attachments : null;
   if (!title) {
@@ -60,6 +65,7 @@ const index_post = defineEventHandler(async (event) => {
   const dateStr = (/* @__PURE__ */ new Date()).toISOString().slice(0, 10).replace(/-/g, "");
   const randomSuffix = Math.floor(1e3 + Math.random() * 9e3);
   const ticketNo = `TK-${dateStr}-${randomSuffix}`;
+  const accessToken = crypto.randomBytes(16).toString("hex");
   const diagnosis = diagnoseTicketIssue({
     category,
     title,
@@ -70,9 +76,15 @@ const index_post = defineEventHandler(async (event) => {
   const finalPriority = diagnosis.suggestPriority || priority;
   const lastRepliedBy = diagnosis.matched ? "bot" : "user";
   const userName = (user == null ? void 0 : user.nickName) || (user == null ? void 0 : user.nickname) || (user == null ? void 0 : user.email) || "\u7528\u6237";
+  const userEmail = (user == null ? void 0 : user.email) ? String(user.email).trim().toLowerCase() : null;
   const [createdTicket] = await db.insert(tickets).values({
     ticketNo,
     userId,
+    visitorId: visitorId || null,
+    contactName: userName,
+    contactEmail: userEmail,
+    contactInfo: contactInfo || null,
+    accessToken,
     category,
     title,
     status: initialStatus,
@@ -98,7 +110,7 @@ const index_post = defineEventHandler(async (event) => {
       ticketId,
       senderType: "bot",
       senderId: null,
-      senderName: "\u8F7B\u94FAAI \u667A\u80FD\u8BCA\u65AD\u52A9\u624B",
+      senderName: "\u667A\u80FD\u8BCA\u65AD\u52A9\u624B",
       content: diagnosis.botReply,
       attachments: null,
       createdAt: new Date(Date.now() + 1e3)

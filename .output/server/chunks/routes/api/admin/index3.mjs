@@ -1,4 +1,4 @@
-import { d as defineEventHandler, c as getRequestLocale, b as db, aC as paymentMethods, aE as applyLocalPaymentPluginDefaults, r as readBody, e as createError } from '../../../nitro/nitro.mjs';
+import { d as defineEventHandler, c as getRequestLocale, b as db, aF as paymentMethods, aH as applyLocalPaymentPluginDefaults, r as readBody, e as createError } from '../../../nitro/nitro.mjs';
 import fs from 'fs';
 import path from 'path';
 import 'drizzle-orm';
@@ -27,7 +27,9 @@ import 'node:url';
 import 'zod';
 import '@iconify/utils';
 import 'consola';
+import 'node:zlib';
 import 'ioredis';
+import 'jose';
 import 'node:child_process';
 import 'process';
 import 'buffer';

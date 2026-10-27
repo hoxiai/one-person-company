@@ -1,4 +1,4 @@
-import { d as defineEventHandler, g as getQuery, a6 as logs, b as db, t as toIsoTimestamp } from '../../../nitro/nitro.mjs';
+import { d as defineEventHandler, g as getQuery, a9 as logs, b as db, t as toIsoTimestamp } from '../../../nitro/nitro.mjs';
 import { or, like, count, desc } from 'drizzle-orm';
 import 'node:crypto';
 import 'crypto';
@@ -27,7 +27,9 @@ import 'node:url';
 import 'zod';
 import '@iconify/utils';
 import 'consola';
+import 'node:zlib';
 import 'ioredis';
+import 'jose';
 import 'node:child_process';
 import 'process';
 import 'buffer';

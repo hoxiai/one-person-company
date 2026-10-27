@@ -1,4 +1,4 @@
-import { dD as getListingModelSettingsByUser, dE as getQingpuAINodeBaseUrl, dF as normalizeAinodeCrawl1688Product, dG as extract1688OfferId } from '../nitro/nitro.mjs';
+import { fp as getListingModelSettingsByUser, fh as getQingpuAINodeBaseUrl, fq as normalizeAinodeCrawl1688Product, fr as extract1688OfferId } from '../nitro/nitro.mjs';
 import { registerCollectProvider } from './registry.mjs';
 import 'drizzle-orm';
 import 'node:crypto';
@@ -28,7 +28,9 @@ import 'node:url';
 import 'zod';
 import '@iconify/utils';
 import 'consola';
+import 'node:zlib';
 import 'ioredis';
+import 'jose';
 import 'node:child_process';
 import 'process';
 import 'buffer';

@@ -1,4 +1,4 @@
-import { d as defineEventHandler, c as getRequestLocale, g as getQuery, e as createError, D as getConfiguredTimezone, bd as parseStatsRange, bg as visitorEvents, b as db, p as products, J as loadVisitorReport, K as getRequestHost, u as users, bj as toIsoTimestampOrEpoch, bl as visitorSourceLabel } from '../../../../nitro/nitro.mjs';
+import { d as defineEventHandler, c as getRequestLocale, g as getQuery, e as createError, D as getConfiguredTimezone, bT as parseStatsRange, bX as visitorEvents, b as db, p as products, J as loadVisitorReport, K as getRequestHost, u as users, b_ as toIsoTimestampOrEpoch, c1 as visitorSourceLabel } from '../../../../nitro/nitro.mjs';
 import { sql, eq, and, gte, lt, count, desc, inArray } from 'drizzle-orm';
 import 'node:crypto';
 import 'crypto';
@@ -27,7 +27,9 @@ import 'node:url';
 import 'zod';
 import '@iconify/utils';
 import 'consola';
+import 'node:zlib';
 import 'ioredis';
+import 'jose';
 import 'node:child_process';
 import 'process';
 import 'buffer';
@@ -106,6 +108,8 @@ const ipDetails_get = defineEventHandler(async (event) => {
       source: visitorEvents.source,
       medium: visitorEvents.medium,
       campaign: visitorEvents.campaign,
+      content: visitorEvents.content,
+      term: visitorEvents.term,
       country: visitorEvents.country,
       region: visitorEvents.region,
       city: visitorEvents.city,
@@ -154,6 +158,10 @@ const ipDetails_get = defineEventHandler(async (event) => {
         lastSeenAt: toIsoTimestampOrEpoch(item.lastSeenAt),
         firstTouch: visitorSourceLabel((row == null ? void 0 : row.first) || { sourceType: "direct", source: "direct", medium: null, campaign: null}),
         lastTouch: visitorSourceLabel((row == null ? void 0 : row.last) || { sourceType: "direct", source: "direct", medium: null, campaign: null}),
+        firstReferrer: (row == null ? void 0 : row.firstReferrer) || null,
+        lastReferrer: (row == null ? void 0 : row.lastReferrer) || null,
+        firstTerm: (row == null ? void 0 : row.first.term) || null,
+        lastTerm: (row == null ? void 0 : row.last.term) || null,
         user: user ? { ...user, createdAt: toIsoTimestampOrEpoch(user.createdAt) } : null
       };
     }),

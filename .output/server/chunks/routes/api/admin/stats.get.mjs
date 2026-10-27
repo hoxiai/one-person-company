@@ -1,4 +1,4 @@
-import { d as defineEventHandler, c as getRequestLocale, D as getConfiguredTimezone, bd as parseStatsRange, g as getQuery, J as loadVisitorReport, K as getRequestHost, G as buildLocaleCurrencyQuote, M as resolveOrderCurrencyAmounts, B as aggregateOrderAccountingTotals, N as getCurrencyTotal, be as toZonedDateKey, F as shiftZonedDay, bf as buildVisitorSourceMetrics } from '../../../nitro/nitro.mjs';
+import { d as defineEventHandler, c as getRequestLocale, D as getConfiguredTimezone, bT as parseStatsRange, g as getQuery, K as getRequestHost, J as loadVisitorReport, G as buildLocaleCurrencyQuote, M as resolveOrderCurrencyAmounts, B as aggregateOrderAccountingTotals, bU as buildStatsMetricComparison, N as getCurrencyTotal, bV as toZonedDateKey, F as shiftZonedDay, bW as buildVisitorSourceMetrics, bR as buildVisitorGeoConversions } from '../../../nitro/nitro.mjs';
 import 'drizzle-orm';
 import 'node:crypto';
 import 'crypto';
@@ -27,7 +27,9 @@ import 'node:url';
 import 'zod';
 import '@iconify/utils';
 import 'consola';
+import 'node:zlib';
 import 'ioredis';
+import 'jose';
 import 'node:child_process';
 import 'process';
 import 'buffer';
@@ -41,11 +43,29 @@ const stats_get = defineEventHandler(async (event) => {
   const locale = getRequestLocale(event);
   const unknown = locale === "zh" ? "\u672A\u77E5" : "Unknown";
   const timezone = await getConfiguredTimezone();
-  const { preset, days, rangeStart, rangeEnd } = parseStatsRange(getQuery(event), timezone);
-  const [report, quote] = await Promise.all([
-    loadVisitorReport(rangeStart, rangeEnd, getRequestHost(event)),
+  const {
+    preset,
+    days,
+    rangeStart,
+    rangeEnd,
+    previousStart,
+    previousEnd,
+    comparisonMode,
+    fullYesterdayStart,
+    fullYesterdayEnd
+  } = parseStatsRange(getQuery(event), timezone);
+  const host = getRequestHost(event);
+  const [report, previousReport, fullYesterdayReport, quote] = await Promise.all([
+    loadVisitorReport(rangeStart, rangeEnd, host),
+    loadVisitorReport(previousStart, previousEnd, host),
+    fullYesterdayStart && fullYesterdayEnd ? loadVisitorReport(fullYesterdayStart, fullYesterdayEnd, host) : Promise.resolve(null),
     buildLocaleCurrencyQuote(0)
   ]);
+  const summarizeTraffic = (item) => ({
+    pageViews: item.rows.reduce((total, row) => total + row.pageViews, 0),
+    uniqueVisitors: item.rows.length,
+    uniqueIps: new Set(item.events.map((entry) => entry.ip)).size
+  });
   const rows = report.rows;
   const currency = quote.baseCurrency;
   const countRows = (predicate) => rows.filter(predicate).length;
@@ -54,8 +74,24 @@ const stats_get = defineEventHandler(async (event) => {
   const revenueByCurrency = aggregateOrderAccountingTotals(report.orders);
   const paidVisitors = countRows((row) => row.paid > 0);
   const conversionRate = rows.length > 0 ? Number((100 * paidVisitors / rows.length).toFixed(1)) : 0;
+  const pageViews = rows.reduce((total, row) => total + row.pageViews, 0);
+  const previousTraffic = summarizeTraffic(previousReport);
+  const fullYesterdayTraffic = fullYesterdayReport ? summarizeTraffic(fullYesterdayReport) : null;
+  const comparisons = {
+    mode: comparisonMode,
+    days,
+    previousFrom: previousStart.toISOString(),
+    previousTo: previousEnd.toISOString(),
+    ...fullYesterdayStart && fullYesterdayEnd ? {
+      fullYesterdayFrom: fullYesterdayStart.toISOString(),
+      fullYesterdayTo: fullYesterdayEnd.toISOString()
+    } : {},
+    pageViews: buildStatsMetricComparison(pageViews, previousTraffic.pageViews, fullYesterdayTraffic == null ? void 0 : fullYesterdayTraffic.pageViews),
+    uniqueVisitors: buildStatsMetricComparison(rows.length, previousTraffic.uniqueVisitors, fullYesterdayTraffic == null ? void 0 : fullYesterdayTraffic.uniqueVisitors),
+    uniqueIps: buildStatsMetricComparison(ips.size, previousTraffic.uniqueIps, fullYesterdayTraffic == null ? void 0 : fullYesterdayTraffic.uniqueIps)
+  };
   const overview = {
-    pageViews: rows.reduce((total, row) => total + row.pageViews, 0),
+    pageViews,
     uniqueVisitors: rows.length,
     pageViewVisitors: countRows((row) => row.pageViews > 0),
     uniqueIps: ips.size,
@@ -75,7 +111,8 @@ const stats_get = defineEventHandler(async (event) => {
     revenueByCurrency,
     currency,
     unattributedPaidOrders: paidOrders.filter((order) => !order.visitorId).length,
-    unattributedRevenueByCurrency: aggregateOrderAccountingTotals(report.orders.filter((order) => !order.visitorId))
+    unattributedRevenueByCurrency: aggregateOrderAccountingTotals(report.orders.filter((order) => !order.visitorId)),
+    comparisons
   };
   const trendMap = new Map(Array.from({ length: days }, (_, index) => {
     const date = toZonedDateKey(shiftZonedDay(rangeStart, index, timezone), timezone);
@@ -150,6 +187,7 @@ const stats_get = defineEventHandler(async (event) => {
       external: lastTouch.filter((source) => source.sourceType !== "direct")
     },
     geography: distribution("country"),
+    geoConversions: buildVisitorGeoConversions(report, currency),
     devices: distribution("deviceType")
   };
 });

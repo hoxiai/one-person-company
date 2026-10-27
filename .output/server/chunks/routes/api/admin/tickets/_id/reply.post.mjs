@@ -1,4 +1,4 @@
-import { d as defineEventHandler, f as getRouterParam, e as createError, b as db, L as tickets, r as readBody, bq as ticketMessages, bx as notifications } from '../../../../../nitro/nitro.mjs';
+import { d as defineEventHandler, f as getRouterParam, e as createError, b as db, L as tickets, r as readBody, c6 as ticketMessages, cd as notifications, u as users, b1 as settings, ce as getRequestURL, Y as sendEmail } from '../../../../../nitro/nitro.mjs';
 import { eq } from 'drizzle-orm';
 import 'node:crypto';
 import 'crypto';
@@ -27,7 +27,9 @@ import 'node:url';
 import 'zod';
 import '@iconify/utils';
 import 'consola';
+import 'node:zlib';
 import 'ioredis';
+import 'jose';
 import 'node:child_process';
 import 'process';
 import 'buffer';
@@ -38,6 +40,7 @@ import '@adonisjs/hash';
 import '@adonisjs/hash/drivers/scrypt';
 
 const reply_post = defineEventHandler(async (event) => {
+  var _a;
   const admin = event.context.admin;
   const adminId = admin == null ? void 0 : admin.id;
   const adminUsername = (admin == null ? void 0 : admin.username) || "\u5BA2\u670D\u4E13\u5BB6";
@@ -78,14 +81,14 @@ const reply_post = defineEventHandler(async (event) => {
     lastRepliedBy: "admin",
     updatedAt: /* @__PURE__ */ new Date()
   }).where(eq(tickets.id, ticketId));
-  if (ticket.userId) {
+  if (ticket.userId || ticket.visitorId) {
     try {
       await db.insert(notifications).values({
-        userId: ticket.userId,
-        visitorId: null,
+        userId: ticket.userId || null,
+        visitorId: ticket.userId ? null : ticket.visitorId || null,
         type: "ticket_replied",
-        title: "\u5DE5\u5355\u6536\u5230\u65B0\u56DE\u590D",
-        message: `\u60A8\u7684\u5DE5\u5355 ${ticket.ticketNo}\uFF08${ticket.title}\uFF09\u5DF2\u6536\u5230\u5BA2\u670D\u4E13\u5458\u7684\u56DE\u590D\uFF0C\u8BF7\u524D\u5F80\u5DE5\u5355\u4E2D\u5FC3\u67E5\u770B\u3002`,
+        title: "\u54A8\u8BE2/\u5DE5\u5355\u6536\u5230\u65B0\u56DE\u590D",
+        message: `\u60A8\u7684\u54A8\u8BE2\u5355 ${ticket.ticketNo}\uFF08${ticket.title}\uFF09\u5DF2\u6536\u5230\u56DE\u590D\uFF0C\u8BF7\u70B9\u51FB\u67E5\u770B\u8BE6\u60C5\u3002`,
         data: {
           ticketId: ticket.id,
           ticketNo: ticket.ticketNo,
@@ -97,6 +100,42 @@ const reply_post = defineEventHandler(async (event) => {
     } catch (e) {
       console.error("[Ticket Notification Error]", e);
     }
+  }
+  try {
+    let recipientEmail = ticket.contactEmail ? String(ticket.contactEmail).trim() : "";
+    let recipientName = ticket.contactName ? String(ticket.contactName).trim() : "";
+    if (ticket.userId && (!recipientEmail || !recipientName)) {
+      const [userRow] = await db.select({ email: users.email, nickname: users.nickname }).from(users).where(eq(users.id, ticket.userId)).limit(1);
+      if (!recipientEmail && (userRow == null ? void 0 : userRow.email)) recipientEmail = userRow.email;
+      if (!recipientName && (userRow == null ? void 0 : userRow.nickname)) recipientName = userRow.nickname;
+    }
+    if (recipientEmail) {
+      const siteSettingRows = await db.select().from(settings).where(eq(settings.key, "site_name")).limit(1);
+      const siteName = ((_a = siteSettingRows[0]) == null ? void 0 : _a.value) || "APay";
+      const reqUrl = getRequestURL(event);
+      const siteUrl = `${reqUrl.protocol}//${reqUrl.host}`;
+      const contextObj = ticket.context && typeof ticket.context === "object" ? ticket.context : {};
+      const locale = typeof contextObj.locale === "string" && contextObj.locale.startsWith("en") ? "en" : "zh";
+      const ticketUrl = ticket.accessToken ? `${siteUrl}/?inquiry=${encodeURIComponent(ticket.ticketNo)}&token=${encodeURIComponent(ticket.accessToken)}` : `${siteUrl}/user/tickets`;
+      void sendEmail({
+        to: recipientEmail,
+        templateCode: "ticket_reply",
+        locale,
+        variables: {
+          nickname: recipientName || recipientEmail.split("@")[0] || "\u7528\u6237",
+          ticket_no: ticket.ticketNo,
+          ticket_title: ticket.title,
+          reply_content: content,
+          ticket_url: ticketUrl,
+          site_name: siteName,
+          site_url: siteUrl
+        }
+      }).catch((err) => {
+        console.error("[Ticket Email Notification Error]", err);
+      });
+    }
+  } catch (emailErr) {
+    console.error("[Ticket Email Notification Error]", emailErr);
   }
   return {
     code: 200,

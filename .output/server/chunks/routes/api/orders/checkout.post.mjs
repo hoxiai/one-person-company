@@ -1,4 +1,4 @@
-import { d as defineEventHandler, aq as requireTrustedRequestOrigin, c8 as mergePromoTracking, ca as readPromoTracking, c9 as capturePromoTracking, ci as getRequestIP, e as createError, r as readBody, c6 as requireUserSession, b as db, u as users, a5 as clearUserSession, aX as settings, c3 as ensureVisitorId, p as products, at as resolveRequestLocale, as as getSiteLocaleConfig, cs as getProductPricingContext, ct as quoteProductPrice, cu as ProductPricingError, cv as roundPrice, aw as getMinimalCheckoutAdminConfig, cw as stripReservedOrderMeta, ax as buildMinimalCheckoutBridgeMeta, ay as mergeMinimalCheckoutMeta, aa as isMinimalCheckoutRelayOrder, cx as MINIMAL_CHECKOUT_SOURCE, af as fulfillMinimalCheckoutRelay, ag as fulfillOrder, ai as emitEvent, cy as getSubscriptionEntitlement, z as orders, O as ORDER_PAY_STATUS, az as prepareOrderMetaForInsert, aA as ensureTopupRecordForOrder, ac as createOrderAttribution, bN as trackVisitorEvent, ap as ORDER_STATUS, cz as getAffectedRows, ad as settlePaidTopup, c as getRequestLocale, U as getLocalizedSettingValue, V as sendEmail, cA as createNotification } from '../../../nitro/nitro.mjs';
+import { d as defineEventHandler, at as requireTrustedRequestOrigin, cV as mergePromoTracking, cX as readPromoTracking, cW as capturePromoTracking, d3 as getRequestIP, e as createError, r as readBody, cT as requireUserSession, b as db, u as users, a8 as clearUserSession, b1 as settings, cQ as ensureVisitorId, p as products, aw as resolveRequestLocale, av as getSiteLocaleConfig, dM as getProductPricingContext, dN as quoteProductPrice, dO as ProductPricingError, dP as roundPrice, az as getMinimalCheckoutAdminConfig, dQ as stripReservedOrderMeta, aA as buildMinimalCheckoutBridgeMeta, aB as mergeMinimalCheckoutMeta, ad as isMinimalCheckoutRelayOrder, dR as MINIMAL_CHECKOUT_SOURCE, ai as fulfillMinimalCheckoutRelay, aj as fulfillOrder, al as emitEvent, dS as getSubscriptionEntitlement, z as orders, O as ORDER_PAY_STATUS, aC as prepareOrderMetaForInsert, aD as ensureTopupRecordForOrder, af as createOrderAttribution, cx as trackVisitorEvent, as as ORDER_STATUS, dT as getAffectedRows, ag as settlePaidTopup, c as getRequestLocale, X as getLocalizedSettingValue, Y as sendEmail, dU as createNotification } from '../../../nitro/nitro.mjs';
 import { eq, and, or, isNull, gte, desc } from 'drizzle-orm';
 import crypto from 'crypto';
 import { z } from 'zod';
@@ -27,7 +27,9 @@ import 'node:os';
 import 'node:url';
 import '@iconify/utils';
 import 'consola';
+import 'node:zlib';
 import 'ioredis';
+import 'jose';
 import 'node:child_process';
 import 'process';
 import 'buffer';
@@ -37,6 +39,7 @@ import 'node:net';
 import '@adonisjs/hash';
 import '@adonisjs/hash/drivers/scrypt';
 
+var _a, _b;
 const METADATA_MAX_BYTES = 16 * 1024;
 const metaDataSchema = z.record(z.string(), z.any()).refine((obj) => Buffer.byteLength(JSON.stringify(obj), "utf8") <= METADATA_MAX_BYTES, {
   message: `metaData too large (max ${METADATA_MAX_BYTES} bytes)`
@@ -53,6 +56,15 @@ const orderSchema = z.object({
   })).min(1, "At least one item is required")
 });
 const rateLimitMap = /* @__PURE__ */ new Map();
+const inFlightLimitActors = /* @__PURE__ */ new Set();
+function pruneRateLimitMap(now = Date.now()) {
+  for (const [key, val] of rateLimitMap) {
+    if (val.resetTime <= now) rateLimitMap.delete(key);
+  }
+}
+if (typeof setInterval !== "undefined") {
+  (_b = (_a = setInterval(() => pruneRateLimitMap(), 6e4)).unref) == null ? void 0 : _b.call(_a);
+}
 const isDeliverableEmail = (value) => {
   const email = String(value || "").trim();
   if (!email) return false;
@@ -70,13 +82,13 @@ const parseOrderMetaData = (value) => {
   }
 };
 const matchesCurrencySnapshot = (value, snapshot) => {
-  var _a, _b;
+  var _a2, _b2;
   const current = parseOrderMetaData(value).currencySnapshot;
   if (!current || typeof current !== "object") return false;
   const basicMatches = current.locale === snapshot.locale && current.baseCurrency === snapshot.baseCurrency && Number(current.baseAmount) === Number(snapshot.baseAmount) && current.currency === snapshot.currency && Number(current.exchangeRate) === Number(snapshot.exchangeRate) && Number(current.amount) === Number(snapshot.amount) && current.source === snapshot.source && current.unitPrice === snapshot.unitPrice && current.originalPrice === snapshot.originalPrice;
   if (!basicMatches) return false;
-  const currentRate = Number(((_a = current.discountDetails) == null ? void 0 : _a.combinedDiscountRate) || 1);
-  const targetRate = Number(((_b = snapshot.discountDetails) == null ? void 0 : _b.combinedDiscountRate) || 1);
+  const currentRate = Number(((_a2 = current.discountDetails) == null ? void 0 : _a2.combinedDiscountRate) || 1);
+  const targetRate = Number(((_b2 = snapshot.discountDetails) == null ? void 0 : _b2.combinedDiscountRate) || 1);
   return Math.abs(currentRate - targetRate) < 1e-4;
 };
 const sendPendingOrderEmail = async (input) => {
@@ -103,13 +115,13 @@ const sendPendingOrderEmail = async (input) => {
   });
 };
 const createPendingOrderNotification = async (event, input) => {
-  var _a, _b;
+  var _a2, _b2;
   const locale = getPreferredLocale(event);
   const title = locale === "zh" ? "\u8BA2\u5355\u5F85\u652F\u4ED8" : "Payment Pending";
   const message = locale === "zh" ? `\u60A8\u7684 ${input.productName} \u8BA2\u5355\u5DF2\u521B\u5EFA\uFF0C\u5F53\u524D\u5F85\u652F\u4ED8\u91D1\u989D\u4E3A ${Number(input.amount || 0).toFixed(2)} ${input.currency}\u3002\u70B9\u51FB\u7EE7\u7EED\u5B8C\u6210\u652F\u4ED8\u3002` : `Your ${input.productName} order has been created. ${Number(input.amount || 0).toFixed(2)} ${input.currency} is still pending payment.`;
   await createNotification({
-    userId: (_a = input.userId) != null ? _a : null,
-    visitorId: (_b = input.visitorId) != null ? _b : null,
+    userId: (_a2 = input.userId) != null ? _a2 : null,
+    visitorId: (_b2 = input.visitorId) != null ? _b2 : null,
     type: "order_pending",
     title,
     message,
@@ -121,7 +133,7 @@ const createPendingOrderNotification = async (event, input) => {
   });
 };
 const checkout_post = defineEventHandler(async (event) => {
-  var _a;
+  var _a2, _b2, _c, _d, _e;
   try {
     const siteUrl = requireTrustedRequestOrigin(event);
     const locale = getPreferredLocale(event);
@@ -158,8 +170,10 @@ const checkout_post = defineEventHandler(async (event) => {
       readPromoTracking(event),
       await capturePromoTracking(event)
     );
-    const ip = getRequestIP(event, { xForwardedFor: true }) || "unknown";
+    const trustProxy = ["1", "true", "yes", "on"].includes(String(process.env.APAY_TRUST_PROXY || "").trim().toLowerCase());
+    const ip = getRequestIP(event, { xForwardedFor: trustProxy }) || ((_c = (_b2 = (_a2 = event == null ? void 0 : event.node) == null ? void 0 : _a2.req) == null ? void 0 : _b2.socket) == null ? void 0 : _c.remoteAddress) || "unknown";
     const now = Date.now();
+    if (rateLimitMap.size > 1e3) pruneRateLimitMap(now);
     let rateData = rateLimitMap.get(ip);
     if (!rateData || rateData.resetTime < now) {
       rateData = { count: 1, resetTime: now + 6e4 };
@@ -276,6 +290,8 @@ const checkout_post = defineEventHandler(async (event) => {
       throw error;
     }
     const { originalBaseAmount, baseAmount: effectiveBaseAmount, discountBaseAmount } = currencyQuote;
+    const originalDisplayAmount = currencyQuote.source === "product-locale-price" ? roundPrice(currencyQuote.unitPrice * productNum, currencyQuote.currency) : roundPrice(originalBaseAmount * currencyQuote.rate, currencyQuote.currency);
+    const discountDisplayAmount = roundPrice(Math.max(0, originalDisplayAmount - currencyQuote.amount), currencyQuote.currency);
     const discountDetails = {
       originalPrice: originalBaseAmount / productNum,
       quantity: productNum,
@@ -284,7 +300,13 @@ const checkout_post = defineEventHandler(async (event) => {
       promoDiscountRate: promoDiscountRate < 1 ? promoDiscountRate : null,
       combinedDiscountRate: combinedDiscountRate < 1 ? combinedDiscountRate : 1,
       discountBaseAmount,
-      finalBaseAmount: effectiveBaseAmount
+      finalBaseAmount: effectiveBaseAmount,
+      currency: currencyQuote.currency,
+      baseCurrency: currencyQuote.baseCurrency,
+      exchangeRate: currencyQuote.rate,
+      originalAmount: originalDisplayAmount,
+      discountAmount: discountDisplayAmount,
+      finalAmount: currencyQuote.amount
     };
     const totalAmount = currencyQuote.amount;
     const configuredRechargeAmount = Number(productMetaData.recharge_amount || 0);
@@ -363,7 +385,7 @@ const checkout_post = defineEventHandler(async (event) => {
       const productLevel = productMetaData == null ? void 0 : productMetaData.level;
       if (productLevel !== void 0) {
         const entitlement = await getSubscriptionEntitlement(Number(userId));
-        const currentLevel = (_a = entitlement == null ? void 0 : entitlement.level) != null ? _a : 0;
+        const currentLevel = (_d = entitlement == null ? void 0 : entitlement.level) != null ? _d : 0;
         if (Number(productLevel) < Number(currentLevel)) {
           throw createError({
             statusCode: 409,
@@ -372,11 +394,21 @@ const checkout_post = defineEventHandler(async (event) => {
         }
       }
     }
-    {
+    let activeLimitLockKey = null;
+    try {
       const rawLimit = productMetaData == null ? void 0 : productMetaData.perUserLimit;
       const explicitLimit = Number.isFinite(Number(rawLimit)) ? Number(rawLimit) : null;
       const effectiveLimit = explicitLimit !== null && explicitLimit > 0 ? Math.floor(explicitLimit) : explicitLimit !== null && explicitLimit === 0 ? null : totalAmount <= 0 ? 1 : null;
       if (effectiveLimit !== null && effectiveLimit > 0) {
+        const actorKey = `${productId}:${userId ? `u:${userId}` : `v:${visitorId}`}`;
+        if (inFlightLimitActors.has(actorKey)) {
+          throw createError({
+            statusCode: 409,
+            message: messages.purchaseLimitExceeded
+          });
+        }
+        inFlightLimitActors.add(actorKey);
+        activeLimitLockKey = actorKey;
         const paidCountQuery = db.select({ id: orders.id }).from(orders).where(
           and(
             eq(orders.payStatus, ORDER_PAY_STATUS.PAID),
@@ -394,181 +426,198 @@ const checkout_post = defineEventHandler(async (event) => {
           });
         }
       }
-    }
-    const oneHourAgo = new Date(Date.now() - 60 * 60 * 1e3);
-    const existingPendingOrders = await db.select().from(orders).where(
-      and(
-        eq(orders.payStatus, ORDER_PAY_STATUS.PENDING),
-        eq(orders.productId, productId),
-        eq(orders.visitorId, visitorId),
-        // 必须是同一个访客
-        // 同浏览器切换账号时 visitorId 不变:登录用户只接手自己或匿名时建的单,
-        // 匿名访客只复用匿名单,别人的待支付单不能被改挂到自己名下
-        userId ? or(eq(orders.userId, userId), isNull(orders.userId)) : isNull(orders.userId),
-        gte(orders.createdAt, oneHourAgo)
-        // 必须是1小时内的订单
-      )
-    ).orderBy(desc(orders.createdAt)).limit(1);
-    if (existingPendingOrders.length > 0) {
-      const pendingOrder = existingPendingOrders[0];
-      if (pendingOrder.amount === totalAmount && pendingOrder.currency === currencyQuote.currency && matchesCurrencySnapshot(pendingOrder.metaData, currencySnapshot)) {
-        const relayOrderMeta2 = buildRelayOrderMeta(pendingOrder.id);
-        const updates = {
-          source: "minimal_checkout",
-          externalOrderId: pendingOrder.id,
-          metaData: prepareOrderMetaForInsert(relayOrderMeta2)
-        };
-        if (pendingOrder.contactEmail !== contactEmail) updates.contactEmail = contactEmail;
-        if (userId && pendingOrder.userId !== userId) updates.userId = userId;
-        if (Object.keys(updates).length > 0) {
-          await db.update(orders).set(updates).where(eq(orders.id, pendingOrder.id));
-        }
-        if (product.type === "topup") {
-          await ensureTopupRecordForOrder(pendingOrder.id);
-        }
-        await createOrderAttribution({
-          orderId: pendingOrder.id,
-          buyerUserId: userId,
-          metaData: relayOrderMeta2
-        });
-        await trackVisitorEvent(event, {
-          visitorId,
-          userId,
-          orderId: pendingOrder.id,
-          productId,
-          eventName: "begin_checkout"
-        });
-        let isFreeOrder2 = false;
-        if (totalAmount <= 0) {
-          const claim = await db.update(orders).set({
-            payStatus: ORDER_PAY_STATUS.PAID,
-            status: ORDER_STATUS.PROCESSING,
-            paidAt: /* @__PURE__ */ new Date()
-          }).where(and(
-            eq(orders.id, pendingOrder.id),
-            eq(orders.payStatus, ORDER_PAY_STATUS.PENDING)
-          ));
-          if (getAffectedRows(claim) > 0) {
-            if (product.type === "topup") await settlePaidTopup(pendingOrder.id);
-            await fulfillFreeRelayOrder(pendingOrder.id, relayOrderMeta2).catch(
-              (e) => console.error("[Checkout] Free relay order reuse fulfillment failed:", pendingOrder.id, e)
-            );
+      const oneHourAgo = new Date(Date.now() - 60 * 60 * 1e3);
+      const existingPendingOrders = await db.select().from(orders).where(
+        and(
+          eq(orders.payStatus, ORDER_PAY_STATUS.PENDING),
+          eq(orders.productId, productId),
+          eq(orders.visitorId, visitorId),
+          // 必须是同一个访客
+          // 同浏览器切换账号时 visitorId 不变:登录用户只接手自己或匿名时建的单,
+          // 匿名访客只复用匿名单,别人的待支付单不能被改挂到自己名下
+          userId ? or(eq(orders.userId, userId), isNull(orders.userId)) : isNull(orders.userId),
+          gte(orders.createdAt, oneHourAgo)
+          // 必须是1小时内的订单
+        )
+      ).orderBy(desc(orders.createdAt)).limit(1);
+      if (existingPendingOrders.length > 0) {
+        const pendingOrder = existingPendingOrders[0];
+        if (pendingOrder.amount === totalAmount && pendingOrder.currency === currencyQuote.currency && matchesCurrencySnapshot(pendingOrder.metaData, currencySnapshot)) {
+          const relayOrderMeta2 = buildRelayOrderMeta(pendingOrder.id);
+          const updates = {
+            source: "minimal_checkout",
+            externalOrderId: pendingOrder.id,
+            metaData: prepareOrderMetaForInsert(relayOrderMeta2)
+          };
+          if (pendingOrder.contactEmail !== contactEmail) updates.contactEmail = contactEmail;
+          if (userId && pendingOrder.userId !== userId) updates.userId = userId;
+          if (Object.keys(updates).length > 0) {
+            await db.update(orders).set(updates).where(and(
+              eq(orders.id, pendingOrder.id),
+              eq(orders.payStatus, ORDER_PAY_STATUS.PENDING)
+            ));
           }
-          isFreeOrder2 = true;
-        } else {
-          await sendPendingOrderEmail({
-            siteUrl,
-            email: parsedBody.email || userEmail || pendingOrder.contactEmail,
-            nickname: userNickname,
+          if (product.type === "topup") {
+            await ensureTopupRecordForOrder(pendingOrder.id);
+          }
+          await createOrderAttribution({
             orderId: pendingOrder.id,
-            productName: product.name,
-            amount: totalAmount,
-            currency: currencyQuote.currency,
-            locale: checkoutLocale
+            buyerUserId: userId,
+            metaData: relayOrderMeta2
           });
-        }
-        return {
-          code: 0,
-          message: messages.orderCreated,
-          data: {
-            id: pendingOrder.id,
-            // using orderId as checkoutId for now
-            amount: totalAmount,
-            currency: currencyQuote.currency,
-            isFreeOrder: isFreeOrder2
+          await trackVisitorEvent(event, {
+            visitorId,
+            userId,
+            orderId: pendingOrder.id,
+            productId,
+            eventName: "begin_checkout"
+          });
+          let isFreeOrder2 = false;
+          if (totalAmount <= 0) {
+            const claim = await db.update(orders).set({
+              payStatus: ORDER_PAY_STATUS.PAID,
+              status: ORDER_STATUS.PROCESSING,
+              paidAt: /* @__PURE__ */ new Date()
+            }).where(and(
+              eq(orders.id, pendingOrder.id),
+              eq(orders.payStatus, ORDER_PAY_STATUS.PENDING)
+            ));
+            if (getAffectedRows(claim) > 0) {
+              if (product.type === "topup") await settlePaidTopup(pendingOrder.id);
+              await fulfillFreeRelayOrder(pendingOrder.id, relayOrderMeta2).catch(
+                (e) => console.error("[Checkout] Free relay order reuse fulfillment failed:", pendingOrder.id, e)
+              );
+              isFreeOrder2 = true;
+            } else {
+              const latestRows = await db.select({ payStatus: orders.payStatus }).from(orders).where(eq(orders.id, pendingOrder.id)).limit(1);
+              if (((_e = latestRows[0]) == null ? void 0 : _e.payStatus) === ORDER_PAY_STATUS.PAID) {
+                isFreeOrder2 = true;
+              } else {
+                throw createError({
+                  statusCode: 409,
+                  message: locale === "zh" ? "\u8BA2\u5355\u72B6\u6001\u5DF2\u53D8\u66F4\uFF0C\u8BF7\u91CD\u8BD5" : "Order state changed, please try again"
+                });
+              }
+            }
+          } else {
+            await sendPendingOrderEmail({
+              siteUrl,
+              email: parsedBody.email || userEmail || pendingOrder.contactEmail,
+              nickname: userNickname,
+              orderId: pendingOrder.id,
+              productName: product.name,
+              amount: totalAmount,
+              currency: currencyQuote.currency,
+              locale: checkoutLocale
+            });
           }
-        };
+          return {
+            code: 0,
+            message: messages.orderCreated,
+            data: {
+              id: pendingOrder.id,
+              // using orderId as checkoutId for now
+              amount: totalAmount,
+              currency: currencyQuote.currency,
+              isFreeOrder: isFreeOrder2
+            }
+          };
+        }
       }
-    }
-    const productTypePrefix = (product.type || "OT").substring(0, 2).toUpperCase();
-    const date = /* @__PURE__ */ new Date();
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, "0");
-    const day = String(date.getDate()).padStart(2, "0");
-    const dateStr = `${year}${month}${day}`;
-    const timeSuffix = String(Date.now()).slice(-6);
-    const randomHex = crypto.randomBytes(4).toString("hex").toUpperCase();
-    const orderId = `${productTypePrefix}${dateStr}${timeSuffix}${randomHex}`;
-    const isFreeOrder = totalAmount <= 0;
-    const relayOrderMeta = buildRelayOrderMeta(orderId);
-    const orderData = {
-      id: orderId,
-      productId,
-      amount: totalAmount,
-      currency: currencyQuote.currency,
-      source: "minimal_checkout",
-      externalOrderId: orderId,
-      // 履约状态：0 元单视为已支付、紧接着履约，与复用分支和支付回调同口径先置处理中
-      status: isFreeOrder ? ORDER_STATUS.PROCESSING : ORDER_STATUS.NONE,
-      payStatus: isFreeOrder ? ORDER_PAY_STATUS.PAID : ORDER_PAY_STATUS.PENDING,
-      // 0 元直接视为已支付
-      paidAt: isFreeOrder ? /* @__PURE__ */ new Date() : null,
-      contactEmail,
-      payMethod: parsedBody.payMethod || "none",
-      // Ensure payMethod is set here so Webhook can find it later
-      visitorId,
-      userId,
-      // Link to registered user if logged in
-      metaData: prepareOrderMetaForInsert(relayOrderMeta),
-      createdAt: /* @__PURE__ */ new Date()
-    };
-    await db.insert(orders).values(orderData).returning();
-    if (product.type === "topup") {
-      try {
-        await ensureTopupRecordForOrder(orderId);
-      } catch (error) {
-        await db.update(orders).set({ payStatus: ORDER_PAY_STATUS.FAILED, status: ORDER_STATUS.FAILED }).where(eq(orders.id, orderId));
-        throw error;
-      }
-    }
-    await createOrderAttribution({
-      orderId,
-      buyerUserId: userId,
-      metaData: relayOrderMeta
-    });
-    await trackVisitorEvent(event, {
-      visitorId,
-      userId,
-      orderId,
-      productId,
-      eventName: "begin_checkout"
-    });
-    if (isFreeOrder) {
-      if (product.type === "topup") await settlePaidTopup(orderId);
-      await fulfillFreeRelayOrder(orderId, relayOrderMeta).catch(
-        (e) => console.error("[Checkout] Free relay order fulfillment failed:", orderId, e)
-      );
-    } else {
-      await createPendingOrderNotification(event, {
-        userId,
-        visitorId,
-        orderId,
-        productName: product.name,
-        amount: totalAmount,
-        currency: currencyQuote.currency
-      });
-      await sendPendingOrderEmail({
-        siteUrl,
-        email: parsedBody.email || userEmail || contactEmail,
-        nickname: userNickname,
-        orderId,
-        productName: product.name,
-        amount: totalAmount,
-        currency: currencyQuote.currency,
-        locale: checkoutLocale
-      });
-    }
-    return {
-      code: 0,
-      message: messages.orderCreated,
-      data: {
+      const productTypePrefix = (product.type || "OT").substring(0, 2).toUpperCase();
+      const date = /* @__PURE__ */ new Date();
+      const year = date.getFullYear();
+      const month = String(date.getMonth() + 1).padStart(2, "0");
+      const day = String(date.getDate()).padStart(2, "0");
+      const dateStr = `${year}${month}${day}`;
+      const timeSuffix = String(Date.now()).slice(-6);
+      const randomHex = crypto.randomBytes(4).toString("hex").toUpperCase();
+      const orderId = `${productTypePrefix}${dateStr}${timeSuffix}${randomHex}`;
+      const isFreeOrder = totalAmount <= 0;
+      const relayOrderMeta = buildRelayOrderMeta(orderId);
+      const orderData = {
         id: orderId,
-        // using orderId as checkoutId for now
+        productId,
         amount: totalAmount,
         currency: currencyQuote.currency,
-        isFreeOrder
+        source: "minimal_checkout",
+        externalOrderId: orderId,
+        // 履约状态：0 元单视为已支付、紧接着履约，与复用分支和支付回调同口径先置处理中
+        status: isFreeOrder ? ORDER_STATUS.PROCESSING : ORDER_STATUS.NONE,
+        payStatus: isFreeOrder ? ORDER_PAY_STATUS.PAID : ORDER_PAY_STATUS.PENDING,
+        // 0 元直接视为已支付
+        paidAt: isFreeOrder ? /* @__PURE__ */ new Date() : null,
+        contactEmail,
+        payMethod: parsedBody.payMethod || "none",
+        // Ensure payMethod is set here so Webhook can find it later
+        visitorId,
+        userId,
+        // Link to registered user if logged in
+        metaData: prepareOrderMetaForInsert(relayOrderMeta),
+        createdAt: /* @__PURE__ */ new Date()
+      };
+      await db.insert(orders).values(orderData).returning();
+      if (product.type === "topup") {
+        try {
+          await ensureTopupRecordForOrder(orderId);
+        } catch (error) {
+          await db.update(orders).set({ payStatus: ORDER_PAY_STATUS.FAILED, status: ORDER_STATUS.FAILED }).where(eq(orders.id, orderId));
+          throw error;
+        }
       }
-    };
+      await createOrderAttribution({
+        orderId,
+        buyerUserId: userId,
+        metaData: relayOrderMeta
+      });
+      await trackVisitorEvent(event, {
+        visitorId,
+        userId,
+        orderId,
+        productId,
+        eventName: "begin_checkout"
+      });
+      if (isFreeOrder) {
+        if (product.type === "topup") await settlePaidTopup(orderId);
+        await fulfillFreeRelayOrder(orderId, relayOrderMeta).catch(
+          (e) => console.error("[Checkout] Free relay order fulfillment failed:", orderId, e)
+        );
+      } else {
+        await createPendingOrderNotification(event, {
+          userId,
+          visitorId,
+          orderId,
+          productName: product.name,
+          amount: totalAmount,
+          currency: currencyQuote.currency
+        });
+        await sendPendingOrderEmail({
+          siteUrl,
+          email: parsedBody.email || userEmail || contactEmail,
+          nickname: userNickname,
+          orderId,
+          productName: product.name,
+          amount: totalAmount,
+          currency: currencyQuote.currency,
+          locale: checkoutLocale
+        });
+      }
+      return {
+        code: 0,
+        message: messages.orderCreated,
+        data: {
+          id: orderId,
+          // using orderId as checkoutId for now
+          amount: totalAmount,
+          currency: currencyQuote.currency,
+          isFreeOrder
+        }
+      };
+    } finally {
+      if (activeLimitLockKey) {
+        inFlightLimitActors.delete(activeLimitLockKey);
+      }
+    }
   } catch (error) {
     const locale = getPreferredLocale(event);
     const failedPrefix = locale === "zh" ? "\u521B\u5EFA\u8BA2\u5355\u5931\u8D25\uFF1A" : "Failed to create order: ";

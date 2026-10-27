@@ -970,6 +970,11 @@ const _routes = [
     component: () => import('./_...slug_-BKovSy2K.mjs')
   },
   {
+    name: "user-plugins-slug___zh-HK",
+    path: "/zh-HK/user/plugins/:slug(.*)*",
+    component: () => import('./_...slug_-BKovSy2K.mjs')
+  },
+  {
     name: "admin-cards",
     path: "/admin/cards",
     meta: __nuxt_page_meta$l || {},
@@ -1060,6 +1065,12 @@ const _routes = [
     component: () => import('./releases-t5--wW95.mjs')
   },
   {
+    name: "admin-releases___zh-HK",
+    path: "/zh-HK/admin/releases",
+    meta: __nuxt_page_meta$8 || {},
+    component: () => import('./releases-t5--wW95.mjs')
+  },
+  {
     name: "admin-settings",
     path: "/admin/settings",
     meta: __nuxt_page_meta$7 || {},
@@ -1074,6 +1085,12 @@ const _routes = [
   {
     name: "admin-setup___zh",
     path: "/zh/admin/setup",
+    meta: __nuxt_page_meta$6 || {},
+    component: () => import('./setup-RBrd03Eu.mjs')
+  },
+  {
+    name: "admin-setup___zh-HK",
+    path: "/zh-HK/admin/setup",
     meta: __nuxt_page_meta$6 || {},
     component: () => import('./setup-RBrd03Eu.mjs')
   },
@@ -1122,6 +1139,11 @@ const _routes = [
   {
     name: "slug___zh",
     path: "/zh/:slug(.*)*",
+    component: () => import('./_...slug_-BAzVEKzh.mjs')
+  },
+  {
+    name: "slug___zh-HK",
+    path: "/zh-HK/:slug(.*)*",
     component: () => import('./_...slug_-BAzVEKzh.mjs')
   }
 ];
@@ -5592,7 +5614,7 @@ const cfg0 = defineAppConfig({
   }
 });
 const inlineConfig = {
-  "appVersion": "1.0.26",
+  "appVersion": "1.0.27",
   "nuxt": {},
   "ui": {
     "colors": {
@@ -14542,7 +14564,8 @@ _sfc_main$R.setup = (props, ctx) => {
 };
 const localeCodes = [
   "en",
-  "zh"
+  "zh",
+  "zh-HK"
 ];
 const localeLoaders = {
   en: [
@@ -14577,6 +14600,24 @@ const localeLoaders = {
       load: () => import(
         './site-sEvoiAml.mjs'
         /* webpackChunkName: "locale_site_46json_3077d684" */
+      ),
+      cache: true
+    }
+  ],
+  "zh-HK": [
+    {
+      key: "locale_common_46json_f71e1f73",
+      load: () => import(
+        './common-C_WujmcQ.mjs'
+        /* webpackChunkName: "locale_common_46json_f71e1f73" */
+      ),
+      cache: true
+    },
+    {
+      key: "locale_site_46json_3e67f01a",
+      load: () => import(
+        './site-DmHw1A-e.mjs'
+        /* webpackChunkName: "locale_site_46json_3e67f01a" */
       ),
       cache: true
     }
@@ -14615,6 +14656,22 @@ const normalizedLocales = [
     ],
     name: "简体中文",
     language: "zh-CN"
+  },
+  {
+    code: "zh-HK",
+    iso: "zh-HK",
+    files: [
+      {
+        path: "/Users/hugh/code/hoxi/apay/locales/zh-HK/common.json",
+        cache: void 0
+      },
+      {
+        path: "/Users/hugh/code/hoxi/apay/locales/zh-HK/site.json",
+        cache: void 0
+      }
+    ],
+    name: "香港繁體",
+    language: "zh-HK"
   }
 ];
 const NUXT_I18N_MODULE_ID = "@nuxtjs/i18n";

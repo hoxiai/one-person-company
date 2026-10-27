@@ -960,8 +960,13 @@ const _routes = [
     component: () => import('./_...slug_-DUZqtWUz.mjs')
   },
   {
-    name: "user-plugins-slug___zh",
+    name: "user-plugins-slug___en",
     path: "/user/plugins/:slug(.*)*",
+    component: () => import('./_...slug_-BKovSy2K.mjs')
+  },
+  {
+    name: "user-plugins-slug___zh",
+    path: "/zh/user/plugins/:slug(.*)*",
     component: () => import('./_...slug_-BKovSy2K.mjs')
   },
   {
@@ -1043,8 +1048,14 @@ const _routes = [
     component: () => import('./promo-Cmmuuyy2.mjs')
   },
   {
-    name: "admin-releases___zh",
+    name: "admin-releases___en",
     path: "/admin/releases",
+    meta: __nuxt_page_meta$8 || {},
+    component: () => import('./releases-t5--wW95.mjs')
+  },
+  {
+    name: "admin-releases___zh",
+    path: "/zh/admin/releases",
     meta: __nuxt_page_meta$8 || {},
     component: () => import('./releases-t5--wW95.mjs')
   },
@@ -1055,8 +1066,14 @@ const _routes = [
     component: () => import('./index-DrTeFpPo.mjs')
   },
   {
-    name: "admin-setup___zh",
+    name: "admin-setup___en",
     path: "/admin/setup",
+    meta: __nuxt_page_meta$6 || {},
+    component: () => import('./setup-RBrd03Eu.mjs')
+  },
+  {
+    name: "admin-setup___zh",
+    path: "/zh/admin/setup",
     meta: __nuxt_page_meta$6 || {},
     component: () => import('./setup-RBrd03Eu.mjs')
   },
@@ -1098,8 +1115,13 @@ const _routes = [
     component: () => import('./index-Da-2zgaW.mjs')
   },
   {
-    name: "slug___zh",
+    name: "slug___en",
     path: "/:slug(.*)*",
+    component: () => import('./_...slug_-BAzVEKzh.mjs')
+  },
+  {
+    name: "slug___zh",
+    path: "/zh/:slug(.*)*",
     component: () => import('./_...slug_-BAzVEKzh.mjs')
   }
 ];
@@ -5570,7 +5592,7 @@ const cfg0 = defineAppConfig({
   }
 });
 const inlineConfig = {
-  "appVersion": "1.0.25",
+  "appVersion": "1.0.26",
   "nuxt": {},
   "ui": {
     "colors": {
@@ -14519,9 +14541,28 @@ _sfc_main$R.setup = (props, ctx) => {
   return _sfc_setup$R ? _sfc_setup$R(props, ctx) : void 0;
 };
 const localeCodes = [
+  "en",
   "zh"
 ];
 const localeLoaders = {
+  en: [
+    {
+      key: "locale_common_46json_d9ff944b",
+      load: () => import(
+        './common-CwWEomJY.mjs'
+        /* webpackChunkName: "locale_common_46json_d9ff944b" */
+      ),
+      cache: true
+    },
+    {
+      key: "locale_site_46json_28d78c77",
+      load: () => import(
+        './site-CotAxWow.mjs'
+        /* webpackChunkName: "locale_site_46json_28d78c77" */
+      ),
+      cache: true
+    }
+  ],
   zh: [
     {
       key: "locale_common_46json_a17ebeb8",
@@ -14543,6 +14584,22 @@ const localeLoaders = {
 };
 const vueI18nConfigs = [];
 const normalizedLocales = [
+  {
+    code: "en",
+    iso: "en-US",
+    files: [
+      {
+        path: "/Users/hugh/code/hoxi/apay/locales/en/common.json",
+        cache: void 0
+      },
+      {
+        path: "/Users/hugh/code/hoxi/apay/locales/en/site.json",
+        cache: void 0
+      }
+    ],
+    name: "English",
+    language: "en-US"
+  },
   {
     code: "zh",
     iso: "zh-CN",
@@ -25501,7 +25558,7 @@ const corePageModules = Object.fromEntries(Object.entries(/* @__PURE__ */ Object
   "/core/pages/user/tokens/index.vue": __vite_glob_0_11
 })).map(([file, module]) => [file.replace("/", "../"), module]));
 const themePageModules = {
-  ...Object.fromEntries(Object.entries(/* @__PURE__ */ Object.assign({ "/themes/hoxi/pages/about.vue": () => import('./about-MQUYZmSe.mjs'), "/themes/hoxi/pages/auth/authorize-desktop/done.vue": () => import('./done-2Vs8lq-N.mjs'), "/themes/hoxi/pages/auth/authorize-desktop/index.vue": () => import('./index-0L-Jcjic.mjs'), "/themes/hoxi/pages/auth/login.vue": () => import('./login-DiaNrL4W.mjs'), "/themes/hoxi/pages/auth/mobile-bridge.vue": () => import('./mobile-bridge-pXq0QsO5.mjs'), "/themes/hoxi/pages/auth/register.vue": () => import('./register-9zTeb8Ur.mjs'), "/themes/hoxi/pages/blog/[slug].vue": () => import('./_slug_-DC2nd1k3.mjs'), "/themes/hoxi/pages/blog/index.vue": () => import('./index-Cop4Mq7B.mjs'), "/themes/hoxi/pages/coding-plans/[slug].vue": () => import('./_slug_-DNTUG8iA.mjs'), "/themes/hoxi/pages/coding-plans/index.vue": () => import('./index-BS31ksIr.mjs'), "/themes/hoxi/pages/compare.vue": () => import('./compare-BK5PGNHR.mjs'), "/themes/hoxi/pages/download.vue": () => import('./download-CVUvEZnX.mjs'), "/themes/hoxi/pages/gateways/[slug].vue": () => import('./_slug_-BnwfF5Ne.mjs'), "/themes/hoxi/pages/gateways/index.vue": () => import('./index-DwIQ22pJ.mjs'), "/themes/hoxi/pages/index.vue": () => import('./index-egCbnFvR.mjs'), "/themes/hoxi/pages/models/[slug].vue": () => import('./_slug_-BYRAilxZ.mjs'), "/themes/hoxi/pages/models/index.vue": () => import('./index-A_NaMalr.mjs'), "/themes/hoxi/pages/one-person-company.vue": () => import('./one-person-company-CrfdwQOb.mjs'), "/themes/hoxi/pages/projects.vue": () => import('./projects-BK0Yz1rX.mjs'), "/themes/hoxi/pages/readiness.vue": () => import('./readiness-Dh8AOu8M.mjs'), "/themes/hoxi/pages/refactoring-the-self.vue": () => import('./refactoring-the-self-QhE_9rr1.mjs'), "/themes/hoxi/pages/savings.vue": () => import('./savings-C5cRtUIK.mjs'), "/themes/hoxi/pages/skills.vue": () => import('./skills-BPB3NoI3.mjs'), "/themes/hoxi/pages/tools.vue": () => import('./tools-BZJMqZ1p.mjs'), "/themes/hoxi/pages/user/account.vue": () => import('./account-CS7YZezI.mjs'), "/themes/hoxi/pages/user/billing.vue": () => import('./billing-D7XRrJjU.mjs'), "/themes/hoxi/pages/user/dashboard.vue": () => import('./dashboard-BKannGgl.mjs'), "/themes/hoxi/pages/user/index.vue": () => import('./index-CorOwHLN.mjs'), "/themes/hoxi/pages/user/keys.vue": () => import('./keys-CbOW6OuN.mjs'), "/themes/hoxi/pages/user/layout.vue": () => import('./layout-DypCocu9.mjs').then((n) => n.l), "/themes/hoxi/pages/user/models.vue": () => import('./models-Db3yQVcC.mjs'), "/themes/hoxi/pages/user/rewards.vue": () => import('./rewards-DffUQQ-x.mjs'), "/themes/hoxi/pages/user/tickets.vue": () => import('./tickets-Bp9yZFMK.mjs') })).map(([file, module]) => [file.replace("/", "../"), module]))
+  ...Object.fromEntries(Object.entries(/* @__PURE__ */ Object.assign({ "/themes/hoxi/pages/about.vue": () => import('./about-MQUYZmSe.mjs'), "/themes/hoxi/pages/auth/authorize-desktop/done.vue": () => import('./done-2Vs8lq-N.mjs'), "/themes/hoxi/pages/auth/authorize-desktop/index.vue": () => import('./index-0L-Jcjic.mjs'), "/themes/hoxi/pages/auth/login.vue": () => import('./login-DiaNrL4W.mjs'), "/themes/hoxi/pages/auth/mobile-bridge.vue": () => import('./mobile-bridge-pXq0QsO5.mjs'), "/themes/hoxi/pages/auth/register.vue": () => import('./register-9zTeb8Ur.mjs'), "/themes/hoxi/pages/blog/[slug].vue": () => import('./_slug_-DC2nd1k3.mjs'), "/themes/hoxi/pages/blog/index.vue": () => import('./index-Cop4Mq7B.mjs'), "/themes/hoxi/pages/coding-plans/[slug].vue": () => import('./_slug_-DNTUG8iA.mjs'), "/themes/hoxi/pages/coding-plans/index.vue": () => import('./index-BS31ksIr.mjs'), "/themes/hoxi/pages/compare.vue": () => import('./compare-BK5PGNHR.mjs'), "/themes/hoxi/pages/download.vue": () => import('./download-CVUvEZnX.mjs'), "/themes/hoxi/pages/gateways/[slug].vue": () => import('./_slug_-BnwfF5Ne.mjs'), "/themes/hoxi/pages/gateways/index.vue": () => import('./index-DwIQ22pJ.mjs'), "/themes/hoxi/pages/index.vue": () => import('./index-egCbnFvR.mjs'), "/themes/hoxi/pages/models/[slug].vue": () => import('./_slug_-BYRAilxZ.mjs'), "/themes/hoxi/pages/models/index.vue": () => import('./index-A_NaMalr.mjs'), "/themes/hoxi/pages/one-person-company.vue": () => import('./one-person-company-CrfdwQOb.mjs'), "/themes/hoxi/pages/projects.vue": () => import('./projects-BK0Yz1rX.mjs'), "/themes/hoxi/pages/readiness.vue": () => import('./readiness-Dh8AOu8M.mjs'), "/themes/hoxi/pages/refactoring-the-self.vue": () => import('./refactoring-the-self-QhE_9rr1.mjs'), "/themes/hoxi/pages/savings.vue": () => import('./savings-C5cRtUIK.mjs'), "/themes/hoxi/pages/skills.vue": () => import('./skills-BPB3NoI3.mjs'), "/themes/hoxi/pages/tools.vue": () => import('./tools-BHvZrDwA.mjs'), "/themes/hoxi/pages/user/account.vue": () => import('./account-CS7YZezI.mjs'), "/themes/hoxi/pages/user/billing.vue": () => import('./billing-D7XRrJjU.mjs'), "/themes/hoxi/pages/user/dashboard.vue": () => import('./dashboard-BKannGgl.mjs'), "/themes/hoxi/pages/user/index.vue": () => import('./index-CorOwHLN.mjs'), "/themes/hoxi/pages/user/keys.vue": () => import('./keys-CbOW6OuN.mjs'), "/themes/hoxi/pages/user/layout.vue": () => import('./layout-DypCocu9.mjs').then((n) => n.l), "/themes/hoxi/pages/user/models.vue": () => import('./models-Db3yQVcC.mjs'), "/themes/hoxi/pages/user/rewards.vue": () => import('./rewards-DffUQQ-x.mjs'), "/themes/hoxi/pages/user/tickets.vue": () => import('./tickets-Bp9yZFMK.mjs') })).map(([file, module]) => [file.replace("/", "../"), module]))
 };
 const themeAdminManifestModules = {
   ...Object.fromEntries(Object.entries(/* @__PURE__ */ Object.assign({
@@ -42489,7 +42546,7 @@ const LazyHoxiReadinessReport = defineAsyncComponent(() => import('./HoxiReadine
 const LazyHoxiSectionLabel = defineAsyncComponent(() => import('./HoxiSectionLabel-_wnZEg9o.mjs').then((r) => r["default"] || r.default || r));
 const LazyHoxiTag = defineAsyncComponent(() => import('./HoxiTag-C29ulhHG.mjs').then((r) => r["default"] || r.default || r));
 const LazyHoxiToolBrandMark = defineAsyncComponent(() => import('./HoxiToolBrandMark-C1f66sTa.mjs').then((r) => r["default"] || r.default || r));
-const LazyHoxiToolDetailModal = defineAsyncComponent(() => import('./HoxiToolDetailModal-I3miqafA.mjs').then((r) => r["default"] || r.default || r));
+const LazyHoxiToolDetailModal = defineAsyncComponent(() => import('./HoxiToolDetailModal-MKeSjti7.mjs').then((r) => r["default"] || r.default || r));
 const LazyHoxiValueBar = defineAsyncComponent(() => import('./HoxiValueBar-nKN9Q0nQ.mjs').then((r) => r["default"] || r.default || r));
 const LazyHoxiVendorDot = defineAsyncComponent(() => import('./HoxiVendorDot-BLwK_ZsG.mjs').then((r) => r["default"] || r.default || r));
 const LazyProseA = defineAsyncComponent(() => import('./A-XMdZWDIu.mjs').then((r) => r["default"] || r.default || r));

@@ -1,4 +1,4 @@
-import { d as defineEventHandler, c as getRequestLocale, cY as requireUserSession, e as createError, co as readFormData } from '../../../nitro/nitro.mjs';
+import { d as defineEventHandler, c as getRequestLocale, d1 as requireUserSession, e as createError, co as readFormData } from '../../../nitro/nitro.mjs';
 import fs from 'node:fs';
 import path from 'node:path';
 import crypto from 'node:crypto';

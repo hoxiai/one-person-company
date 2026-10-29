@@ -1,4 +1,4 @@
-import { d as defineEventHandler, eV as collectRssFeed, eW as renderRssXml, em as setHeader, e as createError } from '../nitro/nitro.mjs';
+import { d as defineEventHandler, eX as collectRssFeed, eY as renderRssXml, eo as setHeader, e as createError } from '../nitro/nitro.mjs';
 import 'drizzle-orm';
 import 'node:crypto';
 import 'crypto';

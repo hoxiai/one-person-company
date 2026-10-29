@@ -1,4 +1,4 @@
-import { fd as ensureFishSchedulerJob, fe as runAutoPublish } from '../nitro/nitro.mjs';
+import { ff as ensureFishSchedulerJob, fg as runAutoPublish } from '../nitro/nitro.mjs';
 import 'drizzle-orm';
 import 'node:crypto';
 import 'crypto';

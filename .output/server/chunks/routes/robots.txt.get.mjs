@@ -1,4 +1,4 @@
-import { d as defineEventHandler, em as setHeader, bI as resolveServerSeoContext, eT as readGeoAiBotsPolicy, eU as renderRobotsTxt } from '../nitro/nitro.mjs';
+import { d as defineEventHandler, eo as setHeader, bI as resolveServerSeoContext, eV as readGeoAiBotsPolicy, eW as renderRobotsTxt } from '../nitro/nitro.mjs';
 import 'drizzle-orm';
 import 'node:crypto';
 import 'crypto';

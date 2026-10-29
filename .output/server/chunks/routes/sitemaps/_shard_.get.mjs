@@ -1,4 +1,4 @@
-import { d as defineEventHandler, f as getRouterParam, eY as parseSitemapShardParam, e as createError, bI as resolveServerSeoContext, eZ as generateSitemapShardXml, bQ as seoRouteRegistry, bP as classifySeoRoute, em as setHeader } from '../../nitro/nitro.mjs';
+import { d as defineEventHandler, f as getRouterParam, e_ as parseSitemapShardParam, e as createError, bI as resolveServerSeoContext, e$ as generateSitemapShardXml, bQ as seoRouteRegistry, bP as classifySeoRoute, eo as setHeader } from '../../nitro/nitro.mjs';
 import 'drizzle-orm';
 import 'node:crypto';
 import 'crypto';

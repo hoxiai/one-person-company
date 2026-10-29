@@ -1,4 +1,4 @@
-import { d as defineEventHandler, g as getQuery, cQ as sendLocalizedRedirect, b as db, cq as userTokens, cv as EMAIL_VERIFY_TOKEN_NAME, u as users, z as orders, bx as getUserSession, a5 as setUserSession } from '../../../nitro/nitro.mjs';
+import { d as defineEventHandler, g as getQuery, cP as sendLocalizedRedirect, b as db, cq as userTokens, cv as EMAIL_VERIFY_TOKEN_NAME, u as users, z as orders, bx as getUserSession, a5 as setUserSession } from '../../../nitro/nitro.mjs';
 import { eq, and, isNull } from 'drizzle-orm';
 import 'node:crypto';
 import 'crypto';

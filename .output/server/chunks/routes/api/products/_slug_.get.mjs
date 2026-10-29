@@ -1,4 +1,4 @@
-import { ed as defineCachedEventHandler, f as getRouterParam, c as getRequestLocale, e as createError, b as db, p as products } from '../../../nitro/nitro.mjs';
+import { ef as defineCachedEventHandler, f as getRouterParam, c as getRequestLocale, e as createError, b as db, p as products } from '../../../nitro/nitro.mjs';
 import { and, eq, ne, sql } from 'drizzle-orm';
 import 'node:crypto';
 import 'crypto';

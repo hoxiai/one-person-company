@@ -1,5 +1,5 @@
 import __nuxt_component_0 from './HoxiContainer-DDAEb0_Y.mjs';
-import { u as useI18n, H as useRoute, p as useRouter, D as useLocaleRouter, bt as useSeoMeta, bu as useJsonLd, _ as _sfc_main$W, O as __nuxt_component_3$3 } from './server.mjs';
+import { u as useI18n, H as useRoute, p as useRouter, D as useLocaleRouter, bt as useSeoMeta, bu as useJsonLd, _ as _sfc_main$Y, O as __nuxt_component_3$3 } from './server.mjs';
 import __nuxt_component_2 from './HoxiModelFilters-Or2cc-ta.mjs';
 import __nuxt_component_3 from './HoxiModelTable-J8_sOV__.mjs';
 import __nuxt_component_4 from './HoxiModelCard-gVi6NeKw.mjs';
@@ -42,9 +42,9 @@ import 'jose';
 import 'node:child_process';
 import 'process';
 import 'buffer';
-import 'node:fs/promises';
 import 'node:dns/promises';
 import 'node:net';
+import 'node:fs/promises';
 import '@adonisjs/hash';
 import '@adonisjs/hash/drivers/scrypt';
 import 'vue-router';
@@ -239,7 +239,7 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
     ]));
     return (_ctx, _push, _parent, _attrs) => {
       const _component_HoxiContainer = __nuxt_component_0;
-      const _component_UIcon = _sfc_main$W;
+      const _component_UIcon = _sfc_main$Y;
       const _component_HoxiModelFilters = __nuxt_component_2;
       const _component_HoxiModelTable = __nuxt_component_3;
       const _component_HoxiModelCard = __nuxt_component_4;

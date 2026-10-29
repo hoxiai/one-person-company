@@ -1,4 +1,4 @@
-import { u as useI18n, O as __nuxt_component_3$3, _ as _sfc_main$W } from './server.mjs';
+import { u as useI18n, O as __nuxt_component_3$3, _ as _sfc_main$Y } from './server.mjs';
 import { defineComponent, mergeProps, unref, withCtx, createVNode, useSSRContext } from 'vue';
 import { ssrRenderAttrs, ssrInterpolate, ssrRenderComponent } from 'vue/server-renderer';
 import { A as AdminCardsPanel } from './AdminCardsPanel-D8bLKFj-.mjs';
@@ -37,9 +37,9 @@ import 'jose';
 import 'node:child_process';
 import 'process';
 import 'buffer';
-import 'node:fs/promises';
 import 'node:dns/promises';
 import 'node:net';
+import 'node:fs/promises';
 import '@adonisjs/hash';
 import '@adonisjs/hash/drivers/scrypt';
 import 'vue-router';
@@ -71,7 +71,7 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
     const { t } = useI18n();
     return (_ctx, _push, _parent, _attrs) => {
       const _component_NuxtLink = __nuxt_component_3$3;
-      const _component_UIcon = _sfc_main$W;
+      const _component_UIcon = _sfc_main$Y;
       _push(`<div${ssrRenderAttrs(mergeProps({ class: "flex h-[calc(100vh-10rem)] flex-col" }, _attrs))}><div class="mb-6 flex shrink-0 items-end justify-between gap-4"><div><h1 class="text-3xl font-bold tracking-tight text-gray-900 dark:text-white">${ssrInterpolate(unref(t)("admin.cards.title", "\u5361\u5BC6\u5E93\u5B58"))}</h1><p class="mt-1.5 text-sm text-gray-500 dark:text-gray-400">${ssrInterpolate(unref(t)("admin.cards.subtitle", "\u7BA1\u7406\u5361\u5BC6\u578B\u5546\u54C1\u7684\u5BFC\u5165\u4E0E\u4F7F\u7528\u72B6\u6001"))}</p></div>`);
       _push(ssrRenderComponent(_component_NuxtLink, {
         to: "/admin/products",

@@ -1,4 +1,4 @@
-import { u as useI18n, _ as _sfc_main$W } from './server.mjs';
+import { u as useI18n, _ as _sfc_main$Y } from './server.mjs';
 import { defineComponent, computed, mergeProps, useSSRContext } from 'vue';
 import { ssrRenderAttrs, ssrInterpolate, ssrRenderList, ssrRenderClass, ssrRenderComponent, ssrIncludeBooleanAttr } from 'vue/server-renderer';
 import '../nitro/nitro.mjs';
@@ -36,9 +36,9 @@ import 'jose';
 import 'node:child_process';
 import 'process';
 import 'buffer';
-import 'node:fs/promises';
 import 'node:dns/promises';
 import 'node:net';
+import 'node:fs/promises';
 import '@adonisjs/hash';
 import '@adonisjs/hash/drivers/scrypt';
 import 'vue-router';
@@ -2501,7 +2501,7 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
       return ((_a = dimensions.value[props.question.dimensionFocus]) == null ? void 0 : _a.name) || props.question.dimensionFocus;
     });
     return (_ctx, _push, _parent, _attrs) => {
-      const _component_UIcon = _sfc_main$W;
+      const _component_UIcon = _sfc_main$Y;
       _push(`<div${ssrRenderAttrs(mergeProps({ class: "rounded-2xl border border-slate-200 bg-white p-4 sm:p-6 md:p-8 shadow-xs transition-all dark:border-slate-800 dark:bg-slate-900" }, _attrs))}><div class="flex items-center justify-between gap-3 mb-4"><div class="flex items-center gap-2"><span class="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-300">${ssrInterpolate(__props.question.category)}</span><span class="text-xs text-slate-400 font-mono dark:text-slate-500">${ssrInterpolate(_ctx.$t("hoxi.readiness.questionIndex", { current: __props.currentIndex + 1, total: __props.totalQuestions }))}</span></div><div class="text-xs text-slate-400 font-medium flex items-center gap-1 dark:text-slate-500"><span>${ssrInterpolate(_ctx.$t("hoxi.readiness.focusLabel"))}</span><span class="text-slate-700 font-semibold dark:text-slate-300">${ssrInterpolate(dimensionName.value)}</span></div></div><h2 class="text-base sm:text-lg md:text-xl font-bold text-slate-900 tracking-tight leading-snug mb-2 dark:text-white">${ssrInterpolate(__props.question.title)}</h2><p class="text-xs sm:text-sm text-slate-500 leading-relaxed mb-5 sm:mb-6 dark:text-slate-400">${ssrInterpolate(__props.question.scenario)}</p><div class="space-y-3"><!--[-->`);
       ssrRenderList(__props.question.options, (option, idx) => {
         _push(`<button type="button" class="${ssrRenderClass([__props.selectedOptionIndex === idx ? "border-blue-500 bg-blue-50/40 text-slate-900 shadow-xs dark:bg-blue-950/40 dark:text-white" : "border-slate-200 hover:border-slate-300 hover:bg-slate-50/80 text-slate-700 dark:border-slate-800 dark:hover:border-slate-700 dark:hover:bg-slate-800/80 dark:text-slate-300", "w-full text-left rounded-xl p-3.5 sm:p-4 border transition-all flex flex-col group relative"])}"><div class="flex items-start gap-3"><span class="${ssrRenderClass([__props.selectedOptionIndex === idx ? "bg-blue-500 text-white" : "border border-slate-300 text-slate-500 group-hover:border-slate-400 group-hover:text-slate-700 dark:border-slate-700 dark:text-slate-400 dark:group-hover:text-slate-300", "flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-xs font-mono font-bold transition-colors"])}">${ssrInterpolate(option.label)}</span><span class="text-sm md:text-[15px] leading-relaxed flex-1 pt-0.5">${ssrInterpolate(option.text)}</span></div>`);

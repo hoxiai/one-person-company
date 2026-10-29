@@ -1,7 +1,7 @@
 import { useSlots, computed, mergeProps, unref, withCtx, createVNode, useSSRContext } from 'vue';
 import { ssrRenderAttrs, ssrRenderComponent, ssrRenderClass, ssrRenderSlot as ssrRenderSlot$1, ssrInterpolate } from 'vue/server-renderer';
 import { s as ssrRenderSlot } from './ssrSlot-D0eYVb8V.mjs';
-import { aA as useAppConfig, aK as useComponentUI, aM as tv, aG as _sfc_main$S, _ as _sfc_main$W } from './server.mjs';
+import { aA as useAppConfig, aK as useComponentUI, aM as tv, aG as _sfc_main$U, _ as _sfc_main$Y } from './server.mjs';
 import '../nitro/nitro.mjs';
 import 'drizzle-orm';
 import 'node:crypto';
@@ -37,9 +37,9 @@ import 'jose';
 import 'node:child_process';
 import 'process';
 import 'buffer';
-import 'node:fs/promises';
 import 'node:dns/promises';
 import 'node:net';
+import 'node:fs/promises';
 import '@adonisjs/hash';
 import '@adonisjs/hash/drivers/scrypt';
 import 'vue-router';
@@ -207,7 +207,7 @@ const _sfc_main = /* @__PURE__ */ Object.assign({ inheritAttrs: false }, {
         class: ui.value.base({ class: [(_a = unref(uiProp)) == null ? void 0 : _a.base, props.class] })
       }, _attrs))}>`);
       if (__props.to) {
-        _push(ssrRenderComponent(_sfc_main$S, mergeProps({ "aria-label": ariaLabel.value }, { to: __props.to, target: target.value, ..._ctx.$attrs }, {
+        _push(ssrRenderComponent(_sfc_main$U, mergeProps({ "aria-label": ariaLabel.value }, { to: __props.to, target: target.value, ..._ctx.$attrs }, {
           class: "focus:outline-none",
           raw: ""
         }), {
@@ -229,7 +229,7 @@ const _sfc_main = /* @__PURE__ */ Object.assign({ inheritAttrs: false }, {
         _push(`<!---->`);
       }
       if (__props.icon) {
-        _push(ssrRenderComponent(_sfc_main$W, {
+        _push(ssrRenderComponent(_sfc_main$Y, {
           name: __props.icon,
           class: ui.value.icon({ class: (_b = unref(uiProp)) == null ? void 0 : _b.icon })
         }, null, _parent));
@@ -237,7 +237,7 @@ const _sfc_main = /* @__PURE__ */ Object.assign({ inheritAttrs: false }, {
         _push(`<!---->`);
       }
       if (!!__props.to && target.value === "_blank") {
-        _push(ssrRenderComponent(_sfc_main$W, {
+        _push(ssrRenderComponent(_sfc_main$Y, {
           name: unref(appConfig).ui.icons.external,
           class: ui.value.externalIcon({ class: (_c = unref(uiProp)) == null ? void 0 : _c.externalIcon })
         }, null, _parent));

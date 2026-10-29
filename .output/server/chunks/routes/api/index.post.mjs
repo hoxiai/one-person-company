@@ -1,4 +1,4 @@
-import { d as defineEventHandler, d3 as getRequestIP, d4 as checkCommentRateLimit, e as createError, bs as getUserSession, r as readBody, b as db, ck as oauthAccounts, d5 as sanitizeComment, d6 as getRequestHeader, b1 as settings, o as comments, q as syncPostCommentCount, v as getCommentAvatarUrl } from '../../nitro/nitro.mjs';
+import { d as defineEventHandler, d8 as getRequestIP, d9 as checkCommentRateLimit, e as createError, bx as getUserSession, r as readBody, b as db, cp as oauthAccounts, da as sanitizeComment, db as getRequestHeader, b1 as settings, o as comments, q as syncPostCommentCount, v as getCommentAvatarUrl } from '../../nitro/nitro.mjs';
 import { and, eq } from 'drizzle-orm';
 import 'node:crypto';
 import 'crypto';
@@ -33,9 +33,9 @@ import 'jose';
 import 'node:child_process';
 import 'process';
 import 'buffer';
-import 'node:fs/promises';
 import 'node:dns/promises';
 import 'node:net';
+import 'node:fs/promises';
 import '@adonisjs/hash';
 import '@adonisjs/hash/drivers/scrypt';
 

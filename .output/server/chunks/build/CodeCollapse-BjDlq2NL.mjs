@@ -1,6 +1,6 @@
 import { useModel, computed, mergeProps, unref, mergeModels, useSSRContext } from 'vue';
 import { ssrRenderAttrs, ssrRenderSlot, ssrRenderClass, ssrRenderComponent } from 'vue/server-renderer';
-import { az as useLocale, aA as useAppConfig, aK as useComponentUI, aM as tv, i as _sfc_main$R } from './server.mjs';
+import { az as useLocale, aA as useAppConfig, aK as useComponentUI, aM as tv, i as _sfc_main$T } from './server.mjs';
 import '../nitro/nitro.mjs';
 import 'drizzle-orm';
 import 'node:crypto';
@@ -36,9 +36,9 @@ import 'jose';
 import 'node:child_process';
 import 'process';
 import 'buffer';
-import 'node:fs/promises';
 import 'node:dns/promises';
 import 'node:net';
+import 'node:fs/promises';
 import '@adonisjs/hash';
 import '@adonisjs/hash/drivers/scrypt';
 import 'vue-router';
@@ -116,7 +116,7 @@ const _sfc_main = {
       }, _attrs))}>`);
       ssrRenderSlot(_ctx.$slots, "default", {}, null, _push, _parent);
       _push(`<div class="${ssrRenderClass(ui.value.footer({ class: (_b = unref(uiProp)) == null ? void 0 : _b.footer }))}">`);
-      _push(ssrRenderComponent(_sfc_main$R, {
+      _push(ssrRenderComponent(_sfc_main$T, {
         icon: __props.icon || unref(appConfig).ui.icons.chevronDown,
         color: "neutral",
         variant: "outline",

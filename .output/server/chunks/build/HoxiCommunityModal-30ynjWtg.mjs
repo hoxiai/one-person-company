@@ -1,4 +1,4 @@
-import { u as useI18n, bg as useUserSession, H as useRoute, bh as __nuxt_component_2$2 } from './server.mjs';
+import { u as useI18n, bg as useUserSession, H as useRoute, bh as __nuxt_component_2$3 } from './server.mjs';
 import { defineComponent, ref, getCurrentInstance, computed, reactive, watch, useSSRContext } from 'vue';
 import { ssrRenderComponent } from 'vue/server-renderer';
 import { u as useHoxiCommunity } from './useHoxiCommunity-peuQtLL3.mjs';
@@ -37,9 +37,9 @@ import 'jose';
 import 'node:child_process';
 import 'process';
 import 'buffer';
-import 'node:fs/promises';
 import 'node:dns/promises';
 import 'node:net';
+import 'node:fs/promises';
 import '@adonisjs/hash';
 import '@adonisjs/hash/drivers/scrypt';
 import 'vue-router';
@@ -148,7 +148,7 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
     watch(isOpen, (val) => {
     });
     return (_ctx, _push, _parent, _attrs) => {
-      const _component_ClientOnly = __nuxt_component_2$2;
+      const _component_ClientOnly = __nuxt_component_2$3;
       _push(ssrRenderComponent(_component_ClientOnly, _attrs, {}, _parent));
     };
   }

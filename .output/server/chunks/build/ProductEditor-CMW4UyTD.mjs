@@ -1,10 +1,10 @@
-import { u as useI18n, e as useToast, q as useConfirm, f as useAdminPermissions, i as _sfc_main$R, k as _sfc_main$M, _ as _sfc_main$W, a as _sfc_main$w, b as _sfc_main$v, l as _sfc_main$u, c as _sfc_main$r, B as _sfc_main$l, n as _sfc_main$G, r as useSettings, E as useProductPricing, F as useCurrencyFormat } from './server.mjs';
+import { u as useI18n, e as useToast, q as useConfirm, f as useAdminPermissions, i as _sfc_main$T, k as _sfc_main$O, _ as _sfc_main$Y, a as _sfc_main$w, b as _sfc_main$A, l as _sfc_main$v, c as _sfc_main$s, B as _sfc_main$l, n as _sfc_main$I, r as useSettings, E as useProductPricing, F as useCurrencyFormat } from './server.mjs';
 import { defineComponent, defineAsyncComponent, computed, ref, watch, mergeProps, unref, withCtx, createTextVNode, toDisplayString, openBlock, createBlock, createVNode, createCommentVNode, reactive, isRef, Fragment, useModel, mergeModels, withModifiers, withKeys, useSSRContext } from 'vue';
 import { ssrRenderAttrs, ssrRenderComponent, ssrInterpolate, ssrRenderClass, ssrRenderList, ssrRenderAttr, ssrIncludeBooleanAttr, ssrRenderSlot } from 'vue/server-renderer';
 import { useRoute, useRouter, onBeforeRouteLeave } from 'vue-router';
 import draggable from 'vuedraggable';
 import { u as useImageProxy } from './useImageProxy-DBzzMBty.mjs';
-import { gy as validateLocalePrices, gz as normalizePricingLocale, gA as productMetadata, dN as quoteProductPrice, dP as roundPrice } from '../nitro/nitro.mjs';
+import { gI as validateLocalePrices, gJ as normalizePricingLocale, gK as productMetadata, dS as quoteProductPrice, dU as roundPrice } from '../nitro/nitro.mjs';
 import { G as GeoCitationFieldsCard, a as GeoSeoInspectorCard } from './GeoSeoInspectorCard-BbDxsfN7.mjs';
 import { p as presetFieldsForType, s as stripUiIds, c as cleanServiceSchemaFields, a as cleanProductFeatures, b as parseProductFeatures, d as parseServiceSchemaFields } from './adminProductFormData-BiTP6ur1.mjs';
 
@@ -20,10 +20,10 @@ const _sfc_main$6 = /* @__PURE__ */ defineComponent({
   setup(__props, { emit: __emit }) {
     const emit = __emit;
     return (_ctx, _push, _parent, _attrs) => {
-      const _component_UIcon = _sfc_main$W;
-      const _component_USelect = _sfc_main$u;
-      const _component_UInput = _sfc_main$v;
-      const _component_UButton = _sfc_main$R;
+      const _component_UIcon = _sfc_main$Y;
+      const _component_USelect = _sfc_main$v;
+      const _component_UInput = _sfc_main$A;
+      const _component_UButton = _sfc_main$T;
       if (__props.visible) {
         _push(`<div${ssrRenderAttrs(mergeProps({ class: "p-4 border border-gray-200 dark:border-gray-800 rounded-lg bg-gray-100 dark:bg-[#1a1a1c] mt-4" }, _attrs))}><div class="flex items-center justify-between mb-4"><h3 class="text-gray-900 dark:text-white font-medium flex items-center gap-2">`);
         _push(ssrRenderComponent(_component_UIcon, {
@@ -113,8 +113,8 @@ const _sfc_main$5 = /* @__PURE__ */ defineComponent({
     });
     return (_ctx, _push, _parent, _attrs) => {
       const _component_UFormField = _sfc_main$w;
-      const _component_UInput = _sfc_main$v;
-      const _component_UButton = _sfc_main$R;
+      const _component_UInput = _sfc_main$A;
+      const _component_UButton = _sfc_main$T;
       if (__props.visible) {
         _push(ssrRenderComponent(_component_UFormField, mergeProps({
           label: _ctx.$t("admin.products.form.images")
@@ -341,7 +341,7 @@ const _sfc_main$4 = /* @__PURE__ */ defineComponent({
   emits: ["select"],
   setup(__props, { emit: __emit }) {
     return (_ctx, _push, _parent, _attrs) => {
-      const _component_UIcon = _sfc_main$W;
+      const _component_UIcon = _sfc_main$Y;
       if (__props.locales.length > 1) {
         _push(`<div${ssrRenderAttrs(mergeProps({ class: "border-b border-gray-200 dark:border-gray-800/60 bg-gray-50 dark:bg-[#121214] mb-6 -mx-4 px-4 sm:-mx-6 sm:px-6" }, _attrs))}><nav class="flex space-x-2 overflow-x-auto hide-scrollbar pb-2"><!--[-->`);
         ssrRenderList(__props.locales, (locale) => {
@@ -419,8 +419,8 @@ const _sfc_main$3 = /* @__PURE__ */ defineComponent({
     }
     return (_ctx, _push, _parent, _attrs) => {
       const _component_UFormField = _sfc_main$w;
-      const _component_USelect = _sfc_main$u;
-      const _component_UInput = _sfc_main$v;
+      const _component_USelect = _sfc_main$v;
+      const _component_UInput = _sfc_main$A;
       _push(`<div${ssrRenderAttrs(mergeProps({ class: "rounded-xl border border-gray-200 p-5 space-y-4 dark:border-gray-800" }, _attrs))}><h3 class="font-semibold">${ssrInterpolate(unref(t)("admin.products.localePricing.title", { locale: __props.pricingLocale }))}</h3>`);
       _push(ssrRenderComponent(_component_UFormField, {
         label: unref(t)("admin.products.localePricing.mode")
@@ -568,12 +568,12 @@ const _sfc_main$2 = /* @__PURE__ */ defineComponent({
       set: (value) => emit("update:features-list", value)
     });
     return (_ctx, _push, _parent, _attrs) => {
-      const _component_UIcon = _sfc_main$W;
-      const _component_UButton = _sfc_main$R;
+      const _component_UIcon = _sfc_main$Y;
+      const _component_UButton = _sfc_main$T;
       const _component_UFormField = _sfc_main$w;
-      const _component_UInput = _sfc_main$v;
+      const _component_UInput = _sfc_main$A;
       const _component_UCheckbox = _sfc_main$l;
-      const _component_UTextarea = _sfc_main$r;
+      const _component_UTextarea = _sfc_main$s;
       if (__props.visible) {
         _push(`<div${ssrRenderAttrs(mergeProps({ class: "p-4 border border-purple-500/30 rounded-lg bg-purple-50/80 dark:bg-[#2a1a3a]/30 mt-4" }, _attrs))}><div class="flex items-center justify-between mb-4"><h3 class="text-gray-900 dark:text-white font-medium flex items-center gap-2">`);
         _push(ssrRenderComponent(_component_UIcon, {
@@ -904,13 +904,13 @@ const _sfc_main$1 = /* @__PURE__ */ defineComponent({
       set: (value) => emit("update:schema-list", value)
     });
     return (_ctx, _push, _parent, _attrs) => {
-      const _component_UIcon = _sfc_main$W;
-      const _component_UButton = _sfc_main$R;
+      const _component_UIcon = _sfc_main$Y;
+      const _component_UButton = _sfc_main$T;
       const _component_UFormField = _sfc_main$w;
-      const _component_UInput = _sfc_main$v;
-      const _component_USelect = _sfc_main$u;
+      const _component_UInput = _sfc_main$A;
+      const _component_USelect = _sfc_main$v;
       const _component_UCheckbox = _sfc_main$l;
-      const _component_UTextarea = _sfc_main$r;
+      const _component_UTextarea = _sfc_main$s;
       if (__props.visible) {
         _push(`<div${ssrRenderAttrs(mergeProps({ class: "p-4 border border-gray-200 dark:border-gray-800 rounded-lg bg-gray-100 dark:bg-[#1a1a1c]" }, _attrs))}><div class="flex items-center justify-between mb-4"><h3 class="text-gray-900 dark:text-white font-medium flex items-center gap-2">`);
         _push(ssrRenderComponent(_component_UIcon, {
@@ -2025,15 +2025,15 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
     };
     return (_ctx, _push, _parent, _attrs) => {
       var _a, _b, _c, _d, _e, _f, _g, _h, _i;
-      const _component_UButton = _sfc_main$R;
-      const _component_UBadge = _sfc_main$M;
-      const _component_UIcon = _sfc_main$W;
+      const _component_UButton = _sfc_main$T;
+      const _component_UBadge = _sfc_main$O;
+      const _component_UIcon = _sfc_main$Y;
       const _component_UFormField = _sfc_main$w;
-      const _component_UInput = _sfc_main$v;
-      const _component_USelect = _sfc_main$u;
-      const _component_UTextarea = _sfc_main$r;
+      const _component_UInput = _sfc_main$A;
+      const _component_USelect = _sfc_main$v;
+      const _component_UTextarea = _sfc_main$s;
       const _component_UCheckbox = _sfc_main$l;
-      const _component_UModal = _sfc_main$G;
+      const _component_UModal = _sfc_main$I;
       _push(`<div${ssrRenderAttrs(mergeProps({ class: "min-h-full flex flex-col pb-12" }, _attrs))}><div class="sticky top-0 z-20 bg-white/90 dark:bg-[#121214]/90 backdrop-blur-md border-b border-gray-200/80 dark:border-gray-800/80 -mx-4 sm:-mx-6 lg:-mx-8 px-4 sm:px-6 lg:px-8 py-3 mb-6 transition-all"><div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 max-w-7xl mx-auto"><div class="flex items-center gap-3 min-w-0">`);
       _push(ssrRenderComponent(_component_UButton, {
         color: "neutral",

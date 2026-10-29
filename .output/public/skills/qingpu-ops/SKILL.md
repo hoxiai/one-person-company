@@ -1,6 +1,6 @@
 ---
 name: qingpu-ops
-description: Operate Qingpu AI (轻铺 AI / iqingpu.com) multi-platform product listing, AI studio image/copy generation, 1688/competitor link cleaning, and cross-border e-commerce store publishing workflows. 当用户要求使用轻铺 AI 采集清洗 1688/竞品商品、批量生成多平台高转化商品标题/五点卖点/多规格详情页、测算跨境定价毛利或向已绑定的店铺一键刊登商品时使用。
+description: Operate Qingpu AI (轻铺 AI / qingpu.ai) multi-platform product listing, AI studio image/copy generation, 1688/competitor link cleaning, and cross-border e-commerce store publishing workflows. 当用户要求使用轻铺 AI 采集清洗 1688/竞品商品、批量生成多平台高转化商品标题/五点卖点/多规格详情页、测算跨境定价毛利或向已绑定的店铺一键刊登商品时使用。
 compatibility: 适用于一人公司工作模式，支持 Hoxi 统一账号一键免填授权、内置浏览器协同及本地商品表格/图片附件处理
 metadata:
   author: "Hoxi"
@@ -12,7 +12,7 @@ metadata:
 ## 适用场景
 
 - **1688 / 竞品链接洗稿与高溢价重构**：将供应商原始参数表、1688 采集素材或竞品链接清洗提炼，去除生硬厂牌词，重构为符合欧美/日德/东南亚市场审美的高转化商品方案。
-- **多平台一键适配刊登**：围绕同一款核心选品，同步生成适配独立站（Shoply / Shopify）、Amazon、TikTok Shop 等多渠道的差异化标题、五点描述、SKU 变体矩阵与汇率加价方案。
+- **多平台一键适配刊登**：围绕同一款核心选品，同步生成适配独立站（Shopark / Shopify）、Amazon、TikTok Shop 等多渠道的差异化标题、五点描述、SKU 变体矩阵与汇率加价方案。
 - **电商主图与详情视觉脚本**：输出首屏白底图、痛点对比图、场景氛围图、尺寸规格图与 A+ 模块的逐张构图指令与内嵌文案。
 
 ## 执行步骤

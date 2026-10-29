@@ -1,4 +1,4 @@
-import { e as useToast, u as useI18n, f as useAdminPermissions, r as useSettings, s as useRequestFetch, t as useAsyncData, _ as _sfc_main$W, v as _sfc_main$o, i as _sfc_main$R, k as _sfc_main$M, o as navigateTo } from './server.mjs';
+import { e as useToast, u as useI18n, f as useAdminPermissions, r as useSettings, s as useRequestFetch, t as useAsyncData, _ as _sfc_main$Y, v as _sfc_main$q, i as _sfc_main$T, k as _sfc_main$O, o as navigateTo } from './server.mjs';
 import { _ as __nuxt_component_2, i as isSettingsTabId } from './Nav-BfctuFgG.mjs';
 import { _ as _sfc_main$1 } from './Switch-ABf4y-g_.mjs';
 import { defineComponent, ref, withAsyncContext, computed, watch, mergeProps, unref, withCtx, createTextVNode, toDisplayString, createVNode, useSSRContext } from 'vue';
@@ -38,9 +38,9 @@ import 'jose';
 import 'node:child_process';
 import 'process';
 import 'buffer';
-import 'node:fs/promises';
 import 'node:dns/promises';
 import 'node:net';
+import 'node:fs/promises';
 import '@adonisjs/hash';
 import '@adonisjs/hash/drivers/scrypt';
 import 'vue-router';
@@ -159,11 +159,11 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
       }
     };
     return (_ctx, _push, _parent, _attrs) => {
-      const _component_UIcon = _sfc_main$W;
+      const _component_UIcon = _sfc_main$Y;
       const _component_AdminSettingsNav = __nuxt_component_2;
-      const _component_UAlert = _sfc_main$o;
-      const _component_UButton = _sfc_main$R;
-      const _component_UBadge = _sfc_main$M;
+      const _component_UAlert = _sfc_main$q;
+      const _component_UButton = _sfc_main$T;
+      const _component_UBadge = _sfc_main$O;
       const _component_USwitch = _sfc_main$1;
       _push(`<div${ssrRenderAttrs(mergeProps({ class: "mx-auto pb-12" }, _attrs))}><div class="mb-8"><h1 class="flex items-center gap-3 text-3xl font-bold tracking-tight text-gray-900 dark:text-white">`);
       _push(ssrRenderComponent(_component_UIcon, {

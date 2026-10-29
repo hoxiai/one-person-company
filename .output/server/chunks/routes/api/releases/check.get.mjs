@@ -1,4 +1,4 @@
-import { d as defineEventHandler, g as getQuery, b8 as normalizeAppKey, b9 as normalizeReleaseChannel, ee as normalizeReleaseLang, ei as checkReleaseUpgrade, bh as getBundledReleasesForApp, dh as setResponseStatus, ej as buildTauriUpdateManifest } from '../../../nitro/nitro.mjs';
+import { d as defineEventHandler, g as getQuery, bd as normalizeAppKey, be as normalizeReleaseChannel, ej as normalizeReleaseLang, en as checkReleaseUpgrade, bm as getBundledReleasesForApp, dm as setResponseStatus, eo as buildTauriUpdateManifest } from '../../../nitro/nitro.mjs';
 import appcastHandler from './appcast.xml.get.mjs';
 import 'drizzle-orm';
 import 'node:crypto';
@@ -34,9 +34,9 @@ import 'jose';
 import 'node:child_process';
 import 'process';
 import 'buffer';
-import 'node:fs/promises';
 import 'node:dns/promises';
 import 'node:net';
+import 'node:fs/promises';
 import '@adonisjs/hash';
 import '@adonisjs/hash/drivers/scrypt';
 

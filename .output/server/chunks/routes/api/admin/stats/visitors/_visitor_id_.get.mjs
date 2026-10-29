@@ -1,4 +1,4 @@
-import { d as defineEventHandler, c as getRequestLocale, f as getRouterParam, e as createError, b as db, C as visitorProfiles, u as users, z as orders, bX as visitorEvents, p as products, t as toIsoTimestamp } from '../../../../../nitro/nitro.mjs';
+import { d as defineEventHandler, c as getRequestLocale, f as getRouterParam, e as createError, b as db, C as visitorProfiles, u as users, z as orders, c0 as visitorEvents, p as products, t as toIsoTimestamp } from '../../../../../nitro/nitro.mjs';
 import { eq, or, count, and, gt, desc } from 'drizzle-orm';
 import 'node:crypto';
 import 'crypto';
@@ -33,9 +33,9 @@ import 'jose';
 import 'node:child_process';
 import 'process';
 import 'buffer';
-import 'node:fs/promises';
 import 'node:dns/promises';
 import 'node:net';
+import 'node:fs/promises';
 import '@adonisjs/hash';
 import '@adonisjs/hash/drivers/scrypt';
 

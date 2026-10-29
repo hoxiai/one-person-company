@@ -1,4 +1,4 @@
-import { u as useI18n, e as useToast, a as _sfc_main$w, b as _sfc_main$v, i as _sfc_main$R } from './server.mjs';
+import { u as useI18n, e as useToast, a as _sfc_main$w, b as _sfc_main$A, i as _sfc_main$T } from './server.mjs';
 import { defineComponent, ref, reactive, computed, mergeProps, withCtx, createVNode, createTextVNode, toDisplayString, useSSRContext } from 'vue';
 import { ssrRenderAttrs, ssrInterpolate, ssrRenderComponent } from 'vue/server-renderer';
 import '../nitro/nitro.mjs';
@@ -36,9 +36,9 @@ import 'jose';
 import 'node:child_process';
 import 'process';
 import 'buffer';
-import 'node:fs/promises';
 import 'node:dns/promises';
 import 'node:net';
+import 'node:fs/promises';
 import '@adonisjs/hash';
 import '@adonisjs/hash/drivers/scrypt';
 import 'vue-router';
@@ -80,8 +80,8 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
     });
     return (_ctx, _push, _parent, _attrs) => {
       const _component_UFormField = _sfc_main$w;
-      const _component_UInput = _sfc_main$v;
-      const _component_UButton = _sfc_main$R;
+      const _component_UInput = _sfc_main$A;
+      const _component_UButton = _sfc_main$T;
       _push(`<div${ssrRenderAttrs(mergeProps({ class: "h-full flex flex-col max-w-2xl mx-auto w-full" }, _attrs))}><div class="flex justify-between items-end mb-8 shrink-0"><div><h1 class="text-3xl font-bold text-gray-900 dark:text-white tracking-tight">${ssrInterpolate(_ctx.$t("admin.profile.title"))}</h1><p class="text-gray-500 dark:text-gray-400 mt-2 text-sm">${ssrInterpolate(_ctx.$t("admin.profile.subtitle"))}</p></div></div><div class="bg-white dark:bg-[#121214] border border-gray-200/60 dark:border-gray-800/50 rounded-2xl shadow-sm p-8"><form class="space-y-6">`);
       _push(ssrRenderComponent(_component_UFormField, {
         label: _ctx.$t("admin.profile.username")

@@ -1,4 +1,4 @@
-import { d as defineEventHandler, f as getRouterParam, eS as parseSitemapShardParam, e as createError, bD as resolveServerSeoContext, eT as generateSitemapShardXml, bL as seoRouteRegistry, bK as classifySeoRoute, eh as setHeader } from '../../nitro/nitro.mjs';
+import { d as defineEventHandler, f as getRouterParam, eY as parseSitemapShardParam, e as createError, bI as resolveServerSeoContext, eZ as generateSitemapShardXml, bQ as seoRouteRegistry, bP as classifySeoRoute, em as setHeader } from '../../nitro/nitro.mjs';
 import 'drizzle-orm';
 import 'node:crypto';
 import 'crypto';
@@ -33,9 +33,9 @@ import 'jose';
 import 'node:child_process';
 import 'process';
 import 'buffer';
-import 'node:fs/promises';
 import 'node:dns/promises';
 import 'node:net';
+import 'node:fs/promises';
 import '@adonisjs/hash';
 import '@adonisjs/hash/drivers/scrypt';
 

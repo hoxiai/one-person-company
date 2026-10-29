@@ -1,6 +1,6 @@
 import { computed, mergeProps, unref, useSSRContext } from 'vue';
 import { ssrRenderAttrs, ssrRenderClass, ssrRenderComponent, ssrInterpolate, ssrRenderSlot } from 'vue/server-renderer';
-import { az as useLocale, bs as useClipboard, aA as useAppConfig, aK as useComponentUI, aM as tv, i as _sfc_main$R } from './server.mjs';
+import { az as useLocale, bs as useClipboard, aA as useAppConfig, aK as useComponentUI, aM as tv, i as _sfc_main$T } from './server.mjs';
 import _sfc_main$1 from './CodeIcon-EolFQZ9D.mjs';
 import '../nitro/nitro.mjs';
 import 'drizzle-orm';
@@ -37,9 +37,9 @@ import 'jose';
 import 'node:child_process';
 import 'process';
 import 'buffer';
-import 'node:fs/promises';
 import 'node:dns/promises';
 import 'node:net';
+import 'node:fs/promises';
 import '@adonisjs/hash';
 import '@adonisjs/hash/drivers/scrypt';
 import 'vue-router';
@@ -121,7 +121,7 @@ const _sfc_main = {
       } else {
         _push(`<!---->`);
       }
-      _push(ssrRenderComponent(_sfc_main$R, {
+      _push(ssrRenderComponent(_sfc_main$T, {
         icon: unref(copied) ? unref(appConfig).ui.icons.copyCheck : unref(appConfig).ui.icons.copy,
         color: "neutral",
         variant: "outline",

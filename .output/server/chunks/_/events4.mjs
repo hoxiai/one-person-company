@@ -1,4 +1,4 @@
-import { b as db, f7 as ensureHoxiWorkMcpToolsRegistered, f8 as ensureRewardOutboxWorkerStarted, f9 as stopRewardOutboxWorker } from '../nitro/nitro.mjs';
+import { fd as ensureFishSchedulerJob, fe as runAutoPublish } from '../nitro/nitro.mjs';
 import 'drizzle-orm';
 import 'node:crypto';
 import 'crypto';
@@ -33,24 +33,31 @@ import 'jose';
 import 'node:child_process';
 import 'process';
 import 'buffer';
-import 'node:fs/promises';
 import 'node:dns/promises';
 import 'node:net';
+import 'node:fs/promises';
 import '@adonisjs/hash';
 import '@adonisjs/hash/drivers/scrypt';
 
-function getThemeEventRules() {
-  return [];
+let workerTimer = null;
+async function startThemeBackgroundWorkers() {
+  await ensureFishSchedulerJob().catch(() => {
+  });
+  runAutoPublish().catch(() => {
+  });
+  if (!workerTimer) {
+    workerTimer = setInterval(() => {
+      runAutoPublish().catch(() => {
+      });
+    }, 60 * 6e4);
+  }
 }
-function registerThemeMcpTools() {
-  ensureHoxiWorkMcpToolsRegistered();
-}
-function startThemeBackgroundWorkers(database = db) {
-  ensureRewardOutboxWorkerStarted(database, 6e4, { immediateSweep: true });
-}
-function stopThemeBackgroundWorkers() {
-  stopRewardOutboxWorker();
+async function stopThemeBackgroundWorkers() {
+  if (workerTimer) {
+    clearInterval(workerTimer);
+    workerTimer = null;
+  }
 }
 
-export { getThemeEventRules, registerThemeMcpTools, startThemeBackgroundWorkers, stopThemeBackgroundWorkers };
+export { startThemeBackgroundWorkers, stopThemeBackgroundWorkers };
 //# sourceMappingURL=events4.mjs.map

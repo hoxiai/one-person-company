@@ -1,5 +1,5 @@
 import { _ as __nuxt_component_0 } from './EmailVerificationBanner-v6fzCPMr.mjs';
-import { r as useSettings, D as useLocaleRouter, u as useI18n, bg as useUserSession, H as useRoute, K as useHead, O as __nuxt_component_3$3, _ as _sfc_main$W } from './server.mjs';
+import { r as useSettings, D as useLocaleRouter, u as useI18n, bg as useUserSession, H as useRoute, K as useHead, O as __nuxt_component_3$3, _ as _sfc_main$Y } from './server.mjs';
 import __nuxt_component_2 from './HoxiLogoIcon-DQjCSQpM.mjs';
 import __nuxt_component_4 from './HoxiCommunityModal-30ynjWtg.mjs';
 import { defineComponent, computed, ref, mergeProps, unref, withCtx, createVNode, toDisplayString, openBlock, createBlock, createCommentVNode, createTextVNode, useSSRContext } from 'vue';
@@ -41,9 +41,9 @@ import 'jose';
 import 'node:child_process';
 import 'process';
 import 'buffer';
-import 'node:fs/promises';
 import 'node:dns/promises';
 import 'node:net';
+import 'node:fs/promises';
 import '@adonisjs/hash';
 import '@adonisjs/hash/drivers/scrypt';
 import 'vue-router';
@@ -3690,7 +3690,7 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
       const _component_EmailVerificationBanner = __nuxt_component_0;
       const _component_NuxtLink = __nuxt_component_3$3;
       const _component_HoxiLogoIcon = __nuxt_component_2;
-      const _component_UIcon = _sfc_main$W;
+      const _component_UIcon = _sfc_main$Y;
       const _component_HoxiCommunityModal = __nuxt_component_4;
       _push(`<div${ssrRenderAttrs(mergeProps({
         class: "min-h-screen flex flex-col bg-white dark:bg-slate-950 text-slate-700 dark:text-slate-300 font-sans transition-colors duration-150",

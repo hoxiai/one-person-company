@@ -1,6 +1,6 @@
 import { mergeProps, useSSRContext } from 'vue';
 import { ssrRenderAttrs } from 'vue/server-renderer';
-import { eZ as publicAssetsURL } from '../nitro/nitro.mjs';
+import { f3 as publicAssetsURL } from '../nitro/nitro.mjs';
 import { P as _export_sfc } from './server.mjs';
 import 'drizzle-orm';
 import 'node:crypto';
@@ -36,9 +36,9 @@ import 'jose';
 import 'node:child_process';
 import 'process';
 import 'buffer';
-import 'node:fs/promises';
 import 'node:dns/promises';
 import 'node:net';
+import 'node:fs/promises';
 import '@adonisjs/hash';
 import '@adonisjs/hash/drivers/scrypt';
 import 'vue-router';

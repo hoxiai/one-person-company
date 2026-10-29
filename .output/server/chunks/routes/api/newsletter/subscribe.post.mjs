@@ -1,4 +1,4 @@
-import { d as defineEventHandler, $ as resolveClientIp, a0 as checkIpRateLimit, e as createError, r as readBody, dm as normalizeSubscriberChannel, dn as normalizeSubscriberTopic, c as getRequestLocale, dp as validateAndNormalizeTarget, W as subscribeNewsletter } from '../../../nitro/nitro.mjs';
+import { d as defineEventHandler, $ as resolveClientIp, a0 as checkIpRateLimit, e as createError, r as readBody, ds as normalizeSubscriberChannel, dt as normalizeSubscriberTopic, c as getRequestLocale, du as validateAndNormalizeTarget, W as subscribeNewsletter } from '../../../nitro/nitro.mjs';
 import 'drizzle-orm';
 import 'node:crypto';
 import 'crypto';
@@ -33,9 +33,9 @@ import 'jose';
 import 'node:child_process';
 import 'process';
 import 'buffer';
-import 'node:fs/promises';
 import 'node:dns/promises';
 import 'node:net';
+import 'node:fs/promises';
 import '@adonisjs/hash';
 import '@adonisjs/hash/drivers/scrypt';
 

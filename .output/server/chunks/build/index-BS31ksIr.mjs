@@ -1,5 +1,5 @@
 import __nuxt_component_0 from './HoxiContainer-DDAEb0_Y.mjs';
-import { u as useI18n, D as useLocaleRouter, r as useSettings, y as useFetch, bt as useSeoMeta, bu as useJsonLd, O as __nuxt_component_3$3, _ as _sfc_main$W } from './server.mjs';
+import { u as useI18n, D as useLocaleRouter, r as useSettings, y as useFetch, bt as useSeoMeta, bu as useJsonLd, O as __nuxt_component_3$3, _ as _sfc_main$Y } from './server.mjs';
 import __nuxt_component_4 from './HoxiTag-C29ulhHG.mjs';
 import { defineComponent, ref, computed, withCtx, unref, createVNode, toDisplayString, createTextVNode, openBlock, createBlock, Fragment, renderList, createCommentVNode, useSSRContext } from 'vue';
 import { ssrRenderComponent, ssrInterpolate, ssrRenderList, ssrRenderClass, ssrRenderAttr } from 'vue/server-renderer';
@@ -40,9 +40,9 @@ import 'jose';
 import 'node:child_process';
 import 'process';
 import 'buffer';
-import 'node:fs/promises';
 import 'node:dns/promises';
 import 'node:net';
+import 'node:fs/promises';
 import '@adonisjs/hash';
 import '@adonisjs/hash/drivers/scrypt';
 import 'vue-router';
@@ -176,7 +176,7 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
       const _component_HoxiContainer = __nuxt_component_0;
       const _component_NuxtLink = __nuxt_component_3$3;
       const _component_HoxiTag = __nuxt_component_4;
-      const _component_UIcon = _sfc_main$W;
+      const _component_UIcon = _sfc_main$Y;
       _push(ssrRenderComponent(_component_HoxiContainer, _attrs, {
         default: withCtx((_, _push2, _parent2, _scopeId) => {
           if (_push2) {

@@ -1,4 +1,4 @@
-import { d as defineEventHandler, at as requireTrustedRequestOrigin, c as getRequestLocale, f as getRouterParam, e as createError, b as db, u as users, cl as userTokens, cq as EMAIL_VERIFY_TOKEN_NAME, X as getLocalizedSettingValue, Y as sendEmail } from '../../../../../nitro/nitro.mjs';
+import { d as defineEventHandler, at as requireTrustedRequestOrigin, c as getRequestLocale, f as getRouterParam, e as createError, b as db, u as users, cq as userTokens, cv as EMAIL_VERIFY_TOKEN_NAME, X as getLocalizedSettingValue, Y as sendEmail } from '../../../../../nitro/nitro.mjs';
 import { eq } from 'drizzle-orm';
 import 'node:crypto';
 import 'crypto';
@@ -33,9 +33,9 @@ import 'jose';
 import 'node:child_process';
 import 'process';
 import 'buffer';
-import 'node:fs/promises';
 import 'node:dns/promises';
 import 'node:net';
+import 'node:fs/promises';
 import '@adonisjs/hash';
 import '@adonisjs/hash/drivers/scrypt';
 

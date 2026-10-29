@@ -1,4 +1,4 @@
-import { u as useI18n, H as useRoute, p as useRouter, bt as useSeoMeta, _ as _sfc_main$W } from './server.mjs';
+import { u as useI18n, H as useRoute, p as useRouter, bt as useSeoMeta, _ as _sfc_main$Y } from './server.mjs';
 import __nuxt_component_1 from './HoxiToolBrandMark-C1f66sTa.mjs';
 import __nuxt_component_2 from './HoxiToolDetailModal-MKeSjti7.mjs';
 import { defineComponent, ref, computed, watch, mergeProps, unref, useSSRContext } from 'vue';
@@ -39,9 +39,9 @@ import 'jose';
 import 'node:child_process';
 import 'process';
 import 'buffer';
-import 'node:fs/promises';
 import 'node:dns/promises';
 import 'node:net';
+import 'node:fs/promises';
 import '@adonisjs/hash';
 import '@adonisjs/hash/drivers/scrypt';
 import 'vue-router';
@@ -164,7 +164,7 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
       }))
     });
     return (_ctx, _push, _parent, _attrs) => {
-      const _component_UIcon = _sfc_main$W;
+      const _component_UIcon = _sfc_main$Y;
       const _component_HoxiToolBrandMark = __nuxt_component_1;
       const _component_HoxiToolDetailModal = __nuxt_component_2;
       _push(`<div${ssrRenderAttrs(mergeProps({ class: "max-w-[1240px] mx-auto px-4 md:px-6" }, _attrs))}><section class="pt-10 pb-6 md:pt-14 md:pb-8"><div class="inline-flex items-center gap-2.5 rounded-full border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 px-4 py-1.5 font-mono text-xs font-medium uppercase tracking-widest text-slate-500 dark:text-slate-400 mb-7"><span class="h-1.5 w-1.5 rounded-full bg-emerald-500 shrink-0" aria-hidden="true"></span><span>${ssrInterpolate(_ctx.$t("hoxi.tools.heroEyebrow", { tools: unref(stats).toolCount, endpoints: unref(stats).endpointCount.toLocaleString("en-US"), providers: unref(stats).providerCount, categories: unref(stats).categoryCount }))}</span></div><h1 class="text-4xl sm:text-6xl md:text-[72px] font-semibold tracking-tight text-slate-900 dark:text-white leading-[0.98] mb-4"><span>${ssrInterpolate(_ctx.$t("hoxi.tools.heroLine1"))}</span><br><span>${ssrInterpolate(_ctx.$t("hoxi.tools.heroLine2"))}</span></h1><p class="text-base sm:text-lg text-slate-500 dark:text-slate-400 leading-relaxed max-w-[640px]">${ssrInterpolate(_ctx.$t("hoxi.tools.subtitle"))}</p></section><div class="pt-2"><div class="relative flex items-center">`);

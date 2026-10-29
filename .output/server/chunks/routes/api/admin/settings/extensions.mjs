@@ -1,4 +1,4 @@
-import { d as defineEventHandler, bt as extensionManifests, bu as readExtensionMigrationStatus, bv as readEnabledExtensionIds, e as createError, r as readBody, bw as migrateExtensionDatabase, s as setAuditMeta, bx as normalizeEnabledExtensionIds, b as db, b1 as settings, by as ENABLED_EXTENSIONS_SETTING_KEY } from '../../../../nitro/nitro.mjs';
+import { d as defineEventHandler, by as extensionManifests, bz as readExtensionMigrationStatus, bA as readEnabledExtensionIds, e as createError, r as readBody, bB as migrateExtensionDatabase, s as setAuditMeta, bC as normalizeEnabledExtensionIds, b as db, b1 as settings, bD as ENABLED_EXTENSIONS_SETTING_KEY } from '../../../../nitro/nitro.mjs';
 import { eq } from 'drizzle-orm';
 import 'node:crypto';
 import 'crypto';
@@ -33,9 +33,9 @@ import 'jose';
 import 'node:child_process';
 import 'process';
 import 'buffer';
-import 'node:fs/promises';
 import 'node:dns/promises';
 import 'node:net';
+import 'node:fs/promises';
 import '@adonisjs/hash';
 import '@adonisjs/hash/drivers/scrypt';
 

@@ -1,4 +1,4 @@
-import { u as useI18n, bt as useSeoMeta, _ as _sfc_main$W } from './server.mjs';
+import { u as useI18n, bt as useSeoMeta, _ as _sfc_main$Y } from './server.mjs';
 import { defineComponent, ref, computed, withCtx, unref, createVNode, toDisplayString, withModifiers, withDirectives, vModelText, openBlock, createBlock, createCommentVNode, Fragment, renderList, createTextVNode, useSSRContext } from 'vue';
 import { ssrRenderComponent, ssrInterpolate, ssrRenderAttr, ssrIncludeBooleanAttr, ssrRenderList, ssrRenderClass } from 'vue/server-renderer';
 import { _ as _sfc_main$1, f as formatPoints } from './layout-DypCocu9.mjs';
@@ -37,9 +37,9 @@ import 'jose';
 import 'node:child_process';
 import 'process';
 import 'buffer';
-import 'node:fs/promises';
 import 'node:dns/promises';
 import 'node:net';
+import 'node:fs/promises';
 import '@adonisjs/hash';
 import '@adonisjs/hash/drivers/scrypt';
 import 'vue-router';
@@ -174,7 +174,7 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
       return;
     }
     return (_ctx, _push, _parent, _attrs) => {
-      const _component_UIcon = _sfc_main$W;
+      const _component_UIcon = _sfc_main$Y;
       _push(ssrRenderComponent(_sfc_main$1, _attrs, {
         title: withCtx((_, _push2, _parent2, _scopeId) => {
           if (_push2) {

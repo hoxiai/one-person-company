@@ -1,4 +1,4 @@
-import { u as useI18n, r as useSettings, e as useToast, f as useAdminPermissions, C as publishedOptionalThemes, _ as _sfc_main$W, i as _sfc_main$R, o as navigateTo } from './server.mjs';
+import { u as useI18n, r as useSettings, e as useToast, f as useAdminPermissions, C as publishedOptionalThemes, _ as _sfc_main$Y, i as _sfc_main$T, o as navigateTo } from './server.mjs';
 import { _ as __nuxt_component_2 } from './Nav-BfctuFgG.mjs';
 import { defineComponent, ref, computed, mergeProps, unref, withCtx, createTextVNode, toDisplayString, useSSRContext } from 'vue';
 import { ssrRenderAttrs, ssrRenderComponent, ssrInterpolate, ssrRenderList, ssrRenderClass, ssrRenderAttr } from 'vue/server-renderer';
@@ -37,9 +37,9 @@ import 'jose';
 import 'node:child_process';
 import 'process';
 import 'buffer';
-import 'node:fs/promises';
 import 'node:dns/promises';
 import 'node:net';
+import 'node:fs/promises';
 import '@adonisjs/hash';
 import '@adonisjs/hash/drivers/scrypt';
 import 'vue-router';
@@ -178,9 +178,9 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
       }
     };
     return (_ctx, _push, _parent, _attrs) => {
-      const _component_UIcon = _sfc_main$W;
+      const _component_UIcon = _sfc_main$Y;
       const _component_AdminSettingsNav = __nuxt_component_2;
-      const _component_UButton = _sfc_main$R;
+      const _component_UButton = _sfc_main$T;
       _push(`<div${ssrRenderAttrs(mergeProps({ class: "mx-auto pb-12" }, _attrs))}><div class="mb-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4"><div><h1 class="text-3xl font-bold text-gray-900 dark:text-white tracking-tight flex items-center gap-3">`);
       _push(ssrRenderComponent(_component_UIcon, {
         name: "ph:sparkle-duotone",

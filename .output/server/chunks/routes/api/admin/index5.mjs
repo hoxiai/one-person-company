@@ -1,4 +1,4 @@
-import { d as defineEventHandler, b as db, b1 as settings, r as readBody, s as setAuditMeta, bz as EMAIL_VERIFY_POLICY_KEY, bA as invalidateEmailVerifyPolicyCache } from '../../../nitro/nitro.mjs';
+import { d as defineEventHandler, b as db, b1 as settings, r as readBody, s as setAuditMeta, bE as EMAIL_VERIFY_POLICY_KEY, bF as invalidateEmailVerifyPolicyCache } from '../../../nitro/nitro.mjs';
 import { eq } from 'drizzle-orm';
 import 'node:crypto';
 import 'crypto';
@@ -33,15 +33,15 @@ import 'jose';
 import 'node:child_process';
 import 'process';
 import 'buffer';
-import 'node:fs/promises';
 import 'node:dns/promises';
 import 'node:net';
+import 'node:fs/promises';
 import '@adonisjs/hash';
 import '@adonisjs/hash/drivers/scrypt';
 
 const INTERNAL_RUNTIME_SETTING_PREFIXES = [
-  "shoply_license_version.",
-  "shoply_custom_store_limit.",
+  "shopark_license_version.",
+  "shopark_custom_store_limit.",
   "scheduler_state.",
   "extension_migration:",
   "extension_migration_failure:",
@@ -49,9 +49,9 @@ const INTERNAL_RUNTIME_SETTING_PREFIXES = [
   "extension_migrations:"
 ];
 const INTERNAL_RUNTIME_SETTING_KEYS = /* @__PURE__ */ new Set([
-  "shoply_license_reconcile_state",
-  "shoply_leads_records",
-  "shoply_expiry_reminder_sent_log",
+  "shopark_license_reconcile_state",
+  "shopark_leads_records",
+  "shopark_expiry_reminder_sent_log",
   "enabled_extensions",
   "ainode_subscription_sync_since"
 ]);

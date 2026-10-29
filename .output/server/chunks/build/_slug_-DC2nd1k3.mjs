@@ -1,4 +1,4 @@
-import { H as useRoute, u as useI18n, D as useLocaleRouter, d as useFormatTime, y as useFetch, bw as usePageResourceState, bt as useSeoMeta, bu as useJsonLd, S as PageRequestError, O as __nuxt_component_3$3, _ as _sfc_main$W, bx as __nuxt_component_3$2 } from './server.mjs';
+import { H as useRoute, u as useI18n, D as useLocaleRouter, d as useFormatTime, y as useFetch, bw as usePageResourceState, bt as useSeoMeta, bu as useJsonLd, S as PageRequestError, O as __nuxt_component_3$3, _ as _sfc_main$Y, bx as __nuxt_component_3$2 } from './server.mjs';
 import __nuxt_component_7 from './HoxiComment-DCtFmk7t.mjs';
 import { defineComponent, computed, ref, mergeProps, unref, withCtx, createVNode, createTextVNode, toDisplayString, toValue, useSSRContext } from 'vue';
 import { ssrRenderAttrs, ssrRenderComponent, ssrInterpolate, ssrRenderAttr } from 'vue/server-renderer';
@@ -39,9 +39,9 @@ import 'jose';
 import 'node:child_process';
 import 'process';
 import 'buffer';
-import 'node:fs/promises';
 import 'node:dns/promises';
 import 'node:net';
+import 'node:fs/promises';
 import '@adonisjs/hash';
 import '@adonisjs/hash/drivers/scrypt';
 import 'vue-router';
@@ -222,7 +222,7 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
       var _a;
       const _component_PageRequestError = PageRequestError;
       const _component_NuxtLink = __nuxt_component_3$3;
-      const _component_UIcon = _sfc_main$W;
+      const _component_UIcon = _sfc_main$Y;
       const _component_LikeButton = __nuxt_component_3$2;
       const _component_HoxiComment = __nuxt_component_7;
       _push(`<div${ssrRenderAttrs(mergeProps({ class: "mx-auto max-w-4xl px-4 py-8 md:px-6 md:py-16" }, _attrs))}>`);

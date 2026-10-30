@@ -1,4 +1,4 @@
-import { d as defineEventHandler, by as extensionManifests, bz as readExtensionMigrationStatus, bA as readEnabledExtensionIds, e as createError, r as readBody, bB as migrateExtensionDatabase, s as setAuditMeta, bC as normalizeEnabledExtensionIds, b as db, b1 as settings, bD as ENABLED_EXTENSIONS_SETTING_KEY } from '../../../../nitro/nitro.mjs';
+import { d as defineEventHandler, bG as extensionManifests, bH as readExtensionMigrationStatus, bI as readEnabledExtensionIds, e as createError, r as readBody, bJ as migrateExtensionDatabase, s as setAuditMeta, bK as normalizeEnabledExtensionIds, b as db, b9 as settings, bL as ENABLED_EXTENSIONS_SETTING_KEY, bM as invalidatePublicSettingsCache } from '../../../../nitro/nitro.mjs';
 import { eq } from 'drizzle-orm';
 import 'node:crypto';
 import 'crypto';
@@ -23,6 +23,7 @@ import 'drizzle-orm/sqlite-core';
 import 'drizzle-orm/mysql-core';
 import 'maxmind';
 import 'node:os';
+import 'node:fs/promises';
 import 'node:url';
 import 'zod';
 import '@iconify/utils';
@@ -35,7 +36,6 @@ import 'process';
 import 'buffer';
 import 'node:dns/promises';
 import 'node:net';
-import 'node:fs/promises';
 import '@adonisjs/hash';
 import '@adonisjs/hash/drivers/scrypt';
 
@@ -113,6 +113,7 @@ const extensions = defineEventHandler(async (event) => {
       description: "Enabled built-in APay extensions"
     });
   }
+  invalidatePublicSettingsCache();
   setAuditMeta(event, {
     action: "update",
     resource: "extensions",

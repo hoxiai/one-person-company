@@ -1,4 +1,4 @@
-import { d as defineEventHandler, b as db, b1 as settings, eu as isPublicSettingKey } from '../../nitro/nitro.mjs';
+import { d as defineEventHandler, eV as readPublicSettingRows } from '../../nitro/nitro.mjs';
 import 'drizzle-orm';
 import 'node:crypto';
 import 'crypto';
@@ -23,6 +23,7 @@ import 'drizzle-orm/sqlite-core';
 import 'drizzle-orm/mysql-core';
 import 'maxmind';
 import 'node:os';
+import 'node:fs/promises';
 import 'node:url';
 import 'zod';
 import '@iconify/utils';
@@ -35,13 +36,11 @@ import 'process';
 import 'buffer';
 import 'node:dns/promises';
 import 'node:net';
-import 'node:fs/promises';
 import '@adonisjs/hash';
 import '@adonisjs/hash/drivers/scrypt';
 
 const settings_get = defineEventHandler(async () => {
-  const rows = await db.select({ key: settings.key, value: settings.value }).from(settings);
-  return rows.filter((row) => isPublicSettingKey(row.key));
+  return await readPublicSettingRows();
 });
 
 export { settings_get as default };

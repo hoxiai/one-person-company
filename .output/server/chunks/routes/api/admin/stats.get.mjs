@@ -1,4 +1,4 @@
-import { d as defineEventHandler, c as getRequestLocale, D as getConfiguredTimezone, bY as parseStatsRange, g as getQuery, K as getRequestHost, J as loadVisitorReport, G as buildLocaleCurrencyQuote, M as resolveOrderCurrencyAmounts, B as aggregateOrderAccountingTotals, bZ as buildStatsMetricComparison, N as getCurrencyTotal, b_ as toZonedDateKey, F as shiftZonedDay, b$ as buildVisitorSourceMetrics, bW as buildVisitorGeoConversions } from '../../../nitro/nitro.mjs';
+import { d as defineEventHandler, c as getRequestLocale, D as getConfiguredTimezone, cc as parseStatsRange, g as getQuery, V as getRequestHost, G as buildLocaleCurrencyQuote, W as isVisitorRollupEnabled, X as resolveRollupSiteHost, c5 as zonedDateKeysBetween, c6 as ensureRollupDays, c7 as loadRollupAggregates, c8 as loadRollupPaidOverlay, cd as loadRollupTrafficSummary, ce as assembleStatsResponse, cf as buildRollupStatsInput, $ as loadVisitorReport, cg as loadVisitorTrafficSummary, ch as buildRawStatsInput } from '../../../nitro/nitro.mjs';
 import 'drizzle-orm';
 import 'node:crypto';
 import 'crypto';
@@ -23,6 +23,7 @@ import 'drizzle-orm/sqlite-core';
 import 'drizzle-orm/mysql-core';
 import 'maxmind';
 import 'node:os';
+import 'node:fs/promises';
 import 'node:url';
 import 'zod';
 import '@iconify/utils';
@@ -35,7 +36,6 @@ import 'process';
 import 'buffer';
 import 'node:dns/promises';
 import 'node:net';
-import 'node:fs/promises';
 import '@adonisjs/hash';
 import '@adonisjs/hash/drivers/scrypt';
 
@@ -55,141 +55,60 @@ const stats_get = defineEventHandler(async (event) => {
     fullYesterdayEnd
   } = parseStatsRange(getQuery(event), timezone);
   const host = getRequestHost(event);
-  const [report, previousReport, fullYesterdayReport, quote] = await Promise.all([
-    loadVisitorReport(rangeStart, rangeEnd, host),
-    loadVisitorReport(previousStart, previousEnd, host),
-    fullYesterdayStart && fullYesterdayEnd ? loadVisitorReport(fullYesterdayStart, fullYesterdayEnd, host) : Promise.resolve(null),
-    buildLocaleCurrencyQuote(0)
-  ]);
-  const summarizeTraffic = (item) => ({
-    pageViews: item.rows.reduce((total, row) => total + row.pageViews, 0),
-    uniqueVisitors: item.rows.length,
-    uniqueIps: new Set(item.events.map((entry) => entry.ip)).size
-  });
-  const rows = report.rows;
-  const currency = quote.baseCurrency;
-  const countRows = (predicate) => rows.filter(predicate).length;
-  const ips = new Set(report.events.map((item) => item.ip));
-  const paidOrders = report.orders.filter((order) => resolveOrderCurrencyAmounts(order).paymentAmount > 0);
-  const revenueByCurrency = aggregateOrderAccountingTotals(report.orders);
-  const paidVisitors = countRows((row) => row.paid > 0);
-  const conversionRate = rows.length > 0 ? Number((100 * paidVisitors / rows.length).toFixed(1)) : 0;
-  const pageViews = rows.reduce((total, row) => total + row.pageViews, 0);
-  const previousTraffic = summarizeTraffic(previousReport);
-  const fullYesterdayTraffic = fullYesterdayReport ? summarizeTraffic(fullYesterdayReport) : null;
-  const comparisons = {
-    mode: comparisonMode,
-    days,
-    previousFrom: previousStart.toISOString(),
-    previousTo: previousEnd.toISOString(),
-    ...fullYesterdayStart && fullYesterdayEnd ? {
-      fullYesterdayFrom: fullYesterdayStart.toISOString(),
-      fullYesterdayTo: fullYesterdayEnd.toISOString()
-    } : {},
-    pageViews: buildStatsMetricComparison(pageViews, previousTraffic.pageViews, fullYesterdayTraffic == null ? void 0 : fullYesterdayTraffic.pageViews),
-    uniqueVisitors: buildStatsMetricComparison(rows.length, previousTraffic.uniqueVisitors, fullYesterdayTraffic == null ? void 0 : fullYesterdayTraffic.uniqueVisitors),
-    uniqueIps: buildStatsMetricComparison(ips.size, previousTraffic.uniqueIps, fullYesterdayTraffic == null ? void 0 : fullYesterdayTraffic.uniqueIps)
-  };
-  const overview = {
-    pageViews,
-    uniqueVisitors: rows.length,
-    pageViewVisitors: countRows((row) => row.pageViews > 0),
-    uniqueIps: ips.size,
-    todayVisitors: ips.size,
-    productVisitors: countRows((row) => row.productViews > 0),
-    checkoutVisitors: countRows((row) => row.checkouts > 0),
-    paidVisitors,
-    paidOrders: paidOrders.length,
-    freeOrders: report.orders.length - paidOrders.length,
-    authVisitors: countRows((row) => row.auth > 0),
-    loginVisitors: countRows((row) => row.loggedIn),
-    registerVisitors: countRows((row) => row.registered),
-    externalVisitors: countRows((row) => row.external),
-    campaignVisitors: countRows((row) => row.tagged),
-    conversionRate,
-    revenue: getCurrencyTotal(revenueByCurrency, currency),
-    revenueByCurrency,
-    currency,
-    unattributedPaidOrders: paidOrders.filter((order) => !order.visitorId).length,
-    unattributedRevenueByCurrency: aggregateOrderAccountingTotals(report.orders.filter((order) => !order.visitorId)),
-    comparisons
-  };
-  const trendMap = new Map(Array.from({ length: days }, (_, index) => {
-    const date = toZonedDateKey(shiftZonedDay(rangeStart, index, timezone), timezone);
-    return [date, {
-      date,
-      label: new Intl.DateTimeFormat(locale === "zh" ? "zh-CN" : "en-US", { month: "short", day: "numeric", timeZone: "UTC" }).format(/* @__PURE__ */ new Date(`${date}T12:00:00Z`)),
-      pageViews: 0,
-      unique: /* @__PURE__ */ new Set(),
-      products: /* @__PURE__ */ new Set(),
-      checkouts: /* @__PURE__ */ new Set(),
-      paid: /* @__PURE__ */ new Set(),
-      auth: /* @__PURE__ */ new Set()
-    }];
-  }));
-  for (const row of rows) {
-    for (const item of row.events) {
-      const daily = trendMap.get(toZonedDateKey(item.createdAt, timezone));
-      if (!daily) continue;
-      daily.unique.add(row.visitorId);
-      if (item.eventName === "page_view") daily.pageViews++;
-      if (item.eventName === "product_view") daily.products.add(row.visitorId);
-      if (item.eventName === "begin_checkout") daily.checkouts.add(row.visitorId);
-      if (item.eventName === "auth") daily.auth.add(row.visitorId);
-    }
-    for (const order of row.orders) {
-      const daily = trendMap.get(toZonedDateKey(order.paidAt, timezone));
-      if (!daily) continue;
-      daily.unique.add(row.visitorId);
-      if (resolveOrderCurrencyAmounts(order).paymentAmount > 0) daily.paid.add(row.visitorId);
-    }
-  }
-  const trend = [...trendMap.values()].map((daily) => ({
-    date: daily.date,
-    label: daily.label,
-    pageViews: daily.pageViews,
-    uniqueVisitors: daily.unique.size,
-    productVisitors: daily.products.size,
-    checkoutVisitors: daily.checkouts.size,
-    paidVisitors: daily.paid.size,
-    authVisitors: daily.auth.size
-  }));
-  const distribution = (field) => {
-    const totals = /* @__PURE__ */ new Map();
-    for (const row of rows) totals.set(row[field] || unknown, (totals.get(row[field] || unknown) || 0) + 1);
-    return [...totals].sort((a, b) => b[1] - a[1]).map(([label, count]) => ({
-      label,
-      count,
-      percentage: rows.length > 0 ? Number((100 * count / rows.length).toFixed(1)) : 0
-    }));
-  };
-  const lastTouch = buildVisitorSourceMetrics(report, "last", currency);
-  return {
-    range: { preset, days, from: rangeStart.toISOString(), to: rangeEnd.toISOString() },
+  const quote = await buildLocaleCurrencyQuote(0);
+  const base = {
+    locale,
+    unknown,
     timezone,
-    currency,
-    attributionVersion: 1,
-    generatedAt: (/* @__PURE__ */ new Date()).toISOString(),
-    overview,
-    trend,
-    // This is behavior distribution, not a sequential/cohort funnel.
-    funnel: [
-      { key: "page_view", label: "Page Visitors", visitors: overview.pageViewVisitors },
-      { key: "product_view", label: "Product Visitors", visitors: overview.productVisitors },
-      { key: "begin_checkout", label: "Checkout Visitors", visitors: overview.checkoutVisitors },
-      { key: "order_paid", label: "Paid Visitors", visitors: overview.paidVisitors },
-      { key: "auth", label: "Register / Login", visitors: overview.authVisitors }
-    ],
-    sources: {
-      categories: buildVisitorSourceMetrics(report, "last", currency, true),
-      firstTouch: buildVisitorSourceMetrics(report, "first", currency),
-      lastTouch,
-      external: lastTouch.filter((source) => source.sourceType !== "direct")
-    },
-    geography: distribution("country"),
-    geoConversions: buildVisitorGeoConversions(report, currency),
-    devices: distribution("deviceType")
+    currency: quote.baseCurrency,
+    preset,
+    days,
+    rangeStart,
+    rangeEnd,
+    comparisonMode,
+    previousStart,
+    previousEnd,
+    fullYesterdayStart,
+    fullYesterdayEnd
   };
+  const siteHost = isVisitorRollupEnabled() ? await resolveRollupSiteHost(host) : null;
+  if (siteHost) {
+    const currentKeys = zonedDateKeysBetween(rangeStart, rangeEnd, timezone);
+    const previousKeys = comparisonMode === "yesterday_same_time" ? [] : zonedDateKeysBetween(previousStart, previousEnd, timezone);
+    const fullYesterdayKeys = fullYesterdayStart && fullYesterdayEnd ? zonedDateKeysBetween(fullYesterdayStart, fullYesterdayEnd, timezone) : [];
+    const ensured = await ensureRollupDays([...currentKeys, ...previousKeys, ...fullYesterdayKeys], { timezone, siteHost });
+    const [aggregates, overlay, previousTraffic2, fullYesterdayTraffic2] = await Promise.all([
+      loadRollupAggregates(currentKeys, { hours: days === 1 }),
+      loadRollupPaidOverlay(rangeStart, rangeEnd, currentKeys, timezone),
+      comparisonMode === "yesterday_same_time" ? loadVisitorTrafficSummary(previousStart, previousEnd) : loadRollupTrafficSummary(previousStart, previousEnd, previousKeys, timezone),
+      fullYesterdayStart && fullYesterdayEnd ? loadRollupTrafficSummary(fullYesterdayStart, fullYesterdayEnd, fullYesterdayKeys, timezone) : Promise.resolve(null)
+    ]);
+    return assembleStatsResponse(buildRollupStatsInput(aggregates, overlay, {
+      ...base,
+      previousTraffic: previousTraffic2,
+      fullYesterdayTraffic: fullYesterdayTraffic2,
+      extra: {
+        rollup: {
+          source: "rollup",
+          complete: ensured.pendingDays.length === 0,
+          pendingDays: ensured.pendingDays,
+          staleDays: ensured.staleDays,
+          multiDayDimensionsAreVisitorDays: days > 1
+        }
+      }
+    }));
+  }
+  const [report, previousTraffic, fullYesterdayTraffic] = await Promise.all([
+    loadVisitorReport(rangeStart, rangeEnd, host),
+    loadVisitorTrafficSummary(previousStart, previousEnd),
+    fullYesterdayStart && fullYesterdayEnd ? loadVisitorTrafficSummary(fullYesterdayStart, fullYesterdayEnd) : Promise.resolve(null)
+  ]);
+  return assembleStatsResponse(buildRawStatsInput(report, {
+    ...base,
+    previousTraffic,
+    fullYesterdayTraffic,
+    extra: { rollup: { source: "raw" } }
+  }));
 });
 
 export { stats_get as default };

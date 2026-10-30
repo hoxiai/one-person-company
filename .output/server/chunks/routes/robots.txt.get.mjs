@@ -1,4 +1,4 @@
-import { d as defineEventHandler, eo as setHeader, bI as resolveServerSeoContext, eV as readGeoAiBotsPolicy, eW as renderRobotsTxt } from '../nitro/nitro.mjs';
+import { d as defineEventHandler, eP as setHeader, bS as resolveServerSeoContext, fk as readGeoAiBotsPolicy, fl as renderRobotsTxt } from '../nitro/nitro.mjs';
 import 'drizzle-orm';
 import 'node:crypto';
 import 'crypto';
@@ -23,6 +23,7 @@ import 'drizzle-orm/sqlite-core';
 import 'drizzle-orm/mysql-core';
 import 'maxmind';
 import 'node:os';
+import 'node:fs/promises';
 import 'node:url';
 import 'zod';
 import '@iconify/utils';
@@ -35,7 +36,6 @@ import 'process';
 import 'buffer';
 import 'node:dns/promises';
 import 'node:net';
-import 'node:fs/promises';
 import '@adonisjs/hash';
 import '@adonisjs/hash/drivers/scrypt';
 

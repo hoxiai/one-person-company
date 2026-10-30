@@ -1,4 +1,4 @@
-import { d as defineEventHandler, b as db, p as products, aJ as posts, b1 as settings, a as accessLogs, bG as AI_CRAWLER_SIGNATURES, bH as paymentFailures, bI as resolveServerSeoContext, bJ as detectAiCrawler, bK as normalizeGeoKeySpecs, bL as normalizeGeoFaqs, bM as normalizeGeoRelatedLinks, bN as evaluateGeoSeoReadiness, bO as isPostFrozen, bP as classifySeoRoute, bQ as seoRouteRegistry } from '../../../../nitro/nitro.mjs';
+import { d as defineEventHandler, b as db, p as products, aS as posts, b9 as settings, a as accessLogs, bR as AI_CRAWLER_SIGNATURES, Q as paymentFailures, bS as resolveServerSeoContext, bT as detectAiCrawler, bU as normalizeGeoKeySpecs, bV as normalizeGeoFaqs, bW as normalizeGeoRelatedLinks, bX as evaluateGeoSeoReadiness, bY as isPostFrozen, bZ as classifySeoRoute, b_ as seoRouteRegistry } from '../../../../nitro/nitro.mjs';
 import { and, eq, desc, gte, or, sql } from 'drizzle-orm';
 import 'node:crypto';
 import 'crypto';
@@ -23,6 +23,7 @@ import 'drizzle-orm/sqlite-core';
 import 'drizzle-orm/mysql-core';
 import 'maxmind';
 import 'node:os';
+import 'node:fs/promises';
 import 'node:url';
 import 'zod';
 import '@iconify/utils';
@@ -35,7 +36,6 @@ import 'process';
 import 'buffer';
 import 'node:dns/promises';
 import 'node:net';
-import 'node:fs/promises';
 import '@adonisjs/hash';
 import '@adonisjs/hash/drivers/scrypt';
 

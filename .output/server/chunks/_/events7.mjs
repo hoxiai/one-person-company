@@ -1,4 +1,4 @@
-import { fl as evaluateMonitors } from '../nitro/nitro.mjs';
+import { fM as ensurePanelCollectorScheduler, fN as evaluateMonitors } from '../nitro/nitro.mjs';
 import 'drizzle-orm';
 import 'node:crypto';
 import 'crypto';
@@ -23,6 +23,7 @@ import 'drizzle-orm/sqlite-core';
 import 'drizzle-orm/mysql-core';
 import 'maxmind';
 import 'node:os';
+import 'node:fs/promises';
 import 'node:url';
 import 'zod';
 import '@iconify/utils';
@@ -35,7 +36,6 @@ import 'process';
 import 'buffer';
 import 'node:dns/promises';
 import 'node:net';
-import 'node:fs/promises';
 import '@adonisjs/hash';
 import '@adonisjs/hash/drivers/scrypt';
 
@@ -54,6 +54,8 @@ const tick = async () => {
   }
 };
 async function startThemeBackgroundWorkers() {
+  await ensurePanelCollectorScheduler().catch(() => {
+  });
   if (timer) return;
   timer = setInterval(() => void tick(), TICK_MS);
   console.log("[panel-monitor] heartbeat evaluator started");

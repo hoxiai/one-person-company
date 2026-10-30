@@ -1,4 +1,4 @@
-import { d as defineEventHandler, c as getRequestLocale, g as getQuery, D as getConfiguredTimezone, bY as parseStatsRange, c1 as clampStatsPage, c2 as clampStatsPageSize, e as createError, J as loadVisitorReport, K as getRequestHost, c7 as matchesVisitorReportRow, b as db, u as users, c6 as visitorSourceLabel, c5 as formatSourceBrand } from '../../../../nitro/nitro.mjs';
+import { d as defineEventHandler, c as getRequestLocale, g as getQuery, D as getConfiguredTimezone, cc as parseStatsRange, cl as clampStatsPage, cm as clampStatsPageSize, e as createError, W as isVisitorRollupEnabled, X as resolveRollupSiteHost, V as getRequestHost, Y as ensureRollupRange, cx as loadRollupVisitorList, $ as loadVisitorReport, cy as matchesVisitorReportRow, b as db, u as users, cq as visitorSourceLabel, cp as formatSourceBrand } from '../../../../nitro/nitro.mjs';
 import { inArray } from 'drizzle-orm';
 import 'node:crypto';
 import 'crypto';
@@ -23,6 +23,7 @@ import 'drizzle-orm/sqlite-core';
 import 'drizzle-orm/mysql-core';
 import 'maxmind';
 import 'node:os';
+import 'node:fs/promises';
 import 'node:url';
 import 'zod';
 import '@iconify/utils';
@@ -35,7 +36,6 @@ import 'process';
 import 'buffer';
 import 'node:dns/promises';
 import 'node:net';
-import 'node:fs/promises';
 import '@adonisjs/hash';
 import '@adonisjs/hash/drivers/scrypt';
 
@@ -53,8 +53,33 @@ const visitors_get = defineEventHandler(async (event) => {
   if (type && !["page_view", "product_view", "begin_checkout", "order_paid", "auth"].includes(type)) {
     throw createError({ statusCode: 400, statusMessage: "Invalid analytics event filter" });
   }
-  const report = await loadVisitorReport(rangeStart, rangeEnd, getRequestHost(event));
   const search = stringQuery("search");
+  const siteHost = isVisitorRollupEnabled() ? await resolveRollupSiteHost(getRequestHost(event)) : null;
+  if (siteHost) {
+    const ensured = await ensureRollupRange(rangeStart, rangeEnd, { timezone, siteHost });
+    const list = await loadRollupVisitorList({
+      rangeStart,
+      rangeEnd,
+      timezone,
+      page,
+      pageSize,
+      unknown,
+      filter: { attribution, type, sourceType: stringQuery("sourceType"), sourceKey: stringQuery("sourceKey"), source: stringQuery("source"), search }
+    });
+    return {
+      range: { preset, days, from: rangeStart.toISOString(), to: rangeEnd.toISOString() },
+      attribution,
+      ...list,
+      rollup: {
+        source: "rollup",
+        complete: ensured.pendingDays.length === 0,
+        pendingDays: ensured.pendingDays,
+        staleDays: ensured.staleDays,
+        rowsAreVisitorDays: days > 1
+      }
+    };
+  }
+  const report = await loadVisitorReport(rangeStart, rangeEnd, getRequestHost(event));
   const baseFilter = {
     attribution,
     type,
@@ -85,6 +110,7 @@ const visitors_get = defineEventHandler(async (event) => {
   return {
     range: { preset, days, from: rangeStart.toISOString(), to: rangeEnd.toISOString() },
     attribution,
+    rollup: { source: "raw" },
     summary: {
       totalVisitors: report.rows.length,
       pageViewVisitors: countRows((row) => row.pageViews > 0),
@@ -98,6 +124,7 @@ const visitors_get = defineEventHandler(async (event) => {
     pagination: { page, pageSize, totalItems: matches.length, totalPages: Math.max(1, Math.ceil(matches.length / pageSize)) },
     items: rows.map((row) => ({
       visitorId: row.visitorId,
+      statDate: null,
       userId: row.userId,
       user: row.userId ? userMap.get(row.userId) || null : null,
       ip: row.ip,

@@ -1,4 +1,4 @@
-import { d as defineEventHandler, c as getRequestLocale, d1 as requireUserSession, e as createError, r as readBody, b as db, cq as userTokens, eI as apiTokenScope, dA as normalizeMcpScopes, dD as MCP_DEFAULT_SCOPES, dO as generateMcpAccessToken, eJ as API_TOKEN_PREFIX } from '../../../nitro/nitro.mjs';
+import { d as defineEventHandler, c as getRequestLocale, dt as requireUserSession, e as createError, r as readBody, b as db, cR as userTokens, f7 as apiTokenScope, d$ as normalizeMcpScopes, e2 as MCP_DEFAULT_SCOPES, ed as generateMcpAccessToken, f8 as API_TOKEN_PREFIX } from '../../../nitro/nitro.mjs';
 import crypto from 'crypto';
 import { z } from 'zod';
 import { count, and, eq } from 'drizzle-orm';
@@ -24,6 +24,7 @@ import 'drizzle-orm/sqlite-core';
 import 'drizzle-orm/mysql-core';
 import 'maxmind';
 import 'node:os';
+import 'node:fs/promises';
 import 'node:url';
 import '@iconify/utils';
 import 'consola';
@@ -35,7 +36,6 @@ import 'process';
 import 'buffer';
 import 'node:dns/promises';
 import 'node:net';
-import 'node:fs/promises';
 import '@adonisjs/hash';
 import '@adonisjs/hash/drivers/scrypt';
 

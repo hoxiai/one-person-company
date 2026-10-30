@@ -1,4 +1,4 @@
-import { d as defineEventHandler, dn as applyMcpPublicCors, dp as resolveMcpServerOrigin, eR as MCP_SUPPORTED_SCOPES } from '../../nitro/nitro.mjs';
+import { d as defineEventHandler, dP as applyMcpPublicCors, dQ as resolveMcpServerOrigin, fg as MCP_SUPPORTED_SCOPES } from '../../nitro/nitro.mjs';
 import 'drizzle-orm';
 import 'node:crypto';
 import 'crypto';
@@ -23,6 +23,7 @@ import 'drizzle-orm/sqlite-core';
 import 'drizzle-orm/mysql-core';
 import 'maxmind';
 import 'node:os';
+import 'node:fs/promises';
 import 'node:url';
 import 'zod';
 import '@iconify/utils';
@@ -35,7 +36,6 @@ import 'process';
 import 'buffer';
 import 'node:dns/promises';
 import 'node:net';
-import 'node:fs/promises';
 import '@adonisjs/hash';
 import '@adonisjs/hash/drivers/scrypt';
 

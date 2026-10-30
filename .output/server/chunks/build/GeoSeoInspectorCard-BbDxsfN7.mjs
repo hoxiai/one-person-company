@@ -1,7 +1,7 @@
 import { e as useToast, G as _sfc_main$p, a as _sfc_main$w, c as _sfc_main$s, i as _sfc_main$T, b as _sfc_main$A, l as _sfc_main$v, _ as _sfc_main$Y, k as _sfc_main$O, n as _sfc_main$I } from './server.mjs';
 import { defineComponent, ref, computed, mergeProps, withCtx, createVNode, createTextVNode, openBlock, createBlock, Fragment, renderList, toDisplayString, createCommentVNode, useSSRContext } from 'vue';
 import { ssrRenderComponent, ssrRenderList, ssrInterpolate, ssrRenderClass } from 'vue/server-renderer';
-import { bK as normalizeGeoKeySpecs, bL as normalizeGeoFaqs, bM as normalizeGeoRelatedLinks, bN as evaluateGeoSeoReadiness, gG as renderMarkdownDocument } from '../nitro/nitro.mjs';
+import { bU as normalizeGeoKeySpecs, bV as normalizeGeoFaqs, bW as normalizeGeoRelatedLinks, bX as evaluateGeoSeoReadiness, h6 as renderMarkdownDocument } from '../nitro/nitro.mjs';
 
 const _sfc_main$1 = /* @__PURE__ */ defineComponent({
   __name: "GeoCitationFieldsCard",

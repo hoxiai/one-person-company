@@ -1,4 +1,4 @@
-import { d as defineEventHandler, r as readBody, b as db, c0 as visitorEvents } from '../../../../nitro/nitro.mjs';
+import { d as defineEventHandler, r as readBody, W as isVisitorRollupEnabled, X as resolveRollupSiteHost, V as getRequestHost, ci as resolveSafeEventCleanupCutoff, D as getConfiguredTimezone, b as db, cj as visitorEvents, ck as markRawEventsCleanedBefore } from '../../../../nitro/nitro.mjs';
 import { lt } from 'drizzle-orm';
 import 'node:crypto';
 import 'crypto';
@@ -23,6 +23,7 @@ import 'drizzle-orm/sqlite-core';
 import 'drizzle-orm/mysql-core';
 import 'maxmind';
 import 'node:os';
+import 'node:fs/promises';
 import 'node:url';
 import 'zod';
 import '@iconify/utils';
@@ -35,7 +36,6 @@ import 'process';
 import 'buffer';
 import 'node:dns/promises';
 import 'node:net';
-import 'node:fs/promises';
 import '@adonisjs/hash';
 import '@adonisjs/hash/drivers/scrypt';
 
@@ -43,14 +43,22 @@ const cleanup_post = defineEventHandler(async (event) => {
   var _a, _b, _c;
   const body = await readBody(event);
   const keepDays = Math.max(1, Math.min(365, (_a = body == null ? void 0 : body.days) != null ? _a : 90));
-  const cutoff = new Date(Date.now() - keepDays * 24 * 60 * 60 * 1e3);
+  const requestedCutoff = new Date(Date.now() - keepDays * 24 * 60 * 60 * 1e3);
+  let cutoff = requestedCutoff;
+  const siteHost = isVisitorRollupEnabled() ? await resolveRollupSiteHost(getRequestHost(event)) : null;
+  if (siteHost) {
+    cutoff = await resolveSafeEventCleanupCutoff(requestedCutoff, { timezone: await getConfiguredTimezone(), siteHost });
+  }
   const result = await db.delete(visitorEvents).where(lt(visitorEvents.createdAt, cutoff));
+  await markRawEventsCleanedBefore(cutoff);
   const deletedCount = (_c = (_b = result == null ? void 0 : result.changes) != null ? _b : result == null ? void 0 : result.rowCount) != null ? _c : 0;
   return {
     success: true,
     deletedCount,
     keepDays,
-    cutoff: cutoff.toISOString()
+    cutoff: cutoff.toISOString(),
+    requestedCutoff: requestedCutoff.toISOString(),
+    limitedByRollup: cutoff.getTime() < requestedCutoff.getTime()
   };
 });
 

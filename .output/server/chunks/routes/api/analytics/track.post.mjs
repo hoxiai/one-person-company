@@ -1,4 +1,4 @@
-import { d as defineEventHandler, c as getRequestLocale, r as readBody, e as createError, cB as isTrackableVisitorPath, bx as getUserSession, cC as trackVisitorEvent } from '../../../nitro/nitro.mjs';
+import { d as defineEventHandler, c as getRequestLocale, r as readBody, e as createError, d0 as isTrackableVisitorPath, bF as getUserSession, d1 as trackVisitorEvent } from '../../../nitro/nitro.mjs';
 import 'drizzle-orm';
 import 'node:crypto';
 import 'crypto';
@@ -23,6 +23,7 @@ import 'drizzle-orm/sqlite-core';
 import 'drizzle-orm/mysql-core';
 import 'maxmind';
 import 'node:os';
+import 'node:fs/promises';
 import 'node:url';
 import 'zod';
 import '@iconify/utils';
@@ -35,12 +36,12 @@ import 'process';
 import 'buffer';
 import 'node:dns/promises';
 import 'node:net';
-import 'node:fs/promises';
 import '@adonisjs/hash';
 import '@adonisjs/hash/drivers/scrypt';
 
 const allowedEvents = /* @__PURE__ */ new Set(["page_view", "product_view"]);
 const track_post = defineEventHandler(async (event) => {
+  var _a;
   const locale = getRequestLocale(event);
   const body = await readBody(event);
   if (!body || typeof body !== "object") {
@@ -64,6 +65,10 @@ const track_post = defineEventHandler(async (event) => {
     // Explicit null means no document referrer; the POST's Referer is the current page.
     referrer: typeof payload.referrer === "string" ? payload.referrer : null,
     userId: typeof sessionUserId === "number" ? sessionUserId : null
+  }, {
+    // 浏览事件攒批写入,见 server/utils/visitorAnalytics.ts。Cloudflare isolate 之间
+    // 不共享内存、请求外的定时器也不可靠,保持逐条写入。
+    deferred: !(event.context.cloudflare || ((_a = event.context._platform) == null ? void 0 : _a.cloudflare))
   });
   return { success };
 });

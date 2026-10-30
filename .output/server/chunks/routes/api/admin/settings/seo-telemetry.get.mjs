@@ -1,4 +1,4 @@
-import { d as defineEventHandler, g as getQuery, K as getRequestHost, bG as AI_CRAWLER_SIGNATURES, a as accessLogs, b as db, J as loadVisitorReport, b1 as settings, a9 as logs, bJ as detectAiCrawler, bV as isGeoCorpusRequestPath, t as toIsoTimestamp, bW as buildVisitorGeoConversions } from '../../../../nitro/nitro.mjs';
+import { d as defineEventHandler, g as getQuery, V as getRequestHost, bR as AI_CRAWLER_SIGNATURES, a as accessLogs, b as db, b9 as settings, P as logs, bT as detectAiCrawler, c3 as isGeoCorpusRequestPath, t as toIsoTimestamp, W as isVisitorRollupEnabled, X as resolveRollupSiteHost, D as getConfiguredTimezone, F as shiftZonedDay, c4 as zonedDayStartUtc, c5 as zonedDateKeysBetween, c6 as ensureRollupDays, c7 as loadRollupAggregates, c8 as loadRollupPaidOverlay, c9 as buildRollupGeoConversions, ca as buildVisitorGeoConversions, $ as loadVisitorReport } from '../../../../nitro/nitro.mjs';
 import { or, sql, and, gte, desc, eq } from 'drizzle-orm';
 import 'node:crypto';
 import 'crypto';
@@ -23,6 +23,7 @@ import 'drizzle-orm/sqlite-core';
 import 'drizzle-orm/mysql-core';
 import 'maxmind';
 import 'node:os';
+import 'node:fs/promises';
 import 'node:url';
 import 'zod';
 import '@iconify/utils';
@@ -35,10 +36,25 @@ import 'process';
 import 'buffer';
 import 'node:dns/promises';
 import 'node:net';
-import 'node:fs/promises';
 import '@adonisjs/hash';
 import '@adonisjs/hash/drivers/scrypt';
 
+const loadSeoGeoConversions = async (days, host, baseCurrency, sinceDate, untilDate) => {
+  const siteHost = isVisitorRollupEnabled() ? await resolveRollupSiteHost(host) : null;
+  if (siteHost) {
+    const timezone = await getConfiguredTimezone();
+    const now = /* @__PURE__ */ new Date();
+    const periodStart = shiftZonedDay(zonedDayStartUtc(now, timezone), -(days - 1), timezone);
+    const dateKeys = zonedDateKeysBetween(periodStart, now, timezone);
+    await ensureRollupDays(dateKeys, { timezone, siteHost });
+    const [aggregates, overlay] = await Promise.all([
+      loadRollupAggregates(dateKeys, { sets: [], samples: false }),
+      loadRollupPaidOverlay(periodStart, now, dateKeys, timezone)
+    ]);
+    return buildRollupGeoConversions(aggregates, overlay, baseCurrency);
+  }
+  return buildVisitorGeoConversions(await loadVisitorReport(sinceDate, untilDate, host), baseCurrency);
+};
 const seoTelemetry_get = defineEventHandler(async (event) => {
   const query = event && typeof event.query === "object" && event.query ? event.query : getQuery(event);
   const host = (() => {
@@ -60,7 +76,7 @@ const seoTelemetry_get = defineEventHandler(async (event) => {
     sql`lower(coalesce(${accessLogs.path}, '')) like '%/llms-full.txt%'`,
     sql`lower(coalesce(${accessLogs.path}, '')) like '%.md%'`
   );
-  const [rawAccessLogs, visitorReport, settingRows, rawIndexNowLogs] = await Promise.all([
+  const [rawAccessLogs, settingRows, rawIndexNowLogs] = await Promise.all([
     Promise.resolve(
       db.select({
         id: accessLogs.id,
@@ -73,7 +89,6 @@ const seoTelemetry_get = defineEventHandler(async (event) => {
         createdAt: accessLogs.createdAt
       }).from(accessLogs).where(and(gte(accessLogs.createdAt, sinceDate), aiCrawlerFilter)).orderBy(desc(accessLogs.createdAt), desc(accessLogs.id)).limit(5e3)
     ).catch(() => []),
-    loadVisitorReport(sinceDate, untilDate, host, { dbClient: db }),
     Promise.resolve(
       db.select({
         key: settings.key,
@@ -172,7 +187,7 @@ const seoTelemetry_get = defineEventHandler(async (event) => {
   const topPaths = Array.from(pathStatsMap.values()).sort((a, b) => b.hits - a.hits).slice(0, 12);
   const settingsMap = new Map(settingRows.map((row) => [row.key, row.value]));
   const baseCurrency = String(settingsMap.get("currency") || settingsMap.get("base_currency") || "USD").trim().toUpperCase() || "USD";
-  const geoConversions = buildVisitorGeoConversions(visitorReport, baseCurrency);
+  const geoConversions = await loadSeoGeoConversions(days, host, baseCurrency, sinceDate, untilDate);
   const indexNowLogs = rawIndexNowLogs.map((item) => {
     let parsedDetails = null;
     if (item.details) {

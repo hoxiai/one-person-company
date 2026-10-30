@@ -1,4 +1,4 @@
-import { d as defineEventHandler, dn as applyMcpPublicCors, e as createError, $ as resolveClientIp, a0 as checkIpRateLimit, r as readBody, dH as registerDynamicMcpClient, dq as setResponseStatus } from '../../../nitro/nitro.mjs';
+import { d as defineEventHandler, dP as applyMcpPublicCors, e as createError, a9 as resolveClientIp, aa as checkIpRateLimit, r as readBody, e6 as registerDynamicMcpClient, dR as setResponseStatus } from '../../../nitro/nitro.mjs';
 import 'drizzle-orm';
 import 'node:crypto';
 import 'crypto';
@@ -23,6 +23,7 @@ import 'drizzle-orm/sqlite-core';
 import 'drizzle-orm/mysql-core';
 import 'maxmind';
 import 'node:os';
+import 'node:fs/promises';
 import 'node:url';
 import 'zod';
 import '@iconify/utils';
@@ -35,7 +36,6 @@ import 'process';
 import 'buffer';
 import 'node:dns/promises';
 import 'node:net';
-import 'node:fs/promises';
 import '@adonisjs/hash';
 import '@adonisjs/hash/drivers/scrypt';
 

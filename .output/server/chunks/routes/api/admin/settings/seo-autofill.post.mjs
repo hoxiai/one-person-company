@@ -1,4 +1,4 @@
-import { d as defineEventHandler, r as readBody, b as db, p as products, aJ as posts, b1 as settings, bI as resolveServerSeoContext, bR as generateEntityGeoCitations, aM as notifyIndexNowEntityChange, aK as assertPostMutable, bK as normalizeGeoKeySpecs, bL as normalizeGeoFaqs, bM as normalizeGeoRelatedLinks, bO as isPostFrozen, bS as submitIndexNowUrls, bP as classifySeoRoute, bT as localeSeoUrl, bQ as seoRouteRegistry } from '../../../../nitro/nitro.mjs';
+import { d as defineEventHandler, r as readBody, b as db, p as products, aS as posts, b9 as settings, bS as resolveServerSeoContext, b$ as generateEntityGeoCitations, aV as notifyIndexNowEntityChange, aT as assertPostMutable, bU as normalizeGeoKeySpecs, bV as normalizeGeoFaqs, bW as normalizeGeoRelatedLinks, bY as isPostFrozen, c0 as submitIndexNowUrls, bZ as classifySeoRoute, c1 as localeSeoUrl, b_ as seoRouteRegistry } from '../../../../nitro/nitro.mjs';
 import { and, eq, desc } from 'drizzle-orm';
 import 'node:crypto';
 import 'crypto';
@@ -23,6 +23,7 @@ import 'drizzle-orm/sqlite-core';
 import 'drizzle-orm/mysql-core';
 import 'maxmind';
 import 'node:os';
+import 'node:fs/promises';
 import 'node:url';
 import 'zod';
 import '@iconify/utils';
@@ -35,7 +36,6 @@ import 'process';
 import 'buffer';
 import 'node:dns/promises';
 import 'node:net';
-import 'node:fs/promises';
 import '@adonisjs/hash';
 import '@adonisjs/hash/drivers/scrypt';
 

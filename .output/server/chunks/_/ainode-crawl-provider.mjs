@@ -1,4 +1,4 @@
-import { fB as getListingModelSettingsByUser, fs as getQingpuAINodeBaseUrl, fC as normalizeAinodeCrawl1688Product, fD as extract1688OfferId } from '../nitro/nitro.mjs';
+import { g1 as getListingModelSettingsByUser, fU as getQingpuAINodeBaseUrl, g2 as normalizeAinodeCrawl1688Product, g3 as extract1688OfferId } from '../nitro/nitro.mjs';
 import { registerCollectProvider } from './registry.mjs';
 import 'drizzle-orm';
 import 'node:crypto';
@@ -24,6 +24,7 @@ import 'drizzle-orm/sqlite-core';
 import 'drizzle-orm/mysql-core';
 import 'maxmind';
 import 'node:os';
+import 'node:fs/promises';
 import 'node:url';
 import 'zod';
 import '@iconify/utils';
@@ -36,7 +37,6 @@ import 'process';
 import 'buffer';
 import 'node:dns/promises';
 import 'node:net';
-import 'node:fs/promises';
 import '@adonisjs/hash';
 import '@adonisjs/hash/drivers/scrypt';
 

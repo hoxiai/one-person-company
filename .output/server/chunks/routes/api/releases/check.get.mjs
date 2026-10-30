@@ -1,4 +1,4 @@
-import { d as defineEventHandler, g as getQuery, bd as normalizeAppKey, be as normalizeReleaseChannel, el as normalizeReleaseLang, ep as checkReleaseUpgrade, bm as getBundledReleasesForApp, dq as setResponseStatus, eq as buildTauriUpdateManifest } from '../../../nitro/nitro.mjs';
+import { d as defineEventHandler, g as getQuery, bl as normalizeAppKey, bm as normalizeReleaseChannel, eM as normalizeReleaseLang, eQ as checkReleaseUpgrade, bu as getBundledReleasesForApp, dR as setResponseStatus, eR as buildTauriUpdateManifest } from '../../../nitro/nitro.mjs';
 import appcastHandler from './appcast.xml.get.mjs';
 import 'drizzle-orm';
 import 'node:crypto';
@@ -24,6 +24,7 @@ import 'drizzle-orm/sqlite-core';
 import 'drizzle-orm/mysql-core';
 import 'maxmind';
 import 'node:os';
+import 'node:fs/promises';
 import 'node:url';
 import 'zod';
 import '@iconify/utils';
@@ -36,7 +37,6 @@ import 'process';
 import 'buffer';
 import 'node:dns/promises';
 import 'node:net';
-import 'node:fs/promises';
 import '@adonisjs/hash';
 import '@adonisjs/hash/drivers/scrypt';
 

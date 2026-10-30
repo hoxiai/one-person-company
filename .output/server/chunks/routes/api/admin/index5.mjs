@@ -1,4 +1,4 @@
-import { d as defineEventHandler, b as db, b1 as settings, r as readBody, s as setAuditMeta, bE as EMAIL_VERIFY_POLICY_KEY, bF as invalidateEmailVerifyPolicyCache } from '../../../nitro/nitro.mjs';
+import { d as defineEventHandler, b as db, b9 as settings, r as readBody, s as setAuditMeta, bN as EMAIL_VERIFY_POLICY_KEY, bO as invalidateEmailVerifyPolicyCache, bP as SINGLE_WEB_SESSION_POLICY_KEY, bQ as invalidateSingleWebSessionPolicyCache, bM as invalidatePublicSettingsCache } from '../../../nitro/nitro.mjs';
 import { eq } from 'drizzle-orm';
 import 'node:crypto';
 import 'crypto';
@@ -23,6 +23,7 @@ import 'drizzle-orm/sqlite-core';
 import 'drizzle-orm/mysql-core';
 import 'maxmind';
 import 'node:os';
+import 'node:fs/promises';
 import 'node:url';
 import 'zod';
 import '@iconify/utils';
@@ -35,7 +36,6 @@ import 'process';
 import 'buffer';
 import 'node:dns/promises';
 import 'node:net';
-import 'node:fs/promises';
 import '@adonisjs/hash';
 import '@adonisjs/hash/drivers/scrypt';
 
@@ -84,6 +84,10 @@ const index = defineEventHandler(async (event) => {
     if (EMAIL_VERIFY_POLICY_KEY in body) {
       invalidateEmailVerifyPolicyCache();
     }
+    if (SINGLE_WEB_SESSION_POLICY_KEY in body) {
+      invalidateSingleWebSessionPolicyCache();
+    }
+    invalidatePublicSettingsCache();
     setAuditMeta(event, {
       action: "update",
       resource: "settings",

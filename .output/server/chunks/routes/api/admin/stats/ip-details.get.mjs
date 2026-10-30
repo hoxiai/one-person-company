@@ -1,4 +1,4 @@
-import { d as defineEventHandler, c as getRequestLocale, g as getQuery, e as createError, D as getConfiguredTimezone, bY as parseStatsRange, c0 as visitorEvents, b as db, p as products, J as loadVisitorReport, K as getRequestHost, u as users, c3 as toIsoTimestampOrEpoch, c6 as visitorSourceLabel } from '../../../../nitro/nitro.mjs';
+import { d as defineEventHandler, c as getRequestLocale, g as getQuery, e as createError, D as getConfiguredTimezone, cc as parseStatsRange, cj as visitorEvents, b as db, p as products, u as users, cn as toIsoTimestampOrEpoch, cq as visitorSourceLabel, W as isVisitorRollupEnabled, X as resolveRollupSiteHost, V as getRequestHost, Y as ensureRollupRange, cr as VISITOR_REPORT_ACTIVITY_EVENTS, cs as loadRollupVisitorTouches, c8 as loadRollupPaidOverlay, c5 as zonedDateKeysBetween, $ as loadVisitorReport } from '../../../../nitro/nitro.mjs';
 import { sql, eq, and, gte, lt, count, desc, inArray } from 'drizzle-orm';
 import 'node:crypto';
 import 'crypto';
@@ -23,6 +23,7 @@ import 'drizzle-orm/sqlite-core';
 import 'drizzle-orm/mysql-core';
 import 'maxmind';
 import 'node:os';
+import 'node:fs/promises';
 import 'node:url';
 import 'zod';
 import '@iconify/utils';
@@ -35,7 +36,6 @@ import 'process';
 import 'buffer';
 import 'node:dns/promises';
 import 'node:net';
-import 'node:fs/promises';
 import '@adonisjs/hash';
 import '@adonisjs/hash/drivers/scrypt';
 
@@ -58,7 +58,7 @@ const ipDetails_get = defineEventHandler(async (event) => {
     lt(visitorEvents.createdAt, rangeEnd),
     ipCondition
   );
-  const [summaryRows, eventSummaryRows, visitorRows, contextRows, recentEvents, report] = await Promise.all([
+  const [summaryRows, eventSummaryRows, visitorRows, contextRows, recentEvents] = await Promise.all([
     db.select({
       totalEvents: count(),
       uniqueVisitors: sql`COUNT(DISTINCT ${visitorEvents.visitorId})`,
@@ -121,13 +121,33 @@ const ipDetails_get = defineEventHandler(async (event) => {
       productId: visitorEvents.productId,
       productName: products.name,
       createdAt: visitorEvents.createdAt
-    }).from(visitorEvents).leftJoin(products, eq(visitorEvents.productId, products.id)).where(eventFilter).orderBy(desc(visitorEvents.createdAt)).limit(100),
-    loadVisitorReport(rangeStart, rangeEnd, getRequestHost(event))
+    }).from(visitorEvents).leftJoin(products, eq(visitorEvents.productId, products.id)).where(eventFilter).orderBy(desc(visitorEvents.createdAt)).limit(100)
   ]);
+  const listedVisitorIds = visitorRows.map((item) => item.visitorId);
+  const loadIpContext = async () => {
+    const siteHost = isVisitorRollupEnabled() ? await resolveRollupSiteHost(getRequestHost(event)) : null;
+    if (siteHost) {
+      await ensureRollupRange(rangeStart, rangeEnd, { timezone, siteHost });
+      const ipVisitorRows = await db.selectDistinct({ visitorId: visitorEvents.visitorId }).from(visitorEvents).where(and(eventFilter, inArray(visitorEvents.eventName, VISITOR_REPORT_ACTIVITY_EVENTS.map((name) => sql`${name}`))));
+      const ipVisitorIds = new Set(ipVisitorRows.map((row) => String(row.visitorId)));
+      const [touches, overlay] = await Promise.all([
+        loadRollupVisitorTouches(listedVisitorIds, rangeStart, rangeEnd, timezone),
+        loadRollupPaidOverlay(rangeStart, rangeEnd, zonedDateKeysBetween(rangeStart, rangeEnd, timezone), timezone)
+      ]);
+      const paid = overlay.entries.filter((entry) => entry.positive && entry.visitorId && ipVisitorIds.has(entry.visitorId)).length;
+      return { touches, paid };
+    }
+    const report = await loadVisitorReport(rangeStart, rangeEnd, getRequestHost(event));
+    const ipVisitors = report.rows.filter((row) => row.events.some((item) => isLocal ? item.ip === null : item.ip === ip));
+    return {
+      touches: new Map(report.rows.map((row) => [row.visitorId, { first: row.first, last: row.last, firstReferrer: row.firstReferrer, lastReferrer: row.lastReferrer }])),
+      paid: ipVisitors.reduce((sum, row) => sum + row.paid, 0)
+    };
+  };
+  const ipContext = await loadIpContext();
   const userIds = visitorRows.flatMap((item) => item.userId ? [item.userId] : []);
   const userRows = userIds.length ? await db.select({ id: users.id, email: users.email, nickname: users.nickname, status: users.status, createdAt: users.createdAt }).from(users).where(inArray(users.id, userIds)) : [];
-  const reportMap = new Map(report.rows.map((row) => [row.visitorId, row]));
-  const ipVisitors = report.rows.filter((row) => row.events.some((item) => isLocal ? item.ip === null : item.ip === ip));
+  const reportMap = ipContext.touches;
   const userMap = new Map(userRows.map((item) => [item.id, item]));
   const eventSummary = Object.fromEntries(
     eventSummaryRows.map((item) => [item.eventName, Number(item.value || 0)])
@@ -143,7 +163,7 @@ const ipDetails_get = defineEventHandler(async (event) => {
       pageViews: eventSummary.page_view || 0,
       productViews: eventSummary.product_view || 0,
       checkouts: eventSummary.begin_checkout || 0,
-      paid: ipVisitors.reduce((sum, row) => sum + row.paid, 0),
+      paid: ipContext.paid,
       auth: eventSummary.auth || 0,
       firstSeenAt: toIsoTimestampOrEpoch(summary.firstSeenAt),
       lastSeenAt: toIsoTimestampOrEpoch(summary.lastSeenAt)

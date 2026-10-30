@@ -1,4 +1,4 @@
-import { d as defineEventHandler, dd as getRequestIP, de as checkCommentRateLimit, e as createError, bx as getUserSession, r as readBody, b as db, cp as oauthAccounts, df as sanitizeComment, dg as getRequestHeader, b1 as settings, o as comments, q as syncPostCommentCount, v as getCommentAvatarUrl } from '../../nitro/nitro.mjs';
+import { d as defineEventHandler, dE as getRequestIP, dF as checkCommentRateLimit, e as createError, bF as getUserSession, r as readBody, b as db, cQ as oauthAccounts, dG as sanitizeComment, dH as getRequestHeader, b9 as settings, o as comments, q as syncPostCommentCount, v as getCommentAvatarUrl } from '../../nitro/nitro.mjs';
 import { and, eq } from 'drizzle-orm';
 import 'node:crypto';
 import 'crypto';
@@ -23,6 +23,7 @@ import 'drizzle-orm/sqlite-core';
 import 'drizzle-orm/mysql-core';
 import 'maxmind';
 import 'node:os';
+import 'node:fs/promises';
 import 'node:url';
 import 'zod';
 import '@iconify/utils';
@@ -35,7 +36,6 @@ import 'process';
 import 'buffer';
 import 'node:dns/promises';
 import 'node:net';
-import 'node:fs/promises';
 import '@adonisjs/hash';
 import '@adonisjs/hash/drivers/scrypt';
 

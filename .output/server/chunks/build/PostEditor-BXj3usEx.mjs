@@ -6,7 +6,7 @@ import { ssrRenderAttrs, ssrRenderComponent, ssrInterpolate, ssrRenderClass, ssr
 import { useRoute, useRouter, onBeforeRouteLeave } from 'vue-router';
 import { G as GeoCitationFieldsCard, a as GeoSeoInspectorCard } from './GeoSeoInspectorCard-DYwuymjk.mjs';
 import { u as useImageProxy } from './useImageProxy-DBzzMBty.mjs';
-import { h7 as localePathForSeo } from '../nitro/nitro.mjs';
+import { h9 as localePathForSeo } from '../nitro/nitro.mjs';
 
 const _sfc_main = /* @__PURE__ */ defineComponent({
   __name: "PostEditor",

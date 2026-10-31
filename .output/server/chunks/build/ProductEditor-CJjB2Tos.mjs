@@ -4,7 +4,7 @@ import { ssrRenderAttrs, ssrRenderComponent, ssrInterpolate, ssrRenderClass, ssr
 import { useRoute, useRouter, onBeforeRouteLeave } from 'vue-router';
 import draggable from 'vuedraggable';
 import { u as useImageProxy } from './useImageProxy-DBzzMBty.mjs';
-import { hf as validateLocalePrices, hg as normalizePricingLocale, hh as productMetadata, eo as quoteProductPrice, eq as roundPrice } from '../nitro/nitro.mjs';
+import { hg as validateLocalePrices, hh as normalizePricingLocale, hi as productMetadata, eo as quoteProductPrice, eq as roundPrice } from '../nitro/nitro.mjs';
 import { G as GeoCitationFieldsCard, a as GeoSeoInspectorCard } from './GeoSeoInspectorCard-DYwuymjk.mjs';
 import { p as presetFieldsForType, s as stripUiIds, c as cleanServiceSchemaFields, a as cleanProductFeatures, b as parseProductFeatures, d as parseServiceSchemaFields } from './adminProductFormData-BiTP6ur1.mjs';
 

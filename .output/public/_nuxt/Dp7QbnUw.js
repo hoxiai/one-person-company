@@ -1,1 +1,0 @@
-import{a4 as e}from"./qTRxIrqU.js";import{ag as a,aa as o,ai as s}from"./DyhjOvkQ.js";import"./m4rsxDOy.js";import"./CfYFMnge.js";const n={},r={class:"text-xs font-medium tracking-wide text-slate-400 dark:text-slate-500"};function c(t,_){return a(),o("p",r,[s(t.$slots,"default")])}const f=Object.assign(e(n,[["render",c]]),{__name:"HoxiSectionLabel"});export{f as default};

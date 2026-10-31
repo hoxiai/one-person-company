@@ -1,5 +1,5 @@
 import { eq, and, desc, ne, gt } from 'drizzle-orm';
-import { fV as ensureAINodeApiKey, fW as persistModelCredentials, fX as markQingpuTrialPaymentReceived, fY as fulfillPaidTrialOrder, fZ as formatTrialErrorMessage, b as db, p as products, z as orders, u as users, di as logger, H as subscriptions, f_ as enqueueAndDeliverAINodeSync, f$ as getQingpuAINodeBaseUrl, g0 as getQingpuAINodeTenantToken, g1 as deterministicOperationId, g2 as retryIdempotentAINodeCall, g3 as creditAINodeCustomerBalance, g4 as planSubscriptionRevoke, g5 as grantEventId } from '../nitro/nitro.mjs';
+import { fW as ensureAINodeApiKey, fX as persistModelCredentials, fY as markQingpuTrialPaymentReceived, fZ as fulfillPaidTrialOrder, f_ as formatTrialErrorMessage, b as db, p as products, z as orders, u as users, di as logger, H as subscriptions, f$ as enqueueAndDeliverAINodeSync, g0 as getQingpuAINodeBaseUrl, g1 as getQingpuAINodeTenantToken, g2 as deterministicOperationId, g3 as retryIdempotentAINodeCall, g4 as creditAINodeCustomerBalance, g5 as planSubscriptionRevoke, g6 as grantEventId } from '../nitro/nitro.mjs';
 import 'node:crypto';
 import 'crypto';
 import 'fs';
@@ -327,6 +327,26 @@ function getThemeEventRules() {
     }
   ];
 }
+let blogWorkerTimer = null;
+async function startThemeBackgroundWorkers() {
+  const { ensureQingpuBlogSchedulerJob, harvestQingpuBlogIntelligence } = await import('./harvester.mjs');
+  await ensureQingpuBlogSchedulerJob().catch(() => {
+  });
+  harvestQingpuBlogIntelligence().catch(() => {
+  });
+  if (!blogWorkerTimer) {
+    blogWorkerTimer = setInterval(() => {
+      harvestQingpuBlogIntelligence().catch(() => {
+      });
+    }, 24 * 36e5);
+  }
+}
+async function stopThemeBackgroundWorkers() {
+  if (blogWorkerTimer) {
+    clearInterval(blogWorkerTimer);
+    blogWorkerTimer = null;
+  }
+}
 
-export { getThemeEventRules };
+export { getThemeEventRules, startThemeBackgroundWorkers, stopThemeBackgroundWorkers };
 //# sourceMappingURL=events8.mjs.map

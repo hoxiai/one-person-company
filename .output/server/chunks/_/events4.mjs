@@ -1,4 +1,4 @@
-import { fM as ensureFishSchedulerJob, fN as runAutoPublish, fO as runVideoCrawl } from '../nitro/nitro.mjs';
+import { fM as ensureFishSchedulerJob, fN as ensureBlogCategories, fO as runAutoPublish, fP as runVideoCrawl } from '../nitro/nitro.mjs';
 import 'drizzle-orm';
 import 'node:crypto';
 import 'crypto';
@@ -42,6 +42,8 @@ import '@adonisjs/hash/drivers/scrypt';
 let workerTimer = null;
 async function startThemeBackgroundWorkers() {
   await ensureFishSchedulerJob().catch(() => {
+  });
+  await ensureBlogCategories().catch(() => {
   });
   runAutoPublish().catch(() => {
   });

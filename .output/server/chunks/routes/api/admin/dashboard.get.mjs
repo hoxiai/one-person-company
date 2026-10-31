@@ -1,4 +1,4 @@
-import { d as defineEventHandler, g as getQuery, D as getConfiguredTimezone, E as getStartOfDayUtc, F as shiftZonedDay, z as orders, b as db, O as ORDER_PAY_STATUS, G as buildLocaleCurrencyQuote, u as users, p as products, H as subscriptions, I as topups, J as tickets, K as newsletterSubscribers, L as promoInviteRelations, o as comments, M as promoApplications, N as emailLogs, P as logs, Q as paymentFailures, R as resolveOrderCurrencyAmounts, B as aggregateOrderAccountingTotals, S as getCurrencyTotal, m as cards, T as toZonedDateKey, U as getCurrentHour, V as getRequestHost, W as isVisitorRollupEnabled, X as resolveRollupSiteHost, Y as ensureRollupRange, Z as loadRollupDashboardTraffic, _ as buildRawDashboardTraffic, $ as loadVisitorReport } from '../../../nitro/nitro.mjs';
+import { d as defineEventHandler, g as getQuery, D as getConfiguredTimezone, E as getStartOfDayUtc, F as shiftZonedDay, z as orders, b as db, O as ORDER_PAY_STATUS, G as buildLocaleCurrencyQuote, u as users, p as products, H as subscriptions, I as topups, J as tickets, K as newsletterSubscribers, L as promoInviteRelations, o as comments, M as promoApplications, N as emailLogs, P as logs, Q as paymentFailures, R as resolveOrderCurrencyAmounts, B as aggregateOrderAccountingTotals, S as getCurrencyTotal, m as cards, T as toZonedDateKey, U as getCurrentHour, V as getRequestHost, W as isVisitorRollupEnabled, X as resolveRollupSiteHost, Y as ensureRollupRange, Z as loadRollupDashboardTraffic, _ as buildRawDashboardTraffic, $ as loadVisitorReport, a0 as createRollupBackgroundScheduler } from '../../../nitro/nitro.mjs';
 import { and, gte, lt, eq, sql, or, isNull, gt, inArray, desc } from 'drizzle-orm';
 import 'node:crypto';
 import 'crypto';
@@ -69,7 +69,7 @@ const getDateKeyInTimezone = (value, timezone) => {
   }).format(date);
 };
 const dashboard_get = defineEventHandler(async (event) => {
-  var _a, _b, _c, _d, _e, _f, _g, _h, _i;
+  var _a, _b, _c, _d, _e, _f, _g, _h;
   const query = getQuery(event);
   const range = String(query.range || "today");
   const timezone = await getConfiguredTimezone();
@@ -87,7 +87,7 @@ const dashboard_get = defineEventHandler(async (event) => {
     const host = getRequestHost(event);
     const siteHost = isVisitorRollupEnabled() ? await resolveRollupSiteHost(host) : null;
     if (siteHost) {
-      const ensured = await ensureRollupRange(periodStart, now, { timezone, siteHost });
+      const ensured = await ensureRollupRange(periodStart, now, { timezone, siteHost }, { schedule: createRollupBackgroundScheduler(event) });
       return loadRollupDashboardTraffic(periodStart, now, timezone, {
         complete: ensured.pendingDays.length === 0,
         pendingDays: ensured.pendingDays,
@@ -132,7 +132,7 @@ const dashboard_get = defineEventHandler(async (event) => {
     errorLogs24hCount,
     paymentFailures24hCount
   ] = await Promise.all([
-    db.select(selectFields).from(orders).where(eq(orders.payStatus, ORDER_PAY_STATUS.PAID)),
+    db.select({ id: orders.id, amount: orders.amount, currency: orders.currency, metaData: orders.metaData, paidAt: orders.paidAt }).from(orders).where(eq(orders.payStatus, ORDER_PAY_STATUS.PAID)),
     db.select(selectFields).from(orders).where(periodCondition),
     db.select({ count: sql`count(*)` }).from(orders),
     buildLocaleCurrencyQuote(0),
@@ -181,13 +181,12 @@ const dashboard_get = defineEventHandler(async (event) => {
   const periodAov = periodPaidOrdersCount > 0 ? Number((periodRevenueAmount / periodPaidOrdersCount).toFixed(2)) : 0;
   let lowStockCardsCount = 0;
   if (keyProducts.length > 0) {
-    for (const kp of keyProducts) {
-      const avail = await db.select({ count: sql`count(*)` }).from(cards).where(and(eq(cards.productId, kp.id), eq(cards.isUsed, false)));
-      const stock = Number(((_a = avail[0]) == null ? void 0 : _a.count) || 0);
-      if (stock <= 3) {
-        lowStockCardsCount++;
-      }
-    }
+    const stockRows = await db.select({ productId: cards.productId, count: sql`count(*)` }).from(cards).where(and(inArray(cards.productId, keyProducts.map((kp) => kp.id)), eq(cards.isUsed, false))).groupBy(cards.productId);
+    const availableByProduct = new Map(stockRows.map((row) => [row.productId, Number(row.count || 0)]));
+    lowStockCardsCount = keyProducts.filter((kp) => {
+      var _a2;
+      return ((_a2 = availableByProduct.get(kp.id)) != null ? _a2 : 0) <= 3;
+    }).length;
   }
   let labels = [];
   let ordersSeries = [];
@@ -298,7 +297,7 @@ const dashboard_get = defineEventHandler(async (event) => {
         type = meta.product_type;
       } else if ((meta == null ? void 0 : meta.is_subscription) || (meta == null ? void 0 : meta.subscription_id)) {
         type = "subscription";
-      } else if ((meta == null ? void 0 : meta.is_topup) || ((_b = order.id) == null ? void 0 : _b.startsWith("topup_"))) {
+      } else if ((meta == null ? void 0 : meta.is_topup) || ((_a = order.id) == null ? void 0 : _a.startsWith("topup_"))) {
         type = "topup";
       }
     } catch {
@@ -315,9 +314,9 @@ const dashboard_get = defineEventHandler(async (event) => {
     count: val.count,
     amount: val.amount
   }));
-  const totalOrdersCount = Number(((_c = totalOrderRows[0]) == null ? void 0 : _c.count) || 0);
-  const activeProductsCount = Number(((_d = totalProductsCount[0]) == null ? void 0 : _d.count) || 0);
-  const activeSubsCount = Number(((_e = activeSubscriptionsCount[0]) == null ? void 0 : _e.count) || 0);
+  const totalOrdersCount = Number(((_b = totalOrderRows[0]) == null ? void 0 : _b.count) || 0);
+  const activeProductsCount = Number(((_c = totalProductsCount[0]) == null ? void 0 : _c.count) || 0);
+  const activeSubsCount = Number(((_d = activeSubscriptionsCount[0]) == null ? void 0 : _d.count) || 0);
   return {
     stats: {
       range,
@@ -349,7 +348,7 @@ const dashboard_get = defineEventHandler(async (event) => {
       totalOrders: totalOrdersCount,
       totalRevenue: getCurrencyTotal(totalRevenueByCurrency, baseCurrency),
       totalRevenueByCurrency,
-      totalUsers: Number(((_f = totalUsersCount[0]) == null ? void 0 : _f.count) || 0),
+      totalUsers: Number(((_e = totalUsersCount[0]) == null ? void 0 : _e.count) || 0),
       activeProducts: activeProductsCount,
       activeSubscriptions: activeSubsCount,
       activeNewsletterSubscribers: activeNewsletterCount,
@@ -358,10 +357,10 @@ const dashboard_get = defineEventHandler(async (event) => {
       currency: baseCurrency
     },
     actionItems: {
-      pendingFulfillments: Number(((_g = pendingFulfillmentsCount[0]) == null ? void 0 : _g.count) || 0),
+      pendingFulfillments: Number(((_f = pendingFulfillmentsCount[0]) == null ? void 0 : _f.count) || 0),
       lowStockCards: lowStockCardsCount,
-      pendingTopups: Number(((_h = pendingTopupsCount[0]) == null ? void 0 : _h.count) || 0),
-      pendingTickets: Number(((_i = pendingTicketsCount[0]) == null ? void 0 : _i.count) || 0),
+      pendingTopups: Number(((_g = pendingTopupsCount[0]) == null ? void 0 : _g.count) || 0),
+      pendingTickets: Number(((_h = pendingTicketsCount[0]) == null ? void 0 : _h.count) || 0),
       pendingComments: pendingCommentsCount,
       pendingPromoApplications: pendingPromoAppsCount,
       failedEmails24h: failedEmails24hCount,

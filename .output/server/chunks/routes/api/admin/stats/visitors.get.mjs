@@ -1,4 +1,4 @@
-import { d as defineEventHandler, c as getRequestLocale, g as getQuery, D as getConfiguredTimezone, cc as parseStatsRange, cl as clampStatsPage, cm as clampStatsPageSize, e as createError, W as isVisitorRollupEnabled, X as resolveRollupSiteHost, V as getRequestHost, Y as ensureRollupRange, cx as loadRollupVisitorList, $ as loadVisitorReport, cy as matchesVisitorReportRow, b as db, u as users, cq as visitorSourceLabel, cp as formatSourceBrand } from '../../../../nitro/nitro.mjs';
+import { d as defineEventHandler, c as getRequestLocale, g as getQuery, D as getConfiguredTimezone, ch as parseStatsRange, cq as clampStatsPage, cr as clampStatsPageSize, e as createError, W as isVisitorRollupEnabled, X as resolveRollupSiteHost, V as getRequestHost, Y as ensureRollupRange, cC as loadRollupVisitorList, $ as loadVisitorReport, cD as matchesVisitorReportRow, b as db, u as users, cv as visitorSourceLabel, cu as formatSourceBrand, a0 as createRollupBackgroundScheduler } from '../../../../nitro/nitro.mjs';
 import { inArray } from 'drizzle-orm';
 import 'node:crypto';
 import 'crypto';
@@ -56,7 +56,7 @@ const visitors_get = defineEventHandler(async (event) => {
   const search = stringQuery("search");
   const siteHost = isVisitorRollupEnabled() ? await resolveRollupSiteHost(getRequestHost(event)) : null;
   if (siteHost) {
-    const ensured = await ensureRollupRange(rangeStart, rangeEnd, { timezone, siteHost });
+    const ensured = await ensureRollupRange(rangeStart, rangeEnd, { timezone, siteHost }, { schedule: createRollupBackgroundScheduler(event) });
     const list = await loadRollupVisitorList({
       rangeStart,
       rangeEnd,

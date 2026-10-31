@@ -1,4 +1,4 @@
-import { d as defineEventHandler, r as readBody, b as db, p as products, aS as posts, b9 as settings, bS as resolveServerSeoContext, b$ as generateEntityGeoCitations, aV as notifyIndexNowEntityChange, aT as assertPostMutable, bU as normalizeGeoKeySpecs, bV as normalizeGeoFaqs, bW as normalizeGeoRelatedLinks, bY as isPostFrozen, c0 as submitIndexNowUrls, bZ as classifySeoRoute, c1 as localeSeoUrl, b_ as seoRouteRegistry } from '../../../../nitro/nitro.mjs';
+import { d as defineEventHandler, r as readBody, b as db, p as products, aT as posts, be as settings, bX as resolveServerSeoContext, c4 as generateEntityGeoCitations, aW as notifyIndexNowEntityChange, aU as assertPostMutable, bZ as normalizeGeoKeySpecs, b_ as normalizeGeoFaqs, b$ as normalizeGeoRelatedLinks, c1 as isPostFrozen, c5 as submitIndexNowUrls, c2 as classifySeoRoute, c6 as localeSeoUrl, c3 as seoRouteRegistry } from '../../../../nitro/nitro.mjs';
 import { and, eq, desc } from 'drizzle-orm';
 import 'node:crypto';
 import 'crypto';

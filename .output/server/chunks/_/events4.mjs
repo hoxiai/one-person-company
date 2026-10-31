@@ -1,4 +1,4 @@
-import { fG as ensureFishSchedulerJob, fH as runAutoPublish } from '../nitro/nitro.mjs';
+import { fM as ensureFishSchedulerJob, fN as runAutoPublish, fO as runVideoCrawl } from '../nitro/nitro.mjs';
 import 'drizzle-orm';
 import 'node:crypto';
 import 'crypto';
@@ -45,9 +45,13 @@ async function startThemeBackgroundWorkers() {
   });
   runAutoPublish().catch(() => {
   });
+  runVideoCrawl().catch(() => {
+  });
   if (!workerTimer) {
     workerTimer = setInterval(() => {
       runAutoPublish().catch(() => {
+      });
+      runVideoCrawl().catch(() => {
       });
     }, 60 * 6e4);
   }

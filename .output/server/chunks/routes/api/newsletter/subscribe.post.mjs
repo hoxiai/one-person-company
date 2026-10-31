@@ -1,4 +1,4 @@
-import { d as defineEventHandler, a9 as resolveClientIp, aa as checkIpRateLimit, e as createError, r as readBody, dW as normalizeSubscriberChannel, dX as normalizeSubscriberTopic, c as getRequestLocale, dY as validateAndNormalizeTarget, a4 as subscribeNewsletter } from '../../../nitro/nitro.mjs';
+import { d as defineEventHandler, aa as resolveClientIp, ab as checkIpRateLimit, e as createError, r as readBody, d$ as normalizeSubscriberChannel, e0 as normalizeSubscriberTopic, c as getRequestLocale, e1 as validateAndNormalizeTarget, a5 as subscribeNewsletter } from '../../../nitro/nitro.mjs';
 import 'drizzle-orm';
 import 'node:crypto';
 import 'crypto';

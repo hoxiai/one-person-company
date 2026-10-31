@@ -1,4 +1,4 @@
-import { d as defineEventHandler, c as getRequestLocale, f as getRouterParam, e as createError, b as db, p as products, r as readBody, aY as normalizeProductLocalePrices, aV as notifyIndexNowEntityChange, s as setAuditMeta } from '../../../../nitro/nitro.mjs';
+import { d as defineEventHandler, c as getRequestLocale, f as getRouterParam, e as createError, b as db, p as products, r as readBody, b1 as normalizeProductLocalePrices, aW as notifyIndexNowEntityChange, s as setAuditMeta } from '../../../../nitro/nitro.mjs';
 import { eq } from 'drizzle-orm';
 import 'node:crypto';
 import 'crypto';

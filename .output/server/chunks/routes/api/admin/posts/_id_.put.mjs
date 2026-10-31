@@ -1,4 +1,4 @@
-import { d as defineEventHandler, c as getRequestLocale, f as getRouterParam, e as createError, r as readBody, b as db, aS as posts, aT as assertPostMutable, aU as normalizePostLocale, aV as notifyIndexNowEntityChange, aW as notifySubscribersOnPostPublished, aX as findUniqueViolation } from '../../../../nitro/nitro.mjs';
+import { d as defineEventHandler, c as getRequestLocale, f as getRouterParam, e as createError, r as readBody, b as db, aT as posts, aU as assertPostMutable, aV as normalizePostLocale, aW as notifyIndexNowEntityChange, aX as notifySubscribersOnPostPublished, aY as findUniqueViolation } from '../../../../nitro/nitro.mjs';
 import { eq } from 'drizzle-orm';
 import 'node:crypto';
 import 'crypto';
@@ -51,6 +51,11 @@ const normalizePostMetaData = (value) => {
   }
   return typeof value === "object" ? value : null;
 };
+const normalizeCategoryId = (value) => {
+  if (value === null || value === void 0 || value === "") return null;
+  const parsed = Number(value);
+  return Number.isFinite(parsed) && parsed > 0 ? Math.trunc(parsed) : null;
+};
 const _id__put = defineEventHandler(async (event) => {
   const locale = getRequestLocale(event);
   const id = getRouterParam(event, "id");
@@ -75,6 +80,7 @@ const _id__put = defineEventHandler(async (event) => {
       key: normalizedKey || null,
       sort: normalizedSort,
       locale: normalizedLocale,
+      categoryId: body.categoryId === void 0 ? void 0 : normalizeCategoryId(body.categoryId),
       description: body.description || null,
       content: body.content || null,
       type: postType,

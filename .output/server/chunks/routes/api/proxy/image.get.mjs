@@ -1,4 +1,4 @@
-import { d as defineEventHandler, c as getRequestLocale, g as getQuery, eK as normalizeImageProxyUrl, cG as getHeader, dR as setResponseStatus, dS as setResponseHeader, eL as getImageProxyReferer, e as createError } from '../../../nitro/nitro.mjs';
+import { d as defineEventHandler, c as getRequestLocale, g as getQuery, eQ as normalizeImageProxyUrl, cL as getHeader, dW as setResponseStatus, dX as setResponseHeader, eR as getImageProxyReferer, e as createError } from '../../../nitro/nitro.mjs';
 import { createHash } from 'node:crypto';
 import 'drizzle-orm';
 import 'crypto';

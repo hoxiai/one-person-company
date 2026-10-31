@@ -1,4 +1,4 @@
-import { fM as ensurePanelCollectorScheduler, fN as evaluateMonitors } from '../nitro/nitro.mjs';
+import { fT as ensurePanelCollectorScheduler, fU as evaluateMonitors } from '../nitro/nitro.mjs';
 import 'drizzle-orm';
 import 'node:crypto';
 import 'crypto';

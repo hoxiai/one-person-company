@@ -1,4 +1,4 @@
-import { d as defineEventHandler, c as getRequestLocale, g as getQuery, e as createError, D as getConfiguredTimezone, cc as parseStatsRange, cj as visitorEvents, b as db, p as products, u as users, cn as toIsoTimestampOrEpoch, cq as visitorSourceLabel, W as isVisitorRollupEnabled, X as resolveRollupSiteHost, V as getRequestHost, Y as ensureRollupRange, cr as VISITOR_REPORT_ACTIVITY_EVENTS, cs as loadRollupVisitorTouches, c8 as loadRollupPaidOverlay, c5 as zonedDateKeysBetween, $ as loadVisitorReport } from '../../../../nitro/nitro.mjs';
+import { d as defineEventHandler, c as getRequestLocale, g as getQuery, e as createError, D as getConfiguredTimezone, ch as parseStatsRange, co as visitorEvents, b as db, p as products, u as users, cs as toIsoTimestampOrEpoch, cv as visitorSourceLabel, W as isVisitorRollupEnabled, X as resolveRollupSiteHost, V as getRequestHost, Y as ensureRollupRange, cw as VISITOR_REPORT_ACTIVITY_EVENTS, cx as loadRollupVisitorTouches, cd as loadRollupPaidOverlay, ca as zonedDateKeysBetween, $ as loadVisitorReport, a0 as createRollupBackgroundScheduler } from '../../../../nitro/nitro.mjs';
 import { sql, eq, and, gte, lt, count, desc, inArray } from 'drizzle-orm';
 import 'node:crypto';
 import 'crypto';
@@ -127,7 +127,7 @@ const ipDetails_get = defineEventHandler(async (event) => {
   const loadIpContext = async () => {
     const siteHost = isVisitorRollupEnabled() ? await resolveRollupSiteHost(getRequestHost(event)) : null;
     if (siteHost) {
-      await ensureRollupRange(rangeStart, rangeEnd, { timezone, siteHost });
+      await ensureRollupRange(rangeStart, rangeEnd, { timezone, siteHost }, { schedule: createRollupBackgroundScheduler(event) });
       const ipVisitorRows = await db.selectDistinct({ visitorId: visitorEvents.visitorId }).from(visitorEvents).where(and(eventFilter, inArray(visitorEvents.eventName, VISITOR_REPORT_ACTIVITY_EVENTS.map((name) => sql`${name}`))));
       const ipVisitorIds = new Set(ipVisitorRows.map((row) => String(row.visitorId)));
       const [touches, overlay] = await Promise.all([

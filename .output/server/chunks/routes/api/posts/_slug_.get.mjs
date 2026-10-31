@@ -1,4 +1,4 @@
-import { eG as defineCachedEventHandler, f as getRouterParam, eH as resolvePostRequestLocaleHint, c as getRequestLocale, e as createError, b as db, aS as posts } from '../../../nitro/nitro.mjs';
+import { eL as defineCachedEventHandler, f as getRouterParam, eM as resolvePostRequestLocaleHint, c as getRequestLocale, e as createError, b as db, aT as posts, aZ as postCategories, eN as resolvePostLocaleContext, eO as localizePostCategory } from '../../../nitro/nitro.mjs';
 import { and, or, eq, sql } from 'drizzle-orm';
 import 'node:crypto';
 import 'crypto';
@@ -61,8 +61,17 @@ const _slug__get = defineCachedEventHandler(async (event) => {
       console.error("Failed to parse metaData JSON", e);
     }
   }
+  let category = null;
+  if (post.categoryId != null) {
+    const categoryRows = await db.select().from(postCategories).where(eq(postCategories.id, post.categoryId)).limit(1);
+    if (categoryRows[0]) {
+      const localeContext = await resolvePostLocaleContext(event);
+      category = localizePostCategory(categoryRows[0], localeContext.locale);
+    }
+  }
   return {
     ...post,
+    category,
     metaData: parsedMetaData
   };
 }, {

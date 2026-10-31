@@ -1,5 +1,5 @@
-import { d as defineEventHandler, g as getQuery, aS as posts, aU as normalizePostLocale, b as db } from '../../../nitro/nitro.mjs';
-import { eq, or, like, and, count, desc, sql } from 'drizzle-orm';
+import { d as defineEventHandler, g as getQuery, aT as posts, aV as normalizePostLocale, b as db } from '../../../nitro/nitro.mjs';
+import { eq, isNull, or, like, and, count, desc, sql } from 'drizzle-orm';
 import 'node:crypto';
 import 'crypto';
 import 'fs';
@@ -49,9 +49,20 @@ const index_get = defineEventHandler(async (event) => {
   const locale = String(query.locale || "").trim();
   const status = String(query.status || "").trim();
   const search = String(query.search || "").trim();
+  const category = String(query.category || "").trim();
   const conditions = [];
   if (type && type !== "all") {
     conditions.push(eq(posts.type, type));
+  }
+  if (category && category !== "all") {
+    if (category === "uncategorized" || category === "none" || category === "0") {
+      conditions.push(isNull(posts.categoryId));
+    } else {
+      const categoryId = Number.parseInt(category, 10);
+      if (Number.isFinite(categoryId)) {
+        conditions.push(eq(posts.categoryId, categoryId));
+      }
+    }
   }
   if (locale && locale !== "all") {
     const normalizedLocale = normalizePostLocale(locale);

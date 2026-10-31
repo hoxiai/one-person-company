@@ -1,4 +1,4 @@
-import { d as defineEventHandler, c as getRequestLocale, D as getConfiguredTimezone, cc as parseStatsRange, g as getQuery, V as getRequestHost, G as buildLocaleCurrencyQuote, W as isVisitorRollupEnabled, X as resolveRollupSiteHost, c5 as zonedDateKeysBetween, c6 as ensureRollupDays, c7 as loadRollupAggregates, c8 as loadRollupPaidOverlay, cd as loadRollupTrafficSummary, ce as assembleStatsResponse, cf as buildRollupStatsInput, $ as loadVisitorReport, cg as loadVisitorTrafficSummary, ch as buildRawStatsInput } from '../../../nitro/nitro.mjs';
+import { d as defineEventHandler, c as getRequestLocale, D as getConfiguredTimezone, ch as parseStatsRange, g as getQuery, V as getRequestHost, G as buildLocaleCurrencyQuote, W as isVisitorRollupEnabled, X as resolveRollupSiteHost, ca as zonedDateKeysBetween, cb as ensureRollupDays, cc as loadRollupAggregates, cd as loadRollupPaidOverlay, ci as loadRollupTrafficSummary, cj as assembleStatsResponse, ck as buildRollupStatsInput, $ as loadVisitorReport, cl as loadVisitorTrafficSummary, cm as buildRawStatsInput, a0 as createRollupBackgroundScheduler } from '../../../nitro/nitro.mjs';
 import 'drizzle-orm';
 import 'node:crypto';
 import 'crypto';
@@ -76,7 +76,11 @@ const stats_get = defineEventHandler(async (event) => {
     const currentKeys = zonedDateKeysBetween(rangeStart, rangeEnd, timezone);
     const previousKeys = comparisonMode === "yesterday_same_time" ? [] : zonedDateKeysBetween(previousStart, previousEnd, timezone);
     const fullYesterdayKeys = fullYesterdayStart && fullYesterdayEnd ? zonedDateKeysBetween(fullYesterdayStart, fullYesterdayEnd, timezone) : [];
-    const ensured = await ensureRollupDays([...currentKeys, ...previousKeys, ...fullYesterdayKeys], { timezone, siteHost });
+    const ensured = await ensureRollupDays(
+      [...currentKeys, ...previousKeys, ...fullYesterdayKeys],
+      { timezone, siteHost },
+      { schedule: createRollupBackgroundScheduler(event) }
+    );
     const [aggregates, overlay, previousTraffic2, fullYesterdayTraffic2] = await Promise.all([
       loadRollupAggregates(currentKeys, { hours: days === 1 }),
       loadRollupPaidOverlay(rangeStart, rangeEnd, currentKeys, timezone),

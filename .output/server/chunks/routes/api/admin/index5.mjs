@@ -1,4 +1,4 @@
-import { d as defineEventHandler, b as db, b9 as settings, r as readBody, s as setAuditMeta, bN as EMAIL_VERIFY_POLICY_KEY, bO as invalidateEmailVerifyPolicyCache, bP as SINGLE_WEB_SESSION_POLICY_KEY, bQ as invalidateSingleWebSessionPolicyCache, bM as invalidatePublicSettingsCache } from '../../../nitro/nitro.mjs';
+import { d as defineEventHandler, b as db, be as settings, r as readBody, s as setAuditMeta, bS as EMAIL_VERIFY_POLICY_KEY, bT as invalidateEmailVerifyPolicyCache, bU as SINGLE_WEB_SESSION_POLICY_KEY, bV as invalidateSingleWebSessionPolicyCache, bR as invalidatePublicSettingsCache } from '../../../nitro/nitro.mjs';
 import { eq } from 'drizzle-orm';
 import 'node:crypto';
 import 'crypto';
@@ -53,7 +53,8 @@ const INTERNAL_RUNTIME_SETTING_KEYS = /* @__PURE__ */ new Set([
   "shopark_leads_records",
   "shopark_expiry_reminder_sent_log",
   "enabled_extensions",
-  "ainode_subscription_sync_since"
+  "ainode_subscription_sync_since",
+  "ainode_blog_model_snapshot"
 ]);
 const isInternalRuntimeSettingKey = (key) => {
   if (INTERNAL_RUNTIME_SETTING_KEYS.has(key)) return true;

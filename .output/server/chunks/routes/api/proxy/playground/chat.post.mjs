@@ -1,4 +1,4 @@
-import { d as defineEventHandler, c as getRequestLocale, bF as getUserSession, e as createError, r as readBody, eJ as getAIGatewayUrl, dS as setResponseHeader } from '../../../../nitro/nitro.mjs';
+import { d as defineEventHandler, c as getRequestLocale, bK as getUserSession, e as createError, r as readBody, eP as getAIGatewayUrl, dX as setResponseHeader } from '../../../../nitro/nitro.mjs';
 import 'drizzle-orm';
 import 'node:crypto';
 import 'crypto';

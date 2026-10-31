@@ -1,4 +1,4 @@
-import { d as defineEventHandler, r as readBody, c2 as collectAllPublicIndexNowUrls, c0 as submitIndexNowUrls } from '../../../../nitro/nitro.mjs';
+import { d as defineEventHandler, r as readBody, c7 as collectAllPublicIndexNowUrls, c5 as submitIndexNowUrls } from '../../../../nitro/nitro.mjs';
 import 'drizzle-orm';
 import 'node:crypto';
 import 'crypto';

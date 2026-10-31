@@ -1,4 +1,4 @@
-import { fB as syncSubscriptionToAINode } from '../nitro/nitro.mjs';
+import { fH as syncSubscriptionToAINode } from '../nitro/nitro.mjs';
 import 'drizzle-orm';
 import 'node:crypto';
 import 'crypto';

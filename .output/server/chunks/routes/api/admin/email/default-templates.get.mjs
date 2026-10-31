@@ -1,4 +1,4 @@
-import { d as defineEventHandler, g as getQuery, a1 as defaultEmailTemplates } from '../../../../nitro/nitro.mjs';
+import { d as defineEventHandler, g as getQuery, a2 as defaultEmailTemplates } from '../../../../nitro/nitro.mjs';
 import 'drizzle-orm';
 import 'node:crypto';
 import 'crypto';

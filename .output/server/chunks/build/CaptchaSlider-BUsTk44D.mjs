@@ -1,4 +1,4 @@
-import { u as useI18n, f as _sfc_main$I, j as _sfc_main$Y } from './server.mjs';
+import { u as useI18n, f as _sfc_main$H, j as _sfc_main$X } from './server.mjs';
 import { defineComponent, ref, computed, watch, mergeProps, isRef, unref, withCtx, createVNode, toDisplayString, openBlock, createBlock, createCommentVNode, createTextVNode, useSSRContext } from 'vue';
 import { ssrRenderComponent, ssrInterpolate, ssrRenderAttr, ssrIncludeBooleanAttr, ssrRenderStyle } from 'vue/server-renderer';
 
@@ -132,8 +132,8 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
       fetchCaptcha
     });
     return (_ctx, _push, _parent, _attrs) => {
-      const _component_UModal = _sfc_main$I;
-      const _component_UIcon = _sfc_main$Y;
+      const _component_UModal = _sfc_main$H;
+      const _component_UIcon = _sfc_main$X;
       _push(ssrRenderComponent(_component_UModal, mergeProps({
         open: unref(isOpen),
         "onUpdate:open": ($event) => isRef(isOpen) ? isOpen.value = $event : null,

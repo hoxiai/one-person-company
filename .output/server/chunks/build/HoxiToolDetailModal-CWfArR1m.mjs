@@ -1,5 +1,5 @@
 import __nuxt_component_1 from './HoxiToolBrandMark-DPo4uiHI.mjs';
-import { u as useI18n, j as _sfc_main$Y, O as __nuxt_component_3$3 } from './server.mjs';
+import { u as useI18n, j as _sfc_main$X, O as __nuxt_component_3$3 } from './server.mjs';
 import { defineComponent, ref, computed, withCtx, createVNode, useSSRContext } from 'vue';
 import { ssrRenderTeleport, ssrRenderComponent, ssrInterpolate, ssrRenderAttr, ssrRenderList } from 'vue/server-renderer';
 import '../nitro/nitro.mjs';
@@ -131,7 +131,7 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
     }
     return (_ctx, _push, _parent, _attrs) => {
       const _component_HoxiToolBrandMark = __nuxt_component_1;
-      const _component_UIcon = _sfc_main$Y;
+      const _component_UIcon = _sfc_main$X;
       const _component_NuxtLink = __nuxt_component_3$3;
       ssrRenderTeleport(_push, (_push2) => {
         if (__props.open && __props.tool) {

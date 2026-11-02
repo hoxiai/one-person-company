@@ -1,4 +1,4 @@
-import { u as useI18n, j as _sfc_main$Y } from './server.mjs';
+import { u as useI18n, j as _sfc_main$X } from './server.mjs';
 import { defineComponent, computed, mergeProps, useSSRContext } from 'vue';
 import { ssrRenderAttrs, ssrRenderComponent, ssrInterpolate, ssrRenderAttr } from 'vue/server-renderer';
 import '../nitro/nitro.mjs';
@@ -116,7 +116,7 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
     const releasePageUrl = computed(() => "https://github.com/hoxiai/hoxi/releases");
     return (_ctx, _push, _parent, _attrs) => {
       var _a;
-      const _component_UIcon = _sfc_main$Y;
+      const _component_UIcon = _sfc_main$X;
       _push(`<article${ssrRenderAttrs(mergeProps({
         class: ["flex flex-col justify-between rounded-2xl border bg-white dark:bg-slate-900/70 p-6 transition-colors", __props.highlight ? "border-blue-400/60 dark:border-blue-500/50" : "border-slate-200/80 dark:border-slate-800 hover:border-blue-400/60 dark:hover:border-blue-500/50"]
       }, _attrs))}><div><div class="flex items-start justify-between gap-3"><div class="flex items-center gap-3"><span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-slate-100 dark:bg-slate-800">`);

@@ -1,4 +1,4 @@
-import { u as useI18n, bh as useUserSession, H as useRoute, bi as __nuxt_component_2$3 } from './server.mjs';
+import { u as useI18n, bh as useUserSession, H as useRoute, bi as __nuxt_component_2$2 } from './server.mjs';
 import { defineComponent, ref, getCurrentInstance, computed, reactive, watch, useSSRContext } from 'vue';
 import { ssrRenderComponent } from 'vue/server-renderer';
 import { u as useHoxiCommunity } from './useHoxiCommunity-xgFpfmKx.mjs';
@@ -148,7 +148,7 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
     watch(isOpen, (val) => {
     });
     return (_ctx, _push, _parent, _attrs) => {
-      const _component_ClientOnly = __nuxt_component_2$3;
+      const _component_ClientOnly = __nuxt_component_2$2;
       _push(ssrRenderComponent(_component_ClientOnly, _attrs, {}, _parent));
     };
   }

@@ -1,5 +1,5 @@
 import __nuxt_component_0 from './HoxiContainer-DDAEb0_Y.mjs';
-import { u as useI18n, H as useRoute, r as useRouter, D as useLocaleRouter, bu as useSeoMeta, bv as useJsonLd, j as _sfc_main$Y, O as __nuxt_component_3$3 } from './server.mjs';
+import { u as useI18n, H as useRoute, r as useRouter, D as useLocaleRouter, bu as useSeoMeta, bv as useJsonLd, j as _sfc_main$X, O as __nuxt_component_3$3 } from './server.mjs';
 import __nuxt_component_2 from './HoxiModelFilters-D7e1Whzo.mjs';
 import __nuxt_component_3 from './HoxiModelTable-BHcQG9zK.mjs';
 import __nuxt_component_4 from './HoxiModelCard-C6lHP6Ws.mjs';
@@ -239,7 +239,7 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
     ]));
     return (_ctx, _push, _parent, _attrs) => {
       const _component_HoxiContainer = __nuxt_component_0;
-      const _component_UIcon = _sfc_main$Y;
+      const _component_UIcon = _sfc_main$X;
       const _component_HoxiModelFilters = __nuxt_component_2;
       const _component_HoxiModelTable = __nuxt_component_3;
       const _component_HoxiModelCard = __nuxt_component_4;

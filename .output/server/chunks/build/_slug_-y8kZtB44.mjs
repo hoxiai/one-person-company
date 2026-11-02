@@ -1,4 +1,4 @@
-import { H as useRoute, u as useI18n, D as useLocaleRouter, l as useFormatTime, y as useFetch, bx as usePageResourceState, bu as useSeoMeta, bv as useJsonLd, S as PageRequestError, O as __nuxt_component_3$3, j as _sfc_main$Y, by as __nuxt_component_3$2 } from './server.mjs';
+import { H as useRoute, u as useI18n, D as useLocaleRouter, l as useFormatTime, y as useFetch, bx as usePageResourceState, bu as useSeoMeta, bv as useJsonLd, S as PageRequestError, O as __nuxt_component_3$3, j as _sfc_main$X, by as __nuxt_component_3$2 } from './server.mjs';
 import __nuxt_component_7 from './HoxiComment-AS4BVW7k.mjs';
 import { defineComponent, computed, ref, mergeProps, unref, withCtx, createVNode, createTextVNode, toDisplayString, toValue, useSSRContext } from 'vue';
 import { ssrRenderAttrs, ssrRenderComponent, ssrInterpolate, ssrRenderAttr } from 'vue/server-renderer';
@@ -222,7 +222,7 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
       var _a;
       const _component_PageRequestError = PageRequestError;
       const _component_NuxtLink = __nuxt_component_3$3;
-      const _component_UIcon = _sfc_main$Y;
+      const _component_UIcon = _sfc_main$X;
       const _component_LikeButton = __nuxt_component_3$2;
       const _component_HoxiComment = __nuxt_component_7;
       _push(`<div${ssrRenderAttrs(mergeProps({ class: "mx-auto max-w-4xl px-4 py-8 md:px-6 md:py-16" }, _attrs))}>`);

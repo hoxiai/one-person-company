@@ -1,5 +1,5 @@
 import { d as defineEventHandler, c as getRequestLocale, g as getQuery, e as createError, z as orders, b as db, p as products, B as aggregateOrderAccountingTotals, C as visitorProfiles, u as users } from '../../../../nitro/nitro.mjs';
-import { and, or, isNull, eq, desc } from 'drizzle-orm';
+import { and, or, isNull, sql, eq, desc } from 'drizzle-orm';
 import 'node:crypto';
 import 'crypto';
 import 'fs';
@@ -53,10 +53,11 @@ const detail_get = defineEventHandler(async (event) => {
     });
   }
   try {
+    const normalizedEmail = email.toLowerCase();
     const orderWhere = isAnonymous ? and(
-      or(isNull(orders.contactEmail), eq(orders.contactEmail, "")),
+      or(isNull(orders.contactEmail), sql`trim(${orders.contactEmail}) = ''`),
       eq(orders.visitorId, visitorId)
-    ) : eq(orders.contactEmail, email);
+    ) : eq(sql`lower(trim(${orders.contactEmail}))`, normalizedEmail);
     const orderRows = await db.select({
       id: orders.id,
       amount: orders.amount,
@@ -92,7 +93,7 @@ const detail_get = defineEventHandler(async (event) => {
       avatarUrl: users.avatarUrl,
       createdAt: users.createdAt,
       status: users.status
-    }).from(users).where(eq(users.email, email)).limit(1) : [];
+    }).from(users).where(eq(sql`lower(trim(${users.email}))`, normalizedEmail)).limit(1) : [];
     const responseOrders = typedOrderRows.map(({ metaData: _metaData, ...order }) => order);
     return {
       identity: {

@@ -1,4 +1,4 @@
-import { a as useToast, v as _sfc_main$q, G as _sfc_main$p, g as _sfc_main$A, j as _sfc_main$Y, _ as _sfc_main$O, d as _sfc_main$T, f as _sfc_main$I, k as _sfc_main$w, p as _sfc_main$v, h as _sfc_main$s, B as _sfc_main$l } from './server.mjs';
+import { a as useToast, v as _sfc_main$q, G as _sfc_main$p, g as _sfc_main$w, j as _sfc_main$X, _ as _sfc_main$N, d as _sfc_main$S, f as _sfc_main$H, k as _sfc_main$x, p as _sfc_main$v, h as _sfc_main$s, B as _sfc_main$l } from './server.mjs';
 import { defineComponent, ref, computed, mergeProps, withCtx, createTextVNode, toDisplayString, createVNode, openBlock, createBlock, Fragment, renderList, createCommentVNode, useSSRContext } from 'vue';
 import { ssrRenderAttrs, ssrRenderComponent, ssrInterpolate, ssrRenderList, ssrRenderClass, ssrIncludeBooleanAttr, ssrRenderAttr } from 'vue/server-renderer';
 import { d as defaultHoxiSkills } from './skills-CdzEm7Yd.mjs';
@@ -212,12 +212,12 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
       var _a;
       const _component_UAlert = _sfc_main$q;
       const _component_UCard = _sfc_main$p;
-      const _component_UIcon = _sfc_main$Y;
-      const _component_UButton = _sfc_main$T;
-      const _component_UInput = _sfc_main$A;
-      const _component_UBadge = _sfc_main$O;
-      const _component_UModal = _sfc_main$I;
-      const _component_UFormField = _sfc_main$w;
+      const _component_UIcon = _sfc_main$X;
+      const _component_UButton = _sfc_main$S;
+      const _component_UInput = _sfc_main$w;
+      const _component_UBadge = _sfc_main$N;
+      const _component_UModal = _sfc_main$H;
+      const _component_UFormField = _sfc_main$x;
       const _component_USelect = _sfc_main$v;
       const _component_UTextarea = _sfc_main$s;
       const _component_UCheckbox = _sfc_main$l;

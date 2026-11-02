@@ -1,4 +1,4 @@
-import { r as useRouter, T as __nuxt_component_0$1, k as _sfc_main$w, g as _sfc_main$A, d as _sfc_main$T } from './server.mjs';
+import { r as useRouter, T as __nuxt_component_0$1, k as _sfc_main$x, g as _sfc_main$w, d as _sfc_main$S } from './server.mjs';
 import { defineComponent, reactive, ref, computed, mergeProps, unref, withCtx, createVNode, createTextVNode, useSSRContext } from 'vue';
 import { ssrRenderAttrs, ssrRenderComponent, ssrRenderClass, ssrInterpolate, ssrRenderStyle, ssrRenderList } from 'vue/server-renderer';
 import '../nitro/nitro.mjs';
@@ -159,9 +159,9 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
     });
     return (_ctx, _push, _parent, _attrs) => {
       const _component_Icon = __nuxt_component_0$1;
-      const _component_UFormField = _sfc_main$w;
-      const _component_UInput = _sfc_main$A;
-      const _component_UButton = _sfc_main$T;
+      const _component_UFormField = _sfc_main$x;
+      const _component_UInput = _sfc_main$w;
+      const _component_UButton = _sfc_main$S;
       _push(`<div${ssrRenderAttrs(mergeProps({ class: "min-h-screen bg-white dark:bg-[#09090b] flex items-center justify-center p-4" }, _attrs))}><div class="w-full max-w-md"><div class="text-center mb-8"><div class="w-12 h-12 rounded-full bg-gradient-to-tr from-purple-500 to-pink-500 flex items-center justify-center mx-auto mb-4 shadow-[0_0_20px_rgba(168,85,247,0.4)]">`);
       _push(ssrRenderComponent(_component_Icon, {
         name: "ph:rocket-launch-fill",

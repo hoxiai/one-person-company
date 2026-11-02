@@ -1,5 +1,5 @@
 import __nuxt_component_0 from './HoxiContainer-DDAEb0_Y.mjs';
-import { u as useI18n, D as useLocaleRouter, bu as useSeoMeta, bv as useJsonLd, j as _sfc_main$Y } from './server.mjs';
+import { u as useI18n, D as useLocaleRouter, bu as useSeoMeta, bv as useJsonLd, j as _sfc_main$X } from './server.mjs';
 import __nuxt_component_7 from './HoxiHairlineLink-DYjeMeqD.mjs';
 import { defineComponent, computed, withCtx, unref, createTextVNode, toDisplayString, createVNode, openBlock, createBlock, Fragment, renderList, useSSRContext } from 'vue';
 import { ssrRenderComponent, ssrInterpolate, ssrRenderList } from 'vue/server-renderer';
@@ -144,7 +144,7 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
     ]));
     return (_ctx, _push, _parent, _attrs) => {
       const _component_HoxiContainer = __nuxt_component_0;
-      const _component_UIcon = _sfc_main$Y;
+      const _component_UIcon = _sfc_main$X;
       const _component_HoxiHairlineLink = __nuxt_component_7;
       _push(ssrRenderComponent(_component_HoxiContainer, _attrs, {
         default: withCtx((_, _push2, _parent2, _scopeId) => {

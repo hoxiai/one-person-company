@@ -1,5 +1,5 @@
-import { d as defineEventHandler, c as getRequestLocale, f as getRouterParam, e as createError, b as db, cI as userWallets, u as users, p as products, z as orders, H as subscriptions, cV as oauthAccounts, cW as userTokens, C as visitorProfiles, b2 as promoMembers, N as emailLogs, B as aggregateOrderAccountingTotals } from '../../../../nitro/nitro.mjs';
-import { eq, desc } from 'drizzle-orm';
+import { d as defineEventHandler, c as getRequestLocale, f as getRouterParam, e as createError, b as db, cD as userWallets, u as users, p as products, z as orders, H as subscriptions, cQ as oauthAccounts, cR as userTokens, C as visitorProfiles, b2 as promoMembers, N as emailLogs, B as aggregateOrderAccountingTotals } from '../../../../nitro/nitro.mjs';
+import { sql, eq, desc } from 'drizzle-orm';
 import 'node:crypto';
 import 'crypto';
 import 'fs';
@@ -57,12 +57,21 @@ const _id__get = defineEventHandler(async (event) => {
       createdAt: users.createdAt,
       lastLoginAt: users.lastLoginAt,
       emailVerifiedAt: users.emailVerifiedAt,
-      cashBalance: userWallets.cashBalance,
-      grantBalance: userWallets.grantBalance,
-      subBalance: userWallets.subBalance,
-      tierLevel: userWallets.tierLevel,
-      subExpiresAt: userWallets.subExpiresAt
-    }).from(users).leftJoin(userWallets, eq(userWallets.userId, users.id)).where(eq(users.id, userId)).limit(1);
+      cashBalance: sql`coalesce(sum(${userWallets.cashBalance}), 0)`,
+      grantBalance: sql`coalesce(sum(${userWallets.grantBalance}), 0)`,
+      subBalance: sql`coalesce(sum(${userWallets.subBalance}), 0)`,
+      tierLevel: sql`coalesce(max(${userWallets.tierLevel}), 0)`,
+      subExpiresAt: sql`max(${userWallets.subExpiresAt})`
+    }).from(users).leftJoin(userWallets, eq(userWallets.userId, users.id)).where(eq(users.id, userId)).groupBy(
+      users.id,
+      users.email,
+      users.nickname,
+      users.avatarUrl,
+      users.status,
+      users.createdAt,
+      users.lastLoginAt,
+      users.emailVerifiedAt
+    ).limit(1);
     const user = userRows[0];
     if (!user) {
       throw createError({ statusCode: 404, message: locale === "zh" ? "\u7528\u6237\u4E0D\u5B58\u5728" : "User not found" });

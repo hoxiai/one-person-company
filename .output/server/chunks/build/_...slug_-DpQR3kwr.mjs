@@ -1,4 +1,4 @@
-import { H as useRoute, m as useAdminExtensions, u as useI18n, I as themeAdminLocaleEnModules, J as themeAdminLocaleZhModules, K as useHead, j as _sfc_main$Y, d as _sfc_main$T } from './server.mjs';
+import { H as useRoute, m as useAdminExtensions, u as useI18n, I as themeAdminLocaleEnModules, J as themeAdminLocaleZhModules, K as useHead, j as _sfc_main$X, d as _sfc_main$S } from './server.mjs';
 import { defineComponent, computed, watchEffect, unref, createVNode, resolveDynamicComponent, mergeProps, withCtx, createTextVNode, useSSRContext } from 'vue';
 import { ssrRenderVNode, ssrRenderAttrs, ssrRenderComponent, ssrInterpolate } from 'vue/server-renderer';
 import '../nitro/nitro.mjs';
@@ -109,8 +109,8 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
       title: `${title.value} - Admin`
     }));
     return (_ctx, _push, _parent, _attrs) => {
-      const _component_UIcon = _sfc_main$Y;
-      const _component_UButton = _sfc_main$T;
+      const _component_UIcon = _sfc_main$X;
+      const _component_UButton = _sfc_main$S;
       if (unref(activeComponent)) {
         ssrRenderVNode(_push, createVNode(resolveDynamicComponent(unref(activeComponent)), _attrs, null), _parent);
       } else {

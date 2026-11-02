@@ -1,4 +1,4 @@
-import { v as _sfc_main$q, G as _sfc_main$p, d as _sfc_main$T, j as _sfc_main$Y } from './server.mjs';
+import { v as _sfc_main$q, G as _sfc_main$p, d as _sfc_main$S, j as _sfc_main$X } from './server.mjs';
 import { defineComponent, ref, computed, mergeProps, withCtx, createTextVNode, toDisplayString, unref, createVNode, openBlock, createBlock, Fragment, renderList, createCommentVNode, useSSRContext } from 'vue';
 import { ssrRenderAttrs, ssrRenderComponent, ssrRenderList, ssrInterpolate, ssrRenderClass, ssrRenderStyle, ssrRenderAttr } from 'vue/server-renderer';
 import '../nitro/nitro.mjs';
@@ -244,8 +244,8 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
     return (_ctx, _push, _parent, _attrs) => {
       const _component_UAlert = _sfc_main$q;
       const _component_UCard = _sfc_main$p;
-      const _component_UIcon = _sfc_main$Y;
-      const _component_UButton = _sfc_main$T;
+      const _component_UIcon = _sfc_main$X;
+      const _component_UButton = _sfc_main$S;
       _push(`<div${ssrRenderAttrs(mergeProps({ class: "space-y-6" }, _attrs))}>`);
       if (errorMsg.value) {
         _push(ssrRenderComponent(_component_UAlert, {

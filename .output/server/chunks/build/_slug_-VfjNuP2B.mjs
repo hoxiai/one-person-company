@@ -1,5 +1,5 @@
 import __nuxt_component_0 from './HoxiContainer-DDAEb0_Y.mjs';
-import { D as useLocaleRouter, c as useSettings, y as useFetch, bu as useSeoMeta, bv as useJsonLd, O as __nuxt_component_3$3, j as _sfc_main$Y } from './server.mjs';
+import { D as useLocaleRouter, c as useSettings, y as useFetch, bu as useSeoMeta, bv as useJsonLd, O as __nuxt_component_3$3, j as _sfc_main$X } from './server.mjs';
 import __nuxt_component_4 from './HoxiTag-C29ulhHG.mjs';
 import __nuxt_component_8 from './HoxiSectionLabel-_wnZEg9o.mjs';
 import { defineComponent, computed, withCtx, unref, createTextVNode, createVNode, toDisplayString, openBlock, createBlock, createCommentVNode, Fragment, renderList, useSSRContext } from 'vue';
@@ -190,7 +190,7 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
     return (_ctx, _push, _parent, _attrs) => {
       const _component_HoxiContainer = __nuxt_component_0;
       const _component_NuxtLink = __nuxt_component_3$3;
-      const _component_UIcon = _sfc_main$Y;
+      const _component_UIcon = _sfc_main$X;
       const _component_HoxiTag = __nuxt_component_4;
       const _component_HoxiSectionLabel = __nuxt_component_8;
       _push(ssrRenderComponent(_component_HoxiContainer, _attrs, {

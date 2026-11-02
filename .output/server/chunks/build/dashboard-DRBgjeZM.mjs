@@ -1,4 +1,4 @@
-import { r as useRouter, y as useFetch, d as _sfc_main$T, P as _export_sfc, u as useI18n, F as useCurrencyFormat, O as __nuxt_component_3$3, j as _sfc_main$Y, l as useFormatTime, _ as _sfc_main$O } from './server.mjs';
+import { r as useRouter, y as useFetch, d as _sfc_main$S, P as _export_sfc, u as useI18n, F as useCurrencyFormat, O as __nuxt_component_3$3, j as _sfc_main$X, l as useFormatTime, _ as _sfc_main$N } from './server.mjs';
 import { defineComponent, ref, computed, mergeProps, unref, withCtx, createVNode, toDisplayString, createTextVNode, withModifiers, openBlock, createBlock, useSSRContext } from 'vue';
 import { ssrRenderAttrs, ssrInterpolate, ssrRenderList, ssrRenderClass, ssrRenderComponent, ssrRenderAttr, ssrRenderStyle } from 'vue/server-renderer';
 import '../nitro/nitro.mjs';
@@ -100,7 +100,7 @@ const _sfc_main$4 = /* @__PURE__ */ defineComponent({
     });
     return (_ctx, _push, _parent, _attrs) => {
       const _component_NuxtLink = __nuxt_component_3$3;
-      const _component_UIcon = _sfc_main$Y;
+      const _component_UIcon = _sfc_main$X;
       _push(`<div${ssrRenderAttrs(mergeProps({ class: "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4" }, _attrs))}>`);
       _push(ssrRenderComponent(_component_NuxtLink, {
         to: "/admin/orders",
@@ -679,7 +679,7 @@ const _sfc_main$3 = /* @__PURE__ */ defineComponent({
     const devicesDisplay = computed(() => buildDashboardDevices(props.trafficInsights));
     return (_ctx, _push, _parent, _attrs) => {
       var _a, _b, _c, _d, _e, _f, _g, _h, _i, _j, _k, _l, _m, _n;
-      const _component_UIcon = _sfc_main$Y;
+      const _component_UIcon = _sfc_main$X;
       _push(`<div${ssrRenderAttrs(mergeProps({ class: "bg-white dark:bg-[#121214] p-5 rounded-2xl border border-gray-200/60 dark:border-gray-800/50 shadow-xs flex flex-col justify-between" }, _attrs))} data-v-9842279b><div data-v-9842279b><div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4" data-v-9842279b><div data-v-9842279b><div class="flex items-center gap-2" data-v-9842279b><h2 class="text-base font-bold text-gray-900 dark:text-white" data-v-9842279b>${ssrInterpolate(effectiveChartMode.value === "traffic" ? "\u6D41\u91CF\u4E0E\u8BBF\u95EE\u8D8B\u52BF" : _ctx.$t("admin.dashboard.revenueOverview", "\u6536\u5165\u6982\u89C8"))}</h2>`);
       if (userChartMode.value === null && !__props.hasPeriodCommerceActivity) {
         _push(`<span class="px-2 py-0.5 rounded-md bg-cyan-500/10 text-cyan-600 dark:text-cyan-400 text-[10px] font-medium" data-v-9842279b> \u5DF2\u81EA\u52A8\u5207\u6362\u6D41\u91CF\u89C6\u56FE </span>`);
@@ -817,7 +817,7 @@ const _sfc_main$2 = /* @__PURE__ */ defineComponent({
     const productMixDisplay = computed(() => buildDashboardProductMix(props.categoryMix));
     return (_ctx, _push, _parent, _attrs) => {
       var _a, _b, _c, _d;
-      const _component_UIcon = _sfc_main$Y;
+      const _component_UIcon = _sfc_main$X;
       const _component_NuxtLink = __nuxt_component_3$3;
       _push(`<div${ssrRenderAttrs(mergeProps({ class: "bg-white dark:bg-[#121214] p-5 rounded-2xl border border-gray-200/60 dark:border-gray-800/50 shadow-xs flex flex-col justify-between" }, _attrs))}><div><div class="flex items-center justify-between gap-2 mb-3"><h2 class="text-base font-bold text-gray-900 dark:text-white">${ssrInterpolate(effectiveInsightTab.value === "sources" ? "\u6D41\u91CF\u6765\u6E90\u6E20\u9053" : effectiveInsightTab.value === "pages" ? "\u70ED\u95E8\u53D7\u8BBF\u9875\u9762" : "\u4E1A\u52A1\u54C1\u7C7B\u6784\u6210")}</h2><div class="flex items-center bg-gray-100 dark:bg-white/5 p-0.5 rounded-lg"><button type="button" class="${ssrRenderClass([effectiveInsightTab.value === "sources" ? "bg-white dark:bg-[#1a1a1e] text-gray-900 dark:text-white shadow-xs" : "text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white", "px-2 py-1 rounded-md text-[11px] font-medium transition cursor-pointer"])}"> \u6D41\u91CF\u6765\u6E90 </button><button type="button" class="${ssrRenderClass([effectiveInsightTab.value === "pages" ? "bg-white dark:bg-[#1a1a1e] text-gray-900 dark:text-white shadow-xs" : "text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white", "px-2 py-1 rounded-md text-[11px] font-medium transition cursor-pointer"])}"> \u70ED\u95E8\u9875\u9762 </button><button type="button" class="${ssrRenderClass([effectiveInsightTab.value === "categories" ? "bg-white dark:bg-[#1a1a1e] text-gray-900 dark:text-white shadow-xs" : "text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white", "px-2 py-1 rounded-md text-[11px] font-medium transition cursor-pointer"])}"> \u54C1\u7C7B\u6784\u6210 </button></div></div>`);
       if (effectiveInsightTab.value === "sources") {
@@ -1153,8 +1153,8 @@ const _sfc_main$1 = /* @__PURE__ */ defineComponent({
     });
     return (_ctx, _push, _parent, _attrs) => {
       var _a;
-      const _component_UIcon = _sfc_main$Y;
-      const _component_UBadge = _sfc_main$O;
+      const _component_UIcon = _sfc_main$X;
+      const _component_UBadge = _sfc_main$N;
       const _component_NuxtLink = __nuxt_component_3$3;
       _push(`<div${ssrRenderAttrs(mergeProps({ class: "grid grid-cols-1 xl:grid-cols-[1fr_1.6fr] gap-5" }, _attrs))}><div class="bg-white dark:bg-[#121214] p-5 rounded-2xl border border-gray-200/60 dark:border-gray-800/50 shadow-xs flex flex-col justify-between"><div><div class="flex items-center justify-between mb-1.5"><h2 class="text-base font-bold text-gray-900 dark:text-white flex items-center gap-2">`);
       _push(ssrRenderComponent(_component_UIcon, {
@@ -1412,7 +1412,7 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
     });
     return (_ctx, _push, _parent, _attrs) => {
       var _a, _b, _c, _d, _e, _f, _g, _h, _i, _j, _k, _l, _m, _n;
-      const _component_UButton = _sfc_main$T;
+      const _component_UButton = _sfc_main$S;
       _push(`<div${ssrRenderAttrs(mergeProps({ class: "min-h-[calc(100vh-8rem)] flex flex-col gap-5 pb-8" }, _attrs))}><div class="flex flex-col md:flex-row md:items-end justify-between gap-4 shrink-0"><div><h1 class="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white tracking-tight">${ssrInterpolate(_ctx.$t("admin.dashboard.title", "\u7ECF\u8425\u6982\u89C8"))}</h1><p class="text-gray-500 dark:text-gray-400 mt-1 text-xs md:text-sm">${ssrInterpolate(((_a = unref(dashboardData)) == null ? void 0 : _a.timezone) ? `\u65F6\u533A: ${unref(dashboardData).timezone} \xB7 ` : "")} \u6D41\u91CF\u6D1E\u5BDF\u3001\u7528\u6237\u589E\u957F\u3001\u7CFB\u7EDF\u5065\u5EB7\u4E0E\u5B9E\u65F6\u4E1A\u52A1\u52A8\u6001 </p></div><div class="flex items-center gap-2.5"><div class="flex items-center bg-gray-100 dark:bg-white/5 p-1 rounded-xl shrink-0"><!--[-->`);
       ssrRenderList(unref(DASHBOARD_RANGE_OPTIONS), (r) => {
         _push(`<button type="button" class="${ssrRenderClass([selectedRange.value === r.value ? "bg-white dark:bg-[#1a1a1e] text-gray-900 dark:text-white shadow-xs" : "text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white", "px-3 py-1 rounded-lg text-xs font-semibold transition cursor-pointer"])}">${ssrInterpolate(r.label)}</button>`);

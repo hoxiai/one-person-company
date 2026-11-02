@@ -1,5 +1,5 @@
 import { _ as __nuxt_component_0 } from './EmailVerificationBanner-D_7UJEy7.mjs';
-import { c as useSettings, D as useLocaleRouter, u as useI18n, bB as useSwitchLocalePath, bh as useUserSession, H as useRoute, K as useHead, O as __nuxt_component_3$3, j as _sfc_main$Y } from './server.mjs';
+import { c as useSettings, D as useLocaleRouter, u as useI18n, bB as useSwitchLocalePath, bh as useUserSession, H as useRoute, K as useHead, O as __nuxt_component_3$3, j as _sfc_main$X } from './server.mjs';
 import __nuxt_component_2 from './HoxiLogoIcon-DQjCSQpM.mjs';
 import __nuxt_component_4 from './HoxiCommunityModal-Ckoo5ZSh.mjs';
 import { defineComponent, computed, ref, mergeProps, unref, withCtx, createVNode, toDisplayString, openBlock, createBlock, createCommentVNode, createTextVNode, useSSRContext } from 'vue';
@@ -3686,7 +3686,7 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
       const _component_EmailVerificationBanner = __nuxt_component_0;
       const _component_NuxtLink = __nuxt_component_3$3;
       const _component_HoxiLogoIcon = __nuxt_component_2;
-      const _component_UIcon = _sfc_main$Y;
+      const _component_UIcon = _sfc_main$X;
       const _component_HoxiCommunityModal = __nuxt_component_4;
       _push(`<div${ssrRenderAttrs(mergeProps({
         class: "min-h-screen flex flex-col bg-white dark:bg-slate-950 text-slate-700 dark:text-slate-300 font-sans transition-colors duration-150",

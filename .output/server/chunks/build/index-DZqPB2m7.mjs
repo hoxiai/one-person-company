@@ -1,5 +1,5 @@
 import __nuxt_component_0 from './HoxiContainer-DDAEb0_Y.mjs';
-import { u as useI18n, D as useLocaleRouter, c as useSettings, y as useFetch, bu as useSeoMeta, bv as useJsonLd, j as _sfc_main$Y, O as __nuxt_component_3$3 } from './server.mjs';
+import { u as useI18n, D as useLocaleRouter, c as useSettings, y as useFetch, bu as useSeoMeta, bv as useJsonLd, j as _sfc_main$X, O as __nuxt_component_3$3 } from './server.mjs';
 import __nuxt_component_3 from './HoxiHomeWorkspaceShowcase-CngF3YI_.mjs';
 import __nuxt_component_5 from './HoxiHomeSavingsCard-DqBohmam.mjs';
 import __nuxt_component_5$1 from './HoxiNewsletterBox-DgIac6IV.mjs';
@@ -231,7 +231,7 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
     ]));
     return (_ctx, _push, _parent, _attrs) => {
       const _component_HoxiContainer = __nuxt_component_0;
-      const _component_UIcon = _sfc_main$Y;
+      const _component_UIcon = _sfc_main$X;
       const _component_NuxtLink = __nuxt_component_3$3;
       const _component_HoxiHomeWorkspaceShowcase = __nuxt_component_3;
       const _component_HoxiHomeSavingsCard = __nuxt_component_5;

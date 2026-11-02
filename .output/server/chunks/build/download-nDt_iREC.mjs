@@ -1,6 +1,6 @@
 import __nuxt_component_0 from './HoxiContainer-DDAEb0_Y.mjs';
 import __nuxt_component_1 from './HoxiDownloadCard-kAWsivnL.mjs';
-import { u as useI18n, D as useLocaleRouter, y as useFetch, bu as useSeoMeta, bv as useJsonLd, j as _sfc_main$Y } from './server.mjs';
+import { u as useI18n, D as useLocaleRouter, y as useFetch, bu as useSeoMeta, bv as useJsonLd, j as _sfc_main$X } from './server.mjs';
 import { defineComponent, computed, ref, withAsyncContext, withCtx, createVNode, toDisplayString, openBlock, createBlock, createCommentVNode, Fragment, renderList, unref, useSSRContext } from 'vue';
 import { ssrRenderComponent, ssrInterpolate, ssrRenderList, ssrRenderClass, ssrRenderAttr } from 'vue/server-renderer';
 import { u as useHoxiCommunity } from './useHoxiCommunity-xgFpfmKx.mjs';
@@ -206,7 +206,7 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
     return (_ctx, _push, _parent, _attrs) => {
       const _component_HoxiContainer = __nuxt_component_0;
       const _component_HoxiDownloadCard = __nuxt_component_1;
-      const _component_UIcon = _sfc_main$Y;
+      const _component_UIcon = _sfc_main$X;
       _push(ssrRenderComponent(_component_HoxiContainer, _attrs, {
         default: withCtx((_, _push2, _parent2, _scopeId) => {
           if (_push2) {

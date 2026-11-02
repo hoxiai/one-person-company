@@ -1,7 +1,7 @@
-import { a as useToast, G as _sfc_main$p, k as _sfc_main$w, h as _sfc_main$s, d as _sfc_main$T, g as _sfc_main$A, p as _sfc_main$v, j as _sfc_main$Y, _ as _sfc_main$O, f as _sfc_main$I } from './server.mjs';
+import { a as useToast, G as _sfc_main$p, k as _sfc_main$x, h as _sfc_main$s, d as _sfc_main$S, g as _sfc_main$w, p as _sfc_main$v, j as _sfc_main$X, _ as _sfc_main$N, f as _sfc_main$H } from './server.mjs';
 import { defineComponent, ref, computed, mergeProps, withCtx, createVNode, createTextVNode, openBlock, createBlock, Fragment, renderList, toDisplayString, createCommentVNode, useSSRContext } from 'vue';
 import { ssrRenderComponent, ssrRenderList, ssrInterpolate, ssrRenderClass } from 'vue/server-renderer';
-import { bZ as normalizeGeoKeySpecs, b_ as normalizeGeoFaqs, b$ as normalizeGeoRelatedLinks, c0 as evaluateGeoSeoReadiness, he as renderMarkdownDocument } from '../nitro/nitro.mjs';
+import { bU as normalizeGeoKeySpecs, bV as normalizeGeoFaqs, bW as normalizeGeoRelatedLinks, bX as evaluateGeoSeoReadiness, hc as renderMarkdownDocument } from '../nitro/nitro.mjs';
 
 const _sfc_main$1 = /* @__PURE__ */ defineComponent({
   __name: "GeoCitationFieldsCard",
@@ -199,12 +199,12 @@ const _sfc_main$1 = /* @__PURE__ */ defineComponent({
     };
     return (_ctx, _push, _parent, _attrs) => {
       const _component_UCard = _sfc_main$p;
-      const _component_UIcon = _sfc_main$Y;
-      const _component_UBadge = _sfc_main$O;
-      const _component_UButton = _sfc_main$T;
-      const _component_UFormField = _sfc_main$w;
+      const _component_UIcon = _sfc_main$X;
+      const _component_UBadge = _sfc_main$N;
+      const _component_UButton = _sfc_main$S;
+      const _component_UFormField = _sfc_main$x;
       const _component_UTextarea = _sfc_main$s;
-      const _component_UInput = _sfc_main$A;
+      const _component_UInput = _sfc_main$w;
       const _component_USelect = _sfc_main$v;
       _push(ssrRenderComponent(_component_UCard, mergeProps({ ui: { body: "space-y-5" } }, _attrs), {
         header: withCtx((_, _push2, _parent2, _scopeId) => {
@@ -928,10 +928,10 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
     };
     return (_ctx, _push, _parent, _attrs) => {
       const _component_UCard = _sfc_main$p;
-      const _component_UIcon = _sfc_main$Y;
-      const _component_UBadge = _sfc_main$O;
-      const _component_UButton = _sfc_main$T;
-      const _component_UModal = _sfc_main$I;
+      const _component_UIcon = _sfc_main$X;
+      const _component_UBadge = _sfc_main$N;
+      const _component_UButton = _sfc_main$S;
+      const _component_UModal = _sfc_main$H;
       _push(ssrRenderComponent(_component_UCard, mergeProps({ ui: { body: "space-y-4" } }, _attrs), {
         header: withCtx((_, _push2, _parent2, _scopeId) => {
           if (_push2) {

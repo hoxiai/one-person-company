@@ -1,5 +1,5 @@
 import __nuxt_component_0 from './HoxiContainer-DDAEb0_Y.mjs';
-import { u as useI18n, D as useLocaleRouter, c as useSettings, y as useFetch, bu as useSeoMeta, bv as useJsonLd, O as __nuxt_component_3$3, j as _sfc_main$Y } from './server.mjs';
+import { u as useI18n, D as useLocaleRouter, c as useSettings, y as useFetch, bu as useSeoMeta, bv as useJsonLd, O as __nuxt_component_3$3, j as _sfc_main$X } from './server.mjs';
 import __nuxt_component_4 from './HoxiTag-C29ulhHG.mjs';
 import { defineComponent, ref, computed, withCtx, unref, createVNode, toDisplayString, createTextVNode, openBlock, createBlock, Fragment, renderList, createCommentVNode, useSSRContext } from 'vue';
 import { ssrRenderComponent, ssrInterpolate, ssrRenderList, ssrRenderClass, ssrRenderAttr } from 'vue/server-renderer';
@@ -176,7 +176,7 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
       const _component_HoxiContainer = __nuxt_component_0;
       const _component_NuxtLink = __nuxt_component_3$3;
       const _component_HoxiTag = __nuxt_component_4;
-      const _component_UIcon = _sfc_main$Y;
+      const _component_UIcon = _sfc_main$X;
       _push(ssrRenderComponent(_component_HoxiContainer, _attrs, {
         default: withCtx((_, _push2, _parent2, _scopeId) => {
           if (_push2) {

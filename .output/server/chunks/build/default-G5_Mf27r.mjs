@@ -1,5 +1,5 @@
 import { _ as __nuxt_component_0 } from './EmailVerificationBanner-D_7UJEy7.mjs';
-import { c as useSettings, bG as useLocalizedSettings, O as __nuxt_component_3$3, d as _sfc_main$T, T as __nuxt_component_0$1, bH as _sfc_main$f } from './server.mjs';
+import { c as useSettings, bG as useLocalizedSettings, O as __nuxt_component_3$3, d as _sfc_main$S, T as __nuxt_component_0$1, bH as _sfc_main$f } from './server.mjs';
 import { _ as __nuxt_component_1$1 } from './SiteLogo-Bs_P8hLZ.mjs';
 import { defineComponent, ref, mergeProps, withCtx, unref, openBlock, createBlock, createVNode, createCommentVNode, toDisplayString, createTextVNode, computed, isRef, useSSRContext } from 'vue';
 import { ssrRenderAttrs, ssrRenderComponent, ssrRenderSlot, ssrInterpolate } from 'vue/server-renderer';
@@ -76,7 +76,7 @@ const _sfc_main$3 = /* @__PURE__ */ defineComponent({
     return (_ctx, _push, _parent, _attrs) => {
       const _component_NuxtLink = __nuxt_component_3$3;
       const _component_SiteLogo = __nuxt_component_1$1;
-      const _component_UButton = _sfc_main$T;
+      const _component_UButton = _sfc_main$S;
       const _component_Icon = __nuxt_component_0$1;
       _push(`<header${ssrRenderAttrs(mergeProps({ class: "sticky top-0 z-50 border-b border-gray-200/80 bg-white/90 backdrop-blur dark:border-gray-800/50 dark:bg-[#09090b]/80" }, _attrs))}><div class="max-w-[1440px] w-full px-6 lg:px-12 mx-auto h-16 flex items-center justify-between"><div class="flex items-center gap-8">`);
       _push(ssrRenderComponent(_component_NuxtLink, {
@@ -268,7 +268,7 @@ const _sfc_main$2 = /* @__PURE__ */ defineComponent({
     return (_ctx, _push, _parent, _attrs) => {
       const _component_USlideover = _sfc_main$f;
       const _component_SiteLogo = __nuxt_component_1$1;
-      const _component_UButton = _sfc_main$T;
+      const _component_UButton = _sfc_main$S;
       const _component_NuxtLink = __nuxt_component_3$3;
       const _component_Icon = __nuxt_component_0$1;
       _push(ssrRenderComponent(_component_USlideover, mergeProps({

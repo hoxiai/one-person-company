@@ -1,5 +1,5 @@
 import __nuxt_component_0 from './HoxiContainer-DDAEb0_Y.mjs';
-import { u as useI18n, bu as useSeoMeta, j as _sfc_main$Y } from './server.mjs';
+import { u as useI18n, bu as useSeoMeta, j as _sfc_main$X } from './server.mjs';
 import __nuxt_component_2 from './HoxiReadinessProgress-14Bx6ccg.mjs';
 import { _ as __nuxt_component_3, l as localizeDimensions, a as localizeRoles, b as localizeQuestions, c as localizeTier, f as findTier, d as localizeArchetype, A as ARCHETYPES, B as BLINDSPOT_PRESCRIPTIONS, e as localizeBlindspot, g as localizeRoleAdvice, R as ROLE_ADVICES } from './HoxiReadinessQuestion-Df10oehy.mjs';
 import __nuxt_component_4 from './HoxiReadinessReport-CeGLcHli.mjs';
@@ -335,7 +335,7 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
     });
     return (_ctx, _push, _parent, _attrs) => {
       const _component_HoxiContainer = __nuxt_component_0;
-      const _component_UIcon = _sfc_main$Y;
+      const _component_UIcon = _sfc_main$X;
       const _component_HoxiReadinessProgress = __nuxt_component_2;
       const _component_HoxiReadinessQuestion = __nuxt_component_3;
       const _component_HoxiReadinessReport = __nuxt_component_4;

@@ -3,7 +3,7 @@ import __nuxt_component_1 from './HoxiPageHeader-BFh30DFm.mjs';
 import __nuxt_component_1$1 from './HoxiVendorDot-BLwK_ZsG.mjs';
 import __nuxt_component_4 from './HoxiTag-C29ulhHG.mjs';
 import __nuxt_component_8 from './HoxiSectionLabel-_wnZEg9o.mjs';
-import { H as useRoute, u as useI18n, D as useLocaleRouter, bz as createError, y as useFetch, bu as useSeoMeta, bv as useJsonLd, O as __nuxt_component_3$3, j as _sfc_main$Y } from './server.mjs';
+import { H as useRoute, u as useI18n, D as useLocaleRouter, bz as createError, y as useFetch, bu as useSeoMeta, bv as useJsonLd, O as __nuxt_component_3$3, j as _sfc_main$X } from './server.mjs';
 import __nuxt_component_7 from './HoxiComment-AS4BVW7k.mjs';
 import __nuxt_component_8$1 from './HoxiModelMini-BXNJjJLN.mjs';
 import __nuxt_component_7$1 from './HoxiHairlineLink-DYjeMeqD.mjs';
@@ -353,7 +353,7 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
       const _component_HoxiTag = __nuxt_component_4;
       const _component_HoxiSectionLabel = __nuxt_component_8;
       const _component_NuxtLink = __nuxt_component_3$3;
-      const _component_UIcon = _sfc_main$Y;
+      const _component_UIcon = _sfc_main$X;
       const _component_HoxiComment = __nuxt_component_7;
       const _component_HoxiModelMini = __nuxt_component_8$1;
       const _component_HoxiHairlineLink = __nuxt_component_7$1;

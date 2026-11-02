@@ -1,4 +1,4 @@
-import { u as useI18n, D as useLocaleRouter, y as useFetch, O as __nuxt_component_3$3, j as _sfc_main$Y } from './server.mjs';
+import { u as useI18n, D as useLocaleRouter, y as useFetch, O as __nuxt_component_3$3, j as _sfc_main$X } from './server.mjs';
 import __nuxt_component_4 from './HoxiTag-C29ulhHG.mjs';
 import __nuxt_component_1 from './HoxiVendorDot-BLwK_ZsG.mjs';
 import { defineComponent, computed, ref, mergeProps, unref, withCtx, createVNode, toDisplayString, createTextVNode, openBlock, createBlock, createCommentVNode, useSSRContext } from 'vue';
@@ -127,7 +127,7 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
     });
     return (_ctx, _push, _parent, _attrs) => {
       const _component_NuxtLink = __nuxt_component_3$3;
-      const _component_UIcon = _sfc_main$Y;
+      const _component_UIcon = _sfc_main$X;
       const _component_HoxiTag = __nuxt_component_4;
       const _component_HoxiVendorDot = __nuxt_component_1;
       _push(`<div${ssrRenderAttrs(mergeProps({ class: "rounded-[14px] border border-slate-200 dark:border-slate-800/90 bg-white dark:bg-[#0d0f14] overflow-hidden" }, _attrs))}><div class="border-b border-slate-200/80 dark:border-slate-800/90 bg-slate-50/60 dark:bg-[#111319] p-5 sm:p-6"><div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4"><div><h3 class="text-base md:text-lg font-bold tracking-tight text-slate-950 dark:text-white">${ssrInterpolate(_ctx.$t("hoxi.homeSavings.title"))}</h3><p class="mt-1 text-xs text-slate-500 dark:text-slate-400">${ssrInterpolate(_ctx.$t("hoxi.homeSavings.subtitle"))}</p></div>`);

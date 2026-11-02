@@ -1,4 +1,4 @@
-import { b as db, fQ as ensureHoxiWorkMcpToolsRegistered, fR as ensureRewardOutboxWorkerStarted, fS as stopRewardOutboxWorker } from '../nitro/nitro.mjs';
+import { fK as ensureHarvestJob, fL as runHarvest, b as db } from '../nitro/nitro.mjs';
 import 'drizzle-orm';
 import 'node:crypto';
 import 'crypto';
@@ -39,18 +39,25 @@ import 'node:net';
 import '@adonisjs/hash';
 import '@adonisjs/hash/drivers/scrypt';
 
-function getThemeEventRules() {
-  return [];
+let timer = null;
+async function startThemeBackgroundWorkers() {
+  await ensureHarvestJob().catch(() => {
+  });
+  runHarvest(db).catch(() => {
+  });
+  if (!timer) {
+    timer = setInterval(() => {
+      runHarvest(db).catch(() => {
+      });
+    }, 6 * 60 * 60 * 1e3);
+  }
 }
-function registerThemeMcpTools() {
-  ensureHoxiWorkMcpToolsRegistered();
-}
-function startThemeBackgroundWorkers(database = db) {
-  ensureRewardOutboxWorkerStarted(database, 6e4, { immediateSweep: true });
-}
-function stopThemeBackgroundWorkers() {
-  stopRewardOutboxWorker();
+async function stopThemeBackgroundWorkers() {
+  if (timer) {
+    clearInterval(timer);
+    timer = null;
+  }
 }
 
-export { getThemeEventRules, registerThemeMcpTools, startThemeBackgroundWorkers, stopThemeBackgroundWorkers };
+export { startThemeBackgroundWorkers, stopThemeBackgroundWorkers };
 //# sourceMappingURL=events5.mjs.map

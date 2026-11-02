@@ -1,4 +1,4 @@
-import { b as db, aT as posts, bI as loadSchedulerJobs, bH as saveSchedulerJobs } from '../nitro/nitro.mjs';
+import { b as db, aT as posts, bD as loadSchedulerJobs, bC as saveSchedulerJobs } from '../nitro/nitro.mjs';
 import { eq, and, like, desc } from 'drizzle-orm';
 import 'node:crypto';
 import 'crypto';
@@ -60,11 +60,12 @@ function formatReleaseDate(iso) {
   const d = String(date.getUTCDate()).padStart(2, "0");
   return `${y}-${m}-${d}`;
 }
+const MIN_RELEASE_NOTES_LENGTH = 12;
 function buildReleaseDraft(release) {
   const version = String(release.version || "").trim().replace(/^v/i, "");
   if (!version) return null;
   const notesPlain = stripTags(release.description) || stripTags(release.content);
-  if (!notesPlain) return null;
+  if (!notesPlain || notesPlain.length < MIN_RELEASE_NOTES_LENGTH) return null;
   const versionSlug = version.replace(/[^a-zA-Z0-9.-]/g, "-").replace(/\./g, "-");
   const slug = `qingpu-ai-v${versionSlug}-release-notes`;
   const dateStr = formatReleaseDate(release.createdAt);

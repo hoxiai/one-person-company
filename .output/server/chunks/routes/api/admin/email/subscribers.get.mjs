@@ -1,4 +1,4 @@
-import { d as defineEventHandler, g as getQuery, K as newsletterSubscribers, b as db } from '../../../../nitro/nitro.mjs';
+import { d as defineEventHandler, g as getQuery, K as newsletterSubscribers, a5 as buildNewsletterTopicCondition, b as db } from '../../../../nitro/nitro.mjs';
 import { eq, like, and, desc, sql } from 'drizzle-orm';
 import 'node:crypto';
 import 'crypto';
@@ -31,13 +31,13 @@ import 'consola';
 import 'node:zlib';
 import 'ioredis';
 import 'jose';
+import '@adonisjs/hash';
+import '@adonisjs/hash/drivers/scrypt';
 import 'node:child_process';
 import 'process';
 import 'buffer';
 import 'node:dns/promises';
 import 'node:net';
-import '@adonisjs/hash';
-import '@adonisjs/hash/drivers/scrypt';
 
 const subscribers_get = defineEventHandler(async (event) => {
   var _a, _b, _c, _d, _e, _f;
@@ -53,7 +53,10 @@ const subscribers_get = defineEventHandler(async (event) => {
     conditions.push(eq(newsletterSubscribers.status, status));
   }
   if (topic && topic !== "all") {
-    conditions.push(eq(newsletterSubscribers.topic, topic));
+    const topicCond = buildNewsletterTopicCondition(/* @__PURE__ */ new Set([topic]));
+    if (topicCond) {
+      conditions.push(topicCond);
+    }
   }
   if (channel && channel !== "all") {
     conditions.push(eq(newsletterSubscribers.channel, channel));

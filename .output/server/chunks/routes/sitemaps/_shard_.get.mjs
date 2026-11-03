@@ -1,4 +1,4 @@
-import { d as defineEventHandler, f as getRouterParam, fp as parseSitemapShardParam, e as createError, bS as resolveServerSeoContext, fq as generateSitemapShardXml, b_ as seoRouteRegistry, bZ as classifySeoRoute, eQ as setHeader } from '../../nitro/nitro.mjs';
+import { d as defineEventHandler, f as getRouterParam, fv as parseSitemapShardParam, e as createError, bY as resolveServerSeoContext, fw as generateSitemapShardXml, c4 as seoRouteRegistry, c3 as classifySeoRoute, eV as setHeader } from '../../nitro/nitro.mjs';
 import 'drizzle-orm';
 import 'node:crypto';
 import 'crypto';
@@ -31,13 +31,13 @@ import 'consola';
 import 'node:zlib';
 import 'ioredis';
 import 'jose';
+import '@adonisjs/hash';
+import '@adonisjs/hash/drivers/scrypt';
 import 'node:child_process';
 import 'process';
 import 'buffer';
 import 'node:dns/promises';
 import 'node:net';
-import '@adonisjs/hash';
-import '@adonisjs/hash/drivers/scrypt';
 
 const _shard__get = defineEventHandler(async (event) => {
   const shardParam = getRouterParam(event, "shard");

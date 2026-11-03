@@ -1,4 +1,4 @@
-import { eG as defineCachedEventHandler, g as getQuery, p as products, b as db } from '../../nitro/nitro.mjs';
+import { eL as defineCachedEventHandler, g as getQuery, p as products, b as db } from '../../nitro/nitro.mjs';
 import { and, eq, count, desc } from 'drizzle-orm';
 import 'node:crypto';
 import 'crypto';
@@ -31,13 +31,13 @@ import 'consola';
 import 'node:zlib';
 import 'ioredis';
 import 'jose';
+import '@adonisjs/hash';
+import '@adonisjs/hash/drivers/scrypt';
 import 'node:child_process';
 import 'process';
 import 'buffer';
 import 'node:dns/promises';
 import 'node:net';
-import '@adonisjs/hash';
-import '@adonisjs/hash/drivers/scrypt';
 
 const index_get = defineCachedEventHandler(async (event) => {
   var _a;

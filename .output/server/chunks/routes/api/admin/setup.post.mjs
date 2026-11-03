@@ -1,4 +1,4 @@
-import { d as defineEventHandler, c as getRequestLocale, aa as resolveClientIp, ab as checkIpRateLimit, e as createError, b as db, h as admins, r as readBody, j as hashPassword, cb as isUniqueViolation, ah as recordOperationFromEvent } from '../../../nitro/nitro.mjs';
+import { d as defineEventHandler, c as getRequestLocale, ab as resolveClientIp, ac as checkIpRateLimit, e as createError, b as db, h as admins, r as readBody, j as hashPassword, ch as isUniqueViolation, ai as recordOperationFromEvent } from '../../../nitro/nitro.mjs';
 import 'drizzle-orm';
 import 'node:crypto';
 import 'crypto';
@@ -31,13 +31,13 @@ import 'consola';
 import 'node:zlib';
 import 'ioredis';
 import 'jose';
+import '@adonisjs/hash';
+import '@adonisjs/hash/drivers/scrypt';
 import 'node:child_process';
 import 'process';
 import 'buffer';
 import 'node:dns/promises';
 import 'node:net';
-import '@adonisjs/hash';
-import '@adonisjs/hash/drivers/scrypt';
 
 const USERNAME_REGEX = /^[a-zA-Z0-9_.-]{3,32}$/;
 const MIN_PASSWORD_LEN = 10;

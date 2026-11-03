@@ -1,4 +1,4 @@
-import { d as defineEventHandler, r as readBody, a5 as subscribeNewsletter, e as createError, b as db, K as newsletterSubscribers } from '../../../../nitro/nitro.mjs';
+import { d as defineEventHandler, r as readBody, a6 as subscribeNewsletter, e as createError, b as db, K as newsletterSubscribers } from '../../../../nitro/nitro.mjs';
 import { eq } from 'drizzle-orm';
 import 'node:crypto';
 import 'crypto';
@@ -31,13 +31,13 @@ import 'consola';
 import 'node:zlib';
 import 'ioredis';
 import 'jose';
+import '@adonisjs/hash';
+import '@adonisjs/hash/drivers/scrypt';
 import 'node:child_process';
 import 'process';
 import 'buffer';
 import 'node:dns/promises';
 import 'node:net';
-import '@adonisjs/hash';
-import '@adonisjs/hash/drivers/scrypt';
 
 const subscribers_post = defineEventHandler(async (event) => {
   const body = await readBody(event).catch(() => ({}));

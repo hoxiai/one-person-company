@@ -1,4 +1,4 @@
-import { d as defineEventHandler, dP as applyMcpPublicCors, e as createError, aa as resolveClientIp, ab as checkIpRateLimit, r as readBody, e6 as registerDynamicMcpClient, dR as setResponseStatus } from '../../../nitro/nitro.mjs';
+import { d as defineEventHandler, dU as applyMcpPublicCors, e as createError, ab as resolveClientIp, ac as checkIpRateLimit, r as readBody, eb as registerDynamicMcpClient, dW as setResponseStatus } from '../../../nitro/nitro.mjs';
 import 'drizzle-orm';
 import 'node:crypto';
 import 'crypto';
@@ -31,13 +31,13 @@ import 'consola';
 import 'node:zlib';
 import 'ioredis';
 import 'jose';
+import '@adonisjs/hash';
+import '@adonisjs/hash/drivers/scrypt';
 import 'node:child_process';
 import 'process';
 import 'buffer';
 import 'node:dns/promises';
 import 'node:net';
-import '@adonisjs/hash';
-import '@adonisjs/hash/drivers/scrypt';
 
 const register = defineEventHandler(async (event) => {
   if (applyMcpPublicCors(event)) return null;

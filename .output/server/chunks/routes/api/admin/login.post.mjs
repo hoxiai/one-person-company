@@ -1,7 +1,7 @@
-import { d as defineEventHandler, c as getRequestLocale, aa as resolveClientIp, ab as checkIpRateLimit, e as createError, r as readBody, ac as getAdminLoginSecurityState, ad as consumeCaptchaTicket, b as db, h as admins, ae as verifyPassword, af as clearAdminLoginFailure, ag as setUserSession, ah as recordOperationFromEvent, ai as recordAdminLoginFailure } from '../../../nitro/nitro.mjs';
-import { eq } from 'drizzle-orm';
+import { d as defineEventHandler, c as getRequestLocale, ab as resolveClientIp, ac as checkIpRateLimit, e as createError, r as readBody, ad as getAdminLoginSecurityState, ae as consumeCaptchaTicket, b as db, h as admins, af as verifyPassword, ag as clearAdminLoginFailure, ah as setUserSession, i as isSuperAdmin, n as normalizePermissions, l as adminTokens, ai as recordOperationFromEvent, aj as recordAdminLoginFailure } from '../../../nitro/nitro.mjs';
+import crypto from 'crypto';
+import { eq, and } from 'drizzle-orm';
 import 'node:crypto';
-import 'crypto';
 import 'fs';
 import 'path';
 import 'node:path';
@@ -31,16 +31,19 @@ import 'consola';
 import 'node:zlib';
 import 'ioredis';
 import 'jose';
+import '@adonisjs/hash';
+import '@adonisjs/hash/drivers/scrypt';
 import 'node:child_process';
 import 'process';
 import 'buffer';
 import 'node:dns/promises';
 import 'node:net';
-import '@adonisjs/hash';
-import '@adonisjs/hash/drivers/scrypt';
 
 const ADMIN_LOGIN_AUDIT_DEDUPE_MS = 30 * 60 * 1e3;
+const MOBILE_PAIR_TOKEN_NAME = "APay Mobile Admin";
+const MAX_ACTIVE_ADMIN_TOKENS = 10;
 const login_post = defineEventHandler(async (event) => {
+  var _a;
   const locale = getRequestLocale(event);
   const ip = resolveClientIp(event);
   const ipLimit = checkIpRateLimit(`admin-login:ip:${ip}`, { max: 10, windowMs: 6e4 });
@@ -52,11 +55,11 @@ const login_post = defineEventHandler(async (event) => {
     });
   }
   const body = await readBody(event);
-  const { username, password, captchaTicket } = body || {};
+  const { username, password, captchaTicket, issueToken } = body || {};
   const auditLoginFailure = (reason, admin) => {
-    var _a, _b;
+    var _a2, _b;
     return recordOperationFromEvent(event, {
-      actorId: (_a = admin == null ? void 0 : admin.id) != null ? _a : null,
+      actorId: (_a2 = admin == null ? void 0 : admin.id) != null ? _a2 : null,
       actorName: (_b = admin == null ? void 0 : admin.username) != null ? _b : typeof username === "string" ? username.slice(0, 190) : null,
       action: "loginFailed",
       resource: "auth",
@@ -133,15 +136,45 @@ const login_post = defineEventHandler(async (event) => {
     user: void 0,
     loggedInAt: /* @__PURE__ */ new Date()
   });
+  let issuedToken;
+  if (issueToken === true) {
+    const grantedPerms = isSuperAdmin(user.username) || !permissions ? ["*"] : (_a = normalizePermissions(permissions, { allowAll: true })) != null ? _a : [];
+    if (grantedPerms.length > 0) {
+      await db.update(adminTokens).set({ revoked: true }).where(and(eq(adminTokens.adminId, user.id), eq(adminTokens.name, MOBILE_PAIR_TOKEN_NAME))).catch(() => {
+      });
+      const activeRows = await db.select({ id: adminTokens.id }).from(adminTokens).where(eq(adminTokens.revoked, false)).catch(() => []);
+      if (activeRows.length < MAX_ACTIVE_ADMIN_TOKENS) {
+        const rawToken = `apay_admin_${crypto.randomBytes(32).toString("base64url")}`;
+        await db.insert(adminTokens).values({
+          adminId: user.id,
+          token: rawToken,
+          name: MOBILE_PAIR_TOKEN_NAME,
+          permissions: grantedPerms,
+          expiresAt: null
+        });
+        issuedToken = rawToken;
+      }
+    }
+  }
   await recordOperationFromEvent(event, {
     actorId: user.id,
     actorName: user.username,
     action: "login",
     resource: "auth",
+    details: issuedToken ? { issueToken: true } : void 0,
     statusCode: 200,
     dedupeWindowMs: ADMIN_LOGIN_AUDIT_DEDUPE_MS
   });
-  return { message: locale === "zh" ? "\u767B\u5F55\u6210\u529F" : "Login successful" };
+  return {
+    message: locale === "zh" ? "\u767B\u5F55\u6210\u529F" : "Login successful",
+    ...issuedToken ? {
+      token: issuedToken,
+      admin: {
+        id: user.id,
+        username: user.username
+      }
+    } : {}
+  };
 });
 
 export { login_post as default };

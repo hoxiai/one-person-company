@@ -1,4 +1,4 @@
-import { d as defineEventHandler, c as getRequestLocale, dt as requireUserSession, e as createError, r as readBody, b as db, cR as userTokens, f7 as apiTokenScope, d$ as normalizeMcpScopes, e2 as MCP_DEFAULT_SCOPES, ed as generateMcpAccessToken, f8 as API_TOKEN_PREFIX } from '../../../nitro/nitro.mjs';
+import { d as defineEventHandler, c as getRequestLocale, dy as requireUserSession, e as createError, r as readBody, b as db, cW as userTokens, fc as apiTokenScope, e4 as normalizeMcpScopes, e7 as MCP_DEFAULT_SCOPES, ei as generateMcpAccessToken, fd as API_TOKEN_PREFIX, fe as isSingleUseTokenName } from '../../../nitro/nitro.mjs';
 import crypto from 'crypto';
 import { z } from 'zod';
 import { count, and, eq } from 'drizzle-orm';
@@ -31,16 +31,18 @@ import 'consola';
 import 'node:zlib';
 import 'ioredis';
 import 'jose';
+import '@adonisjs/hash';
+import '@adonisjs/hash/drivers/scrypt';
 import 'node:child_process';
 import 'process';
 import 'buffer';
 import 'node:dns/promises';
 import 'node:net';
-import '@adonisjs/hash';
-import '@adonisjs/hash/drivers/scrypt';
 
 const bodySchema = z.object({
-  name: z.string().trim().min(1).max(100),
+  name: z.string().trim().min(1).max(100).refine((val) => !isSingleUseTokenName(val), {
+    message: "Reserved token name"
+  }),
   // Preset expiry windows only — an arbitrary client-supplied date would let
   // a caller mint a token that outlives any reasonable review cadence.
   expiresInDays: z.union([z.literal(30), z.literal(90), z.literal(365), z.null()]).optional(),

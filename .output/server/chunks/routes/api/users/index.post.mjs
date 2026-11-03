@@ -1,4 +1,4 @@
-import { d as defineEventHandler, bF as getUserSession, e as createError, r as readBody, df as getCookie, dM as diagnoseTicketIssue, b as db, J as tickets, cC as ticketMessages } from '../../../nitro/nitro.mjs';
+import { d as defineEventHandler, bH as getUserSession, e as createError, r as readBody, dk as getCookie, dR as diagnoseTicketIssue, b as db, J as tickets, cI as ticketMessages } from '../../../nitro/nitro.mjs';
 import crypto from 'node:crypto';
 import 'drizzle-orm';
 import 'crypto';
@@ -31,13 +31,13 @@ import 'consola';
 import 'node:zlib';
 import 'ioredis';
 import 'jose';
+import '@adonisjs/hash';
+import '@adonisjs/hash/drivers/scrypt';
 import 'node:child_process';
 import 'process';
 import 'buffer';
 import 'node:dns/promises';
 import 'node:net';
-import '@adonisjs/hash';
-import '@adonisjs/hash/drivers/scrypt';
 
 const index_post = defineEventHandler(async (event) => {
   const session = await getUserSession(event).catch(() => null);

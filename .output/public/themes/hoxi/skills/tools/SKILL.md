@@ -81,7 +81,7 @@ metadata:
     -H "Content-Type: application/json" \
     -d '{"provider": "ahrefs", "endpoint": "/v3/site-explorer/backlinks"}'
   ```
-- **Run（需携带 Hoxi 令牌 `hox_dt_...` 或 `apay_mcp_...`）**：
+- **Run（需携带令牌 `apay_dt_...` 或 `apay_mcp_...`）**：
   ```bash
   curl -sS -X POST "https://hoxi.ai/api/hoxi/tools/run" \
     -H "Authorization: Bearer ${HOXI_TOKEN}" \

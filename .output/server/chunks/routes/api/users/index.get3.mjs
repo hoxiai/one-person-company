@@ -1,4 +1,4 @@
-import { d as defineEventHandler, bF as getUserSession, e as createError, g as getQuery, J as tickets, b as db } from '../../../nitro/nitro.mjs';
+import { d as defineEventHandler, bH as getUserSession, e as createError, g as getQuery, J as tickets, b as db } from '../../../nitro/nitro.mjs';
 import { or, eq, and, count, desc } from 'drizzle-orm';
 import 'node:crypto';
 import 'crypto';
@@ -31,13 +31,13 @@ import 'consola';
 import 'node:zlib';
 import 'ioredis';
 import 'jose';
+import '@adonisjs/hash';
+import '@adonisjs/hash/drivers/scrypt';
 import 'node:child_process';
 import 'process';
 import 'buffer';
 import 'node:dns/promises';
 import 'node:net';
-import '@adonisjs/hash';
-import '@adonisjs/hash/drivers/scrypt';
 
 const index_get = defineEventHandler(async (event) => {
   var _a;

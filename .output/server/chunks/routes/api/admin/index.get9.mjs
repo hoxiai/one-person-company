@@ -1,5 +1,5 @@
 import { desc } from 'drizzle-orm';
-import { d as defineEventHandler, g as getQuery, bl as normalizeAppKey, bm as normalizeReleaseChannel, b as db, bn as releases, bo as mapDbRowToReleaseEntry, bp as compareSemVer, bq as listReleaseApps } from '../../../nitro/nitro.mjs';
+import { d as defineEventHandler, g as getQuery, bn as normalizeAppKey, bo as normalizeReleaseChannel, b as db, bp as releases, bq as mapDbRowToReleaseEntry, br as compareSemVer, bs as listReleaseApps } from '../../../nitro/nitro.mjs';
 import 'node:crypto';
 import 'crypto';
 import 'fs';
@@ -31,13 +31,13 @@ import 'consola';
 import 'node:zlib';
 import 'ioredis';
 import 'jose';
+import '@adonisjs/hash';
+import '@adonisjs/hash/drivers/scrypt';
 import 'node:child_process';
 import 'process';
 import 'buffer';
 import 'node:dns/promises';
 import 'node:net';
-import '@adonisjs/hash';
-import '@adonisjs/hash/drivers/scrypt';
 
 const index_get = defineEventHandler(async (event) => {
   const query = getQuery(event);

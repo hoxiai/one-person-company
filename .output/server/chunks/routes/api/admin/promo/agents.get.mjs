@@ -1,4 +1,4 @@
-import { d as defineEventHandler, g as getQuery, b as db, b2 as promoMembers, b3 as PROMO_ROLE, b4 as listPromoAgents } from '../../../../nitro/nitro.mjs';
+import { d as defineEventHandler, g as getQuery, b as db, b4 as promoMembers, b5 as PROMO_ROLE, b6 as listPromoAgents } from '../../../../nitro/nitro.mjs';
 import { count, inArray } from 'drizzle-orm';
 import 'node:crypto';
 import 'crypto';
@@ -31,13 +31,13 @@ import 'consola';
 import 'node:zlib';
 import 'ioredis';
 import 'jose';
+import '@adonisjs/hash';
+import '@adonisjs/hash/drivers/scrypt';
 import 'node:child_process';
 import 'process';
 import 'buffer';
 import 'node:dns/promises';
 import 'node:net';
-import '@adonisjs/hash';
-import '@adonisjs/hash/drivers/scrypt';
 
 const agents_get = defineEventHandler(async (event) => {
   var _a;

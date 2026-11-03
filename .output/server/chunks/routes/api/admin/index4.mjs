@@ -1,4 +1,4 @@
-import { d as defineEventHandler, g as getQuery, p as products, b as db, r as readBody, e as createError, c as getRequestLocale, b1 as normalizeProductLocalePrices, aW as notifyIndexNowEntityChange } from '../../../nitro/nitro.mjs';
+import { d as defineEventHandler, g as getQuery, p as products, b as db, r as readBody, e as createError, c as getRequestLocale, b3 as normalizeProductLocalePrices, aY as notifyIndexNowEntityChange } from '../../../nitro/nitro.mjs';
 import { or, like, sql, and, count, desc } from 'drizzle-orm';
 import 'node:crypto';
 import 'crypto';
@@ -31,13 +31,13 @@ import 'consola';
 import 'node:zlib';
 import 'ioredis';
 import 'jose';
+import '@adonisjs/hash';
+import '@adonisjs/hash/drivers/scrypt';
 import 'node:child_process';
 import 'process';
 import 'buffer';
 import 'node:dns/promises';
 import 'node:net';
-import '@adonisjs/hash';
-import '@adonisjs/hash/drivers/scrypt';
 
 const normalizeImageUrls = (value) => {
   if (value === null || value === void 0 || value === "") {

@@ -1,4 +1,4 @@
-import { d as defineEventHandler, c as getRequestLocale, b as db, aP as paymentMethods, aR as applyLocalPaymentPluginDefaults, r as readBody, e as createError } from '../../../nitro/nitro.mjs';
+import { d as defineEventHandler, c as getRequestLocale, b as db, aR as paymentMethods, aT as applyLocalPaymentPluginDefaults, r as readBody, e as createError } from '../../../nitro/nitro.mjs';
 import fs from 'fs';
 import path from 'path';
 import 'drizzle-orm';
@@ -31,13 +31,13 @@ import 'consola';
 import 'node:zlib';
 import 'ioredis';
 import 'jose';
+import '@adonisjs/hash';
+import '@adonisjs/hash/drivers/scrypt';
 import 'node:child_process';
 import 'process';
 import 'buffer';
 import 'node:dns/promises';
 import 'node:net';
-import '@adonisjs/hash';
-import '@adonisjs/hash/drivers/scrypt';
 
 const index = defineEventHandler(async (event) => {
   const locale = getRequestLocale(event);

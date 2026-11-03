@@ -108,7 +108,3 @@ CREATE INDEX `visitor_day_facts_date_last_source_idx` ON `visitor_day_facts` (`s
 CREATE INDEX `visitor_day_facts_date_first_source_idx` ON `visitor_day_facts` (`stat_date`,`first_source_hash`);
 --> statement-breakpoint
 CREATE INDEX `visitor_daily_stats_date_run_dim_idx` ON `visitor_daily_stats` (`stat_date`,`run_id`,`dimension`);
-(node:78204) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/hugh/code/hoxi/apay/server/db/schema.sqlite.ts is not specified and it doesn't parse as CommonJS.
-Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
-To eliminate this warning, add "type": "module" to /Users/hugh/code/hoxi/apay/package.json.
-(Use `node --trace-warnings ...` to show where the warning was created)

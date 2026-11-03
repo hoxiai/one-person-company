@@ -1,4 +1,4 @@
-import { d as defineEventHandler, bG as extensionManifests, bH as readExtensionMigrationStatus, bI as readEnabledExtensionIds, e as createError, r as readBody, bJ as migrateExtensionDatabase, s as setAuditMeta, bK as normalizeEnabledExtensionIds, b as db, be as settings, bL as ENABLED_EXTENSIONS_SETTING_KEY, bM as invalidatePublicSettingsCache } from '../../../../nitro/nitro.mjs';
+import { d as defineEventHandler, bI as extensionManifests, bJ as readExtensionMigrationStatus, bK as readEnabledExtensionIds, e as createError, r as readBody, bL as migrateExtensionDatabase, s as setAuditMeta, bM as normalizeEnabledExtensionIds, b as db, bg as settings, bN as ENABLED_EXTENSIONS_SETTING_KEY, bO as invalidatePublicSettingsCache } from '../../../../nitro/nitro.mjs';
 import { eq } from 'drizzle-orm';
 import 'node:crypto';
 import 'crypto';
@@ -31,13 +31,13 @@ import 'consola';
 import 'node:zlib';
 import 'ioredis';
 import 'jose';
+import '@adonisjs/hash';
+import '@adonisjs/hash/drivers/scrypt';
 import 'node:child_process';
 import 'process';
 import 'buffer';
 import 'node:dns/promises';
 import 'node:net';
-import '@adonisjs/hash';
-import '@adonisjs/hash/drivers/scrypt';
 
 const extensions = defineEventHandler(async (event) => {
   if (event.method === "GET") {

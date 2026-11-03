@@ -1,4 +1,4 @@
-import { eG as defineCachedEventHandler, f as getRouterParam, c as getRequestLocale, e as createError, b as db, p as products } from '../../../nitro/nitro.mjs';
+import { eL as defineCachedEventHandler, f as getRouterParam, c as getRequestLocale, e as createError, b as db, p as products } from '../../../nitro/nitro.mjs';
 import { and, eq, ne, sql } from 'drizzle-orm';
 import 'node:crypto';
 import 'crypto';
@@ -31,13 +31,13 @@ import 'consola';
 import 'node:zlib';
 import 'ioredis';
 import 'jose';
+import '@adonisjs/hash';
+import '@adonisjs/hash/drivers/scrypt';
 import 'node:child_process';
 import 'process';
 import 'buffer';
 import 'node:dns/promises';
 import 'node:net';
-import '@adonisjs/hash';
-import '@adonisjs/hash/drivers/scrypt';
 
 const _slug__get = defineCachedEventHandler(async (event) => {
   const locale = getRequestLocale(event);

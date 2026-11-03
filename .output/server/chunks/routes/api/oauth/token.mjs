@@ -1,4 +1,4 @@
-import { d as defineEventHandler, dP as applyMcpPublicCors, aa as resolveClientIp, ab as checkIpRateLimit, r as readBody, e9 as verifyMcpAuthorizationCodeEnvelope, ea as verifyPkceS256, b as db, cR as userTokens, cX as MCP_OAUTH_CODE_TOKEN_NAME, eb as isValidPkceCodeVerifier, ec as computePkceS256Challenge, e5 as hashMcpOAuthSecret, u as users, d$ as normalizeMcpScopes, e2 as MCP_DEFAULT_SCOPES, ed as generateMcpAccessToken, ee as generateMcpRefreshToken, cY as MCP_OAUTH_REFRESH_TOKEN_NAME, dQ as resolveMcpServerOrigin, ef as setResponseHeaders, eg as MCP_ACCESS_TOKEN_TTL_SECONDS, eh as MCP_REFRESH_TOKEN_TTL_MS, dR as setResponseStatus } from '../../../nitro/nitro.mjs';
+import { d as defineEventHandler, dU as applyMcpPublicCors, ab as resolveClientIp, ac as checkIpRateLimit, r as readBody, ee as verifyMcpAuthorizationCodeEnvelope, ef as verifyPkceS256, b as db, cW as userTokens, d0 as MCP_OAUTH_CODE_TOKEN_NAME, eg as isValidPkceCodeVerifier, eh as computePkceS256Challenge, ea as hashMcpOAuthSecret, u as users, e4 as normalizeMcpScopes, e7 as MCP_DEFAULT_SCOPES, ei as generateMcpAccessToken, ej as generateMcpRefreshToken, d1 as MCP_OAUTH_REFRESH_TOKEN_NAME, dV as resolveMcpServerOrigin, ek as setResponseHeaders, el as MCP_ACCESS_TOKEN_TTL_SECONDS, em as MCP_REFRESH_TOKEN_TTL_MS, dW as setResponseStatus } from '../../../nitro/nitro.mjs';
 import { and, eq } from 'drizzle-orm';
 import 'node:crypto';
 import 'crypto';
@@ -31,13 +31,13 @@ import 'consola';
 import 'node:zlib';
 import 'ioredis';
 import 'jose';
+import '@adonisjs/hash';
+import '@adonisjs/hash/drivers/scrypt';
 import 'node:child_process';
 import 'process';
 import 'buffer';
 import 'node:dns/promises';
 import 'node:net';
-import '@adonisjs/hash';
-import '@adonisjs/hash/drivers/scrypt';
 
 function oauthError(event, statusCode, error, description) {
   setResponseStatus(event, statusCode);
@@ -131,7 +131,7 @@ const token = defineEventHandler(async (event) => {
         return oauthError(event, 400, "invalid_grant", "Authorization code expired or revoked");
       }
       resolvedClientId = record.clientId || clientId;
-      resolvedClientName = record.clientName || "Hoxi Work";
+      resolvedClientName = record.clientName || "MCP OAuth Client";
     }
     const userRows = await db.select().from(users).where(eq(users.id, record.userId)).limit(1);
     if (!userRows[0] || userRows[0].status === 0) {

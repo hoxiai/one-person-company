@@ -1,4 +1,4 @@
-import { d as defineEventHandler, dP as applyMcpPublicCors, dQ as resolveMcpServerOrigin, fg as MCP_SUPPORTED_SCOPES } from '../../nitro/nitro.mjs';
+import { d as defineEventHandler, dU as applyMcpPublicCors, dV as resolveMcpServerOrigin, fm as MCP_SUPPORTED_SCOPES } from '../../nitro/nitro.mjs';
 import 'drizzle-orm';
 import 'node:crypto';
 import 'crypto';
@@ -31,13 +31,13 @@ import 'consola';
 import 'node:zlib';
 import 'ioredis';
 import 'jose';
+import '@adonisjs/hash';
+import '@adonisjs/hash/drivers/scrypt';
 import 'node:child_process';
 import 'process';
 import 'buffer';
 import 'node:dns/promises';
 import 'node:net';
-import '@adonisjs/hash';
-import '@adonisjs/hash/drivers/scrypt';
 
 const oauthAuthorizationServer = defineEventHandler((event) => {
   if (applyMcpPublicCors(event)) return null;

@@ -1,4 +1,4 @@
-import { d as defineEventHandler, b as db, be as settings, r as readBody, s as setAuditMeta, bN as EMAIL_VERIFY_POLICY_KEY, bO as invalidateEmailVerifyPolicyCache, bP as SINGLE_WEB_SESSION_POLICY_KEY, bQ as invalidateSingleWebSessionPolicyCache, bM as invalidatePublicSettingsCache } from '../../../nitro/nitro.mjs';
+import { d as defineEventHandler, b as db, bg as settings, r as readBody, s as setAuditMeta, bP as EMAIL_VERIFY_POLICY_KEY, bQ as invalidateEmailVerifyPolicyCache, bR as SINGLE_WEB_SESSION_POLICY_KEY, bS as invalidateSingleWebSessionPolicyCache, bT as runtimeExtensionSettingPrefixes, bU as runtimeThemeSettingPrefixes, bV as runtimeExtensionSettingKeys, bW as runtimeThemeSettingKeys, bO as invalidatePublicSettingsCache } from '../../../nitro/nitro.mjs';
 import { eq } from 'drizzle-orm';
 import 'node:crypto';
 import 'crypto';
@@ -31,30 +31,27 @@ import 'consola';
 import 'node:zlib';
 import 'ioredis';
 import 'jose';
+import '@adonisjs/hash';
+import '@adonisjs/hash/drivers/scrypt';
 import 'node:child_process';
 import 'process';
 import 'buffer';
 import 'node:dns/promises';
 import 'node:net';
-import '@adonisjs/hash';
-import '@adonisjs/hash/drivers/scrypt';
 
 const INTERNAL_RUNTIME_SETTING_PREFIXES = [
-  "shopark_license_version.",
-  "shopark_custom_store_limit.",
   "scheduler_state.",
   "extension_migration:",
   "extension_migration_failure:",
   "extension_migration_lock:",
-  "extension_migrations:"
+  "extension_migrations:",
+  ...runtimeExtensionSettingPrefixes || [],
+  ...runtimeThemeSettingPrefixes || []
 ];
 const INTERNAL_RUNTIME_SETTING_KEYS = /* @__PURE__ */ new Set([
-  "shopark_license_reconcile_state",
-  "shopark_leads_records",
-  "shopark_expiry_reminder_sent_log",
   "enabled_extensions",
-  "ainode_subscription_sync_since",
-  "ainode_blog_model_snapshot"
+  ...runtimeExtensionSettingKeys || [],
+  ...runtimeThemeSettingKeys || []
 ]);
 const isInternalRuntimeSettingKey = (key) => {
   if (INTERNAL_RUNTIME_SETTING_KEYS.has(key)) return true;

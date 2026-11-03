@@ -1,5 +1,5 @@
 import { eq, and, desc, ne, gt } from 'drizzle-orm';
-import { fU as ensureAINodeApiKey, fV as persistModelCredentials, fW as markQingpuTrialPaymentReceived, fX as fulfillPaidTrialOrder, fY as formatTrialErrorMessage, b as db, p as products, z as orders, u as users, dd as logger, H as subscriptions, fZ as enqueueAndDeliverAINodeSync, f_ as getQingpuAINodeBaseUrl, f$ as getQingpuAINodeTenantToken, g0 as deterministicOperationId, g1 as retryIdempotentAINodeCall, g2 as creditAINodeCustomerBalance, g3 as planSubscriptionRevoke, g4 as grantEventId } from '../nitro/nitro.mjs';
+import { f_ as ensureAINodeApiKey, f$ as persistModelCredentials, g0 as markQingpuTrialPaymentReceived, g1 as fulfillPaidTrialOrder, g2 as formatTrialErrorMessage, b as db, p as products, z as orders, u as users, di as logger, H as subscriptions, g3 as enqueueAndDeliverAINodeSync, g4 as getQingpuAINodeBaseUrl, g5 as getQingpuAINodeTenantToken, g6 as deterministicOperationId, g7 as retryIdempotentAINodeCall, g8 as creditAINodeCustomerBalance, g9 as planSubscriptionRevoke, ga as grantEventId } from '../nitro/nitro.mjs';
 import 'node:crypto';
 import 'crypto';
 import 'fs';
@@ -31,13 +31,13 @@ import 'consola';
 import 'node:zlib';
 import 'ioredis';
 import 'jose';
+import '@adonisjs/hash';
+import '@adonisjs/hash/drivers/scrypt';
 import 'node:child_process';
 import 'process';
 import 'buffer';
 import 'node:dns/promises';
 import 'node:net';
-import '@adonisjs/hash';
-import '@adonisjs/hash/drivers/scrypt';
 
 function parseJsonMeta(value) {
   if (!value) return {};
@@ -327,25 +327,12 @@ function getThemeEventRules() {
     }
   ];
 }
-let blogWorkerTimer = null;
 async function startThemeBackgroundWorkers() {
-  const { ensureQingpuBlogSchedulerJob, harvestQingpuBlogIntelligence } = await import('./harvester.mjs');
+  const { ensureQingpuBlogSchedulerJob } = await import('./harvester.mjs');
   await ensureQingpuBlogSchedulerJob().catch(() => {
   });
-  harvestQingpuBlogIntelligence().catch(() => {
-  });
-  if (!blogWorkerTimer) {
-    blogWorkerTimer = setInterval(() => {
-      harvestQingpuBlogIntelligence().catch(() => {
-      });
-    }, 24 * 36e5);
-  }
 }
 async function stopThemeBackgroundWorkers() {
-  if (blogWorkerTimer) {
-    clearInterval(blogWorkerTimer);
-    blogWorkerTimer = null;
-  }
 }
 
 export { getThemeEventRules, startThemeBackgroundWorkers, stopThemeBackgroundWorkers };

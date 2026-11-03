@@ -1,4 +1,4 @@
-import { d as defineEventHandler, dt as requireUserSession, b as db, u as users, du as overwriteSessionUser } from '../../../nitro/nitro.mjs';
+import { d as defineEventHandler, dy as requireUserSession, b as db, u as users, dz as overwriteSessionUser } from '../../../nitro/nitro.mjs';
 import { eq } from 'drizzle-orm';
 import 'node:crypto';
 import 'crypto';
@@ -31,13 +31,13 @@ import 'consola';
 import 'node:zlib';
 import 'ioredis';
 import 'jose';
+import '@adonisjs/hash';
+import '@adonisjs/hash/drivers/scrypt';
 import 'node:child_process';
 import 'process';
 import 'buffer';
 import 'node:dns/promises';
 import 'node:net';
-import '@adonisjs/hash';
-import '@adonisjs/hash/drivers/scrypt';
 
 const me_get = defineEventHandler(async (event) => {
   var _a;

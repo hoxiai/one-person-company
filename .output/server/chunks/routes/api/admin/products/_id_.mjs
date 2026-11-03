@@ -1,4 +1,4 @@
-import { d as defineEventHandler, c as getRequestLocale, f as getRouterParam, e as createError, b as db, p as products, r as readBody, b1 as normalizeProductLocalePrices, aW as notifyIndexNowEntityChange, s as setAuditMeta } from '../../../../nitro/nitro.mjs';
+import { d as defineEventHandler, c as getRequestLocale, f as getRouterParam, e as createError, b as db, p as products, r as readBody, b3 as normalizeProductLocalePrices, aY as notifyIndexNowEntityChange, s as setAuditMeta } from '../../../../nitro/nitro.mjs';
 import { eq } from 'drizzle-orm';
 import 'node:crypto';
 import 'crypto';
@@ -31,13 +31,13 @@ import 'consola';
 import 'node:zlib';
 import 'ioredis';
 import 'jose';
+import '@adonisjs/hash';
+import '@adonisjs/hash/drivers/scrypt';
 import 'node:child_process';
 import 'process';
 import 'buffer';
 import 'node:dns/promises';
 import 'node:net';
-import '@adonisjs/hash';
-import '@adonisjs/hash/drivers/scrypt';
 
 const normalizeImageUrls = (value) => {
   if (value === null || value === void 0 || value === "") {
@@ -105,8 +105,12 @@ const _id_ = defineEventHandler(async (event) => {
     if (!updateData.slug && updateData.name) {
       updateData.slug = updateData.name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)+/g, "");
     }
-    updateData.imageUrls = normalizeImageUrls(updateData.imageUrls);
-    updateData.metaData = await normalizeProductLocalePrices(normalizeMetaData(updateData.metaData));
+    if (updateData.imageUrls !== void 0) {
+      updateData.imageUrls = normalizeImageUrls(updateData.imageUrls);
+    }
+    if (updateData.metaData !== void 0) {
+      updateData.metaData = await normalizeProductLocalePrices(normalizeMetaData(updateData.metaData));
+    }
     if (updateData.status) {
       updateData.isActive = updateData.status !== "inactive";
     } else if (updateData.isActive !== void 0) {

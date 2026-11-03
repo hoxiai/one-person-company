@@ -1,4 +1,4 @@
-import { d as defineEventHandler, dP as applyMcpPublicCors, e as createError, r as readBody, e7 as isMcpAccessTokenValue, e8 as hashMcpAccessToken, b as db, cR as userTokens, e5 as hashMcpOAuthSecret } from '../../../nitro/nitro.mjs';
+import { d as defineEventHandler, dU as applyMcpPublicCors, e as createError, r as readBody, ec as isMcpAccessTokenValue, ed as hashMcpAccessToken, b as db, cW as userTokens, ea as hashMcpOAuthSecret } from '../../../nitro/nitro.mjs';
 import { eq } from 'drizzle-orm';
 import 'node:crypto';
 import 'crypto';
@@ -31,13 +31,13 @@ import 'consola';
 import 'node:zlib';
 import 'ioredis';
 import 'jose';
+import '@adonisjs/hash';
+import '@adonisjs/hash/drivers/scrypt';
 import 'node:child_process';
 import 'process';
 import 'buffer';
 import 'node:dns/promises';
 import 'node:net';
-import '@adonisjs/hash';
-import '@adonisjs/hash/drivers/scrypt';
 
 const revoke = defineEventHandler(async (event) => {
   if (applyMcpPublicCors(event)) return null;

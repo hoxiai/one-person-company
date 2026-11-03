@@ -1,4 +1,4 @@
-import { d as defineEventHandler, eW as readPublicSettingRows } from '../../nitro/nitro.mjs';
+import { d as defineEventHandler, e$ as readPublicSettingRows } from '../../nitro/nitro.mjs';
 import 'drizzle-orm';
 import 'node:crypto';
 import 'crypto';
@@ -31,13 +31,13 @@ import 'consola';
 import 'node:zlib';
 import 'ioredis';
 import 'jose';
+import '@adonisjs/hash';
+import '@adonisjs/hash/drivers/scrypt';
 import 'node:child_process';
 import 'process';
 import 'buffer';
 import 'node:dns/promises';
 import 'node:net';
-import '@adonisjs/hash';
-import '@adonisjs/hash/drivers/scrypt';
 
 const settings_get = defineEventHandler(async () => {
   return await readPublicSettingRows();

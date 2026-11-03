@@ -1,5 +1,5 @@
-import { d as defineEventHandler, f as getRouterParam, e as createError, b as db, J as tickets, u as users, cC as ticketMessages, cD as userWallets, z as orders, cE as fromScaled, cF as getWalletBackend } from '../../../../nitro/nitro.mjs';
-import { eq, asc, desc } from 'drizzle-orm';
+import { d as defineEventHandler, f as getRouterParam, e as createError, b as db, J as tickets, u as users, cI as ticketMessages, cJ as userWallets, z as orders, cK as fromScaled, cL as getWalletBackend } from '../../../../nitro/nitro.mjs';
+import { eq, asc, sql, desc } from 'drizzle-orm';
 import 'node:crypto';
 import 'crypto';
 import 'fs';
@@ -31,13 +31,13 @@ import 'consola';
 import 'node:zlib';
 import 'ioredis';
 import 'jose';
+import '@adonisjs/hash';
+import '@adonisjs/hash/drivers/scrypt';
 import 'node:child_process';
 import 'process';
 import 'buffer';
 import 'node:dns/promises';
 import 'node:net';
-import '@adonisjs/hash';
-import '@adonisjs/hash/drivers/scrypt';
 
 const _id__get = defineEventHandler(async (event) => {
   const idParam = getRouterParam(event, "id");
@@ -71,7 +71,15 @@ const _id__get = defineEventHandler(async (event) => {
   const orderLookupEmail = ticket.userEmail || ticket.contactEmail || "";
   const [messages, walletRows, recentOrders] = await Promise.all([
     db.select().from(ticketMessages).where(eq(ticketMessages.ticketId, ticketId)).orderBy(asc(ticketMessages.createdAt)),
-    ticket.userId ? db.select().from(userWallets).where(eq(userWallets.userId, ticket.userId)).limit(1) : Promise.resolve([]),
+    ticket.userId ? db.select({
+      userId: userWallets.userId,
+      cashBalance: sql`coalesce(sum(${userWallets.cashBalance}), 0)`,
+      grantBalance: sql`coalesce(sum(${userWallets.grantBalance}), 0)`,
+      subBalance: sql`coalesce(sum(${userWallets.subBalance}), 0)`,
+      pointsBalance: sql`coalesce(sum(${userWallets.pointsBalance}), 0)`,
+      tierLevel: sql`coalesce(max(${userWallets.tierLevel}), 0)`,
+      subExpiresAt: sql`max(${userWallets.subExpiresAt})`
+    }).from(userWallets).where(eq(userWallets.userId, ticket.userId)).groupBy(userWallets.userId).limit(1) : Promise.resolve([]),
     orderLookupEmail ? db.select({
       id: orders.id,
       amount: orders.amount,

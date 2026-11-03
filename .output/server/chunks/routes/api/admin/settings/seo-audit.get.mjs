@@ -1,4 +1,4 @@
-import { d as defineEventHandler, b as db, p as products, aT as posts, be as settings, a as accessLogs, bR as AI_CRAWLER_SIGNATURES, Q as paymentFailures, bS as resolveServerSeoContext, bT as detectAiCrawler, bU as normalizeGeoKeySpecs, bV as normalizeGeoFaqs, bW as normalizeGeoRelatedLinks, bX as evaluateGeoSeoReadiness, bY as isPostFrozen, bZ as classifySeoRoute, b_ as seoRouteRegistry } from '../../../../nitro/nitro.mjs';
+import { d as defineEventHandler, b as db, p as products, aV as posts, bg as settings, a as accessLogs, bX as AI_CRAWLER_SIGNATURES, Q as paymentFailures, bY as resolveServerSeoContext, bZ as detectAiCrawler, b_ as normalizeGeoKeySpecs, b$ as normalizeGeoFaqs, c0 as normalizeGeoRelatedLinks, c1 as evaluateGeoSeoReadiness, c2 as isPostFrozen, c3 as classifySeoRoute, c4 as seoRouteRegistry } from '../../../../nitro/nitro.mjs';
 import { and, eq, desc, gte, or, sql } from 'drizzle-orm';
 import 'node:crypto';
 import 'crypto';
@@ -31,13 +31,13 @@ import 'consola';
 import 'node:zlib';
 import 'ioredis';
 import 'jose';
+import '@adonisjs/hash';
+import '@adonisjs/hash/drivers/scrypt';
 import 'node:child_process';
 import 'process';
 import 'buffer';
 import 'node:dns/promises';
 import 'node:net';
-import '@adonisjs/hash';
-import '@adonisjs/hash/drivers/scrypt';
 
 const parseMetaObject = (raw) => {
   if (!raw) return {};

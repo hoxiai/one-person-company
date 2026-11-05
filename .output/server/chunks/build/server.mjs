@@ -1,6 +1,6 @@
 import process from 'node:process';globalThis._importMeta_=globalThis._importMeta_||{url:"file:///_entry.js",env:process.env};import * as vue from 'vue';
 import { useSlots, useId as useId$1, useAttrs, computed, unref, mergeProps, withCtx, openBlock, createBlock, createVNode, resolveDynamicComponent, renderSlot, createTextVNode, toDisplayString as toDisplayString$1, createCommentVNode, hasInjectionContext, inject, defineComponent, h, getCurrentInstance, ref, watch, nextTick, toValue, createElementBlock, Fragment, renderList, provide, customRef, shallowRef, toRefs, watchPostEffect, watchEffect, toRef as toRef$1, camelize as camelize$1, reactive, normalizeStyle, mergeDefaults, Teleport, useModel, mergeModels, markRaw, toHandlerKey, getCurrentScope, onScopeDispose, shallowReadonly, toHandlers, cloneVNode, isRef, normalizeProps, guardReactiveProps, readonly, useTemplateRef, withKeys, withModifiers, resolveComponent, onServerPrefetch, Comment, defineAsyncComponent, withAsyncContext, createSlots, resolveDirective, createElementVNode, effectScope, useSSRContext, toRaw, shallowReactive, Suspense, createApp, Text, onErrorCaptured, isReadonly, isShallow, isReactive } from 'vue';
-import { gR as serialize, gS as createPricingContext, dW as setResponseStatus$1, gT as defu, al as getRequestURL, gU as isEqual$1, e as createError$1, gV as SEO_LOCALE_LANGUAGE, gW as getErrorRequestId, gX as resolveActiveTheme, gY as upperFirst, eo as quoteProductPrice, gZ as defuFn, g_ as resolveLocalizedSetting, g$ as parse$1, dM as getRequestHeader, h0 as errorRecord, h1 as errorData, h2 as appendResponseHeader, h3 as sanitizeStatusCode, h4 as getContext, dm as setCookie, dk as getCookie, dl as deleteCookie, b_ as normalizeGeoKeySpecs, b$ as normalizeGeoFaqs, c0 as normalizeGeoRelatedLinks, eJ as getRequestHeaders, h5 as htmlToCleanMarkdown, gP as $fetch$1, h6 as baseURL, h7 as hash, h8 as createHooks, h9 as getRequestProtocol, ha as executeAsync, hb as normalizeSiteOrigin, hc as stripLocalePrefix$1, c3 as classifySeoRoute, c4 as seoRouteRegistry, hd as localePathForSeo, he as isMarkdownMirrorPath, hf as safeJsonLd, hg as localeDomainUrl, hh as themeHostConfigs } from '../nitro/nitro.mjs';
+import { gU as serialize, gV as createPricingContext, dW as setResponseStatus$1, gW as defu, al as getRequestURL, gX as isEqual$1, e as createError$1, gY as SEO_LOCALE_LANGUAGE, gZ as getErrorRequestId, g_ as resolveActiveTheme, g$ as upperFirst, eo as quoteProductPrice, h0 as defuFn, h1 as resolveLocalizedSetting, h2 as parse$1, dM as getRequestHeader, h3 as errorRecord, h4 as errorData, h5 as appendResponseHeader, h6 as sanitizeStatusCode, h7 as getContext, dm as setCookie, dk as getCookie, dl as deleteCookie, b_ as normalizeGeoKeySpecs, b$ as normalizeGeoFaqs, c0 as normalizeGeoRelatedLinks, eJ as getRequestHeaders, h8 as htmlToCleanMarkdown, gS as $fetch$1, h9 as baseURL, ha as hash, hb as createHooks, hc as getRequestProtocol, hd as executeAsync, he as normalizeSiteOrigin, hf as stripLocalePrefix$1, c3 as classifySeoRoute, c4 as seoRouteRegistry, hg as localePathForSeo, hh as isMarkdownMirrorPath, hi as safeJsonLd, hj as localeDomainUrl, hk as themeHostConfigs } from '../nitro/nitro.mjs';
 import { useRoute as useRoute$1, useRouter as useRouter$1, RouterView, isNavigationFailure, createMemoryHistory, createRouter, START_LOCATION } from 'vue-router';
 import { Icon, getIcon, loadIcon as loadIcon$1, _api, addAPIProvider, setCustomIconsLoader } from '@iconify/vue';
 import { getIconCSS } from '@iconify/utils/lib/css/icon';
@@ -1021,7 +1021,7 @@ const _routes = [
     name: "admin-login",
     path: "/admin/login",
     meta: __nuxt_page_meta$h || {},
-    component: () => import('./login-CB-5--Ok.mjs')
+    component: () => import('./login-CxVlcjBL.mjs')
   },
   {
     name: "admin-logs",
@@ -5609,7 +5609,7 @@ const cfg0 = defineAppConfig({
   }
 });
 const inlineConfig = {
-  "appVersion": "1.0.34",
+  "appVersion": "1.0.35",
   "nuxt": {},
   "ui": {
     "colors": {
@@ -25718,7 +25718,7 @@ const corePageModules = Object.fromEntries(Object.entries(/* @__PURE__ */ Object
   "/core/pages/user/tokens/index.vue": __vite_glob_0_11
 })).map(([file, module]) => [file.replace("/", "../"), module]));
 const themePageModules = {
-  ...Object.fromEntries(Object.entries(/* @__PURE__ */ Object.assign({ "/themes/hoxi/pages/about.vue": () => import('./about-B5j7IUr0.mjs'), "/themes/hoxi/pages/auth/authorize-desktop/done.vue": () => import('./done-2Vs8lq-N.mjs'), "/themes/hoxi/pages/auth/authorize-desktop/index.vue": () => import('./index-t2dPE3Eq.mjs'), "/themes/hoxi/pages/auth/login.vue": () => import('./login-BtGSJRtM.mjs'), "/themes/hoxi/pages/auth/mobile-bridge.vue": () => import('./mobile-bridge-CPOCNv3O.mjs'), "/themes/hoxi/pages/auth/register.vue": () => import('./register-D_bYEu4v.mjs'), "/themes/hoxi/pages/blog/[slug].vue": () => import('./_slug_-Bx4-a5tU.mjs'), "/themes/hoxi/pages/blog/category/[slug].vue": () => import('./_slug_-Ci441t5K.mjs'), "/themes/hoxi/pages/blog/index.vue": () => import('./index-Bl6157ii.mjs'), "/themes/hoxi/pages/coding-plans/[slug].vue": () => import('./_slug_-Ci-EIg2p.mjs'), "/themes/hoxi/pages/coding-plans/index.vue": () => import('./index-CfcARYeU.mjs'), "/themes/hoxi/pages/compare.vue": () => import('./compare-BdFYcixD.mjs'), "/themes/hoxi/pages/download.vue": () => import('./download-C8eMGJxT.mjs'), "/themes/hoxi/pages/gateways/[slug].vue": () => import('./_slug_-Cmihuvb0.mjs'), "/themes/hoxi/pages/gateways/index.vue": () => import('./index-DzXQh6VG.mjs'), "/themes/hoxi/pages/index.vue": () => import('./index-J7XZqofp.mjs'), "/themes/hoxi/pages/models/[slug].vue": () => import('./_slug_-C5Sj7aDO.mjs'), "/themes/hoxi/pages/models/index.vue": () => import('./index-DhGy3LBz.mjs'), "/themes/hoxi/pages/one-person-company.vue": () => import('./one-person-company-DJuOnNkc.mjs'), "/themes/hoxi/pages/projects.vue": () => import('./projects-CmJ9Ppta.mjs'), "/themes/hoxi/pages/readiness.vue": () => import('./readiness-BPY8HyI0.mjs'), "/themes/hoxi/pages/refactoring-the-self.vue": () => import('./refactoring-the-self-DbsXNONe.mjs'), "/themes/hoxi/pages/savings.vue": () => import('./savings-B8lpyKVE.mjs'), "/themes/hoxi/pages/skills.vue": () => import('./skills-CwBwbbYQ.mjs'), "/themes/hoxi/pages/tools.vue": () => import('./tools-EAq9Jf-7.mjs'), "/themes/hoxi/pages/user/account.vue": () => import('./account-LOFAoAKj.mjs'), "/themes/hoxi/pages/user/billing.vue": () => import('./billing-y3WaEZbj.mjs'), "/themes/hoxi/pages/user/dashboard.vue": () => import('./dashboard-DRapVrGT.mjs'), "/themes/hoxi/pages/user/index.vue": () => import('./index-CorOwHLN.mjs'), "/themes/hoxi/pages/user/keys.vue": () => import('./keys-DZhm9oj7.mjs'), "/themes/hoxi/pages/user/layout.vue": () => import('./layout-DZwINrdL.mjs').then((n) => n.l), "/themes/hoxi/pages/user/models.vue": () => import('./models-CxkJgZ5Y.mjs'), "/themes/hoxi/pages/user/rewards.vue": () => import('./rewards-CwOUY3ON.mjs'), "/themes/hoxi/pages/user/tickets.vue": () => import('./tickets-jN-L4QE4.mjs') })).map(([file, module]) => [file.replace("/", "../"), module]))
+  ...Object.fromEntries(Object.entries(/* @__PURE__ */ Object.assign({ "/themes/hoxi/pages/about.vue": () => import('./about-B5j7IUr0.mjs'), "/themes/hoxi/pages/auth/authorize-desktop/done.vue": () => import('./done-2Vs8lq-N.mjs'), "/themes/hoxi/pages/auth/authorize-desktop/index.vue": () => import('./index-t2dPE3Eq.mjs'), "/themes/hoxi/pages/auth/login.vue": () => import('./login-BtGSJRtM.mjs'), "/themes/hoxi/pages/auth/mobile-bridge.vue": () => import('./mobile-bridge-CPOCNv3O.mjs'), "/themes/hoxi/pages/auth/register.vue": () => import('./register-D_bYEu4v.mjs'), "/themes/hoxi/pages/blog/[slug].vue": () => import('./_slug_-btlRzKw8.mjs'), "/themes/hoxi/pages/blog/category/[slug].vue": () => import('./_slug_-Ci441t5K.mjs'), "/themes/hoxi/pages/blog/index.vue": () => import('./index-Bl6157ii.mjs'), "/themes/hoxi/pages/coding-plans/[slug].vue": () => import('./_slug_-Ci-EIg2p.mjs'), "/themes/hoxi/pages/coding-plans/index.vue": () => import('./index-CfcARYeU.mjs'), "/themes/hoxi/pages/compare.vue": () => import('./compare-BdFYcixD.mjs'), "/themes/hoxi/pages/download.vue": () => import('./download-Msx8Og6N.mjs'), "/themes/hoxi/pages/gateways/[slug].vue": () => import('./_slug_-Cmihuvb0.mjs'), "/themes/hoxi/pages/gateways/index.vue": () => import('./index-DzXQh6VG.mjs'), "/themes/hoxi/pages/index.vue": () => import('./index-J7XZqofp.mjs'), "/themes/hoxi/pages/models/[slug].vue": () => import('./_slug_-C5Sj7aDO.mjs'), "/themes/hoxi/pages/models/index.vue": () => import('./index-DhGy3LBz.mjs'), "/themes/hoxi/pages/one-person-company.vue": () => import('./one-person-company-D9_iCKmV.mjs'), "/themes/hoxi/pages/projects.vue": () => import('./projects-eAlh9zs9.mjs'), "/themes/hoxi/pages/readiness.vue": () => import('./readiness-fef4WId_.mjs'), "/themes/hoxi/pages/refactoring-the-self.vue": () => import('./refactoring-the-self-DbsXNONe.mjs'), "/themes/hoxi/pages/savings.vue": () => import('./savings-B8lpyKVE.mjs'), "/themes/hoxi/pages/skills.vue": () => import('./skills-CwBwbbYQ.mjs'), "/themes/hoxi/pages/tools.vue": () => import('./tools-EAq9Jf-7.mjs'), "/themes/hoxi/pages/user/account.vue": () => import('./account-LOFAoAKj.mjs'), "/themes/hoxi/pages/user/billing.vue": () => import('./billing-y3WaEZbj.mjs'), "/themes/hoxi/pages/user/dashboard.vue": () => import('./dashboard-DRapVrGT.mjs'), "/themes/hoxi/pages/user/index.vue": () => import('./index-CorOwHLN.mjs'), "/themes/hoxi/pages/user/keys.vue": () => import('./keys-DZhm9oj7.mjs'), "/themes/hoxi/pages/user/layout.vue": () => import('./layout-DZwINrdL.mjs').then((n) => n.l), "/themes/hoxi/pages/user/models.vue": () => import('./models-CWAEdN0T.mjs'), "/themes/hoxi/pages/user/rewards.vue": () => import('./rewards-CwOUY3ON.mjs'), "/themes/hoxi/pages/user/tickets.vue": () => import('./tickets-jN-L4QE4.mjs') })).map(([file, module]) => [file.replace("/", "../"), module]))
 };
 const themeAdminManifestModules = {
   ...Object.fromEntries(Object.entries(/* @__PURE__ */ Object.assign({
@@ -25726,7 +25726,7 @@ const themeAdminManifestModules = {
   })).map(([file, module]) => [file.replace("/", "../"), module]))
 };
 const themeAdminPageModules = {
-  ...Object.fromEntries(Object.entries(/* @__PURE__ */ Object.assign({ "/themes/hoxi/admin/pages/cheap.vue": () => import('./cheap-BfZbeW-X.mjs'), "/themes/hoxi/admin/pages/clients.vue": () => import('./clients-BdreFnum.mjs'), "/themes/hoxi/admin/pages/coding-plans.vue": () => import('./coding-plans-DftgPii_.mjs'), "/themes/hoxi/admin/pages/free-tiers.vue": () => import('./free-tiers-DWCXeSq_.mjs'), "/themes/hoxi/admin/pages/models.vue": () => import('./models-DGhFzNWQ.mjs'), "/themes/hoxi/admin/pages/projects.vue": () => import('./projects-BhEiNUnm.mjs'), "/themes/hoxi/admin/pages/rewards.vue": () => import('./rewards-CVWvZiDM.mjs'), "/themes/hoxi/admin/pages/skills.vue": () => import('./skills-CrpA8oYd.mjs'), "/themes/hoxi/admin/pages/tools.vue": () => import('./tools-CEa6cqk7.mjs'), "/themes/hoxi/admin/pages/work-apps.vue": () => import('./work-apps-Cpvalk3C.mjs') })).map(([file, module]) => [file.replace("/", "../"), module]))
+  ...Object.fromEntries(Object.entries(/* @__PURE__ */ Object.assign({ "/themes/hoxi/admin/pages/cheap.vue": () => import('./cheap-BfZbeW-X.mjs'), "/themes/hoxi/admin/pages/clients.vue": () => import('./clients-BdreFnum.mjs'), "/themes/hoxi/admin/pages/coding-plans.vue": () => import('./coding-plans-DftgPii_.mjs'), "/themes/hoxi/admin/pages/free-tiers.vue": () => import('./free-tiers-DWCXeSq_.mjs'), "/themes/hoxi/admin/pages/models.vue": () => import('./models-DGhFzNWQ.mjs'), "/themes/hoxi/admin/pages/projects.vue": () => import('./projects-Bg11ZXyx.mjs'), "/themes/hoxi/admin/pages/rewards.vue": () => import('./rewards-BJWCTEtq.mjs'), "/themes/hoxi/admin/pages/skills.vue": () => import('./skills-CrpA8oYd.mjs'), "/themes/hoxi/admin/pages/tools.vue": () => import('./tools-CEa6cqk7.mjs'), "/themes/hoxi/admin/pages/work-apps.vue": () => import('./work-apps-Cpvalk3C.mjs') })).map(([file, module]) => [file.replace("/", "../"), module]))
 };
 const themeAdminLocaleEnModules = {
   ...Object.fromEntries(Object.entries(/* @__PURE__ */ Object.assign({
@@ -25739,7 +25739,7 @@ const themeAdminLocaleZhModules = {
   })).map(([file, module]) => [file.replace("/", "../"), module]))
 };
 const themeLayoutLoaders = {
-  "hoxi": () => import('./default-wBBi0WrC.mjs')
+  "hoxi": () => import('./default-4J7mwlya.mjs')
 };
 const pageLayoutMeta = { "../core/pages/user/mcp-authorize/index.vue": { "directoryLayout": false } };
 const schemaVersion$2 = 1;
@@ -42979,7 +42979,7 @@ const LazyHoxiCommunityModal = defineAsyncComponent(() => import('./HoxiCommunit
 const LazyHoxiContainer = defineAsyncComponent(() => import('./HoxiContainer-DDAEb0_Y.mjs').then((r) => r["default"] || r.default || r));
 const LazyHoxiDownloadCard = defineAsyncComponent(() => import('./HoxiDownloadCard-kAWsivnL.mjs').then((r) => r["default"] || r.default || r));
 const LazyHoxiHairlineLink = defineAsyncComponent(() => import('./HoxiHairlineLink-DYjeMeqD.mjs').then((r) => r["default"] || r.default || r));
-const LazyHoxiHomeReadiness = defineAsyncComponent(() => import('./HoxiHomeReadiness-CKcSBHJm.mjs').then((r) => r["default"] || r.default || r));
+const LazyHoxiHomeReadiness = defineAsyncComponent(() => import('./HoxiHomeReadiness-CayBTCv-.mjs').then((r) => r["default"] || r.default || r));
 const LazyHoxiHomeSavingsCard = defineAsyncComponent(() => import('./HoxiHomeSavingsCard-DqBohmam.mjs').then((r) => r["default"] || r.default || r));
 const LazyHoxiHomeTools = defineAsyncComponent(() => import('./HoxiHomeTools-Xc4k7jz_.mjs').then((r) => r["default"] || r.default || r));
 const LazyHoxiHomeWorkspaceShowcase = defineAsyncComponent(() => import('./HoxiHomeWorkspaceShowcase-CngF3YI_.mjs').then((r) => r["default"] || r.default || r));
@@ -42995,9 +42995,9 @@ const LazyHoxiParticleCanvas = defineAsyncComponent(() => import('./HoxiParticle
 const LazyHoxiParticleHero = defineAsyncComponent(() => import('./HoxiParticleHero-C65EeQIv.mjs').then((r) => r["default"] || r.default || r));
 const LazyHoxiPostItem = defineAsyncComponent(() => import('./HoxiPostItem-zSqQv37X.mjs').then((r) => r["default"] || r.default || r));
 const LazyHoxiReadinessProgress = defineAsyncComponent(() => import('./HoxiReadinessProgress-14Bx6ccg.mjs').then((r) => r["default"] || r.default || r));
-const LazyHoxiReadinessQuestion = defineAsyncComponent(() => import('./HoxiReadinessQuestion-Df10oehy.mjs').then((n) => n.H).then((r) => r["default"] || r.default || r));
-const LazyHoxiReadinessRadar = defineAsyncComponent(() => import('./HoxiReadinessRadar-DuqMfg5G.mjs').then((r) => r["default"] || r.default || r));
-const LazyHoxiReadinessReport = defineAsyncComponent(() => import('./HoxiReadinessReport-HjKfI__a.mjs').then((r) => r["default"] || r.default || r));
+const LazyHoxiReadinessQuestion = defineAsyncComponent(() => import('./HoxiReadinessQuestion-CK43Urk4.mjs').then((n) => n.H).then((r) => r["default"] || r.default || r));
+const LazyHoxiReadinessRadar = defineAsyncComponent(() => import('./HoxiReadinessRadar-Bkw4--UY.mjs').then((r) => r["default"] || r.default || r));
+const LazyHoxiReadinessReport = defineAsyncComponent(() => import('./HoxiReadinessReport-8CCE2gnC.mjs').then((r) => r["default"] || r.default || r));
 const LazyHoxiSectionLabel = defineAsyncComponent(() => import('./HoxiSectionLabel-_wnZEg9o.mjs').then((r) => r["default"] || r.default || r));
 const LazyHoxiTag = defineAsyncComponent(() => import('./HoxiTag-C29ulhHG.mjs').then((r) => r["default"] || r.default || r));
 const LazyHoxiToolBrandMark = defineAsyncComponent(() => import('./HoxiToolBrandMark-DPo4uiHI.mjs').then((r) => r["default"] || r.default || r));
@@ -46866,7 +46866,7 @@ const __nuxt_component_1 = defineComponent({
   }
 });
 const layouts = {
-  admin: defineAsyncComponent(() => import('./admin-BGm0V-i5.mjs').then((m) => m.default || m)),
+  admin: defineAsyncComponent(() => import('./admin-BbTyUlaU.mjs').then((m) => m.default || m)),
   default: defineAsyncComponent(() => import('./default-XgebEMhp.mjs').then((m) => m.default || m)),
   empty: defineAsyncComponent(() => import('./empty-D0_T3mKM.mjs').then((m) => m.default || m))
 };

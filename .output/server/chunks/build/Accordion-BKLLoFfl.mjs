@@ -3,7 +3,7 @@ import { ssrRenderComponent, ssrRenderVNode, ssrRenderList, ssrRenderSlot, ssrRe
 import { $ as useAppConfig, a0 as useComponentUI, a4 as tv, bn as transformUI, a1 as useForwardPropsEmits, a2 as reactivePick, at as get, j as _sfc_main$X, a7 as useDirection, V as useForwardExpose, X as Primitive, aj as useId, U as useVModel, Z as createContext, bm as isValueEqualOrExist } from './server.mjs';
 import { u as useArrowNavigation } from './useArrowNavigation-C4FOBlvk.mjs';
 import { C as CollapsibleRoot_default, a as CollapsibleTrigger_default, b as CollapsibleContent_default } from './CollapsibleTrigger-JVsU7ayw.mjs';
-import { gU as isEqual } from '../nitro/nitro.mjs';
+import { gX as isEqual } from '../nitro/nitro.mjs';
 import 'vue-router';
 import '@iconify/vue';
 import '@iconify/utils/lib/css/icon';

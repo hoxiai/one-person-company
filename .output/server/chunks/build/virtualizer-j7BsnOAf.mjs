@@ -2,7 +2,7 @@ import { aj as useId, ay as useCollection, V as useForwardExpose, X as Primitive
 import { defineComponent, computed, openBlock, createBlock, unref, withCtx, withMemo, createVNode, mergeProps, withKeys, withModifiers, renderSlot, createCommentVNode, toRefs, ref, watch, nextTick, watchSyncEffect, useSlots, Fragment, cloneVNode, createElementBlock, normalizeStyle, renderList, resolveDynamicComponent } from 'vue';
 import { f as findValuesBetween } from './arrays-DNHUHQBd.mjs';
 import { useVirtualizer } from '@tanstack/vue-virtual';
-import { gU as isEqual } from '../nitro/nitro.mjs';
+import { gX as isEqual } from '../nitro/nitro.mjs';
 
 function useKbd() {
   return {

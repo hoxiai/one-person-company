@@ -1,4 +1,4 @@
-import { b as db, fS as ensureHoxiWorkMcpToolsRegistered, fT as ensureRewardOutboxWorkerStarted, fU as startAaDailySyncWorker, fV as stopRewardOutboxWorker, fW as stopAaDailySyncWorker } from '../nitro/nitro.mjs';
+import { b as db, fS as ensureHoxiWorkMcpToolsRegistered, fT as ensureRewardOutboxWorkerStarted, fU as startAaDailySyncWorker, fV as startProjectDailySyncWorker, fW as stopRewardOutboxWorker, fX as stopAaDailySyncWorker, fY as stopProjectDailySyncWorker } from '../nitro/nitro.mjs';
 import 'drizzle-orm';
 import 'node:crypto';
 import 'crypto';
@@ -48,10 +48,12 @@ function registerThemeMcpTools() {
 function startThemeBackgroundWorkers(database = db) {
   ensureRewardOutboxWorkerStarted(database, 6e4, { immediateSweep: true });
   startAaDailySyncWorker(database);
+  startProjectDailySyncWorker(database);
 }
 function stopThemeBackgroundWorkers() {
   stopRewardOutboxWorker();
   stopAaDailySyncWorker();
+  stopProjectDailySyncWorker();
 }
 
 export { getThemeEventRules, registerThemeMcpTools, startThemeBackgroundWorkers, stopThemeBackgroundWorkers };

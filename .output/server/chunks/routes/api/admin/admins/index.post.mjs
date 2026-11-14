@@ -1,16 +1,17 @@
-import { d as defineEventHandler, c as getRequestLocale, e as createError, r as readBody, b as db, l as adminTokens, n as normalizePermissions, s as setAuditMeta } from '../../../../nitro/nitro.mjs';
+import { d as defineEventHandler, c as getRequestLocale, e as createError, r as readBody, n as normalizePermissions, j as canGrantPermissions, b as db, k as adminTokens, s as setAuditMeta } from '../../../../nitro/nitro.mjs';
 import crypto from 'crypto';
-import { count, eq } from 'drizzle-orm';
+import { count, and, eq, or, isNull, gt } from 'drizzle-orm';
 import 'node:crypto';
+import 'zod';
 import 'fs';
 import 'path';
+import 'node:fs';
 import 'node:path';
 import '@nuxthub/blob';
 import 'node:http';
 import 'node:https';
 import 'node:events';
 import 'node:buffer';
-import 'node:fs';
 import 'node:async_hooks';
 import 'postgres';
 import 'drizzle-orm/postgres-js';
@@ -25,33 +26,28 @@ import 'maxmind';
 import 'node:os';
 import 'node:fs/promises';
 import 'node:url';
-import 'zod';
 import '@iconify/utils';
 import 'consola';
-import 'node:zlib';
-import 'ioredis';
 import 'jose';
 import '@adonisjs/hash';
 import '@adonisjs/hash/drivers/scrypt';
 import 'node:child_process';
-import 'process';
-import 'buffer';
-import 'node:dns/promises';
-import 'node:net';
 
 const MAX_ACTIVE_TOKENS = 10;
 const index_post = defineEventHandler(async (event) => {
-  var _a, _b;
+  var _a;
   const locale = getRequestLocale(event);
   const messages = locale === "zh" ? {
     tokenManageViaToken: "\u8BF7\u4F7F\u7528\u767B\u5F55\u4F1A\u8BDD\u7BA1\u7406\u7CFB\u7EDF Token\uFF0C\u4E0D\u80FD\u7528 Token \u672C\u8EAB\u64CD\u4F5C",
     nameRequired: "Token \u540D\u79F0\u4E0D\u80FD\u4E3A\u7A7A",
+    cannotEscalate: "\u4E0D\u80FD\u4E3A\u7CFB\u7EDF Token \u6388\u4E88\u8D85\u51FA\u81EA\u8EAB\u6743\u9650\u8303\u56F4\u7684\u6743\u9650",
     tooMany: `\u6700\u591A\u53EA\u80FD\u521B\u5EFA ${MAX_ACTIVE_TOKENS} \u4E2A\u6709\u6548\u7CFB\u7EDF Token\uFF0C\u8BF7\u5148\u540A\u9500\u4E00\u4E9B`,
     created: "\u7CFB\u7EDF Token \u521B\u5EFA\u6210\u529F",
     failed: "\u521B\u5EFA\u7CFB\u7EDF Token \u5931\u8D25"
   } : {
     tokenManageViaToken: "Manage system tokens from a logged-in session, not via another token",
     nameRequired: "Token name is required",
+    cannotEscalate: "Cannot grant system token permissions beyond your own scope",
     tooMany: `You can have at most ${MAX_ACTIVE_TOKENS} active system tokens \u2014 revoke one first`,
     created: "System token created successfully",
     failed: "Failed to create system token"
@@ -59,23 +55,34 @@ const index_post = defineEventHandler(async (event) => {
   if (event.context.authenticatedFromToken) {
     throw createError({ statusCode: 403, message: messages.tokenManageViaToken });
   }
-  const adminId = (_a = event.context.admin) == null ? void 0 : _a.id;
+  const actingAdmin = event.context.admin;
+  const adminId = actingAdmin == null ? void 0 : actingAdmin.id;
   if (!adminId) {
     throw createError({ statusCode: 401, message: "Unauthorized" });
   }
   try {
     const body = await readBody(event);
-    const { name, expiresInDays, permissions } = body;
+    const { name, expiresInDays, permissions } = body || {};
     if (!name || typeof name !== "string" || !name.trim()) {
       throw createError({ statusCode: 400, message: messages.nameRequired });
     }
-    const [{ value: activeCount }] = await db.select({ value: count() }).from(adminTokens).where(eq(adminTokens.revoked, false));
+    const normalizedPerms = (_a = normalizePermissions(permissions, { allowAll: true })) != null ? _a : [];
+    if (!canGrantPermissions(actingAdmin, normalizedPerms)) {
+      throw createError({ statusCode: 403, message: messages.cannotEscalate });
+    }
+    const now = /* @__PURE__ */ new Date();
+    const [{ value: activeCount }] = await db.select({ value: count() }).from(adminTokens).where(
+      and(
+        eq(adminTokens.revoked, false),
+        or(isNull(adminTokens.expiresAt), gt(adminTokens.expiresAt, now))
+      )
+    );
     if (activeCount >= MAX_ACTIVE_TOKENS) {
       throw createError({ statusCode: 400, message: messages.tooMany });
     }
     const rawToken = `apay_admin_${crypto.randomBytes(32).toString("base64url")}`;
-    const expiresAt = expiresInDays ? new Date(Date.now() + Number(expiresInDays) * 86400 * 1e3) : null;
-    const normalizedPerms = (_b = normalizePermissions(permissions, { allowAll: true })) != null ? _b : [];
+    const days = Number(expiresInDays);
+    const expiresAt = Number.isFinite(days) && days > 0 ? new Date(Date.now() + days * 86400 * 1e3) : null;
     const inserted = await db.insert(adminTokens).values({
       adminId,
       token: rawToken,

@@ -1,16 +1,17 @@
-import { d as defineEventHandler, ab as resolveClientIp, ac as checkIpRateLimit, e as createError, f as getRouterParam, r as readBody, g as getQuery, bH as getUserSession, b as db, J as tickets, cI as ticketMessages } from '../../../../nitro/nitro.mjs';
+import { d as defineEventHandler, aj as resolveClientIp, ak as checkIpRateLimit, e as createError, f as getRouterParam, r as readBody, g as getQuery, y as normalizeTicketAttachments, b8 as getUserSession, b as db, u as tickets, x as ticketMessages } from '../../../../nitro/nitro.mjs';
 import crypto from 'node:crypto';
 import { eq } from 'drizzle-orm';
+import 'zod';
 import 'crypto';
 import 'fs';
 import 'path';
+import 'node:fs';
 import 'node:path';
 import '@nuxthub/blob';
 import 'node:http';
 import 'node:https';
 import 'node:events';
 import 'node:buffer';
-import 'node:fs';
 import 'node:async_hooks';
 import 'postgres';
 import 'drizzle-orm/postgres-js';
@@ -25,19 +26,12 @@ import 'maxmind';
 import 'node:os';
 import 'node:fs/promises';
 import 'node:url';
-import 'zod';
 import '@iconify/utils';
 import 'consola';
-import 'node:zlib';
-import 'ioredis';
 import 'jose';
 import '@adonisjs/hash';
 import '@adonisjs/hash/drivers/scrypt';
 import 'node:child_process';
-import 'process';
-import 'buffer';
-import 'node:dns/promises';
-import 'node:net';
 
 function tokensMatch(expected, provided) {
   if (!expected || !provided) return false;
@@ -60,9 +54,11 @@ const reply_post = defineEventHandler(async (event) => {
   const body = await readBody(event).catch(() => ({}));
   const query = getQuery(event);
   const token = String(body.token || query.token || "").trim();
-  const content = String(body.content || "").trim();
-  const attachments = Array.isArray(body.attachments) ? body.attachments : null;
-  if (!content) {
+  const rawContent = String(body.content || "").trim();
+  const attachments = normalizeTicketAttachments(body.attachments);
+  const content = rawContent || ((attachments == null ? void 0 : attachments.length) ? "[\u56FE\u7247\u9644\u4EF6]" : "");
+  const incomingContext = body.context && typeof body.context === "object" && !Array.isArray(body.context) ? body.context : null;
+  if (!content && !(attachments == null ? void 0 : attachments.length)) {
     throw createError({ statusCode: 400, statusMessage: "\u56DE\u590D\u5185\u5BB9\u4E0D\u80FD\u4E3A\u7A7A" });
   }
   if (content.length > 2e3) {
@@ -97,8 +93,13 @@ const reply_post = defineEventHandler(async (event) => {
     createdAt: /* @__PURE__ */ new Date()
   }).returning();
   const nextStatus = ticket.status === "resolved" || ticket.status === "auto_resolved" ? "in_progress" : ticket.status;
+  const mergedContext = incomingContext ? {
+    ...ticket.context && typeof ticket.context === "object" ? ticket.context : {},
+    ...incomingContext
+  } : void 0;
   await db.update(tickets).set({
     ...userId && !ticket.userId ? { userId } : {},
+    ...mergedContext ? { context: mergedContext } : {},
     status: nextStatus,
     lastRepliedAt: /* @__PURE__ */ new Date(),
     lastRepliedBy: "user",

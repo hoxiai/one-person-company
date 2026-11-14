@@ -1,16 +1,17 @@
-import { d as defineEventHandler, c as getRequestLocale, f as getRouterParam, e as createError, r as readBody, bl as updateReleaseRecordById } from '../../../../nitro/nitro.mjs';
-import 'drizzle-orm';
+import { d as defineEventHandler, c as getRequestLocale, f as getRouterParam, e as createError, r as readBody, bq as normalizeAppKey, br as normalizeReleaseChannel, bs as saveCustomReleaseApp, bt as updateReleaseRecordById, s as setAuditMeta } from '../../../../nitro/nitro.mjs';
 import 'node:crypto';
+import 'drizzle-orm';
+import 'zod';
 import 'crypto';
 import 'fs';
 import 'path';
+import 'node:fs';
 import 'node:path';
 import '@nuxthub/blob';
 import 'node:http';
 import 'node:https';
 import 'node:events';
 import 'node:buffer';
-import 'node:fs';
 import 'node:async_hooks';
 import 'postgres';
 import 'drizzle-orm/postgres-js';
@@ -25,19 +26,12 @@ import 'maxmind';
 import 'node:os';
 import 'node:fs/promises';
 import 'node:url';
-import 'zod';
 import '@iconify/utils';
 import 'consola';
-import 'node:zlib';
-import 'ioredis';
 import 'jose';
 import '@adonisjs/hash';
 import '@adonisjs/hash/drivers/scrypt';
 import 'node:child_process';
-import 'process';
-import 'buffer';
-import 'node:dns/promises';
-import 'node:net';
 
 const _id__put = defineEventHandler(async (event) => {
   var _a, _b;
@@ -51,6 +45,25 @@ const _id__put = defineEventHandler(async (event) => {
     });
   }
   const body = await readBody(event) || {};
+  const appName = typeof body.appName === "string" ? body.appName.trim() : "";
+  const hasExplicitMeta = body.metaData && typeof body.metaData === "object";
+  const mergedMeta = hasExplicitMeta || appName ? {
+    ...hasExplicitMeta ? body.metaData : {},
+    ...appName ? { appName } : {}
+  } : void 0;
+  if (appName && body.appKey) {
+    try {
+      const appKey = normalizeAppKey(String(body.appKey).trim().toLowerCase());
+      const channel = normalizeReleaseChannel(body.channel || "stable");
+      await saveCustomReleaseApp({
+        appKey,
+        name: appName,
+        nameZh: appName,
+        defaultChannel: channel
+      });
+    } catch {
+    }
+  }
   const updated = await updateReleaseRecordById(id, {
     appKey: body.appKey,
     channel: body.channel,
@@ -72,7 +85,13 @@ const _id__put = defineEventHandler(async (event) => {
     isActive: body.isActive,
     releasedAt: body.releasedAt,
     withdrawnAt: body.withdrawnAt !== void 0 ? body.withdrawnAt : body.withdrawn_at,
-    metaData: body.metaData
+    metaData: mergedMeta
+  });
+  setAuditMeta(event, {
+    action: "update",
+    resource: "releases",
+    resourceId: id,
+    summary: `Updated release #${id} (${updated.appKey} v${updated.version})`
   });
   return {
     code: 0,

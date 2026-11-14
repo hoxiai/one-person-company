@@ -1,0 +1,8 @@
+const billing_vue_vue_type_style_index_0_scoped_21f01d92_lang = "@keyframes wave-flow-21f01d92{0%{background-position:0 0}to{background-position:24px 0}}.wave-overlay[data-v-21f01d92]{animation:wave-flow-21f01d92 1.8s linear infinite;background:repeating-linear-gradient(90deg,transparent,transparent 4px,rgba(0,0,0,.08) 0,rgba(0,0,0,.08) 8px);background-size:24px 100%;pointer-events:none}.dark .wave-overlay[data-v-21f01d92]{background:repeating-linear-gradient(90deg,transparent,transparent 4px,hsla(0,0%,100%,.08) 0,hsla(0,0%,100%,.08) 8px)}";
+
+const billingStyles_BXr8W2VJ = [
+  billing_vue_vue_type_style_index_0_scoped_21f01d92_lang
+];
+
+export { billingStyles_BXr8W2VJ as default };
+//# sourceMappingURL=billing-styles.BXr8W2VJ.mjs.map

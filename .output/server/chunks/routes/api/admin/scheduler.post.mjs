@@ -1,16 +1,17 @@
-import { d as defineEventHandler, c as getRequestLocale, r as readBody, e as createError, bE as saveSchedulerJobs, bF as loadSchedulerJobs, bG as runSchedulerJob } from '../../../nitro/nitro.mjs';
-import 'drizzle-orm';
+import { d as defineEventHandler, c as getRequestLocale, r as readBody, e as createError, bJ as isSafeInternalSchedulerPath, bK as saveSchedulerJobs, bL as loadSchedulerJobs, bM as runSchedulerJob } from '../../../nitro/nitro.mjs';
 import 'node:crypto';
+import 'drizzle-orm';
+import 'zod';
 import 'crypto';
 import 'fs';
 import 'path';
+import 'node:fs';
 import 'node:path';
 import '@nuxthub/blob';
 import 'node:http';
 import 'node:https';
 import 'node:events';
 import 'node:buffer';
-import 'node:fs';
 import 'node:async_hooks';
 import 'postgres';
 import 'drizzle-orm/postgres-js';
@@ -25,19 +26,12 @@ import 'maxmind';
 import 'node:os';
 import 'node:fs/promises';
 import 'node:url';
-import 'zod';
 import '@iconify/utils';
 import 'consola';
-import 'node:zlib';
-import 'ioredis';
 import 'jose';
 import '@adonisjs/hash';
 import '@adonisjs/hash/drivers/scrypt';
 import 'node:child_process';
-import 'process';
-import 'buffer';
-import 'node:dns/promises';
-import 'node:net';
 
 const scheduler_post = defineEventHandler(async (event) => {
   const locale = getRequestLocale(event);
@@ -59,8 +53,8 @@ const scheduler_post = defineEventHandler(async (event) => {
       if (seen.has(name)) {
         throw createError({ statusCode: 400, message: locale === "zh" ? `\u4EFB\u52A1\u540D\u79F0\u91CD\u590D\uFF1A${name}` : `Duplicate job name: ${name}` });
       }
-      if (!path.startsWith("/")) {
-        throw createError({ statusCode: 400, message: locale === "zh" ? `\u8DEF\u5F84\u5FC5\u987B\u4EE5 / \u5F00\u5934\uFF1A${name}` : `Path must start with /: ${name}` });
+      if (!isSafeInternalSchedulerPath(path)) {
+        throw createError({ statusCode: 400, message: locale === "zh" ? `\u8DEF\u5F84\u5FC5\u987B\u4E3A\u7AD9\u5185\u5355\u659C\u6760\u8DEF\u5F84\uFF08\u4EE5 / \u5F00\u5934\u4E14\u4E0D\u80FD\u4E3A //\uFF09\uFF1A${name}` : `Path must be an internal path starting with a single /: ${name}` });
       }
       const method = String((raw == null ? void 0 : raw.method) || "POST").toUpperCase();
       if (method !== "GET" && method !== "POST") {

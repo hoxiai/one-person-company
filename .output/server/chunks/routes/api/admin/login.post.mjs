@@ -1,16 +1,17 @@
-import { d as defineEventHandler, c as getRequestLocale, ab as resolveClientIp, ac as checkIpRateLimit, e as createError, r as readBody, ad as getAdminLoginSecurityState, ae as consumeCaptchaTicket, b as db, h as admins, af as verifyPassword, ag as clearAdminLoginFailure, ah as setUserSession, i as isSuperAdmin, n as normalizePermissions, l as adminTokens, ai as recordOperationFromEvent, aj as recordAdminLoginFailure } from '../../../nitro/nitro.mjs';
+import { d as defineEventHandler, c as getRequestLocale, aj as resolveClientIp, ak as checkIpRateLimit, e as createError, r as readBody, al as getAdminLoginSecurityState, am as consumeCaptchaTicket, b as db, h as admins, an as verifyPassword, ao as clearAdminLoginFailure, m as setUserSession, i as isSuperAdmin, n as normalizePermissions, k as adminTokens, ap as recordOperationFromEvent, aq as recordAdminLoginFailure } from '../../../nitro/nitro.mjs';
 import crypto from 'crypto';
-import { eq, and } from 'drizzle-orm';
+import { eq, and, or, isNull, gt } from 'drizzle-orm';
 import 'node:crypto';
+import 'zod';
 import 'fs';
 import 'path';
+import 'node:fs';
 import 'node:path';
 import '@nuxthub/blob';
 import 'node:http';
 import 'node:https';
 import 'node:events';
 import 'node:buffer';
-import 'node:fs';
 import 'node:async_hooks';
 import 'postgres';
 import 'drizzle-orm/postgres-js';
@@ -25,19 +26,12 @@ import 'maxmind';
 import 'node:os';
 import 'node:fs/promises';
 import 'node:url';
-import 'zod';
 import '@iconify/utils';
 import 'consola';
-import 'node:zlib';
-import 'ioredis';
 import 'jose';
 import '@adonisjs/hash';
 import '@adonisjs/hash/drivers/scrypt';
 import 'node:child_process';
-import 'process';
-import 'buffer';
-import 'node:dns/promises';
-import 'node:net';
 
 const ADMIN_LOGIN_AUDIT_DEDUPE_MS = 30 * 60 * 1e3;
 const MOBILE_PAIR_TOKEN_NAME = "APay Mobile Admin";
@@ -142,7 +136,13 @@ const login_post = defineEventHandler(async (event) => {
     if (grantedPerms.length > 0) {
       await db.update(adminTokens).set({ revoked: true }).where(and(eq(adminTokens.adminId, user.id), eq(adminTokens.name, MOBILE_PAIR_TOKEN_NAME))).catch(() => {
       });
-      const activeRows = await db.select({ id: adminTokens.id }).from(adminTokens).where(eq(adminTokens.revoked, false)).catch(() => []);
+      const now = /* @__PURE__ */ new Date();
+      const activeRows = await db.select({ id: adminTokens.id }).from(adminTokens).where(
+        and(
+          eq(adminTokens.revoked, false),
+          or(isNull(adminTokens.expiresAt), gt(adminTokens.expiresAt, now))
+        )
+      ).catch(() => []);
       if (activeRows.length < MAX_ACTIVE_ADMIN_TOKENS) {
         const rawToken = `apay_admin_${crypto.randomBytes(32).toString("base64url")}`;
         await db.insert(adminTokens).values({

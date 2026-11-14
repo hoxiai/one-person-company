@@ -1,16 +1,17 @@
-import { d as defineEventHandler, g as getQuery, b as db, m as cards, p as products } from '../../../nitro/nitro.mjs';
-import { count, eq, desc } from 'drizzle-orm';
+import { d as defineEventHandler, g as getQuery, p as cards, b as db, q as products } from '../../../nitro/nitro.mjs';
+import { eq, count, desc } from 'drizzle-orm';
 import 'node:crypto';
+import 'zod';
 import 'crypto';
 import 'fs';
 import 'path';
+import 'node:fs';
 import 'node:path';
 import '@nuxthub/blob';
 import 'node:http';
 import 'node:https';
 import 'node:events';
 import 'node:buffer';
-import 'node:fs';
 import 'node:async_hooks';
 import 'postgres';
 import 'drizzle-orm/postgres-js';
@@ -25,37 +26,35 @@ import 'maxmind';
 import 'node:os';
 import 'node:fs/promises';
 import 'node:url';
-import 'zod';
 import '@iconify/utils';
 import 'consola';
-import 'node:zlib';
-import 'ioredis';
 import 'jose';
 import '@adonisjs/hash';
 import '@adonisjs/hash/drivers/scrypt';
 import 'node:child_process';
-import 'process';
-import 'buffer';
-import 'node:dns/promises';
-import 'node:net';
 
 const index_get = defineEventHandler(async (event) => {
   var _a;
   const query = getQuery(event);
-  const page = parseInt(query.page) || 1;
-  const pageSize = parseInt(query.pageSize) || 15;
+  const page = Math.max(1, parseInt(query.page) || 1);
+  const pageSize = Math.min(200, Math.max(1, parseInt(query.pageSize) || 15));
   const offset = (page - 1) * pageSize;
-  const totalResult = await db.select({ value: count() }).from(cards);
+  const productId = query.productId && query.productId !== "all" ? Number(query.productId) : null;
+  const whereClause = productId && Number.isFinite(productId) ? eq(cards.productId, productId) : void 0;
+  const totalQuery = db.select({ value: count() }).from(cards);
+  const totalResult = whereClause ? await totalQuery.where(whereClause) : await totalQuery;
   const total = ((_a = totalResult[0]) == null ? void 0 : _a.value) || 0;
-  const result = await db.select({
+  const listQuery = db.select({
     id: cards.id,
     productId: cards.productId,
     productName: products.name,
     cardNumber: cards.cardNumber,
+    cardCode: cards.cardNumber,
     isUsed: cards.isUsed,
     orderId: cards.orderId,
     createdAt: cards.createdAt
-  }).from(cards).leftJoin(products, eq(cards.productId, products.id)).orderBy(desc(cards.createdAt)).limit(pageSize).offset(offset);
+  }).from(cards).leftJoin(products, eq(cards.productId, products.id));
+  const result = await (whereClause ? listQuery.where(whereClause) : listQuery).orderBy(desc(cards.createdAt)).limit(pageSize).offset(offset);
   return {
     data: result,
     total,

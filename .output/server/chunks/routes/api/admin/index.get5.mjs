@@ -1,16 +1,17 @@
-import { d as defineEventHandler, c as getRequestLocale, g as getQuery, z as orders, b as db, t as toIsoTimestamp, B as aggregateOrderAccountingTotals, e as createError } from '../../../nitro/nitro.mjs';
+import { d as defineEventHandler, c as getRequestLocale, g as getQuery, I as orders, b as db, t as toIsoTimestamp, J as aggregateOrderAccountingTotals, e as createError } from '../../../nitro/nitro.mjs';
 import { sql, inArray, and, or, isNull, eq } from 'drizzle-orm';
 import 'node:crypto';
+import 'zod';
 import 'crypto';
 import 'fs';
 import 'path';
+import 'node:fs';
 import 'node:path';
 import '@nuxthub/blob';
 import 'node:http';
 import 'node:https';
 import 'node:events';
 import 'node:buffer';
-import 'node:fs';
 import 'node:async_hooks';
 import 'postgres';
 import 'drizzle-orm/postgres-js';
@@ -25,19 +26,12 @@ import 'maxmind';
 import 'node:os';
 import 'node:fs/promises';
 import 'node:url';
-import 'zod';
 import '@iconify/utils';
 import 'consola';
-import 'node:zlib';
-import 'ioredis';
 import 'jose';
 import '@adonisjs/hash';
 import '@adonisjs/hash/drivers/scrypt';
 import 'node:child_process';
-import 'process';
-import 'buffer';
-import 'node:dns/promises';
-import 'node:net';
 
 const index_get = defineEventHandler(async (event) => {
   const locale = getRequestLocale(event);
@@ -101,6 +95,7 @@ const index_get = defineEventHandler(async (event) => {
       metaData: orders.metaData
     }).from(orders).where(and(
       eq(orders.payStatus, "paid"),
+      sql`${orders.status} != 'deleted'`,
       or(...identityConditions)
     )) : [];
     const totalsByIdentity = /* @__PURE__ */ new Map();

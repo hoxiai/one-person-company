@@ -1,16 +1,17 @@
-import { d as defineEventHandler, c as getRequestLocale, g as getQuery, u as users, cJ as userWallets, b as db, d4 as fetchExternalUsersMap, cW as userTokens, e as createError } from '../../../nitro/nitro.mjs';
-import { sql, or, like, count, desc, asc, eq, and, gt } from 'drizzle-orm';
+import { d as defineEventHandler, c as getRequestLocale, g as getQuery, v as users, cM as userWallets, b as db, d6 as getTopupRules, I as orders, e as createError, J as aggregateOrderAccountingTotals } from '../../../nitro/nitro.mjs';
+import { sql, or, like, isNotNull, isNull, and, count, desc, asc, eq, inArray } from 'drizzle-orm';
 import 'node:crypto';
+import 'zod';
 import 'crypto';
 import 'fs';
 import 'path';
+import 'node:fs';
 import 'node:path';
 import '@nuxthub/blob';
 import 'node:http';
 import 'node:https';
 import 'node:events';
 import 'node:buffer';
-import 'node:fs';
 import 'node:async_hooks';
 import 'postgres';
 import 'drizzle-orm/postgres-js';
@@ -25,50 +26,112 @@ import 'maxmind';
 import 'node:os';
 import 'node:fs/promises';
 import 'node:url';
-import 'zod';
 import '@iconify/utils';
 import 'consola';
-import 'node:zlib';
-import 'ioredis';
 import 'jose';
 import '@adonisjs/hash';
 import '@adonisjs/hash/drivers/scrypt';
 import 'node:child_process';
-import 'process';
-import 'buffer';
-import 'node:dns/promises';
-import 'node:net';
 
+const EMPTY_ORDER_METRICS = {
+  totalOrders: 0,
+  paidOrders: 0,
+  unpaidOrders: 0,
+  totalSpend: 0,
+  totalSpentByCurrency: []
+};
+function buildUserOrderMetricsMap(orderRows) {
+  const grouped = /* @__PURE__ */ new Map();
+  for (const row of orderRows) {
+    const uid = Number(row.userId);
+    if (!Number.isFinite(uid) || uid <= 0) continue;
+    let list = grouped.get(uid);
+    if (!list) {
+      list = [];
+      grouped.set(uid, list);
+    }
+    list.push(row);
+  }
+  const metricsMap = /* @__PURE__ */ new Map();
+  for (const [uid, rows] of grouped.entries()) {
+    const paidRows = rows.filter((r) => r.payStatus === "paid");
+    const totalSpentByCurrency = aggregateOrderAccountingTotals(paidRows);
+    const totalSpend = totalSpentByCurrency.reduce((sum, item) => sum + item.amount, 0);
+    metricsMap.set(uid, {
+      totalOrders: rows.length,
+      paidOrders: paidRows.length,
+      unpaidOrders: rows.length - paidRows.length,
+      totalSpend,
+      totalSpentByCurrency
+    });
+  }
+  return metricsMap;
+}
 const index_get = defineEventHandler(async (event) => {
-  var _a;
+  var _a, _b, _c, _d, _e;
   const locale = getRequestLocale(event);
   const query = getQuery(event);
-  const page = parseInt(query.page) || 1;
-  const pageSize = parseInt(query.pageSize) || 15;
+  const page = Math.max(parseInt(query.page) || 1, 1);
+  const pageSize = Math.min(Math.max(parseInt(query.pageSize) || 15, 1), 100);
   const offset = (page - 1) * pageSize;
   const keyword = String(query.search || query.q || query.keyword || "").trim();
   const hasSpending = String(query.hasSpending || "").trim();
+  const emailVerified = String(query.emailVerified || "").trim();
   const sortBy = String(query.sortBy || query.sort || "").trim();
   const sortOrder = String(query.sortOrder || query.order || "desc").trim().toLowerCase() === "asc" ? "asc" : "desc";
   const likePattern = keyword ? `%${keyword.toLowerCase()}%` : "";
   const emailLower = sql`lower(${users.email})`;
   const nicknameLower = sql`lower(coalesce(${users.nickname}, ''))`;
   const idLower = sql`lower(cast(${users.id} as text))`;
-  const whereClause = keyword ? or(
-    like(emailLower, likePattern),
-    like(nicknameLower, likePattern),
-    like(idLower, likePattern)
-  ) : void 0;
-  const isExternalSort = ["spend", "totalSpend", "usage", "totalTokens", "requests", "totalRequests"].includes(sortBy);
+  const conditions = [];
+  if (keyword) {
+    conditions.push(or(
+      like(emailLower, likePattern),
+      like(nicknameLower, likePattern),
+      like(idLower, likePattern)
+    ));
+  }
+  if (emailVerified === "verified" || emailVerified === "true") {
+    conditions.push(isNotNull(users.emailVerifiedAt));
+  } else if (emailVerified === "unverified" || emailVerified === "false") {
+    conditions.push(isNull(users.emailVerifiedAt));
+  }
+  const whereClause = conditions.length === 1 ? conditions[0] : conditions.length > 1 ? and(...conditions) : void 0;
+  const isOrderMetricSort = ["spend", "totalSpend", "orders", "totalOrders", "paidOrders"].includes(sortBy);
   const hasSpendingFilter = hasSpending === "true" || hasSpending === "false";
-  const requiresFullScan = isExternalSort || hasSpendingFilter;
+  const requiresFullScan = isOrderMetricSort || hasSpendingFilter;
   try {
     const cashSumExpr = sql`coalesce(sum(${userWallets.cashBalance}), 0)`;
     const grantSumExpr = sql`coalesce(sum(${userWallets.grantBalance}), 0)`;
     const totalBalanceExpr = sql`(${cashSumExpr} + ${grantSumExpr})`;
+    const [globalUserStatsRows, globalWalletStatsRows, topupRules] = await Promise.all([
+      db.select({
+        totalUsers: count(),
+        verifiedUsers: sql`coalesce(sum(case when ${users.emailVerifiedAt} is not null then 1 else 0 end), 0)`
+      }).from(users),
+      db.select({
+        totalCashBalance: cashSumExpr,
+        totalGrantBalance: grantSumExpr
+      }).from(userWallets),
+      getTopupRules()
+    ]);
+    const globalTotalUsers = Number(((_a = globalUserStatsRows[0]) == null ? void 0 : _a.totalUsers) || 0);
+    const globalVerifiedUsers = Number(((_b = globalUserStatsRows[0]) == null ? void 0 : _b.verifiedUsers) || 0);
+    const globalCashBalance = Number(((_c = globalWalletStatsRows[0]) == null ? void 0 : _c.totalCashBalance) || 0) / 1e8;
+    const globalGrantBalance = Number(((_d = globalWalletStatsRows[0]) == null ? void 0 : _d.totalGrantBalance) || 0) / 1e8;
+    const globalTotalBalance = globalCashBalance + globalGrantBalance;
+    const summary = {
+      totalUsers: globalTotalUsers,
+      verifiedUsers: globalVerifiedUsers,
+      unverifiedUsers: Math.max(0, globalTotalUsers - globalVerifiedUsers),
+      totalCashBalance: globalCashBalance,
+      totalGrantBalance: globalGrantBalance,
+      totalBalance: globalTotalBalance,
+      walletEnabled: Boolean(topupRules == null ? void 0 : topupRules.enabled) || globalTotalBalance > 0
+    };
     if (!requiresFullScan) {
       const totalResult = await db.select({ total: count() }).from(users).where(whereClause);
-      const total2 = Number(((_a = totalResult[0]) == null ? void 0 : _a.total) || 0);
+      const total2 = Number(((_e = totalResult[0]) == null ? void 0 : _e.total) || 0);
       const orderByClauses = sortBy === "balance" || sortBy === "availableBalance" ? [
         sortOrder === "asc" ? sql`${totalBalanceExpr} ASC` : sql`${totalBalanceExpr} DESC`,
         desc(users.id)
@@ -76,7 +139,7 @@ const index_get = defineEventHandler(async (event) => {
         sortOrder === "asc" ? asc(users.createdAt) : desc(users.createdAt),
         sortOrder === "asc" ? asc(users.id) : desc(users.id)
       ];
-      const paginatedUsers2 = await db.select({
+      const paginatedUsers = await db.select({
         id: users.id,
         username: users.email,
         email: users.email,
@@ -96,34 +159,23 @@ const index_get = defineEventHandler(async (event) => {
         users.lastLoginAt,
         users.emailVerifiedAt
       ).orderBy(...orderByClauses).limit(pageSize).offset(offset);
-      const [externalUsersMap2, activeKeyCountMap2] = await Promise.all([
-        fetchExternalUsersMap(event),
-        (async () => {
-          const userIds2 = paginatedUsers2.map((u) => u.id);
-          const map = /* @__PURE__ */ new Map();
-          if (userIds2.length > 0) {
-            const activeKeysResult = await db.select({
-              userId: userTokens.userId,
-              count: count()
-            }).from(userTokens).where(
-              and(
-                sql`${userTokens.userId} IN (${sql.join(userIds2.map((id) => sql`${id}`), sql`, `)})`,
-                eq(userTokens.revoked, false),
-                or(
-                  sql`${userTokens.expiresAt} IS NULL`,
-                  gt(userTokens.expiresAt, /* @__PURE__ */ new Date())
-                )
-              )
-            ).groupBy(userTokens.userId);
-            activeKeysResult.forEach((row) => {
-              map.set(Number(row.userId), Number(row.count || 0));
-            });
-          }
-          return map;
-        })()
-      ]);
-      const finalUsers2 = paginatedUsers2.map((user) => {
-        const extData = externalUsersMap2.get(user.id) || {};
+      const userIds = paginatedUsers.map((u) => u.id);
+      const orderRows2 = userIds.length > 0 ? await db.select({
+        userId: orders.userId,
+        amount: orders.amount,
+        currency: orders.currency,
+        metaData: orders.metaData,
+        payStatus: orders.payStatus
+      }).from(orders).where(and(
+        inArray(orders.userId, userIds),
+        sql`${orders.payStatus} != 'deleted'`,
+        sql`${orders.status} != 'deleted'`
+      )) : [];
+      const orderMetricsMap2 = buildUserOrderMetricsMap(orderRows2);
+      const finalUsers2 = paginatedUsers.map((user) => {
+        const metrics = orderMetricsMap2.get(user.id) || EMPTY_ORDER_METRICS;
+        const cashBalance = Number(user.cashBalance || 0) / 1e8;
+        const grantBalance = Number(user.grantBalance || 0) / 1e8;
         return {
           id: user.id,
           username: user.username,
@@ -133,26 +185,24 @@ const index_get = defineEventHandler(async (event) => {
           status: user.status,
           lastLoginAt: user.lastLoginAt,
           emailVerifiedAt: user.emailVerifiedAt,
-          cashBalance: Number(user.cashBalance || 0) / 1e8,
-          grantBalance: Number(user.grantBalance || 0) / 1e8,
-          availableBalance: (Number(user.cashBalance || 0) + Number(user.grantBalance || 0)) / 1e8,
-          totalSpend: Number(extData.totalSpend || 0),
-          totalRequests: Number(extData.totalRequests || 0),
-          totalTokens: Number(extData.totalTokens || 0),
-          promptTokens: Number(extData.promptTokens || 0),
-          completionTokens: Number(extData.completionTokens || 0),
-          lastRequestAt: extData.lastRequestAt || null,
-          activeKeyCount: activeKeyCountMap2.get(user.id) || 0
+          cashBalance,
+          grantBalance,
+          availableBalance: cashBalance + grantBalance,
+          totalOrders: metrics.totalOrders,
+          paidOrders: metrics.paidOrders,
+          unpaidOrders: metrics.unpaidOrders,
+          totalSpend: metrics.totalSpend,
+          totalSpentByCurrency: metrics.totalSpentByCurrency
         };
       });
       return {
         data: finalUsers2,
         total: total2,
         page,
-        pageSize
+        pageSize,
+        summary
       };
     }
-    const externalUsersMap = await fetchExternalUsersMap(event);
     let usersQuery = db.select({
       id: users.id,
       username: users.email,
@@ -177,8 +227,22 @@ const index_get = defineEventHandler(async (event) => {
       users.lastLoginAt,
       users.emailVerifiedAt
     ).orderBy(desc(users.createdAt), desc(users.id));
+    const orderRows = allUsers.length > 0 ? await db.select({
+      userId: orders.userId,
+      amount: orders.amount,
+      currency: orders.currency,
+      metaData: orders.metaData,
+      payStatus: orders.payStatus
+    }).from(orders).where(and(
+      isNotNull(orders.userId),
+      sql`${orders.payStatus} != 'deleted'`,
+      sql`${orders.status} != 'deleted'`
+    )) : [];
+    const orderMetricsMap = buildUserOrderMetricsMap(orderRows);
     const mergedUsers = allUsers.map((user) => {
-      const extData = externalUsersMap.get(user.id) || {};
+      const metrics = orderMetricsMap.get(user.id) || EMPTY_ORDER_METRICS;
+      const cashBalance = Number(user.cashBalance || 0) / 1e8;
+      const grantBalance = Number(user.grantBalance || 0) / 1e8;
       return {
         id: user.id,
         username: user.username,
@@ -188,15 +252,14 @@ const index_get = defineEventHandler(async (event) => {
         status: user.status,
         lastLoginAt: user.lastLoginAt,
         emailVerifiedAt: user.emailVerifiedAt,
-        cashBalance: Number(user.cashBalance || 0) / 1e8,
-        grantBalance: Number(user.grantBalance || 0) / 1e8,
-        availableBalance: (Number(user.cashBalance || 0) + Number(user.grantBalance || 0)) / 1e8,
-        totalSpend: Number(extData.totalSpend || 0),
-        totalRequests: Number(extData.totalRequests || 0),
-        totalTokens: Number(extData.totalTokens || 0),
-        promptTokens: Number(extData.promptTokens || 0),
-        completionTokens: Number(extData.completionTokens || 0),
-        lastRequestAt: extData.lastRequestAt || null
+        cashBalance,
+        grantBalance,
+        availableBalance: cashBalance + grantBalance,
+        totalOrders: metrics.totalOrders,
+        paidOrders: metrics.paidOrders,
+        unpaidOrders: metrics.unpaidOrders,
+        totalSpend: metrics.totalSpend,
+        totalSpentByCurrency: metrics.totalSpentByCurrency
       };
     });
     let filteredUsers = mergedUsers;
@@ -207,44 +270,21 @@ const index_get = defineEventHandler(async (event) => {
     }
     if (sortBy === "spend" || sortBy === "totalSpend") {
       filteredUsers.sort((a, b) => sortOrder === "asc" ? a.totalSpend - b.totalSpend : b.totalSpend - a.totalSpend);
+    } else if (sortBy === "orders" || sortBy === "totalOrders") {
+      filteredUsers.sort((a, b) => sortOrder === "asc" ? a.totalOrders - b.totalOrders : b.totalOrders - a.totalOrders);
+    } else if (sortBy === "paidOrders") {
+      filteredUsers.sort((a, b) => sortOrder === "asc" ? a.paidOrders - b.paidOrders : b.paidOrders - a.paidOrders);
     } else if (sortBy === "balance" || sortBy === "availableBalance") {
       filteredUsers.sort((a, b) => sortOrder === "asc" ? a.availableBalance - b.availableBalance : b.availableBalance - a.availableBalance);
-    } else if (sortBy === "usage" || sortBy === "totalTokens") {
-      filteredUsers.sort((a, b) => sortOrder === "asc" ? a.totalTokens - b.totalTokens : b.totalTokens - a.totalTokens);
-    } else if (sortBy === "requests" || sortBy === "totalRequests") {
-      filteredUsers.sort((a, b) => sortOrder === "asc" ? a.totalRequests - b.totalRequests : b.totalRequests - a.totalRequests);
     }
     const total = filteredUsers.length;
-    const paginatedUsers = filteredUsers.slice(offset, offset + pageSize);
-    const userIds = paginatedUsers.map((u) => u.id);
-    let activeKeyCountMap = /* @__PURE__ */ new Map();
-    if (userIds.length > 0) {
-      const activeKeysResult = await db.select({
-        userId: userTokens.userId,
-        count: count()
-      }).from(userTokens).where(
-        and(
-          sql`${userTokens.userId} IN (${sql.join(userIds.map((id) => sql`${id}`), sql`, `)})`,
-          eq(userTokens.revoked, false),
-          or(
-            sql`${userTokens.expiresAt} IS NULL`,
-            gt(userTokens.expiresAt, /* @__PURE__ */ new Date())
-          )
-        )
-      ).groupBy(userTokens.userId);
-      activeKeysResult.forEach((row) => {
-        activeKeyCountMap.set(Number(row.userId), Number(row.count || 0));
-      });
-    }
-    const finalUsers = paginatedUsers.map((user) => ({
-      ...user,
-      activeKeyCount: activeKeyCountMap.get(user.id) || 0
-    }));
+    const finalUsers = filteredUsers.slice(offset, offset + pageSize);
     return {
       data: finalUsers,
       total,
       page,
-      pageSize
+      pageSize,
+      summary
     };
   } catch (error) {
     console.error("[admin/users] Error:", error);

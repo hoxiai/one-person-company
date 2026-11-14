@@ -1,16 +1,17 @@
-import { d as defineEventHandler, c as getRequestLocale, e as createError, b as db, l as adminTokens, h as admins, A as ADMIN_PERMISSIONS, k as hasAllPermissions } from '../../../../nitro/nitro.mjs';
+import { d as defineEventHandler, c as getRequestLocale, e as createError, b as db, k as adminTokens, h as admins, o as summarizeAdminPermissions } from '../../../../nitro/nitro.mjs';
 import { eq, desc } from 'drizzle-orm';
 import 'node:crypto';
+import 'zod';
 import 'crypto';
 import 'fs';
 import 'path';
+import 'node:fs';
 import 'node:path';
 import '@nuxthub/blob';
 import 'node:http';
 import 'node:https';
 import 'node:events';
 import 'node:buffer';
-import 'node:fs';
 import 'node:async_hooks';
 import 'postgres';
 import 'drizzle-orm/postgres-js';
@@ -25,19 +26,12 @@ import 'maxmind';
 import 'node:os';
 import 'node:fs/promises';
 import 'node:url';
-import 'zod';
 import '@iconify/utils';
 import 'consola';
-import 'node:zlib';
-import 'ioredis';
 import 'jose';
 import '@adonisjs/hash';
 import '@adonisjs/hash/drivers/scrypt';
 import 'node:child_process';
-import 'process';
-import 'buffer';
-import 'node:dns/promises';
-import 'node:net';
 
 const index_get = defineEventHandler(async (event) => {
   const locale = getRequestLocale(event);
@@ -59,13 +53,9 @@ const index_get = defineEventHandler(async (event) => {
       revoked: adminTokens.revoked,
       createdAt: adminTokens.createdAt
     }).from(adminTokens).leftJoin(admins, eq(adminTokens.adminId, admins.id)).orderBy(desc(adminTokens.createdAt));
-    const moduleCodeSet = new Set(ADMIN_PERMISSIONS.map((p) => p.code));
     const data = rows.map((r) => {
       const perms = Array.isArray(r.permissions) ? r.permissions : null;
-      const grantedModules = new Set(
-        (perms || []).map((p) => p.split(":")[0]).filter((base) => moduleCodeSet.has(base))
-      );
-      const summary = hasAllPermissions(perms) ? { all: true, count: ADMIN_PERMISSIONS.length } : { all: false, count: grantedModules.size };
+      const summary = summarizeAdminPermissions(perms);
       return { ...r, permissionSummary: summary };
     });
     return { data };

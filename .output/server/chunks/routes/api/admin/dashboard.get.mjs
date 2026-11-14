@@ -1,16 +1,17 @@
-import { d as defineEventHandler, g as getQuery, D as getConfiguredTimezone, E as getStartOfDayUtc, F as shiftZonedDay, z as orders, b as db, O as ORDER_PAY_STATUS, G as buildLocaleCurrencyQuote, u as users, p as products, H as subscriptions, I as topups, J as tickets, K as newsletterSubscribers, L as promoInviteRelations, o as comments, M as promoApplications, N as emailLogs, P as logs, Q as paymentFailures, R as resolveOrderCurrencyAmounts, B as aggregateOrderAccountingTotals, S as getCurrencyTotal, m as cards, T as toZonedDateKey, U as getCurrentHour, V as getRequestHost, W as isVisitorRollupEnabled, X as resolveRollupSiteHost, Y as ensureRollupRange, Z as loadRollupDashboardTraffic, _ as buildRawDashboardTraffic, $ as loadVisitorReport, a0 as createRollupBackgroundScheduler } from '../../../nitro/nitro.mjs';
-import { and, gte, lt, eq, sql, or, isNull, gt, inArray, desc } from 'drizzle-orm';
+import { d as defineEventHandler, g as getQuery, L as getConfiguredTimezone, M as getStartOfDayUtc, N as shiftZonedDay, I as orders, O as ORDER_PAY_STATUS, b as db, P as buildLocaleCurrencyQuote, v as users, q as products, Q as subscriptions, R as topups, u as tickets, S as newsletterSubscribers, T as promoInviteRelations, C as comments, U as promoApplications, V as emailLogs, W as logs, X as paymentFailures, J as aggregateOrderAccountingTotals, Y as resolveOrderCurrencyAmounts, Z as getCurrencyTotal, p as cards, _ as toZonedDateKey, $ as getCurrentHour, a0 as paymentMethods, a1 as emailProviders, a2 as buildApayDashboardTelemetry, a3 as getRequestHost, a4 as isVisitorRollupEnabled, a5 as resolveRollupSiteHost, a6 as ensureRollupRange, a7 as loadRollupDashboardTraffic, a8 as buildRawDashboardTraffic, a9 as loadVisitorReport, aa as createRollupBackgroundScheduler } from '../../../nitro/nitro.mjs';
+import { and, gte, lt, eq, sql, desc, or, isNull, gt, inArray } from 'drizzle-orm';
 import 'node:crypto';
+import 'zod';
 import 'crypto';
 import 'fs';
 import 'path';
+import 'node:fs';
 import 'node:path';
 import '@nuxthub/blob';
 import 'node:http';
 import 'node:https';
 import 'node:events';
 import 'node:buffer';
-import 'node:fs';
 import 'node:async_hooks';
 import 'postgres';
 import 'drizzle-orm/postgres-js';
@@ -25,20 +26,15 @@ import 'maxmind';
 import 'node:os';
 import 'node:fs/promises';
 import 'node:url';
-import 'zod';
 import '@iconify/utils';
 import 'consola';
-import 'node:zlib';
-import 'ioredis';
 import 'jose';
 import '@adonisjs/hash';
 import '@adonisjs/hash/drivers/scrypt';
 import 'node:child_process';
-import 'process';
-import 'buffer';
-import 'node:dns/promises';
-import 'node:net';
 
+let lifetimePaidDigestCache = null;
+const LIFETIME_DIGEST_TTL_MS = 3e4;
 const safeCount = async (queryPromise) => {
   var _a;
   try {
@@ -46,6 +42,13 @@ const safeCount = async (queryPromise) => {
     return Number(((_a = rows[0]) == null ? void 0 : _a.count) || 0);
   } catch {
     return 0;
+  }
+};
+const safeRows = async (queryPromise) => {
+  try {
+    return await queryPromise;
+  } catch {
+    return [];
   }
 };
 const getHourInTimezone = (value, timezone) => {
@@ -69,7 +72,8 @@ const getDateKeyInTimezone = (value, timezone) => {
   }).format(date);
 };
 const dashboard_get = defineEventHandler(async (event) => {
-  var _a, _b, _c, _d, _e, _f, _g, _h;
+  var _a, _b, _c, _d, _e, _f, _g, _h, _i, _j;
+  const startedAtMs = Date.now();
   const query = getQuery(event);
   const range = String(query.range || "today");
   const timezone = await getConfiguredTimezone();
@@ -83,6 +87,11 @@ const dashboard_get = defineEventHandler(async (event) => {
   }
   const since24h = new Date(now.getTime() - 24 * 60 * 60 * 1e3);
   const periodCondition = and(gte(orders.createdAt, periodStart), lt(orders.createdAt, now));
+  const paidPeriodCondition = and(
+    eq(orders.payStatus, ORDER_PAY_STATUS.PAID),
+    gte(orders.paidAt, periodStart),
+    lt(orders.paidAt, now)
+  );
   const loadTraffic = async () => {
     const host = getRequestHost(event);
     const siteHost = isVisitorRollupEnabled() ? await resolveRollupSiteHost(host) : null;
@@ -110,7 +119,9 @@ const dashboard_get = defineEventHandler(async (event) => {
     visitorId: orders.visitorId
   };
   const [
-    rawPaidOrderRows,
+    paidCountRows,
+    latestPaidOrderRows,
+    rawPaidPeriodOrderRows,
     rawPeriodOrderRows,
     totalOrderRows,
     baseQuote,
@@ -132,7 +143,10 @@ const dashboard_get = defineEventHandler(async (event) => {
     errorLogs24hCount,
     paymentFailures24hCount
   ] = await Promise.all([
-    db.select({ id: orders.id, amount: orders.amount, currency: orders.currency, metaData: orders.metaData, paidAt: orders.paidAt }).from(orders).where(eq(orders.payStatus, ORDER_PAY_STATUS.PAID)),
+    db.select({ count: sql`count(*)` }).from(orders).where(eq(orders.payStatus, ORDER_PAY_STATUS.PAID)),
+    db.select({ paidAt: orders.paidAt }).from(orders).where(eq(orders.payStatus, ORDER_PAY_STATUS.PAID)).orderBy(desc(orders.paidAt)).limit(1),
+    // 当期已付款订单直接下推 SQL 时间窗口过滤，不再从全表内存中二次 filter
+    db.select({ id: orders.id, amount: orders.amount, currency: orders.currency, metaData: orders.metaData, paidAt: orders.paidAt }).from(orders).where(paidPeriodCondition),
     db.select(selectFields).from(orders).where(periodCondition),
     db.select({ count: sql`count(*)` }).from(orders),
     buildLocaleCurrencyQuote(0),
@@ -158,12 +172,64 @@ const dashboard_get = defineEventHandler(async (event) => {
     safeCount(db.select({ count: sql`count(*)` }).from(logs).where(and(eq(logs.level, "error"), gte(logs.createdAt, since24h)))),
     safeCount(db.select({ count: sql`count(*)` }).from(paymentFailures).where(gte(paymentFailures.createdAt, since24h)))
   ]);
-  const paidOrders = rawPaidOrderRows;
-  const periodOrderRows = rawPeriodOrderRows;
-  const paidPeriodOrders = paidOrders.filter((order) => order.paidAt && order.paidAt >= periodStart && order.paidAt < now && resolveOrderCurrencyAmounts(order).paymentAmount > 0);
-  const totalRevenueByCurrency = aggregateOrderAccountingTotals(paidOrders);
-  const periodRevenueByCurrency = aggregateOrderAccountingTotals(paidPeriodOrders);
   const baseCurrency = baseQuote.baseCurrency;
+  const paidOrderCount = Number(((_a = paidCountRows[0]) == null ? void 0 : _a.count) || 0);
+  const latestPaidDate = (_b = latestPaidOrderRows[0]) == null ? void 0 : _b.paidAt;
+  const latestPaidAtMs = latestPaidDate ? new Date(latestPaidDate).getTime() : 0;
+  let totalRevenueByCurrency = [];
+  let categoryMix = [];
+  if (lifetimePaidDigestCache && lifetimePaidDigestCache.expiresAtMs > startedAtMs && lifetimePaidDigestCache.paidOrderCount === paidOrderCount && lifetimePaidDigestCache.latestPaidAtMs === latestPaidAtMs && lifetimePaidDigestCache.baseCurrency === baseCurrency) {
+    totalRevenueByCurrency = lifetimePaidDigestCache.totalRevenueByCurrency;
+    categoryMix = lifetimePaidDigestCache.categoryMix;
+  } else {
+    const rawPaidOrderRows = await db.select({ id: orders.id, amount: orders.amount, currency: orders.currency, metaData: orders.metaData, paidAt: orders.paidAt }).from(orders).where(eq(orders.payStatus, ORDER_PAY_STATUS.PAID));
+    const paidOrders = rawPaidOrderRows;
+    totalRevenueByCurrency = aggregateOrderAccountingTotals(paidOrders);
+    const mixMap = {
+      standard: { count: 0, amount: 0 },
+      key: { count: 0, amount: 0 },
+      subscription: { count: 0, amount: 0 },
+      topup: { count: 0, amount: 0 }
+    };
+    for (const order of paidOrders) {
+      let type = "standard";
+      try {
+        const meta = typeof order.metaData === "string" ? JSON.parse(order.metaData) : order.metaData;
+        if (meta == null ? void 0 : meta.product_type) {
+          type = meta.product_type;
+        } else if ((meta == null ? void 0 : meta.is_subscription) || (meta == null ? void 0 : meta.subscription_id)) {
+          type = "subscription";
+        } else if ((meta == null ? void 0 : meta.is_topup) || ((_c = order.id) == null ? void 0 : _c.startsWith("topup_"))) {
+          type = "topup";
+        }
+      } catch {
+      }
+      const mix = mixMap[type] || (mixMap[type] = { count: 0, amount: 0 });
+      mix.count++;
+      const amounts = resolveOrderCurrencyAmounts(order);
+      if (amounts.accountingCurrency === baseCurrency) {
+        mix.amount = Number((mix.amount + amounts.accountingAmount).toFixed(2));
+      }
+    }
+    categoryMix = Object.entries(mixMap).map(([type, val]) => ({
+      type,
+      count: val.count,
+      amount: val.amount
+    }));
+    lifetimePaidDigestCache = {
+      expiresAtMs: Date.now() + LIFETIME_DIGEST_TTL_MS,
+      paidOrderCount,
+      latestPaidAtMs,
+      baseCurrency,
+      totalRevenueByCurrency,
+      categoryMix
+    };
+  }
+  const periodOrderRows = rawPeriodOrderRows;
+  const paidPeriodOrders = rawPaidPeriodOrderRows.filter(
+    (order) => order.paidAt && order.paidAt >= periodStart && order.paidAt < now && resolveOrderCurrencyAmounts(order).paymentAmount > 0
+  );
+  const periodRevenueByCurrency = aggregateOrderAccountingTotals(paidPeriodOrders);
   const {
     periodVisitors,
     periodIps,
@@ -283,40 +349,68 @@ const dashboard_get = defineEventHandler(async (event) => {
     percentage: toPct(count, insightTotal)
   })).sort((a, b) => b.count - a.count || a.deviceType.localeCompare(b.deviceType));
   const recentVisitors = traffic.recentVisitors;
-  const mixMap = {
-    standard: { count: 0, amount: 0 },
-    key: { count: 0, amount: 0 },
-    subscription: { count: 0, amount: 0 },
-    topup: { count: 0, amount: 0 }
-  };
-  for (const order of paidOrders) {
-    let type = "standard";
-    try {
-      const meta = typeof order.metaData === "string" ? JSON.parse(order.metaData) : order.metaData;
-      if (meta == null ? void 0 : meta.product_type) {
-        type = meta.product_type;
-      } else if ((meta == null ? void 0 : meta.is_subscription) || (meta == null ? void 0 : meta.subscription_id)) {
-        type = "subscription";
-      } else if ((meta == null ? void 0 : meta.is_topup) || ((_a = order.id) == null ? void 0 : _a.startsWith("topup_"))) {
-        type = "topup";
-      }
-    } catch {
-    }
-    const mix = mixMap[type] || (mixMap[type] = { count: 0, amount: 0 });
-    mix.count++;
-    const amounts = resolveOrderCurrencyAmounts(order);
-    if (amounts.accountingCurrency === baseCurrency) {
-      mix.amount = Number((mix.amount + amounts.accountingAmount).toFixed(2));
-    }
-  }
-  const categoryMix = Object.entries(mixMap).map(([type, val]) => ({
-    type,
-    count: val.count,
-    amount: val.amount
-  }));
-  const totalOrdersCount = Number(((_b = totalOrderRows[0]) == null ? void 0 : _b.count) || 0);
-  const activeProductsCount = Number(((_c = totalProductsCount[0]) == null ? void 0 : _c.count) || 0);
-  const activeSubsCount = Number(((_d = activeSubscriptionsCount[0]) == null ? void 0 : _d.count) || 0);
+  const totalOrdersCount = Number(((_d = totalOrderRows[0]) == null ? void 0 : _d.count) || 0);
+  const activeProductsCount = Number(((_e = totalProductsCount[0]) == null ? void 0 : _e.count) || 0);
+  const activeSubsCount = Number(((_f = activeSubscriptionsCount[0]) == null ? void 0 : _f.count) || 0);
+  const pendingFulfillments = Number(((_g = pendingFulfillmentsCount[0]) == null ? void 0 : _g.count) || 0);
+  const pendingTopups = Number(((_h = pendingTopupsCount[0]) == null ? void 0 : _h.count) || 0);
+  const isCommerceActive = activeProductsCount > 0 || totalOrdersCount > 0 || activeSubsCount > 0;
+  const [
+    activePaymentMethodsCount,
+    activeEmailProvidersCount,
+    recentErrorLogs,
+    recentPaymentFailures,
+    recentFailedEmails,
+    creditFailedTopups
+  ] = await Promise.all([
+    safeCount(db.select({ count: sql`count(*)` }).from(paymentMethods).where(eq(paymentMethods.isActive, true))),
+    safeCount(db.select({ count: sql`count(*)` }).from(emailProviders).where(eq(emailProviders.isActive, true))),
+    errorLogs24hCount > 0 ? safeRows(
+      db.select({ id: logs.id, message: logs.message, source: logs.source, createdAt: logs.createdAt }).from(logs).where(and(eq(logs.level, "error"), gte(logs.createdAt, since24h))).orderBy(desc(logs.createdAt)).limit(20)
+    ) : Promise.resolve([]),
+    paymentFailures24hCount > 0 ? safeRows(
+      db.select({
+        id: paymentFailures.id,
+        orderId: paymentFailures.orderId,
+        reason: paymentFailures.reason,
+        payMethod: paymentFailures.payMethod,
+        createdAt: paymentFailures.createdAt
+      }).from(paymentFailures).where(gte(paymentFailures.createdAt, since24h)).orderBy(desc(paymentFailures.createdAt)).limit(20)
+    ) : Promise.resolve([]),
+    failedEmails24hCount > 0 ? safeRows(
+      db.select({
+        id: emailLogs.id,
+        provider: emailLogs.provider,
+        error: emailLogs.error,
+        createdAt: emailLogs.createdAt
+      }).from(emailLogs).where(and(eq(emailLogs.status, "failed"), gte(emailLogs.createdAt, since24h))).orderBy(desc(emailLogs.createdAt)).limit(15)
+    ) : Promise.resolve([]),
+    pendingTopups > 0 ? safeRows(
+      db.select({
+        id: topups.id,
+        orderId: topups.orderId,
+        status: topups.status,
+        lastError: topups.lastError,
+        updatedAt: topups.updatedAt,
+        createdAt: topups.createdAt
+      }).from(topups).where(inArray(topups.status, ["credit_failed", "review_required"])).orderBy(desc(topups.updatedAt)).limit(10)
+    ) : Promise.resolve([])
+  ]);
+  const telemetry = buildApayDashboardTelemetry({
+    latencyMs: Date.now() - startedAtMs,
+    isCommerceActive,
+    activePaymentMethodsCount,
+    activeEmailProvidersCount,
+    errorLogs24h: errorLogs24hCount,
+    paymentFailures24h: paymentFailures24hCount,
+    failedEmails24h: failedEmails24hCount,
+    pendingTopups,
+    pendingFulfillments,
+    recentErrorLogs,
+    recentPaymentFailures,
+    recentFailedEmails,
+    creditFailedTopups
+  });
   return {
     stats: {
       range,
@@ -348,25 +442,26 @@ const dashboard_get = defineEventHandler(async (event) => {
       totalOrders: totalOrdersCount,
       totalRevenue: getCurrencyTotal(totalRevenueByCurrency, baseCurrency),
       totalRevenueByCurrency,
-      totalUsers: Number(((_e = totalUsersCount[0]) == null ? void 0 : _e.count) || 0),
+      totalUsers: Number(((_i = totalUsersCount[0]) == null ? void 0 : _i.count) || 0),
       activeProducts: activeProductsCount,
       activeSubscriptions: activeSubsCount,
       activeNewsletterSubscribers: activeNewsletterCount,
       totalPromoInvites: promoInvitesCount,
-      isCommerceActive: activeProductsCount > 0 || totalOrdersCount > 0 || activeSubsCount > 0,
+      isCommerceActive,
       currency: baseCurrency
     },
     actionItems: {
-      pendingFulfillments: Number(((_f = pendingFulfillmentsCount[0]) == null ? void 0 : _f.count) || 0),
+      pendingFulfillments,
       lowStockCards: lowStockCardsCount,
-      pendingTopups: Number(((_g = pendingTopupsCount[0]) == null ? void 0 : _g.count) || 0),
-      pendingTickets: Number(((_h = pendingTicketsCount[0]) == null ? void 0 : _h.count) || 0),
+      pendingTopups,
+      pendingTickets: Number(((_j = pendingTicketsCount[0]) == null ? void 0 : _j.count) || 0),
       pendingComments: pendingCommentsCount,
       pendingPromoApplications: pendingPromoAppsCount,
       failedEmails24h: failedEmails24hCount,
       errorLogs24h: errorLogs24hCount,
       paymentFailures24h: paymentFailures24hCount
     },
+    telemetry,
     categoryMix,
     trafficInsights: {
       sources: trafficSources,

@@ -1,16 +1,17 @@
-import { gj as getEffectiveServerGateways, gk as getEffectiveServerPlans, gl as getEffectiveServerModels, b as db, gm as normalizeIsoDate } from '../nitro/nitro.mjs';
-import 'drizzle-orm';
+import { fQ as getEffectiveServerGateways, fR as getEffectiveServerPlans, fS as getEffectiveServerProjects, fT as getEffectiveServerModels, b as db, fU as normalizeIsoDate } from '../nitro/nitro.mjs';
 import 'node:crypto';
+import 'drizzle-orm';
+import 'zod';
 import 'crypto';
 import 'fs';
 import 'path';
+import 'node:fs';
 import 'node:path';
 import '@nuxthub/blob';
 import 'node:http';
 import 'node:https';
 import 'node:events';
 import 'node:buffer';
-import 'node:fs';
 import 'node:async_hooks';
 import 'postgres';
 import 'drizzle-orm/postgres-js';
@@ -25,19 +26,12 @@ import 'maxmind';
 import 'node:os';
 import 'node:fs/promises';
 import 'node:url';
-import 'zod';
 import '@iconify/utils';
 import 'consola';
-import 'node:zlib';
-import 'ioredis';
 import 'jose';
 import '@adonisjs/hash';
 import '@adonisjs/hash/drivers/scrypt';
 import 'node:child_process';
-import 'process';
-import 'buffer';
-import 'node:dns/promises';
-import 'node:net';
 
 const getSitemapEntries = async (source) => {
   if (source === "hoxi-gateways") {
@@ -89,6 +83,32 @@ ${p.caveats.map((c) => `- ${c}`).join("\n")}`] : []
         path: `/coding-plans/${p.slug}`,
         title: name,
         section: "AI Coding Plans",
+        description,
+        markdown
+      };
+    });
+  }
+  if (source === "hoxi-projects") {
+    const projects = await getEffectiveServerProjects(db);
+    return projects.filter((p) => !p.hidden).map((p) => {
+      const slug = String(p.slug || p.id);
+      const name = String(p.name || slug);
+      const description = [p.tagline, p.monthlyCost].filter(Boolean).join(" \u2014 ") || p.description || name;
+      const markdown = [
+        `- Category: ${p.categoryLabel || p.category}`,
+        ...p.modelUsed ? [`- Core Models: ${p.modelUsed}`] : [],
+        ...p.monthlyCost ? [`- Monetization & Cost: ${p.monthlyCost}`] : [],
+        ...Array.isArray(p.techStack) && p.techStack.length ? [`- Stack: ${p.techStack.join(", ")}`] : [],
+        ...p.description ? [`
+${p.description}`] : [],
+        ...Array.isArray(p.highlights) && p.highlights.length ? [`
+#### Breakdown
+${p.highlights.map((h) => `- ${h}`).join("\n")}`] : []
+      ].join("\n");
+      return {
+        path: `/projects/${slug}`,
+        title: name,
+        section: "Solo Company Projects",
         description,
         markdown
       };

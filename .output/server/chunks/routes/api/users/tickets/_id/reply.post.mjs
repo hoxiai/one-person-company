@@ -1,16 +1,17 @@
-import { d as defineEventHandler, bH as getUserSession, e as createError, f as getRouterParam, J as tickets, b as db, r as readBody, cI as ticketMessages } from '../../../../../nitro/nitro.mjs';
+import { d as defineEventHandler, b8 as getUserSession, e as createError, f as getRouterParam, u as tickets, b as db, r as readBody, y as normalizeTicketAttachments, x as ticketMessages } from '../../../../../nitro/nitro.mjs';
 import { or, eq, and } from 'drizzle-orm';
 import 'node:crypto';
+import 'zod';
 import 'crypto';
 import 'fs';
 import 'path';
+import 'node:fs';
 import 'node:path';
 import '@nuxthub/blob';
 import 'node:http';
 import 'node:https';
 import 'node:events';
 import 'node:buffer';
-import 'node:fs';
 import 'node:async_hooks';
 import 'postgres';
 import 'drizzle-orm/postgres-js';
@@ -25,19 +26,12 @@ import 'maxmind';
 import 'node:os';
 import 'node:fs/promises';
 import 'node:url';
-import 'zod';
 import '@iconify/utils';
 import 'consola';
-import 'node:zlib';
-import 'ioredis';
 import 'jose';
 import '@adonisjs/hash';
 import '@adonisjs/hash/drivers/scrypt';
 import 'node:child_process';
-import 'process';
-import 'buffer';
-import 'node:dns/promises';
-import 'node:net';
 
 const reply_post = defineEventHandler(async (event) => {
   const session = await getUserSession(event).catch(() => null);
@@ -61,9 +55,10 @@ const reply_post = defineEventHandler(async (event) => {
     throw createError({ statusCode: 400, statusMessage: "\u8BE5\u5DE5\u5355\u5DF2\u5F7B\u5E95\u5173\u95ED\uFF0C\u8BF7\u91CD\u65B0\u63D0\u4EA4\u65B0\u5DE5\u5355" });
   }
   const body = await readBody(event);
-  const content = String(body.content || "").trim();
-  const attachments = Array.isArray(body.attachments) ? body.attachments : null;
-  if (!content) {
+  const rawContent = String(body.content || "").trim();
+  const attachments = normalizeTicketAttachments(body.attachments);
+  const content = rawContent || ((attachments == null ? void 0 : attachments.length) ? "[\u56FE\u7247\u9644\u4EF6]" : "");
+  if (!content && !(attachments == null ? void 0 : attachments.length)) {
     throw createError({ statusCode: 400, statusMessage: "\u56DE\u590D\u5185\u5BB9\u4E0D\u80FD\u4E3A\u7A7A" });
   }
   const userName = (user == null ? void 0 : user.nickName) || (user == null ? void 0 : user.nickname) || (user == null ? void 0 : user.email) || "\u7528\u6237";

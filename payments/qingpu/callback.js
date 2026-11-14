@@ -1,6 +1,8 @@
 const headers = payload.headers || {};
 const body = payload.body || {};
-const rawBody = String(payload.rawBody || "").trim() || JSON.stringify(body || {});
+const rawBody = typeof payload.rawBody === "string" && payload.rawBody.trim().length > 0
+  ? payload.rawBody
+  : JSON.stringify(body || {});
 
 const checkoutSecret = String(config.checkoutSecret || config.secret || "").trim();
 const eventName = String(
@@ -44,6 +46,24 @@ if (expectedSignature !== signature) {
   };
 }
 
+const parsedTimestamp = /^\d+$/.test(timestamp) ? Number(timestamp) : NaN;
+const timestampMs = Number.isFinite(parsedTimestamp)
+  ? (parsedTimestamp < 1e12 ? parsedTimestamp * 1000 : parsedTimestamp)
+  : NaN;
+const nowMs = Number(payload.nowMs ?? config.nowMs ?? Date.now());
+const maxTimestampSkewMs = Number(config.maxTimestampSkewMs ?? 300_000);
+if (
+  !Number.isFinite(timestampMs)
+  || (Number.isFinite(nowMs) && maxTimestampSkewMs > 0 && Math.abs(nowMs - timestampMs) > maxTimestampSkewMs)
+) {
+  return {
+    isSignValid: false,
+    orderId: String(payload.urlOrderId || "").trim(),
+    status: "failed",
+    responseBody: "fail: expired or invalid qingpu callback timestamp",
+  };
+}
+
 // The event header is outside the signed body; it must agree with that body.
 if (eventName !== String(body.event || "")) {
   return { isSignValid: false, orderId: String(payload.urlOrderId || ""), status: "failed", responseBody: "fail: event mismatch" };
@@ -71,11 +91,76 @@ if (!orderId || (payload.urlOrderId && String(payload.urlOrderId).trim() !== ord
   };
 }
 
-const amount = Number(data.sourceAmount ?? data.amount);
-const currency = String(data.sourceCurrency || data.currency || "").toUpperCase();
+const attach = data.attach && typeof data.attach === "object" ? data.attach : {};
+const hasSourceFact = data.sourceAmount != null || attach.originalAmount != null;
+const rawCallbackAmount = Number(data.amount);
+const callbackCurrency = String(data.currency || "").trim().toUpperCase();
+const sourceAmount = Number(data.sourceAmount ?? attach.originalAmount ?? data.amount);
+const sourceCurrency = String(
+  data.sourceCurrency || attach.originalCurrency || data.currency || "",
+).trim().toUpperCase();
+
+const order = payload.order && typeof payload.order === "object" ? payload.order : null;
+const orderMeta = order && order.metaData && typeof order.metaData === "object" ? order.metaData : {};
+const topupMeta = orderMeta.topup && typeof orderMeta.topup === "object" ? orderMeta.topup : null;
+const expectedOriginalCurrency = order
+  ? String(
+      order.currency
+        || (topupMeta && topupMeta.currency)
+        || orderMeta.currency
+        || orderMeta.orderCurrency
+        || orderMeta.sourceCurrency
+        || orderMeta.displayCurrency
+        || config.sourceCurrency
+        || "CNY",
+    ).trim().toUpperCase()
+  : "";
+const expectedSettlementCurrency = String(config.settlementCurrency || "CNY").trim().toUpperCase();
+const currencySnapshot = orderMeta.currencySnapshot && typeof orderMeta.currencySnapshot === "object"
+  ? orderMeta.currencySnapshot
+  : null;
+const snapshotUsdToCnyRate = (
+  currencySnapshot
+  && String(currencySnapshot.baseCurrency || "").trim().toUpperCase() === "USD"
+  && String(currencySnapshot.currency || "").trim().toUpperCase() === "CNY"
+  && Number(currencySnapshot.exchangeRate) > 0
+)
+  ? Number(currencySnapshot.exchangeRate)
+  : null;
+const usdToCnyRate = Number(
+  snapshotUsdToCnyRate
+    ?? payload.systemUsdToCnyRate
+    ?? config.usdToCnyRate
+    ?? config.exchangeRate,
+);
+const expectedOriginalAmount = order ? Number(order.amount) : NaN;
+const needsUsdToCnyConversion = expectedOriginalCurrency === "USD" && expectedSettlementCurrency === "CNY";
+if (order && needsUsdToCnyConversion && !hasSourceFact && !(usdToCnyRate > 0)) {
+  return {
+    isSignValid: false,
+    orderId,
+    status: "failed",
+    responseBody: "fail: missing usd to cny exchange rate",
+  };
+}
+const expectedSettlementAmount = needsUsdToCnyConversion
+  ? (usdToCnyRate > 0 ? Math.round(expectedOriginalAmount * usdToCnyRate * 100) / 100 : NaN)
+  : expectedOriginalAmount;
+
+const matchesOriginalOrder = order
+  ? (Math.abs(sourceAmount - expectedOriginalAmount) <= 0.001 && sourceCurrency === expectedOriginalCurrency)
+  : true;
+const matchesSettlementOrder = order && !hasSourceFact
+  ? (Math.abs(rawCallbackAmount - expectedSettlementAmount) <= 0.001 && callbackCurrency === expectedSettlementCurrency)
+  : false;
+
+const amount = order && matchesSettlementOrder && !matchesOriginalOrder
+  ? expectedOriginalAmount
+  : sourceAmount;
+
 if (!Number.isFinite(amount) || amount < 0
   || (eventName === "minimal.checkout.refunded" && data.payStatus !== "refunded")
-  || (payload.order && (Math.abs(amount - Number(payload.order.amount)) > 0.001 || currency !== String(payload.order.currency).toUpperCase()))) {
+  || (order && !matchesOriginalOrder && !matchesSettlementOrder)) {
   return { isSignValid: false, orderId, status: "failed", responseBody: "fail: refund/payment facts mismatch" };
 }
 

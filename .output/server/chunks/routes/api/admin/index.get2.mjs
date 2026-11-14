@@ -1,16 +1,17 @@
-import { d as defineEventHandler, c as getRequestLocale, g as getQuery, b as db, h as admins, A as ADMIN_PERMISSIONS, k as hasAllPermissions, e as createError } from '../../../nitro/nitro.mjs';
+import { d as defineEventHandler, c as getRequestLocale, g as getQuery, b as db, h as admins, o as summarizeAdminPermissions, e as createError } from '../../../nitro/nitro.mjs';
 import { count, desc } from 'drizzle-orm';
 import 'node:crypto';
+import 'zod';
 import 'crypto';
 import 'fs';
 import 'path';
+import 'node:fs';
 import 'node:path';
 import '@nuxthub/blob';
 import 'node:http';
 import 'node:https';
 import 'node:events';
 import 'node:buffer';
-import 'node:fs';
 import 'node:async_hooks';
 import 'postgres';
 import 'drizzle-orm/postgres-js';
@@ -25,26 +26,19 @@ import 'maxmind';
 import 'node:os';
 import 'node:fs/promises';
 import 'node:url';
-import 'zod';
 import '@iconify/utils';
 import 'consola';
-import 'node:zlib';
-import 'ioredis';
 import 'jose';
 import '@adonisjs/hash';
 import '@adonisjs/hash/drivers/scrypt';
 import 'node:child_process';
-import 'process';
-import 'buffer';
-import 'node:dns/promises';
-import 'node:net';
 
 const index_get = defineEventHandler(async (event) => {
   var _a;
   const locale = getRequestLocale(event);
   const query = getQuery(event);
-  const page = parseInt(query.page) || 1;
-  const pageSize = parseInt(query.pageSize) || 12;
+  const page = Math.max(1, parseInt(query.page) || 1);
+  const pageSize = Math.min(200, Math.max(1, parseInt(query.pageSize) || 12));
   const offset = (page - 1) * pageSize;
   const totalResult = await db.select({ value: count() }).from(admins);
   const total = ((_a = totalResult[0]) == null ? void 0 : _a.value) || 0;
@@ -55,13 +49,9 @@ const index_get = defineEventHandler(async (event) => {
       permissions: admins.permissions,
       createdAt: admins.createdAt
     }).from(admins).orderBy(desc(admins.createdAt)).limit(pageSize).offset(offset);
-    const moduleCodeSet = new Set(ADMIN_PERMISSIONS.map((p) => p.code));
     const data = rawResult.map((r) => {
       const perms = Array.isArray(r.permissions) ? r.permissions : null;
-      const grantedModules = new Set(
-        (perms || []).map((p) => p.split(":")[0]).filter((base) => moduleCodeSet.has(base))
-      );
-      const summary = hasAllPermissions(perms) ? { all: true, count: ADMIN_PERMISSIONS.length } : { all: false, count: grantedModules.size };
+      const summary = summarizeAdminPermissions(perms, r.username);
       return {
         id: r.id,
         username: r.username,

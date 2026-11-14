@@ -1,16 +1,17 @@
-import { d as defineEventHandler, f as getRouterParam, e as createError, b as db, J as tickets, r as readBody, cI as ticketMessages, cP as notifications, u as users, bg as settings, al as getRequestURL, a8 as sendEmail } from '../../../../../nitro/nitro.mjs';
+import { d as defineEventHandler, f as getRouterParam, e as createError, b as db, u as tickets, r as readBody, y as normalizeTicketAttachments, x as ticketMessages, z as notifications, v as users, w as settings, A as getRequestURL, B as sendEmail } from '../../../../../nitro/nitro.mjs';
 import { eq } from 'drizzle-orm';
 import 'node:crypto';
+import 'zod';
 import 'crypto';
 import 'fs';
 import 'path';
+import 'node:fs';
 import 'node:path';
 import '@nuxthub/blob';
 import 'node:http';
 import 'node:https';
 import 'node:events';
 import 'node:buffer';
-import 'node:fs';
 import 'node:async_hooks';
 import 'postgres';
 import 'drizzle-orm/postgres-js';
@@ -25,19 +26,12 @@ import 'maxmind';
 import 'node:os';
 import 'node:fs/promises';
 import 'node:url';
-import 'zod';
 import '@iconify/utils';
 import 'consola';
-import 'node:zlib';
-import 'ioredis';
 import 'jose';
 import '@adonisjs/hash';
 import '@adonisjs/hash/drivers/scrypt';
 import 'node:child_process';
-import 'process';
-import 'buffer';
-import 'node:dns/promises';
-import 'node:net';
 
 const reply_post = defineEventHandler(async (event) => {
   var _a;
@@ -54,10 +48,11 @@ const reply_post = defineEventHandler(async (event) => {
     throw createError({ statusCode: 404, statusMessage: "\u5DE5\u5355\u4E0D\u5B58\u5728" });
   }
   const body = await readBody(event);
-  const content = String(body.content || "").trim();
-  const attachments = Array.isArray(body.attachments) ? body.attachments : null;
+  const rawContent = String(body.content || "").trim();
+  const attachments = normalizeTicketAttachments(body.attachments);
+  const content = rawContent || ((attachments == null ? void 0 : attachments.length) ? "[\u56FE\u7247\u9644\u4EF6]" : "");
   const statusAfterReply = typeof body.status === "string" && body.status.trim() ? body.status.trim() : null;
-  if (!content) {
+  if (!content && !(attachments == null ? void 0 : attachments.length)) {
     throw createError({ statusCode: 400, statusMessage: "\u56DE\u590D\u5185\u5BB9\u4E0D\u80FD\u4E3A\u7A7A" });
   }
   const [createdMessage] = await db.insert(ticketMessages).values({

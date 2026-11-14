@@ -1,17 +1,18 @@
-import { d as defineEventHandler, c as getRequestLocale, e as createError, b as db, h as admins, i as isSuperAdmin, n as normalizePermissions, l as adminTokens, s as setAuditMeta, al as getRequestURL } from '../../../nitro/nitro.mjs';
+import { d as defineEventHandler, c as getRequestLocale, e as createError, b as db, h as admins, i as isSuperAdmin, n as normalizePermissions, k as adminTokens, s as setAuditMeta, A as getRequestURL } from '../../../nitro/nitro.mjs';
 import crypto from 'crypto';
 import os from 'node:os';
-import { eq, and, count } from 'drizzle-orm';
+import { eq, and, count, or, isNull, gt } from 'drizzle-orm';
 import 'node:crypto';
+import 'zod';
 import 'fs';
 import 'path';
+import 'node:fs';
 import 'node:path';
 import '@nuxthub/blob';
 import 'node:http';
 import 'node:https';
 import 'node:events';
 import 'node:buffer';
-import 'node:fs';
 import 'node:async_hooks';
 import 'postgres';
 import 'drizzle-orm/postgres-js';
@@ -25,19 +26,12 @@ import 'drizzle-orm/mysql-core';
 import 'maxmind';
 import 'node:fs/promises';
 import 'node:url';
-import 'zod';
 import '@iconify/utils';
 import 'consola';
-import 'node:zlib';
-import 'ioredis';
 import 'jose';
 import '@adonisjs/hash';
 import '@adonisjs/hash/drivers/scrypt';
 import 'node:child_process';
-import 'process';
-import 'buffer';
-import 'node:dns/promises';
-import 'node:net';
 
 const MOBILE_PAIR_TOKEN_NAME = "APay Mobile Admin";
 const MAX_ACTIVE_ADMIN_TOKENS = 10;
@@ -45,25 +39,69 @@ function isLoopbackHost(hostname) {
   const lower = hostname.trim().toLowerCase().replace(/^\[|\]$/g, "");
   return lower === "localhost" || lower === "127.0.0.1" || lower === "::1";
 }
+function isVirtualInterfaceName(name) {
+  const lower = name.trim().toLowerCase();
+  return [
+    "utun",
+    "tun",
+    "tap",
+    "ppp",
+    "gif",
+    "stf",
+    "awdl",
+    "llw",
+    "anpi",
+    "bridge",
+    "veth",
+    "docker",
+    "br-",
+    "vmnet",
+    "vboxnet",
+    "virbr",
+    "cni",
+    "flannel",
+    "cali",
+    "lo"
+  ].some((prefix) => lower.startsWith(prefix));
+}
+function interfaceBonus(name) {
+  if (isVirtualInterfaceName(name)) return -25;
+  const lower = name.trim().toLowerCase();
+  if (lower === "en0" || lower === "wlan0" || lower === "eth0") return 15;
+  if (["en", "eth", "wlan", "wl", "wi-fi", "ethernet"].some((p) => lower.startsWith(p))) return 10;
+  return 0;
+}
+function ipv4Rank(ip) {
+  if (ip.startsWith("169.254.")) return 0;
+  if (ip.startsWith("192.168.")) {
+    const parts = ip.split(".");
+    const third = Number(parts[2]);
+    return third === 64 || third === 65 ? 35 : 50;
+  }
+  if (ip.startsWith("10.")) return 40;
+  if (/^172\.(1[6-9]|2\d|3[0-1])\./.test(ip)) return 30;
+  if (/^100\.(6[4-9]|[7-9]\d|1[01]\d|12[0-7])\./.test(ip)) return 20;
+  return 0;
+}
 function listLocalDirectHosts() {
   const interfaces = os.networkInterfaces();
-  const lanIps = [];
-  const virtualIps = [];
+  const scoredIpv4 = [];
   const publicIpv6s = [];
-  for (const entries of Object.values(interfaces)) {
+  let order = 0;
+  for (const [ifName, entries] of Object.entries(interfaces)) {
     if (!entries) continue;
+    const bonus = interfaceBonus(ifName);
     for (const addr of entries) {
       if (addr.internal) continue;
       const ip = addr.address.trim();
       if (!ip) continue;
       if (addr.family === "IPv4") {
-        if (ip.startsWith("169.254.")) continue;
-        if (ip.startsWith("192.168.") || ip.startsWith("10.") || /^172\.(1[6-9]|2\d|3[0-1])\./.test(ip)) {
-          if (!lanIps.includes(ip)) lanIps.push(ip);
-        } else if (ip.startsWith("100.")) {
-          if (!virtualIps.includes(ip)) virtualIps.push(ip);
-        }
-      } else if (addr.family === "IPv6") {
+        const rank = ipv4Rank(ip);
+        if (rank <= 0) continue;
+        const score = rank + bonus;
+        if (score <= 10) continue;
+        scoredIpv4.push({ ip, score, order: order++ });
+      } else if (addr.family === "IPv6" && !isVirtualInterfaceName(ifName)) {
         const lower = ip.toLowerCase().split("%")[0];
         if (/^[23][0-9a-f]{3}:/i.test(lower)) {
           const bracketed = `[${lower}]`;
@@ -72,23 +110,33 @@ function listLocalDirectHosts() {
       }
     }
   }
-  return [...lanIps, ...virtualIps, ...publicIpv6s];
+  scoredIpv4.sort((a, b) => b.score !== a.score ? b.score - a.score : a.order - b.order);
+  const ipv4Hosts = [];
+  for (const item of scoredIpv4) {
+    if (!ipv4Hosts.includes(item.ip)) ipv4Hosts.push(item.ip);
+  }
+  if (ipv4Hosts.length > 0) {
+    return ipv4Hosts.slice(0, 3);
+  }
+  return publicIpv6s.slice(0, 1);
 }
 function resolvePairingOrigins(event) {
   try {
     const reqUrl = new URL(String(getRequestURL(event)));
     const portSuffix = reqUrl.port ? `:${reqUrl.port}` : "";
-    const localHosts = listLocalDirectHosts();
-    const lanOrigins = localHosts.map((host) => `${reqUrl.protocol}//${host}${portSuffix}`);
-    if (isLoopbackHost(reqUrl.hostname) && lanOrigins.length > 0) {
-      return {
-        recommendedOrigin: lanOrigins[0],
-        candidateOrigins: lanOrigins
-      };
+    if (isLoopbackHost(reqUrl.hostname)) {
+      const localHosts = listLocalDirectHosts();
+      const lanOrigins = localHosts.map((host) => `${reqUrl.protocol}//${host}${portSuffix}`);
+      if (lanOrigins.length > 0) {
+        return {
+          recommendedOrigin: lanOrigins[0],
+          candidateOrigins: lanOrigins
+        };
+      }
     }
     return {
       recommendedOrigin: reqUrl.origin,
-      candidateOrigins: [reqUrl.origin, ...lanOrigins.filter((o) => o !== reqUrl.origin)]
+      candidateOrigins: [reqUrl.origin]
     };
   } catch {
     return { recommendedOrigin: "", candidateOrigins: [] };
@@ -134,7 +182,13 @@ const mobilePair_post = defineEventHandler(async (event) => {
       eq(adminTokens.revoked, false)
     )
   );
-  const [{ value: activeCount }] = await db.select({ value: count() }).from(adminTokens).where(eq(adminTokens.revoked, false));
+  const now = /* @__PURE__ */ new Date();
+  const [{ value: activeCount }] = await db.select({ value: count() }).from(adminTokens).where(
+    and(
+      eq(adminTokens.revoked, false),
+      or(isNull(adminTokens.expiresAt), gt(adminTokens.expiresAt, now))
+    )
+  );
   if (activeCount >= MAX_ACTIVE_ADMIN_TOKENS) {
     throw createError({
       statusCode: 400,

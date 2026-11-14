@@ -1,16 +1,17 @@
-import { d as defineEventHandler, c as getRequestLocale, f as getRouterParam, e as createError, b as db, cJ as userWallets, u as users, p as products, z as orders, H as subscriptions, cV as oauthAccounts, cW as userTokens, C as visitorProfiles, b4 as promoMembers, N as emailLogs, B as aggregateOrderAccountingTotals } from '../../../../nitro/nitro.mjs';
+import { d as defineEventHandler, c as getRequestLocale, f as getRouterParam, e as createError, b as db, cM as userWallets, v as users, q as products, I as orders, Q as subscriptions, cX as oauthAccounts, cY as userTokens, cZ as apiTokenScope, K as visitorProfiles, b9 as promoMembers, V as emailLogs, J as aggregateOrderAccountingTotals } from '../../../../nitro/nitro.mjs';
 import { sql, eq, desc } from 'drizzle-orm';
 import 'node:crypto';
+import 'zod';
 import 'crypto';
 import 'fs';
 import 'path';
+import 'node:fs';
 import 'node:path';
 import '@nuxthub/blob';
 import 'node:http';
 import 'node:https';
 import 'node:events';
 import 'node:buffer';
-import 'node:fs';
 import 'node:async_hooks';
 import 'postgres';
 import 'drizzle-orm/postgres-js';
@@ -25,19 +26,12 @@ import 'maxmind';
 import 'node:os';
 import 'node:fs/promises';
 import 'node:url';
-import 'zod';
 import '@iconify/utils';
 import 'consola';
-import 'node:zlib';
-import 'ioredis';
 import 'jose';
 import '@adonisjs/hash';
 import '@adonisjs/hash/drivers/scrypt';
 import 'node:child_process';
-import 'process';
-import 'buffer';
-import 'node:dns/promises';
-import 'node:net';
 
 const _id__get = defineEventHandler(async (event) => {
   var _a;
@@ -94,7 +88,7 @@ const _id__get = defineEventHandler(async (event) => {
         productName: products.name,
         productSlug: products.slug,
         productImage: products.imageUrl
-      }).from(orders).leftJoin(products, eq(orders.productId, products.id)).where(eq(orders.userId, userId)).orderBy(desc(orders.createdAt)),
+      }).from(orders).leftJoin(products, eq(orders.productId, products.id)).where(sql`${orders.userId} = ${userId} AND ${orders.payStatus} != 'deleted' AND ${orders.status} != 'deleted'`).orderBy(desc(orders.createdAt)),
       db.select({
         id: subscriptions.id,
         status: subscriptions.status,
@@ -115,7 +109,7 @@ const _id__get = defineEventHandler(async (event) => {
         providerAccountId: oauthAccounts.providerAccountId,
         createdAt: oauthAccounts.createdAt
       }).from(oauthAccounts).where(eq(oauthAccounts.userId, userId)),
-      // Token identity only — never the raw token value.
+      // Token identity only — never the raw token value; exclude device/single-use/handoff tokens via apiTokenScope.
       db.select({
         id: userTokens.id,
         name: userTokens.name,
@@ -123,7 +117,7 @@ const _id__get = defineEventHandler(async (event) => {
         expiresAt: userTokens.expiresAt,
         revoked: userTokens.revoked,
         createdAt: userTokens.createdAt
-      }).from(userTokens).where(eq(userTokens.userId, userId)).orderBy(desc(userTokens.createdAt)),
+      }).from(userTokens).where(apiTokenScope(userId)).orderBy(desc(userTokens.createdAt)),
       db.select().from(visitorProfiles).where(eq(visitorProfiles.userId, userId)).orderBy(desc(visitorProfiles.lastSeenAt)).limit(1),
       db.select({
         role: promoMembers.role,

@@ -1,16 +1,17 @@
-import { d as defineEventHandler, r as readBody, b as db, bg as settings } from '../../../../nitro/nitro.mjs';
+import { d as defineEventHandler, r as readBody, b as db, w as settings, s as setAuditMeta, bl as invalidatePublicSettingsCache } from '../../../../nitro/nitro.mjs';
 import { eq } from 'drizzle-orm';
 import 'node:crypto';
+import 'zod';
 import 'crypto';
 import 'fs';
 import 'path';
+import 'node:fs';
 import 'node:path';
 import '@nuxthub/blob';
 import 'node:http';
 import 'node:https';
 import 'node:events';
 import 'node:buffer';
-import 'node:fs';
 import 'node:async_hooks';
 import 'postgres';
 import 'drizzle-orm/postgres-js';
@@ -25,19 +26,12 @@ import 'maxmind';
 import 'node:os';
 import 'node:fs/promises';
 import 'node:url';
-import 'zod';
 import '@iconify/utils';
 import 'consola';
-import 'node:zlib';
-import 'ioredis';
 import 'jose';
 import '@adonisjs/hash';
 import '@adonisjs/hash/drivers/scrypt';
 import 'node:child_process';
-import 'process';
-import 'buffer';
-import 'node:dns/promises';
-import 'node:net';
 
 const settings_post = defineEventHandler(async (event) => {
   var _a, _b;
@@ -56,6 +50,13 @@ const settings_post = defineEventHandler(async (event) => {
       await db.insert(settings).values({ key, value });
     }
   }
+  invalidatePublicSettingsCache();
+  setAuditMeta(event, {
+    action: "update",
+    resource: "promo_settings",
+    summary: "Updated promo access and commission settings",
+    details: payload
+  });
   return { ok: true };
 });
 

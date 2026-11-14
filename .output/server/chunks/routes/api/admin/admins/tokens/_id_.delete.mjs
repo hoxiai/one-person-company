@@ -1,16 +1,17 @@
-import { d as defineEventHandler, c as getRequestLocale, e as createError, f as getRouterParam, b as db, l as adminTokens, s as setAuditMeta } from '../../../../../nitro/nitro.mjs';
+import { d as defineEventHandler, c as getRequestLocale, e as createError, f as getRouterParam, b as db, k as adminTokens, j as canGrantPermissions, s as setAuditMeta } from '../../../../../nitro/nitro.mjs';
 import { eq } from 'drizzle-orm';
 import 'node:crypto';
+import 'zod';
 import 'crypto';
 import 'fs';
 import 'path';
+import 'node:fs';
 import 'node:path';
 import '@nuxthub/blob';
 import 'node:http';
 import 'node:https';
 import 'node:events';
 import 'node:buffer';
-import 'node:fs';
 import 'node:async_hooks';
 import 'postgres';
 import 'drizzle-orm/postgres-js';
@@ -25,19 +26,12 @@ import 'maxmind';
 import 'node:os';
 import 'node:fs/promises';
 import 'node:url';
-import 'zod';
 import '@iconify/utils';
 import 'consola';
-import 'node:zlib';
-import 'ioredis';
 import 'jose';
 import '@adonisjs/hash';
 import '@adonisjs/hash/drivers/scrypt';
 import 'node:child_process';
-import 'process';
-import 'buffer';
-import 'node:dns/promises';
-import 'node:net';
 
 const _id__delete = defineEventHandler(async (event) => {
   const locale = getRequestLocale(event);
@@ -45,12 +39,14 @@ const _id__delete = defineEventHandler(async (event) => {
     tokenManageViaToken: "\u8BF7\u4F7F\u7528\u767B\u5F55\u4F1A\u8BDD\u7BA1\u7406\u7CFB\u7EDF Token\uFF0C\u4E0D\u80FD\u7528 Token \u672C\u8EAB\u64CD\u4F5C",
     idRequired: "Token ID \u4E0D\u80FD\u4E3A\u7A7A",
     notFound: "Token \u4E0D\u5B58\u5728",
+    cannotRevokeHigher: "\u4E0D\u80FD\u540A\u9500\u6743\u9650\u8D85\u51FA\u81EA\u8EAB\u8303\u56F4\u7684\u7CFB\u7EDF Token",
     revoked: "\u7CFB\u7EDF Token \u5DF2\u540A\u9500",
     failed: "\u540A\u9500\u7CFB\u7EDF Token \u5931\u8D25"
   } : {
     tokenManageViaToken: "Manage system tokens from a logged-in session, not via another token",
     idRequired: "Token ID is required",
     notFound: "Token not found",
+    cannotRevokeHigher: "Cannot revoke a system token with permissions beyond your own scope",
     revoked: "System token revoked",
     failed: "Failed to revoke system token"
   };
@@ -62,9 +58,19 @@ const _id__delete = defineEventHandler(async (event) => {
     if (!id) {
       throw createError({ statusCode: 400, message: messages.idRequired });
     }
-    const existing = await db.select({ id: adminTokens.id, name: adminTokens.name }).from(adminTokens).where(eq(adminTokens.id, id)).limit(1);
+    const existing = await db.select({
+      id: adminTokens.id,
+      name: adminTokens.name,
+      adminId: adminTokens.adminId,
+      permissions: adminTokens.permissions
+    }).from(adminTokens).where(eq(adminTokens.id, id)).limit(1);
     if (existing.length === 0) {
       throw createError({ statusCode: 404, message: messages.notFound });
+    }
+    const actingAdmin = event.context.admin;
+    const isOwnToken = (actingAdmin == null ? void 0 : actingAdmin.id) && Number(actingAdmin.id) === Number(existing[0].adminId);
+    if (!isOwnToken && !canGrantPermissions(actingAdmin, existing[0].permissions)) {
+      throw createError({ statusCode: 403, message: messages.cannotRevokeHigher });
     }
     await db.update(adminTokens).set({ revoked: true }).where(eq(adminTokens.id, id));
     setAuditMeta(event, {

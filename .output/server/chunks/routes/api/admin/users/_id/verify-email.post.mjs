@@ -1,16 +1,17 @@
-import { d as defineEventHandler, c as getRequestLocale, f as getRouterParam, e as createError, r as readBody, b as db, u as users } from '../../../../../nitro/nitro.mjs';
+import { d as defineEventHandler, c as getRequestLocale, f as getRouterParam, e as createError, r as readBody, b as db, v as users, d1 as revokeEmailVerifyTokens } from '../../../../../nitro/nitro.mjs';
 import { eq } from 'drizzle-orm';
 import 'node:crypto';
+import 'zod';
 import 'crypto';
 import 'fs';
 import 'path';
+import 'node:fs';
 import 'node:path';
 import '@nuxthub/blob';
 import 'node:http';
 import 'node:https';
 import 'node:events';
 import 'node:buffer';
-import 'node:fs';
 import 'node:async_hooks';
 import 'postgres';
 import 'drizzle-orm/postgres-js';
@@ -25,19 +26,12 @@ import 'maxmind';
 import 'node:os';
 import 'node:fs/promises';
 import 'node:url';
-import 'zod';
 import '@iconify/utils';
 import 'consola';
-import 'node:zlib';
-import 'ioredis';
 import 'jose';
 import '@adonisjs/hash';
 import '@adonisjs/hash/drivers/scrypt';
 import 'node:child_process';
-import 'process';
-import 'buffer';
-import 'node:dns/promises';
-import 'node:net';
 
 const verifyEmail_post = defineEventHandler(async (event) => {
   const locale = getRequestLocale(event);
@@ -54,6 +48,9 @@ const verifyEmail_post = defineEventHandler(async (event) => {
     throw createError({ statusCode: 404, message: locale === "zh" ? "\u7528\u6237\u4E0D\u5B58\u5728" : "User not found" });
   }
   const newVerifiedAt = verified ? /* @__PURE__ */ new Date() : null;
+  if (verified) {
+    await revokeEmailVerifyTokens(userId);
+  }
   await db.update(users).set({ emailVerifiedAt: newVerifiedAt }).where(eq(users.id, userId));
   return {
     success: true,

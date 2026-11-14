@@ -48,7 +48,8 @@ const checkoutBaseUrl = normalizeBaseUrl(config.checkoutBaseUrl || config.baseUr
 const originalAmount = normalizeAmount(order.amount);
 const topupMeta = orderMeta.topup && typeof orderMeta.topup === "object" ? orderMeta.topup : null;
 const originalCurrency = normalizeCurrency(
-  (topupMeta && topupMeta.currency)
+  order.currency
+    || (topupMeta && topupMeta.currency)
     || orderMeta.currency
     || orderMeta.orderCurrency
     || orderMeta.sourceCurrency
@@ -57,7 +58,23 @@ const originalCurrency = normalizeCurrency(
   "CNY",
 );
 const settlementCurrency = normalizeCurrency(config.settlementCurrency, "CNY");
-const usdToCnyRate = Number(config.usdToCnyRate ?? config.exchangeRate ?? 7.2);
+const currencySnapshot = orderMeta.currencySnapshot && typeof orderMeta.currencySnapshot === "object"
+  ? orderMeta.currencySnapshot
+  : null;
+const snapshotUsdToCnyRate = (
+  currencySnapshot
+  && String(currencySnapshot.baseCurrency || "").trim().toUpperCase() === "USD"
+  && String(currencySnapshot.currency || "").trim().toUpperCase() === "CNY"
+  && Number(currencySnapshot.exchangeRate) > 0
+)
+  ? Number(currencySnapshot.exchangeRate)
+  : null;
+const usdToCnyRate = Number(
+  snapshotUsdToCnyRate
+    ?? payload.systemUsdToCnyRate
+    ?? config.usdToCnyRate
+    ?? config.exchangeRate,
+);
 
 if (!checkoutBaseUrl) {
   return {
@@ -175,7 +192,7 @@ if (isQuickTopup) {
     || orderMeta.product_name
     || orderMeta.name
     || order.productName
-    || (displayLocale === "zh" ? "轻铺订阅套餐" : "Qingpu Subscription Plan");
+    || (displayLocale === "zh" ? "轻铺订阅套餐" : "CutArk Subscription Plan");
   productDescription = (localizedInfo && localizedInfo.description)
     || orderMeta.product_description
     || orderMeta.description

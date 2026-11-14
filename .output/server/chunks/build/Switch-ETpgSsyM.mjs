@@ -1,6 +1,6 @@
 import { useSlots, useId, useAttrs, computed, unref, mergeProps, withCtx, openBlock, createBlock, Fragment, createCommentVNode, createVNode, renderSlot, createTextVNode, toDisplayString, defineComponent, toRefs, withKeys, withModifiers, useSSRContext } from 'vue';
 import { ssrRenderComponent, ssrRenderClass, ssrRenderSlot, ssrInterpolate } from 'vue/server-renderer';
-import { $ as useAppConfig, a0 as useComponentUI, a1 as useForwardPropsEmits, a2 as reactivePick, a3 as useFormField, a4 as tv, X as Primitive, j as _sfc_main$X, a5 as Label_default, U as useVModel, V as useForwardExpose, W as useFormControl, Y as VisuallyHiddenInput_default, Z as createContext } from './server.mjs';
+import { $ as useAppConfig, a0 as useComponentUI, a1 as useForwardPropsEmits, a2 as reactivePick, a3 as useFormField, a4 as tv, X as Primitive, j as _sfc_main$Z, a5 as Label_default, U as useVModel, V as useForwardExpose, W as useFormControl, Y as VisuallyHiddenInput_default, Z as createContext } from './server.mjs';
 
 const [injectSwitchRootContext, provideSwitchRootContext] = createContext("SwitchRoot");
 var SwitchRoot_vue_vue_type_script_setup_true_lang_default = /* @__PURE__ */ defineComponent({
@@ -372,7 +372,7 @@ const _sfc_main = /* @__PURE__ */ Object.assign({ inheritAttrs: false }, {
                       var _a5, _b3, _c2, _d2, _e2, _f2;
                       if (_push4) {
                         if (__props.loading) {
-                          _push4(ssrRenderComponent(_sfc_main$X, {
+                          _push4(ssrRenderComponent(_sfc_main$Z, {
                             name: __props.loadingIcon || unref(appConfig).ui.icons.loading,
                             "data-slot": "icon",
                             class: ui.value.icon({ class: (_a5 = unref(uiProp)) == null ? void 0 : _a5.icon, checked: true, unchecked: true })
@@ -380,7 +380,7 @@ const _sfc_main = /* @__PURE__ */ Object.assign({ inheritAttrs: false }, {
                         } else {
                           _push4(`<!--[-->`);
                           if (__props.checkedIcon) {
-                            _push4(ssrRenderComponent(_sfc_main$X, {
+                            _push4(ssrRenderComponent(_sfc_main$Z, {
                               name: __props.checkedIcon,
                               "data-slot": "icon",
                               class: ui.value.icon({ class: (_b3 = unref(uiProp)) == null ? void 0 : _b3.icon, checked: true })
@@ -389,7 +389,7 @@ const _sfc_main = /* @__PURE__ */ Object.assign({ inheritAttrs: false }, {
                             _push4(`<!---->`);
                           }
                           if (__props.uncheckedIcon) {
-                            _push4(ssrRenderComponent(_sfc_main$X, {
+                            _push4(ssrRenderComponent(_sfc_main$Z, {
                               name: __props.uncheckedIcon,
                               "data-slot": "icon",
                               class: ui.value.icon({ class: (_c2 = unref(uiProp)) == null ? void 0 : _c2.icon, unchecked: true })
@@ -401,19 +401,19 @@ const _sfc_main = /* @__PURE__ */ Object.assign({ inheritAttrs: false }, {
                         }
                       } else {
                         return [
-                          __props.loading ? (openBlock(), createBlock(_sfc_main$X, {
+                          __props.loading ? (openBlock(), createBlock(_sfc_main$Z, {
                             key: 0,
                             name: __props.loadingIcon || unref(appConfig).ui.icons.loading,
                             "data-slot": "icon",
                             class: ui.value.icon({ class: (_d2 = unref(uiProp)) == null ? void 0 : _d2.icon, checked: true, unchecked: true })
                           }, null, 8, ["name", "class"])) : (openBlock(), createBlock(Fragment, { key: 1 }, [
-                            __props.checkedIcon ? (openBlock(), createBlock(_sfc_main$X, {
+                            __props.checkedIcon ? (openBlock(), createBlock(_sfc_main$Z, {
                               key: 0,
                               name: __props.checkedIcon,
                               "data-slot": "icon",
                               class: ui.value.icon({ class: (_e2 = unref(uiProp)) == null ? void 0 : _e2.icon, checked: true })
                             }, null, 8, ["name", "class"])) : createCommentVNode("", true),
-                            __props.uncheckedIcon ? (openBlock(), createBlock(_sfc_main$X, {
+                            __props.uncheckedIcon ? (openBlock(), createBlock(_sfc_main$Z, {
                               key: 1,
                               name: __props.uncheckedIcon,
                               "data-slot": "icon",
@@ -434,19 +434,19 @@ const _sfc_main = /* @__PURE__ */ Object.assign({ inheritAttrs: false }, {
                       default: withCtx(() => {
                         var _a5, _b3, _c2;
                         return [
-                          __props.loading ? (openBlock(), createBlock(_sfc_main$X, {
+                          __props.loading ? (openBlock(), createBlock(_sfc_main$Z, {
                             key: 0,
                             name: __props.loadingIcon || unref(appConfig).ui.icons.loading,
                             "data-slot": "icon",
                             class: ui.value.icon({ class: (_a5 = unref(uiProp)) == null ? void 0 : _a5.icon, checked: true, unchecked: true })
                           }, null, 8, ["name", "class"])) : (openBlock(), createBlock(Fragment, { key: 1 }, [
-                            __props.checkedIcon ? (openBlock(), createBlock(_sfc_main$X, {
+                            __props.checkedIcon ? (openBlock(), createBlock(_sfc_main$Z, {
                               key: 0,
                               name: __props.checkedIcon,
                               "data-slot": "icon",
                               class: ui.value.icon({ class: (_b3 = unref(uiProp)) == null ? void 0 : _b3.icon, checked: true })
                             }, null, 8, ["name", "class"])) : createCommentVNode("", true),
-                            __props.uncheckedIcon ? (openBlock(), createBlock(_sfc_main$X, {
+                            __props.uncheckedIcon ? (openBlock(), createBlock(_sfc_main$Z, {
                               key: 1,
                               name: __props.uncheckedIcon,
                               "data-slot": "icon",
@@ -525,19 +525,19 @@ const _sfc_main = /* @__PURE__ */ Object.assign({ inheritAttrs: false }, {
                         default: withCtx(() => {
                           var _a5, _b2, _c2;
                           return [
-                            __props.loading ? (openBlock(), createBlock(_sfc_main$X, {
+                            __props.loading ? (openBlock(), createBlock(_sfc_main$Z, {
                               key: 0,
                               name: __props.loadingIcon || unref(appConfig).ui.icons.loading,
                               "data-slot": "icon",
                               class: ui.value.icon({ class: (_a5 = unref(uiProp)) == null ? void 0 : _a5.icon, checked: true, unchecked: true })
                             }, null, 8, ["name", "class"])) : (openBlock(), createBlock(Fragment, { key: 1 }, [
-                              __props.checkedIcon ? (openBlock(), createBlock(_sfc_main$X, {
+                              __props.checkedIcon ? (openBlock(), createBlock(_sfc_main$Z, {
                                 key: 0,
                                 name: __props.checkedIcon,
                                 "data-slot": "icon",
                                 class: ui.value.icon({ class: (_b2 = unref(uiProp)) == null ? void 0 : _b2.icon, checked: true })
                               }, null, 8, ["name", "class"])) : createCommentVNode("", true),
-                              __props.uncheckedIcon ? (openBlock(), createBlock(_sfc_main$X, {
+                              __props.uncheckedIcon ? (openBlock(), createBlock(_sfc_main$Z, {
                                 key: 1,
                                 name: __props.uncheckedIcon,
                                 "data-slot": "icon",

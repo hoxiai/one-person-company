@@ -1,16 +1,17 @@
-import { d as defineEventHandler, g as getQuery, J as tickets, u as users, b as db } from '../../../nitro/nitro.mjs';
-import { eq, or, like, and, desc, count } from 'drizzle-orm';
+import { d as defineEventHandler, g as getQuery, u as tickets, v as users, b as db, x as ticketMessages, y as normalizeTicketAttachments } from '../../../nitro/nitro.mjs';
+import { eq, or, like, and, desc, count, inArray } from 'drizzle-orm';
 import 'node:crypto';
+import 'zod';
 import 'crypto';
 import 'fs';
 import 'path';
+import 'node:fs';
 import 'node:path';
 import '@nuxthub/blob';
 import 'node:http';
 import 'node:https';
 import 'node:events';
 import 'node:buffer';
-import 'node:fs';
 import 'node:async_hooks';
 import 'postgres';
 import 'drizzle-orm/postgres-js';
@@ -25,22 +26,15 @@ import 'maxmind';
 import 'node:os';
 import 'node:fs/promises';
 import 'node:url';
-import 'zod';
 import '@iconify/utils';
 import 'consola';
-import 'node:zlib';
-import 'ioredis';
 import 'jose';
 import '@adonisjs/hash';
 import '@adonisjs/hash/drivers/scrypt';
 import 'node:child_process';
-import 'process';
-import 'buffer';
-import 'node:dns/promises';
-import 'node:net';
 
 const index_get = defineEventHandler(async (event) => {
-  var _a;
+  var _a, _b, _c;
   const query = getQuery(event);
   const page = Math.max(parseInt(query.page) || 1, 1);
   const pageSize = Math.min(Math.max(parseInt(query.pageSize) || 15, 1), 100);
@@ -101,7 +95,41 @@ const index_get = defineEventHandler(async (event) => {
       count: count()
     }).from(tickets).groupBy(tickets.status)
   ]);
-  const total = Number(((_a = totalResult[0]) == null ? void 0 : _a.total) || 0);
+  const ticketIds = list.map((item) => item.id).filter(Boolean);
+  const latestMsgByTicketId = /* @__PURE__ */ new Map();
+  if (ticketIds.length > 0) {
+    try {
+      const msgRows = await db.select({
+        ticketId: ticketMessages.ticketId,
+        content: ticketMessages.content,
+        attachments: ticketMessages.attachments,
+        senderType: ticketMessages.senderType,
+        id: ticketMessages.id
+      }).from(ticketMessages).where(inArray(ticketMessages.ticketId, ticketIds)).orderBy(desc(ticketMessages.id));
+      for (const row of msgRows) {
+        if (!latestMsgByTicketId.has(row.ticketId)) {
+          const hasAttachments = Boolean((_a = normalizeTicketAttachments(row.attachments)) == null ? void 0 : _a.length);
+          const preview = ((_b = row.content) == null ? void 0 : _b.trim()) || (hasAttachments ? "[\u56FE\u7247\u9644\u4EF6]" : "");
+          latestMsgByTicketId.set(row.ticketId, {
+            content: preview,
+            senderType: row.senderType
+          });
+        }
+      }
+    } catch {
+    }
+  }
+  const enrichedList = list.map((item) => {
+    const latest = latestMsgByTicketId.get(item.id);
+    const isPending = item.status === "open" || item.status === "in_progress";
+    const unread = isPending && item.lastRepliedBy === "user" ? 1 : 0;
+    return {
+      ...item,
+      lastMessage: (latest == null ? void 0 : latest.content) || item.title,
+      unread
+    };
+  });
+  const total = Number(((_c = totalResult[0]) == null ? void 0 : _c.total) || 0);
   const summary = {
     all: 0,
     open: 0,
@@ -119,7 +147,7 @@ const index_get = defineEventHandler(async (event) => {
   }
   return {
     code: 200,
-    data: list,
+    data: enrichedList,
     summary,
     pagination: {
       page,

@@ -1,16 +1,17 @@
-import { d as defineEventHandler, c as getRequestLocale, g as getQuery, e as createError, z as orders, b as db, p as products, B as aggregateOrderAccountingTotals, C as visitorProfiles, u as users } from '../../../../nitro/nitro.mjs';
-import { and, or, isNull, sql, eq, desc } from 'drizzle-orm';
+import { d as defineEventHandler, c as getRequestLocale, g as getQuery, e as createError, I as orders, b as db, q as products, J as aggregateOrderAccountingTotals, K as visitorProfiles, v as users } from '../../../../nitro/nitro.mjs';
+import { and, sql, or, isNull, eq, desc } from 'drizzle-orm';
 import 'node:crypto';
+import 'zod';
 import 'crypto';
 import 'fs';
 import 'path';
+import 'node:fs';
 import 'node:path';
 import '@nuxthub/blob';
 import 'node:http';
 import 'node:https';
 import 'node:events';
 import 'node:buffer';
-import 'node:fs';
 import 'node:async_hooks';
 import 'postgres';
 import 'drizzle-orm/postgres-js';
@@ -25,19 +26,12 @@ import 'maxmind';
 import 'node:os';
 import 'node:fs/promises';
 import 'node:url';
-import 'zod';
 import '@iconify/utils';
 import 'consola';
-import 'node:zlib';
-import 'ioredis';
 import 'jose';
 import '@adonisjs/hash';
 import '@adonisjs/hash/drivers/scrypt';
 import 'node:child_process';
-import 'process';
-import 'buffer';
-import 'node:dns/promises';
-import 'node:net';
 
 const detail_get = defineEventHandler(async (event) => {
   var _a, _b;
@@ -54,10 +48,18 @@ const detail_get = defineEventHandler(async (event) => {
   }
   try {
     const normalizedEmail = email.toLowerCase();
+    const notDeletedCond = and(
+      sql`${orders.payStatus} != 'deleted'`,
+      sql`${orders.status} != 'deleted'`
+    );
     const orderWhere = isAnonymous ? and(
       or(isNull(orders.contactEmail), sql`trim(${orders.contactEmail}) = ''`),
-      eq(orders.visitorId, visitorId)
-    ) : eq(sql`lower(trim(${orders.contactEmail}))`, normalizedEmail);
+      eq(orders.visitorId, visitorId),
+      notDeletedCond
+    ) : and(
+      eq(sql`lower(trim(${orders.contactEmail}))`, normalizedEmail),
+      notDeletedCond
+    );
     const orderRows = await db.select({
       id: orders.id,
       amount: orders.amount,

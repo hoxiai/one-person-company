@@ -1,16 +1,17 @@
-import { d as defineEventHandler, c as getRequestLocale, g as getQuery, d4 as fetchExternalUsersMap, u as users, b as db, cJ as userWallets, cW as userTokens, e as createError } from '../../../../nitro/nitro.mjs';
-import { sql, eq, or, like, count, and, gt } from 'drizzle-orm';
+import { d as defineEventHandler, c as getRequestLocale, g as getQuery, v as users, b as db, cM as userWallets, I as orders, J as aggregateOrderAccountingTotals, cY as userTokens, d7 as activeApiTokenConditions, e as createError } from '../../../../nitro/nitro.mjs';
+import { sql, or, like, eq, and, isNotNull } from 'drizzle-orm';
 import 'node:crypto';
+import 'zod';
 import 'crypto';
 import 'fs';
 import 'path';
+import 'node:fs';
 import 'node:path';
 import '@nuxthub/blob';
 import 'node:http';
 import 'node:https';
 import 'node:events';
 import 'node:buffer';
-import 'node:fs';
 import 'node:async_hooks';
 import 'postgres';
 import 'drizzle-orm/postgres-js';
@@ -25,32 +26,28 @@ import 'maxmind';
 import 'node:os';
 import 'node:fs/promises';
 import 'node:url';
-import 'zod';
 import '@iconify/utils';
 import 'consola';
-import 'node:zlib';
-import 'ioredis';
 import 'jose';
 import '@adonisjs/hash';
 import '@adonisjs/hash/drivers/scrypt';
 import 'node:child_process';
-import 'process';
-import 'buffer';
-import 'node:dns/promises';
-import 'node:net';
 
 const summary_get = defineEventHandler(async (event) => {
-  var _a;
   const locale = getRequestLocale(event);
   const query = getQuery(event);
   const keyword = String(query.q || query.keyword || "").trim();
   const hasSpending = String(query.hasSpending || "").trim();
   try {
-    const externalUsersMap = await fetchExternalUsersMap(event);
     const likePattern = keyword ? `%${keyword.toLowerCase()}%` : "";
     const emailLower = sql`lower(${users.email})`;
     const nicknameLower = sql`lower(coalesce(${users.nickname}, ''))`;
     const idLower = sql`lower(cast(${users.id} as text))`;
+    const keywordWhere = keyword ? or(
+      like(emailLower, likePattern),
+      like(nicknameLower, likePattern),
+      like(idLower, likePattern)
+    ) : void 0;
     let usersQuery = db.select({
       id: users.id,
       email: users.email,
@@ -59,12 +56,8 @@ const summary_get = defineEventHandler(async (event) => {
       grantBalance: sql`coalesce(sum(${userWallets.grantBalance}), 0)`,
       status: users.status
     }).from(users).leftJoin(userWallets, eq(userWallets.userId, users.id));
-    if (keyword) {
-      usersQuery = usersQuery.where(or(
-        like(emailLower, likePattern),
-        like(nicknameLower, likePattern),
-        like(idLower, likePattern)
-      ));
+    if (keywordWhere) {
+      usersQuery = usersQuery.where(keywordWhere);
     }
     const allUsers = await usersQuery.groupBy(
       users.id,
@@ -72,15 +65,38 @@ const summary_get = defineEventHandler(async (event) => {
       users.nickname,
       users.status
     );
+    const orderRows = allUsers.length > 0 ? await db.select({
+      userId: orders.userId,
+      amount: orders.amount,
+      currency: orders.currency,
+      metaData: orders.metaData,
+      payStatus: orders.payStatus
+    }).from(orders).where(and(
+      isNotNull(orders.userId),
+      sql`${orders.payStatus} != 'deleted'`,
+      sql`${orders.status} != 'deleted'`
+    )) : [];
+    const ordersByUser = /* @__PURE__ */ new Map();
+    for (const row of orderRows) {
+      const uid = Number(row.userId);
+      if (!Number.isFinite(uid) || uid <= 0) continue;
+      let list = ordersByUser.get(uid);
+      if (!list) {
+        list = [];
+        ordersByUser.set(uid, list);
+      }
+      list.push(row);
+    }
     const mergedUsers = allUsers.map((user) => {
-      const extData = externalUsersMap.get(user.id) || {};
+      const userOrders = ordersByUser.get(user.id) || [];
+      const paidOrderRows = userOrders.filter((r) => r.payStatus === "paid");
+      const totalSpentByCurrency2 = aggregateOrderAccountingTotals(paidOrderRows);
+      const totalSpend2 = totalSpentByCurrency2.reduce((sum, item) => sum + item.amount, 0);
       return {
         ...user,
-        totalSpend: Number(extData.totalSpend || 0),
-        totalRequests: Number(extData.totalRequests || 0),
-        totalTokens: Number(extData.totalTokens || 0),
-        promptTokens: Number(extData.promptTokens || 0),
-        completionTokens: Number(extData.completionTokens || 0)
+        totalOrders: userOrders.length,
+        paidOrderRows,
+        totalSpend: totalSpend2
       };
     });
     let filteredUsers = mergedUsers;
@@ -89,34 +105,34 @@ const summary_get = defineEventHandler(async (event) => {
     } else if (hasSpending === "false") {
       filteredUsers = mergedUsers.filter((u) => u.totalSpend === 0);
     }
+    const filteredPaidOrders = filteredUsers.flatMap((u) => u.paidOrderRows);
+    const totalSpentByCurrency = aggregateOrderAccountingTotals(filteredPaidOrders);
+    const totalSpend = totalSpentByCurrency.reduce((sum, item) => sum + item.amount, 0);
     const activeUsers = filteredUsers.filter(
       (u) => u.totalSpend > 0 || Number(u.cashBalance || 0) > 0 || Number(u.grantBalance || 0) > 0
     ).length;
+    let totalActiveTokens = 0;
+    if (filteredUsers.length > 0) {
+      const filteredIdSet = new Set(filteredUsers.map((u) => u.id));
+      const tokenUserRows = await db.select({ userId: userTokens.userId }).from(userTokens).where(activeApiTokenConditions());
+      for (const row of tokenUserRows) {
+        if (filteredIdSet.has(Number(row.userId))) {
+          totalActiveTokens += 1;
+        }
+      }
+    }
     const summary = {
       totalUsers: filteredUsers.length,
       activeUsers,
       totalCashBalance: filteredUsers.reduce((sum, u) => sum + Number(u.cashBalance || 0), 0) / 1e8,
       totalGrantBalance: filteredUsers.reduce((sum, u) => sum + Number(u.grantBalance || 0), 0) / 1e8,
       totalBalance: filteredUsers.reduce((sum, u) => sum + Number(u.cashBalance || 0) + Number(u.grantBalance || 0), 0) / 1e8,
-      totalRequests: filteredUsers.reduce((sum, u) => sum + u.totalRequests, 0),
-      totalTokens: filteredUsers.reduce((sum, u) => sum + u.totalTokens, 0),
-      totalActiveKeys: 0
-      // Will be calculated below
+      totalOrders: filteredUsers.reduce((sum, u) => sum + u.totalOrders, 0),
+      paidOrders: filteredPaidOrders.length,
+      totalSpend,
+      totalSpentByCurrency,
+      totalActiveTokens
     };
-    if (filteredUsers.length > 0) {
-      const userIds = filteredUsers.map((u) => u.id);
-      const activeKeysResult = await db.select({ count: count() }).from(userTokens).where(
-        and(
-          sql`${userTokens.userId} IN (${sql.join(userIds.map((id) => sql`${id}`), sql`, `)})`,
-          eq(userTokens.revoked, false),
-          or(
-            sql`${userTokens.expiresAt} IS NULL`,
-            gt(userTokens.expiresAt, /* @__PURE__ */ new Date())
-          )
-        )
-      );
-      summary.totalActiveKeys = Number(((_a = activeKeysResult[0]) == null ? void 0 : _a.count) || 0);
-    }
     return {
       data: summary
     };

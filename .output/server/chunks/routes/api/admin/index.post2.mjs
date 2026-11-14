@@ -1,16 +1,17 @@
-import { d as defineEventHandler, c as getRequestLocale, r as readBody, e as createError, b as db, m as cards } from '../../../nitro/nitro.mjs';
-import 'drizzle-orm';
+import { d as defineEventHandler, c as getRequestLocale, r as readBody, e as createError, b as db, p as cards } from '../../../nitro/nitro.mjs';
 import 'node:crypto';
+import 'drizzle-orm';
+import 'zod';
 import 'crypto';
 import 'fs';
 import 'path';
+import 'node:fs';
 import 'node:path';
 import '@nuxthub/blob';
 import 'node:http';
 import 'node:https';
 import 'node:events';
 import 'node:buffer';
-import 'node:fs';
 import 'node:async_hooks';
 import 'postgres';
 import 'drizzle-orm/postgres-js';
@@ -25,30 +26,25 @@ import 'maxmind';
 import 'node:os';
 import 'node:fs/promises';
 import 'node:url';
-import 'zod';
 import '@iconify/utils';
 import 'consola';
-import 'node:zlib';
-import 'ioredis';
 import 'jose';
 import '@adonisjs/hash';
 import '@adonisjs/hash/drivers/scrypt';
 import 'node:child_process';
-import 'process';
-import 'buffer';
-import 'node:dns/promises';
-import 'node:net';
 
 const index_post = defineEventHandler(async (event) => {
   const locale = getRequestLocale(event);
   const body = await readBody(event);
-  const { productId, cardNumbers } = body;
-  if (!productId || !cardNumbers || !cardNumbers.length) {
+  const { productId } = body || {};
+  const rawList = Array.isArray(body == null ? void 0 : body.cardNumbers) ? body.cardNumbers : Array.isArray(body == null ? void 0 : body.cards) ? body.cards : [];
+  const cardNumbers = rawList.map((c) => String(c || "").trim()).filter(Boolean);
+  if (!productId || !cardNumbers.length) {
     throw createError({ statusCode: 400, message: locale === "zh" ? "\u7F3A\u5C11\u5FC5\u586B\u5B57\u6BB5" : "Missing required fields" });
   }
   try {
     const insertData = cardNumbers.map((cardNumber) => ({
-      productId,
+      productId: Number(productId),
       cardNumber,
       isUsed: false,
       createdAt: /* @__PURE__ */ new Date()

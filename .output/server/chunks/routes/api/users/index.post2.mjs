@@ -1,17 +1,17 @@
-import { d as defineEventHandler, c as getRequestLocale, dy as requireUserSession, e as createError, r as readBody, b as db, cW as userTokens, fc as apiTokenScope, e4 as normalizeMcpScopes, e7 as MCP_DEFAULT_SCOPES, ei as generateMcpAccessToken, fd as API_TOKEN_PREFIX, fe as isSingleUseTokenName } from '../../../nitro/nitro.mjs';
+import { d as defineEventHandler, c as getRequestLocale, dB as requireUserSession, e as createError, r as readBody, b as db, cY as userTokens, cZ as apiTokenScope, e7 as normalizeMcpScopes, ea as MCP_DEFAULT_SCOPES, el as generateMcpAccessToken, ff as API_TOKEN_PREFIX, fg as isSingleUseTokenName } from '../../../nitro/nitro.mjs';
 import crypto from 'crypto';
 import { z } from 'zod';
 import { count, and, eq } from 'drizzle-orm';
 import 'node:crypto';
 import 'fs';
 import 'path';
+import 'node:fs';
 import 'node:path';
 import '@nuxthub/blob';
 import 'node:http';
 import 'node:https';
 import 'node:events';
 import 'node:buffer';
-import 'node:fs';
 import 'node:async_hooks';
 import 'postgres';
 import 'drizzle-orm/postgres-js';
@@ -28,16 +28,10 @@ import 'node:fs/promises';
 import 'node:url';
 import '@iconify/utils';
 import 'consola';
-import 'node:zlib';
-import 'ioredis';
 import 'jose';
 import '@adonisjs/hash';
 import '@adonisjs/hash/drivers/scrypt';
 import 'node:child_process';
-import 'process';
-import 'buffer';
-import 'node:dns/promises';
-import 'node:net';
 
 const bodySchema = z.object({
   name: z.string().trim().min(1).max(100).refine((val) => !isSingleUseTokenName(val), {

@@ -1,16 +1,17 @@
-import { d as defineEventHandler, c as getRequestLocale, f as getRouterParam, e as createError, r as readBody, b as db, u as users, d2 as proxyExternalRequest, d3 as invalidateExternalUsersCache } from '../../../../../nitro/nitro.mjs';
+import { d as defineEventHandler, c as getRequestLocale, f as getRouterParam, e as createError, r as readBody, b as db, v as users, d5 as loadActiveProxyAdapter } from '../../../../../nitro/nitro.mjs';
 import { eq } from 'drizzle-orm';
 import 'node:crypto';
+import 'zod';
 import 'crypto';
 import 'fs';
 import 'path';
+import 'node:fs';
 import 'node:path';
 import '@nuxthub/blob';
 import 'node:http';
 import 'node:https';
 import 'node:events';
 import 'node:buffer';
-import 'node:fs';
 import 'node:async_hooks';
 import 'postgres';
 import 'drizzle-orm/postgres-js';
@@ -25,19 +26,12 @@ import 'maxmind';
 import 'node:os';
 import 'node:fs/promises';
 import 'node:url';
-import 'zod';
 import '@iconify/utils';
 import 'consola';
-import 'node:zlib';
-import 'ioredis';
 import 'jose';
 import '@adonisjs/hash';
 import '@adonisjs/hash/drivers/scrypt';
 import 'node:child_process';
-import 'process';
-import 'buffer';
-import 'node:dns/promises';
-import 'node:net';
 
 const status_put = defineEventHandler(async (event) => {
   const locale = getRequestLocale(event);
@@ -71,19 +65,13 @@ const status_put = defineEventHandler(async (event) => {
     }
     await db.update(users).set({ status }).where(eq(users.id, userId));
     try {
-      await proxyExternalRequest(event, {
-        requireSession: true,
-        proxyLabel: "ExternalUserStatusUpdate",
-        userAgent: "APay-Admin/1.0",
-        timeoutMs: 3e3,
-        overrideQuery: {
-          path: `/api/admin/users/${userId}/status`
-        }
-      });
+      const adapter = await loadActiveProxyAdapter();
+      if (adapter == null ? void 0 : adapter.syncUserStatus) {
+        await adapter.syncUserStatus(event, userId, status);
+      }
     } catch (extErr) {
-      console.warn("[admin/users/status] Failed to sync status to external gateway:", (extErr == null ? void 0 : extErr.message) || extErr);
+      console.warn("[admin/users/status] Failed to sync status via theme proxy adapter:", (extErr == null ? void 0 : extErr.message) || extErr);
     }
-    invalidateExternalUsersCache();
     return {
       code: 0,
       message: messages.updated,

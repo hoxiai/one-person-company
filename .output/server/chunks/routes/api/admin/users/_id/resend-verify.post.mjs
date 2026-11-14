@@ -1,4 +1,4 @@
-import { d as defineEventHandler, aL as requireTrustedRequestOrigin, c as getRequestLocale, f as getRouterParam, e as createError, b as db, v as users, cY as userTokens, d2 as EMAIL_VERIFY_TOKEN_NAME, ag as getLocalizedSettingValue, B as sendEmail } from '../../../../../nitro/nitro.mjs';
+import { d as defineEventHandler, aL as requireTrustedRequestOrigin, c as getRequestLocale, f as getRouterParam, e as createError, b as db, v as users, d0 as userTokens, d6 as EMAIL_VERIFY_TOKEN_NAME, ag as getLocalizedSettingValue, B as sendEmail } from '../../../../../nitro/nitro.mjs';
 import { eq } from 'drizzle-orm';
 import 'node:crypto';
 import 'zod';

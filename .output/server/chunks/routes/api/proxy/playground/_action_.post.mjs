@@ -1,4 +1,4 @@
-import { d as defineEventHandler, c as getRequestLocale, b8 as getUserSession, e as createError, f as getRouterParam, d5 as loadActiveProxyAdapter } from '../../../../nitro/nitro.mjs';
+import { d as defineEventHandler, c as getRequestLocale, b8 as getUserSession, e as createError, f as getRouterParam, d9 as loadActiveProxyAdapter } from '../../../../nitro/nitro.mjs';
 import 'node:crypto';
 import 'drizzle-orm';
 import 'zod';

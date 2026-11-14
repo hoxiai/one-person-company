@@ -1,4 +1,4 @@
-import { d as defineEventHandler, b8 as getUserSession, e as createError, r as readBody, dn as getCookie, dY as diagnoseTicketIssue, b as db, u as tickets, x as ticketMessages } from '../../../nitro/nitro.mjs';
+import { d as defineEventHandler, b8 as getUserSession, e as createError, r as readBody, du as getCookie, e2 as diagnoseTicketIssue, b as db, u as tickets, x as ticketMessages } from '../../../nitro/nitro.mjs';
 import crypto from 'node:crypto';
 import 'drizzle-orm';
 import 'zod';

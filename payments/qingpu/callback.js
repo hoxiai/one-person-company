@@ -135,7 +135,8 @@ const usdToCnyRate = Number(
 );
 const expectedOriginalAmount = order ? Number(order.amount) : NaN;
 const needsUsdToCnyConversion = expectedOriginalCurrency === "USD" && expectedSettlementCurrency === "CNY";
-if (order && needsUsdToCnyConversion && !hasSourceFact && !(usdToCnyRate > 0)) {
+const settledInOriginalCurrency = callbackCurrency === expectedOriginalCurrency;
+if (order && needsUsdToCnyConversion && !settledInOriginalCurrency && !(usdToCnyRate > 0)) {
   return {
     isSignValid: false,
     orderId,
@@ -150,6 +151,25 @@ const expectedSettlementAmount = needsUsdToCnyConversion
 const matchesOriginalOrder = order
   ? (Math.abs(sourceAmount - expectedOriginalAmount) <= 0.001 && sourceCurrency === expectedOriginalCurrency)
   : true;
+const matchesCallbackActualAmount = order
+  ? (
+      (Math.abs(rawCallbackAmount - expectedSettlementAmount) <= 0.001 && callbackCurrency === expectedSettlementCurrency)
+      || (Math.abs(rawCallbackAmount - expectedOriginalAmount) <= 0.001 && callbackCurrency === expectedOriginalCurrency)
+    )
+  : (
+      Number.isFinite(rawCallbackAmount)
+      && rawCallbackAmount >= 0
+      && (
+        !hasSourceFact
+        || (attach.settlementAmount != null && Number(attach.settlementAmount) > 0
+          ? (Math.abs(rawCallbackAmount - Number(attach.settlementAmount)) <= 0.001
+            && (!attach.settlementCurrency || callbackCurrency === String(attach.settlementCurrency).trim().toUpperCase()))
+          : (callbackCurrency === sourceCurrency
+              ? Math.abs(rawCallbackAmount - sourceAmount) <= 0.001
+              : (Number(data.exchangeRate ?? attach.exchangeRate) > 0
+                  && Math.abs(rawCallbackAmount - Math.round(sourceAmount * Number(data.exchangeRate ?? attach.exchangeRate) * 100) / 100) <= 0.001)))
+      )
+    );
 const matchesSettlementOrder = order && !hasSourceFact
   ? (Math.abs(rawCallbackAmount - expectedSettlementAmount) <= 0.001 && callbackCurrency === expectedSettlementCurrency)
   : false;
@@ -158,8 +178,11 @@ const amount = order && matchesSettlementOrder && !matchesOriginalOrder
   ? expectedOriginalAmount
   : sourceAmount;
 
+const expectedPayStatus = eventName === "minimal.checkout.refunded" ? "refunded" : "paid";
 if (!Number.isFinite(amount) || amount < 0
-  || (eventName === "minimal.checkout.refunded" && data.payStatus !== "refunded")
+  || !Number.isFinite(rawCallbackAmount) || rawCallbackAmount < 0
+  || data.payStatus !== expectedPayStatus
+  || !matchesCallbackActualAmount
   || (order && !matchesOriginalOrder && !matchesSettlementOrder)) {
   return { isSignValid: false, orderId, status: "failed", responseBody: "fail: refund/payment facts mismatch" };
 }

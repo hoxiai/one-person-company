@@ -1,4 +1,4 @@
-import { d as defineEventHandler, c as getRequestLocale, r as readBody, eE as resolveOrderAccess, aN as getSiteLocaleConfig, aO as resolveRequestLocale, eJ as lockLegacyPendingOrderCurrency, b as db, a0 as paymentMethods, eK as isPaymentMethodAvailableForLocale, eL as resolvePaymentPluginConfig, eM as isPaymentMethodCurrencySupported, eN as sortPaymentMethodsByGeo } from '../../../nitro/nitro.mjs';
+import { d as defineEventHandler, c as getRequestLocale, r as readBody, eK as resolveOrderAccess, aN as getSiteLocaleConfig, aO as resolveRequestLocale, eP as lockLegacyPendingOrderCurrency, b as db, a0 as paymentMethods, eQ as isPaymentMethodAvailableForLocale, eR as resolvePaymentPluginConfig, eS as isPaymentMethodCurrencySupported, eT as renderPaymentMethodHtml, eU as sortPaymentMethodsByGeo, eV as toPublicPaymentMethodView } from '../../../nitro/nitro.mjs';
 import { eq } from 'drizzle-orm';
 import fs from 'fs';
 import path from 'path';
@@ -94,15 +94,16 @@ const info_post = defineEventHandler(async (event) => {
         }
       }
       if (!rawHtml) continue;
-      let content = rawHtml.replace(/\{\$orderId\}/g, orderId);
-      content = content.replace(/\{\$amount\}/g, order.amount.toString());
-      content = content.replace(/\{\$currency\}/g, String(order.currency || "USD"));
-      content = content.replace(/\{\$productId\}/g, order.productId.toString());
-      for (const [key, value] of Object.entries(configObj)) {
-        if (/(secret|private|password|token|mch[_-]?key|api[_-]?key|sign[_-]?key|cert|pem)/i.test(key)) continue;
-        const regex = new RegExp(`\\{\\$config\\.${key}\\}`, "g");
-        content = content.replace(regex, String(value));
-      }
+      const content = renderPaymentMethodHtml(
+        rawHtml,
+        {
+          orderId: String(orderId),
+          amount: order.amount,
+          currency: String(order.currency || "USD"),
+          productId: order.productId
+        },
+        configObj
+      );
       availableMethods.push({
         code: method.code,
         name: method.name,
@@ -156,7 +157,7 @@ const info_post = defineEventHandler(async (event) => {
     return {
       code: 0,
       data: {
-        methods: geoSortedMethods.map(({ code, name, iconUrl, content }) => ({ code, name, iconUrl, content })),
+        methods: geoSortedMethods.map(toPublicPaymentMethodView),
         visitorCountry,
         amount: order.amount,
         currency: String(order.currency || "USD"),

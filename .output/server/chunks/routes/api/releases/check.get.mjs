@@ -1,4 +1,4 @@
-import { d as defineEventHandler, g as getQuery, bq as normalizeAppKey, br as normalizeReleaseChannel, eZ as normalizeReleaseLang, f1 as checkReleaseUpgrade, bB as getBundledReleasesForApp, e1 as setResponseStatus, f2 as buildTauriUpdateManifest } from '../../../nitro/nitro.mjs';
+import { d as defineEventHandler, g as getQuery, bq as normalizeAppKey, br as normalizeReleaseChannel, f5 as normalizeReleaseLang, f9 as checkReleaseUpgrade, bB as getBundledReleasesForApp, e7 as setResponseStatus, fa as buildTauriUpdateManifest } from '../../../nitro/nitro.mjs';
 import appcastHandler from './appcast.xml.get.mjs';
 import 'node:crypto';
 import 'drizzle-orm';

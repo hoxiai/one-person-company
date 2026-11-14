@@ -1,4 +1,4 @@
-import { d as defineEventHandler, c as getRequestLocale, r as readBody, e as createError, c$ as validateEmail, b as db, v as users, l as hashPassword } from '../../../nitro/nitro.mjs';
+import { d as defineEventHandler, c as getRequestLocale, r as readBody, e as createError, d3 as validateEmail, b as db, v as users, l as hashPassword } from '../../../nitro/nitro.mjs';
 import { eq } from 'drizzle-orm';
 import 'node:crypto';
 import 'zod';

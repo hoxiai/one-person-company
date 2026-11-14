@@ -1,4 +1,4 @@
-import { d as defineEventHandler, c as getRequestLocale, g as getQuery, eX as normalizeImageProxyUrl, cP as getHeader, e1 as setResponseStatus, e2 as setResponseHeader, eY as getImageProxyReferer, e as createError } from '../../../nitro/nitro.mjs';
+import { d as defineEventHandler, c as getRequestLocale, g as getQuery, f3 as normalizeImageProxyUrl, cP as getHeader, e7 as setResponseStatus, e8 as setResponseHeader, f4 as getImageProxyReferer, e as createError } from '../../../nitro/nitro.mjs';
 import { createHash } from 'node:crypto';
 import 'drizzle-orm';
 import 'zod';

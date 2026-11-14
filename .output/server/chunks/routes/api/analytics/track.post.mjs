@@ -1,4 +1,4 @@
-import { d as defineEventHandler, c as getRequestLocale, r as readBody, e as createError, d8 as isTrackableVisitorPath, b8 as getUserSession, d9 as trackVisitorEvent } from '../../../nitro/nitro.mjs';
+import { d as defineEventHandler, c as getRequestLocale, r as readBody, e as createError, de as isTrackableVisitorPath, b8 as getUserSession, df as trackVisitorEvent } from '../../../nitro/nitro.mjs';
 import 'node:crypto';
 import 'drizzle-orm';
 import 'zod';

@@ -1,4 +1,4 @@
-import { d as defineEventHandler, aj as resolveClientIp, ak as checkIpRateLimit, e as createError, r as readBody, dc as verifyCaptchaChallengeToken, dd as issueCaptchaTicket } from '../../../../nitro/nitro.mjs';
+import { d as defineEventHandler, aj as resolveClientIp, ak as checkIpRateLimit, e as createError, r as readBody, di as verifyCaptchaChallengeToken, dj as issueCaptchaTicket } from '../../../../nitro/nitro.mjs';
 import 'node:crypto';
 import 'drizzle-orm';
 import 'zod';

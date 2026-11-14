@@ -1,6 +1,8 @@
 {
   "coreTheme": "core",
-  "publishedOptionalThemes": [],
-  "buildMode": "core-only",
-  "generatedAt": "2026-11-14T10:37:47.205Z"
+  "publishedOptionalThemes": [
+    "hoxi"
+  ],
+  "buildMode": "filtered",
+  "generatedAt": "2026-11-14T16:06:27.509Z"
 }

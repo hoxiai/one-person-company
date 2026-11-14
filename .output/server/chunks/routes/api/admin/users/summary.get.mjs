@@ -1,5 +1,5 @@
-import { d as defineEventHandler, c as getRequestLocale, g as getQuery, v as users, b as db, cM as userWallets, I as orders, J as aggregateOrderAccountingTotals, cY as userTokens, d7 as activeApiTokenConditions, e as createError } from '../../../../nitro/nitro.mjs';
-import { sql, or, like, eq, and, isNotNull } from 'drizzle-orm';
+import { d as defineEventHandler, c as getRequestLocale, g as getQuery, v as users, I as orders, cM as userWallets, da as getTopupRules, b as db, d0 as userTokens, dd as activeApiTokenConditions, J as aggregateOrderAccountingTotals, Z as getCurrencyTotal, e as createError, dc as normalizeAccountingCurrency, w as settings } from '../../../../nitro/nitro.mjs';
+import { sql, or, like, isNotNull, isNull, and, count, inArray, eq } from 'drizzle-orm';
 import 'node:crypto';
 import 'zod';
 import 'crypto';
@@ -33,108 +33,146 @@ import '@adonisjs/hash';
 import '@adonisjs/hash/drivers/scrypt';
 import 'node:child_process';
 
+async function resolveSpendCurrency(requestedCurrency, fallbackCurrency = "USD") {
+  var _a;
+  const fallback = normalizeAccountingCurrency(fallbackCurrency, "USD");
+  const explicit = String(requestedCurrency || "").trim();
+  if (/^[A-Za-z]{3}$/.test(explicit)) {
+    return normalizeAccountingCurrency(explicit, fallback);
+  }
+  try {
+    const rows = await db.select({ value: settings.value }).from(settings).where(eq(settings.key, "currency")).limit(1);
+    if ((_a = rows[0]) == null ? void 0 : _a.value) {
+      return normalizeAccountingCurrency(rows[0].value, fallback);
+    }
+  } catch {
+  }
+  return fallback;
+}
 const summary_get = defineEventHandler(async (event) => {
+  var _a, _b, _c, _d, _e, _f, _g;
   const locale = getRequestLocale(event);
   const query = getQuery(event);
-  const keyword = String(query.q || query.keyword || "").trim();
+  const keyword = String(query.search || query.q || query.keyword || "").trim();
   const hasSpending = String(query.hasSpending || "").trim();
+  const emailVerified = String(query.emailVerified || "").trim();
   try {
     const likePattern = keyword ? `%${keyword.toLowerCase()}%` : "";
     const emailLower = sql`lower(${users.email})`;
     const nicknameLower = sql`lower(coalesce(${users.nickname}, ''))`;
     const idLower = sql`lower(cast(${users.id} as text))`;
-    const keywordWhere = keyword ? or(
-      like(emailLower, likePattern),
-      like(nicknameLower, likePattern),
-      like(idLower, likePattern)
-    ) : void 0;
-    let usersQuery = db.select({
-      id: users.id,
-      email: users.email,
-      nickname: users.nickname,
-      cashBalance: sql`coalesce(sum(${userWallets.cashBalance}), 0)`,
-      grantBalance: sql`coalesce(sum(${userWallets.grantBalance}), 0)`,
-      status: users.status
-    }).from(users).leftJoin(userWallets, eq(userWallets.userId, users.id));
-    if (keywordWhere) {
-      usersQuery = usersQuery.where(keywordWhere);
+    const userHasPaidSpendSql = sql`exists (
+      select 1 from ${orders}
+      where ${orders.userId} = ${users.id}
+        and ${orders.payStatus} = 'paid'
+        and ${orders.status} != 'deleted'
+        and ${orders.amount} > 0
+    )`;
+    const userPositiveWalletSql = sql`(
+      (select coalesce(sum(${userWallets.cashBalance}), 0) from ${userWallets} where ${userWallets.userId} = ${users.id}) > 0
+      or (select coalesce(sum(${userWallets.grantBalance}), 0) from ${userWallets} where ${userWallets.userId} = ${users.id}) > 0
+    )`;
+    const conditions = [];
+    if (keyword) {
+      conditions.push(or(
+        like(emailLower, likePattern),
+        like(nicknameLower, likePattern),
+        like(idLower, likePattern)
+      ));
     }
-    const allUsers = await usersQuery.groupBy(
-      users.id,
-      users.email,
-      users.nickname,
-      users.status
-    );
-    const orderRows = allUsers.length > 0 ? await db.select({
-      userId: orders.userId,
-      amount: orders.amount,
-      currency: orders.currency,
-      metaData: orders.metaData,
-      payStatus: orders.payStatus
-    }).from(orders).where(and(
-      isNotNull(orders.userId),
-      sql`${orders.payStatus} != 'deleted'`,
-      sql`${orders.status} != 'deleted'`
-    )) : [];
-    const ordersByUser = /* @__PURE__ */ new Map();
-    for (const row of orderRows) {
-      const uid = Number(row.userId);
-      if (!Number.isFinite(uid) || uid <= 0) continue;
-      let list = ordersByUser.get(uid);
-      if (!list) {
-        list = [];
-        ordersByUser.set(uid, list);
-      }
-      list.push(row);
+    if (emailVerified === "verified" || emailVerified === "true") {
+      conditions.push(isNotNull(users.emailVerifiedAt));
+    } else if (emailVerified === "unverified" || emailVerified === "false") {
+      conditions.push(isNull(users.emailVerifiedAt));
     }
-    const mergedUsers = allUsers.map((user) => {
-      const userOrders = ordersByUser.get(user.id) || [];
-      const paidOrderRows = userOrders.filter((r) => r.payStatus === "paid");
-      const totalSpentByCurrency2 = aggregateOrderAccountingTotals(paidOrderRows);
-      const totalSpend2 = totalSpentByCurrency2.reduce((sum, item) => sum + item.amount, 0);
-      return {
-        ...user,
-        totalOrders: userOrders.length,
-        paidOrderRows,
-        totalSpend: totalSpend2
-      };
-    });
-    let filteredUsers = mergedUsers;
     if (hasSpending === "true") {
-      filteredUsers = mergedUsers.filter((u) => u.totalSpend > 0);
+      conditions.push(userHasPaidSpendSql);
     } else if (hasSpending === "false") {
-      filteredUsers = mergedUsers.filter((u) => u.totalSpend === 0);
+      conditions.push(sql`not (${userHasPaidSpendSql})`);
     }
-    const filteredPaidOrders = filteredUsers.flatMap((u) => u.paidOrderRows);
-    const totalSpentByCurrency = aggregateOrderAccountingTotals(filteredPaidOrders);
-    const totalSpend = totalSpentByCurrency.reduce((sum, item) => sum + item.amount, 0);
-    const activeUsers = filteredUsers.filter(
-      (u) => u.totalSpend > 0 || Number(u.cashBalance || 0) > 0 || Number(u.grantBalance || 0) > 0
-    ).length;
-    let totalActiveTokens = 0;
-    if (filteredUsers.length > 0) {
-      const filteredIdSet = new Set(filteredUsers.map((u) => u.id));
-      const tokenUserRows = await db.select({ userId: userTokens.userId }).from(userTokens).where(activeApiTokenConditions());
-      for (const row of tokenUserRows) {
-        if (filteredIdSet.has(Number(row.userId))) {
-          totalActiveTokens += 1;
+    const whereClause = conditions.length === 1 ? conditions[0] : conditions.length > 1 ? and(...conditions) : void 0;
+    const topupRules = await getTopupRules().catch(() => null);
+    const spendCurrency = await resolveSpendCurrency(
+      query.spendCurrency,
+      (topupRules == null ? void 0 : topupRules.accountingCurrency) || "USD"
+    );
+    const userStatsRows = await db.select({
+      totalUsers: count(),
+      activeUsers: sql`coalesce(sum(case when (${userHasPaidSpendSql}) or (${userPositiveWalletSql}) then 1 else 0 end), 0)`
+    }).from(users).where(whereClause);
+    const totalUsers = Number(((_a = userStatsRows[0]) == null ? void 0 : _a.totalUsers) || 0);
+    const activeUsers = Number(((_b = userStatsRows[0]) == null ? void 0 : _b.activeUsers) || 0);
+    if (totalUsers === 0) {
+      return {
+        data: {
+          totalUsers: 0,
+          activeUsers: 0,
+          totalCashBalance: 0,
+          totalGrantBalance: 0,
+          totalBalance: 0,
+          totalOrders: 0,
+          paidOrders: 0,
+          spendCurrency,
+          totalSpend: 0,
+          totalSpentByCurrency: [],
+          totalActiveTokens: 0
         }
-      }
+      };
     }
-    const summary = {
-      totalUsers: filteredUsers.length,
-      activeUsers,
-      totalCashBalance: filteredUsers.reduce((sum, u) => sum + Number(u.cashBalance || 0), 0) / 1e8,
-      totalGrantBalance: filteredUsers.reduce((sum, u) => sum + Number(u.grantBalance || 0), 0) / 1e8,
-      totalBalance: filteredUsers.reduce((sum, u) => sum + Number(u.cashBalance || 0) + Number(u.grantBalance || 0), 0) / 1e8,
-      totalOrders: filteredUsers.reduce((sum, u) => sum + u.totalOrders, 0),
-      paidOrders: filteredPaidOrders.length,
-      totalSpend,
-      totalSpentByCurrency,
-      totalActiveTokens
-    };
+    const matchedUsersSubquery = db.select({ id: users.id }).from(users).where(whereClause);
+    const [walletStatsRows, orderStatsRows, tokenStatsRows, paidOrderRows] = await Promise.all([
+      db.select({
+        totalCashBalance: sql`coalesce(sum(${userWallets.cashBalance}), 0)`,
+        totalGrantBalance: sql`coalesce(sum(${userWallets.grantBalance}), 0)`
+      }).from(userWallets).where(inArray(userWallets.userId, matchedUsersSubquery)),
+      db.select({
+        totalOrders: count(),
+        paidOrders: sql`coalesce(sum(case when ${orders.payStatus} = 'paid' then 1 else 0 end), 0)`
+      }).from(orders).where(and(
+        inArray(orders.userId, matchedUsersSubquery),
+        sql`${orders.payStatus} != 'deleted'`,
+        sql`${orders.status} != 'deleted'`
+      )),
+      // 统计有效个人/MCP API Token 数量（严格走 activeApiTokenConditions，排除 apay_dt_ 设备令牌与一次性令牌）
+      db.select({
+        totalActiveTokens: count()
+      }).from(userTokens).where(and(
+        activeApiTokenConditions(),
+        inArray(userTokens.userId, matchedUsersSubquery)
+      )),
+      db.select({
+        amount: orders.amount,
+        currency: orders.currency,
+        metaData: orders.metaData
+      }).from(orders).where(and(
+        inArray(orders.userId, matchedUsersSubquery),
+        eq(orders.payStatus, "paid"),
+        sql`${orders.status} != 'deleted'`,
+        sql`${orders.amount} > 0`
+      ))
+    ]);
+    const totalCashBalance = Number(((_c = walletStatsRows[0]) == null ? void 0 : _c.totalCashBalance) || 0) / 1e8;
+    const totalGrantBalance = Number(((_d = walletStatsRows[0]) == null ? void 0 : _d.totalGrantBalance) || 0) / 1e8;
+    const totalBalance = totalCashBalance + totalGrantBalance;
+    const totalOrders = Number(((_e = orderStatsRows[0]) == null ? void 0 : _e.totalOrders) || 0);
+    const paidOrders = Number(((_f = orderStatsRows[0]) == null ? void 0 : _f.paidOrders) || 0);
+    const totalActiveTokens = Number(((_g = tokenStatsRows[0]) == null ? void 0 : _g.totalActiveTokens) || 0);
+    const totalSpentByCurrency = aggregateOrderAccountingTotals(paidOrderRows);
+    const totalSpend = getCurrencyTotal(totalSpentByCurrency, spendCurrency);
     return {
-      data: summary
+      data: {
+        totalUsers,
+        activeUsers,
+        totalCashBalance,
+        totalGrantBalance,
+        totalBalance,
+        totalOrders,
+        paidOrders,
+        spendCurrency,
+        totalSpend,
+        totalSpentByCurrency,
+        totalActiveTokens
+      }
     };
   } catch (error) {
     console.error("[admin/users/summary] Error:", error);

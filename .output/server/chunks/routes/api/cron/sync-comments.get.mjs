@@ -1,4 +1,4 @@
-import { d as defineEventHandler, dx as useRuntimeConfig, cP as getHeader, e as createError, H as runAutoCommentSync } from '../../../nitro/nitro.mjs';
+import { d as defineEventHandler, dD as useRuntimeConfig, cP as getHeader, e as createError, H as runAutoCommentSync } from '../../../nitro/nitro.mjs';
 import 'node:crypto';
 import 'drizzle-orm';
 import 'zod';

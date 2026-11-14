@@ -1,4 +1,4 @@
-import { d as defineEventHandler, dQ as getRequestIP, dR as checkCommentRateLimit, e as createError, b8 as getUserSession, r as readBody, b as db, cX as oauthAccounts, dS as sanitizeComment, dT as getRequestHeader, w as settings, C as comments, D as syncPostCommentCount, E as getCommentAvatarUrl } from '../../nitro/nitro.mjs';
+import { d as defineEventHandler, dW as getRequestIP, dX as checkCommentRateLimit, e as createError, b8 as getUserSession, r as readBody, b as db, c$ as oauthAccounts, dY as sanitizeComment, dZ as getRequestHeader, w as settings, C as comments, D as syncPostCommentCount, E as getCommentAvatarUrl } from '../../nitro/nitro.mjs';
 import { and, eq } from 'drizzle-orm';
 import 'node:crypto';
 import 'zod';

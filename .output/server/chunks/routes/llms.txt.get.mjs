@@ -1,4 +1,4 @@
-import { d as defineEventHandler, ft as collectGeoCorpus, fv as renderLlmsTxt, f0 as setHeader, e as createError } from '../nitro/nitro.mjs';
+import { d as defineEventHandler, fB as collectGeoCorpus, fD as renderLlmsTxt, f8 as setHeader, e as createError } from '../nitro/nitro.mjs';
 import 'node:crypto';
 import 'drizzle-orm';
 import 'zod';

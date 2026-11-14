@@ -1,4 +1,4 @@
-import { d as defineEventHandler, c as getRequestLocale, dF as requireUserSession, e as createError, f9 as getOrCreateUserWallet, d6 as getTopupRules, b as db, cM as userWallets, R as topups, fl as TOPUP_STATUS, cT as balanceLogs, cN as fromScaled } from '../../../nitro/nitro.mjs';
+import { d as defineEventHandler, c as getRequestLocale, dL as requireUserSession, e as createError, fh as getOrCreateUserWallet, da as getTopupRules, b as db, cM as userWallets, R as topups, ft as TOPUP_STATUSES, cT as balanceLogs, cN as fromScaled } from '../../../nitro/nitro.mjs';
 import { eq, sql, and, gte } from 'drizzle-orm';
 import 'node:crypto';
 import 'zod';
@@ -51,7 +51,7 @@ const wallet_get = defineEventHandler(async (event) => {
     db.select({ cash: userWallets.cashBalance, grant: userWallets.grantBalance }).from(userWallets).where(eq(userWallets.id, wallet.id)).limit(1),
     db.select({ total: sql`coalesce(sum(${topups.creditAmountCents}), 0)`, count: sql`count(*)` }).from(topups).where(and(
       eq(topups.walletId, wallet.id),
-      eq(topups.status, TOPUP_STATUS.CREDITED),
+      eq(topups.status, TOPUP_STATUSES.CREDITED),
       gte(topups.creditedAt, since)
     )),
     // 近 30 天出账（amount_cents < 0）
@@ -68,7 +68,7 @@ const wallet_get = defineEventHandler(async (event) => {
       createdAt: topups.createdAt
     }).from(topups).where(and(
       eq(topups.userId, userId),
-      eq(topups.status, TOPUP_STATUS.PENDING)
+      eq(topups.status, TOPUP_STATUSES.PENDING)
     ))
   ]);
   const cash = fromScaled((_b = userRows[0]) == null ? void 0 : _b.cash);

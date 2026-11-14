@@ -1,4 +1,4 @@
-import { d as defineEventHandler, c as getRequestLocale, g as getQuery, v as users, cM as userWallets, b as db, d6 as getTopupRules, I as orders, e as createError, J as aggregateOrderAccountingTotals } from '../../../nitro/nitro.mjs';
+import { d as defineEventHandler, c as getRequestLocale, g as getQuery, v as users, I as orders, cM as userWallets, b as db, da as getTopupRules, J as aggregateOrderAccountingTotals, db as compareCurrencySpendTotals, e as createError, dc as normalizeAccountingCurrency, w as settings, Z as getCurrencyTotal } from '../../../nitro/nitro.mjs';
 import { sql, or, like, isNotNull, isNull, and, count, desc, asc, eq, inArray } from 'drizzle-orm';
 import 'node:crypto';
 import 'zod';
@@ -33,14 +33,17 @@ import '@adonisjs/hash';
 import '@adonisjs/hash/drivers/scrypt';
 import 'node:child_process';
 
-const EMPTY_ORDER_METRICS = {
-  totalOrders: 0,
-  paidOrders: 0,
-  unpaidOrders: 0,
-  totalSpend: 0,
-  totalSpentByCurrency: []
-};
-function buildUserOrderMetricsMap(orderRows) {
+function createEmptyOrderMetrics(spendCurrency) {
+  return {
+    totalOrders: 0,
+    paidOrders: 0,
+    unpaidOrders: 0,
+    spendCurrency,
+    totalSpend: 0,
+    totalSpentByCurrency: []
+  };
+}
+function buildUserOrderMetricsMap(orderRows, spendCurrency) {
   const grouped = /* @__PURE__ */ new Map();
   for (const row of orderRows) {
     const uid = Number(row.userId);
@@ -56,16 +59,56 @@ function buildUserOrderMetricsMap(orderRows) {
   for (const [uid, rows] of grouped.entries()) {
     const paidRows = rows.filter((r) => r.payStatus === "paid");
     const totalSpentByCurrency = aggregateOrderAccountingTotals(paidRows);
-    const totalSpend = totalSpentByCurrency.reduce((sum, item) => sum + item.amount, 0);
+    const totalSpend = getCurrencyTotal(totalSpentByCurrency, spendCurrency);
     metricsMap.set(uid, {
       totalOrders: rows.length,
       paidOrders: paidRows.length,
       unpaidOrders: rows.length - paidRows.length,
+      spendCurrency,
       totalSpend,
       totalSpentByCurrency
     });
   }
   return metricsMap;
+}
+async function resolveSpendCurrency(requestedCurrency, fallbackCurrency = "USD") {
+  var _a;
+  const fallback = normalizeAccountingCurrency(fallbackCurrency, "USD");
+  const explicit = String(requestedCurrency || "").trim();
+  if (/^[A-Za-z]{3}$/.test(explicit)) {
+    return normalizeAccountingCurrency(explicit, fallback);
+  }
+  try {
+    const rows = await db.select({ value: settings.value }).from(settings).where(eq(settings.key, "currency")).limit(1);
+    if ((_a = rows[0]) == null ? void 0 : _a.value) {
+      return normalizeAccountingCurrency(rows[0].value, fallback);
+    }
+  } catch {
+  }
+  return fallback;
+}
+function formatUserResponseRow(user, metrics) {
+  const cashBalance = Number(user.cashBalance || 0) / 1e8;
+  const grantBalance = Number(user.grantBalance || 0) / 1e8;
+  return {
+    id: user.id,
+    username: user.username,
+    email: user.email,
+    nickname: user.nickname,
+    createdAt: user.createdAt,
+    status: user.status,
+    lastLoginAt: user.lastLoginAt,
+    emailVerifiedAt: user.emailVerifiedAt,
+    cashBalance,
+    grantBalance,
+    availableBalance: cashBalance + grantBalance,
+    totalOrders: metrics.totalOrders,
+    paidOrders: metrics.paidOrders,
+    unpaidOrders: metrics.unpaidOrders,
+    spendCurrency: metrics.spendCurrency,
+    totalSpend: metrics.totalSpend,
+    totalSpentByCurrency: metrics.totalSpentByCurrency
+  };
 }
 const index_get = defineEventHandler(async (event) => {
   var _a, _b, _c, _d, _e;
@@ -83,6 +126,13 @@ const index_get = defineEventHandler(async (event) => {
   const emailLower = sql`lower(${users.email})`;
   const nicknameLower = sql`lower(coalesce(${users.nickname}, ''))`;
   const idLower = sql`lower(cast(${users.id} as text))`;
+  const userHasPaidSpendSql = sql`exists (
+    select 1 from ${orders}
+    where ${orders.userId} = ${users.id}
+      and ${orders.payStatus} = 'paid'
+      and ${orders.status} != 'deleted'
+      and ${orders.amount} > 0
+  )`;
   const conditions = [];
   if (keyword) {
     conditions.push(or(
@@ -96,10 +146,13 @@ const index_get = defineEventHandler(async (event) => {
   } else if (emailVerified === "unverified" || emailVerified === "false") {
     conditions.push(isNull(users.emailVerifiedAt));
   }
+  if (hasSpending === "true") {
+    conditions.push(userHasPaidSpendSql);
+  } else if (hasSpending === "false") {
+    conditions.push(sql`not (${userHasPaidSpendSql})`);
+  }
   const whereClause = conditions.length === 1 ? conditions[0] : conditions.length > 1 ? and(...conditions) : void 0;
-  const isOrderMetricSort = ["spend", "totalSpend", "orders", "totalOrders", "paidOrders"].includes(sortBy);
-  const hasSpendingFilter = hasSpending === "true" || hasSpending === "false";
-  const requiresFullScan = isOrderMetricSort || hasSpendingFilter;
+  const isSpendSort = sortBy === "spend" || sortBy === "totalSpend";
   try {
     const cashSumExpr = sql`coalesce(sum(${userWallets.cashBalance}), 0)`;
     const grantSumExpr = sql`coalesce(sum(${userWallets.grantBalance}), 0)`;
@@ -115,6 +168,11 @@ const index_get = defineEventHandler(async (event) => {
       }).from(userWallets),
       getTopupRules()
     ]);
+    const spendCurrency = await resolveSpendCurrency(
+      query.spendCurrency,
+      (topupRules == null ? void 0 : topupRules.accountingCurrency) || "USD"
+    );
+    const emptyMetrics = createEmptyOrderMetrics(spendCurrency);
     const globalTotalUsers = Number(((_a = globalUserStatsRows[0]) == null ? void 0 : _a.totalUsers) || 0);
     const globalVerifiedUsers = Number(((_b = globalUserStatsRows[0]) == null ? void 0 : _b.verifiedUsers) || 0);
     const globalCashBalance = Number(((_c = globalWalletStatsRows[0]) == null ? void 0 : _c.totalCashBalance) || 0) / 1e8;
@@ -127,19 +185,38 @@ const index_get = defineEventHandler(async (event) => {
       totalCashBalance: globalCashBalance,
       totalGrantBalance: globalGrantBalance,
       totalBalance: globalTotalBalance,
+      spendCurrency,
       walletEnabled: Boolean(topupRules == null ? void 0 : topupRules.enabled) || globalTotalBalance > 0
     };
-    if (!requiresFullScan) {
+    if (!isSpendSort) {
       const totalResult = await db.select({ total: count() }).from(users).where(whereClause);
       const total2 = Number(((_e = totalResult[0]) == null ? void 0 : _e.total) || 0);
+      const totalOrdersCountExpr = sql`(
+        select count(*) from ${orders}
+        where ${orders.userId} = ${users.id}
+          and ${orders.payStatus} != 'deleted'
+          and ${orders.status} != 'deleted'
+      )`;
+      const paidOrdersCountExpr = sql`(
+        select count(*) from ${orders}
+        where ${orders.userId} = ${users.id}
+          and ${orders.payStatus} = 'paid'
+          and ${orders.status} != 'deleted'
+      )`;
       const orderByClauses = sortBy === "balance" || sortBy === "availableBalance" ? [
         sortOrder === "asc" ? sql`${totalBalanceExpr} ASC` : sql`${totalBalanceExpr} DESC`,
+        desc(users.id)
+      ] : sortBy === "orders" || sortBy === "totalOrders" ? [
+        sortOrder === "asc" ? sql`${totalOrdersCountExpr} ASC` : sql`${totalOrdersCountExpr} DESC`,
+        desc(users.id)
+      ] : sortBy === "paidOrders" ? [
+        sortOrder === "asc" ? sql`${paidOrdersCountExpr} ASC` : sql`${paidOrdersCountExpr} DESC`,
         desc(users.id)
       ] : [
         sortOrder === "asc" ? asc(users.createdAt) : desc(users.createdAt),
         sortOrder === "asc" ? asc(users.id) : desc(users.id)
       ];
-      const paginatedUsers = await db.select({
+      const paginatedUsers = total2 > 0 && offset < total2 ? await db.select({
         id: users.id,
         username: users.email,
         email: users.email,
@@ -158,9 +235,9 @@ const index_get = defineEventHandler(async (event) => {
         users.status,
         users.lastLoginAt,
         users.emailVerifiedAt
-      ).orderBy(...orderByClauses).limit(pageSize).offset(offset);
+      ).orderBy(...orderByClauses).limit(pageSize).offset(offset) : [];
       const userIds = paginatedUsers.map((u) => u.id);
-      const orderRows2 = userIds.length > 0 ? await db.select({
+      const orderRows = userIds.length > 0 ? await db.select({
         userId: orders.userId,
         amount: orders.amount,
         currency: orders.currency,
@@ -171,119 +248,109 @@ const index_get = defineEventHandler(async (event) => {
         sql`${orders.payStatus} != 'deleted'`,
         sql`${orders.status} != 'deleted'`
       )) : [];
-      const orderMetricsMap2 = buildUserOrderMetricsMap(orderRows2);
-      const finalUsers2 = paginatedUsers.map((user) => {
-        const metrics = orderMetricsMap2.get(user.id) || EMPTY_ORDER_METRICS;
-        const cashBalance = Number(user.cashBalance || 0) / 1e8;
-        const grantBalance = Number(user.grantBalance || 0) / 1e8;
-        return {
-          id: user.id,
-          username: user.username,
-          email: user.email,
-          nickname: user.nickname,
-          createdAt: user.createdAt,
-          status: user.status,
-          lastLoginAt: user.lastLoginAt,
-          emailVerifiedAt: user.emailVerifiedAt,
-          cashBalance,
-          grantBalance,
-          availableBalance: cashBalance + grantBalance,
-          totalOrders: metrics.totalOrders,
-          paidOrders: metrics.paidOrders,
-          unpaidOrders: metrics.unpaidOrders,
-          totalSpend: metrics.totalSpend,
-          totalSpentByCurrency: metrics.totalSpentByCurrency
-        };
-      });
+      const orderMetricsMap2 = buildUserOrderMetricsMap(orderRows, spendCurrency);
+      const finalUsers2 = paginatedUsers.map(
+        (user) => formatUserResponseRow(user, orderMetricsMap2.get(user.id) || emptyMetrics)
+      );
       return {
         data: finalUsers2,
         total: total2,
         page,
         pageSize,
+        spendCurrency,
         summary
       };
     }
-    let usersQuery = db.select({
-      id: users.id,
-      username: users.email,
-      email: users.email,
-      nickname: users.nickname,
-      createdAt: users.createdAt,
-      status: users.status,
-      lastLoginAt: users.lastLoginAt,
-      emailVerifiedAt: users.emailVerifiedAt,
-      cashBalance: cashSumExpr,
-      grantBalance: grantSumExpr
-    }).from(users).leftJoin(userWallets, eq(userWallets.userId, users.id));
-    if (whereClause) {
-      usersQuery = usersQuery.where(whereClause);
+    const matchedStubs = await db.select({ id: users.id }).from(users).where(whereClause).orderBy(desc(users.createdAt), desc(users.id));
+    const total = matchedStubs.length;
+    if (total === 0 || offset >= total) {
+      return {
+        data: [],
+        total,
+        page,
+        pageSize,
+        spendCurrency,
+        summary
+      };
     }
-    const allUsers = await usersQuery.groupBy(
-      users.id,
-      users.email,
-      users.nickname,
-      users.createdAt,
-      users.status,
-      users.lastLoginAt,
-      users.emailVerifiedAt
-    ).orderBy(desc(users.createdAt), desc(users.id));
-    const orderRows = allUsers.length > 0 ? await db.select({
+    const paidSpendConditions = [
+      eq(orders.payStatus, "paid"),
+      sql`${orders.status} != 'deleted'`,
+      sql`${orders.amount} > 0`,
+      whereClause ? inArray(orders.userId, db.select({ id: users.id }).from(users).where(whereClause)) : isNotNull(orders.userId)
+    ];
+    const paidSpendRows = await db.select({
       userId: orders.userId,
       amount: orders.amount,
       currency: orders.currency,
-      metaData: orders.metaData,
-      payStatus: orders.payStatus
-    }).from(orders).where(and(
-      isNotNull(orders.userId),
-      sql`${orders.payStatus} != 'deleted'`,
-      sql`${orders.status} != 'deleted'`
-    )) : [];
-    const orderMetricsMap = buildUserOrderMetricsMap(orderRows);
-    const mergedUsers = allUsers.map((user) => {
-      const metrics = orderMetricsMap.get(user.id) || EMPTY_ORDER_METRICS;
-      const cashBalance = Number(user.cashBalance || 0) / 1e8;
-      const grantBalance = Number(user.grantBalance || 0) / 1e8;
-      return {
-        id: user.id,
-        username: user.username,
-        email: user.email,
-        nickname: user.nickname,
-        createdAt: user.createdAt,
-        status: user.status,
-        lastLoginAt: user.lastLoginAt,
-        emailVerifiedAt: user.emailVerifiedAt,
-        cashBalance,
-        grantBalance,
-        availableBalance: cashBalance + grantBalance,
-        totalOrders: metrics.totalOrders,
-        paidOrders: metrics.paidOrders,
-        unpaidOrders: metrics.unpaidOrders,
-        totalSpend: metrics.totalSpend,
-        totalSpentByCurrency: metrics.totalSpentByCurrency
-      };
-    });
-    let filteredUsers = mergedUsers;
-    if (hasSpending === "true") {
-      filteredUsers = mergedUsers.filter((u) => u.totalSpend > 0);
-    } else if (hasSpending === "false") {
-      filteredUsers = mergedUsers.filter((u) => u.totalSpend === 0);
+      metaData: orders.metaData
+    }).from(orders).where(and(...paidSpendConditions));
+    const paidGrouped = /* @__PURE__ */ new Map();
+    for (const row of paidSpendRows) {
+      const uid = Number(row.userId);
+      if (!Number.isFinite(uid) || uid <= 0) continue;
+      let list = paidGrouped.get(uid);
+      if (!list) {
+        list = [];
+        paidGrouped.set(uid, list);
+      }
+      list.push(row);
     }
-    if (sortBy === "spend" || sortBy === "totalSpend") {
-      filteredUsers.sort((a, b) => sortOrder === "asc" ? a.totalSpend - b.totalSpend : b.totalSpend - a.totalSpend);
-    } else if (sortBy === "orders" || sortBy === "totalOrders") {
-      filteredUsers.sort((a, b) => sortOrder === "asc" ? a.totalOrders - b.totalOrders : b.totalOrders - a.totalOrders);
-    } else if (sortBy === "paidOrders") {
-      filteredUsers.sort((a, b) => sortOrder === "asc" ? a.paidOrders - b.paidOrders : b.paidOrders - a.paidOrders);
-    } else if (sortBy === "balance" || sortBy === "availableBalance") {
-      filteredUsers.sort((a, b) => sortOrder === "asc" ? a.availableBalance - b.availableBalance : b.availableBalance - a.availableBalance);
+    const totalsByUser = /* @__PURE__ */ new Map();
+    for (const [uid, rows] of paidGrouped.entries()) {
+      totalsByUser.set(uid, aggregateOrderAccountingTotals(rows));
     }
-    const total = filteredUsers.length;
-    const finalUsers = filteredUsers.slice(offset, offset + pageSize);
+    const sortedIds = matchedStubs.map((stub, index) => ({ id: stub.id, index })).sort((a, b) => {
+      const diff = compareCurrencySpendTotals(
+        totalsByUser.get(a.id) || [],
+        totalsByUser.get(b.id) || [],
+        spendCurrency,
+        sortOrder
+      );
+      return diff !== 0 ? diff : a.index - b.index;
+    }).slice(offset, offset + pageSize).map((entry) => entry.id);
+    const [pageUserRows, pageOrderRows] = await Promise.all([
+      db.select({
+        id: users.id,
+        username: users.email,
+        email: users.email,
+        nickname: users.nickname,
+        createdAt: users.createdAt,
+        status: users.status,
+        lastLoginAt: users.lastLoginAt,
+        emailVerifiedAt: users.emailVerifiedAt,
+        cashBalance: cashSumExpr,
+        grantBalance: grantSumExpr
+      }).from(users).leftJoin(userWallets, eq(userWallets.userId, users.id)).where(inArray(users.id, sortedIds)).groupBy(
+        users.id,
+        users.email,
+        users.nickname,
+        users.createdAt,
+        users.status,
+        users.lastLoginAt,
+        users.emailVerifiedAt
+      ),
+      db.select({
+        userId: orders.userId,
+        amount: orders.amount,
+        currency: orders.currency,
+        metaData: orders.metaData,
+        payStatus: orders.payStatus
+      }).from(orders).where(and(
+        inArray(orders.userId, sortedIds),
+        sql`${orders.payStatus} != 'deleted'`,
+        sql`${orders.status} != 'deleted'`
+      ))
+    ]);
+    const userById = new Map(pageUserRows.map((row) => [row.id, row]));
+    const orderMetricsMap = buildUserOrderMetricsMap(pageOrderRows, spendCurrency);
+    const finalUsers = sortedIds.map((id) => userById.get(id)).filter((row) => Boolean(row)).map((user) => formatUserResponseRow(user, orderMetricsMap.get(user.id) || emptyMetrics));
     return {
       data: finalUsers,
       total,
       page,
       pageSize,
+      spendCurrency,
       summary
     };
   } catch (error) {

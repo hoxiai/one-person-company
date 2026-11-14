@@ -1,4 +1,4 @@
-import { d as defineEventHandler, f0 as setHeader, c as getRequestLocale, f as getRouterParam, fo as readRawBody, r as readBody, g as getQuery, eP as getRequestHeaders, dl as logger, e as createError, b as db, I as orders, a0 as paymentMethods, fp as executeCallbackScript, e1 as setResponseStatus, fq as markOrderPaid, O as ORDER_PAY_STATUS, aJ as ORDER_STATUS, eB as getAffectedRows, fr as markTopupPaymentFailed, aE as cancelPromoCommission, aF as revokeSubscriptionForOrder, aG as refundTopup, aH as sendMinimalCheckoutRefundNotification } from '../../../nitro/nitro.mjs';
+import { d as defineEventHandler, f8 as setHeader, c as getRequestLocale, f as getRouterParam, fw as readRawBody, r as readBody, g as getQuery, eX as getRequestHeaders, ds as logger, e as createError, b as db, I as orders, a0 as paymentMethods, eR as resolvePaymentPluginConfig, fx as executeCallbackScript, e7 as setResponseStatus, fy as markOrderPaid, O as ORDER_PAY_STATUS, aJ as ORDER_STATUS, eH as getAffectedRows, fz as markTopupPaymentFailed, aE as cancelPromoCommission, aF as revokeSubscriptionForOrder, aG as refundTopup, aH as sendMinimalCheckoutRefundNotification } from '../../../nitro/nitro.mjs';
 import { eq, and, inArray, ne } from 'drizzle-orm';
 import fs from 'fs';
 import path from 'path';
@@ -96,11 +96,20 @@ const postHandler = defineEventHandler(async (event) => {
       throw new Error(`Order ${urlOrderId} not found`);
     }
     const order = existingOrders[0];
+    let orderMetaData = {};
+    try {
+      const parsedMetaData = typeof order.metaData === "string" ? JSON.parse(order.metaData) : order.metaData;
+      if (parsedMetaData && typeof parsedMetaData === "object" && !Array.isArray(parsedMetaData)) {
+        orderMetaData = parsedMetaData;
+      }
+    } catch {
+    }
     const verifiedPayload = { ...payload, order: {
       id: order.id,
       amount: order.amount,
       currency: order.currency,
-      tradeNo: order.tradeNo
+      tradeNo: order.tradeNo,
+      metaData: orderMetaData
     } };
     const payMethod = order.payMethod;
     if (!payMethod) {
@@ -131,25 +140,7 @@ const postHandler = defineEventHandler(async (event) => {
     if (!callbackScript || callbackScript.trim() === "") {
       throw new Error(`Payment method ${realMethodCode} does not have a webhook callback script configured`);
     }
-    let configJson = {};
-    try {
-      configJson = method.configJson ? JSON.parse(method.configJson) : {};
-    } catch (e) {
-      console.warn("Failed to parse configJson for", realMethodCode);
-    }
-    if (!Object.keys(configJson).length) {
-      const localConfigPath = path.join(process.cwd(), "payments", realMethodCode, "config.json");
-      const localConfigLowerPath = path.join(process.cwd(), "payments", realMethodCode.toLowerCase(), "config.json");
-      try {
-        if (fs.existsSync(localConfigPath)) {
-          configJson = JSON.parse(fs.readFileSync(localConfigPath, "utf-8"));
-        } else if (fs.existsSync(localConfigLowerPath)) {
-          configJson = JSON.parse(fs.readFileSync(localConfigLowerPath, "utf-8"));
-        }
-      } catch (e) {
-        console.warn("Failed to read local config.json for", realMethodCode);
-      }
-    }
+    const configJson = resolvePaymentPluginConfig(realMethodCode, method.configJson);
     const result = await executeCallbackScript(callbackScript, verifiedPayload, configJson);
     await logger.info(`Webhook processed for ${realMethodCode}`, {
       source: "webhook",

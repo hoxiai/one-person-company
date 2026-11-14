@@ -1,4 +1,4 @@
-import { d as defineEventHandler, g as getQuery, f8 as queryPublishedThemes } from '../../nitro/nitro.mjs';
+import { d as defineEventHandler, g as getQuery, fg as queryPublishedThemes } from '../../nitro/nitro.mjs';
 import 'node:crypto';
 import 'drizzle-orm';
 import 'zod';

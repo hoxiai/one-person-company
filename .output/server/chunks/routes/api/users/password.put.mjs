@@ -1,4 +1,4 @@
-import { d as defineEventHandler, c as getRequestLocale, dF as requireUserSession, e as createError, r as readBody, c_ as PASSWORD_MIN_LENGTH, b as db, v as users, an as verifyPassword, l as hashPassword } from '../../../nitro/nitro.mjs';
+import { d as defineEventHandler, c as getRequestLocale, dL as requireUserSession, e as createError, r as readBody, d2 as PASSWORD_MIN_LENGTH, b as db, v as users, an as verifyPassword, l as hashPassword } from '../../../nitro/nitro.mjs';
 import { eq } from 'drizzle-orm';
 import 'node:crypto';
 import 'zod';

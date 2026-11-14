@@ -1,4 +1,4 @@
-import { d as defineEventHandler, c as getRequestLocale, aj as resolveClientIp, ak as checkIpRateLimit, e as createError, r as readBody, c$ as validateEmail, b as db, v as users, l as hashPassword, aD as emitEvent, dj as getIntegrationToken, w as settings } from '../../../nitro/nitro.mjs';
+import { d as defineEventHandler, c as getRequestLocale, aj as resolveClientIp, ak as checkIpRateLimit, e as createError, r as readBody, d3 as validateEmail, b as db, v as users, l as hashPassword, aD as emitEvent, dq as getIntegrationToken, w as settings } from '../../../nitro/nitro.mjs';
 import { timingSafeEqual } from 'node:crypto';
 import { eq, like } from 'drizzle-orm';
 import 'zod';

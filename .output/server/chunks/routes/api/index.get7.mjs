@@ -1,4 +1,4 @@
-import { d as defineEventHandler, g as getQuery, bq as normalizeAppKey, br as normalizeReleaseChannel, eZ as normalizeReleaseLang, bB as getBundledReleasesForApp, e_ as listReleases, f3 as pickLatestReleaseForTarget, f1 as checkReleaseUpgrade, by as listReleaseApps } from '../../nitro/nitro.mjs';
+import { d as defineEventHandler, g as getQuery, bq as normalizeAppKey, br as normalizeReleaseChannel, f5 as normalizeReleaseLang, bB as getBundledReleasesForApp, f6 as listReleases, fb as pickLatestReleaseForTarget, f9 as checkReleaseUpgrade, by as listReleaseApps } from '../../nitro/nitro.mjs';
 import 'node:crypto';
 import 'drizzle-orm';
 import 'zod';

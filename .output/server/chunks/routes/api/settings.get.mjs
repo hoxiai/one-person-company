@@ -1,4 +1,4 @@
-import { d as defineEventHandler, f2 as readPublicSettingRows } from '../../nitro/nitro.mjs';
+import { d as defineEventHandler, f6 as readPublicSettingRows } from '../../nitro/nitro.mjs';
 import 'node:crypto';
 import 'drizzle-orm';
 import 'zod';

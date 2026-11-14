@@ -1,5 +1,5 @@
-import { dk as eventHandler, g as getQuery, e as createError, A as getRequestURL, dr as sendRedirect, ds as withQuery, dl as logger, dm as sendLocalizedRedirect, dt as handleOAuthLogin, du as useRuntimeConfig } from '../../../nitro/nitro.mjs';
-import 'node:crypto';
+import { dk as eventHandler, g as getQuery, e as createError, A as getRequestURL, dq as beginAppOAuth, dr as setCookie, ds as sendRedirect, dt as withQuery, dn as getCookie, dp as deleteCookie, du as validateAppOAuth, dm as sendLocalizedRedirect, dv as appAuthorizationFailurePath, dl as logger, dw as handleOAuthLogin, dx as useRuntimeConfig } from '../../../nitro/nitro.mjs';
+import { randomBytes } from 'node:crypto';
 import 'drizzle-orm';
 import 'zod';
 import 'crypto';
@@ -36,6 +36,7 @@ import 'node:child_process';
 const AUTHORIZATION_URL = "https://accounts.google.com/o/oauth2/v2/auth";
 const TOKEN_URL = "https://oauth2.googleapis.com/token";
 const USER_URL = "https://www.googleapis.com/oauth2/v3/userinfo";
+const STATE_COOKIE = "nuxt-auth-google-state";
 function resolveGoogleCredentials(event) {
   var _a, _b, _c, _d, _e;
   const override = (_a = event.context) == null ? void 0 : _a.oauthCredentials;
@@ -58,15 +59,30 @@ const google_get = eventHandler(async (event) => {
     });
   }
   const redirectURL = `${getRequestURL(event).protocol}//${getRequestURL(event).host}${getRequestURL(event).pathname}`;
-  if (!query.code) {
+  if (!query.code && !query.error) {
+    const state = query.app_authorization ? await beginAppOAuth(event, String(query.app_authorization)) : randomBytes(32).toString("hex");
+    setCookie(event, STATE_COOKIE, state, {
+      httpOnly: true,
+      secure: true,
+      sameSite: "lax",
+      maxAge: 600,
+      path: "/"
+    });
     return sendRedirect(event, withQuery(AUTHORIZATION_URL, {
       response_type: "code",
       client_id: clientId,
       redirect_uri: redirectURL,
       scope: "email profile",
-      state: query.state || ""
+      state
     }));
   }
+  const expectedState = getCookie(event, STATE_COOKIE);
+  deleteCookie(event, STATE_COOKIE, { path: "/" });
+  if (!expectedState || expectedState !== query.state) {
+    throw createError({ statusCode: 401, message: "Google login failed: Invalid state" });
+  }
+  await validateAppOAuth(event, String(query.state || ""));
+  if (query.error) return sendLocalizedRedirect(event, await appAuthorizationFailurePath(event, "google_auth_failed"));
   const tokens = await $fetch(TOKEN_URL, {
     method: "POST",
     headers: { "Content-Type": "application/x-www-form-urlencoded" },
@@ -81,7 +97,7 @@ const google_get = eventHandler(async (event) => {
   if (tokens == null ? void 0 : tokens.error) {
     const error = createError({ statusCode: 401, message: `Google login failed: ${tokens.error_description || tokens.error}`, data: tokens });
     await logger.error(`Google OAuth error: ${error.message}`, { source: "google_oauth", details: { error } });
-    return sendLocalizedRedirect(event, "/auth/login?error=google_auth_failed");
+    return sendLocalizedRedirect(event, await appAuthorizationFailurePath(event, "google_auth_failed"));
   }
   const user = await $fetch(USER_URL, {
     headers: { Authorization: `Bearer ${tokens.access_token}` }

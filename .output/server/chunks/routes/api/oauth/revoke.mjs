@@ -1,4 +1,4 @@
-import { d as defineEventHandler, dX as applyMcpPublicCors, e as createError, r as readBody, ef as isMcpAccessTokenValue, eg as hashMcpAccessToken, b as db, cY as userTokens, ed as hashMcpOAuthSecret } from '../../../nitro/nitro.mjs';
+import { d as defineEventHandler, d$ as applyMcpPublicCors, e as createError, r as readBody, ej as isMcpAccessTokenValue, ek as hashMcpAccessToken, b as db, cY as userTokens, eh as hashMcpOAuthSecret } from '../../../nitro/nitro.mjs';
 import { eq } from 'drizzle-orm';
 import 'node:crypto';
 import 'zod';

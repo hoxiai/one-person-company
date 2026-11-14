@@ -1,4 +1,4 @@
-import { d as defineEventHandler, c as getRequestLocale, aj as resolveClientIp, ak as checkIpRateLimit, e as createError, r as readBody, dv as getUserLoginSecurityState, am as consumeCaptchaTicket, b as db, v as users, an as verifyPassword, dw as clearUserLoginFailure, dx as issueWebSession, d9 as trackVisitorEvent, dy as ensureVisitorId, dz as recordUserLoginFailure } from '../../../nitro/nitro.mjs';
+import { d as defineEventHandler, c as getRequestLocale, dy as validateLoginAuthorization, aj as resolveClientIp, ak as checkIpRateLimit, e as createError, r as readBody, dz as getUserLoginSecurityState, am as consumeCaptchaTicket, b as db, v as users, an as verifyPassword, dA as clearUserLoginFailure, dB as issueLoginSession, d9 as trackVisitorEvent, dC as ensureVisitorId, dD as recordUserLoginFailure } from '../../../nitro/nitro.mjs';
 import { eq } from 'drizzle-orm';
 import 'node:crypto';
 import 'zod';
@@ -35,6 +35,7 @@ import 'node:child_process';
 
 const login_post = defineEventHandler(async (event) => {
   const locale = getRequestLocale(event);
+  await validateLoginAuthorization(event);
   const ip = resolveClientIp(event);
   const messages = locale === "zh" ? {
     emailPasswordRequired: "\u90AE\u7BB1\u548C\u5BC6\u7801\u4E0D\u80FD\u4E3A\u7A7A",
@@ -123,7 +124,7 @@ const login_post = defineEventHandler(async (event) => {
     handleAuthFailure(messages.invalidCredentials);
   }
   clearUserLoginFailure(ip, email);
-  await issueWebSession(event, user, "password");
+  const loginResult = await issueLoginSession(event, user, "password");
   await trackVisitorEvent(event, {
     visitorId: ensureVisitorId(event),
     userId: user.id,
@@ -132,6 +133,7 @@ const login_post = defineEventHandler(async (event) => {
   });
   return {
     success: true,
+    ...loginResult,
     user: {
       id: user.id,
       email: user.email,

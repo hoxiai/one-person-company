@@ -1,4 +1,4 @@
-import { d as defineEventHandler, aL as requireTrustedRequestOrigin, c as getRequestLocale, aj as resolveClientIp, ak as checkIpRateLimit, e as createError, r as readBody, dD as mergePromoTracking, dE as capturePromoTracking, dF as readPromoTracking, c_ as PASSWORD_MIN_LENGTH, c$ as validateEmail, b as db, v as users, l as hashPassword, aM as ensurePromoMember, dG as bindInviteRelation, dH as requestPromoAgentJoin, aD as emitEvent, dI as promoAgentRelations, T as promoInviteRelations, b9 as promoMembers, dx as issueWebSession, d9 as trackVisitorEvent, dy as ensureVisitorId, cY as userTokens, d2 as EMAIL_VERIFY_TOKEN_NAME, ag as getLocalizedSettingValue, B as sendEmail } from '../../../nitro/nitro.mjs';
+import { d as defineEventHandler, dy as validateLoginAuthorization, aL as requireTrustedRequestOrigin, c as getRequestLocale, aj as resolveClientIp, ak as checkIpRateLimit, e as createError, r as readBody, dH as mergePromoTracking, dI as capturePromoTracking, dJ as readPromoTracking, c_ as PASSWORD_MIN_LENGTH, c$ as validateEmail, b as db, v as users, l as hashPassword, aM as ensurePromoMember, dK as bindInviteRelation, dL as requestPromoAgentJoin, aD as emitEvent, dM as promoAgentRelations, T as promoInviteRelations, b9 as promoMembers, dB as issueLoginSession, d9 as trackVisitorEvent, dC as ensureVisitorId, cY as userTokens, d2 as EMAIL_VERIFY_TOKEN_NAME, ag as getLocalizedSettingValue, B as sendEmail } from '../../../nitro/nitro.mjs';
 import { eq } from 'drizzle-orm';
 import 'node:crypto';
 import 'zod';
@@ -34,6 +34,7 @@ import '@adonisjs/hash/drivers/scrypt';
 import 'node:child_process';
 
 const register_post = defineEventHandler(async (event) => {
+  await validateLoginAuthorization(event);
   const siteUrl = requireTrustedRequestOrigin(event);
   const locale = getRequestLocale(event);
   const messages = locale === "zh" ? {
@@ -137,7 +138,7 @@ const register_post = defineEventHandler(async (event) => {
       statusMessage: err.statusMessage || err.message || "\u6CE8\u518C\u524D\u7F6E\u89C4\u5219\u6821\u9A8C\u5931\u8D25\uFF0C\u64CD\u4F5C\u5DF2\u7EC8\u6B62"
     });
   }
-  await issueWebSession(event, user, "register");
+  const loginResult = await issueLoginSession(event, user, "register");
   await trackVisitorEvent(event, {
     visitorId: ensureVisitorId(event),
     userId: user.id,
@@ -170,6 +171,7 @@ const register_post = defineEventHandler(async (event) => {
   }
   return {
     success: true,
+    ...loginResult,
     user: {
       id: user.id,
       email: user.email,

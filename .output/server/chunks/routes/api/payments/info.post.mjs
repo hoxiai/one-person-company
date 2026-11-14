@@ -1,4 +1,4 @@
-import { d as defineEventHandler, c as getRequestLocale, r as readBody, eA as resolveOrderAccess, aN as getSiteLocaleConfig, aO as resolveRequestLocale, eF as lockLegacyPendingOrderCurrency, b as db, a0 as paymentMethods, eG as isPaymentMethodAvailableForLocale, eH as resolvePaymentPluginConfig, eI as isPaymentMethodCurrencySupported, eJ as sortPaymentMethodsByGeo } from '../../../nitro/nitro.mjs';
+import { d as defineEventHandler, c as getRequestLocale, r as readBody, eE as resolveOrderAccess, aN as getSiteLocaleConfig, aO as resolveRequestLocale, eJ as lockLegacyPendingOrderCurrency, b as db, a0 as paymentMethods, eK as isPaymentMethodAvailableForLocale, eL as resolvePaymentPluginConfig, eM as isPaymentMethodCurrencySupported, eN as sortPaymentMethodsByGeo } from '../../../nitro/nitro.mjs';
 import { eq } from 'drizzle-orm';
 import fs from 'fs';
 import path from 'path';
@@ -99,7 +99,7 @@ const info_post = defineEventHandler(async (event) => {
       content = content.replace(/\{\$currency\}/g, String(order.currency || "USD"));
       content = content.replace(/\{\$productId\}/g, order.productId.toString());
       for (const [key, value] of Object.entries(configObj)) {
-        if (/(secret|private|password|token|mchkey|apikey|signkey|cert|pem)/i.test(key)) continue;
+        if (/(secret|private|password|token|mch[_-]?key|api[_-]?key|sign[_-]?key|cert|pem)/i.test(key)) continue;
         const regex = new RegExp(`\\{\\$config\\.${key}\\}`, "g");
         content = content.replace(regex, String(value));
       }
@@ -156,7 +156,7 @@ const info_post = defineEventHandler(async (event) => {
     return {
       code: 0,
       data: {
-        methods: geoSortedMethods,
+        methods: geoSortedMethods.map(({ code, name, iconUrl, content }) => ({ code, name, iconUrl, content })),
         visitorCountry,
         amount: order.amount,
         currency: String(order.currency || "USD"),

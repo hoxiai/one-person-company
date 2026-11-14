@@ -1,4 +1,4 @@
-import { d as defineEventHandler, dX as applyMcpPublicCors, dY as resolveMcpServerOrigin, b8 as getUserSession, dZ as setResponseStatus, d_ as setResponseHeader, dP as getRequestHeader, e as createError, r as readBody, d$ as getActiveThemeName, e0 as dispatchMcpJsonRpcRequest, e1 as buildMcpWwwAuthenticateHeader } from '../../nitro/nitro.mjs';
+import { d as defineEventHandler, d$ as applyMcpPublicCors, e0 as resolveMcpServerOrigin, b8 as getUserSession, e1 as setResponseStatus, e2 as setResponseHeader, dT as getRequestHeader, e as createError, r as readBody, e3 as getActiveThemeName, e4 as dispatchMcpJsonRpcRequest, e5 as buildMcpWwwAuthenticateHeader } from '../../nitro/nitro.mjs';
 import 'node:crypto';
 import 'drizzle-orm';
 import 'zod';

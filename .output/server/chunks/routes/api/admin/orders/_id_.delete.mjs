@@ -1,11 +1,10 @@
-import { d as defineEventHandler, c as getRequestLocale, f as getRouterParam, e as createError, g as getQuery, b as db, I as orders, O as ORDER_PAY_STATUS, s as setAuditMeta } from '../../../../nitro/nitro.mjs';
+import { d as defineEventHandler, c as getRequestLocale, f as getRouterParam, e as createError, g as getQuery, b as db, M as orders, ax as getOrderRefund, S as ORDER_PAY_STATUS, s as setAuditMeta } from '../../../../nitro/nitro.mjs';
 import { eq } from 'drizzle-orm';
 import 'node:crypto';
+import 'node:http2';
+import 'node:fs';
 import 'zod';
 import 'crypto';
-import 'fs';
-import 'path';
-import 'node:fs';
 import 'node:path';
 import '@nuxthub/blob';
 import 'node:http';
@@ -25,12 +24,15 @@ import 'drizzle-orm/mysql-core';
 import 'maxmind';
 import 'node:os';
 import 'node:fs/promises';
+import 'fs';
+import 'path';
 import 'node:url';
 import '@iconify/utils';
 import 'consola';
 import 'jose';
 import '@adonisjs/hash';
 import '@adonisjs/hash/drivers/scrypt';
+import 'node:zlib';
 import 'node:child_process';
 
 const _id__delete = defineEventHandler(async (event) => {
@@ -53,6 +55,7 @@ const _id__delete = defineEventHandler(async (event) => {
   }
   const order = existing[0];
   if (isHard) {
+    if (await getOrderRefund(id)) throw createError({ statusCode: 409, message: locale === "zh" ? "\u9000\u6B3E\u53F0\u8D26\u5173\u8054\u8BA2\u5355\u4E0D\u53EF\u5F7B\u5E95\u5220\u9664" : "Orders with refund records cannot be permanently deleted" });
     if (order.payStatus === ORDER_PAY_STATUS.PAID) {
       throw createError({
         statusCode: 400,

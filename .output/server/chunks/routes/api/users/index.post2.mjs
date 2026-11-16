@@ -1,10 +1,9 @@
-import { d as defineEventHandler, c as getRequestLocale, dL as requireUserSession, e as createError, r as readBody, b as db, d0 as userTokens, d1 as apiTokenScope, eh as normalizeMcpScopes, ek as MCP_DEFAULT_SCOPES, ev as generateMcpAccessToken, fr as API_TOKEN_PREFIX, fs as isSingleUseTokenName } from '../../../nitro/nitro.mjs';
+import { d as defineEventHandler, c as getRequestLocale, d_ as requireUserSession, e as createError, r as readBody, b as db, df as userTokens, dg as apiTokenScope, ey as normalizeMcpScopes, eB as MCP_DEFAULT_SCOPES, eM as generateMcpAccessToken, fI as API_TOKEN_PREFIX, fJ as isSingleUseTokenName } from '../../../nitro/nitro.mjs';
 import crypto from 'crypto';
 import { z } from 'zod';
 import { count, and, eq } from 'drizzle-orm';
 import 'node:crypto';
-import 'fs';
-import 'path';
+import 'node:http2';
 import 'node:fs';
 import 'node:path';
 import '@nuxthub/blob';
@@ -25,12 +24,15 @@ import 'drizzle-orm/mysql-core';
 import 'maxmind';
 import 'node:os';
 import 'node:fs/promises';
+import 'fs';
+import 'path';
 import 'node:url';
 import '@iconify/utils';
 import 'consola';
 import 'jose';
 import '@adonisjs/hash';
 import '@adonisjs/hash/drivers/scrypt';
+import 'node:zlib';
 import 'node:child_process';
 
 const bodySchema = z.object({

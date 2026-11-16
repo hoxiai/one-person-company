@@ -1,11 +1,10 @@
-import { d as defineEventHandler, b8 as getUserSession, e as createError, g as getQuery, u as tickets, b as db } from '../../../nitro/nitro.mjs';
+import { d as defineEventHandler, aP as getUserSession, e as createError, g as getQuery, v as tickets, b as db, A as ticketUnreadCounts, B as serializeTicketReadState } from '../../../nitro/nitro.mjs';
 import { or, eq, and, count, desc } from 'drizzle-orm';
 import 'node:crypto';
+import 'node:http2';
+import 'node:fs';
 import 'zod';
 import 'crypto';
-import 'fs';
-import 'path';
-import 'node:fs';
 import 'node:path';
 import '@nuxthub/blob';
 import 'node:http';
@@ -25,12 +24,15 @@ import 'drizzle-orm/mysql-core';
 import 'maxmind';
 import 'node:os';
 import 'node:fs/promises';
+import 'fs';
+import 'path';
 import 'node:url';
 import '@iconify/utils';
 import 'consola';
 import 'jose';
 import '@adonisjs/hash';
 import '@adonisjs/hash/drivers/scrypt';
+import 'node:zlib';
 import 'node:child_process';
 
 const index_get = defineEventHandler(async (event) => {
@@ -62,7 +64,12 @@ const index_get = defineEventHandler(async (event) => {
     db.select().from(tickets).where(whereClause).orderBy(desc(tickets.lastRepliedAt)).limit(pageSize).offset(offset)
   ]);
   const total = Number(((_a = totalResult[0]) == null ? void 0 : _a.total) || 0);
-  const safeList = list.map(({ accessToken: _omit, ...item }) => item);
+  const unreadCounts = await ticketUnreadCounts(list.map((item) => item.id), "user");
+  const safeList = list.map(({ accessToken: _omit, ...item }) => ({
+    ...item,
+    readState: serializeTicketReadState(item),
+    unreadCount: unreadCounts.get(item.id) || 0
+  }));
   return {
     code: 200,
     data: safeList,

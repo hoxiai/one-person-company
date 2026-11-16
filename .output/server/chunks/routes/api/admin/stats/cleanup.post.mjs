@@ -1,11 +1,10 @@
-import { d as defineEventHandler, r as readBody, a4 as isVisitorRollupEnabled, a5 as resolveRollupSiteHost, a3 as getRequestHost, cs as resolveSafeEventCleanupCutoff, L as getConfiguredTimezone, b as db, ct as visitorEvents, cu as markRawEventsCleanedBefore } from '../../../../nitro/nitro.mjs';
+import { d as defineEventHandler, r as readBody, a8 as isVisitorRollupEnabled, a9 as resolveRollupSiteHost, a7 as getRequestHost, cB as resolveSafeEventCleanupCutoff, P as getConfiguredTimezone, b as db, cC as visitorEvents, cD as markRawEventsCleanedBefore } from '../../../../nitro/nitro.mjs';
 import { lt } from 'drizzle-orm';
 import 'node:crypto';
+import 'node:http2';
+import 'node:fs';
 import 'zod';
 import 'crypto';
-import 'fs';
-import 'path';
-import 'node:fs';
 import 'node:path';
 import '@nuxthub/blob';
 import 'node:http';
@@ -25,12 +24,15 @@ import 'drizzle-orm/mysql-core';
 import 'maxmind';
 import 'node:os';
 import 'node:fs/promises';
+import 'fs';
+import 'path';
 import 'node:url';
 import '@iconify/utils';
 import 'consola';
 import 'jose';
 import '@adonisjs/hash';
 import '@adonisjs/hash/drivers/scrypt';
+import 'node:zlib';
 import 'node:child_process';
 
 const cleanup_post = defineEventHandler(async (event) => {

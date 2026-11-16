@@ -1,11 +1,10 @@
-import { d as defineEventHandler, g as getQuery, bq as normalizeAppKey, br as normalizeReleaseChannel, f5 as normalizeReleaseLang, bB as getBundledReleasesForApp, f6 as listReleases, by as listReleaseApps, c0 as resolveServerSeoContext, A as getRequestURL, f7 as buildSparkleAppcastXml, f8 as setHeader } from '../../../nitro/nitro.mjs';
+import { d as defineEventHandler, g as getQuery, bz as normalizeAppKey, bA as normalizeReleaseChannel, fl as normalizeReleaseLang, bK as getBundledReleasesForApp, fm as listReleases, bH as listReleaseApps, c9 as resolveServerSeoContext, E as getRequestURL, fn as buildSparkleAppcastXml, aO as setHeader } from '../../../nitro/nitro.mjs';
 import 'node:crypto';
 import 'drizzle-orm';
+import 'node:http2';
+import 'node:fs';
 import 'zod';
 import 'crypto';
-import 'fs';
-import 'path';
-import 'node:fs';
 import 'node:path';
 import '@nuxthub/blob';
 import 'node:http';
@@ -25,12 +24,15 @@ import 'drizzle-orm/mysql-core';
 import 'maxmind';
 import 'node:os';
 import 'node:fs/promises';
+import 'fs';
+import 'path';
 import 'node:url';
 import '@iconify/utils';
 import 'consola';
 import 'jose';
 import '@adonisjs/hash';
 import '@adonisjs/hash/drivers/scrypt';
+import 'node:zlib';
 import 'node:child_process';
 
 const appcastHandler = defineEventHandler(async (event) => {

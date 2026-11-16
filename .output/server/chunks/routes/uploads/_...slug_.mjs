@@ -1,13 +1,12 @@
 import fs from 'node:fs';
 import path from 'node:path';
-import { d as defineEventHandler, e as createError, f8 as setHeader, cP as getHeader, e7 as setResponseStatus, fL as sendStream } from '../../nitro/nitro.mjs';
+import { d as defineEventHandler, e as createError, aO as setHeader, cY as getHeader, eo as setResponseStatus, g0 as sendStream } from '../../nitro/nitro.mjs';
 import { blob } from '@nuxthub/blob';
 import 'node:crypto';
 import 'drizzle-orm';
+import 'node:http2';
 import 'zod';
 import 'crypto';
-import 'fs';
-import 'path';
 import 'node:http';
 import 'node:https';
 import 'node:events';
@@ -25,12 +24,15 @@ import 'drizzle-orm/mysql-core';
 import 'maxmind';
 import 'node:os';
 import 'node:fs/promises';
+import 'fs';
+import 'path';
 import 'node:url';
 import '@iconify/utils';
 import 'consola';
 import 'jose';
 import '@adonisjs/hash';
 import '@adonisjs/hash/drivers/scrypt';
+import 'node:zlib';
 import 'node:child_process';
 
 const CONTENT_TYPES = {

@@ -1,11 +1,10 @@
-import { d as defineEventHandler, f as getRouterParam, e as createError, b as db, u as tickets, r as readBody, y as normalizeTicketAttachments, x as ticketMessages, z as notifications, v as users, w as settings, A as getRequestURL, B as sendEmail } from '../../../../../nitro/nitro.mjs';
+import { d as defineEventHandler, f as getRouterParam, e as createError, b as db, v as tickets, r as readBody, z as normalizeTicketAttachments, y as ticketMessages, D as notifications, w as users, x as settings, E as getRequestURL, F as sendEmail } from '../../../../../nitro/nitro.mjs';
 import { eq } from 'drizzle-orm';
 import 'node:crypto';
+import 'node:http2';
+import 'node:fs';
 import 'zod';
 import 'crypto';
-import 'fs';
-import 'path';
-import 'node:fs';
 import 'node:path';
 import '@nuxthub/blob';
 import 'node:http';
@@ -25,12 +24,15 @@ import 'drizzle-orm/mysql-core';
 import 'maxmind';
 import 'node:os';
 import 'node:fs/promises';
+import 'fs';
+import 'path';
 import 'node:url';
 import '@iconify/utils';
 import 'consola';
 import 'jose';
 import '@adonisjs/hash';
 import '@adonisjs/hash/drivers/scrypt';
+import 'node:zlib';
 import 'node:child_process';
 
 const reply_post = defineEventHandler(async (event) => {
@@ -111,7 +113,7 @@ const reply_post = defineEventHandler(async (event) => {
       const siteUrl = `${reqUrl.protocol}//${reqUrl.host}`;
       const contextObj = ticket.context && typeof ticket.context === "object" ? ticket.context : {};
       const locale = typeof contextObj.locale === "string" && contextObj.locale.startsWith("en") ? "en" : "zh";
-      const ticketUrl = ticket.accessToken ? `${siteUrl}/?inquiry=${encodeURIComponent(ticket.ticketNo)}&token=${encodeURIComponent(ticket.accessToken)}` : `${siteUrl}/user/tickets`;
+      const ticketUrl = ticket.accessToken ? `${siteUrl}/?inquiry=${encodeURIComponent(ticket.ticketNo)}&token=${encodeURIComponent(ticket.accessToken)}` : `${siteUrl}/user/tickets?ticket=${ticket.id}`;
       void sendEmail({
         to: recipientEmail,
         templateCode: "ticket_reply",

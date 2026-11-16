@@ -1,11 +1,10 @@
-import { d as defineEventHandler, dE as validateLoginAuthorization, aL as requireTrustedRequestOrigin, c as getRequestLocale, aj as resolveClientIp, ak as checkIpRateLimit, e as createError, r as readBody, dN as mergePromoTracking, dO as capturePromoTracking, dP as readPromoTracking, d2 as PASSWORD_MIN_LENGTH, d3 as validateEmail, b as db, v as users, l as hashPassword, aM as ensurePromoMember, dQ as bindInviteRelation, dR as requestPromoAgentJoin, aD as emitEvent, dS as promoAgentRelations, T as promoInviteRelations, b9 as promoMembers, dH as issueLoginSession, df as trackVisitorEvent, dI as ensureVisitorId, d0 as userTokens, d6 as EMAIL_VERIFY_TOKEN_NAME, ag as getLocalizedSettingValue, B as sendEmail } from '../../../nitro/nitro.mjs';
+import { d as defineEventHandler, dT as validateLoginAuthorization, aU as requireTrustedRequestOrigin, c as getRequestLocale, an as resolveClientIp, ao as checkIpRateLimit, e as createError, r as readBody, e0 as mergePromoTracking, e1 as capturePromoTracking, e2 as readPromoTracking, dh as PASSWORD_MIN_LENGTH, di as validateEmail, b as db, w as users, l as hashPassword, aV as ensurePromoMember, e3 as bindInviteRelation, e4 as requestPromoAgentJoin, aK as emitEvent, e5 as promoAgentRelations, X as promoInviteRelations, bi as promoMembers, dW as issueLoginSession, dv as trackVisitorEvent, dX as ensureVisitorId, df as userTokens, dl as EMAIL_VERIFY_TOKEN_NAME, ak as getLocalizedSettingValue, F as sendEmail } from '../../../nitro/nitro.mjs';
 import { eq } from 'drizzle-orm';
 import 'node:crypto';
+import 'node:http2';
+import 'node:fs';
 import 'zod';
 import 'crypto';
-import 'fs';
-import 'path';
-import 'node:fs';
 import 'node:path';
 import '@nuxthub/blob';
 import 'node:http';
@@ -25,12 +24,15 @@ import 'drizzle-orm/mysql-core';
 import 'maxmind';
 import 'node:os';
 import 'node:fs/promises';
+import 'fs';
+import 'path';
 import 'node:url';
 import '@iconify/utils';
 import 'consola';
 import 'jose';
 import '@adonisjs/hash';
 import '@adonisjs/hash/drivers/scrypt';
+import 'node:zlib';
 import 'node:child_process';
 
 const register_post = defineEventHandler(async (event) => {

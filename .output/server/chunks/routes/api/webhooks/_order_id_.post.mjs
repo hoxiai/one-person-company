@@ -1,11 +1,10 @@
-import { d as defineEventHandler, f8 as setHeader, c as getRequestLocale, f as getRouterParam, fw as readRawBody, r as readBody, g as getQuery, eX as getRequestHeaders, ds as logger, e as createError, b as db, I as orders, a0 as paymentMethods, eR as resolvePaymentPluginConfig, fx as executeCallbackScript, e7 as setResponseStatus, fy as markOrderPaid, O as ORDER_PAY_STATUS, aJ as ORDER_STATUS, eH as getAffectedRows, fz as markTopupPaymentFailed, aE as cancelPromoCommission, aF as revokeSubscriptionForOrder, aG as refundTopup, aH as sendMinimalCheckoutRefundNotification } from '../../../nitro/nitro.mjs';
-import { eq, and, inArray, ne } from 'drizzle-orm';
-import fs from 'fs';
-import path from 'path';
+import { d as defineEventHandler, aO as setHeader, c as getRequestLocale, f as getRouterParam, fN as readRawBody, r as readBody, g as getQuery, fc as getRequestHeaders, dH as logger, e as createError, b as db, M as orders, a4 as paymentMethods, fa as getPaymentAdapter, eo as setResponseStatus, fO as markOrderPaid, S as ORDER_PAY_STATUS, aM as ORDER_STATUS, aB as getAffectedRows, fP as markTopupPaymentFailed, fQ as recordGatewayFullRefund, aL as cancelPromoCommission } from '../../../nitro/nitro.mjs';
+import { eq, and, inArray } from 'drizzle-orm';
 import 'node:crypto';
+import 'node:http2';
+import 'node:fs';
 import 'zod';
 import 'crypto';
-import 'node:fs';
 import 'node:path';
 import '@nuxthub/blob';
 import 'node:http';
@@ -25,12 +24,15 @@ import 'drizzle-orm/mysql-core';
 import 'maxmind';
 import 'node:os';
 import 'node:fs/promises';
+import 'fs';
+import 'path';
 import 'node:url';
 import '@iconify/utils';
 import 'consola';
 import 'jose';
 import '@adonisjs/hash';
 import '@adonisjs/hash/drivers/scrypt';
+import 'node:zlib';
 import 'node:child_process';
 
 const SENSITIVE_HEADER_KEYS = /* @__PURE__ */ new Set([
@@ -121,27 +123,11 @@ const postHandler = defineEventHandler(async (event) => {
       throw new Error(`Payment method ${payMethod} is not found or inactive`);
     }
     const realMethodCode = method.code;
-    let callbackScript = method.callback || "";
-    if (!callbackScript.trim()) {
-      const localScriptPath = path.join(process.cwd(), "payments", realMethodCode, "callback.js");
-      const lowerCaseLocalScriptPath = path.join(process.cwd(), "payments", realMethodCode.toLowerCase(), "callback.js");
-      try {
-        if (fs.existsSync(localScriptPath)) {
-          console.log(`[Webhook] Using local script: ${localScriptPath}`);
-          callbackScript = fs.readFileSync(localScriptPath, "utf-8");
-        } else if (fs.existsSync(lowerCaseLocalScriptPath)) {
-          console.log(`[Webhook] Using local script (lowercase fallback): ${lowerCaseLocalScriptPath}`);
-          callbackScript = fs.readFileSync(lowerCaseLocalScriptPath, "utf-8");
-        }
-      } catch (err) {
-        console.warn(`Failed to read local callback.js for ${realMethodCode}`, err);
-      }
-    }
-    if (!callbackScript || callbackScript.trim() === "") {
+    const adapter = getPaymentAdapter(method);
+    if (!adapter.supports.callback) {
       throw new Error(`Payment method ${realMethodCode} does not have a webhook callback script configured`);
     }
-    const configJson = resolvePaymentPluginConfig(realMethodCode, method.configJson);
-    const result = await executeCallbackScript(callbackScript, verifiedPayload, configJson);
+    const result = await adapter.callback(verifiedPayload);
     await logger.info(`Webhook processed for ${realMethodCode}`, {
       source: "webhook",
       details: { urlOrderId, payload: logPayload, result }
@@ -198,12 +184,15 @@ const postHandler = defineEventHandler(async (event) => {
           if (getAffectedRows(failedUpdate) > 0) {
             await markTopupPaymentFailed(order2.id, `\u652F\u4ED8\u7F51\u5173 ${realMethodCode} \u8FD4\u56DE\u5931\u8D25`);
           }
-        } else if (result.status === "refunded" || result.status === "cancelled" && order2.payStatus !== ORDER_PAY_STATUS.REFUNDED) {
+        } else if (result.status === "refunded") {
+          await recordGatewayFullRefund(result.orderId, result.amount, result.tradeNo);
+        } else if (result.status === "cancelled" && order2.payStatus !== ORDER_PAY_STATUS.REFUNDED) {
+          if (order2.payStatus === ORDER_PAY_STATUS.PAID) throw new Error("A paid order requires verified full-refund evidence, not a cancellation");
           await logger.warn(`Order ${order2.id} ${result.status} via ${realMethodCode}`, {
             source: "webhook",
             details: { tradeNo: result.tradeNo, amount: result.amount }
           });
-          const targetPayStatus = result.status === "refunded" ? ORDER_PAY_STATUS.REFUNDED : ORDER_PAY_STATUS.CANCELLED;
+          const targetPayStatus = ORDER_PAY_STATUS.CANCELLED;
           const updateData = {
             payStatus: targetPayStatus,
             status: ORDER_STATUS.FAILED,
@@ -212,24 +201,11 @@ const postHandler = defineEventHandler(async (event) => {
           if (result.tradeNo) updateData.tradeNo = result.tradeNo;
           const closedUpdate = await db.update(orders).set(updateData).where(and(
             eq(orders.id, result.orderId),
-            result.status === "cancelled" ? ne(orders.payStatus, ORDER_PAY_STATUS.REFUNDED) : void 0
+            inArray(orders.payStatus, [ORDER_PAY_STATUS.PENDING, ORDER_PAY_STATUS.FAILED, ORDER_PAY_STATUS.CANCELLED])
           ));
           const currentPayStatus = getAffectedRows(closedUpdate) > 0 ? targetPayStatus : (_a = (await db.select({ payStatus: orders.payStatus }).from(orders).where(eq(orders.id, result.orderId)).limit(1))[0]) == null ? void 0 : _a.payStatus;
           if (currentPayStatus === targetPayStatus) {
             await cancelPromoCommission(result.orderId, `webhook_${result.status}`);
-            const wasCharged = order2.payStatus === ORDER_PAY_STATUS.PAID || order2.payStatus === ORDER_PAY_STATUS.REFUNDED;
-            if (wasCharged) {
-              await revokeSubscriptionForOrder(String(result.orderId), `webhook_${result.status}`).catch((err) => console.error("[Webhook] revokeSubscriptionForOrder failed:", err));
-            }
-            if (result.status === "refunded" && order2.userId) {
-              await refundTopup(result.orderId).catch((err) => console.error("[Webhook] refundTopup failed:", err));
-            }
-            if (result.status === "refunded" && wasCharged) {
-              const notification = await sendMinimalCheckoutRefundNotification({ ...order2, payStatus: "refunded" });
-              if (!notification.skipped && !notification.delivered) {
-                throw new Error("Refund relay notification failed; gateway retry required");
-              }
-            }
           }
         }
       } else {

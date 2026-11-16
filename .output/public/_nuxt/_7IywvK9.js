@@ -1,0 +1,1 @@
+import{a4 as e}from"./kV9JcsSz.js";import{o,c as r}from"./BQ3bCXjI.js";import"./DJG0mhy7.js";import"./vlejHYiy.js";import"./CfYFMnge.js";const t={};function a(c,n){return o(),r("div")}const f=Object.assign(e(t,[["render",a]]),{__name:"HoxiParticleCanvas"});export{f as default};

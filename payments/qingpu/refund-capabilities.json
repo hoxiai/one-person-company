@@ -1,0 +1,7 @@
+{
+  "required": [
+    { "key": "refundClientId", "minLength": 1 },
+    { "key": "refundSecret", "minLength": 32 },
+    { "key": "checkoutBaseUrl", "minLength": 8, "https": true }
+  ]
+}

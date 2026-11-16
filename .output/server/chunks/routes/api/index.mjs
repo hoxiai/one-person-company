@@ -1,11 +1,10 @@
-import { d as defineEventHandler, e5 as applyMcpPublicCors, e6 as resolveMcpServerOrigin, b8 as getUserSession, e7 as setResponseStatus, e8 as setResponseHeader, dZ as getRequestHeader, e as createError, r as readBody, e9 as getActiveThemeName, ea as dispatchMcpJsonRpcRequest, eb as buildMcpWwwAuthenticateHeader } from '../../nitro/nitro.mjs';
+import { d as defineEventHandler, em as applyMcpPublicCors, en as resolveMcpServerOrigin, aP as getUserSession, eo as setResponseStatus, ep as setResponseHeader, ec as getRequestHeader, e as createError, r as readBody, eq as getActiveThemeName, er as dispatchMcpJsonRpcRequest, es as buildMcpWwwAuthenticateHeader } from '../../nitro/nitro.mjs';
 import 'node:crypto';
 import 'drizzle-orm';
+import 'node:http2';
+import 'node:fs';
 import 'zod';
 import 'crypto';
-import 'fs';
-import 'path';
-import 'node:fs';
 import 'node:path';
 import '@nuxthub/blob';
 import 'node:http';
@@ -25,12 +24,15 @@ import 'drizzle-orm/mysql-core';
 import 'maxmind';
 import 'node:os';
 import 'node:fs/promises';
+import 'fs';
+import 'path';
 import 'node:url';
 import '@iconify/utils';
 import 'consola';
 import 'jose';
 import '@adonisjs/hash';
 import '@adonisjs/hash/drivers/scrypt';
+import 'node:zlib';
 import 'node:child_process';
 
 const index = defineEventHandler(async (event) => {

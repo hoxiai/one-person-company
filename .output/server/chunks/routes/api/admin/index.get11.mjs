@@ -1,11 +1,10 @@
-import { d as defineEventHandler, g as getQuery, u as tickets, v as users, b as db, x as ticketMessages, y as normalizeTicketAttachments } from '../../../nitro/nitro.mjs';
+import { d as defineEventHandler, g as getQuery, v as tickets, w as users, b as db, u as ticketReadColumns, y as ticketMessages, z as normalizeTicketAttachments, A as ticketUnreadCounts, B as serializeTicketReadState } from '../../../nitro/nitro.mjs';
 import { eq, or, like, and, desc, count, inArray } from 'drizzle-orm';
 import 'node:crypto';
+import 'node:http2';
+import 'node:fs';
 import 'zod';
 import 'crypto';
-import 'fs';
-import 'path';
-import 'node:fs';
 import 'node:path';
 import '@nuxthub/blob';
 import 'node:http';
@@ -25,16 +24,19 @@ import 'drizzle-orm/mysql-core';
 import 'maxmind';
 import 'node:os';
 import 'node:fs/promises';
+import 'fs';
+import 'path';
 import 'node:url';
 import '@iconify/utils';
 import 'consola';
 import 'jose';
 import '@adonisjs/hash';
 import '@adonisjs/hash/drivers/scrypt';
+import 'node:zlib';
 import 'node:child_process';
 
 const index_get = defineEventHandler(async (event) => {
-  var _a, _b, _c;
+  var _a, _b;
   const query = getQuery(event);
   const page = Math.max(parseInt(query.page) || 1, 1);
   const pageSize = Math.min(Math.max(parseInt(query.pageSize) || 15, 1), 100);
@@ -85,7 +87,8 @@ const index_get = defineEventHandler(async (event) => {
     lastRepliedAt: tickets.lastRepliedAt,
     lastRepliedBy: tickets.lastRepliedBy,
     createdAt: tickets.createdAt,
-    updatedAt: tickets.updatedAt
+    updatedAt: tickets.updatedAt,
+    ...ticketReadColumns
   }).from(tickets).leftJoin(users, eq(tickets.userId, users.id)).where(whereClause).orderBy(desc(tickets.lastRepliedAt)).limit(pageSize).offset(offset);
   const [totalResult, list, statusCounts] = await Promise.all([
     db.select({ total: count() }).from(tickets).leftJoin(users, eq(tickets.userId, users.id)).where(whereClause),
@@ -97,6 +100,7 @@ const index_get = defineEventHandler(async (event) => {
   ]);
   const ticketIds = list.map((item) => item.id).filter(Boolean);
   const latestMsgByTicketId = /* @__PURE__ */ new Map();
+  const customerMessageIds = /* @__PURE__ */ new Map();
   if (ticketIds.length > 0) {
     try {
       const msgRows = await db.select({
@@ -107,9 +111,10 @@ const index_get = defineEventHandler(async (event) => {
         id: ticketMessages.id
       }).from(ticketMessages).where(inArray(ticketMessages.ticketId, ticketIds)).orderBy(desc(ticketMessages.id));
       for (const row of msgRows) {
+        if (row.senderType === "user" && !customerMessageIds.has(row.ticketId)) customerMessageIds.set(row.ticketId, row.id);
         if (!latestMsgByTicketId.has(row.ticketId)) {
           const hasAttachments = Boolean((_a = normalizeTicketAttachments(row.attachments)) == null ? void 0 : _a.length);
-          const preview = ((_b = row.content) == null ? void 0 : _b.trim()) || (hasAttachments ? "[\u56FE\u7247\u9644\u4EF6]" : "");
+          const preview = String(row.content || "").trim() || (hasAttachments ? "[\u56FE\u7247\u9644\u4EF6]" : "");
           latestMsgByTicketId.set(row.ticketId, {
             content: preview,
             senderType: row.senderType
@@ -119,17 +124,20 @@ const index_get = defineEventHandler(async (event) => {
     } catch {
     }
   }
+  const unreadCounts = await ticketUnreadCounts(ticketIds, "admin");
   const enrichedList = list.map((item) => {
     const latest = latestMsgByTicketId.get(item.id);
-    const isPending = item.status === "open" || item.status === "in_progress";
-    const unread = isPending && item.lastRepliedBy === "user" ? 1 : 0;
+    const unreadCount = unreadCounts.get(item.id) || 0;
     return {
       ...item,
       lastMessage: (latest == null ? void 0 : latest.content) || item.title,
-      unread
+      lastCustomerMessageId: customerMessageIds.get(item.id) || 0,
+      readState: serializeTicketReadState(item),
+      unread: unreadCount > 0 ? 1 : 0,
+      unreadCount
     };
   });
-  const total = Number(((_c = totalResult[0]) == null ? void 0 : _c.total) || 0);
+  const total = Number(((_b = totalResult[0]) == null ? void 0 : _b.total) || 0);
   const summary = {
     all: 0,
     open: 0,

@@ -1,11 +1,10 @@
-import { d as defineEventHandler, c as getRequestLocale, aj as resolveClientIp, ak as checkIpRateLimit, e as createError, r as readBody, d3 as validateEmail, b as db, v as users, l as hashPassword, aD as emitEvent, dq as getIntegrationToken, w as settings } from '../../../nitro/nitro.mjs';
+import { d as defineEventHandler, c as getRequestLocale, an as resolveClientIp, ao as checkIpRateLimit, e as createError, r as readBody, di as validateEmail, b as db, w as users, l as hashPassword, aK as emitEvent, dF as getIntegrationToken, x as settings } from '../../../nitro/nitro.mjs';
 import { timingSafeEqual } from 'node:crypto';
 import { eq, like } from 'drizzle-orm';
+import 'node:http2';
+import 'node:fs';
 import 'zod';
 import 'crypto';
-import 'fs';
-import 'path';
-import 'node:fs';
 import 'node:path';
 import '@nuxthub/blob';
 import 'node:http';
@@ -25,12 +24,15 @@ import 'drizzle-orm/mysql-core';
 import 'maxmind';
 import 'node:os';
 import 'node:fs/promises';
+import 'fs';
+import 'path';
 import 'node:url';
 import '@iconify/utils';
 import 'consola';
 import 'jose';
 import '@adonisjs/hash';
 import '@adonisjs/hash/drivers/scrypt';
+import 'node:zlib';
 import 'node:child_process';
 
 function safeTokenMatch(a, b) {

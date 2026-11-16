@@ -1,11 +1,10 @@
-import { d as defineEventHandler, f as getRouterParam, e as createError, b as db, u as tickets, v as users, x as ticketMessages, cM as userWallets, I as orders, cN as fromScaled, cO as getWalletBackend } from '../../../../nitro/nitro.mjs';
+import { d as defineEventHandler, f as getRouterParam, e as createError, b as db, u as ticketReadColumns, v as tickets, w as users, y as ticketMessages, cV as userWallets, M as orders, cW as fromScaled, A as ticketUnreadCounts, cX as getWalletBackend, B as serializeTicketReadState } from '../../../../nitro/nitro.mjs';
 import { eq, asc, sql, desc } from 'drizzle-orm';
 import 'node:crypto';
+import 'node:http2';
+import 'node:fs';
 import 'zod';
 import 'crypto';
-import 'fs';
-import 'path';
-import 'node:fs';
 import 'node:path';
 import '@nuxthub/blob';
 import 'node:http';
@@ -25,12 +24,15 @@ import 'drizzle-orm/mysql-core';
 import 'maxmind';
 import 'node:os';
 import 'node:fs/promises';
+import 'fs';
+import 'path';
 import 'node:url';
 import '@iconify/utils';
 import 'consola';
 import 'jose';
 import '@adonisjs/hash';
 import '@adonisjs/hash/drivers/scrypt';
+import 'node:zlib';
 import 'node:child_process';
 
 const _id__get = defineEventHandler(async (event) => {
@@ -57,7 +59,8 @@ const _id__get = defineEventHandler(async (event) => {
     lastRepliedAt: tickets.lastRepliedAt,
     lastRepliedBy: tickets.lastRepliedBy,
     createdAt: tickets.createdAt,
-    updatedAt: tickets.updatedAt
+    updatedAt: tickets.updatedAt,
+    ...ticketReadColumns
   }).from(tickets).leftJoin(users, eq(tickets.userId, users.id)).where(eq(tickets.id, ticketId));
   if (!ticket) {
     throw createError({ statusCode: 404, statusMessage: "\u5DE5\u5355\u4E0D\u5B58\u5728" });
@@ -92,10 +95,11 @@ const _id__get = defineEventHandler(async (event) => {
     tierLevel: walletRow.tierLevel,
     subExpiresAt: walletRow.subExpiresAt
   } : null;
+  const unreadCounts = await ticketUnreadCounts([ticketId], "admin");
   return {
     code: 200,
     data: {
-      ticket,
+      ticket: { ...ticket, readState: serializeTicketReadState(ticket), unreadCount: unreadCounts.get(ticketId) || 0 },
       messages,
       userFinance,
       recentOrders,

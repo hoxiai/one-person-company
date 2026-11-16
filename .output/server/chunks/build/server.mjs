@@ -1,6 +1,6 @@
 import process from 'node:process';globalThis._importMeta_=globalThis._importMeta_||{url:"file:///_entry.js",env:process.env};import * as vue from 'vue';
-import { useSlots, useId as useId$1, useAttrs, computed, unref, mergeProps, withCtx, openBlock, createBlock, createVNode, resolveDynamicComponent, renderSlot, createTextVNode, toDisplayString as toDisplayString$1, createCommentVNode, hasInjectionContext, inject, getCurrentInstance, ref, watch, nextTick, toValue, defineComponent, h, createElementBlock, Fragment, renderList, provide, customRef, shallowRef, toRefs, watchPostEffect, watchEffect, toRef as toRef$1, camelize as camelize$1, reactive, normalizeStyle, mergeDefaults, Teleport, useModel, mergeModels, markRaw, toHandlerKey, getCurrentScope, onScopeDispose, shallowReadonly, toHandlers, cloneVNode, isRef, normalizeProps, guardReactiveProps, readonly, useTemplateRef, withKeys, withModifiers, resolveComponent, Comment, onServerPrefetch, defineAsyncComponent, withAsyncContext, createSlots, resolveDirective, createElementVNode, effectScope, useSSRContext, toRaw, shallowReactive, Suspense, createApp, Text, onErrorCaptured, isReadonly, isShallow, isReactive } from 'vue';
-import { g5 as serialize, g6 as createPricingContext, e7 as setResponseStatus$1, g7 as defu, A as getRequestURL, g8 as isEqual$1, e as createError$1, g9 as SEO_LOCALE_LANGUAGE, ga as getErrorRequestId, gb as resolveActiveTheme, gc as upperFirst, eB as quoteProductPrice, gd as defuFn, ge as resolveLocalizedSetting, gf as parse$1, dZ as getRequestHeader, gg as errorRecord, gh as errorData, gi as appendResponseHeader, gj as sanitizeStatusCode, gk as getContext, dx as setCookie, du as getCookie, dv as deleteCookie, c2 as normalizeGeoKeySpecs, c3 as normalizeGeoFaqs, c4 as normalizeGeoRelatedLinks, eX as getRequestHeaders, gl as htmlToCleanMarkdown, gm as $fetch$1, gn as baseURL, go as hash, gp as createHooks, gq as getRequestProtocol, gr as executeAsync, gs as normalizeSiteOrigin, gt as stripLocalePrefix$1, c7 as classifySeoRoute, c8 as seoRouteRegistry, gu as localePathForSeo, gv as isMarkdownMirrorPath, gw as safeJsonLd, gx as localeDomainUrl, gy as themeHostConfigs } from '../nitro/nitro.mjs';
+import { computed, useSlots, useId as useId$1, useAttrs, unref, mergeProps, withCtx, openBlock, createBlock, createVNode, resolveDynamicComponent, renderSlot, createTextVNode, toDisplayString as toDisplayString$1, createCommentVNode, hasInjectionContext, inject, getCurrentInstance, ref, watch, nextTick, toValue, defineComponent, h, createElementBlock, Fragment, renderList, provide, watchPostEffect, customRef, shallowRef, toRefs, watchEffect, toRef as toRef$1, camelize as camelize$1, reactive, normalizeStyle, mergeDefaults, Teleport, useModel, mergeModels, markRaw, toHandlerKey, getCurrentScope, onScopeDispose, toHandlers, shallowReadonly, cloneVNode, isRef, normalizeProps, guardReactiveProps, readonly, useTemplateRef, withKeys, withModifiers, resolveComponent, Comment, withAsyncContext, onServerPrefetch, defineAsyncComponent, createSlots, resolveDirective, createElementVNode, effectScope, useSSRContext, toRaw, shallowReactive, Suspense, createApp, Text, onErrorCaptured, isReadonly, isShallow, isReactive } from 'vue';
+import { gm as serialize, gn as defu, go as createPricingContext, eo as setResponseStatus$1, E as getRequestURL, gp as isEqual$1, e as createError$1, gq as SEO_LOCALE_LANGUAGE, gr as getErrorRequestId, gs as resolveActiveTheme, gt as upperFirst, eS as quoteProductPrice, gu as defuFn, gv as REFUND_EFFECTS_COMPLETE, gw as resolveLocalizedSetting, gx as parse$1, ec as getRequestHeader, gy as errorRecord, gz as errorData, gA as appendResponseHeader, gB as sanitizeStatusCode, gC as getContext, dM as setCookie, dJ as getCookie, dK as deleteCookie, cb as normalizeGeoKeySpecs, cc as normalizeGeoFaqs, cd as normalizeGeoRelatedLinks, fc as getRequestHeaders, gD as htmlToCleanMarkdown, gE as $fetch$1, gF as baseURL, gG as hash, gH as createHooks, gI as getRequestProtocol, gJ as executeAsync, gK as normalizeSiteOrigin, gL as stripLocalePrefix$1, cg as classifySeoRoute, ch as seoRouteRegistry, gM as localePathForSeo, gN as isMarkdownMirrorPath, gO as safeJsonLd, gP as localeDomainUrl, gQ as themeHostConfigs } from '../nitro/nitro.mjs';
 import { useRoute as useRoute$1, useRouter as useRouter$1, RouterView, isNavigationFailure, createMemoryHistory, createRouter, START_LOCATION } from 'vue-router';
 import { Icon, getIcon, loadIcon as loadIcon$1, _api, addAPIProvider, setCustomIconsLoader } from '@iconify/vue';
 import { getIconCSS } from '@iconify/utils/lib/css/icon';
@@ -20,11 +20,10 @@ import colors from 'tailwindcss/colors';
 import { u as useHead$1, a as useSeoMeta$1, h as headSymbol } from '../routes/renderer.mjs';
 import 'node:crypto';
 import 'drizzle-orm';
+import 'node:http2';
+import 'node:fs';
 import 'zod';
 import 'crypto';
-import 'fs';
-import 'path';
-import 'node:fs';
 import 'node:path';
 import '@nuxthub/blob';
 import 'node:http';
@@ -44,12 +43,15 @@ import 'drizzle-orm/mysql-core';
 import 'maxmind';
 import 'node:os';
 import 'node:fs/promises';
+import 'fs';
+import 'path';
 import 'node:url';
 import '@iconify/utils';
 import 'consola';
 import 'jose';
 import '@adonisjs/hash';
 import '@adonisjs/hash/drivers/scrypt';
+import 'node:zlib';
 import 'node:child_process';
 import 'vue-bundle-renderer/runtime';
 import 'unhead/server';
@@ -895,239 +897,239 @@ const _routes = [
     name: "admin-posts-categories",
     path: "/admin/posts/categories",
     meta: __nuxt_page_meta$v || {},
-    component: () => import('./categories-Bl0ZN_ot.mjs')
+    component: () => import('./categories-BGdKva-t.mjs')
   },
   {
     name: "admin-posts-create",
     path: "/admin/posts/create",
     meta: __nuxt_page_meta$u || {},
-    component: () => import('./create-BTJzi5QB.mjs')
+    component: () => import('./create-DMuyibkN.mjs')
   },
   {
     name: "admin-products-create",
     path: "/admin/products/create",
     meta: __nuxt_page_meta$t || {},
-    component: () => import('./create-CyjJe6RO.mjs')
+    component: () => import('./create-CnxVxe7Y.mjs')
   },
   {
     name: "admin-settings-authorization",
     path: "/admin/settings/authorization",
     meta: __nuxt_page_meta$s || {},
-    component: () => import('./authorization-fcBwDrkK.mjs')
+    component: () => import('./authorization-BoTg2tlZ.mjs')
   },
   {
     name: "admin-settings-extensions",
     path: "/admin/settings/extensions",
     meta: __nuxt_page_meta$r || {},
-    component: () => import('./extensions-Cl35Lsva.mjs')
+    component: () => import('./extensions-LkHMIGAS.mjs')
   },
   {
     name: "admin-settings-manages",
     path: "/admin/settings/manages",
     meta: __nuxt_page_meta$q || {},
-    component: () => import('./manages-BOM236nf.mjs')
+    component: () => import('./manages-geZXdJNp.mjs')
   },
   {
     name: "admin-settings-product-presets",
     path: "/admin/settings/product-presets",
     meta: __nuxt_page_meta$p || {},
-    component: () => import('./product-presets-BzV5bRcp.mjs')
+    component: () => import('./product-presets-2pija_lc.mjs')
   },
   {
     name: "admin-settings-releases",
     path: "/admin/settings/releases",
     meta: __nuxt_page_meta$o || {},
-    component: () => import('./releases-vSi_XXzm.mjs')
+    component: () => import('./releases-BFxfjfrZ.mjs')
   },
   {
     name: "admin-settings-themes",
     path: "/admin/settings/themes",
     meta: __nuxt_page_meta$n || {},
-    component: () => import('./themes-QHOyZ93c.mjs')
+    component: () => import('./themes-6ftGln21.mjs')
   },
   {
     name: "admin-posts-id",
     path: "/admin/posts/:id()",
     meta: __nuxt_page_meta$m || {},
-    component: () => import('./_id_-B6OofWey.mjs')
+    component: () => import('./_id_-HiZ_COWc.mjs')
   },
   {
     name: "admin-products-id",
     path: "/admin/products/:id()",
     meta: __nuxt_page_meta$l || {},
-    component: () => import('./_id_-CKzJq4p3.mjs')
+    component: () => import('./_id_-BPs38XBa.mjs')
   },
   {
     name: "admin-extensions-slug",
     path: "/admin/extensions/:slug(.*)*",
     meta: __nuxt_page_meta$k || {},
-    component: () => import('./_...slug_-DJRHTP9p.mjs')
+    component: () => import('./_...slug_-DbHFBgmG.mjs')
   },
   {
     name: "admin-plugins-slug",
     path: "/admin/plugins/:slug(.*)*",
     meta: __nuxt_page_meta$j || {},
-    component: () => import('./_...slug_-AlUZqULT.mjs')
+    component: () => import('./_...slug_-TiqMTcID.mjs')
   },
   {
     name: "user-plugins-slug___en",
     path: "/user/plugins/:slug(.*)*",
-    component: () => import('./_...slug_-UxsgHujJ.mjs')
+    component: () => import('./_...slug_-C5JkTPN9.mjs')
   },
   {
     name: "user-plugins-slug___zh",
     path: "/zh/user/plugins/:slug(.*)*",
-    component: () => import('./_...slug_-UxsgHujJ.mjs')
+    component: () => import('./_...slug_-C5JkTPN9.mjs')
   },
   {
     name: "user-plugins-slug___zh-HK",
     path: "/zh-HK/user/plugins/:slug(.*)*",
-    component: () => import('./_...slug_-UxsgHujJ.mjs')
+    component: () => import('./_...slug_-C5JkTPN9.mjs')
   },
   {
     name: "admin-cards",
     path: "/admin/cards",
-    component: () => import('./cards-C2BASets.mjs')
+    component: () => import('./cards-uIGWhhHC.mjs')
   },
   {
     name: "admin-comments",
     path: "/admin/comments",
     meta: __nuxt_page_meta$i || {},
-    component: () => import('./comments-p-BB-kMG.mjs')
+    component: () => import('./comments-DQPkJvMB.mjs')
   },
   {
     name: "admin-customers",
     path: "/admin/customers",
     meta: __nuxt_page_meta$h || {},
-    component: () => import('./customers-B4f0lcWY.mjs')
+    component: () => import('./customers-GHSr4ihH.mjs')
   },
   {
     name: "admin-dashboard",
     path: "/admin/dashboard",
     meta: __nuxt_page_meta$g || {},
-    component: () => import('./dashboard-Nzl33vzX.mjs')
+    component: () => import('./dashboard-CZkWe43y.mjs')
   },
   {
     name: "admin-login",
     path: "/admin/login",
     meta: __nuxt_page_meta$f || {},
-    component: () => import('./login-BIFDSXT4.mjs')
+    component: () => import('./login-D6s6YJ80.mjs')
   },
   {
     name: "admin-logs",
     path: "/admin/logs",
     meta: __nuxt_page_meta$e || {},
-    component: () => import('./logs-C4aIdtsw.mjs')
+    component: () => import('./logs-CQjKw-NM.mjs')
   },
   {
     name: "admin-newsletter",
     path: "/admin/newsletter",
     meta: __nuxt_page_meta$d || {},
-    component: () => import('./newsletter-l9hSth4_.mjs')
+    component: () => import('./newsletter-C2_Tvr9U.mjs')
   },
   {
     name: "admin-orders",
     path: "/admin/orders",
     meta: __nuxt_page_meta$c || {},
-    component: () => import('./orders-pEwsNXjd.mjs')
+    component: () => import('./orders-ndQNOeTZ.mjs')
   },
   {
     name: "admin-payments",
     path: "/admin/payments",
     meta: __nuxt_page_meta$b || {},
-    component: () => import('./payments-CyPpFBwj.mjs')
+    component: () => import('./payments-CEsMpNjr.mjs')
   },
   {
     name: "admin-posts",
     path: "/admin/posts",
     meta: __nuxt_page_meta$a || {},
-    component: () => import('./index-nkInWLXN.mjs')
+    component: () => import('./index-BfpgqN6P.mjs')
   },
   {
     name: "admin-products",
     path: "/admin/products",
     meta: __nuxt_page_meta$9 || {},
-    component: () => import('./index-XYWqhGUb.mjs')
+    component: () => import('./index-DoB1NkWo.mjs')
   },
   {
     name: "admin-profile",
     path: "/admin/profile",
     meta: __nuxt_page_meta$8 || {},
-    component: () => import('./profile-C3YRYGar.mjs')
+    component: () => import('./profile-C2NU9YHY.mjs')
   },
   {
     name: "admin-promo",
     path: "/admin/promo",
     meta: __nuxt_page_meta$7 || {},
-    component: () => import('./promo-B2mWi-op.mjs')
+    component: () => import('./promo-BNsAEHXV.mjs')
   },
   {
     name: "admin-releases",
     path: "/admin/releases",
     meta: __nuxt_page_meta$6 || {},
-    component: () => import('./releases-Rbuz5s3N.mjs')
+    component: () => import('./releases-DZUa6h4Y.mjs')
   },
   {
     name: "admin-settings",
     path: "/admin/settings",
     meta: __nuxt_page_meta$5 || {},
-    component: () => import('./index-Cw4uKGnl.mjs')
+    component: () => import('./index-BCX_kHuD.mjs')
   },
   {
     name: "admin-setup",
     path: "/admin/setup",
     meta: __nuxt_page_meta$4 || {},
-    component: () => import('./setup-DxV7vz3U.mjs')
+    component: () => import('./setup-CucKGN7L.mjs')
   },
   {
     name: "admin-stats",
     path: "/admin/stats",
     meta: __nuxt_page_meta$3 || {},
-    component: () => import('./stats-D3MsZCPA.mjs')
+    component: () => import('./stats-CR4OqxY2.mjs')
   },
   {
     name: "admin-subscriptions",
     path: "/admin/subscriptions",
-    component: () => import('./subscriptions-DHanUDOQ.mjs')
+    component: () => import('./subscriptions-BU29Q7DV.mjs')
   },
   {
     name: "admin-tickets",
     path: "/admin/tickets",
     meta: __nuxt_page_meta$2 || {},
-    component: () => import('./tickets-CQQ1Ny72.mjs')
+    component: () => import('./tickets-BNgidfr4.mjs')
   },
   {
     name: "admin-topups",
     path: "/admin/topups",
-    component: () => import('./topups-x6jUuP1d.mjs')
+    component: () => import('./topups-CqHhb2SH.mjs')
   },
   {
     name: "admin-visitors",
     path: "/admin/stats/visitors",
     meta: __nuxt_page_meta$1 || {},
     alias: ["/admin/visitors"],
-    component: () => import('./visitors-OyeRCYjo.mjs')
+    component: () => import('./visitors-cz9k--NJ.mjs')
   },
   {
     name: "admin",
     path: "/admin",
     meta: __nuxt_page_meta || {},
-    component: () => import('./index-SDaGeBIt.mjs')
+    component: () => import('./index-Bhjr3WWy.mjs')
   },
   {
     name: "slug___en",
     path: "/:slug(.*)*",
-    component: () => import('./_...slug_-BVowlTlq.mjs')
+    component: () => import('./_...slug_-D704WqM2.mjs')
   },
   {
     name: "slug___zh",
     path: "/zh/:slug(.*)*",
-    component: () => import('./_...slug_-BVowlTlq.mjs')
+    component: () => import('./_...slug_-D704WqM2.mjs')
   },
   {
     name: "slug___zh-HK",
     path: "/zh-HK/:slug(.*)*",
-    component: () => import('./_...slug_-BVowlTlq.mjs')
+    component: () => import('./_...slug_-D704WqM2.mjs')
   }
 ];
 const _wrapInTransition = (props, children) => {
@@ -5615,7 +5617,7 @@ const cfg0 = defineAppConfig({
   }
 });
 const inlineConfig = {
-  "appVersion": "1.0.38",
+  "appVersion": "1.0.39",
   "nuxt": {},
   "ui": {
     "colors": {
@@ -6273,7 +6275,7 @@ const index = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.definePropert
   __proto__: null,
   default: __nuxt_component_0$1
 }, Symbol.toStringTag, { value: "Module" }));
-const _sfc_main$_ = /* @__PURE__ */ defineComponent({
+const _sfc_main$$ = /* @__PURE__ */ defineComponent({
   __name: "about",
   __ssrInlineRender: true,
   setup(__props) {
@@ -6324,15 +6326,15 @@ const _sfc_main$_ = /* @__PURE__ */ defineComponent({
     };
   }
 });
-const _sfc_setup$_ = _sfc_main$_.setup;
-_sfc_main$_.setup = (props, ctx) => {
+const _sfc_setup$$ = _sfc_main$$.setup;
+_sfc_main$$.setup = (props, ctx) => {
   const ssrContext = useSSRContext();
   (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("core/pages/about.vue");
-  return _sfc_setup$_ ? _sfc_setup$_(props, ctx) : void 0;
+  return _sfc_setup$$ ? _sfc_setup$$(props, ctx) : void 0;
 };
 const __vite_glob_0_0$1 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
   __proto__: null,
-  default: _sfc_main$_
+  default: _sfc_main$$
 }, Symbol.toStringTag, { value: "Module" }));
 function clamp(value, min = Number.NEGATIVE_INFINITY, max = Number.POSITIVE_INFINITY) {
   return Math.min(max, Math.max(min, value));
@@ -12740,7 +12742,7 @@ var TooltipProvider_vue_vue_type_script_setup_true_lang_default = /* @__PURE__ *
   }
 });
 var TooltipProvider_default = TooltipProvider_vue_vue_type_script_setup_true_lang_default;
-const _sfc_main$Z = {
+const _sfc_main$_ = {
   __name: "UIcon",
   __ssrInlineRender: true,
   props: {
@@ -12762,11 +12764,11 @@ const _sfc_main$Z = {
     };
   }
 };
-const _sfc_setup$Z = _sfc_main$Z.setup;
-_sfc_main$Z.setup = (props, ctx) => {
+const _sfc_setup$_ = _sfc_main$_.setup;
+_sfc_main$_.setup = (props, ctx) => {
   const ssrContext = useSSRContext();
   (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("../../../../../../../../../../Users/hugh/code/hoxi/apay/node_modules/@nuxt/ui/dist/runtime/components/Icon.vue");
-  return _sfc_setup$Z ? _sfc_setup$Z(props, ctx) : void 0;
+  return _sfc_setup$_ ? _sfc_setup$_(props, ctx) : void 0;
 };
 function omit(data, keys) {
   const result = { ...data };
@@ -13131,7 +13133,7 @@ const theme$l = {
     "position": "top-right"
   }
 };
-const _sfc_main$Y = /* @__PURE__ */ Object.assign({ inheritAttrs: false }, {
+const _sfc_main$Z = /* @__PURE__ */ Object.assign({ inheritAttrs: false }, {
   __name: "UChip",
   __ssrInlineRender: true,
   props: /* @__PURE__ */ mergeModels({
@@ -13216,11 +13218,11 @@ const _sfc_main$Y = /* @__PURE__ */ Object.assign({ inheritAttrs: false }, {
     };
   }
 });
-const _sfc_setup$Y = _sfc_main$Y.setup;
-_sfc_main$Y.setup = (props, ctx) => {
+const _sfc_setup$Z = _sfc_main$Z.setup;
+_sfc_main$Z.setup = (props, ctx) => {
   const ssrContext = useSSRContext();
   (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("../../../../../../../../../../Users/hugh/code/hoxi/apay/node_modules/@nuxt/ui/dist/runtime/components/Chip.vue");
-  return _sfc_setup$Y ? _sfc_setup$Y(props, ctx) : void 0;
+  return _sfc_setup$Z ? _sfc_setup$Z(props, ctx) : void 0;
 };
 const theme$k = {
   "slots": {
@@ -13264,7 +13266,7 @@ const theme$k = {
     "size": "md"
   }
 };
-const _sfc_main$X = /* @__PURE__ */ Object.assign({ inheritAttrs: false }, {
+const _sfc_main$Y = /* @__PURE__ */ Object.assign({ inheritAttrs: false }, {
   __name: "UAvatar",
   __ssrInlineRender: true,
   props: {
@@ -13313,7 +13315,7 @@ const _sfc_main$X = /* @__PURE__ */ Object.assign({ inheritAttrs: false }, {
       error.value = true;
     }
     return (_ctx, _push, _parent, _attrs) => {
-      ssrRenderVNode(_push, createVNode(resolveDynamicComponent(props.chip ? _sfc_main$Y : unref(Primitive)), mergeProps({
+      ssrRenderVNode(_push, createVNode(resolveDynamicComponent(props.chip ? _sfc_main$Z : unref(Primitive)), mergeProps({
         as: as.value.root
       }, props.chip ? typeof props.chip === "object" ? { inset: true, ...props.chip } : { inset: true } : {}, {
         "data-slot": "root",
@@ -13339,7 +13341,7 @@ const _sfc_main$X = /* @__PURE__ */ Object.assign({ inheritAttrs: false }, {
                   if (_push3) {
                     ssrRenderSlot(_ctx.$slots, "default", {}, () => {
                       if (__props.icon) {
-                        _push3(ssrRenderComponent(_sfc_main$Z, {
+                        _push3(ssrRenderComponent(_sfc_main$_, {
                           name: __props.icon,
                           "data-slot": "icon",
                           class: ui.value.icon({ class: unref(uiProp)?.icon })
@@ -13351,7 +13353,7 @@ const _sfc_main$X = /* @__PURE__ */ Object.assign({ inheritAttrs: false }, {
                   } else {
                     return [
                       renderSlot(_ctx.$slots, "default", {}, () => [
-                        __props.icon ? (openBlock(), createBlock(_sfc_main$Z, {
+                        __props.icon ? (openBlock(), createBlock(_sfc_main$_, {
                           key: 0,
                           name: __props.icon,
                           "data-slot": "icon",
@@ -13383,7 +13385,7 @@ const _sfc_main$X = /* @__PURE__ */ Object.assign({ inheritAttrs: false }, {
               }), null, 16, ["src", "alt", "width", "height", "class"])) : (openBlock(), createBlock(unref(Slot), mergeProps({ key: 1 }, _ctx.$attrs), {
                 default: withCtx(() => [
                   renderSlot(_ctx.$slots, "default", {}, () => [
-                    __props.icon ? (openBlock(), createBlock(_sfc_main$Z, {
+                    __props.icon ? (openBlock(), createBlock(_sfc_main$_, {
                       key: 0,
                       name: __props.icon,
                       "data-slot": "icon",
@@ -13405,11 +13407,11 @@ const _sfc_main$X = /* @__PURE__ */ Object.assign({ inheritAttrs: false }, {
     };
   }
 });
-const _sfc_setup$X = _sfc_main$X.setup;
-_sfc_main$X.setup = (props, ctx) => {
+const _sfc_setup$Y = _sfc_main$Y.setup;
+_sfc_main$Y.setup = (props, ctx) => {
   const ssrContext = useSSRContext();
   (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("../../../../../../../../../../Users/hugh/code/hoxi/apay/node_modules/@nuxt/ui/dist/runtime/components/Avatar.vue");
-  return _sfc_setup$X ? _sfc_setup$X(props, ctx) : void 0;
+  return _sfc_setup$Y ? _sfc_setup$Y(props, ctx) : void 0;
 };
 const firstNonUndefined = (...args) => args.find((arg) => arg !== void 0);
 // @__NO_SIDE_EFFECTS__
@@ -13694,7 +13696,7 @@ function applyTrailingSlashBehavior(to, trailingSlash) {
   }
   return normalizeFn(to, true);
 }
-const _sfc_main$W = {
+const _sfc_main$X = {
   __name: "ULinkBase",
   __ssrInlineRender: true,
   props: {
@@ -13758,11 +13760,11 @@ const _sfc_main$W = {
     };
   }
 };
-const _sfc_setup$W = _sfc_main$W.setup;
-_sfc_main$W.setup = (props, ctx) => {
+const _sfc_setup$X = _sfc_main$X.setup;
+_sfc_main$X.setup = (props, ctx) => {
   const ssrContext = useSSRContext();
   (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("../../../../../../../../../../Users/hugh/code/hoxi/apay/node_modules/@nuxt/ui/dist/runtime/components/LinkBase.vue");
-  return _sfc_setup$W ? _sfc_setup$W(props, ctx) : void 0;
+  return _sfc_setup$X ? _sfc_setup$X(props, ctx) : void 0;
 };
 const theme$j = {
   "base": "focus-visible:outline-primary",
@@ -13786,7 +13788,7 @@ const theme$j = {
     }
   ]
 };
-const _sfc_main$V = /* @__PURE__ */ Object.assign({ inheritAttrs: false }, {
+const _sfc_main$W = /* @__PURE__ */ Object.assign({ inheritAttrs: false }, {
   __name: "ULink",
   __ssrInlineRender: true,
   props: {
@@ -13885,7 +13887,7 @@ const _sfc_main$V = /* @__PURE__ */ Object.assign({ inheritAttrs: false }, {
                 active: isLinkActive({ route: linkRoute, isActive, isExactActive })
               }, null, _push2, _parent2, _scopeId);
             } else {
-              _push2(ssrRenderComponent(_sfc_main$W, mergeProps({
+              _push2(ssrRenderComponent(_sfc_main$X, mergeProps({
                 ..._ctx.$attrs,
                 ...__props.exact && isExactActive ? { "aria-current": props.ariaCurrentValue } : {},
                 as: __props.as,
@@ -13929,7 +13931,7 @@ const _sfc_main$V = /* @__PURE__ */ Object.assign({ inheritAttrs: false }, {
                 target: rest.target,
                 isExternal: rest.isExternal,
                 active: isLinkActive({ route: linkRoute, isActive, isExactActive })
-              })) : (openBlock(), createBlock(_sfc_main$W, mergeProps({ key: 1 }, {
+              })) : (openBlock(), createBlock(_sfc_main$X, mergeProps({ key: 1 }, {
                 ..._ctx.$attrs,
                 ...__props.exact && isExactActive ? { "aria-current": props.ariaCurrentValue } : {},
                 as: __props.as,
@@ -13958,11 +13960,11 @@ const _sfc_main$V = /* @__PURE__ */ Object.assign({ inheritAttrs: false }, {
     };
   }
 });
-const _sfc_setup$V = _sfc_main$V.setup;
-_sfc_main$V.setup = (props, ctx) => {
+const _sfc_setup$W = _sfc_main$W.setup;
+_sfc_main$W.setup = (props, ctx) => {
   const ssrContext = useSSRContext();
   (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("../../../../../../../../../../Users/hugh/code/hoxi/apay/node_modules/@nuxt/ui/dist/runtime/components/Link.vue");
-  return _sfc_setup$V ? _sfc_setup$V(props, ctx) : void 0;
+  return _sfc_setup$W ? _sfc_setup$W(props, ctx) : void 0;
 };
 const theme$i = {
   "slots": {
@@ -14315,7 +14317,7 @@ const theme$i = {
     "size": "md"
   }
 };
-const _sfc_main$U = {
+const _sfc_main$V = {
   __name: "UButton",
   __ssrInlineRender: true,
   props: {
@@ -14414,13 +14416,13 @@ const _sfc_main$U = {
       fieldGroup: orientation.value
     }));
     return (_ctx, _push, _parent, _attrs) => {
-      _push(ssrRenderComponent(_sfc_main$V, mergeProps({
+      _push(ssrRenderComponent(_sfc_main$W, mergeProps({
         type: __props.type,
         disabled: __props.disabled || isLoading.value
       }, unref(omit)(unref(linkProps), ["type", "disabled", "onClick"]), { custom: "" }, _attrs), {
         default: withCtx(({ active, ...slotProps }, _push2, _parent2, _scopeId) => {
           if (_push2) {
-            _push2(ssrRenderComponent(_sfc_main$W, mergeProps(slotProps, {
+            _push2(ssrRenderComponent(_sfc_main$X, mergeProps(slotProps, {
               "data-slot": "base",
               class: ui.value.base({
                 class: [unref(uiProp)?.base, props.class],
@@ -14434,13 +14436,13 @@ const _sfc_main$U = {
                 if (_push3) {
                   ssrRenderSlot(_ctx.$slots, "leading", { ui: ui.value }, () => {
                     if (unref(isLeading) && unref(leadingIconName)) {
-                      _push3(ssrRenderComponent(_sfc_main$Z, {
+                      _push3(ssrRenderComponent(_sfc_main$_, {
                         name: unref(leadingIconName),
                         "data-slot": "leadingIcon",
                         class: ui.value.leadingIcon({ class: unref(uiProp)?.leadingIcon, active })
                       }, null, _parent3, _scopeId2));
                     } else if (!!__props.avatar) {
-                      _push3(ssrRenderComponent(_sfc_main$X, mergeProps({
+                      _push3(ssrRenderComponent(_sfc_main$Y, mergeProps({
                         size: unref(uiProp)?.leadingAvatarSize || ui.value.leadingAvatarSize()
                       }, __props.avatar, {
                         "data-slot": "leadingAvatar",
@@ -14459,7 +14461,7 @@ const _sfc_main$U = {
                   }, _push3, _parent3, _scopeId2);
                   ssrRenderSlot(_ctx.$slots, "trailing", { ui: ui.value }, () => {
                     if (unref(isTrailing) && unref(trailingIconName)) {
-                      _push3(ssrRenderComponent(_sfc_main$Z, {
+                      _push3(ssrRenderComponent(_sfc_main$_, {
                         name: unref(trailingIconName),
                         "data-slot": "trailingIcon",
                         class: ui.value.trailingIcon({ class: unref(uiProp)?.trailingIcon, active })
@@ -14471,12 +14473,12 @@ const _sfc_main$U = {
                 } else {
                   return [
                     renderSlot(_ctx.$slots, "leading", { ui: ui.value }, () => [
-                      unref(isLeading) && unref(leadingIconName) ? (openBlock(), createBlock(_sfc_main$Z, {
+                      unref(isLeading) && unref(leadingIconName) ? (openBlock(), createBlock(_sfc_main$_, {
                         key: 0,
                         name: unref(leadingIconName),
                         "data-slot": "leadingIcon",
                         class: ui.value.leadingIcon({ class: unref(uiProp)?.leadingIcon, active })
-                      }, null, 8, ["name", "class"])) : !!__props.avatar ? (openBlock(), createBlock(_sfc_main$X, mergeProps({
+                      }, null, 8, ["name", "class"])) : !!__props.avatar ? (openBlock(), createBlock(_sfc_main$Y, mergeProps({
                         key: 1,
                         size: unref(uiProp)?.leadingAvatarSize || ui.value.leadingAvatarSize()
                       }, __props.avatar, {
@@ -14492,7 +14494,7 @@ const _sfc_main$U = {
                       }, toDisplayString$1(__props.label), 3)) : createCommentVNode("", true)
                     ]),
                     renderSlot(_ctx.$slots, "trailing", { ui: ui.value }, () => [
-                      unref(isTrailing) && unref(trailingIconName) ? (openBlock(), createBlock(_sfc_main$Z, {
+                      unref(isTrailing) && unref(trailingIconName) ? (openBlock(), createBlock(_sfc_main$_, {
                         key: 0,
                         name: unref(trailingIconName),
                         "data-slot": "trailingIcon",
@@ -14506,7 +14508,7 @@ const _sfc_main$U = {
             }, _parent2, _scopeId));
           } else {
             return [
-              createVNode(_sfc_main$W, mergeProps(slotProps, {
+              createVNode(_sfc_main$X, mergeProps(slotProps, {
                 "data-slot": "base",
                 class: ui.value.base({
                   class: [unref(uiProp)?.base, props.class],
@@ -14518,12 +14520,12 @@ const _sfc_main$U = {
               }), {
                 default: withCtx(() => [
                   renderSlot(_ctx.$slots, "leading", { ui: ui.value }, () => [
-                    unref(isLeading) && unref(leadingIconName) ? (openBlock(), createBlock(_sfc_main$Z, {
+                    unref(isLeading) && unref(leadingIconName) ? (openBlock(), createBlock(_sfc_main$_, {
                       key: 0,
                       name: unref(leadingIconName),
                       "data-slot": "leadingIcon",
                       class: ui.value.leadingIcon({ class: unref(uiProp)?.leadingIcon, active })
-                    }, null, 8, ["name", "class"])) : !!__props.avatar ? (openBlock(), createBlock(_sfc_main$X, mergeProps({
+                    }, null, 8, ["name", "class"])) : !!__props.avatar ? (openBlock(), createBlock(_sfc_main$Y, mergeProps({
                       key: 1,
                       size: unref(uiProp)?.leadingAvatarSize || ui.value.leadingAvatarSize()
                     }, __props.avatar, {
@@ -14539,7 +14541,7 @@ const _sfc_main$U = {
                     }, toDisplayString$1(__props.label), 3)) : createCommentVNode("", true)
                   ]),
                   renderSlot(_ctx.$slots, "trailing", { ui: ui.value }, () => [
-                    unref(isTrailing) && unref(trailingIconName) ? (openBlock(), createBlock(_sfc_main$Z, {
+                    unref(isTrailing) && unref(trailingIconName) ? (openBlock(), createBlock(_sfc_main$_, {
                       key: 0,
                       name: unref(trailingIconName),
                       "data-slot": "trailingIcon",
@@ -14557,11 +14559,11 @@ const _sfc_main$U = {
     };
   }
 };
-const _sfc_setup$U = _sfc_main$U.setup;
-_sfc_main$U.setup = (props, ctx) => {
+const _sfc_setup$V = _sfc_main$V.setup;
+_sfc_main$V.setup = (props, ctx) => {
   const ssrContext = useSSRContext();
   (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("../../../../../../../../../../Users/hugh/code/hoxi/apay/node_modules/@nuxt/ui/dist/runtime/components/Button.vue");
-  return _sfc_setup$U ? _sfc_setup$U(props, ctx) : void 0;
+  return _sfc_setup$V ? _sfc_setup$V(props, ctx) : void 0;
 };
 const localeCodes = [
   "en",
@@ -14571,54 +14573,54 @@ const localeCodes = [
 const localeLoaders = {
   en: [
     {
-      key: "locale_common_46json_8d0632b7",
+      key: "locale_common_46json_32c716bc",
       load: () => import(
         './common-CwWEomJY.mjs'
-        /* webpackChunkName: "locale_common_46json_8d0632b7" */
+        /* webpackChunkName: "locale_common_46json_32c716bc" */
       ),
       cache: true
     },
     {
-      key: "locale_site_46json_50283fb0",
+      key: "locale_site_46json_d1eed1b5",
       load: () => import(
         './site-CotAxWow.mjs'
-        /* webpackChunkName: "locale_site_46json_50283fb0" */
+        /* webpackChunkName: "locale_site_46json_d1eed1b5" */
       ),
       cache: true
     }
   ],
   zh: [
     {
-      key: "locale_common_46json_20555a1c",
+      key: "locale_common_46json_0cca4fa3",
       load: () => import(
         './common-BJmwMvwu.mjs'
-        /* webpackChunkName: "locale_common_46json_20555a1c" */
+        /* webpackChunkName: "locale_common_46json_0cca4fa3" */
       ),
       cache: true
     },
     {
-      key: "locale_site_46json_08aabe6d",
+      key: "locale_site_46json_795bbe0b",
       load: () => import(
         './site-sEvoiAml.mjs'
-        /* webpackChunkName: "locale_site_46json_08aabe6d" */
+        /* webpackChunkName: "locale_site_46json_795bbe0b" */
       ),
       cache: true
     }
   ],
   "zh-HK": [
     {
-      key: "locale_common_46json_481b4ae0",
+      key: "locale_common_46json_77310505",
       load: () => import(
         './common-C_WujmcQ.mjs'
-        /* webpackChunkName: "locale_common_46json_481b4ae0" */
+        /* webpackChunkName: "locale_common_46json_77310505" */
       ),
       cache: true
     },
     {
-      key: "locale_site_46json_4301505a",
+      key: "locale_site_46json_35520c39",
       load: () => import(
         './site-DmHw1A-e.mjs'
-        /* webpackChunkName: "locale_site_46json_4301505a" */
+        /* webpackChunkName: "locale_site_46json_35520c39" */
       ),
       cache: true
     }
@@ -14631,11 +14633,11 @@ const normalizedLocales = [
     iso: "en-US",
     files: [
       {
-        path: "/private/var/folders/13/5t054pmd2bn5dkgqvfk2vct80000gn/T/opencode/hoxi-site-v1.0.38/apay/locales/en/common.json",
+        path: "/private/var/folders/13/5t054pmd2bn5dkgqvfk2vct80000gn/T/opencode/hoxi-site-v1.0.39/apay/locales/en/common.json",
         cache: void 0
       },
       {
-        path: "/private/var/folders/13/5t054pmd2bn5dkgqvfk2vct80000gn/T/opencode/hoxi-site-v1.0.38/apay/locales/en/site.json",
+        path: "/private/var/folders/13/5t054pmd2bn5dkgqvfk2vct80000gn/T/opencode/hoxi-site-v1.0.39/apay/locales/en/site.json",
         cache: void 0
       }
     ],
@@ -14647,11 +14649,11 @@ const normalizedLocales = [
     iso: "zh-CN",
     files: [
       {
-        path: "/private/var/folders/13/5t054pmd2bn5dkgqvfk2vct80000gn/T/opencode/hoxi-site-v1.0.38/apay/locales/zh/common.json",
+        path: "/private/var/folders/13/5t054pmd2bn5dkgqvfk2vct80000gn/T/opencode/hoxi-site-v1.0.39/apay/locales/zh/common.json",
         cache: void 0
       },
       {
-        path: "/private/var/folders/13/5t054pmd2bn5dkgqvfk2vct80000gn/T/opencode/hoxi-site-v1.0.38/apay/locales/zh/site.json",
+        path: "/private/var/folders/13/5t054pmd2bn5dkgqvfk2vct80000gn/T/opencode/hoxi-site-v1.0.39/apay/locales/zh/site.json",
         cache: void 0
       }
     ],
@@ -14663,11 +14665,11 @@ const normalizedLocales = [
     iso: "zh-HK",
     files: [
       {
-        path: "/private/var/folders/13/5t054pmd2bn5dkgqvfk2vct80000gn/T/opencode/hoxi-site-v1.0.38/apay/locales/zh-HK/common.json",
+        path: "/private/var/folders/13/5t054pmd2bn5dkgqvfk2vct80000gn/T/opencode/hoxi-site-v1.0.39/apay/locales/zh-HK/common.json",
         cache: void 0
       },
       {
-        path: "/private/var/folders/13/5t054pmd2bn5dkgqvfk2vct80000gn/T/opencode/hoxi-site-v1.0.38/apay/locales/zh-HK/site.json",
+        path: "/private/var/folders/13/5t054pmd2bn5dkgqvfk2vct80000gn/T/opencode/hoxi-site-v1.0.39/apay/locales/zh-HK/site.json",
         cache: void 0
       }
     ],
@@ -15864,7 +15866,7 @@ function useSupportChat() {
     normalizeAttachments: normalizeSupportAttachments
   };
 }
-const _sfc_main$T = /* @__PURE__ */ defineComponent({
+const _sfc_main$U = /* @__PURE__ */ defineComponent({
   __name: "[order_id]",
   __ssrInlineRender: true,
   setup(__props) {
@@ -15918,8 +15920,8 @@ const _sfc_main$T = /* @__PURE__ */ defineComponent({
       return productType || t("site.payment.paid");
     };
     return (_ctx, _push, _parent, _attrs) => {
-      const _component_UIcon = _sfc_main$Z;
-      const _component_UButton = _sfc_main$U;
+      const _component_UIcon = _sfc_main$_;
+      const _component_UButton = _sfc_main$V;
       _push(`<div${ssrRenderAttrs(mergeProps({ class: "min-h-screen bg-gray-50 dark:bg-[#09090b] flex items-center justify-center p-4 transition-colors" }, _attrs))}><div class="max-w-5xl w-full bg-white dark:bg-[#121214] border border-gray-200 dark:border-gray-800/50 rounded-2xl p-8 md:p-10 shadow-sm dark:shadow-2xl relative overflow-hidden"><div class="absolute -top-24 -right-24 w-48 h-48 bg-purple-500/20 rounded-full blur-3xl"></div>`);
       if (payStatus.value === "pending") {
         _push(`<div class="relative z-10 text-center">`);
@@ -16174,15 +16176,15 @@ const _sfc_main$T = /* @__PURE__ */ defineComponent({
     };
   }
 });
-const _sfc_setup$T = _sfc_main$T.setup;
-_sfc_main$T.setup = (props, ctx) => {
+const _sfc_setup$U = _sfc_main$U.setup;
+_sfc_main$U.setup = (props, ctx) => {
   const ssrContext = useSSRContext();
   (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("core/pages/callback/[order_id].vue");
-  return _sfc_setup$T ? _sfc_setup$T(props, ctx) : void 0;
+  return _sfc_setup$U ? _sfc_setup$U(props, ctx) : void 0;
 };
 const __vite_glob_0_1$1 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
   __proto__: null,
-  default: _sfc_main$T
+  default: _sfc_main$U
 }, Symbol.toStringTag, { value: "Module" }));
 function useUserSession() {
   const serverEvent = useRequestEvent();
@@ -16363,7 +16365,7 @@ const useCustomerAuth = () => {
     fetchSession: fetch
   };
 };
-const _sfc_main$S = /* @__PURE__ */ defineComponent({
+const _sfc_main$T = /* @__PURE__ */ defineComponent({
   __name: "cancel",
   __ssrInlineRender: true,
   setup(__props) {
@@ -16384,8 +16386,8 @@ const _sfc_main$S = /* @__PURE__ */ defineComponent({
     ref("");
     const redirecting = ref(false);
     return (_ctx, _push, _parent, _attrs) => {
-      const _component_UIcon = _sfc_main$Z;
-      const _component_UButton = _sfc_main$U;
+      const _component_UIcon = _sfc_main$_;
+      const _component_UButton = _sfc_main$V;
       _push(`<div${ssrRenderAttrs(mergeProps({ class: "min-h-[80vh] flex flex-col items-center justify-center p-4" }, _attrs))}><div class="max-w-md w-full bg-[#121214] border border-gray-800/50 rounded-2xl p-8 text-center shadow-2xl relative overflow-hidden"><div class="absolute -top-24 -left-24 w-48 h-48 bg-yellow-500/10 rounded-full blur-3xl"></div><div class="relative z-10"><div class="w-20 h-20 bg-yellow-500/10 rounded-full flex items-center justify-center mx-auto mb-6">`);
       _push(ssrRenderComponent(_component_UIcon, {
         name: "ph:x-circle-fill",
@@ -16441,15 +16443,15 @@ const _sfc_main$S = /* @__PURE__ */ defineComponent({
     };
   }
 });
-const _sfc_setup$S = _sfc_main$S.setup;
-_sfc_main$S.setup = (props, ctx) => {
+const _sfc_setup$T = _sfc_main$T.setup;
+_sfc_main$T.setup = (props, ctx) => {
   const ssrContext = useSSRContext();
   (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("core/pages/callback/cancel.vue");
-  return _sfc_setup$S ? _sfc_setup$S(props, ctx) : void 0;
+  return _sfc_setup$T ? _sfc_setup$T(props, ctx) : void 0;
 };
 const __vite_glob_0_2$1 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
   __proto__: null,
-  default: _sfc_main$S
+  default: _sfc_main$T
 }, Symbol.toStringTag, { value: "Module" }));
 const normalizeCurrencyCode$1 = (value) => {
   const currency = String(value || "").trim().toUpperCase();
@@ -16491,7 +16493,7 @@ const useProductPricing = () => {
   };
   return { context: context2, productQuote, productAmount, productCurrency, formatProductPrice };
 };
-const _sfc_main$R = /* @__PURE__ */ defineComponent({
+const _sfc_main$S = /* @__PURE__ */ defineComponent({
   __name: "ProductPrice",
   __ssrInlineRender: true,
   props: {
@@ -16515,13 +16517,13 @@ const _sfc_main$R = /* @__PURE__ */ defineComponent({
     };
   }
 });
-const _sfc_setup$R = _sfc_main$R.setup;
-_sfc_main$R.setup = (props, ctx) => {
+const _sfc_setup$S = _sfc_main$S.setup;
+_sfc_main$S.setup = (props, ctx) => {
   const ssrContext = useSSRContext();
   (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("components/ProductPrice.vue");
-  return _sfc_setup$R ? _sfc_setup$R(props, ctx) : void 0;
+  return _sfc_setup$S ? _sfc_setup$S(props, ctx) : void 0;
 };
-const __nuxt_component_2$1 = Object.assign(_sfc_main$R, { __name: "ProductPrice" });
+const __nuxt_component_2$1 = Object.assign(_sfc_main$S, { __name: "ProductPrice" });
 const VERSION = "10.0.8";
 const I18nErrorCodes = {
   // composer module errors
@@ -17366,7 +17368,7 @@ const useLocalizedSettings = () => {
     getLocalizedSetting
   };
 };
-const _sfc_main$Q = /* @__PURE__ */ defineComponent({
+const _sfc_main$R = /* @__PURE__ */ defineComponent({
   __name: "index",
   __ssrInlineRender: true,
   async setup(__props) {
@@ -17387,7 +17389,7 @@ const _sfc_main$Q = /* @__PURE__ */ defineComponent({
       {
         key: "homepage-products"
       },
-      "$kAJQV_CRC9"
+      "$g5Lly2U-Ts"
       /* nuxt-injected */
     )), __temp = await __temp, __restore(), __temp);
     const products = computed(() => {
@@ -17397,8 +17399,8 @@ const _sfc_main$Q = /* @__PURE__ */ defineComponent({
     return (_ctx, _push, _parent, _attrs) => {
       const _component_Icon = __nuxt_component_0$1;
       const _component_NuxtLink = __nuxt_component_3$3;
-      const _component_UButton = _sfc_main$U;
-      const _component_UIcon = _sfc_main$Z;
+      const _component_UButton = _sfc_main$V;
+      const _component_UIcon = _sfc_main$_;
       const _component_ProductPrice = __nuxt_component_2$1;
       const _directive_motion_fade_visible_once = resolveDirective("motion-fade-visible-once");
       const _directive_motion_slide_visible_once_bottom = resolveDirective("motion-slide-visible-once-bottom");
@@ -17718,17 +17720,17 @@ const _sfc_main$Q = /* @__PURE__ */ defineComponent({
     };
   }
 });
-const _sfc_setup$Q = _sfc_main$Q.setup;
-_sfc_main$Q.setup = (props, ctx) => {
+const _sfc_setup$R = _sfc_main$R.setup;
+_sfc_main$R.setup = (props, ctx) => {
   const ssrContext = useSSRContext();
   (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("core/pages/index.vue");
-  return _sfc_setup$Q ? _sfc_setup$Q(props, ctx) : void 0;
+  return _sfc_setup$R ? _sfc_setup$R(props, ctx) : void 0;
 };
 const __vite_glob_0_3 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
   __proto__: null,
-  default: _sfc_main$Q
+  default: _sfc_main$R
 }, Symbol.toStringTag, { value: "Module" }));
-const _sfc_main$P = /* @__PURE__ */ defineComponent({
+const _sfc_main$Q = /* @__PURE__ */ defineComponent({
   __name: "SiteLogo",
   __ssrInlineRender: true,
   props: {
@@ -17751,7 +17753,7 @@ const _sfc_main$P = /* @__PURE__ */ defineComponent({
       return trimmed.startsWith("<svg") && trimmed.endsWith("</svg>");
     });
     return (_ctx, _push, _parent, _attrs) => {
-      const _component_UIcon = _sfc_main$Z;
+      const _component_UIcon = _sfc_main$_;
       _push(`<div${ssrRenderAttrs(mergeProps({
         class: ["inline-flex items-center justify-center overflow-hidden", __props.containerClass],
         style: __props.containerStyle
@@ -17776,13 +17778,13 @@ const _sfc_main$P = /* @__PURE__ */ defineComponent({
     };
   }
 });
-const _sfc_setup$P = _sfc_main$P.setup;
-_sfc_main$P.setup = (props, ctx) => {
+const _sfc_setup$Q = _sfc_main$Q.setup;
+_sfc_main$Q.setup = (props, ctx) => {
   const ssrContext = useSSRContext();
   (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("components/SiteLogo.vue");
-  return _sfc_setup$P ? _sfc_setup$P(props, ctx) : void 0;
+  return _sfc_setup$Q ? _sfc_setup$Q(props, ctx) : void 0;
 };
-const __nuxt_component_1$2 = Object.assign(_sfc_main$P, { __name: "SiteLogo" });
+const __nuxt_component_1$2 = Object.assign(_sfc_main$Q, { __name: "SiteLogo" });
 const theme$h = {
   "slots": {
     "base": "font-medium inline-flex items-center",
@@ -18021,7 +18023,7 @@ const theme$h = {
     "size": "md"
   }
 };
-const _sfc_main$O = {
+const _sfc_main$P = {
   __name: "UBadge",
   __ssrInlineRender: true,
   props: {
@@ -18064,13 +18066,13 @@ const _sfc_main$O = {
           if (_push2) {
             ssrRenderSlot(_ctx.$slots, "leading", { ui: ui.value }, () => {
               if (unref(isLeading) && unref(leadingIconName)) {
-                _push2(ssrRenderComponent(_sfc_main$Z, {
+                _push2(ssrRenderComponent(_sfc_main$_, {
                   name: unref(leadingIconName),
                   "data-slot": "leadingIcon",
                   class: ui.value.leadingIcon({ class: unref(uiProp)?.leadingIcon })
                 }, null, _parent2, _scopeId));
               } else if (!!__props.avatar) {
-                _push2(ssrRenderComponent(_sfc_main$X, mergeProps({
+                _push2(ssrRenderComponent(_sfc_main$Y, mergeProps({
                   size: unref(uiProp)?.leadingAvatarSize || ui.value.leadingAvatarSize()
                 }, __props.avatar, {
                   "data-slot": "leadingAvatar",
@@ -18089,7 +18091,7 @@ const _sfc_main$O = {
             }, _push2, _parent2, _scopeId);
             ssrRenderSlot(_ctx.$slots, "trailing", { ui: ui.value }, () => {
               if (unref(isTrailing) && unref(trailingIconName)) {
-                _push2(ssrRenderComponent(_sfc_main$Z, {
+                _push2(ssrRenderComponent(_sfc_main$_, {
                   name: unref(trailingIconName),
                   "data-slot": "trailingIcon",
                   class: ui.value.trailingIcon({ class: unref(uiProp)?.trailingIcon })
@@ -18101,12 +18103,12 @@ const _sfc_main$O = {
           } else {
             return [
               renderSlot(_ctx.$slots, "leading", { ui: ui.value }, () => [
-                unref(isLeading) && unref(leadingIconName) ? (openBlock(), createBlock(_sfc_main$Z, {
+                unref(isLeading) && unref(leadingIconName) ? (openBlock(), createBlock(_sfc_main$_, {
                   key: 0,
                   name: unref(leadingIconName),
                   "data-slot": "leadingIcon",
                   class: ui.value.leadingIcon({ class: unref(uiProp)?.leadingIcon })
-                }, null, 8, ["name", "class"])) : !!__props.avatar ? (openBlock(), createBlock(_sfc_main$X, mergeProps({
+                }, null, 8, ["name", "class"])) : !!__props.avatar ? (openBlock(), createBlock(_sfc_main$Y, mergeProps({
                   key: 1,
                   size: unref(uiProp)?.leadingAvatarSize || ui.value.leadingAvatarSize()
                 }, __props.avatar, {
@@ -18122,7 +18124,7 @@ const _sfc_main$O = {
                 }, toDisplayString$1(__props.label), 3)) : createCommentVNode("", true)
               ]),
               renderSlot(_ctx.$slots, "trailing", { ui: ui.value }, () => [
-                unref(isTrailing) && unref(trailingIconName) ? (openBlock(), createBlock(_sfc_main$Z, {
+                unref(isTrailing) && unref(trailingIconName) ? (openBlock(), createBlock(_sfc_main$_, {
                   key: 0,
                   name: unref(trailingIconName),
                   "data-slot": "trailingIcon",
@@ -18137,11 +18139,11 @@ const _sfc_main$O = {
     };
   }
 };
-const _sfc_setup$O = _sfc_main$O.setup;
-_sfc_main$O.setup = (props, ctx) => {
+const _sfc_setup$P = _sfc_main$P.setup;
+_sfc_main$P.setup = (props, ctx) => {
   const ssrContext = useSSRContext();
   (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("../../../../../../../../../../Users/hugh/code/hoxi/apay/node_modules/@nuxt/ui/dist/runtime/components/Badge.vue");
-  return _sfc_setup$O ? _sfc_setup$O(props, ctx) : void 0;
+  return _sfc_setup$P ? _sfc_setup$P(props, ctx) : void 0;
 };
 const toastMaxInjectionKey = /* @__PURE__ */ Symbol("nuxt-ui.toast-max");
 function useToast() {
@@ -18228,7 +18230,7 @@ function useToast() {
     clear
   };
 }
-const _sfc_main$N = /* @__PURE__ */ defineComponent({
+const _sfc_main$O = /* @__PURE__ */ defineComponent({
   __name: "PaymentWorkspace",
   __ssrInlineRender: true,
   props: {
@@ -18480,8 +18482,8 @@ const _sfc_main$N = /* @__PURE__ */ defineComponent({
       }
     });
     return (_ctx, _push, _parent, _attrs) => {
-      const _component_UIcon = _sfc_main$Z;
-      const _component_UButton = _sfc_main$U;
+      const _component_UIcon = _sfc_main$_;
+      const _component_UButton = _sfc_main$V;
       if (__props.embedded) {
         _push(`<div${ssrRenderAttrs(mergeProps({ class: "p-5 sm:p-7 lg:p-8" }, _attrs))} data-v-bee4cb1b><div class="flex items-center justify-between gap-3 mb-5" data-v-bee4cb1b><div class="flex items-center gap-2.5" data-v-bee4cb1b><div class="w-9 h-9 rounded-xl bg-purple-500/10 dark:bg-purple-500/15 border border-purple-500/20 flex items-center justify-center text-purple-600 dark:text-purple-400 shrink-0" data-v-bee4cb1b>`);
         _push(ssrRenderComponent(_component_UIcon, {
@@ -18711,13 +18713,13 @@ const _export_sfc = (sfc, props) => {
   }
   return target;
 };
-const _sfc_setup$N = _sfc_main$N.setup;
-_sfc_main$N.setup = (props, ctx) => {
+const _sfc_setup$O = _sfc_main$O.setup;
+_sfc_main$O.setup = (props, ctx) => {
   const ssrContext = useSSRContext();
   (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("components/PaymentWorkspace.vue");
-  return _sfc_setup$N ? _sfc_setup$N(props, ctx) : void 0;
+  return _sfc_setup$O ? _sfc_setup$O(props, ctx) : void 0;
 };
-const __nuxt_component_1$1 = /* @__PURE__ */ Object.assign(_export_sfc(_sfc_main$N, [["__scopeId", "data-v-bee4cb1b"]]), { __name: "PaymentWorkspace" });
+const __nuxt_component_1$1 = /* @__PURE__ */ Object.assign(_export_sfc(_sfc_main$O, [["__scopeId", "data-v-bee4cb1b"]]), { __name: "PaymentWorkspace" });
 const normalizeCurrencyCode = (value, fallback = "") => {
   const currency = String(value || "").trim().toUpperCase();
   return /^[A-Z]{3}$/.test(currency) ? currency : fallback;
@@ -18789,7 +18791,7 @@ const useLocaleCurrency = () => {
     formatAmount
   };
 };
-const _sfc_main$M = /* @__PURE__ */ defineComponent({
+const _sfc_main$N = /* @__PURE__ */ defineComponent({
   ...{ layout: false },
   __name: "[order_id]",
   __ssrInlineRender: true,
@@ -18825,7 +18827,7 @@ const _sfc_main$M = /* @__PURE__ */ defineComponent({
         lazy: true,
         query: { orderId }
       },
-      "$g6JYZ8ip6z"
+      "$rW0pJdUJod"
       /* nuxt-injected */
     )), __temp = await __temp, __restore(), __temp);
     const pending = computed(() => status.value === "pending");
@@ -19163,11 +19165,11 @@ const _sfc_main$M = /* @__PURE__ */ defineComponent({
       { immediate: true }
     );
     return (_ctx, _push, _parent, _attrs) => {
-      const _component_UIcon = _sfc_main$Z;
+      const _component_UIcon = _sfc_main$_;
       const _component_NuxtLink = __nuxt_component_3$3;
       const _component_SiteLogo = __nuxt_component_1$2;
-      const _component_UButton = _sfc_main$U;
-      const _component_UBadge = _sfc_main$O;
+      const _component_UButton = _sfc_main$V;
+      const _component_UBadge = _sfc_main$P;
       const _component_PaymentWorkspace = __nuxt_component_1$1;
       _push(`<div${ssrRenderAttrs(mergeProps({ class: "min-h-screen bg-[#f8f9fb] dark:bg-[#09090b] text-gray-900 dark:text-zinc-100 relative overflow-x-hidden transition-colors flex flex-col" }, _attrs))}><div class="pointer-events-none absolute inset-x-0 top-0 h-[420px] overflow-hidden"><div class="absolute -top-40 left-1/2 -translate-x-1/2 w-[760px] h-[360px] rounded-full bg-purple-500/[0.06] dark:bg-purple-600/[0.10] blur-[120px]"></div></div><header class="sticky top-0 z-30 border-b border-gray-200/80 dark:border-white/[0.07] bg-white/80 dark:bg-[#09090b]/80 backdrop-blur-xl"><div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4"><div class="flex items-center gap-3 min-w-0">`);
       if (externalCancelUrl.value) {
@@ -19427,15 +19429,15 @@ const _sfc_main$M = /* @__PURE__ */ defineComponent({
     };
   }
 });
-const _sfc_setup$M = _sfc_main$M.setup;
-_sfc_main$M.setup = (props, ctx) => {
+const _sfc_setup$N = _sfc_main$N.setup;
+_sfc_main$N.setup = (props, ctx) => {
   const ssrContext = useSSRContext();
   (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("core/pages/payment/[order_id].vue");
-  return _sfc_setup$M ? _sfc_setup$M(props, ctx) : void 0;
+  return _sfc_setup$N ? _sfc_setup$N(props, ctx) : void 0;
 };
 const __vite_glob_0_4 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
   __proto__: null,
-  default: _sfc_main$M
+  default: _sfc_main$N
 }, Symbol.toStringTag, { value: "Module" }));
 const cleanPlainText = (value) => htmlToCleanMarkdown(value).replace(/\s+/g, " ").trim();
 const resolveEntityMeta = (metaData, currentLocale) => {
@@ -19569,7 +19571,7 @@ const useFaqPageJsonLd = (key, items) => {
     }];
   }));
 };
-const _sfc_main$L = /* @__PURE__ */ defineComponent({
+const _sfc_main$M = /* @__PURE__ */ defineComponent({
   __name: "pricing",
   __ssrInlineRender: true,
   async setup(__props) {
@@ -19595,7 +19597,7 @@ const _sfc_main$L = /* @__PURE__ */ defineComponent({
       {
         query: { limit: 100 }
       },
-      "$uzhD-DAGZ5"
+      "$actU4s3gMx"
       /* nuxt-injected */
     )), __temp = await __temp, __restore(), __temp);
     const plans = computed(() => {
@@ -19611,10 +19613,10 @@ const _sfc_main$L = /* @__PURE__ */ defineComponent({
       }
     };
     return (_ctx, _push, _parent, _attrs) => {
-      const _component_UIcon = _sfc_main$Z;
+      const _component_UIcon = _sfc_main$_;
       const _component_Icon = __nuxt_component_0$1;
       const _component_ProductPrice = __nuxt_component_2$1;
-      const _component_UButton = _sfc_main$U;
+      const _component_UButton = _sfc_main$V;
       _push(`<div${ssrRenderAttrs(mergeProps({ class: "min-h-screen bg-[#09090b]" }, _attrs))}><div class="max-w-[1440px] mx-auto w-full"><div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-32 pb-16 overflow-hidden"><div class="absolute inset-0 pointer-events-none"><div class="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[600px] bg-purple-600/10 rounded-full blur-[120px] opacity-50"></div></div><div class="relative z-10 text-center mb-16"><h1 class="text-4xl md:text-5xl font-sans font-bold mb-4"><span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-purple-500 to-pink-500">${ssrInterpolate(_ctx.$t("site.core.pricing.title"))}</span></h1><p class="text-gray-400 text-lg max-w-2xl mx-auto mt-6">${ssrInterpolate(_ctx.$t("site.core.pricing.subtitle"))}</p></div></div><div class="max-w-[1200px] mx-auto px-6 pb-32 relative z-10">`);
       if (unref(pending)) {
         _push(`<div class="flex justify-center py-20">`);
@@ -19716,15 +19718,15 @@ const _sfc_main$L = /* @__PURE__ */ defineComponent({
     };
   }
 });
-const _sfc_setup$L = _sfc_main$L.setup;
-_sfc_main$L.setup = (props, ctx) => {
+const _sfc_setup$M = _sfc_main$M.setup;
+_sfc_main$M.setup = (props, ctx) => {
   const ssrContext = useSSRContext();
   (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("core/pages/pricing.vue");
-  return _sfc_setup$L ? _sfc_setup$L(props, ctx) : void 0;
+  return _sfc_setup$M ? _sfc_setup$M(props, ctx) : void 0;
 };
 const __vite_glob_0_5 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
   __proto__: null,
-  default: _sfc_main$L
+  default: _sfc_main$M
 }, Symbol.toStringTag, { value: "Module" }));
 function buildTranslator(locale) {
   return (path, option) => translate(path, option, unref(locale));
@@ -19753,7 +19755,7 @@ function buildLocaleContext(locale) {
 function defineLocale(options) {
   return defu(options, { dir: "ltr" });
 }
-const en = /* @__PURE__ */ defineLocale({
+const en$1 = /* @__PURE__ */ defineLocale({
   name: "English",
   code: "en",
   messages: {
@@ -19896,8 +19898,8 @@ const en = /* @__PURE__ */ defineLocale({
 });
 const localeContextInjectionKey = /* @__PURE__ */ Symbol.for("nuxt-ui.locale-context");
 const _useLocale = (localeOverrides) => {
-  const locale = localeOverrides || toRef$1(inject(localeContextInjectionKey, en));
-  return buildLocaleContext(computed(() => locale.value || en));
+  const locale = localeOverrides || toRef$1(inject(localeContextInjectionKey, en$1));
+  return buildLocaleContext(computed(() => locale.value || en$1));
 };
 const useLocale = _useLocale;
 const theme$g = {
@@ -19938,7 +19940,7 @@ const theme$g = {
     }
   }
 };
-const _sfc_main$K = {
+const _sfc_main$L = {
   __name: "UCarousel",
   __ssrInlineRender: true,
   props: {
@@ -20123,7 +20125,7 @@ const _sfc_main$K = {
               _push2(`<div data-slot="controls" class="${ssrRenderClass(ui.value.controls({ class: unref(uiProp)?.controls }))}"${_scopeId}>`);
               if (__props.arrows) {
                 _push2(`<div data-slot="arrows" class="${ssrRenderClass(ui.value.arrows({ class: unref(uiProp)?.arrows }))}"${_scopeId}>`);
-                _push2(ssrRenderComponent(_sfc_main$U, mergeProps({
+                _push2(ssrRenderComponent(_sfc_main$V, mergeProps({
                   disabled: !canScrollPrev.value,
                   icon: prevIcon.value,
                   color: "neutral",
@@ -20134,7 +20136,7 @@ const _sfc_main$K = {
                   class: ui.value.prev({ class: unref(uiProp)?.prev }),
                   onClick: scrollPrev
                 }), null, _parent2, _scopeId));
-                _push2(ssrRenderComponent(_sfc_main$U, mergeProps({
+                _push2(ssrRenderComponent(_sfc_main$V, mergeProps({
                   disabled: !canScrollNext.value,
                   icon: nextIcon.value,
                   color: "neutral",
@@ -20197,7 +20199,7 @@ const _sfc_main$K = {
                   "data-slot": "arrows",
                   class: ui.value.arrows({ class: unref(uiProp)?.arrows })
                 }, [
-                  createVNode(_sfc_main$U, mergeProps({
+                  createVNode(_sfc_main$V, mergeProps({
                     disabled: !canScrollPrev.value,
                     icon: prevIcon.value,
                     color: "neutral",
@@ -20208,7 +20210,7 @@ const _sfc_main$K = {
                     class: ui.value.prev({ class: unref(uiProp)?.prev }),
                     onClick: scrollPrev
                   }), null, 16, ["disabled", "icon", "aria-label", "class"]),
-                  createVNode(_sfc_main$U, mergeProps({
+                  createVNode(_sfc_main$V, mergeProps({
                     disabled: !canScrollNext.value,
                     icon: nextIcon.value,
                     color: "neutral",
@@ -20250,11 +20252,11 @@ const _sfc_main$K = {
     };
   }
 };
-const _sfc_setup$K = _sfc_main$K.setup;
-_sfc_main$K.setup = (props, ctx) => {
+const _sfc_setup$L = _sfc_main$L.setup;
+_sfc_main$L.setup = (props, ctx) => {
   const ssrContext = useSSRContext();
   (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("../../../../../../../../../../Users/hugh/code/hoxi/apay/node_modules/@nuxt/ui/dist/runtime/components/Carousel.vue");
-  return _sfc_setup$K ? _sfc_setup$K(props, ctx) : void 0;
+  return _sfc_setup$L ? _sfc_setup$L(props, ctx) : void 0;
 };
 function useLike(options) {
   const count2 = ref(options.initialCount ?? 0);
@@ -20330,7 +20332,7 @@ function useLike(options) {
     toggle
   };
 }
-const _sfc_main$J = /* @__PURE__ */ defineComponent({
+const _sfc_main$K = /* @__PURE__ */ defineComponent({
   __name: "LikeButton",
   __ssrInlineRender: true,
   props: {
@@ -20422,7 +20424,7 @@ const _sfc_main$J = /* @__PURE__ */ defineComponent({
       return hasLiked.value ? "bg-rose-50 hover:bg-rose-100 dark:bg-rose-950/30 dark:hover:bg-rose-900/40 text-rose-600 dark:text-rose-400 border border-rose-200 dark:border-rose-900/60 rounded-lg shadow-sm font-medium" : "bg-white hover:bg-slate-50 dark:bg-slate-900 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-800 rounded-lg shadow-sm";
     });
     return (_ctx, _push, _parent, _attrs) => {
-      const _component_UIcon = _sfc_main$Z;
+      const _component_UIcon = _sfc_main$_;
       _push(`<button${ssrRenderAttrs(mergeProps({
         type: "button",
         "aria-label": __props.ariaLabel || unref(t)("common.like"),
@@ -20453,13 +20455,13 @@ const _sfc_main$J = /* @__PURE__ */ defineComponent({
     };
   }
 });
-const _sfc_setup$J = _sfc_main$J.setup;
-_sfc_main$J.setup = (props, ctx) => {
+const _sfc_setup$K = _sfc_main$K.setup;
+_sfc_main$K.setup = (props, ctx) => {
   const ssrContext = useSSRContext();
   (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("components/LikeButton.vue");
-  return _sfc_setup$J ? _sfc_setup$J(props, ctx) : void 0;
+  return _sfc_setup$K ? _sfc_setup$K(props, ctx) : void 0;
 };
-const __nuxt_component_3$2 = /* @__PURE__ */ Object.assign(_export_sfc(_sfc_main$J, [["__scopeId", "data-v-f08c92ca"]]), { __name: "LikeButton" });
+const __nuxt_component_3$2 = /* @__PURE__ */ Object.assign(_export_sfc(_sfc_main$K, [["__scopeId", "data-v-f08c92ca"]]), { __name: "LikeButton" });
 const portalTargetInjectionKey = /* @__PURE__ */ Symbol("nuxt-ui.portal-target");
 function usePortal(portal) {
   const globalPortal = inject(portalTargetInjectionKey, void 0);
@@ -20544,7 +20546,7 @@ const theme$f = {
     }
   ]
 };
-const _sfc_main$I = {
+const _sfc_main$J = {
   __name: "UModal",
   __ssrInlineRender: true,
   props: {
@@ -20747,7 +20749,7 @@ const _sfc_main$I = {
                                     if (_push5) {
                                       ssrRenderSlot(_ctx.$slots, "close", { ui: ui.value }, () => {
                                         if (props.close) {
-                                          _push5(ssrRenderComponent(_sfc_main$U, mergeProps({
+                                          _push5(ssrRenderComponent(_sfc_main$V, mergeProps({
                                             icon: __props.closeIcon || unref(appConfig2).ui.icons.close,
                                             color: "neutral",
                                             variant: "ghost",
@@ -20763,7 +20765,7 @@ const _sfc_main$I = {
                                     } else {
                                       return [
                                         renderSlot(_ctx.$slots, "close", { ui: ui.value }, () => [
-                                          props.close ? (openBlock(), createBlock(_sfc_main$U, mergeProps({
+                                          props.close ? (openBlock(), createBlock(_sfc_main$V, mergeProps({
                                             key: 0,
                                             icon: __props.closeIcon || unref(appConfig2).ui.icons.close,
                                             color: "neutral",
@@ -20868,7 +20870,7 @@ const _sfc_main$I = {
                                 }, {
                                   default: withCtx(() => [
                                     renderSlot(_ctx.$slots, "close", { ui: ui.value }, () => [
-                                      props.close ? (openBlock(), createBlock(_sfc_main$U, mergeProps({
+                                      props.close ? (openBlock(), createBlock(_sfc_main$V, mergeProps({
                                         key: 0,
                                         icon: __props.closeIcon || unref(appConfig2).ui.icons.close,
                                         color: "neutral",
@@ -20978,7 +20980,7 @@ const _sfc_main$I = {
                               }, {
                                 default: withCtx(() => [
                                   renderSlot(_ctx.$slots, "close", { ui: ui.value }, () => [
-                                    props.close ? (openBlock(), createBlock(_sfc_main$U, mergeProps({
+                                    props.close ? (openBlock(), createBlock(_sfc_main$V, mergeProps({
                                       key: 0,
                                       icon: __props.closeIcon || unref(appConfig2).ui.icons.close,
                                       color: "neutral",
@@ -21168,7 +21170,7 @@ const _sfc_main$I = {
                             }, {
                               default: withCtx(() => [
                                 renderSlot(_ctx.$slots, "close", { ui: ui.value }, () => [
-                                  props.close ? (openBlock(), createBlock(_sfc_main$U, mergeProps({
+                                  props.close ? (openBlock(), createBlock(_sfc_main$V, mergeProps({
                                     key: 0,
                                     icon: __props.closeIcon || unref(appConfig2).ui.icons.close,
                                     color: "neutral",
@@ -21245,11 +21247,11 @@ const _sfc_main$I = {
     };
   }
 };
-const _sfc_setup$I = _sfc_main$I.setup;
-_sfc_main$I.setup = (props, ctx) => {
+const _sfc_setup$J = _sfc_main$J.setup;
+_sfc_main$J.setup = (props, ctx) => {
   const ssrContext = useSSRContext();
   (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("../../../../../../../../../../Users/hugh/code/hoxi/apay/node_modules/@nuxt/ui/dist/runtime/components/Modal.vue");
-  return _sfc_setup$I ? _sfc_setup$I(props, ctx) : void 0;
+  return _sfc_setup$J ? _sfc_setup$J(props, ctx) : void 0;
 };
 const useAuthRedirect = () => {
   const route = useRoute$1();
@@ -21460,7 +21462,7 @@ const useCheckout = () => {
     handleFreeOrderSuccess
   };
 };
-const _sfc_main$H = /* @__PURE__ */ defineComponent({
+const _sfc_main$I = /* @__PURE__ */ defineComponent({
   __name: "PaymentModal",
   __ssrInlineRender: true,
   props: {
@@ -21501,7 +21503,7 @@ const _sfc_main$H = /* @__PURE__ */ defineComponent({
       close: closeCheckoutModal
     });
     return (_ctx, _push, _parent, _attrs) => {
-      const _component_UModal = _sfc_main$I;
+      const _component_UModal = _sfc_main$J;
       const _component_PaymentWorkspace = __nuxt_component_1$1;
       _push(`<!--[-->`);
       ssrRenderSlot(_ctx.$slots, "trigger", {
@@ -21554,14 +21556,14 @@ const _sfc_main$H = /* @__PURE__ */ defineComponent({
     };
   }
 });
-const _sfc_setup$H = _sfc_main$H.setup;
-_sfc_main$H.setup = (props, ctx) => {
+const _sfc_setup$I = _sfc_main$I.setup;
+_sfc_main$I.setup = (props, ctx) => {
   const ssrContext = useSSRContext();
   (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("components/PaymentModal.vue");
-  return _sfc_setup$H ? _sfc_setup$H(props, ctx) : void 0;
+  return _sfc_setup$I ? _sfc_setup$I(props, ctx) : void 0;
 };
-const __nuxt_component_3$1 = Object.assign(_sfc_main$H, { __name: "PaymentModal" });
-const _sfc_main$G = /* @__PURE__ */ defineComponent({
+const __nuxt_component_3$1 = Object.assign(_sfc_main$I, { __name: "PaymentModal" });
+const _sfc_main$H = /* @__PURE__ */ defineComponent({
   __name: "ErrorDiagnostics",
   __ssrInlineRender: true,
   props: {
@@ -21601,7 +21603,7 @@ ${version2} · ${buildId}`);
       }
     };
     return (_ctx, _push, _parent, _attrs) => {
-      const _component_UButton = _sfc_main$U;
+      const _component_UButton = _sfc_main$V;
       _push(`<div${ssrRenderAttrs(mergeProps({ class: "mt-6 w-full max-w-2xl rounded-xl border border-gray-200 bg-gray-50 p-4 text-left text-sm dark:border-gray-800 dark:bg-gray-900" }, _attrs))}>`);
       if (unref(requestId)) {
         _push(`<p class="break-all font-mono">${ssrInterpolate(unref(t)("errorDiagnostics.reference"))}: ${ssrInterpolate(unref(requestId))}</p>`);
@@ -21663,14 +21665,14 @@ ${version2} · ${buildId}`);
     };
   }
 });
-const _sfc_setup$G = _sfc_main$G.setup;
-_sfc_main$G.setup = (props, ctx) => {
+const _sfc_setup$H = _sfc_main$H.setup;
+_sfc_main$H.setup = (props, ctx) => {
   const ssrContext = useSSRContext();
   (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("components/ErrorDiagnostics.vue");
-  return _sfc_setup$G ? _sfc_setup$G(props, ctx) : void 0;
+  return _sfc_setup$H ? _sfc_setup$H(props, ctx) : void 0;
 };
-const __nuxt_component_4$1 = Object.assign(_sfc_main$G, { __name: "ErrorDiagnostics" });
-const _sfc_main$F = /* @__PURE__ */ defineComponent({
+const __nuxt_component_4$1 = Object.assign(_sfc_main$H, { __name: "ErrorDiagnostics" });
+const _sfc_main$G = /* @__PURE__ */ defineComponent({
   __name: "PageRequestError",
   __ssrInlineRender: true,
   props: {
@@ -21684,9 +21686,9 @@ const _sfc_main$F = /* @__PURE__ */ defineComponent({
       if (props.retry) await props.retry();
     };
     return (_ctx, _push, _parent, _attrs) => {
-      const _component_UIcon = _sfc_main$Z;
+      const _component_UIcon = _sfc_main$_;
       const _component_ErrorDiagnostics = __nuxt_component_4$1;
-      const _component_UButton = _sfc_main$U;
+      const _component_UButton = _sfc_main$V;
       _push(`<div${ssrRenderAttrs(mergeProps({
         role: "alert",
         class: "mx-auto flex max-w-xl flex-col items-center px-6 py-16 text-center text-gray-900 dark:text-gray-100"
@@ -21719,13 +21721,13 @@ const _sfc_main$F = /* @__PURE__ */ defineComponent({
     };
   }
 });
-const _sfc_setup$F = _sfc_main$F.setup;
-_sfc_main$F.setup = (props, ctx) => {
+const _sfc_setup$G = _sfc_main$G.setup;
+_sfc_main$G.setup = (props, ctx) => {
   const ssrContext = useSSRContext();
   (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("components/PageRequestError.vue");
-  return _sfc_setup$F ? _sfc_setup$F(props, ctx) : void 0;
+  return _sfc_setup$G ? _sfc_setup$G(props, ctx) : void 0;
 };
-const PageRequestError = Object.assign(_sfc_main$F, { __name: "PageRequestError" });
+const PageRequestError = Object.assign(_sfc_main$G, { __name: "PageRequestError" });
 const getPageErrorStatus = (error) => {
   if (!error || typeof error !== "object") return 503;
   const status = "statusCode" in error ? Number(error.statusCode) : "status" in error ? Number(error.status) : 503;
@@ -21776,7 +21778,7 @@ const usePageResourceState = (data, status, error) => {
     requestFailed: computed(() => state.value === "failed")
   };
 };
-const _sfc_main$E = /* @__PURE__ */ defineComponent({
+const _sfc_main$F = /* @__PURE__ */ defineComponent({
   __name: "[slug]",
   __ssrInlineRender: true,
   async setup(__props) {
@@ -21803,7 +21805,7 @@ const _sfc_main$E = /* @__PURE__ */ defineComponent({
           return data;
         }
       },
-      "$S6CcuzsPy4"
+      "$jMLg-8qumc"
       /* nuxt-injected */
     )), __temp = await __temp, __restore(), __temp);
     const { pending, requestFailed } = usePageResourceState(productData, status, error);
@@ -21843,11 +21845,11 @@ const _sfc_main$E = /* @__PURE__ */ defineComponent({
       return bestRate < 1 ? bestRate : null;
     });
     return (_ctx, _push, _parent, _attrs) => {
-      const _component_UCarousel = _sfc_main$K;
-      const _component_UIcon = _sfc_main$Z;
+      const _component_UCarousel = _sfc_main$L;
+      const _component_UIcon = _sfc_main$_;
       const _component_LikeButton = __nuxt_component_3$2;
       const _component_PaymentModal = __nuxt_component_3$1;
-      const _component_UButton = _sfc_main$U;
+      const _component_UButton = _sfc_main$V;
       const _component_NuxtLink = __nuxt_component_3$3;
       const _component_Icon = __nuxt_component_0$1;
       const _component_PageRequestError = PageRequestError;
@@ -22133,15 +22135,15 @@ const _sfc_main$E = /* @__PURE__ */ defineComponent({
     };
   }
 });
-const _sfc_setup$E = _sfc_main$E.setup;
-_sfc_main$E.setup = (props, ctx) => {
+const _sfc_setup$F = _sfc_main$F.setup;
+_sfc_main$F.setup = (props, ctx) => {
   const ssrContext = useSSRContext();
   (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("core/pages/products/[slug].vue");
-  return _sfc_setup$E ? _sfc_setup$E(props, ctx) : void 0;
+  return _sfc_setup$F ? _sfc_setup$F(props, ctx) : void 0;
 };
 const __vite_glob_0_6 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
   __proto__: null,
-  default: _sfc_main$E
+  default: _sfc_main$F
 }, Symbol.toStringTag, { value: "Module" }));
 const text = (value) => String(value ?? "").replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
 const useCollectionPageJsonLd = (key, options) => {
@@ -22187,7 +22189,7 @@ const useCollectionPageJsonLd = (key, options) => {
     ];
   }));
 };
-const _sfc_main$D = /* @__PURE__ */ defineComponent({
+const _sfc_main$E = /* @__PURE__ */ defineComponent({
   __name: "index",
   __ssrInlineRender: true,
   async setup(__props) {
@@ -22204,7 +22206,7 @@ const _sfc_main$D = /* @__PURE__ */ defineComponent({
     const { getLocalizedProduct } = useLocalizedProduct();
     const { data: productsData, status } = ([__temp, __restore] = withAsyncContext(() => useFetch(
       "/api/products",
-      "$SAG_4eBCRD"
+      "$QRz99iyprE"
       /* nuxt-injected */
     )), __temp = await __temp, __restore(), __temp);
     const pending = computed(() => status.value === "pending");
@@ -22219,7 +22221,7 @@ const _sfc_main$D = /* @__PURE__ */ defineComponent({
       items: products
     });
     return (_ctx, _push, _parent, _attrs) => {
-      const _component_UIcon = _sfc_main$Z;
+      const _component_UIcon = _sfc_main$_;
       const _component_NuxtLink = __nuxt_component_3$3;
       const _component_ProductPrice = __nuxt_component_2$1;
       const _directive_motion_fade_visible_once = resolveDirective("motion-fade-visible-once");
@@ -22318,17 +22320,17 @@ const _sfc_main$D = /* @__PURE__ */ defineComponent({
     };
   }
 });
-const _sfc_setup$D = _sfc_main$D.setup;
-_sfc_main$D.setup = (props, ctx) => {
+const _sfc_setup$E = _sfc_main$E.setup;
+_sfc_main$E.setup = (props, ctx) => {
   const ssrContext = useSSRContext();
   (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("core/pages/products/index.vue");
-  return _sfc_setup$D ? _sfc_setup$D(props, ctx) : void 0;
+  return _sfc_setup$E ? _sfc_setup$E(props, ctx) : void 0;
 };
 const __vite_glob_0_7 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
   __proto__: null,
-  default: _sfc_main$D
+  default: _sfc_main$E
 }, Symbol.toStringTag, { value: "Module" }));
-const _sfc_main$C = /* @__PURE__ */ defineComponent({
+const _sfc_main$D = /* @__PURE__ */ defineComponent({
   ...{ directoryLayout: false },
   __name: "index",
   __ssrInlineRender: true,
@@ -22359,7 +22361,7 @@ const _sfc_main$C = /* @__PURE__ */ defineComponent({
       {
         query: inspectQuery
       },
-      "$a7OFGWRsJM"
+      "$Bt6cGR0liF"
       /* nuxt-injected */
     )), __temp = await __temp, __restore(), __temp);
     const errorMessage = computed(() => {
@@ -22429,9 +22431,9 @@ const _sfc_main$C = /* @__PURE__ */ defineComponent({
       }
     };
     return (_ctx, _push, _parent, _attrs) => {
-      const _component_UIcon = _sfc_main$Z;
-      const _component_UButton = _sfc_main$U;
-      const _component_UBadge = _sfc_main$O;
+      const _component_UIcon = _sfc_main$_;
+      const _component_UButton = _sfc_main$V;
+      const _component_UBadge = _sfc_main$P;
       _push(`<div${ssrRenderAttrs(mergeProps({ class: "min-h-[80vh] py-16 px-4 sm:px-6 flex items-center justify-center" }, _attrs))}><div class="w-full max-w-xl">`);
       if (unref(pending) && !authorizedDone.value) {
         _push(`<div class="bg-white dark:bg-[#0A0A0A] border border-gray-200 dark:border-white/10 rounded-3xl p-8 space-y-4 animate-pulse"><div class="h-8 w-48 bg-gray-200 dark:bg-white/10 rounded-lg"></div><div class="h-4 w-full bg-gray-100 dark:bg-white/5 rounded"></div><div class="h-32 w-full bg-gray-100 dark:bg-white/5 rounded-2xl"></div></div>`);
@@ -22578,17 +22580,1450 @@ const _sfc_main$C = /* @__PURE__ */ defineComponent({
     };
   }
 });
-const _sfc_setup$C = _sfc_main$C.setup;
-_sfc_main$C.setup = (props, ctx) => {
+const _sfc_setup$D = _sfc_main$D.setup;
+_sfc_main$D.setup = (props, ctx) => {
   const ssrContext = useSSRContext();
   (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("core/pages/user/mcp-authorize/index.vue");
-  return _sfc_setup$C ? _sfc_setup$C(props, ctx) : void 0;
+  return _sfc_setup$D ? _sfc_setup$D(props, ctx) : void 0;
 };
 const __vite_glob_0_8 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
   __proto__: null,
-  default: _sfc_main$C
+  default: _sfc_main$D
 }, Symbol.toStringTag, { value: "Module" }));
-const _sfc_main$B = /* @__PURE__ */ defineComponent({
+const theme$e = {
+  "slots": {
+    "root": "relative overflow-hidden w-full rounded-lg p-4 flex gap-2.5",
+    "wrapper": "min-w-0 flex-1 flex flex-col",
+    "title": "text-sm font-medium",
+    "description": "text-sm opacity-90",
+    "icon": "shrink-0 size-5",
+    "avatar": "shrink-0",
+    "avatarSize": "2xl",
+    "actions": "flex flex-wrap gap-1.5 shrink-0",
+    "close": "p-0"
+  },
+  "variants": {
+    "color": {
+      "primary": "",
+      "secondary": "",
+      "success": "",
+      "info": "",
+      "warning": "",
+      "error": "",
+      "neutral": ""
+    },
+    "variant": {
+      "solid": "",
+      "outline": "",
+      "soft": "",
+      "subtle": ""
+    },
+    "orientation": {
+      "horizontal": {
+        "root": "items-center",
+        "actions": "items-center"
+      },
+      "vertical": {
+        "root": "items-start",
+        "actions": "items-start mt-2.5"
+      }
+    },
+    "title": {
+      "true": {
+        "description": "mt-1"
+      }
+    }
+  },
+  "compoundVariants": [
+    {
+      "color": "primary",
+      "variant": "solid",
+      "class": {
+        "root": "bg-primary text-inverted"
+      }
+    },
+    {
+      "color": "secondary",
+      "variant": "solid",
+      "class": {
+        "root": "bg-secondary text-inverted"
+      }
+    },
+    {
+      "color": "success",
+      "variant": "solid",
+      "class": {
+        "root": "bg-success text-inverted"
+      }
+    },
+    {
+      "color": "info",
+      "variant": "solid",
+      "class": {
+        "root": "bg-info text-inverted"
+      }
+    },
+    {
+      "color": "warning",
+      "variant": "solid",
+      "class": {
+        "root": "bg-warning text-inverted"
+      }
+    },
+    {
+      "color": "error",
+      "variant": "solid",
+      "class": {
+        "root": "bg-error text-inverted"
+      }
+    },
+    {
+      "color": "primary",
+      "variant": "outline",
+      "class": {
+        "root": "text-primary ring ring-inset ring-primary/25"
+      }
+    },
+    {
+      "color": "secondary",
+      "variant": "outline",
+      "class": {
+        "root": "text-secondary ring ring-inset ring-secondary/25"
+      }
+    },
+    {
+      "color": "success",
+      "variant": "outline",
+      "class": {
+        "root": "text-success ring ring-inset ring-success/25"
+      }
+    },
+    {
+      "color": "info",
+      "variant": "outline",
+      "class": {
+        "root": "text-info ring ring-inset ring-info/25"
+      }
+    },
+    {
+      "color": "warning",
+      "variant": "outline",
+      "class": {
+        "root": "text-warning ring ring-inset ring-warning/25"
+      }
+    },
+    {
+      "color": "error",
+      "variant": "outline",
+      "class": {
+        "root": "text-error ring ring-inset ring-error/25"
+      }
+    },
+    {
+      "color": "primary",
+      "variant": "soft",
+      "class": {
+        "root": "bg-primary/10 text-primary"
+      }
+    },
+    {
+      "color": "secondary",
+      "variant": "soft",
+      "class": {
+        "root": "bg-secondary/10 text-secondary"
+      }
+    },
+    {
+      "color": "success",
+      "variant": "soft",
+      "class": {
+        "root": "bg-success/10 text-success"
+      }
+    },
+    {
+      "color": "info",
+      "variant": "soft",
+      "class": {
+        "root": "bg-info/10 text-info"
+      }
+    },
+    {
+      "color": "warning",
+      "variant": "soft",
+      "class": {
+        "root": "bg-warning/10 text-warning"
+      }
+    },
+    {
+      "color": "error",
+      "variant": "soft",
+      "class": {
+        "root": "bg-error/10 text-error"
+      }
+    },
+    {
+      "color": "primary",
+      "variant": "subtle",
+      "class": {
+        "root": "bg-primary/10 text-primary ring ring-inset ring-primary/25"
+      }
+    },
+    {
+      "color": "secondary",
+      "variant": "subtle",
+      "class": {
+        "root": "bg-secondary/10 text-secondary ring ring-inset ring-secondary/25"
+      }
+    },
+    {
+      "color": "success",
+      "variant": "subtle",
+      "class": {
+        "root": "bg-success/10 text-success ring ring-inset ring-success/25"
+      }
+    },
+    {
+      "color": "info",
+      "variant": "subtle",
+      "class": {
+        "root": "bg-info/10 text-info ring ring-inset ring-info/25"
+      }
+    },
+    {
+      "color": "warning",
+      "variant": "subtle",
+      "class": {
+        "root": "bg-warning/10 text-warning ring ring-inset ring-warning/25"
+      }
+    },
+    {
+      "color": "error",
+      "variant": "subtle",
+      "class": {
+        "root": "bg-error/10 text-error ring ring-inset ring-error/25"
+      }
+    },
+    {
+      "color": "neutral",
+      "variant": "solid",
+      "class": {
+        "root": "text-inverted bg-inverted"
+      }
+    },
+    {
+      "color": "neutral",
+      "variant": "outline",
+      "class": {
+        "root": "text-highlighted bg-default ring ring-inset ring-default"
+      }
+    },
+    {
+      "color": "neutral",
+      "variant": "soft",
+      "class": {
+        "root": "text-highlighted bg-elevated/50"
+      }
+    },
+    {
+      "color": "neutral",
+      "variant": "subtle",
+      "class": {
+        "root": "text-highlighted bg-elevated/50 ring ring-inset ring-accented"
+      }
+    }
+  ],
+  "defaultVariants": {
+    "color": "primary",
+    "variant": "solid"
+  }
+};
+const _sfc_main$C = {
+  __name: "UAlert",
+  __ssrInlineRender: true,
+  props: {
+    as: { type: null, required: false },
+    title: { type: String, required: false },
+    description: { type: String, required: false },
+    icon: { type: null, required: false },
+    avatar: { type: Object, required: false },
+    color: { type: null, required: false },
+    variant: { type: null, required: false },
+    orientation: { type: null, required: false, default: "vertical" },
+    actions: { type: Array, required: false },
+    close: { type: [Boolean, Object], required: false },
+    closeIcon: { type: null, required: false },
+    class: { type: null, required: false },
+    ui: { type: Object, required: false }
+  },
+  emits: ["update:open"],
+  setup(__props, { emit: __emit }) {
+    const props = __props;
+    const emits = __emit;
+    const slots = useSlots();
+    const { t } = useLocale();
+    const appConfig2 = useAppConfig();
+    const uiProp = useComponentUI("alert", props);
+    const ui = computed(() => tv({ extend: tv(theme$e), ...appConfig2.ui?.alert || {} })({
+      color: props.color,
+      variant: props.variant,
+      orientation: props.orientation,
+      title: !!props.title || !!slots.title
+    }));
+    return (_ctx, _push, _parent, _attrs) => {
+      _push(ssrRenderComponent(unref(Primitive), mergeProps({
+        as: __props.as,
+        "data-orientation": __props.orientation,
+        "data-slot": "root",
+        class: ui.value.root({ class: [unref(uiProp)?.root, props.class] })
+      }, _attrs), {
+        default: withCtx((_, _push2, _parent2, _scopeId) => {
+          if (_push2) {
+            ssrRenderSlot(_ctx.$slots, "leading", { ui: ui.value }, () => {
+              if (__props.avatar) {
+                _push2(ssrRenderComponent(_sfc_main$Y, mergeProps({
+                  size: unref(uiProp)?.avatarSize || ui.value.avatarSize()
+                }, __props.avatar, {
+                  "data-slot": "avatar",
+                  class: ui.value.avatar({ class: unref(uiProp)?.avatar })
+                }), null, _parent2, _scopeId));
+              } else if (__props.icon) {
+                _push2(ssrRenderComponent(_sfc_main$_, {
+                  name: __props.icon,
+                  "data-slot": "icon",
+                  class: ui.value.icon({ class: unref(uiProp)?.icon })
+                }, null, _parent2, _scopeId));
+              } else {
+                _push2(`<!---->`);
+              }
+            }, _push2, _parent2, _scopeId);
+            _push2(`<div data-slot="wrapper" class="${ssrRenderClass(ui.value.wrapper({ class: unref(uiProp)?.wrapper }))}"${_scopeId}>`);
+            if (__props.title || !!slots.title) {
+              _push2(`<div data-slot="title" class="${ssrRenderClass(ui.value.title({ class: unref(uiProp)?.title }))}"${_scopeId}>`);
+              ssrRenderSlot(_ctx.$slots, "title", {}, () => {
+                _push2(`${ssrInterpolate(__props.title)}`);
+              }, _push2, _parent2, _scopeId);
+              _push2(`</div>`);
+            } else {
+              _push2(`<!---->`);
+            }
+            if (__props.description || !!slots.description) {
+              _push2(`<div data-slot="description" class="${ssrRenderClass(ui.value.description({ class: unref(uiProp)?.description }))}"${_scopeId}>`);
+              ssrRenderSlot(_ctx.$slots, "description", {}, () => {
+                _push2(`${ssrInterpolate(__props.description)}`);
+              }, _push2, _parent2, _scopeId);
+              _push2(`</div>`);
+            } else {
+              _push2(`<!---->`);
+            }
+            if (__props.orientation === "vertical" && (__props.actions?.length || !!slots.actions)) {
+              _push2(`<div data-slot="actions" class="${ssrRenderClass(ui.value.actions({ class: unref(uiProp)?.actions }))}"${_scopeId}>`);
+              ssrRenderSlot(_ctx.$slots, "actions", {}, () => {
+                _push2(`<!--[-->`);
+                ssrRenderList(__props.actions, (action, index2) => {
+                  _push2(ssrRenderComponent(_sfc_main$V, mergeProps({
+                    key: index2,
+                    size: "xs"
+                  }, { ref_for: true }, action), null, _parent2, _scopeId));
+                });
+                _push2(`<!--]-->`);
+              }, _push2, _parent2, _scopeId);
+              _push2(`</div>`);
+            } else {
+              _push2(`<!---->`);
+            }
+            _push2(`</div>`);
+            if (__props.orientation === "horizontal" && (__props.actions?.length || !!slots.actions) || __props.close) {
+              _push2(`<div data-slot="actions" class="${ssrRenderClass(ui.value.actions({ class: unref(uiProp)?.actions, orientation: "horizontal" }))}"${_scopeId}>`);
+              if (__props.orientation === "horizontal" && (__props.actions?.length || !!slots.actions)) {
+                ssrRenderSlot(_ctx.$slots, "actions", {}, () => {
+                  _push2(`<!--[-->`);
+                  ssrRenderList(__props.actions, (action, index2) => {
+                    _push2(ssrRenderComponent(_sfc_main$V, mergeProps({
+                      key: index2,
+                      size: "xs"
+                    }, { ref_for: true }, action), null, _parent2, _scopeId));
+                  });
+                  _push2(`<!--]-->`);
+                }, _push2, _parent2, _scopeId);
+              } else {
+                _push2(`<!---->`);
+              }
+              ssrRenderSlot(_ctx.$slots, "close", { ui: ui.value }, () => {
+                if (__props.close) {
+                  _push2(ssrRenderComponent(_sfc_main$V, mergeProps({
+                    icon: __props.closeIcon || unref(appConfig2).ui.icons.close,
+                    color: "neutral",
+                    variant: "link",
+                    "aria-label": unref(t)("alert.close")
+                  }, typeof __props.close === "object" ? __props.close : {}, {
+                    "data-slot": "close",
+                    class: ui.value.close({ class: unref(uiProp)?.close }),
+                    onClick: ($event) => emits("update:open", false)
+                  }), null, _parent2, _scopeId));
+                } else {
+                  _push2(`<!---->`);
+                }
+              }, _push2, _parent2, _scopeId);
+              _push2(`</div>`);
+            } else {
+              _push2(`<!---->`);
+            }
+          } else {
+            return [
+              renderSlot(_ctx.$slots, "leading", { ui: ui.value }, () => [
+                __props.avatar ? (openBlock(), createBlock(_sfc_main$Y, mergeProps({
+                  key: 0,
+                  size: unref(uiProp)?.avatarSize || ui.value.avatarSize()
+                }, __props.avatar, {
+                  "data-slot": "avatar",
+                  class: ui.value.avatar({ class: unref(uiProp)?.avatar })
+                }), null, 16, ["size", "class"])) : __props.icon ? (openBlock(), createBlock(_sfc_main$_, {
+                  key: 1,
+                  name: __props.icon,
+                  "data-slot": "icon",
+                  class: ui.value.icon({ class: unref(uiProp)?.icon })
+                }, null, 8, ["name", "class"])) : createCommentVNode("", true)
+              ]),
+              createVNode("div", {
+                "data-slot": "wrapper",
+                class: ui.value.wrapper({ class: unref(uiProp)?.wrapper })
+              }, [
+                __props.title || !!slots.title ? (openBlock(), createBlock("div", {
+                  key: 0,
+                  "data-slot": "title",
+                  class: ui.value.title({ class: unref(uiProp)?.title })
+                }, [
+                  renderSlot(_ctx.$slots, "title", {}, () => [
+                    createTextVNode(toDisplayString$1(__props.title), 1)
+                  ])
+                ], 2)) : createCommentVNode("", true),
+                __props.description || !!slots.description ? (openBlock(), createBlock("div", {
+                  key: 1,
+                  "data-slot": "description",
+                  class: ui.value.description({ class: unref(uiProp)?.description })
+                }, [
+                  renderSlot(_ctx.$slots, "description", {}, () => [
+                    createTextVNode(toDisplayString$1(__props.description), 1)
+                  ])
+                ], 2)) : createCommentVNode("", true),
+                __props.orientation === "vertical" && (__props.actions?.length || !!slots.actions) ? (openBlock(), createBlock("div", {
+                  key: 2,
+                  "data-slot": "actions",
+                  class: ui.value.actions({ class: unref(uiProp)?.actions })
+                }, [
+                  renderSlot(_ctx.$slots, "actions", {}, () => [
+                    (openBlock(true), createBlock(Fragment, null, renderList(__props.actions, (action, index2) => {
+                      return openBlock(), createBlock(_sfc_main$V, mergeProps({
+                        key: index2,
+                        size: "xs"
+                      }, { ref_for: true }, action), null, 16);
+                    }), 128))
+                  ])
+                ], 2)) : createCommentVNode("", true)
+              ], 2),
+              __props.orientation === "horizontal" && (__props.actions?.length || !!slots.actions) || __props.close ? (openBlock(), createBlock("div", {
+                key: 0,
+                "data-slot": "actions",
+                class: ui.value.actions({ class: unref(uiProp)?.actions, orientation: "horizontal" })
+              }, [
+                __props.orientation === "horizontal" && (__props.actions?.length || !!slots.actions) ? renderSlot(_ctx.$slots, "actions", { key: 0 }, () => [
+                  (openBlock(true), createBlock(Fragment, null, renderList(__props.actions, (action, index2) => {
+                    return openBlock(), createBlock(_sfc_main$V, mergeProps({
+                      key: index2,
+                      size: "xs"
+                    }, { ref_for: true }, action), null, 16);
+                  }), 128))
+                ]) : createCommentVNode("", true),
+                renderSlot(_ctx.$slots, "close", { ui: ui.value }, () => [
+                  __props.close ? (openBlock(), createBlock(_sfc_main$V, mergeProps({
+                    key: 0,
+                    icon: __props.closeIcon || unref(appConfig2).ui.icons.close,
+                    color: "neutral",
+                    variant: "link",
+                    "aria-label": unref(t)("alert.close")
+                  }, typeof __props.close === "object" ? __props.close : {}, {
+                    "data-slot": "close",
+                    class: ui.value.close({ class: unref(uiProp)?.close }),
+                    onClick: ($event) => emits("update:open", false)
+                  }), null, 16, ["icon", "aria-label", "class", "onClick"])) : createCommentVNode("", true)
+                ])
+              ], 2)) : createCommentVNode("", true)
+            ];
+          }
+        }),
+        _: 3
+      }, _parent));
+    };
+  }
+};
+const _sfc_setup$C = _sfc_main$C.setup;
+_sfc_main$C.setup = (props, ctx) => {
+  const ssrContext = useSSRContext();
+  (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("../../../../../../../../../../Users/hugh/code/hoxi/apay/node_modules/@nuxt/ui/dist/runtime/components/Alert.vue");
+  return _sfc_setup$C ? _sfc_setup$C(props, ctx) : void 0;
+};
+const theme$d = {
+  "slots": {
+    "root": "relative inline-flex items-center",
+    "base": [
+      "w-full rounded-md border-0 appearance-none placeholder:text-dimmed focus:outline-none disabled:cursor-not-allowed disabled:opacity-75",
+      "transition-colors"
+    ],
+    "leading": "absolute start-0 flex items-start",
+    "leadingIcon": "shrink-0 text-dimmed",
+    "leadingAvatar": "shrink-0",
+    "leadingAvatarSize": "",
+    "trailing": "absolute end-0 flex items-start",
+    "trailingIcon": "shrink-0 text-dimmed"
+  },
+  "variants": {
+    "fieldGroup": {
+      "horizontal": {
+        "root": "group has-focus-visible:z-[1]",
+        "base": "group-not-only:group-first:rounded-e-none group-not-only:group-last:rounded-s-none group-not-last:group-not-first:rounded-none"
+      },
+      "vertical": {
+        "root": "group has-focus-visible:z-[1]",
+        "base": "group-not-only:group-first:rounded-b-none group-not-only:group-last:rounded-t-none group-not-last:group-not-first:rounded-none"
+      }
+    },
+    "size": {
+      "xs": {
+        "base": "px-2 py-1 text-sm/4 gap-1",
+        "leading": "ps-2 inset-y-1",
+        "trailing": "pe-2 inset-y-1",
+        "leadingIcon": "size-4",
+        "leadingAvatarSize": "3xs",
+        "trailingIcon": "size-4"
+      },
+      "sm": {
+        "base": "px-2.5 py-1.5 text-sm/4 gap-1.5",
+        "leading": "ps-2.5 inset-y-1.5",
+        "trailing": "pe-2.5 inset-y-1.5",
+        "leadingIcon": "size-4",
+        "leadingAvatarSize": "3xs",
+        "trailingIcon": "size-4"
+      },
+      "md": {
+        "base": "px-2.5 py-1.5 text-base/5 gap-1.5",
+        "leading": "ps-2.5 inset-y-1.5",
+        "trailing": "pe-2.5 inset-y-1.5",
+        "leadingIcon": "size-5",
+        "leadingAvatarSize": "2xs",
+        "trailingIcon": "size-5"
+      },
+      "lg": {
+        "base": "px-3 py-2 text-base/5 gap-2",
+        "leading": "ps-3 inset-y-2",
+        "trailing": "pe-3 inset-y-2",
+        "leadingIcon": "size-5",
+        "leadingAvatarSize": "2xs",
+        "trailingIcon": "size-5"
+      },
+      "xl": {
+        "base": "px-3 py-2 text-base gap-2",
+        "leading": "ps-3 inset-y-2",
+        "trailing": "pe-3 inset-y-2",
+        "leadingIcon": "size-6",
+        "leadingAvatarSize": "xs",
+        "trailingIcon": "size-6"
+      }
+    },
+    "variant": {
+      "outline": "text-highlighted bg-default ring ring-inset ring-accented",
+      "soft": "text-highlighted bg-elevated/50 hover:bg-elevated focus:bg-elevated disabled:bg-elevated/50",
+      "subtle": "text-highlighted bg-elevated ring ring-inset ring-accented",
+      "ghost": "text-highlighted bg-transparent hover:bg-elevated focus:bg-elevated disabled:bg-transparent dark:disabled:bg-transparent",
+      "none": "text-highlighted bg-transparent"
+    },
+    "color": {
+      "primary": "",
+      "secondary": "",
+      "success": "",
+      "info": "",
+      "warning": "",
+      "error": "",
+      "neutral": ""
+    },
+    "leading": {
+      "true": ""
+    },
+    "trailing": {
+      "true": ""
+    },
+    "loading": {
+      "true": ""
+    },
+    "highlight": {
+      "true": ""
+    },
+    "fixed": {
+      "false": ""
+    },
+    "type": {
+      "file": "file:me-1.5 file:font-medium file:text-muted file:outline-none"
+    },
+    "autoresize": {
+      "true": {
+        "base": "resize-none"
+      }
+    }
+  },
+  "compoundVariants": [
+    {
+      "color": "primary",
+      "variant": [
+        "outline",
+        "subtle"
+      ],
+      "class": "focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-primary"
+    },
+    {
+      "color": "secondary",
+      "variant": [
+        "outline",
+        "subtle"
+      ],
+      "class": "focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-secondary"
+    },
+    {
+      "color": "success",
+      "variant": [
+        "outline",
+        "subtle"
+      ],
+      "class": "focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-success"
+    },
+    {
+      "color": "info",
+      "variant": [
+        "outline",
+        "subtle"
+      ],
+      "class": "focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-info"
+    },
+    {
+      "color": "warning",
+      "variant": [
+        "outline",
+        "subtle"
+      ],
+      "class": "focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-warning"
+    },
+    {
+      "color": "error",
+      "variant": [
+        "outline",
+        "subtle"
+      ],
+      "class": "focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-error"
+    },
+    {
+      "color": "primary",
+      "highlight": true,
+      "class": "ring ring-inset ring-primary"
+    },
+    {
+      "color": "secondary",
+      "highlight": true,
+      "class": "ring ring-inset ring-secondary"
+    },
+    {
+      "color": "success",
+      "highlight": true,
+      "class": "ring ring-inset ring-success"
+    },
+    {
+      "color": "info",
+      "highlight": true,
+      "class": "ring ring-inset ring-info"
+    },
+    {
+      "color": "warning",
+      "highlight": true,
+      "class": "ring ring-inset ring-warning"
+    },
+    {
+      "color": "error",
+      "highlight": true,
+      "class": "ring ring-inset ring-error"
+    },
+    {
+      "color": "neutral",
+      "variant": [
+        "outline",
+        "subtle"
+      ],
+      "class": "focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-inverted"
+    },
+    {
+      "color": "neutral",
+      "highlight": true,
+      "class": "ring ring-inset ring-inverted"
+    },
+    {
+      "leading": true,
+      "size": "xs",
+      "class": "ps-7"
+    },
+    {
+      "leading": true,
+      "size": "sm",
+      "class": "ps-8"
+    },
+    {
+      "leading": true,
+      "size": "md",
+      "class": "ps-9"
+    },
+    {
+      "leading": true,
+      "size": "lg",
+      "class": "ps-10"
+    },
+    {
+      "leading": true,
+      "size": "xl",
+      "class": "ps-11"
+    },
+    {
+      "trailing": true,
+      "size": "xs",
+      "class": "pe-7"
+    },
+    {
+      "trailing": true,
+      "size": "sm",
+      "class": "pe-8"
+    },
+    {
+      "trailing": true,
+      "size": "md",
+      "class": "pe-9"
+    },
+    {
+      "trailing": true,
+      "size": "lg",
+      "class": "pe-10"
+    },
+    {
+      "trailing": true,
+      "size": "xl",
+      "class": "pe-11"
+    },
+    {
+      "loading": true,
+      "leading": true,
+      "class": {
+        "leadingIcon": "animate-spin"
+      }
+    },
+    {
+      "loading": true,
+      "leading": false,
+      "trailing": true,
+      "class": {
+        "trailingIcon": "animate-spin"
+      }
+    },
+    {
+      "fixed": false,
+      "size": "xs",
+      "class": "md:text-xs"
+    },
+    {
+      "fixed": false,
+      "size": "sm",
+      "class": "md:text-xs"
+    },
+    {
+      "fixed": false,
+      "size": "md",
+      "class": "md:text-sm"
+    },
+    {
+      "fixed": false,
+      "size": "lg",
+      "class": "md:text-sm"
+    }
+  ],
+  "defaultVariants": {
+    "size": "md",
+    "color": "primary",
+    "variant": "outline"
+  }
+};
+const _sfc_main$B = /* @__PURE__ */ Object.assign({ inheritAttrs: false }, {
+  __name: "UTextarea",
+  __ssrInlineRender: true,
+  props: {
+    as: { type: null, required: false },
+    id: { type: String, required: false },
+    name: { type: String, required: false },
+    placeholder: { type: String, required: false },
+    color: { type: null, required: false },
+    variant: { type: null, required: false },
+    size: { type: null, required: false },
+    required: { type: Boolean, required: false },
+    autofocus: { type: Boolean, required: false },
+    autofocusDelay: { type: Number, required: false, default: 0 },
+    autoresize: { type: Boolean, required: false },
+    autoresizeDelay: { type: Number, required: false, default: 0 },
+    disabled: { type: Boolean, required: false },
+    rows: { type: Number, required: false, default: 3 },
+    maxrows: { type: Number, required: false, default: 0 },
+    highlight: { type: Boolean, required: false },
+    fixed: { type: Boolean, required: false },
+    defaultValue: { type: null, required: false },
+    modelValue: { type: null, required: false },
+    modelModifiers: { type: null, required: false },
+    class: { type: null, required: false },
+    ui: { type: Object, required: false },
+    icon: { type: null, required: false },
+    avatar: { type: Object, required: false },
+    leading: { type: Boolean, required: false },
+    leadingIcon: { type: null, required: false },
+    trailing: { type: Boolean, required: false },
+    trailingIcon: { type: null, required: false },
+    loading: { type: Boolean, required: false },
+    loadingIcon: { type: null, required: false }
+  },
+  emits: ["update:modelValue", "blur", "change"],
+  setup(__props, { expose: __expose, emit: __emit }) {
+    const props = __props;
+    const emits = __emit;
+    const slots = useSlots();
+    const modelValue = /* @__PURE__ */ useVModel(props, "modelValue", emits, { defaultValue: props.defaultValue });
+    const appConfig2 = useAppConfig();
+    const uiProp = useComponentUI("textarea", props);
+    const { emitFormFocus, emitFormBlur, emitFormInput, emitFormChange, size: size2, color: color2, id: id2, name: name2, highlight, disabled, ariaAttrs } = useFormField(props, { deferInputValidation: true });
+    const { isLeading, isTrailing, leadingIconName, trailingIconName } = useComponentIcons(props);
+    const ui = computed(() => tv({ extend: tv(theme$d), ...appConfig2.ui?.textarea || {} })({
+      color: color2.value,
+      variant: props.variant,
+      size: size2?.value,
+      loading: props.loading,
+      highlight: highlight.value,
+      fixed: props.fixed,
+      autoresize: props.autoresize,
+      leading: isLeading.value || !!props.avatar || !!slots.leading,
+      trailing: isTrailing.value || !!slots.trailing
+    }));
+    const textareaRef = useTemplateRef("textareaRef");
+    function updateInput(value) {
+      if (props.modelModifiers?.trim && (typeof value === "string" || value === null || value === void 0)) {
+        value = value?.trim() ?? null;
+      }
+      if (props.modelModifiers?.number) {
+        value = looseToNumber(value);
+      }
+      if (props.modelModifiers?.nullable) {
+        value ||= null;
+      }
+      if (props.modelModifiers?.optional && !props.modelModifiers?.nullable && value !== null) {
+        value ||= void 0;
+      }
+      modelValue.value = value;
+      emitFormInput();
+    }
+    function onInput(event) {
+      autoResize();
+      if (!props.modelModifiers?.lazy) {
+        updateInput(event.target.value);
+      }
+    }
+    function onChange(event) {
+      const value = event.target.value;
+      if (props.modelModifiers?.lazy) {
+        updateInput(value);
+      }
+      if (props.modelModifiers?.trim) {
+        event.target.value = value.trim();
+      }
+      emitFormChange();
+      emits("change", event);
+    }
+    function onBlur(event) {
+      emitFormBlur();
+      emits("blur", event);
+    }
+    function autoResize() {
+      if (props.autoresize && textareaRef.value) {
+        textareaRef.value.rows = props.rows;
+        const overflow = textareaRef.value.style.overflow;
+        textareaRef.value.style.overflow = "hidden";
+        const styles = (void 0).getComputedStyle(textareaRef.value);
+        const paddingTop = Number.parseInt(styles.paddingTop);
+        const paddingBottom = Number.parseInt(styles.paddingBottom);
+        const padding = paddingTop + paddingBottom;
+        const lineHeight = Number.parseInt(styles.lineHeight);
+        const { scrollHeight } = textareaRef.value;
+        const newRows = (scrollHeight - padding) / lineHeight;
+        if (newRows > props.rows) {
+          textareaRef.value.rows = props.maxrows ? Math.min(newRows, props.maxrows) : newRows;
+        }
+        textareaRef.value.style.overflow = overflow;
+      }
+    }
+    watch(modelValue, () => {
+      nextTick(autoResize);
+    });
+    __expose({
+      textareaRef
+    });
+    return (_ctx, _push, _parent, _attrs) => {
+      let _temp0;
+      _push(ssrRenderComponent(unref(Primitive), mergeProps({
+        as: __props.as,
+        "data-slot": "root",
+        class: ui.value.root({ class: [unref(uiProp)?.root, props.class] })
+      }, _attrs), {
+        default: withCtx((_, _push2, _parent2, _scopeId) => {
+          if (_push2) {
+            _push2(`<textarea${ssrRenderAttrs(_temp0 = mergeProps({
+              id: unref(id2),
+              ref_key: "textareaRef",
+              ref: textareaRef,
+              value: unref(modelValue),
+              name: unref(name2),
+              rows: __props.rows,
+              placeholder: __props.placeholder,
+              "data-slot": "base",
+              class: ui.value.base({ class: unref(uiProp)?.base }),
+              disabled: unref(disabled),
+              required: __props.required
+            }, { ..._ctx.$attrs, ...unref(ariaAttrs) }), "textarea")}${_scopeId}>${ssrInterpolate("value" in _temp0 ? _temp0.value : "")}</textarea>`);
+            ssrRenderSlot(_ctx.$slots, "default", { ui: ui.value }, null, _push2, _parent2, _scopeId);
+            if (unref(isLeading) || !!__props.avatar || !!slots.leading) {
+              _push2(`<span data-slot="leading" class="${ssrRenderClass(ui.value.leading({ class: unref(uiProp)?.leading }))}"${_scopeId}>`);
+              ssrRenderSlot(_ctx.$slots, "leading", { ui: ui.value }, () => {
+                if (unref(isLeading) && unref(leadingIconName)) {
+                  _push2(ssrRenderComponent(_sfc_main$_, {
+                    name: unref(leadingIconName),
+                    "data-slot": "leadingIcon",
+                    class: ui.value.leadingIcon({ class: unref(uiProp)?.leadingIcon })
+                  }, null, _parent2, _scopeId));
+                } else if (!!__props.avatar) {
+                  _push2(ssrRenderComponent(_sfc_main$Y, mergeProps({
+                    size: unref(uiProp)?.leadingAvatarSize || ui.value.leadingAvatarSize()
+                  }, __props.avatar, {
+                    "data-slot": "leadingAvatar",
+                    class: ui.value.leadingAvatar({ class: unref(uiProp)?.leadingAvatar })
+                  }), null, _parent2, _scopeId));
+                } else {
+                  _push2(`<!---->`);
+                }
+              }, _push2, _parent2, _scopeId);
+              _push2(`</span>`);
+            } else {
+              _push2(`<!---->`);
+            }
+            if (unref(isTrailing) || !!slots.trailing) {
+              _push2(`<span data-slot="trailing" class="${ssrRenderClass(ui.value.trailing({ class: unref(uiProp)?.trailing }))}"${_scopeId}>`);
+              ssrRenderSlot(_ctx.$slots, "trailing", { ui: ui.value }, () => {
+                if (unref(trailingIconName)) {
+                  _push2(ssrRenderComponent(_sfc_main$_, {
+                    name: unref(trailingIconName),
+                    "data-slot": "trailingIcon",
+                    class: ui.value.trailingIcon({ class: unref(uiProp)?.trailingIcon })
+                  }, null, _parent2, _scopeId));
+                } else {
+                  _push2(`<!---->`);
+                }
+              }, _push2, _parent2, _scopeId);
+              _push2(`</span>`);
+            } else {
+              _push2(`<!---->`);
+            }
+          } else {
+            return [
+              createVNode("textarea", mergeProps({
+                id: unref(id2),
+                ref_key: "textareaRef",
+                ref: textareaRef,
+                value: unref(modelValue),
+                name: unref(name2),
+                rows: __props.rows,
+                placeholder: __props.placeholder,
+                "data-slot": "base",
+                class: ui.value.base({ class: unref(uiProp)?.base }),
+                disabled: unref(disabled),
+                required: __props.required
+              }, { ..._ctx.$attrs, ...unref(ariaAttrs) }, {
+                onInput,
+                onBlur,
+                onChange,
+                onFocus: unref(emitFormFocus)
+              }), null, 16, ["id", "value", "name", "rows", "placeholder", "disabled", "required", "onFocus"]),
+              renderSlot(_ctx.$slots, "default", { ui: ui.value }),
+              unref(isLeading) || !!__props.avatar || !!slots.leading ? (openBlock(), createBlock("span", {
+                key: 0,
+                "data-slot": "leading",
+                class: ui.value.leading({ class: unref(uiProp)?.leading })
+              }, [
+                renderSlot(_ctx.$slots, "leading", { ui: ui.value }, () => [
+                  unref(isLeading) && unref(leadingIconName) ? (openBlock(), createBlock(_sfc_main$_, {
+                    key: 0,
+                    name: unref(leadingIconName),
+                    "data-slot": "leadingIcon",
+                    class: ui.value.leadingIcon({ class: unref(uiProp)?.leadingIcon })
+                  }, null, 8, ["name", "class"])) : !!__props.avatar ? (openBlock(), createBlock(_sfc_main$Y, mergeProps({
+                    key: 1,
+                    size: unref(uiProp)?.leadingAvatarSize || ui.value.leadingAvatarSize()
+                  }, __props.avatar, {
+                    "data-slot": "leadingAvatar",
+                    class: ui.value.leadingAvatar({ class: unref(uiProp)?.leadingAvatar })
+                  }), null, 16, ["size", "class"])) : createCommentVNode("", true)
+                ])
+              ], 2)) : createCommentVNode("", true),
+              unref(isTrailing) || !!slots.trailing ? (openBlock(), createBlock("span", {
+                key: 1,
+                "data-slot": "trailing",
+                class: ui.value.trailing({ class: unref(uiProp)?.trailing })
+              }, [
+                renderSlot(_ctx.$slots, "trailing", { ui: ui.value }, () => [
+                  unref(trailingIconName) ? (openBlock(), createBlock(_sfc_main$_, {
+                    key: 0,
+                    name: unref(trailingIconName),
+                    "data-slot": "trailingIcon",
+                    class: ui.value.trailingIcon({ class: unref(uiProp)?.trailingIcon })
+                  }, null, 8, ["name", "class"])) : createCommentVNode("", true)
+                ])
+              ], 2)) : createCommentVNode("", true)
+            ];
+          }
+        }),
+        _: 3
+      }, _parent));
+    };
+  }
+});
+const _sfc_setup$B = _sfc_main$B.setup;
+_sfc_main$B.setup = (props, ctx) => {
+  const ssrContext = useSSRContext();
+  (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("../../../../../../../../../../Users/hugh/code/hoxi/apay/node_modules/@nuxt/ui/dist/runtime/components/Textarea.vue");
+  return _sfc_setup$B ? _sfc_setup$B(props, ctx) : void 0;
+};
+const en = {
+  orders: "Orders / refunds",
+  details: "Order details / refund",
+  title: "Refund",
+  requests: "Refund requests",
+  hint: "Full refund to the original payment method. An administrator reviews requests before money is returned.",
+  reason: "Reason (required, up to 500 characters)",
+  request: "Request refund",
+  approve: "Approve and refund",
+  reject: "Reject request",
+  reconcile: "Query / retry follow-up",
+  refresh: "Refresh",
+  confirm: "Confirm full refund?",
+  confirmHint: "This returns the entire payment and revokes the associated subscription, wallet credit and commission. Issued keys and downloaded files cannot be recalled.",
+  impact: "This refund also affects other paid subscription periods. Confirm the impact before continuing:",
+  requested: "Awaiting review",
+  rejected: "Rejected",
+  processing: "Gateway processing",
+  unknown: "Result unknown — reconciliation required",
+  failed: "Gateway failure — manual review required",
+  succeeded: "Money refunded",
+  followup: "Follow-up incomplete",
+  complete: "Follow-up completed",
+  empty: "No refund request",
+  error: "Unable to process refund",
+  saved: "Refund record updated",
+  note: "Review note",
+  all: "All"
+};
+const zh = {
+  orders: "订单 / 退款",
+  details: "订单详情 / 退款",
+  title: "退款",
+  requests: "退款申请",
+  hint: "整单退回原支付渠道。用户申请须经管理员审核后才执行资金退款。",
+  reason: "退款或拒绝原因（必填，最多 500 字）",
+  request: "申请退款",
+  approve: "审核通过并原路退款",
+  reject: "拒绝申请",
+  reconcile: "查单 / 重试后续处理",
+  refresh: "刷新",
+  confirm: "确认整单原路退款？",
+  confirmHint: "将退回全部实付款，并回收关联订阅、充值余额和推广佣金。已发放的卡密、已下载的文件无法收回。",
+  impact: "本次退款还会影响其他已支付订阅周期，请核对影响后确认：",
+  requested: "待审核",
+  rejected: "已拒绝",
+  processing: "渠道处理中",
+  unknown: "结果未知，待核对",
+  failed: "渠道退款失败，需人工核对",
+  succeeded: "资金已退回",
+  followup: "后续处理未完成",
+  complete: "后续处理已完成",
+  empty: "暂无退款申请",
+  error: "退款处理失败",
+  saved: "退款记录已更新",
+  note: "审核说明",
+  all: "全部"
+};
+const hk = {
+  orders: "訂單 / 退款",
+  details: "訂單詳情 / 退款",
+  title: "退款",
+  requests: "退款申請",
+  hint: "整單退回原支付渠道。用戶申請須經管理員審核後才執行資金退款。",
+  reason: "退款或拒絕原因（必填，最多 500 字）",
+  request: "申請退款",
+  approve: "審核通過並原路退款",
+  reject: "拒絕申請",
+  reconcile: "查單 / 重試後續處理",
+  refresh: "重新整理",
+  confirm: "確認整單原路退款？",
+  confirmHint: "將退回全部實付款，並收回關聯訂閱、儲值餘額和推廣佣金。已發放的序號、已下載的檔案無法收回。",
+  impact: "本次退款亦會影響其他已付款訂閱週期，請核對影響後確認：",
+  requested: "待審核",
+  rejected: "已拒絕",
+  processing: "渠道處理中",
+  unknown: "結果未知，待核對",
+  failed: "渠道退款失敗，需人工核對",
+  succeeded: "資金已退回",
+  followup: "後續處理未完成",
+  complete: "後續處理已完成",
+  empty: "暫無退款申請",
+  error: "退款處理失敗",
+  saved: "退款記錄已更新",
+  note: "審核說明",
+  all: "全部"
+};
+const ru = {
+  orders: "Заказы / возвраты",
+  details: "Заказ / возврат",
+  title: "Возврат",
+  requests: "Заявки на возврат",
+  hint: "Полный возврат исходным способом оплаты после проверки администратором.",
+  reason: "Причина (обязательно, до 500 символов)",
+  request: "Запросить возврат",
+  approve: "Одобрить и вернуть средства",
+  reject: "Отклонить заявку",
+  reconcile: "Проверить / повторить обработку",
+  refresh: "Обновить",
+  confirm: "Подтвердить полный возврат?",
+  confirmHint: "Будет возвращена вся оплата и отозваны подписка, пополнение и комиссия. Выданные ключи и скачанные файлы отозвать невозможно.",
+  impact: "Возврат затронет другие оплаченные периоды подписки. Подтвердите последствия:",
+  requested: "Ожидает проверки",
+  rejected: "Отклонено",
+  processing: "Обрабатывается платёжной системой",
+  unknown: "Результат неизвестен — требуется проверка",
+  failed: "Ошибка возврата — требуется проверка",
+  succeeded: "Средства возвращены",
+  followup: "Последующая обработка не завершена",
+  complete: "Обработка завершена",
+  empty: "Нет заявки на возврат",
+  error: "Ошибка обработки возврата",
+  saved: "Запись возврата обновлена",
+  note: "Комментарий",
+  all: "Все"
+};
+function useRefundLabels() {
+  const { locale } = useI18n$1();
+  return computed(() => locale.value === "zh-HK" ? hk : locale.value.startsWith("zh") ? zh : locale.value.startsWith("ru") ? ru : en);
+}
+const isOpen = ref(false);
+const title = ref("");
+const description$3 = ref("");
+const confirmText = ref("");
+const cancelText = ref("");
+const confirmColor = ref("error");
+const resolvePromise = ref(null);
+watch(isOpen, (val) => {
+  if (!val && resolvePromise.value) {
+    resolvePromise.value(false);
+    resolvePromise.value = null;
+  }
+});
+const useConfirm = () => {
+  const confirm = (opts) => {
+    title.value = opts.title || "Confirm";
+    description$3.value = opts.description || "Are you sure you want to proceed?";
+    confirmText.value = opts.confirmText || "";
+    cancelText.value = opts.cancelText || "";
+    confirmColor.value = opts.confirmColor || "error";
+    isOpen.value = true;
+    return new Promise((resolve2) => {
+      resolvePromise.value = resolve2;
+    });
+  };
+  const accept = () => {
+    isOpen.value = false;
+    if (resolvePromise.value) {
+      resolvePromise.value(true);
+      resolvePromise.value = null;
+    }
+  };
+  const cancel = () => {
+    isOpen.value = false;
+    if (resolvePromise.value) {
+      resolvePromise.value(false);
+      resolvePromise.value = null;
+    }
+  };
+  return {
+    isOpen,
+    title,
+    description: description$3,
+    confirmText,
+    cancelText,
+    confirmColor,
+    confirm,
+    accept,
+    cancel
+  };
+};
+const _sfc_main$A = /* @__PURE__ */ defineComponent({
+  __name: "OrderRefundPanel",
+  __ssrInlineRender: true,
+  props: {
+    orderId: {},
+    payStatus: {},
+    admin: { type: Boolean },
+    canEdit: { type: Boolean, default: true }
+  },
+  emits: ["updated"],
+  async setup(__props, { emit: __emit }) {
+    let __temp, __restore;
+    const props = __props;
+    const emit = __emit;
+    const labels = useRefundLabels();
+    const { formatDateTime } = useFormatTime();
+    const toast = useToast();
+    const { confirm } = useConfirm();
+    const reason = ref("");
+    const busy = ref(false);
+    const url = computed(() => `/api/${props.admin ? "admin" : "users"}/orders/${encodeURIComponent(props.orderId)}/refund`);
+    const { data, error, status, refresh } = ([__temp, __restore] = withAsyncContext(() => useFetch(
+      url,
+      "$uADP8KU4cj"
+      /* nuxt-injected */
+    )), __temp = await __temp, __restore(), __temp);
+    const refund = computed(() => data.value?.data);
+    watch(() => props.orderId, () => {
+      reason.value = "";
+    });
+    async function act(action) {
+      if (busy.value) return;
+      const target = url.value;
+      if (["refund", "approve"].includes(action) && !await confirm({ title: labels.value.confirm, description: labels.value.confirmHint, confirmColor: "error" })) return;
+      busy.value = true;
+      try {
+        const body = props.admin ? { action, reason: reason.value.trim() || void 0 } : { reason: reason.value.trim() };
+        try {
+          await $fetch(target, { method: "POST", body });
+        } catch (error2) {
+          const e = error2;
+          if (e.data?.data?.code !== "SUBSCRIPTION_REFUND_IMPACT") throw error2;
+          if (!await confirm({ title: labels.value.confirm, description: `${labels.value.impact}
+${JSON.stringify(e.data.data.impact)}`, confirmColor: "error" })) return;
+          await $fetch(target, { method: "POST", body: { ...body, confirmSubscriptionImpact: true } });
+        }
+        await refresh();
+        emit("updated");
+        toast.add({ title: labels.value.saved, color: "success" });
+      } catch (error2) {
+        const e = error2;
+        toast.add({ title: labels.value.error, description: e.data?.message, color: "error" });
+        await refresh();
+      } finally {
+        busy.value = false;
+      }
+    }
+    return (_ctx, _push, _parent, _attrs) => {
+      const _component_UButton = _sfc_main$V;
+      const _component_UAlert = _sfc_main$C;
+      const _component_UBadge = _sfc_main$P;
+      const _component_UTextarea = _sfc_main$B;
+      _push(`<section${ssrRenderAttrs(mergeProps({ class: "rounded-xl border border-gray-200 dark:border-white/10 p-5 space-y-4" }, _attrs))}><div class="flex justify-between gap-3 items-center"><h3 class="font-semibold">${ssrInterpolate(unref(labels).title)}</h3>`);
+      _push(ssrRenderComponent(_component_UButton, {
+        size: "xs",
+        color: "neutral",
+        variant: "ghost",
+        loading: unref(status) === "pending",
+        onClick: ($event) => unref(refresh)()
+      }, {
+        default: withCtx((_, _push2, _parent2, _scopeId) => {
+          if (_push2) {
+            _push2(`${ssrInterpolate(unref(labels).refresh)}`);
+          } else {
+            return [
+              createTextVNode(toDisplayString$1(unref(labels).refresh), 1)
+            ];
+          }
+        }),
+        _: 1
+      }, _parent));
+      _push(`</div><p class="text-sm text-gray-500">${ssrInterpolate(unref(labels).hint)}</p>`);
+      if (unref(error)) {
+        _push(ssrRenderComponent(_component_UAlert, {
+          color: "error",
+          title: unref(labels).error
+        }, null, _parent));
+      } else if (unref(refund)) {
+        _push(`<!--[-->`);
+        _push(ssrRenderComponent(_component_UBadge, {
+          color: unref(refund).status === "succeeded" ? "success" : "warning"
+        }, {
+          default: withCtx((_, _push2, _parent2, _scopeId) => {
+            if (_push2) {
+              _push2(`${ssrInterpolate(unref(labels)[unref(refund).status])}`);
+            } else {
+              return [
+                createTextVNode(toDisplayString$1(unref(labels)[unref(refund).status]), 1)
+              ];
+            }
+          }),
+          _: 1
+        }, _parent));
+        _push(`<p class="text-sm font-mono">${ssrInterpolate(unref(refund).id)} · ${ssrInterpolate(unref(refund).amount)} ${ssrInterpolate(unref(refund).currency)}</p><p class="text-sm whitespace-pre-wrap">${ssrInterpolate(unref(refund).reason)}</p><p class="text-xs text-gray-500">${ssrInterpolate(unref(formatDateTime)(unref(refund).updatedAt))}</p>`);
+        if (unref(refund).reviewNote) {
+          _push(`<p class="text-sm">${ssrInterpolate(unref(labels).note)}: ${ssrInterpolate(unref(refund).reviewNote)}</p>`);
+        } else {
+          _push(`<!---->`);
+        }
+        if (__props.admin) {
+          _push(`<!--[-->`);
+          if (unref(refund).providerRefundId) {
+            _push(`<p class="text-xs font-mono">${ssrInterpolate(unref(refund).providerRefundId)}</p>`);
+          } else {
+            _push(`<!---->`);
+          }
+          if (unref(refund).lastError || unref(refund).effectsError) {
+            _push(ssrRenderComponent(_component_UAlert, {
+              color: "warning",
+              title: unref(labels).followup,
+              description: [unref(refund).lastError, unref(refund).effectsError].filter(Boolean).join(" · ")
+            }, null, _parent));
+          } else {
+            _push(`<!---->`);
+          }
+          if (unref(refund).status === "succeeded") {
+            _push(`<p class="text-sm">${ssrInterpolate(unref(refund).effectsStep === unref(REFUND_EFFECTS_COMPLETE) ? unref(labels).complete : unref(labels).followup)}</p>`);
+          } else {
+            _push(`<!---->`);
+          }
+          _push(`<!--]-->`);
+        } else {
+          _push(`<!---->`);
+        }
+        _push(`<!--]-->`);
+      } else {
+        _push(`<p class="text-sm text-gray-500">${ssrInterpolate(unref(labels).empty)}</p>`);
+      }
+      if (__props.canEdit && (!unref(refund) && __props.payStatus === "paid" || __props.admin && unref(refund)?.status === "requested")) {
+        _push(ssrRenderComponent(_component_UTextarea, {
+          modelValue: unref(reason),
+          "onUpdate:modelValue": ($event) => isRef(reason) ? reason.value = $event : null,
+          placeholder: unref(labels).reason,
+          maxlength: 500,
+          class: "w-full"
+        }, null, _parent));
+      } else {
+        _push(`<!---->`);
+      }
+      if (__props.canEdit && !unref(error) && unref(status) !== "pending") {
+        _push(`<div class="flex flex-wrap gap-2">`);
+        if (!__props.admin && !unref(refund) && __props.payStatus === "paid") {
+          _push(ssrRenderComponent(_component_UButton, {
+            loading: unref(busy),
+            disabled: !unref(reason).trim(),
+            onClick: ($event) => act("request")
+          }, {
+            default: withCtx((_, _push2, _parent2, _scopeId) => {
+              if (_push2) {
+                _push2(`${ssrInterpolate(unref(labels).request)}`);
+              } else {
+                return [
+                  createTextVNode(toDisplayString$1(unref(labels).request), 1)
+                ];
+              }
+            }),
+            _: 1
+          }, _parent));
+        } else {
+          _push(`<!---->`);
+        }
+        if (__props.admin && (!unref(refund) && __props.payStatus === "paid" || unref(refund)?.status === "requested")) {
+          _push(ssrRenderComponent(_component_UButton, {
+            color: "error",
+            loading: unref(busy),
+            disabled: !unref(refund) && !unref(reason).trim(),
+            onClick: ($event) => act(unref(refund) ? "approve" : "refund")
+          }, {
+            default: withCtx((_, _push2, _parent2, _scopeId) => {
+              if (_push2) {
+                _push2(`${ssrInterpolate(unref(labels).approve)}`);
+              } else {
+                return [
+                  createTextVNode(toDisplayString$1(unref(labels).approve), 1)
+                ];
+              }
+            }),
+            _: 1
+          }, _parent));
+        } else {
+          _push(`<!---->`);
+        }
+        if (__props.admin && unref(refund)?.status === "requested") {
+          _push(ssrRenderComponent(_component_UButton, {
+            color: "neutral",
+            loading: unref(busy),
+            disabled: !unref(reason).trim(),
+            onClick: ($event) => act("reject")
+          }, {
+            default: withCtx((_, _push2, _parent2, _scopeId) => {
+              if (_push2) {
+                _push2(`${ssrInterpolate(unref(labels).reject)}`);
+              } else {
+                return [
+                  createTextVNode(toDisplayString$1(unref(labels).reject), 1)
+                ];
+              }
+            }),
+            _: 1
+          }, _parent));
+        } else {
+          _push(`<!---->`);
+        }
+        if (__props.admin && unref(refund) && ["processing", "unknown", "succeeded"].includes(unref(refund).status)) {
+          _push(ssrRenderComponent(_component_UButton, {
+            color: "neutral",
+            loading: unref(busy),
+            onClick: ($event) => act("reconcile")
+          }, {
+            default: withCtx((_, _push2, _parent2, _scopeId) => {
+              if (_push2) {
+                _push2(`${ssrInterpolate(unref(labels).reconcile)}`);
+              } else {
+                return [
+                  createTextVNode(toDisplayString$1(unref(labels).reconcile), 1)
+                ];
+              }
+            }),
+            _: 1
+          }, _parent));
+        } else {
+          _push(`<!---->`);
+        }
+        _push(`</div>`);
+      } else {
+        _push(`<!---->`);
+      }
+      _push(`</section>`);
+    };
+  }
+});
+const _sfc_setup$A = _sfc_main$A.setup;
+_sfc_main$A.setup = (props, ctx) => {
+  const ssrContext = useSSRContext();
+  (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("components/OrderRefundPanel.vue");
+  return _sfc_setup$A ? _sfc_setup$A(props, ctx) : void 0;
+};
+const __nuxt_component_10 = Object.assign(_sfc_main$A, { __name: "OrderRefundPanel" });
+const _sfc_main$z = /* @__PURE__ */ defineComponent({
   __name: "[order_id]",
   __ssrInlineRender: true,
   async setup(__props) {
@@ -22618,7 +24053,7 @@ const _sfc_main$B = /* @__PURE__ */ defineComponent({
           }
         }
       },
-      "$eh0s6_XRaa"
+      "$aTUqGODLNG"
       /* nuxt-injected */
     )), __temp = await __temp, __restore(), __temp);
     const pending = computed(() => status.value === "pending");
@@ -22661,9 +24096,10 @@ const _sfc_main$B = /* @__PURE__ */ defineComponent({
     };
     return (_ctx, _push, _parent, _attrs) => {
       const _component_NuxtLink = __nuxt_component_3$3;
-      const _component_UIcon = _sfc_main$Z;
-      const _component_UBadge = _sfc_main$O;
-      const _component_UButton = _sfc_main$U;
+      const _component_UIcon = _sfc_main$_;
+      const _component_UBadge = _sfc_main$P;
+      const _component_UButton = _sfc_main$V;
+      const _component_OrderRefundPanel = __nuxt_component_10;
       _push(`<div${ssrRenderAttrs(mergeProps({ class: "min-h-screen bg-gray-50 dark:bg-[#050505] pt-32 pb-20 px-6 transition-colors" }, _attrs))}><div class="max-w-4xl mx-auto">`);
       _push(ssrRenderComponent(_component_NuxtLink, {
         to: unref(localePath2)("/user/orders"),
@@ -22840,7 +24276,12 @@ const _sfc_main$B = /* @__PURE__ */ defineComponent({
         } else {
           _push(`<!---->`);
         }
-        _push(`</div></div></div><div class="grid grid-cols-1 md:grid-cols-2 gap-6"><div class="bg-white dark:bg-[#0A0A0A] border border-gray-200 dark:border-white/10 rounded-2xl p-6 shadow-sm dark:shadow-none"><div class="flex items-center gap-2 text-gray-900 dark:text-white font-bold mb-6">`);
+        _push(`</div></div></div>`);
+        _push(ssrRenderComponent(_component_OrderRefundPanel, {
+          "order-id": unref(order2).id,
+          "pay-status": unref(order2).payStatus
+        }, null, _parent));
+        _push(`<div class="grid grid-cols-1 md:grid-cols-2 gap-6"><div class="bg-white dark:bg-[#0A0A0A] border border-gray-200 dark:border-white/10 rounded-2xl p-6 shadow-sm dark:shadow-none"><div class="flex items-center gap-2 text-gray-900 dark:text-white font-bold mb-6">`);
         _push(ssrRenderComponent(_component_UIcon, {
           name: "ph:credit-card",
           class: "w-5 h-5 text-purple-400"
@@ -22968,17 +24409,17 @@ const _sfc_main$B = /* @__PURE__ */ defineComponent({
     };
   }
 });
-const _sfc_setup$B = _sfc_main$B.setup;
-_sfc_main$B.setup = (props, ctx) => {
+const _sfc_setup$z = _sfc_main$z.setup;
+_sfc_main$z.setup = (props, ctx) => {
   const ssrContext = useSSRContext();
   (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("core/pages/user/orders/[order_id].vue");
-  return _sfc_setup$B ? _sfc_setup$B(props, ctx) : void 0;
+  return _sfc_setup$z ? _sfc_setup$z(props, ctx) : void 0;
 };
 const __vite_glob_0_9 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
   __proto__: null,
-  default: _sfc_main$B
+  default: _sfc_main$z
 }, Symbol.toStringTag, { value: "Module" }));
-const theme$e = {
+const theme$c = {
   "slots": {
     "root": "",
     "list": "flex items-center gap-1",
@@ -22991,7 +24432,7 @@ const theme$e = {
     "last": ""
   }
 };
-const _sfc_main$A = {
+const _sfc_main$y = {
   __name: "UPagination",
   __ssrInlineRender: true,
   props: {
@@ -23031,7 +24472,7 @@ const _sfc_main$A = {
     const prevIcon = computed(() => props.prevIcon || (dir.value === "rtl" ? appConfig2.ui.icons.chevronRight : appConfig2.ui.icons.chevronLeft));
     const nextIcon = computed(() => props.nextIcon || (dir.value === "rtl" ? appConfig2.ui.icons.chevronLeft : appConfig2.ui.icons.chevronRight));
     const lastIcon = computed(() => props.lastIcon || (dir.value === "rtl" ? appConfig2.ui.icons.chevronDoubleLeft : appConfig2.ui.icons.chevronDoubleRight));
-    const ui = computed(() => tv({ extend: tv(theme$e), ...appConfig2.ui?.pagination || {} })());
+    const ui = computed(() => tv({ extend: tv(theme$c), ...appConfig2.ui?.pagination || {} })());
     return (_ctx, _push, _parent, _attrs) => {
       _push(ssrRenderComponent(unref(PaginationRoot_default), mergeProps(unref(rootProps), {
         "data-slot": "root",
@@ -23054,7 +24495,7 @@ const _sfc_main$A = {
                       default: withCtx((_, _push4, _parent4, _scopeId3) => {
                         if (_push4) {
                           ssrRenderSlot(_ctx.$slots, "first", {}, () => {
-                            _push4(ssrRenderComponent(_sfc_main$U, {
+                            _push4(ssrRenderComponent(_sfc_main$V, {
                               color: __props.color,
                               variant: __props.variant,
                               size: __props.size,
@@ -23065,7 +24506,7 @@ const _sfc_main$A = {
                         } else {
                           return [
                             renderSlot(_ctx.$slots, "first", {}, () => [
-                              createVNode(_sfc_main$U, {
+                              createVNode(_sfc_main$V, {
                                 color: __props.color,
                                 variant: __props.variant,
                                 size: __props.size,
@@ -23090,7 +24531,7 @@ const _sfc_main$A = {
                       default: withCtx((_, _push4, _parent4, _scopeId3) => {
                         if (_push4) {
                           ssrRenderSlot(_ctx.$slots, "prev", {}, () => {
-                            _push4(ssrRenderComponent(_sfc_main$U, {
+                            _push4(ssrRenderComponent(_sfc_main$V, {
                               color: __props.color,
                               variant: __props.variant,
                               size: __props.size,
@@ -23101,7 +24542,7 @@ const _sfc_main$A = {
                         } else {
                           return [
                             renderSlot(_ctx.$slots, "prev", {}, () => [
-                              createVNode(_sfc_main$U, {
+                              createVNode(_sfc_main$V, {
                                 color: __props.color,
                                 variant: __props.variant,
                                 size: __props.size,
@@ -23130,7 +24571,7 @@ const _sfc_main$A = {
                         default: withCtx((_, _push4, _parent4, _scopeId3) => {
                           if (_push4) {
                             ssrRenderSlot(_ctx.$slots, "item", mergeProps({ ref_for: true }, { item, index: index2, page, pageCount }), () => {
-                              _push4(ssrRenderComponent(_sfc_main$U, {
+                              _push4(ssrRenderComponent(_sfc_main$V, {
                                 color: page === item.value ? __props.activeColor : __props.color,
                                 variant: page === item.value ? __props.activeVariant : __props.variant,
                                 size: __props.size,
@@ -23143,7 +24584,7 @@ const _sfc_main$A = {
                           } else {
                             return [
                               renderSlot(_ctx.$slots, "item", mergeProps({ ref_for: true }, { item, index: index2, page, pageCount }), () => [
-                                createVNode(_sfc_main$U, {
+                                createVNode(_sfc_main$V, {
                                   color: page === item.value ? __props.activeColor : __props.color,
                                   variant: page === item.value ? __props.activeVariant : __props.variant,
                                   size: __props.size,
@@ -23167,7 +24608,7 @@ const _sfc_main$A = {
                         default: withCtx((_, _push4, _parent4, _scopeId3) => {
                           if (_push4) {
                             ssrRenderSlot(_ctx.$slots, "ellipsis", { ui: ui.value }, () => {
-                              _push4(ssrRenderComponent(_sfc_main$U, {
+                              _push4(ssrRenderComponent(_sfc_main$V, {
                                 as: "div",
                                 color: __props.color,
                                 variant: __props.variant,
@@ -23178,7 +24619,7 @@ const _sfc_main$A = {
                           } else {
                             return [
                               renderSlot(_ctx.$slots, "ellipsis", { ui: ui.value }, () => [
-                                createVNode(_sfc_main$U, {
+                                createVNode(_sfc_main$V, {
                                   as: "div",
                                   color: __props.color,
                                   variant: __props.variant,
@@ -23204,7 +24645,7 @@ const _sfc_main$A = {
                       default: withCtx((_, _push4, _parent4, _scopeId3) => {
                         if (_push4) {
                           ssrRenderSlot(_ctx.$slots, "next", {}, () => {
-                            _push4(ssrRenderComponent(_sfc_main$U, {
+                            _push4(ssrRenderComponent(_sfc_main$V, {
                               color: __props.color,
                               variant: __props.variant,
                               size: __props.size,
@@ -23215,7 +24656,7 @@ const _sfc_main$A = {
                         } else {
                           return [
                             renderSlot(_ctx.$slots, "next", {}, () => [
-                              createVNode(_sfc_main$U, {
+                              createVNode(_sfc_main$V, {
                                 color: __props.color,
                                 variant: __props.variant,
                                 size: __props.size,
@@ -23240,7 +24681,7 @@ const _sfc_main$A = {
                       default: withCtx((_, _push4, _parent4, _scopeId3) => {
                         if (_push4) {
                           ssrRenderSlot(_ctx.$slots, "last", {}, () => {
-                            _push4(ssrRenderComponent(_sfc_main$U, {
+                            _push4(ssrRenderComponent(_sfc_main$V, {
                               color: __props.color,
                               variant: __props.variant,
                               size: __props.size,
@@ -23251,7 +24692,7 @@ const _sfc_main$A = {
                         } else {
                           return [
                             renderSlot(_ctx.$slots, "last", {}, () => [
-                              createVNode(_sfc_main$U, {
+                              createVNode(_sfc_main$V, {
                                 color: __props.color,
                                 variant: __props.variant,
                                 size: __props.size,
@@ -23277,7 +24718,7 @@ const _sfc_main$A = {
                     }, {
                       default: withCtx(() => [
                         renderSlot(_ctx.$slots, "first", {}, () => [
-                          createVNode(_sfc_main$U, {
+                          createVNode(_sfc_main$V, {
                             color: __props.color,
                             variant: __props.variant,
                             size: __props.size,
@@ -23296,7 +24737,7 @@ const _sfc_main$A = {
                     }, {
                       default: withCtx(() => [
                         renderSlot(_ctx.$slots, "prev", {}, () => [
-                          createVNode(_sfc_main$U, {
+                          createVNode(_sfc_main$V, {
                             color: __props.color,
                             variant: __props.variant,
                             size: __props.size,
@@ -23318,7 +24759,7 @@ const _sfc_main$A = {
                         }, {
                           default: withCtx(() => [
                             renderSlot(_ctx.$slots, "item", mergeProps({ ref_for: true }, { item, index: index2, page, pageCount }), () => [
-                              createVNode(_sfc_main$U, {
+                              createVNode(_sfc_main$V, {
                                 color: page === item.value ? __props.activeColor : __props.color,
                                 variant: page === item.value ? __props.activeVariant : __props.variant,
                                 size: __props.size,
@@ -23338,7 +24779,7 @@ const _sfc_main$A = {
                         }, {
                           default: withCtx(() => [
                             renderSlot(_ctx.$slots, "ellipsis", { ui: ui.value }, () => [
-                              createVNode(_sfc_main$U, {
+                              createVNode(_sfc_main$V, {
                                 as: "div",
                                 color: __props.color,
                                 variant: __props.variant,
@@ -23359,7 +24800,7 @@ const _sfc_main$A = {
                     }, {
                       default: withCtx(() => [
                         renderSlot(_ctx.$slots, "next", {}, () => [
-                          createVNode(_sfc_main$U, {
+                          createVNode(_sfc_main$V, {
                             color: __props.color,
                             variant: __props.variant,
                             size: __props.size,
@@ -23378,7 +24819,7 @@ const _sfc_main$A = {
                     }, {
                       default: withCtx(() => [
                         renderSlot(_ctx.$slots, "last", {}, () => [
-                          createVNode(_sfc_main$U, {
+                          createVNode(_sfc_main$V, {
                             color: __props.color,
                             variant: __props.variant,
                             size: __props.size,
@@ -23409,7 +24850,7 @@ const _sfc_main$A = {
                   }, {
                     default: withCtx(() => [
                       renderSlot(_ctx.$slots, "first", {}, () => [
-                        createVNode(_sfc_main$U, {
+                        createVNode(_sfc_main$V, {
                           color: __props.color,
                           variant: __props.variant,
                           size: __props.size,
@@ -23428,7 +24869,7 @@ const _sfc_main$A = {
                   }, {
                     default: withCtx(() => [
                       renderSlot(_ctx.$slots, "prev", {}, () => [
-                        createVNode(_sfc_main$U, {
+                        createVNode(_sfc_main$V, {
                           color: __props.color,
                           variant: __props.variant,
                           size: __props.size,
@@ -23450,7 +24891,7 @@ const _sfc_main$A = {
                       }, {
                         default: withCtx(() => [
                           renderSlot(_ctx.$slots, "item", mergeProps({ ref_for: true }, { item, index: index2, page, pageCount }), () => [
-                            createVNode(_sfc_main$U, {
+                            createVNode(_sfc_main$V, {
                               color: page === item.value ? __props.activeColor : __props.color,
                               variant: page === item.value ? __props.activeVariant : __props.variant,
                               size: __props.size,
@@ -23470,7 +24911,7 @@ const _sfc_main$A = {
                       }, {
                         default: withCtx(() => [
                           renderSlot(_ctx.$slots, "ellipsis", { ui: ui.value }, () => [
-                            createVNode(_sfc_main$U, {
+                            createVNode(_sfc_main$V, {
                               as: "div",
                               color: __props.color,
                               variant: __props.variant,
@@ -23491,7 +24932,7 @@ const _sfc_main$A = {
                   }, {
                     default: withCtx(() => [
                       renderSlot(_ctx.$slots, "next", {}, () => [
-                        createVNode(_sfc_main$U, {
+                        createVNode(_sfc_main$V, {
                           color: __props.color,
                           variant: __props.variant,
                           size: __props.size,
@@ -23510,7 +24951,7 @@ const _sfc_main$A = {
                   }, {
                     default: withCtx(() => [
                       renderSlot(_ctx.$slots, "last", {}, () => [
-                        createVNode(_sfc_main$U, {
+                        createVNode(_sfc_main$V, {
                           color: __props.color,
                           variant: __props.variant,
                           size: __props.size,
@@ -23532,11 +24973,11 @@ const _sfc_main$A = {
     };
   }
 };
-const _sfc_setup$A = _sfc_main$A.setup;
-_sfc_main$A.setup = (props, ctx) => {
+const _sfc_setup$y = _sfc_main$y.setup;
+_sfc_main$y.setup = (props, ctx) => {
   const ssrContext = useSSRContext();
   (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("../../../../../../../../../../Users/hugh/code/hoxi/apay/node_modules/@nuxt/ui/dist/runtime/components/Pagination.vue");
-  return _sfc_setup$A ? _sfc_setup$A(props, ctx) : void 0;
+  return _sfc_setup$y ? _sfc_setup$y(props, ctx) : void 0;
 };
 function usePagination(defaultPageSize = 15) {
   const page = ref(1);
@@ -23576,11 +25017,12 @@ function usePagination(defaultPageSize = 15) {
     clampPage
   };
 }
-const _sfc_main$z = /* @__PURE__ */ defineComponent({
+const _sfc_main$x = /* @__PURE__ */ defineComponent({
   __name: "index",
   __ssrInlineRender: true,
   async setup(__props) {
     let __temp, __restore;
+    const refundLabels = useRefundLabels();
     const { getLocalizedSetting } = useLocalizedSettings();
     const { formatDate } = useFormatTime();
     const { formatCurrencyAmount } = useCurrencyFormat();
@@ -23608,7 +25050,7 @@ const _sfc_main$z = /* @__PURE__ */ defineComponent({
           }
         }
       },
-      "$sq5HHpN7dl"
+      "$yUMzzY5vO0"
       /* nuxt-injected */
     )), __temp = await __temp, __restore(), __temp);
     const orders = computed(() => ordersData.value?.data || []);
@@ -23622,10 +25064,10 @@ const _sfc_main$z = /* @__PURE__ */ defineComponent({
     watch(page, () => {
     });
     return (_ctx, _push, _parent, _attrs) => {
-      const _component_UIcon = _sfc_main$Z;
-      const _component_UBadge = _sfc_main$O;
-      const _component_UButton = _sfc_main$U;
-      const _component_UPagination = _sfc_main$A;
+      const _component_UIcon = _sfc_main$_;
+      const _component_UBadge = _sfc_main$P;
+      const _component_UButton = _sfc_main$V;
+      const _component_UPagination = _sfc_main$y;
       _push(`<div${ssrRenderAttrs(mergeProps({ class: "min-h-screen bg-[#050505] pt-32 pb-20 px-6" }, _attrs))}><div class="max-w-5xl mx-auto"><div class="flex items-center justify-between mb-10"><div><h1 class="text-3xl font-bold text-white mb-2">${ssrInterpolate(_ctx.$t("site.order.myOrders"))}</h1><p class="text-gray-400">${ssrInterpolate(_ctx.$t("site.order.myOrdersTips"))}</p></div><div class="flex items-center gap-3 bg-white/5 border border-white/10 rounded-full px-4 py-2">`);
       _push(ssrRenderComponent(_component_UIcon, {
         name: "ph:user-circle",
@@ -23668,7 +25110,7 @@ const _sfc_main$z = /* @__PURE__ */ defineComponent({
             class: "w-4 h-4"
           }, null, _parent));
           _push(` ${ssrInterpolate(order2.payMethod || "Unknown")}</span></div></div><div class="flex items-center justify-between pt-4 border-t border-white/5"><div class="flex items-center gap-2">`);
-          if (order2.payStatus === "paid" || order2.status === "delivered") {
+          if (order2.payStatus === "paid") {
             _push(ssrRenderComponent(_component_UBadge, {
               color: "success",
               variant: "subtle",
@@ -23688,6 +25130,22 @@ const _sfc_main$z = /* @__PURE__ */ defineComponent({
                       class: "w-4 h-4 mr-1"
                     }),
                     createTextVNode(" " + toDisplayString$1(_ctx.$t("site.payment.completed")), 1)
+                  ];
+                }
+              }),
+              _: 2
+            }, _parent));
+          } else if (order2.payStatus === "refunded") {
+            _push(ssrRenderComponent(_component_UBadge, {
+              color: "neutral",
+              variant: "subtle"
+            }, {
+              default: withCtx((_, _push2, _parent2, _scopeId) => {
+                if (_push2) {
+                  _push2(`${ssrInterpolate(unref(refundLabels).succeeded)}`);
+                } else {
+                  return [
+                    createTextVNode(toDisplayString$1(unref(refundLabels).succeeded), 1)
                   ];
                 }
               }),
@@ -23769,7 +25227,7 @@ const _sfc_main$z = /* @__PURE__ */ defineComponent({
             _: 2
           }, _parent));
           _push(`</div><div class="flex gap-3">`);
-          if (order2.payStatus === "paid" || order2.status === "delivered") {
+          if (order2.payStatus !== "deleted") {
             _push(ssrRenderComponent(_component_UButton, {
               color: "primary",
               variant: "solid",
@@ -23778,10 +25236,10 @@ const _sfc_main$z = /* @__PURE__ */ defineComponent({
             }, {
               default: withCtx((_, _push2, _parent2, _scopeId) => {
                 if (_push2) {
-                  _push2(`${ssrInterpolate(_ctx.$t("site.payment.viewDelivery"))}`);
+                  _push2(`${ssrInterpolate(unref(refundLabels).details)}`);
                 } else {
                   return [
-                    createTextVNode(toDisplayString$1(_ctx.$t("site.payment.viewDelivery")), 1)
+                    createTextVNode(toDisplayString$1(unref(refundLabels).details), 1)
                   ];
                 }
               }),
@@ -23856,17 +25314,17 @@ const _sfc_main$z = /* @__PURE__ */ defineComponent({
     };
   }
 });
-const _sfc_setup$z = _sfc_main$z.setup;
-_sfc_main$z.setup = (props, ctx) => {
+const _sfc_setup$x = _sfc_main$x.setup;
+_sfc_main$x.setup = (props, ctx) => {
   const ssrContext = useSSRContext();
   (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("core/pages/user/orders/index.vue");
-  return _sfc_setup$z ? _sfc_setup$z(props, ctx) : void 0;
+  return _sfc_setup$x ? _sfc_setup$x(props, ctx) : void 0;
 };
 const __vite_glob_0_10 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
   __proto__: null,
-  default: _sfc_main$z
+  default: _sfc_main$x
 }, Symbol.toStringTag, { value: "Module" }));
-const theme$d = {
+const theme$b = {
   "slots": {
     "root": "",
     "wrapper": "",
@@ -23915,7 +25373,7 @@ const theme$d = {
     "orientation": "vertical"
   }
 };
-const _sfc_main$y = {
+const _sfc_main$w = {
   __name: "UFormField",
   __ssrInlineRender: true,
   props: {
@@ -23940,7 +25398,7 @@ const _sfc_main$y = {
     const slots = useSlots();
     const appConfig2 = useAppConfig();
     const uiProp = useComponentUI("formField", props);
-    const ui = computed(() => tv({ extend: tv(theme$d), ...appConfig2.ui?.formField || {} })({
+    const ui = computed(() => tv({ extend: tv(theme$b), ...appConfig2.ui?.formField || {} })({
       size: props.size,
       required: props.required,
       orientation: props.orientation
@@ -24117,13 +25575,13 @@ const _sfc_main$y = {
     };
   }
 };
-const _sfc_setup$y = _sfc_main$y.setup;
-_sfc_main$y.setup = (props, ctx) => {
+const _sfc_setup$w = _sfc_main$w.setup;
+_sfc_main$w.setup = (props, ctx) => {
   const ssrContext = useSSRContext();
   (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("../../../../../../../../../../Users/hugh/code/hoxi/apay/node_modules/@nuxt/ui/dist/runtime/components/FormField.vue");
-  return _sfc_setup$y ? _sfc_setup$y(props, ctx) : void 0;
+  return _sfc_setup$w ? _sfc_setup$w(props, ctx) : void 0;
 };
-const theme$c = {
+const theme$a = {
   "slots": {
     "root": "relative inline-flex items-center",
     "base": [
@@ -24409,7 +25867,7 @@ const theme$c = {
     "variant": "outline"
   }
 };
-const _sfc_main$x = /* @__PURE__ */ Object.assign({ inheritAttrs: false }, {
+const _sfc_main$v = /* @__PURE__ */ Object.assign({ inheritAttrs: false }, {
   __name: "UInput",
   __ssrInlineRender: true,
   props: {
@@ -24454,7 +25912,7 @@ const _sfc_main$x = /* @__PURE__ */ Object.assign({ inheritAttrs: false }, {
     const { orientation, size: fieldGroupSize } = useFieldGroup(props);
     const { isLeading, isTrailing, leadingIconName, trailingIconName } = useComponentIcons(props);
     const inputSize = computed(() => fieldGroupSize.value || formGroupSize.value);
-    const ui = computed(() => tv({ extend: tv(theme$c), ...appConfig2.ui?.input || {} })({
+    const ui = computed(() => tv({ extend: tv(theme$a), ...appConfig2.ui?.input || {} })({
       type: props.type,
       color: color2.value,
       variant: props.variant,
@@ -24533,13 +25991,13 @@ const _sfc_main$x = /* @__PURE__ */ Object.assign({ inheritAttrs: false }, {
               _push2(`<span data-slot="leading" class="${ssrRenderClass(ui.value.leading({ class: unref(uiProp)?.leading }))}"${_scopeId}>`);
               ssrRenderSlot(_ctx.$slots, "leading", { ui: ui.value }, () => {
                 if (unref(isLeading) && unref(leadingIconName)) {
-                  _push2(ssrRenderComponent(_sfc_main$Z, {
+                  _push2(ssrRenderComponent(_sfc_main$_, {
                     name: unref(leadingIconName),
                     "data-slot": "leadingIcon",
                     class: ui.value.leadingIcon({ class: unref(uiProp)?.leadingIcon })
                   }, null, _parent2, _scopeId));
                 } else if (!!__props.avatar) {
-                  _push2(ssrRenderComponent(_sfc_main$X, mergeProps({
+                  _push2(ssrRenderComponent(_sfc_main$Y, mergeProps({
                     size: unref(uiProp)?.leadingAvatarSize || ui.value.leadingAvatarSize()
                   }, __props.avatar, {
                     "data-slot": "leadingAvatar",
@@ -24557,7 +26015,7 @@ const _sfc_main$x = /* @__PURE__ */ Object.assign({ inheritAttrs: false }, {
               _push2(`<span data-slot="trailing" class="${ssrRenderClass(ui.value.trailing({ class: unref(uiProp)?.trailing }))}"${_scopeId}>`);
               ssrRenderSlot(_ctx.$slots, "trailing", { ui: ui.value }, () => {
                 if (unref(trailingIconName)) {
-                  _push2(ssrRenderComponent(_sfc_main$Z, {
+                  _push2(ssrRenderComponent(_sfc_main$_, {
                     name: unref(trailingIconName),
                     "data-slot": "trailingIcon",
                     class: ui.value.trailingIcon({ class: unref(uiProp)?.trailingIcon })
@@ -24598,12 +26056,12 @@ const _sfc_main$x = /* @__PURE__ */ Object.assign({ inheritAttrs: false }, {
                 class: ui.value.leading({ class: unref(uiProp)?.leading })
               }, [
                 renderSlot(_ctx.$slots, "leading", { ui: ui.value }, () => [
-                  unref(isLeading) && unref(leadingIconName) ? (openBlock(), createBlock(_sfc_main$Z, {
+                  unref(isLeading) && unref(leadingIconName) ? (openBlock(), createBlock(_sfc_main$_, {
                     key: 0,
                     name: unref(leadingIconName),
                     "data-slot": "leadingIcon",
                     class: ui.value.leadingIcon({ class: unref(uiProp)?.leadingIcon })
-                  }, null, 8, ["name", "class"])) : !!__props.avatar ? (openBlock(), createBlock(_sfc_main$X, mergeProps({
+                  }, null, 8, ["name", "class"])) : !!__props.avatar ? (openBlock(), createBlock(_sfc_main$Y, mergeProps({
                     key: 1,
                     size: unref(uiProp)?.leadingAvatarSize || ui.value.leadingAvatarSize()
                   }, __props.avatar, {
@@ -24618,7 +26076,7 @@ const _sfc_main$x = /* @__PURE__ */ Object.assign({ inheritAttrs: false }, {
                 class: ui.value.trailing({ class: unref(uiProp)?.trailing })
               }, [
                 renderSlot(_ctx.$slots, "trailing", { ui: ui.value }, () => [
-                  unref(trailingIconName) ? (openBlock(), createBlock(_sfc_main$Z, {
+                  unref(trailingIconName) ? (openBlock(), createBlock(_sfc_main$_, {
                     key: 0,
                     name: unref(trailingIconName),
                     "data-slot": "trailingIcon",
@@ -24634,13 +26092,13 @@ const _sfc_main$x = /* @__PURE__ */ Object.assign({ inheritAttrs: false }, {
     };
   }
 });
-const _sfc_setup$x = _sfc_main$x.setup;
-_sfc_main$x.setup = (props, ctx) => {
+const _sfc_setup$v = _sfc_main$v.setup;
+_sfc_main$v.setup = (props, ctx) => {
   const ssrContext = useSSRContext();
   (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("../../../../../../../../../../Users/hugh/code/hoxi/apay/node_modules/@nuxt/ui/dist/runtime/components/Input.vue");
-  return _sfc_setup$x ? _sfc_setup$x(props, ctx) : void 0;
+  return _sfc_setup$v ? _sfc_setup$v(props, ctx) : void 0;
 };
-const theme$b = {
+const theme$9 = {
   "slots": {
     "base": [
       "relative group rounded-md inline-flex items-center focus:outline-none disabled:cursor-not-allowed disabled:opacity-75",
@@ -24985,7 +26443,7 @@ const theme$b = {
     "variant": "outline"
   }
 };
-const _sfc_main$w = /* @__PURE__ */ Object.assign({ inheritAttrs: false }, {
+const _sfc_main$u = /* @__PURE__ */ Object.assign({ inheritAttrs: false }, {
   __name: "USelect",
   __ssrInlineRender: true,
   props: {
@@ -25041,7 +26499,7 @@ const _sfc_main$w = /* @__PURE__ */ Object.assign({ inheritAttrs: false }, {
     const { orientation, size: fieldGroupSize } = useFieldGroup(props);
     const { isLeading, isTrailing, leadingIconName, trailingIconName } = useComponentIcons(toRef$1(() => defu(props, { trailingIcon: appConfig2.ui.icons.chevronDown })));
     const selectSize = computed(() => fieldGroupSize.value || formGroupSize.value);
-    const ui = computed(() => tv({ extend: tv(theme$b), ...appConfig2.ui?.select || {} })({
+    const ui = computed(() => tv({ extend: tv(theme$9), ...appConfig2.ui?.select || {} })({
       color: color2.value,
       variant: props.variant,
       size: selectSize?.value,
@@ -25134,13 +26592,13 @@ const _sfc_main$w = /* @__PURE__ */ Object.assign({ inheritAttrs: false }, {
                       ui: ui.value
                     }, () => {
                       if (unref(isLeading) && unref(leadingIconName)) {
-                        _push3(ssrRenderComponent(_sfc_main$Z, {
+                        _push3(ssrRenderComponent(_sfc_main$_, {
                           name: unref(leadingIconName),
                           "data-slot": "leadingIcon",
                           class: ui.value.leadingIcon({ class: unref(uiProp)?.leadingIcon })
                         }, null, _parent3, _scopeId2));
                       } else if (!!__props.avatar) {
-                        _push3(ssrRenderComponent(_sfc_main$X, mergeProps({
+                        _push3(ssrRenderComponent(_sfc_main$Y, mergeProps({
                           size: unref(uiProp)?.itemLeadingAvatarSize || ui.value.itemLeadingAvatarSize()
                         }, __props.avatar, {
                           "data-slot": "itemLeadingAvatar",
@@ -25179,7 +26637,7 @@ const _sfc_main$w = /* @__PURE__ */ Object.assign({ inheritAttrs: false }, {
                       ui: ui.value
                     }, () => {
                       if (unref(trailingIconName)) {
-                        _push3(ssrRenderComponent(_sfc_main$Z, {
+                        _push3(ssrRenderComponent(_sfc_main$_, {
                           name: unref(trailingIconName),
                           "data-slot": "trailingIcon",
                           class: ui.value.trailingIcon({ class: unref(uiProp)?.trailingIcon })
@@ -25204,12 +26662,12 @@ const _sfc_main$w = /* @__PURE__ */ Object.assign({ inheritAttrs: false }, {
                         open,
                         ui: ui.value
                       }, () => [
-                        unref(isLeading) && unref(leadingIconName) ? (openBlock(), createBlock(_sfc_main$Z, {
+                        unref(isLeading) && unref(leadingIconName) ? (openBlock(), createBlock(_sfc_main$_, {
                           key: 0,
                           name: unref(leadingIconName),
                           "data-slot": "leadingIcon",
                           class: ui.value.leadingIcon({ class: unref(uiProp)?.leadingIcon })
-                        }, null, 8, ["name", "class"])) : !!__props.avatar ? (openBlock(), createBlock(_sfc_main$X, mergeProps({
+                        }, null, 8, ["name", "class"])) : !!__props.avatar ? (openBlock(), createBlock(_sfc_main$Y, mergeProps({
                           key: 1,
                           size: unref(uiProp)?.itemLeadingAvatarSize || ui.value.itemLeadingAvatarSize()
                         }, __props.avatar, {
@@ -25247,7 +26705,7 @@ const _sfc_main$w = /* @__PURE__ */ Object.assign({ inheritAttrs: false }, {
                         open,
                         ui: ui.value
                       }, () => [
-                        unref(trailingIconName) ? (openBlock(), createBlock(_sfc_main$Z, {
+                        unref(trailingIconName) ? (openBlock(), createBlock(_sfc_main$_, {
                           key: 0,
                           name: unref(trailingIconName),
                           "data-slot": "trailingIcon",
@@ -25324,20 +26782,20 @@ const _sfc_main$w = /* @__PURE__ */ Object.assign({ inheritAttrs: false }, {
                                               ui: ui.value
                                             }, () => {
                                               if (isSelectItem(item) && item.icon) {
-                                                _push6(ssrRenderComponent(_sfc_main$Z, {
+                                                _push6(ssrRenderComponent(_sfc_main$_, {
                                                   name: item.icon,
                                                   "data-slot": "itemLeadingIcon",
                                                   class: ui.value.itemLeadingIcon({ class: [unref(uiProp)?.itemLeadingIcon, item.ui?.itemLeadingIcon] })
                                                 }, null, _parent6, _scopeId5));
                                               } else if (isSelectItem(item) && item.avatar) {
-                                                _push6(ssrRenderComponent(_sfc_main$X, mergeProps({
+                                                _push6(ssrRenderComponent(_sfc_main$Y, mergeProps({
                                                   size: item.ui?.itemLeadingAvatarSize || unref(uiProp)?.itemLeadingAvatarSize || ui.value.itemLeadingAvatarSize()
                                                 }, { ref_for: true }, item.avatar, {
                                                   "data-slot": "itemLeadingAvatar",
                                                   class: ui.value.itemLeadingAvatar({ class: [unref(uiProp)?.itemLeadingAvatar, item.ui?.itemLeadingAvatar] })
                                                 }), null, _parent6, _scopeId5));
                                               } else if (isSelectItem(item) && item.chip) {
-                                                _push6(ssrRenderComponent(_sfc_main$Y, mergeProps({
+                                                _push6(ssrRenderComponent(_sfc_main$Z, mergeProps({
                                                   size: item.ui?.itemLeadingChipSize || unref(uiProp)?.itemLeadingChipSize || ui.value.itemLeadingChipSize(),
                                                   inset: "",
                                                   standalone: ""
@@ -25396,14 +26854,14 @@ const _sfc_main$w = /* @__PURE__ */ Object.assign({ inheritAttrs: false }, {
                                             _push6(ssrRenderComponent(unref(SelectItemIndicator_default), { "as-child": "" }, {
                                               default: withCtx((_5, _push7, _parent7, _scopeId6) => {
                                                 if (_push7) {
-                                                  _push7(ssrRenderComponent(_sfc_main$Z, {
+                                                  _push7(ssrRenderComponent(_sfc_main$_, {
                                                     name: __props.selectedIcon || unref(appConfig2).ui.icons.check,
                                                     "data-slot": "itemTrailingIcon",
                                                     class: ui.value.itemTrailingIcon({ class: [unref(uiProp)?.itemTrailingIcon, isSelectItem(item) && item.ui?.itemTrailingIcon] })
                                                   }, null, _parent7, _scopeId6));
                                                 } else {
                                                   return [
-                                                    createVNode(_sfc_main$Z, {
+                                                    createVNode(_sfc_main$_, {
                                                       name: __props.selectedIcon || unref(appConfig2).ui.icons.check,
                                                       "data-slot": "itemTrailingIcon",
                                                       class: ui.value.itemTrailingIcon({ class: [unref(uiProp)?.itemTrailingIcon, isSelectItem(item) && item.ui?.itemTrailingIcon] })
@@ -25427,18 +26885,18 @@ const _sfc_main$w = /* @__PURE__ */ Object.assign({ inheritAttrs: false }, {
                                                 index: index2,
                                                 ui: ui.value
                                               }, () => [
-                                                isSelectItem(item) && item.icon ? (openBlock(), createBlock(_sfc_main$Z, {
+                                                isSelectItem(item) && item.icon ? (openBlock(), createBlock(_sfc_main$_, {
                                                   key: 0,
                                                   name: item.icon,
                                                   "data-slot": "itemLeadingIcon",
                                                   class: ui.value.itemLeadingIcon({ class: [unref(uiProp)?.itemLeadingIcon, item.ui?.itemLeadingIcon] })
-                                                }, null, 8, ["name", "class"])) : isSelectItem(item) && item.avatar ? (openBlock(), createBlock(_sfc_main$X, mergeProps({
+                                                }, null, 8, ["name", "class"])) : isSelectItem(item) && item.avatar ? (openBlock(), createBlock(_sfc_main$Y, mergeProps({
                                                   key: 1,
                                                   size: item.ui?.itemLeadingAvatarSize || unref(uiProp)?.itemLeadingAvatarSize || ui.value.itemLeadingAvatarSize()
                                                 }, { ref_for: true }, item.avatar, {
                                                   "data-slot": "itemLeadingAvatar",
                                                   class: ui.value.itemLeadingAvatar({ class: [unref(uiProp)?.itemLeadingAvatar, item.ui?.itemLeadingAvatar] })
-                                                }), null, 16, ["size", "class"])) : isSelectItem(item) && item.chip ? (openBlock(), createBlock(_sfc_main$Y, mergeProps({
+                                                }), null, 16, ["size", "class"])) : isSelectItem(item) && item.chip ? (openBlock(), createBlock(_sfc_main$Z, mergeProps({
                                                   key: 2,
                                                   size: item.ui?.itemLeadingChipSize || unref(uiProp)?.itemLeadingChipSize || ui.value.itemLeadingChipSize(),
                                                   inset: "",
@@ -25490,7 +26948,7 @@ const _sfc_main$w = /* @__PURE__ */ Object.assign({ inheritAttrs: false }, {
                                                 }),
                                                 createVNode(unref(SelectItemIndicator_default), { "as-child": "" }, {
                                                   default: withCtx(() => [
-                                                    createVNode(_sfc_main$Z, {
+                                                    createVNode(_sfc_main$_, {
                                                       name: __props.selectedIcon || unref(appConfig2).ui.icons.check,
                                                       "data-slot": "itemTrailingIcon",
                                                       class: ui.value.itemTrailingIcon({ class: [unref(uiProp)?.itemTrailingIcon, isSelectItem(item) && item.ui?.itemTrailingIcon] })
@@ -25547,18 +27005,18 @@ const _sfc_main$w = /* @__PURE__ */ Object.assign({ inheritAttrs: false }, {
                                               index: index2,
                                               ui: ui.value
                                             }, () => [
-                                              isSelectItem(item) && item.icon ? (openBlock(), createBlock(_sfc_main$Z, {
+                                              isSelectItem(item) && item.icon ? (openBlock(), createBlock(_sfc_main$_, {
                                                 key: 0,
                                                 name: item.icon,
                                                 "data-slot": "itemLeadingIcon",
                                                 class: ui.value.itemLeadingIcon({ class: [unref(uiProp)?.itemLeadingIcon, item.ui?.itemLeadingIcon] })
-                                              }, null, 8, ["name", "class"])) : isSelectItem(item) && item.avatar ? (openBlock(), createBlock(_sfc_main$X, mergeProps({
+                                              }, null, 8, ["name", "class"])) : isSelectItem(item) && item.avatar ? (openBlock(), createBlock(_sfc_main$Y, mergeProps({
                                                 key: 1,
                                                 size: item.ui?.itemLeadingAvatarSize || unref(uiProp)?.itemLeadingAvatarSize || ui.value.itemLeadingAvatarSize()
                                               }, { ref_for: true }, item.avatar, {
                                                 "data-slot": "itemLeadingAvatar",
                                                 class: ui.value.itemLeadingAvatar({ class: [unref(uiProp)?.itemLeadingAvatar, item.ui?.itemLeadingAvatar] })
-                                              }), null, 16, ["size", "class"])) : isSelectItem(item) && item.chip ? (openBlock(), createBlock(_sfc_main$Y, mergeProps({
+                                              }), null, 16, ["size", "class"])) : isSelectItem(item) && item.chip ? (openBlock(), createBlock(_sfc_main$Z, mergeProps({
                                                 key: 2,
                                                 size: item.ui?.itemLeadingChipSize || unref(uiProp)?.itemLeadingChipSize || ui.value.itemLeadingChipSize(),
                                                 inset: "",
@@ -25610,7 +27068,7 @@ const _sfc_main$w = /* @__PURE__ */ Object.assign({ inheritAttrs: false }, {
                                               }),
                                               createVNode(unref(SelectItemIndicator_default), { "as-child": "" }, {
                                                 default: withCtx(() => [
-                                                  createVNode(_sfc_main$Z, {
+                                                  createVNode(_sfc_main$_, {
                                                     name: __props.selectedIcon || unref(appConfig2).ui.icons.check,
                                                     "data-slot": "itemTrailingIcon",
                                                     class: ui.value.itemTrailingIcon({ class: [unref(uiProp)?.itemTrailingIcon, isSelectItem(item) && item.ui?.itemTrailingIcon] })
@@ -25694,18 +27152,18 @@ const _sfc_main$w = /* @__PURE__ */ Object.assign({ inheritAttrs: false }, {
                                               index: index2,
                                               ui: ui.value
                                             }, () => [
-                                              isSelectItem(item) && item.icon ? (openBlock(), createBlock(_sfc_main$Z, {
+                                              isSelectItem(item) && item.icon ? (openBlock(), createBlock(_sfc_main$_, {
                                                 key: 0,
                                                 name: item.icon,
                                                 "data-slot": "itemLeadingIcon",
                                                 class: ui.value.itemLeadingIcon({ class: [unref(uiProp)?.itemLeadingIcon, item.ui?.itemLeadingIcon] })
-                                              }, null, 8, ["name", "class"])) : isSelectItem(item) && item.avatar ? (openBlock(), createBlock(_sfc_main$X, mergeProps({
+                                              }, null, 8, ["name", "class"])) : isSelectItem(item) && item.avatar ? (openBlock(), createBlock(_sfc_main$Y, mergeProps({
                                                 key: 1,
                                                 size: item.ui?.itemLeadingAvatarSize || unref(uiProp)?.itemLeadingAvatarSize || ui.value.itemLeadingAvatarSize()
                                               }, { ref_for: true }, item.avatar, {
                                                 "data-slot": "itemLeadingAvatar",
                                                 class: ui.value.itemLeadingAvatar({ class: [unref(uiProp)?.itemLeadingAvatar, item.ui?.itemLeadingAvatar] })
-                                              }), null, 16, ["size", "class"])) : isSelectItem(item) && item.chip ? (openBlock(), createBlock(_sfc_main$Y, mergeProps({
+                                              }), null, 16, ["size", "class"])) : isSelectItem(item) && item.chip ? (openBlock(), createBlock(_sfc_main$Z, mergeProps({
                                                 key: 2,
                                                 size: item.ui?.itemLeadingChipSize || unref(uiProp)?.itemLeadingChipSize || ui.value.itemLeadingChipSize(),
                                                 inset: "",
@@ -25757,7 +27215,7 @@ const _sfc_main$w = /* @__PURE__ */ Object.assign({ inheritAttrs: false }, {
                                               }),
                                               createVNode(unref(SelectItemIndicator_default), { "as-child": "" }, {
                                                 default: withCtx(() => [
-                                                  createVNode(_sfc_main$Z, {
+                                                  createVNode(_sfc_main$_, {
                                                     name: __props.selectedIcon || unref(appConfig2).ui.icons.check,
                                                     "data-slot": "itemTrailingIcon",
                                                     class: ui.value.itemTrailingIcon({ class: [unref(uiProp)?.itemTrailingIcon, isSelectItem(item) && item.ui?.itemTrailingIcon] })
@@ -25845,18 +27303,18 @@ const _sfc_main$w = /* @__PURE__ */ Object.assign({ inheritAttrs: false }, {
                                             index: index2,
                                             ui: ui.value
                                           }, () => [
-                                            isSelectItem(item) && item.icon ? (openBlock(), createBlock(_sfc_main$Z, {
+                                            isSelectItem(item) && item.icon ? (openBlock(), createBlock(_sfc_main$_, {
                                               key: 0,
                                               name: item.icon,
                                               "data-slot": "itemLeadingIcon",
                                               class: ui.value.itemLeadingIcon({ class: [unref(uiProp)?.itemLeadingIcon, item.ui?.itemLeadingIcon] })
-                                            }, null, 8, ["name", "class"])) : isSelectItem(item) && item.avatar ? (openBlock(), createBlock(_sfc_main$X, mergeProps({
+                                            }, null, 8, ["name", "class"])) : isSelectItem(item) && item.avatar ? (openBlock(), createBlock(_sfc_main$Y, mergeProps({
                                               key: 1,
                                               size: item.ui?.itemLeadingAvatarSize || unref(uiProp)?.itemLeadingAvatarSize || ui.value.itemLeadingAvatarSize()
                                             }, { ref_for: true }, item.avatar, {
                                               "data-slot": "itemLeadingAvatar",
                                               class: ui.value.itemLeadingAvatar({ class: [unref(uiProp)?.itemLeadingAvatar, item.ui?.itemLeadingAvatar] })
-                                            }), null, 16, ["size", "class"])) : isSelectItem(item) && item.chip ? (openBlock(), createBlock(_sfc_main$Y, mergeProps({
+                                            }), null, 16, ["size", "class"])) : isSelectItem(item) && item.chip ? (openBlock(), createBlock(_sfc_main$Z, mergeProps({
                                               key: 2,
                                               size: item.ui?.itemLeadingChipSize || unref(uiProp)?.itemLeadingChipSize || ui.value.itemLeadingChipSize(),
                                               inset: "",
@@ -25908,7 +27366,7 @@ const _sfc_main$w = /* @__PURE__ */ Object.assign({ inheritAttrs: false }, {
                                             }),
                                             createVNode(unref(SelectItemIndicator_default), { "as-child": "" }, {
                                               default: withCtx(() => [
-                                                createVNode(_sfc_main$Z, {
+                                                createVNode(_sfc_main$_, {
                                                   name: __props.selectedIcon || unref(appConfig2).ui.icons.check,
                                                   "data-slot": "itemTrailingIcon",
                                                   class: ui.value.itemTrailingIcon({ class: [unref(uiProp)?.itemTrailingIcon, isSelectItem(item) && item.ui?.itemTrailingIcon] })
@@ -25961,12 +27419,12 @@ const _sfc_main$w = /* @__PURE__ */ Object.assign({ inheritAttrs: false }, {
                       open,
                       ui: ui.value
                     }, () => [
-                      unref(isLeading) && unref(leadingIconName) ? (openBlock(), createBlock(_sfc_main$Z, {
+                      unref(isLeading) && unref(leadingIconName) ? (openBlock(), createBlock(_sfc_main$_, {
                         key: 0,
                         name: unref(leadingIconName),
                         "data-slot": "leadingIcon",
                         class: ui.value.leadingIcon({ class: unref(uiProp)?.leadingIcon })
-                      }, null, 8, ["name", "class"])) : !!__props.avatar ? (openBlock(), createBlock(_sfc_main$X, mergeProps({
+                      }, null, 8, ["name", "class"])) : !!__props.avatar ? (openBlock(), createBlock(_sfc_main$Y, mergeProps({
                         key: 1,
                         size: unref(uiProp)?.itemLeadingAvatarSize || ui.value.itemLeadingAvatarSize()
                       }, __props.avatar, {
@@ -26004,7 +27462,7 @@ const _sfc_main$w = /* @__PURE__ */ Object.assign({ inheritAttrs: false }, {
                       open,
                       ui: ui.value
                     }, () => [
-                      unref(trailingIconName) ? (openBlock(), createBlock(_sfc_main$Z, {
+                      unref(trailingIconName) ? (openBlock(), createBlock(_sfc_main$_, {
                         key: 0,
                         name: unref(trailingIconName),
                         "data-slot": "trailingIcon",
@@ -26073,18 +27531,18 @@ const _sfc_main$w = /* @__PURE__ */ Object.assign({ inheritAttrs: false }, {
                                           index: index2,
                                           ui: ui.value
                                         }, () => [
-                                          isSelectItem(item) && item.icon ? (openBlock(), createBlock(_sfc_main$Z, {
+                                          isSelectItem(item) && item.icon ? (openBlock(), createBlock(_sfc_main$_, {
                                             key: 0,
                                             name: item.icon,
                                             "data-slot": "itemLeadingIcon",
                                             class: ui.value.itemLeadingIcon({ class: [unref(uiProp)?.itemLeadingIcon, item.ui?.itemLeadingIcon] })
-                                          }, null, 8, ["name", "class"])) : isSelectItem(item) && item.avatar ? (openBlock(), createBlock(_sfc_main$X, mergeProps({
+                                          }, null, 8, ["name", "class"])) : isSelectItem(item) && item.avatar ? (openBlock(), createBlock(_sfc_main$Y, mergeProps({
                                             key: 1,
                                             size: item.ui?.itemLeadingAvatarSize || unref(uiProp)?.itemLeadingAvatarSize || ui.value.itemLeadingAvatarSize()
                                           }, { ref_for: true }, item.avatar, {
                                             "data-slot": "itemLeadingAvatar",
                                             class: ui.value.itemLeadingAvatar({ class: [unref(uiProp)?.itemLeadingAvatar, item.ui?.itemLeadingAvatar] })
-                                          }), null, 16, ["size", "class"])) : isSelectItem(item) && item.chip ? (openBlock(), createBlock(_sfc_main$Y, mergeProps({
+                                          }), null, 16, ["size", "class"])) : isSelectItem(item) && item.chip ? (openBlock(), createBlock(_sfc_main$Z, mergeProps({
                                             key: 2,
                                             size: item.ui?.itemLeadingChipSize || unref(uiProp)?.itemLeadingChipSize || ui.value.itemLeadingChipSize(),
                                             inset: "",
@@ -26136,7 +27594,7 @@ const _sfc_main$w = /* @__PURE__ */ Object.assign({ inheritAttrs: false }, {
                                           }),
                                           createVNode(unref(SelectItemIndicator_default), { "as-child": "" }, {
                                             default: withCtx(() => [
-                                              createVNode(_sfc_main$Z, {
+                                              createVNode(_sfc_main$_, {
                                                 name: __props.selectedIcon || unref(appConfig2).ui.icons.check,
                                                 "data-slot": "itemTrailingIcon",
                                                 class: ui.value.itemTrailingIcon({ class: [unref(uiProp)?.itemTrailingIcon, isSelectItem(item) && item.ui?.itemTrailingIcon] })
@@ -26175,64 +27633,13 @@ const _sfc_main$w = /* @__PURE__ */ Object.assign({ inheritAttrs: false }, {
     };
   }
 });
-const _sfc_setup$w = _sfc_main$w.setup;
-_sfc_main$w.setup = (props, ctx) => {
+const _sfc_setup$u = _sfc_main$u.setup;
+_sfc_main$u.setup = (props, ctx) => {
   const ssrContext = useSSRContext();
   (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("../../../../../../../../../../Users/hugh/code/hoxi/apay/node_modules/@nuxt/ui/dist/runtime/components/Select.vue");
-  return _sfc_setup$w ? _sfc_setup$w(props, ctx) : void 0;
+  return _sfc_setup$u ? _sfc_setup$u(props, ctx) : void 0;
 };
-const isOpen = ref(false);
-const title = ref("");
-const description$3 = ref("");
-const confirmText = ref("");
-const cancelText = ref("");
-const confirmColor = ref("error");
-const resolvePromise = ref(null);
-watch(isOpen, (val) => {
-  if (!val && resolvePromise.value) {
-    resolvePromise.value(false);
-    resolvePromise.value = null;
-  }
-});
-const useConfirm = () => {
-  const confirm = (opts) => {
-    title.value = opts.title || "Confirm";
-    description$3.value = opts.description || "Are you sure you want to proceed?";
-    confirmText.value = opts.confirmText || "";
-    cancelText.value = opts.cancelText || "";
-    confirmColor.value = opts.confirmColor || "error";
-    isOpen.value = true;
-    return new Promise((resolve2) => {
-      resolvePromise.value = resolve2;
-    });
-  };
-  const accept = () => {
-    isOpen.value = false;
-    if (resolvePromise.value) {
-      resolvePromise.value(true);
-      resolvePromise.value = null;
-    }
-  };
-  const cancel = () => {
-    isOpen.value = false;
-    if (resolvePromise.value) {
-      resolvePromise.value(false);
-      resolvePromise.value = null;
-    }
-  };
-  return {
-    isOpen,
-    title,
-    description: description$3,
-    confirmText,
-    cancelText,
-    confirmColor,
-    confirm,
-    accept,
-    cancel
-  };
-};
-const _sfc_main$v = /* @__PURE__ */ defineComponent({
+const _sfc_main$t = /* @__PURE__ */ defineComponent({
   __name: "index",
   __ssrInlineRender: true,
   async setup(__props) {
@@ -26307,7 +27714,7 @@ const _sfc_main$v = /* @__PURE__ */ defineComponent({
           }
         }
       },
-      "$xFpuY0rm2H"
+      "$WzWXz37Va3"
       /* nuxt-injected */
     )), __temp = await __temp, __restore(), __temp);
     const tokens = computed(() => tokensData.value?.data || []);
@@ -26438,13 +27845,13 @@ const _sfc_main$v = /* @__PURE__ */ defineComponent({
       }
     };
     return (_ctx, _push, _parent, _attrs) => {
-      const _component_UButton = _sfc_main$U;
-      const _component_UIcon = _sfc_main$Z;
-      const _component_UBadge = _sfc_main$O;
-      const _component_UModal = _sfc_main$I;
-      const _component_UFormField = _sfc_main$y;
-      const _component_UInput = _sfc_main$x;
-      const _component_USelect = _sfc_main$w;
+      const _component_UButton = _sfc_main$V;
+      const _component_UIcon = _sfc_main$_;
+      const _component_UBadge = _sfc_main$P;
+      const _component_UModal = _sfc_main$J;
+      const _component_UFormField = _sfc_main$w;
+      const _component_UInput = _sfc_main$v;
+      const _component_USelect = _sfc_main$u;
       _push(`<div${ssrRenderAttrs(mergeProps({ class: "min-h-screen bg-[#050505] pt-32 pb-20 px-6" }, _attrs))}><div class="max-w-3xl mx-auto"><div class="flex items-center justify-between mb-8 gap-4 flex-wrap"><div><h1 class="text-3xl font-bold text-white mb-2">${ssrInterpolate(titleLabel.value)}</h1><p class="text-gray-400">${ssrInterpolate(subtitleLabel.value)}</p></div>`);
       _push(ssrRenderComponent(_component_UButton, {
         color: "primary",
@@ -27018,15 +28425,15 @@ const _sfc_main$v = /* @__PURE__ */ defineComponent({
     };
   }
 });
-const _sfc_setup$v = _sfc_main$v.setup;
-_sfc_main$v.setup = (props, ctx) => {
+const _sfc_setup$t = _sfc_main$t.setup;
+_sfc_main$t.setup = (props, ctx) => {
   const ssrContext = useSSRContext();
   (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("core/pages/user/tokens/index.vue");
-  return _sfc_setup$v ? _sfc_setup$v(props, ctx) : void 0;
+  return _sfc_setup$t ? _sfc_setup$t(props, ctx) : void 0;
 };
 const __vite_glob_0_11 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
   __proto__: null,
-  default: _sfc_main$v
+  default: _sfc_main$t
 }, Symbol.toStringTag, { value: "Module" }));
 const name$3 = "可喜";
 const pages = [{ "key": "models", "title": "模型管理", "description": "不发版调整模型价格、限时促销标记与上下架，并选择首页展示的推荐场景。", "route": "/admin/extensions/models", "component": "models.vue", "icon": "ph:cpu", "order": 10 }, { "key": "cheap", "title": "中转站管理", "description": "管理 AI 中转站天梯榜数据、专线节点、输入单价、实测延迟与 Base URL。", "route": "/admin/extensions/cheap", "component": "cheap.vue", "icon": "ph:broadcast", "order": 20 }, { "key": "free-tiers", "title": "免费额度宝典", "description": "管理 Hoxi 桌面端「智能轮询池 · 免费额度宝典」官方免费 API 渠道、白嫖步骤与推荐模型。", "route": "/admin/extensions/free-tiers", "component": "free-tiers.vue", "icon": "ph:gift", "order": 25 }, { "key": "coding-plans", "title": "Coding Plan 管理", "description": "管理国内外各大 IDE 与官方 Coding Plan 编程套餐对比、价格、额度与避坑指南。", "route": "/admin/extensions/coding-plans", "component": "coding-plans.vue", "icon": "ph:credit-card", "order": 30 }, { "key": "tools", "title": "工具箱管理", "description": "管理一人公司极简全栈工具箱、推荐分类、站长评语与返佣链接。", "route": "/admin/extensions/tools", "component": "tools.vue", "icon": "ph:wrench", "order": 40 }, { "key": "skills", "title": "技能库管理", "description": "管理 Hoxi 桌面端线上市集的 Agent Skills 元数据、正文地址与摘要校验。", "route": "/admin/extensions/skills", "component": "skills.vue", "icon": "ph:sparkle", "order": 55 }, { "key": "work-apps", "title": "Work 应用管理", "description": "管理 Hoxi 桌面端「一人公司 Work 模式」应用目录、MCP 连接配置与场景快捷胶囊。", "route": "/admin/extensions/work-apps", "component": "work-apps.vue", "icon": "ph:squares-four", "order": 56 }, { "key": "projects", "title": "项目管理", "description": "管理一人公司实战落地项目库、技术栈、核心模型与算力账本，支持上下架与排序。", "route": "/admin/extensions/projects", "component": "projects.vue", "icon": "ph:rocket-launch", "order": 50 }, { "key": "clients", "title": "客户端观测", "description": "观测 Hoxi 桌面/移动客户端的授权设备、启动活跃、版本与平台分布、下载量。", "route": "/admin/extensions/clients", "component": "clients.vue", "icon": "ph:desktop", "order": 60 }, { "key": "rewards", "title": "积分与钱包", "description": "配置 Hoxi 租户 AINode 连接、每日签到积分阶梯、月度防刷上限与奖励发放对账盒。", "route": "/admin/extensions/rewards", "component": "rewards.vue", "icon": "ph:coins", "order": 65 }];
@@ -27165,7 +28572,7 @@ const corePageModules = Object.fromEntries(Object.entries(/* @__PURE__ */ Object
   "/core/pages/user/tokens/index.vue": __vite_glob_0_11
 })).map(([file, module]) => [file.replace("/", "../"), module]));
 const themePageModules = {
-  ...Object.fromEntries(Object.entries(/* @__PURE__ */ Object.assign({ "/themes/hoxi/pages/about.vue": () => import('./about-CJF28wcg.mjs'), "/themes/hoxi/pages/auth/authorize-desktop/done.vue": () => import('./done-2Vs8lq-N.mjs'), "/themes/hoxi/pages/auth/authorize-desktop/index.vue": () => import('./index-jQvNhP0J.mjs'), "/themes/hoxi/pages/auth/login.vue": () => import('./login-Eqf4SR-K.mjs'), "/themes/hoxi/pages/auth/mobile-bridge.vue": () => import('./mobile-bridge-goFM7QuO.mjs'), "/themes/hoxi/pages/auth/register.vue": () => import('./register-D7C2hTJF.mjs'), "/themes/hoxi/pages/blog/[slug].vue": () => import('./_slug_-CD3NySfv.mjs'), "/themes/hoxi/pages/blog/category/[slug].vue": () => import('./_slug_-D22LAcGq.mjs'), "/themes/hoxi/pages/blog/index.vue": () => import('./index-C3Ek3ML5.mjs'), "/themes/hoxi/pages/coding-plans/[slug].vue": () => import('./_slug_-Bc4dBynV.mjs'), "/themes/hoxi/pages/coding-plans/index.vue": () => import('./index-ob6PQ6uf.mjs'), "/themes/hoxi/pages/compare.vue": () => import('./compare-yrvEgbuj.mjs'), "/themes/hoxi/pages/download.vue": () => import('./download-DZx7wc67.mjs'), "/themes/hoxi/pages/gateways/[slug].vue": () => import('./_slug_-B5pa__sC.mjs'), "/themes/hoxi/pages/gateways/index.vue": () => import('./index-BlqoEVcO.mjs'), "/themes/hoxi/pages/index.vue": () => import('./index-Cx8OuqH1.mjs'), "/themes/hoxi/pages/models/[slug].vue": () => import('./_slug_-D7QFx0SD.mjs'), "/themes/hoxi/pages/models/index.vue": () => import('./index-CIqZ-yG2.mjs'), "/themes/hoxi/pages/one-person-company.vue": () => import('./one-person-company-D4UVqAlM.mjs'), "/themes/hoxi/pages/projects/[slug].vue": () => import('./_slug_-hMst-b5T.mjs'), "/themes/hoxi/pages/projects/index.vue": () => import('./index-XmO86yJh.mjs'), "/themes/hoxi/pages/readiness/[hash].vue": () => import('./_hash_-ofdtc4Ao.mjs'), "/themes/hoxi/pages/readiness/index.vue": () => import('./index-IIw6Hnn1.mjs'), "/themes/hoxi/pages/refactoring-the-self.vue": () => import('./refactoring-the-self-DlMuZbak.mjs'), "/themes/hoxi/pages/savings.vue": () => import('./savings-Bby53H0X.mjs'), "/themes/hoxi/pages/site-builder/index.vue": () => import('./index-DFEgE7z-.mjs'), "/themes/hoxi/pages/site-builder/preview/[id].vue": () => import('./_id_-Bo4t4-mU.mjs'), "/themes/hoxi/pages/skills.vue": () => import('./skills-DFJs47iY.mjs'), "/themes/hoxi/pages/tools.vue": () => import('./tools-C3zq7r7o.mjs'), "/themes/hoxi/pages/user/account.vue": () => import('./account-BYImifU7.mjs'), "/themes/hoxi/pages/user/billing.vue": () => import('./billing-Dd5tx0kH.mjs'), "/themes/hoxi/pages/user/dashboard.vue": () => import('./dashboard-XNYvPUB-.mjs'), "/themes/hoxi/pages/user/index.vue": () => import('./index-ChED4aRD.mjs'), "/themes/hoxi/pages/user/keys.vue": () => import('./keys-CEOtvira.mjs'), "/themes/hoxi/pages/user/layout.vue": () => import('./layout-BASIFiJw.mjs').then((n) => n.l), "/themes/hoxi/pages/user/models.vue": () => import('./models-TKJZ0J_Q.mjs'), "/themes/hoxi/pages/user/rewards.vue": () => import('./rewards-Dfn55cFN.mjs'), "/themes/hoxi/pages/user/tickets.vue": () => import('./tickets-CQThR7vC.mjs') })).map(([file, module]) => [file.replace("/", "../"), module]))
+  ...Object.fromEntries(Object.entries(/* @__PURE__ */ Object.assign({ "/themes/hoxi/pages/about.vue": () => import('./about-C47zzEtQ.mjs'), "/themes/hoxi/pages/auth/authorize-desktop/done.vue": () => import('./done-2Vs8lq-N.mjs'), "/themes/hoxi/pages/auth/authorize-desktop/index.vue": () => import('./index-DBJME37y.mjs'), "/themes/hoxi/pages/auth/login.vue": () => import('./login-6USFMXt4.mjs'), "/themes/hoxi/pages/auth/mobile-bridge.vue": () => import('./mobile-bridge-BcXsbzXb.mjs'), "/themes/hoxi/pages/auth/register.vue": () => import('./register-CnulLyiC.mjs'), "/themes/hoxi/pages/blog/[slug].vue": () => import('./_slug_-D7za1BTN.mjs'), "/themes/hoxi/pages/blog/category/[slug].vue": () => import('./_slug_-D1TUOqhj.mjs'), "/themes/hoxi/pages/blog/index.vue": () => import('./index-BRhwNmGt.mjs'), "/themes/hoxi/pages/coding-plans/[slug].vue": () => import('./_slug_-xKIkleMF.mjs'), "/themes/hoxi/pages/coding-plans/index.vue": () => import('./index-DipLq33b.mjs'), "/themes/hoxi/pages/compare.vue": () => import('./compare-AkeUW77G.mjs'), "/themes/hoxi/pages/download.vue": () => import('./download-BEvH5HnH.mjs'), "/themes/hoxi/pages/gateways/[slug].vue": () => import('./_slug_-DZSwQ2AJ.mjs'), "/themes/hoxi/pages/gateways/index.vue": () => import('./index-DgKoxShq.mjs'), "/themes/hoxi/pages/index.vue": () => import('./index-BhwkRnrl.mjs'), "/themes/hoxi/pages/models/[slug].vue": () => import('./_slug_-Ctxlrd9P.mjs'), "/themes/hoxi/pages/models/index.vue": () => import('./index-C9Byg0qQ.mjs'), "/themes/hoxi/pages/one-person-company.vue": () => import('./one-person-company-BAsSKiC4.mjs'), "/themes/hoxi/pages/projects/[slug].vue": () => import('./_slug_-BKPYS8az.mjs'), "/themes/hoxi/pages/projects/index.vue": () => import('./index-C6_4LZCt.mjs'), "/themes/hoxi/pages/readiness/[hash].vue": () => import('./_hash_-1jkw6-B-.mjs'), "/themes/hoxi/pages/readiness/index.vue": () => import('./index-B5AToOhB.mjs'), "/themes/hoxi/pages/refactoring-the-self.vue": () => import('./refactoring-the-self-sVb8-Gix.mjs'), "/themes/hoxi/pages/savings.vue": () => import('./savings-D6hPphIY.mjs'), "/themes/hoxi/pages/site-builder/index.vue": () => import('./index-DHf-VjoI.mjs'), "/themes/hoxi/pages/site-builder/preview/[id].vue": () => import('./_id_-Dwpc1fgh.mjs'), "/themes/hoxi/pages/skills.vue": () => import('./skills-DL0gX3oH.mjs'), "/themes/hoxi/pages/tools.vue": () => import('./tools-TQ9gG9BE.mjs'), "/themes/hoxi/pages/user/account.vue": () => import('./account-ExV5UjTM.mjs'), "/themes/hoxi/pages/user/billing.vue": () => import('./billing-DKNrKHcs.mjs'), "/themes/hoxi/pages/user/dashboard.vue": () => import('./dashboard-Bj62usDE.mjs'), "/themes/hoxi/pages/user/index.vue": () => import('./index-DspmyTRq.mjs'), "/themes/hoxi/pages/user/keys.vue": () => import('./keys-B29Sw1i5.mjs'), "/themes/hoxi/pages/user/layout.vue": () => import('./layout-B0UZ5KZO.mjs').then((n) => n.l), "/themes/hoxi/pages/user/models.vue": () => import('./models-Rte2Fbpi.mjs'), "/themes/hoxi/pages/user/rewards.vue": () => import('./rewards-CwiE7bUb.mjs'), "/themes/hoxi/pages/user/tickets.vue": () => import('./tickets-CJxPGgRN.mjs') })).map(([file, module]) => [file.replace("/", "../"), module]))
 };
 const themeAdminManifestModules = {
   ...Object.fromEntries(Object.entries(/* @__PURE__ */ Object.assign({
@@ -27173,7 +28580,7 @@ const themeAdminManifestModules = {
   })).map(([file, module]) => [file.replace("/", "../"), module]))
 };
 const themeAdminPageModules = {
-  ...Object.fromEntries(Object.entries(/* @__PURE__ */ Object.assign({ "/themes/hoxi/admin/pages/cheap.vue": () => import('./cheap-C-NV0aMu.mjs'), "/themes/hoxi/admin/pages/clients.vue": () => import('./clients-BYafZVRt.mjs'), "/themes/hoxi/admin/pages/coding-plans.vue": () => import('./coding-plans-DLXbA8Ka.mjs'), "/themes/hoxi/admin/pages/free-tiers.vue": () => import('./free-tiers-Ch5fwLN8.mjs'), "/themes/hoxi/admin/pages/models.vue": () => import('./models-dAhwJdQ8.mjs'), "/themes/hoxi/admin/pages/projects.vue": () => import('./projects-DFbwsgg_.mjs'), "/themes/hoxi/admin/pages/rewards.vue": () => import('./rewards-D9qE0gB5.mjs'), "/themes/hoxi/admin/pages/skills.vue": () => import('./skills-Bx8ITwN1.mjs'), "/themes/hoxi/admin/pages/tools.vue": () => import('./tools-acqQ6DFX.mjs'), "/themes/hoxi/admin/pages/work-apps.vue": () => import('./work-apps-bDtWiM7U.mjs') })).map(([file, module]) => [file.replace("/", "../"), module]))
+  ...Object.fromEntries(Object.entries(/* @__PURE__ */ Object.assign({ "/themes/hoxi/admin/pages/cheap.vue": () => import('./cheap-Dt_gmWQB.mjs'), "/themes/hoxi/admin/pages/clients.vue": () => import('./clients-DUbWvGxz.mjs'), "/themes/hoxi/admin/pages/coding-plans.vue": () => import('./coding-plans-SsbJ0Wa1.mjs'), "/themes/hoxi/admin/pages/free-tiers.vue": () => import('./free-tiers-D_Tq9u3l.mjs'), "/themes/hoxi/admin/pages/models.vue": () => import('./models-Dn3RXTpB.mjs'), "/themes/hoxi/admin/pages/projects.vue": () => import('./projects-Db_wMDLe.mjs'), "/themes/hoxi/admin/pages/rewards.vue": () => import('./rewards-Caunx4qu.mjs'), "/themes/hoxi/admin/pages/skills.vue": () => import('./skills-DUKgPLAB.mjs'), "/themes/hoxi/admin/pages/tools.vue": () => import('./tools-Dx9BYSg1.mjs'), "/themes/hoxi/admin/pages/work-apps.vue": () => import('./work-apps-CZKjRVYy.mjs') })).map(([file, module]) => [file.replace("/", "../"), module]))
 };
 const themeAdminLocaleEnModules = {
   ...Object.fromEntries(Object.entries(/* @__PURE__ */ Object.assign({
@@ -27186,7 +28593,7 @@ const themeAdminLocaleZhModules = {
   })).map(([file, module]) => [file.replace("/", "../"), module]))
 };
 const themeLayoutLoaders = {
-  "hoxi": () => import('./default-BHlG_Kb3.mjs')
+  "hoxi": () => import('./default-uY5VuxV9.mjs')
 };
 const pageLayoutMeta = { "../core/pages/payment/[order_id].vue": { "layout": false }, "../core/pages/user/mcp-authorize/index.vue": { "directoryLayout": false } };
 const useActiveTheme = (options = {}) => {
@@ -27281,7 +28688,7 @@ const __vite_glob_0_2 = {
   adminApis,
   publicApis
 };
-const theme$a = {
+const theme$8 = {
   "slots": {
     "root": "relative overflow-auto",
     "base": "min-w-full",
@@ -27426,7 +28833,7 @@ const theme$a = {
     "loadingAnimation": "carousel"
   }
 };
-const _sfc_main$u = /* @__PURE__ */ Object.assign({ inheritAttrs: false }, {
+const _sfc_main$s = /* @__PURE__ */ Object.assign({ inheritAttrs: false }, {
   __name: "UTable",
   __ssrInlineRender: true,
   props: /* @__PURE__ */ mergeModels({
@@ -27533,7 +28940,7 @@ const _sfc_main$u = /* @__PURE__ */ Object.assign({ inheritAttrs: false }, {
         return col;
       });
     }
-    const ui = computed(() => tv({ extend: tv(theme$a), ...appConfig2.ui?.table || {} })({
+    const ui = computed(() => tv({ extend: tv(theme$8), ...appConfig2.ui?.table || {} })({
       sticky: props.virtualize ? false : props.sticky,
       loading: props.loading,
       loadingColor: props.loadingColor,
@@ -28197,560 +29604,18 @@ const _sfc_main$u = /* @__PURE__ */ Object.assign({ inheritAttrs: false }, {
     };
   }
 });
-const _sfc_setup$u = _sfc_main$u.setup;
-_sfc_main$u.setup = (props, ctx) => {
+const _sfc_setup$s = _sfc_main$s.setup;
+_sfc_main$s.setup = (props, ctx) => {
   const ssrContext = useSSRContext();
   (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("../../../../../../../../../../Users/hugh/code/hoxi/apay/node_modules/@nuxt/ui/dist/runtime/components/Table.vue");
-  return _sfc_setup$u ? _sfc_setup$u(props, ctx) : void 0;
+  return _sfc_setup$s ? _sfc_setup$s(props, ctx) : void 0;
 };
-const theme$9 = {
-  "slots": {
-    "root": "relative inline-flex items-center",
-    "base": [
-      "w-full rounded-md border-0 appearance-none placeholder:text-dimmed focus:outline-none disabled:cursor-not-allowed disabled:opacity-75",
-      "transition-colors"
-    ],
-    "leading": "absolute start-0 flex items-start",
-    "leadingIcon": "shrink-0 text-dimmed",
-    "leadingAvatar": "shrink-0",
-    "leadingAvatarSize": "",
-    "trailing": "absolute end-0 flex items-start",
-    "trailingIcon": "shrink-0 text-dimmed"
-  },
-  "variants": {
-    "fieldGroup": {
-      "horizontal": {
-        "root": "group has-focus-visible:z-[1]",
-        "base": "group-not-only:group-first:rounded-e-none group-not-only:group-last:rounded-s-none group-not-last:group-not-first:rounded-none"
-      },
-      "vertical": {
-        "root": "group has-focus-visible:z-[1]",
-        "base": "group-not-only:group-first:rounded-b-none group-not-only:group-last:rounded-t-none group-not-last:group-not-first:rounded-none"
-      }
-    },
-    "size": {
-      "xs": {
-        "base": "px-2 py-1 text-sm/4 gap-1",
-        "leading": "ps-2 inset-y-1",
-        "trailing": "pe-2 inset-y-1",
-        "leadingIcon": "size-4",
-        "leadingAvatarSize": "3xs",
-        "trailingIcon": "size-4"
-      },
-      "sm": {
-        "base": "px-2.5 py-1.5 text-sm/4 gap-1.5",
-        "leading": "ps-2.5 inset-y-1.5",
-        "trailing": "pe-2.5 inset-y-1.5",
-        "leadingIcon": "size-4",
-        "leadingAvatarSize": "3xs",
-        "trailingIcon": "size-4"
-      },
-      "md": {
-        "base": "px-2.5 py-1.5 text-base/5 gap-1.5",
-        "leading": "ps-2.5 inset-y-1.5",
-        "trailing": "pe-2.5 inset-y-1.5",
-        "leadingIcon": "size-5",
-        "leadingAvatarSize": "2xs",
-        "trailingIcon": "size-5"
-      },
-      "lg": {
-        "base": "px-3 py-2 text-base/5 gap-2",
-        "leading": "ps-3 inset-y-2",
-        "trailing": "pe-3 inset-y-2",
-        "leadingIcon": "size-5",
-        "leadingAvatarSize": "2xs",
-        "trailingIcon": "size-5"
-      },
-      "xl": {
-        "base": "px-3 py-2 text-base gap-2",
-        "leading": "ps-3 inset-y-2",
-        "trailing": "pe-3 inset-y-2",
-        "leadingIcon": "size-6",
-        "leadingAvatarSize": "xs",
-        "trailingIcon": "size-6"
-      }
-    },
-    "variant": {
-      "outline": "text-highlighted bg-default ring ring-inset ring-accented",
-      "soft": "text-highlighted bg-elevated/50 hover:bg-elevated focus:bg-elevated disabled:bg-elevated/50",
-      "subtle": "text-highlighted bg-elevated ring ring-inset ring-accented",
-      "ghost": "text-highlighted bg-transparent hover:bg-elevated focus:bg-elevated disabled:bg-transparent dark:disabled:bg-transparent",
-      "none": "text-highlighted bg-transparent"
-    },
-    "color": {
-      "primary": "",
-      "secondary": "",
-      "success": "",
-      "info": "",
-      "warning": "",
-      "error": "",
-      "neutral": ""
-    },
-    "leading": {
-      "true": ""
-    },
-    "trailing": {
-      "true": ""
-    },
-    "loading": {
-      "true": ""
-    },
-    "highlight": {
-      "true": ""
-    },
-    "fixed": {
-      "false": ""
-    },
-    "type": {
-      "file": "file:me-1.5 file:font-medium file:text-muted file:outline-none"
-    },
-    "autoresize": {
-      "true": {
-        "base": "resize-none"
-      }
-    }
-  },
-  "compoundVariants": [
-    {
-      "color": "primary",
-      "variant": [
-        "outline",
-        "subtle"
-      ],
-      "class": "focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-primary"
-    },
-    {
-      "color": "secondary",
-      "variant": [
-        "outline",
-        "subtle"
-      ],
-      "class": "focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-secondary"
-    },
-    {
-      "color": "success",
-      "variant": [
-        "outline",
-        "subtle"
-      ],
-      "class": "focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-success"
-    },
-    {
-      "color": "info",
-      "variant": [
-        "outline",
-        "subtle"
-      ],
-      "class": "focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-info"
-    },
-    {
-      "color": "warning",
-      "variant": [
-        "outline",
-        "subtle"
-      ],
-      "class": "focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-warning"
-    },
-    {
-      "color": "error",
-      "variant": [
-        "outline",
-        "subtle"
-      ],
-      "class": "focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-error"
-    },
-    {
-      "color": "primary",
-      "highlight": true,
-      "class": "ring ring-inset ring-primary"
-    },
-    {
-      "color": "secondary",
-      "highlight": true,
-      "class": "ring ring-inset ring-secondary"
-    },
-    {
-      "color": "success",
-      "highlight": true,
-      "class": "ring ring-inset ring-success"
-    },
-    {
-      "color": "info",
-      "highlight": true,
-      "class": "ring ring-inset ring-info"
-    },
-    {
-      "color": "warning",
-      "highlight": true,
-      "class": "ring ring-inset ring-warning"
-    },
-    {
-      "color": "error",
-      "highlight": true,
-      "class": "ring ring-inset ring-error"
-    },
-    {
-      "color": "neutral",
-      "variant": [
-        "outline",
-        "subtle"
-      ],
-      "class": "focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-inverted"
-    },
-    {
-      "color": "neutral",
-      "highlight": true,
-      "class": "ring ring-inset ring-inverted"
-    },
-    {
-      "leading": true,
-      "size": "xs",
-      "class": "ps-7"
-    },
-    {
-      "leading": true,
-      "size": "sm",
-      "class": "ps-8"
-    },
-    {
-      "leading": true,
-      "size": "md",
-      "class": "ps-9"
-    },
-    {
-      "leading": true,
-      "size": "lg",
-      "class": "ps-10"
-    },
-    {
-      "leading": true,
-      "size": "xl",
-      "class": "ps-11"
-    },
-    {
-      "trailing": true,
-      "size": "xs",
-      "class": "pe-7"
-    },
-    {
-      "trailing": true,
-      "size": "sm",
-      "class": "pe-8"
-    },
-    {
-      "trailing": true,
-      "size": "md",
-      "class": "pe-9"
-    },
-    {
-      "trailing": true,
-      "size": "lg",
-      "class": "pe-10"
-    },
-    {
-      "trailing": true,
-      "size": "xl",
-      "class": "pe-11"
-    },
-    {
-      "loading": true,
-      "leading": true,
-      "class": {
-        "leadingIcon": "animate-spin"
-      }
-    },
-    {
-      "loading": true,
-      "leading": false,
-      "trailing": true,
-      "class": {
-        "trailingIcon": "animate-spin"
-      }
-    },
-    {
-      "fixed": false,
-      "size": "xs",
-      "class": "md:text-xs"
-    },
-    {
-      "fixed": false,
-      "size": "sm",
-      "class": "md:text-xs"
-    },
-    {
-      "fixed": false,
-      "size": "md",
-      "class": "md:text-sm"
-    },
-    {
-      "fixed": false,
-      "size": "lg",
-      "class": "md:text-sm"
-    }
-  ],
-  "defaultVariants": {
-    "size": "md",
-    "color": "primary",
-    "variant": "outline"
-  }
-};
-const _sfc_main$t = /* @__PURE__ */ Object.assign({ inheritAttrs: false }, {
-  __name: "UTextarea",
-  __ssrInlineRender: true,
-  props: {
-    as: { type: null, required: false },
-    id: { type: String, required: false },
-    name: { type: String, required: false },
-    placeholder: { type: String, required: false },
-    color: { type: null, required: false },
-    variant: { type: null, required: false },
-    size: { type: null, required: false },
-    required: { type: Boolean, required: false },
-    autofocus: { type: Boolean, required: false },
-    autofocusDelay: { type: Number, required: false, default: 0 },
-    autoresize: { type: Boolean, required: false },
-    autoresizeDelay: { type: Number, required: false, default: 0 },
-    disabled: { type: Boolean, required: false },
-    rows: { type: Number, required: false, default: 3 },
-    maxrows: { type: Number, required: false, default: 0 },
-    highlight: { type: Boolean, required: false },
-    fixed: { type: Boolean, required: false },
-    defaultValue: { type: null, required: false },
-    modelValue: { type: null, required: false },
-    modelModifiers: { type: null, required: false },
-    class: { type: null, required: false },
-    ui: { type: Object, required: false },
-    icon: { type: null, required: false },
-    avatar: { type: Object, required: false },
-    leading: { type: Boolean, required: false },
-    leadingIcon: { type: null, required: false },
-    trailing: { type: Boolean, required: false },
-    trailingIcon: { type: null, required: false },
-    loading: { type: Boolean, required: false },
-    loadingIcon: { type: null, required: false }
-  },
-  emits: ["update:modelValue", "blur", "change"],
-  setup(__props, { expose: __expose, emit: __emit }) {
-    const props = __props;
-    const emits = __emit;
-    const slots = useSlots();
-    const modelValue = /* @__PURE__ */ useVModel(props, "modelValue", emits, { defaultValue: props.defaultValue });
-    const appConfig2 = useAppConfig();
-    const uiProp = useComponentUI("textarea", props);
-    const { emitFormFocus, emitFormBlur, emitFormInput, emitFormChange, size: size2, color: color2, id: id2, name: name2, highlight, disabled, ariaAttrs } = useFormField(props, { deferInputValidation: true });
-    const { isLeading, isTrailing, leadingIconName, trailingIconName } = useComponentIcons(props);
-    const ui = computed(() => tv({ extend: tv(theme$9), ...appConfig2.ui?.textarea || {} })({
-      color: color2.value,
-      variant: props.variant,
-      size: size2?.value,
-      loading: props.loading,
-      highlight: highlight.value,
-      fixed: props.fixed,
-      autoresize: props.autoresize,
-      leading: isLeading.value || !!props.avatar || !!slots.leading,
-      trailing: isTrailing.value || !!slots.trailing
-    }));
-    const textareaRef = useTemplateRef("textareaRef");
-    function updateInput(value) {
-      if (props.modelModifiers?.trim && (typeof value === "string" || value === null || value === void 0)) {
-        value = value?.trim() ?? null;
-      }
-      if (props.modelModifiers?.number) {
-        value = looseToNumber(value);
-      }
-      if (props.modelModifiers?.nullable) {
-        value ||= null;
-      }
-      if (props.modelModifiers?.optional && !props.modelModifiers?.nullable && value !== null) {
-        value ||= void 0;
-      }
-      modelValue.value = value;
-      emitFormInput();
-    }
-    function onInput(event) {
-      autoResize();
-      if (!props.modelModifiers?.lazy) {
-        updateInput(event.target.value);
-      }
-    }
-    function onChange(event) {
-      const value = event.target.value;
-      if (props.modelModifiers?.lazy) {
-        updateInput(value);
-      }
-      if (props.modelModifiers?.trim) {
-        event.target.value = value.trim();
-      }
-      emitFormChange();
-      emits("change", event);
-    }
-    function onBlur(event) {
-      emitFormBlur();
-      emits("blur", event);
-    }
-    function autoResize() {
-      if (props.autoresize && textareaRef.value) {
-        textareaRef.value.rows = props.rows;
-        const overflow = textareaRef.value.style.overflow;
-        textareaRef.value.style.overflow = "hidden";
-        const styles = (void 0).getComputedStyle(textareaRef.value);
-        const paddingTop = Number.parseInt(styles.paddingTop);
-        const paddingBottom = Number.parseInt(styles.paddingBottom);
-        const padding = paddingTop + paddingBottom;
-        const lineHeight = Number.parseInt(styles.lineHeight);
-        const { scrollHeight } = textareaRef.value;
-        const newRows = (scrollHeight - padding) / lineHeight;
-        if (newRows > props.rows) {
-          textareaRef.value.rows = props.maxrows ? Math.min(newRows, props.maxrows) : newRows;
-        }
-        textareaRef.value.style.overflow = overflow;
-      }
-    }
-    watch(modelValue, () => {
-      nextTick(autoResize);
-    });
-    __expose({
-      textareaRef
-    });
-    return (_ctx, _push, _parent, _attrs) => {
-      let _temp0;
-      _push(ssrRenderComponent(unref(Primitive), mergeProps({
-        as: __props.as,
-        "data-slot": "root",
-        class: ui.value.root({ class: [unref(uiProp)?.root, props.class] })
-      }, _attrs), {
-        default: withCtx((_, _push2, _parent2, _scopeId) => {
-          if (_push2) {
-            _push2(`<textarea${ssrRenderAttrs(_temp0 = mergeProps({
-              id: unref(id2),
-              ref_key: "textareaRef",
-              ref: textareaRef,
-              value: unref(modelValue),
-              name: unref(name2),
-              rows: __props.rows,
-              placeholder: __props.placeholder,
-              "data-slot": "base",
-              class: ui.value.base({ class: unref(uiProp)?.base }),
-              disabled: unref(disabled),
-              required: __props.required
-            }, { ..._ctx.$attrs, ...unref(ariaAttrs) }), "textarea")}${_scopeId}>${ssrInterpolate("value" in _temp0 ? _temp0.value : "")}</textarea>`);
-            ssrRenderSlot(_ctx.$slots, "default", { ui: ui.value }, null, _push2, _parent2, _scopeId);
-            if (unref(isLeading) || !!__props.avatar || !!slots.leading) {
-              _push2(`<span data-slot="leading" class="${ssrRenderClass(ui.value.leading({ class: unref(uiProp)?.leading }))}"${_scopeId}>`);
-              ssrRenderSlot(_ctx.$slots, "leading", { ui: ui.value }, () => {
-                if (unref(isLeading) && unref(leadingIconName)) {
-                  _push2(ssrRenderComponent(_sfc_main$Z, {
-                    name: unref(leadingIconName),
-                    "data-slot": "leadingIcon",
-                    class: ui.value.leadingIcon({ class: unref(uiProp)?.leadingIcon })
-                  }, null, _parent2, _scopeId));
-                } else if (!!__props.avatar) {
-                  _push2(ssrRenderComponent(_sfc_main$X, mergeProps({
-                    size: unref(uiProp)?.leadingAvatarSize || ui.value.leadingAvatarSize()
-                  }, __props.avatar, {
-                    "data-slot": "leadingAvatar",
-                    class: ui.value.leadingAvatar({ class: unref(uiProp)?.leadingAvatar })
-                  }), null, _parent2, _scopeId));
-                } else {
-                  _push2(`<!---->`);
-                }
-              }, _push2, _parent2, _scopeId);
-              _push2(`</span>`);
-            } else {
-              _push2(`<!---->`);
-            }
-            if (unref(isTrailing) || !!slots.trailing) {
-              _push2(`<span data-slot="trailing" class="${ssrRenderClass(ui.value.trailing({ class: unref(uiProp)?.trailing }))}"${_scopeId}>`);
-              ssrRenderSlot(_ctx.$slots, "trailing", { ui: ui.value }, () => {
-                if (unref(trailingIconName)) {
-                  _push2(ssrRenderComponent(_sfc_main$Z, {
-                    name: unref(trailingIconName),
-                    "data-slot": "trailingIcon",
-                    class: ui.value.trailingIcon({ class: unref(uiProp)?.trailingIcon })
-                  }, null, _parent2, _scopeId));
-                } else {
-                  _push2(`<!---->`);
-                }
-              }, _push2, _parent2, _scopeId);
-              _push2(`</span>`);
-            } else {
-              _push2(`<!---->`);
-            }
-          } else {
-            return [
-              createVNode("textarea", mergeProps({
-                id: unref(id2),
-                ref_key: "textareaRef",
-                ref: textareaRef,
-                value: unref(modelValue),
-                name: unref(name2),
-                rows: __props.rows,
-                placeholder: __props.placeholder,
-                "data-slot": "base",
-                class: ui.value.base({ class: unref(uiProp)?.base }),
-                disabled: unref(disabled),
-                required: __props.required
-              }, { ..._ctx.$attrs, ...unref(ariaAttrs) }, {
-                onInput,
-                onBlur,
-                onChange,
-                onFocus: unref(emitFormFocus)
-              }), null, 16, ["id", "value", "name", "rows", "placeholder", "disabled", "required", "onFocus"]),
-              renderSlot(_ctx.$slots, "default", { ui: ui.value }),
-              unref(isLeading) || !!__props.avatar || !!slots.leading ? (openBlock(), createBlock("span", {
-                key: 0,
-                "data-slot": "leading",
-                class: ui.value.leading({ class: unref(uiProp)?.leading })
-              }, [
-                renderSlot(_ctx.$slots, "leading", { ui: ui.value }, () => [
-                  unref(isLeading) && unref(leadingIconName) ? (openBlock(), createBlock(_sfc_main$Z, {
-                    key: 0,
-                    name: unref(leadingIconName),
-                    "data-slot": "leadingIcon",
-                    class: ui.value.leadingIcon({ class: unref(uiProp)?.leadingIcon })
-                  }, null, 8, ["name", "class"])) : !!__props.avatar ? (openBlock(), createBlock(_sfc_main$X, mergeProps({
-                    key: 1,
-                    size: unref(uiProp)?.leadingAvatarSize || ui.value.leadingAvatarSize()
-                  }, __props.avatar, {
-                    "data-slot": "leadingAvatar",
-                    class: ui.value.leadingAvatar({ class: unref(uiProp)?.leadingAvatar })
-                  }), null, 16, ["size", "class"])) : createCommentVNode("", true)
-                ])
-              ], 2)) : createCommentVNode("", true),
-              unref(isTrailing) || !!slots.trailing ? (openBlock(), createBlock("span", {
-                key: 1,
-                "data-slot": "trailing",
-                class: ui.value.trailing({ class: unref(uiProp)?.trailing })
-              }, [
-                renderSlot(_ctx.$slots, "trailing", { ui: ui.value }, () => [
-                  unref(trailingIconName) ? (openBlock(), createBlock(_sfc_main$Z, {
-                    key: 0,
-                    name: unref(trailingIconName),
-                    "data-slot": "trailingIcon",
-                    class: ui.value.trailingIcon({ class: unref(uiProp)?.trailingIcon })
-                  }, null, 8, ["name", "class"])) : createCommentVNode("", true)
-                ])
-              ], 2)) : createCommentVNode("", true)
-            ];
-          }
-        }),
-        _: 3
-      }, _parent));
-    };
-  }
-});
-const _sfc_setup$t = _sfc_main$t.setup;
-_sfc_main$t.setup = (props, ctx) => {
-  const ssrContext = useSSRContext();
-  (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("../../../../../../../../../../Users/hugh/code/hoxi/apay/node_modules/@nuxt/ui/dist/runtime/components/Textarea.vue");
-  return _sfc_setup$t ? _sfc_setup$t(props, ctx) : void 0;
-};
-const _sfc_main$s = /* @__PURE__ */ defineComponent({
+const _sfc_main$r = /* @__PURE__ */ defineComponent({
   __name: "catalog",
   __ssrInlineRender: true,
   async setup(__props) {
     let __temp, __restore;
-    const RichEditor = defineAsyncComponent(() => import('./RichEditor-Db8V3ccy.mjs'));
+    const RichEditor = defineAsyncComponent(() => import('./RichEditor-BDSr1AcN.mjs'));
     const copyItem = (item) => ({
       id: item?.id || "",
       name: item?.name || "",
@@ -28983,7 +29848,7 @@ const _sfc_main$s = /* @__PURE__ */ defineComponent({
         query: { page, pageSize: pageSize2, keyword, status },
         watch: [page]
       },
-      "$zzMrBtAequ"
+      "$6cmW6VajdJ"
       /* nuxt-injected */
     )), __temp = await __temp, __restore(), __temp);
     const rows = computed(() => data.value?.data || []);
@@ -29239,16 +30104,16 @@ const _sfc_main$s = /* @__PURE__ */ defineComponent({
       }
     };
     return (_ctx, _push, _parent, _attrs) => {
-      const _component_UButton = _sfc_main$U;
-      const _component_UFormField = _sfc_main$y;
-      const _component_UInput = _sfc_main$x;
-      const _component_USelect = _sfc_main$w;
-      const _component_UTable = _sfc_main$u;
-      const _component_UIcon = _sfc_main$Z;
-      const _component_UBadge = _sfc_main$O;
-      const _component_UPagination = _sfc_main$A;
-      const _component_UModal = _sfc_main$I;
-      const _component_UTextarea = _sfc_main$t;
+      const _component_UButton = _sfc_main$V;
+      const _component_UFormField = _sfc_main$w;
+      const _component_UInput = _sfc_main$v;
+      const _component_USelect = _sfc_main$u;
+      const _component_UTable = _sfc_main$s;
+      const _component_UIcon = _sfc_main$_;
+      const _component_UBadge = _sfc_main$P;
+      const _component_UPagination = _sfc_main$y;
+      const _component_UModal = _sfc_main$J;
+      const _component_UTextarea = _sfc_main$B;
       _push(`<div${ssrRenderAttrs(mergeProps({ class: "space-y-6 pb-8" }, _attrs))}><div class="flex flex-col gap-4 md:flex-row md:items-end md:justify-between"><div><h1 class="text-3xl font-bold tracking-tight text-gray-900 dark:text-white">${ssrInterpolate(unref(text2).title)}</h1><p class="mt-2 text-sm text-gray-500 dark:text-gray-400">${ssrInterpolate(unref(text2).pageDescription)}</p></div>`);
       _push(ssrRenderComponent(_component_UButton, {
         icon: "ph:plus",
@@ -31111,482 +31976,10 @@ const _sfc_main$s = /* @__PURE__ */ defineComponent({
     };
   }
 });
-const _sfc_setup$s = _sfc_main$s.setup;
-_sfc_main$s.setup = (props, ctx) => {
-  const ssrContext = useSSRContext();
-  (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("extensions/apps/admin/pages/catalog.vue");
-  return _sfc_setup$s ? _sfc_setup$s(props, ctx) : void 0;
-};
-const theme$8 = {
-  "slots": {
-    "root": "relative overflow-hidden w-full rounded-lg p-4 flex gap-2.5",
-    "wrapper": "min-w-0 flex-1 flex flex-col",
-    "title": "text-sm font-medium",
-    "description": "text-sm opacity-90",
-    "icon": "shrink-0 size-5",
-    "avatar": "shrink-0",
-    "avatarSize": "2xl",
-    "actions": "flex flex-wrap gap-1.5 shrink-0",
-    "close": "p-0"
-  },
-  "variants": {
-    "color": {
-      "primary": "",
-      "secondary": "",
-      "success": "",
-      "info": "",
-      "warning": "",
-      "error": "",
-      "neutral": ""
-    },
-    "variant": {
-      "solid": "",
-      "outline": "",
-      "soft": "",
-      "subtle": ""
-    },
-    "orientation": {
-      "horizontal": {
-        "root": "items-center",
-        "actions": "items-center"
-      },
-      "vertical": {
-        "root": "items-start",
-        "actions": "items-start mt-2.5"
-      }
-    },
-    "title": {
-      "true": {
-        "description": "mt-1"
-      }
-    }
-  },
-  "compoundVariants": [
-    {
-      "color": "primary",
-      "variant": "solid",
-      "class": {
-        "root": "bg-primary text-inverted"
-      }
-    },
-    {
-      "color": "secondary",
-      "variant": "solid",
-      "class": {
-        "root": "bg-secondary text-inverted"
-      }
-    },
-    {
-      "color": "success",
-      "variant": "solid",
-      "class": {
-        "root": "bg-success text-inverted"
-      }
-    },
-    {
-      "color": "info",
-      "variant": "solid",
-      "class": {
-        "root": "bg-info text-inverted"
-      }
-    },
-    {
-      "color": "warning",
-      "variant": "solid",
-      "class": {
-        "root": "bg-warning text-inverted"
-      }
-    },
-    {
-      "color": "error",
-      "variant": "solid",
-      "class": {
-        "root": "bg-error text-inverted"
-      }
-    },
-    {
-      "color": "primary",
-      "variant": "outline",
-      "class": {
-        "root": "text-primary ring ring-inset ring-primary/25"
-      }
-    },
-    {
-      "color": "secondary",
-      "variant": "outline",
-      "class": {
-        "root": "text-secondary ring ring-inset ring-secondary/25"
-      }
-    },
-    {
-      "color": "success",
-      "variant": "outline",
-      "class": {
-        "root": "text-success ring ring-inset ring-success/25"
-      }
-    },
-    {
-      "color": "info",
-      "variant": "outline",
-      "class": {
-        "root": "text-info ring ring-inset ring-info/25"
-      }
-    },
-    {
-      "color": "warning",
-      "variant": "outline",
-      "class": {
-        "root": "text-warning ring ring-inset ring-warning/25"
-      }
-    },
-    {
-      "color": "error",
-      "variant": "outline",
-      "class": {
-        "root": "text-error ring ring-inset ring-error/25"
-      }
-    },
-    {
-      "color": "primary",
-      "variant": "soft",
-      "class": {
-        "root": "bg-primary/10 text-primary"
-      }
-    },
-    {
-      "color": "secondary",
-      "variant": "soft",
-      "class": {
-        "root": "bg-secondary/10 text-secondary"
-      }
-    },
-    {
-      "color": "success",
-      "variant": "soft",
-      "class": {
-        "root": "bg-success/10 text-success"
-      }
-    },
-    {
-      "color": "info",
-      "variant": "soft",
-      "class": {
-        "root": "bg-info/10 text-info"
-      }
-    },
-    {
-      "color": "warning",
-      "variant": "soft",
-      "class": {
-        "root": "bg-warning/10 text-warning"
-      }
-    },
-    {
-      "color": "error",
-      "variant": "soft",
-      "class": {
-        "root": "bg-error/10 text-error"
-      }
-    },
-    {
-      "color": "primary",
-      "variant": "subtle",
-      "class": {
-        "root": "bg-primary/10 text-primary ring ring-inset ring-primary/25"
-      }
-    },
-    {
-      "color": "secondary",
-      "variant": "subtle",
-      "class": {
-        "root": "bg-secondary/10 text-secondary ring ring-inset ring-secondary/25"
-      }
-    },
-    {
-      "color": "success",
-      "variant": "subtle",
-      "class": {
-        "root": "bg-success/10 text-success ring ring-inset ring-success/25"
-      }
-    },
-    {
-      "color": "info",
-      "variant": "subtle",
-      "class": {
-        "root": "bg-info/10 text-info ring ring-inset ring-info/25"
-      }
-    },
-    {
-      "color": "warning",
-      "variant": "subtle",
-      "class": {
-        "root": "bg-warning/10 text-warning ring ring-inset ring-warning/25"
-      }
-    },
-    {
-      "color": "error",
-      "variant": "subtle",
-      "class": {
-        "root": "bg-error/10 text-error ring ring-inset ring-error/25"
-      }
-    },
-    {
-      "color": "neutral",
-      "variant": "solid",
-      "class": {
-        "root": "text-inverted bg-inverted"
-      }
-    },
-    {
-      "color": "neutral",
-      "variant": "outline",
-      "class": {
-        "root": "text-highlighted bg-default ring ring-inset ring-default"
-      }
-    },
-    {
-      "color": "neutral",
-      "variant": "soft",
-      "class": {
-        "root": "text-highlighted bg-elevated/50"
-      }
-    },
-    {
-      "color": "neutral",
-      "variant": "subtle",
-      "class": {
-        "root": "text-highlighted bg-elevated/50 ring ring-inset ring-accented"
-      }
-    }
-  ],
-  "defaultVariants": {
-    "color": "primary",
-    "variant": "solid"
-  }
-};
-const _sfc_main$r = {
-  __name: "UAlert",
-  __ssrInlineRender: true,
-  props: {
-    as: { type: null, required: false },
-    title: { type: String, required: false },
-    description: { type: String, required: false },
-    icon: { type: null, required: false },
-    avatar: { type: Object, required: false },
-    color: { type: null, required: false },
-    variant: { type: null, required: false },
-    orientation: { type: null, required: false, default: "vertical" },
-    actions: { type: Array, required: false },
-    close: { type: [Boolean, Object], required: false },
-    closeIcon: { type: null, required: false },
-    class: { type: null, required: false },
-    ui: { type: Object, required: false }
-  },
-  emits: ["update:open"],
-  setup(__props, { emit: __emit }) {
-    const props = __props;
-    const emits = __emit;
-    const slots = useSlots();
-    const { t } = useLocale();
-    const appConfig2 = useAppConfig();
-    const uiProp = useComponentUI("alert", props);
-    const ui = computed(() => tv({ extend: tv(theme$8), ...appConfig2.ui?.alert || {} })({
-      color: props.color,
-      variant: props.variant,
-      orientation: props.orientation,
-      title: !!props.title || !!slots.title
-    }));
-    return (_ctx, _push, _parent, _attrs) => {
-      _push(ssrRenderComponent(unref(Primitive), mergeProps({
-        as: __props.as,
-        "data-orientation": __props.orientation,
-        "data-slot": "root",
-        class: ui.value.root({ class: [unref(uiProp)?.root, props.class] })
-      }, _attrs), {
-        default: withCtx((_, _push2, _parent2, _scopeId) => {
-          if (_push2) {
-            ssrRenderSlot(_ctx.$slots, "leading", { ui: ui.value }, () => {
-              if (__props.avatar) {
-                _push2(ssrRenderComponent(_sfc_main$X, mergeProps({
-                  size: unref(uiProp)?.avatarSize || ui.value.avatarSize()
-                }, __props.avatar, {
-                  "data-slot": "avatar",
-                  class: ui.value.avatar({ class: unref(uiProp)?.avatar })
-                }), null, _parent2, _scopeId));
-              } else if (__props.icon) {
-                _push2(ssrRenderComponent(_sfc_main$Z, {
-                  name: __props.icon,
-                  "data-slot": "icon",
-                  class: ui.value.icon({ class: unref(uiProp)?.icon })
-                }, null, _parent2, _scopeId));
-              } else {
-                _push2(`<!---->`);
-              }
-            }, _push2, _parent2, _scopeId);
-            _push2(`<div data-slot="wrapper" class="${ssrRenderClass(ui.value.wrapper({ class: unref(uiProp)?.wrapper }))}"${_scopeId}>`);
-            if (__props.title || !!slots.title) {
-              _push2(`<div data-slot="title" class="${ssrRenderClass(ui.value.title({ class: unref(uiProp)?.title }))}"${_scopeId}>`);
-              ssrRenderSlot(_ctx.$slots, "title", {}, () => {
-                _push2(`${ssrInterpolate(__props.title)}`);
-              }, _push2, _parent2, _scopeId);
-              _push2(`</div>`);
-            } else {
-              _push2(`<!---->`);
-            }
-            if (__props.description || !!slots.description) {
-              _push2(`<div data-slot="description" class="${ssrRenderClass(ui.value.description({ class: unref(uiProp)?.description }))}"${_scopeId}>`);
-              ssrRenderSlot(_ctx.$slots, "description", {}, () => {
-                _push2(`${ssrInterpolate(__props.description)}`);
-              }, _push2, _parent2, _scopeId);
-              _push2(`</div>`);
-            } else {
-              _push2(`<!---->`);
-            }
-            if (__props.orientation === "vertical" && (__props.actions?.length || !!slots.actions)) {
-              _push2(`<div data-slot="actions" class="${ssrRenderClass(ui.value.actions({ class: unref(uiProp)?.actions }))}"${_scopeId}>`);
-              ssrRenderSlot(_ctx.$slots, "actions", {}, () => {
-                _push2(`<!--[-->`);
-                ssrRenderList(__props.actions, (action, index2) => {
-                  _push2(ssrRenderComponent(_sfc_main$U, mergeProps({
-                    key: index2,
-                    size: "xs"
-                  }, { ref_for: true }, action), null, _parent2, _scopeId));
-                });
-                _push2(`<!--]-->`);
-              }, _push2, _parent2, _scopeId);
-              _push2(`</div>`);
-            } else {
-              _push2(`<!---->`);
-            }
-            _push2(`</div>`);
-            if (__props.orientation === "horizontal" && (__props.actions?.length || !!slots.actions) || __props.close) {
-              _push2(`<div data-slot="actions" class="${ssrRenderClass(ui.value.actions({ class: unref(uiProp)?.actions, orientation: "horizontal" }))}"${_scopeId}>`);
-              if (__props.orientation === "horizontal" && (__props.actions?.length || !!slots.actions)) {
-                ssrRenderSlot(_ctx.$slots, "actions", {}, () => {
-                  _push2(`<!--[-->`);
-                  ssrRenderList(__props.actions, (action, index2) => {
-                    _push2(ssrRenderComponent(_sfc_main$U, mergeProps({
-                      key: index2,
-                      size: "xs"
-                    }, { ref_for: true }, action), null, _parent2, _scopeId));
-                  });
-                  _push2(`<!--]-->`);
-                }, _push2, _parent2, _scopeId);
-              } else {
-                _push2(`<!---->`);
-              }
-              ssrRenderSlot(_ctx.$slots, "close", { ui: ui.value }, () => {
-                if (__props.close) {
-                  _push2(ssrRenderComponent(_sfc_main$U, mergeProps({
-                    icon: __props.closeIcon || unref(appConfig2).ui.icons.close,
-                    color: "neutral",
-                    variant: "link",
-                    "aria-label": unref(t)("alert.close")
-                  }, typeof __props.close === "object" ? __props.close : {}, {
-                    "data-slot": "close",
-                    class: ui.value.close({ class: unref(uiProp)?.close }),
-                    onClick: ($event) => emits("update:open", false)
-                  }), null, _parent2, _scopeId));
-                } else {
-                  _push2(`<!---->`);
-                }
-              }, _push2, _parent2, _scopeId);
-              _push2(`</div>`);
-            } else {
-              _push2(`<!---->`);
-            }
-          } else {
-            return [
-              renderSlot(_ctx.$slots, "leading", { ui: ui.value }, () => [
-                __props.avatar ? (openBlock(), createBlock(_sfc_main$X, mergeProps({
-                  key: 0,
-                  size: unref(uiProp)?.avatarSize || ui.value.avatarSize()
-                }, __props.avatar, {
-                  "data-slot": "avatar",
-                  class: ui.value.avatar({ class: unref(uiProp)?.avatar })
-                }), null, 16, ["size", "class"])) : __props.icon ? (openBlock(), createBlock(_sfc_main$Z, {
-                  key: 1,
-                  name: __props.icon,
-                  "data-slot": "icon",
-                  class: ui.value.icon({ class: unref(uiProp)?.icon })
-                }, null, 8, ["name", "class"])) : createCommentVNode("", true)
-              ]),
-              createVNode("div", {
-                "data-slot": "wrapper",
-                class: ui.value.wrapper({ class: unref(uiProp)?.wrapper })
-              }, [
-                __props.title || !!slots.title ? (openBlock(), createBlock("div", {
-                  key: 0,
-                  "data-slot": "title",
-                  class: ui.value.title({ class: unref(uiProp)?.title })
-                }, [
-                  renderSlot(_ctx.$slots, "title", {}, () => [
-                    createTextVNode(toDisplayString$1(__props.title), 1)
-                  ])
-                ], 2)) : createCommentVNode("", true),
-                __props.description || !!slots.description ? (openBlock(), createBlock("div", {
-                  key: 1,
-                  "data-slot": "description",
-                  class: ui.value.description({ class: unref(uiProp)?.description })
-                }, [
-                  renderSlot(_ctx.$slots, "description", {}, () => [
-                    createTextVNode(toDisplayString$1(__props.description), 1)
-                  ])
-                ], 2)) : createCommentVNode("", true),
-                __props.orientation === "vertical" && (__props.actions?.length || !!slots.actions) ? (openBlock(), createBlock("div", {
-                  key: 2,
-                  "data-slot": "actions",
-                  class: ui.value.actions({ class: unref(uiProp)?.actions })
-                }, [
-                  renderSlot(_ctx.$slots, "actions", {}, () => [
-                    (openBlock(true), createBlock(Fragment, null, renderList(__props.actions, (action, index2) => {
-                      return openBlock(), createBlock(_sfc_main$U, mergeProps({
-                        key: index2,
-                        size: "xs"
-                      }, { ref_for: true }, action), null, 16);
-                    }), 128))
-                  ])
-                ], 2)) : createCommentVNode("", true)
-              ], 2),
-              __props.orientation === "horizontal" && (__props.actions?.length || !!slots.actions) || __props.close ? (openBlock(), createBlock("div", {
-                key: 0,
-                "data-slot": "actions",
-                class: ui.value.actions({ class: unref(uiProp)?.actions, orientation: "horizontal" })
-              }, [
-                __props.orientation === "horizontal" && (__props.actions?.length || !!slots.actions) ? renderSlot(_ctx.$slots, "actions", { key: 0 }, () => [
-                  (openBlock(true), createBlock(Fragment, null, renderList(__props.actions, (action, index2) => {
-                    return openBlock(), createBlock(_sfc_main$U, mergeProps({
-                      key: index2,
-                      size: "xs"
-                    }, { ref_for: true }, action), null, 16);
-                  }), 128))
-                ]) : createCommentVNode("", true),
-                renderSlot(_ctx.$slots, "close", { ui: ui.value }, () => [
-                  __props.close ? (openBlock(), createBlock(_sfc_main$U, mergeProps({
-                    key: 0,
-                    icon: __props.closeIcon || unref(appConfig2).ui.icons.close,
-                    color: "neutral",
-                    variant: "link",
-                    "aria-label": unref(t)("alert.close")
-                  }, typeof __props.close === "object" ? __props.close : {}, {
-                    "data-slot": "close",
-                    class: ui.value.close({ class: unref(uiProp)?.close }),
-                    onClick: ($event) => emits("update:open", false)
-                  }), null, 16, ["icon", "aria-label", "class", "onClick"])) : createCommentVNode("", true)
-                ])
-              ], 2)) : createCommentVNode("", true)
-            ];
-          }
-        }),
-        _: 3
-      }, _parent));
-    };
-  }
-};
 const _sfc_setup$r = _sfc_main$r.setup;
 _sfc_main$r.setup = (props, ctx) => {
   const ssrContext = useSSRContext();
-  (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("../../../../../../../../../../Users/hugh/code/hoxi/apay/node_modules/@nuxt/ui/dist/runtime/components/Alert.vue");
+  (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("extensions/apps/admin/pages/catalog.vue");
   return _sfc_setup$r ? _sfc_setup$r(props, ctx) : void 0;
 };
 const theme$7 = {
@@ -31720,7 +32113,7 @@ const _sfc_main$p = /* @__PURE__ */ defineComponent({
           errorMsg.value = "";
         }
       },
-      "$Pv7eVdBXNL"
+      "$oomtqxRbkT"
       /* nuxt-injected */
     )), __temp = await __temp, __restore(), __temp);
     const apps = computed(() => telemetry.value?.apps || []);
@@ -31745,10 +32138,10 @@ const _sfc_main$p = /* @__PURE__ */ defineComponent({
       windowDays.value = days;
     };
     return (_ctx, _push, _parent, _attrs) => {
-      const _component_UAlert = _sfc_main$r;
+      const _component_UAlert = _sfc_main$C;
       const _component_UCard = _sfc_main$q;
-      const _component_UIcon = _sfc_main$Z;
-      const _component_UButton = _sfc_main$U;
+      const _component_UIcon = _sfc_main$_;
+      const _component_UButton = _sfc_main$V;
       _push(`<div${ssrRenderAttrs(mergeProps({ class: "space-y-6" }, _attrs))}>`);
       if (unref(errorMsg)) {
         _push(ssrRenderComponent(_component_UAlert, {
@@ -32124,7 +32517,7 @@ const _sfc_main$n = {
               ssrRenderSlot(_ctx.$slots, "header", {}, () => {
                 ssrRenderSlot(_ctx.$slots, "leading", { ui: ui.value }, () => {
                   if (__props.icon || __props.avatar) {
-                    _push2(ssrRenderComponent(_sfc_main$X, mergeProps({ icon: __props.icon }, typeof __props.avatar === "object" ? __props.avatar : {}, {
+                    _push2(ssrRenderComponent(_sfc_main$Y, mergeProps({ icon: __props.icon }, typeof __props.avatar === "object" ? __props.avatar : {}, {
                       "data-slot": "avatar",
                       class: ui.value.avatar({ class: unref(uiProp)?.avatar })
                     }), null, _parent2, _scopeId));
@@ -32163,7 +32556,7 @@ const _sfc_main$n = {
                   ssrRenderSlot(_ctx.$slots, "actions", {}, () => {
                     _push2(`<!--[-->`);
                     ssrRenderList(__props.actions, (action, index2) => {
-                      _push2(ssrRenderComponent(_sfc_main$U, mergeProps({
+                      _push2(ssrRenderComponent(_sfc_main$V, mergeProps({
                         key: index2,
                         size: __props.size
                       }, { ref_for: true }, action), null, _parent2, _scopeId));
@@ -32195,7 +32588,7 @@ const _sfc_main$n = {
               }, [
                 renderSlot(_ctx.$slots, "header", {}, () => [
                   renderSlot(_ctx.$slots, "leading", { ui: ui.value }, () => [
-                    __props.icon || __props.avatar ? (openBlock(), createBlock(_sfc_main$X, mergeProps({
+                    __props.icon || __props.avatar ? (openBlock(), createBlock(_sfc_main$Y, mergeProps({
                       key: 0,
                       icon: __props.icon
                     }, typeof __props.avatar === "object" ? __props.avatar : {}, {
@@ -32236,7 +32629,7 @@ const _sfc_main$n = {
                   }, [
                     renderSlot(_ctx.$slots, "actions", {}, () => [
                       (openBlock(true), createBlock(Fragment, null, renderList(__props.actions, (action, index2) => {
-                        return openBlock(), createBlock(_sfc_main$U, mergeProps({
+                        return openBlock(), createBlock(_sfc_main$V, mergeProps({
                           key: index2,
                           size: __props.size
                         }, { ref_for: true }, action), null, 16, ["size"]);
@@ -32553,13 +32946,13 @@ const _sfc_main$m = /* @__PURE__ */ Object.assign({ inheritAttrs: false }, {
                     default: withCtx((_2, _push4, _parent4, _scopeId3) => {
                       if (_push4) {
                         if (state === "indeterminate") {
-                          _push4(ssrRenderComponent(_sfc_main$Z, {
+                          _push4(ssrRenderComponent(_sfc_main$_, {
                             name: __props.indeterminateIcon || unref(appConfig2).ui.icons.minus,
                             "data-slot": "icon",
                             class: ui.value.icon({ class: unref(uiProp)?.icon })
                           }, null, _parent4, _scopeId3));
                         } else {
-                          _push4(ssrRenderComponent(_sfc_main$Z, {
+                          _push4(ssrRenderComponent(_sfc_main$_, {
                             name: __props.icon || unref(appConfig2).ui.icons.check,
                             "data-slot": "icon",
                             class: ui.value.icon({ class: unref(uiProp)?.icon })
@@ -32567,12 +32960,12 @@ const _sfc_main$m = /* @__PURE__ */ Object.assign({ inheritAttrs: false }, {
                         }
                       } else {
                         return [
-                          state === "indeterminate" ? (openBlock(), createBlock(_sfc_main$Z, {
+                          state === "indeterminate" ? (openBlock(), createBlock(_sfc_main$_, {
                             key: 0,
                             name: __props.indeterminateIcon || unref(appConfig2).ui.icons.minus,
                             "data-slot": "icon",
                             class: ui.value.icon({ class: unref(uiProp)?.icon })
-                          }, null, 8, ["name", "class"])) : (openBlock(), createBlock(_sfc_main$Z, {
+                          }, null, 8, ["name", "class"])) : (openBlock(), createBlock(_sfc_main$_, {
                             key: 1,
                             name: __props.icon || unref(appConfig2).ui.icons.check,
                             "data-slot": "icon",
@@ -32590,12 +32983,12 @@ const _sfc_main$m = /* @__PURE__ */ Object.assign({ inheritAttrs: false }, {
                       class: ui.value.indicator({ class: unref(uiProp)?.indicator })
                     }, {
                       default: withCtx(() => [
-                        state === "indeterminate" ? (openBlock(), createBlock(_sfc_main$Z, {
+                        state === "indeterminate" ? (openBlock(), createBlock(_sfc_main$_, {
                           key: 0,
                           name: __props.indeterminateIcon || unref(appConfig2).ui.icons.minus,
                           "data-slot": "icon",
                           class: ui.value.icon({ class: unref(uiProp)?.icon })
-                        }, null, 8, ["name", "class"])) : (openBlock(), createBlock(_sfc_main$Z, {
+                        }, null, 8, ["name", "class"])) : (openBlock(), createBlock(_sfc_main$_, {
                           key: 1,
                           name: __props.icon || unref(appConfig2).ui.icons.check,
                           "data-slot": "icon",
@@ -32668,12 +33061,12 @@ const _sfc_main$m = /* @__PURE__ */ Object.assign({ inheritAttrs: false }, {
                       class: ui.value.indicator({ class: unref(uiProp)?.indicator })
                     }, {
                       default: withCtx(() => [
-                        state === "indeterminate" ? (openBlock(), createBlock(_sfc_main$Z, {
+                        state === "indeterminate" ? (openBlock(), createBlock(_sfc_main$_, {
                           key: 0,
                           name: __props.indeterminateIcon || unref(appConfig2).ui.icons.minus,
                           "data-slot": "icon",
                           class: ui.value.icon({ class: unref(uiProp)?.icon })
-                        }, null, 8, ["name", "class"])) : (openBlock(), createBlock(_sfc_main$Z, {
+                        }, null, 8, ["name", "class"])) : (openBlock(), createBlock(_sfc_main$_, {
                           key: 1,
                           name: __props.icon || unref(appConfig2).ui.icons.check,
                           "data-slot": "icon",
@@ -32857,7 +33250,7 @@ const _sfc_main$l = /* @__PURE__ */ defineComponent({
     [__temp, __restore] = withAsyncContext(() => loadAdmin()), await __temp, __restore();
     const visibleEntries = computed(() => ["stores", "settings", "applications", "themes", "connection", "licenses", "leads"].filter((key) => hasPerm(`plugin:shopark:${key}:view`)).map((key) => ({ key, label: text2.value[key] })));
     return (_ctx, _push, _parent, _attrs) => {
-      const _component_UButton = _sfc_main$U;
+      const _component_UButton = _sfc_main$V;
       _push(`<div${ssrRenderAttrs(mergeProps({ class: "space-y-6 pb-8" }, _attrs))}><div class="flex flex-wrap items-center justify-between gap-3"><div><p class="mb-1 text-sm text-muted">${ssrInterpolate(text2.value.management)}</p><h1 class="text-2xl font-semibold text-highlighted">${ssrInterpolate(__props.title)}</h1></div>`);
       ssrRenderSlot(_ctx.$slots, "actions", {}, null, _push, _parent);
       _push(`</div><nav class="flex flex-wrap gap-2"${ssrRenderAttr("aria-label", text2.value.management)}><!--[-->`);
@@ -32899,7 +33292,7 @@ const _sfc_main$k = /* @__PURE__ */ defineComponent({
     const canEdit = computed(() => hasPerm(`plugin:shopark:${props.kind}:edit`));
     const { data: response, pending, error, refresh } = ([__temp, __restore] = withAsyncContext(() => useFetch(
       `/api/admin/plugins/shopark/${props.kind}/list`,
-      "$FTYkTmCEFd"
+      "$XheYVWxGuW"
       /* nuxt-injected */
     )), __temp = await __temp, __restore(), __temp);
     const keyword = ref("");
@@ -32956,14 +33349,14 @@ const _sfc_main$k = /* @__PURE__ */ defineComponent({
       }
     }
     return (_ctx, _push, _parent, _attrs) => {
-      const _component_UButton = _sfc_main$U;
-      const _component_UInput = _sfc_main$x;
+      const _component_UButton = _sfc_main$V;
+      const _component_UInput = _sfc_main$v;
       const _component_USkeleton = _sfc_main$o;
-      const _component_UAlert = _sfc_main$r;
+      const _component_UAlert = _sfc_main$C;
       const _component_UCard = _sfc_main$q;
-      const _component_UBadge = _sfc_main$O;
+      const _component_UBadge = _sfc_main$P;
       const _component_UEmpty = _sfc_main$n;
-      const _component_UModal = _sfc_main$I;
+      const _component_UModal = _sfc_main$J;
       const _component_UCheckbox = _sfc_main$m;
       _push(ssrRenderComponent(_sfc_main$l, mergeProps({
         title: title2.value,
@@ -33957,13 +34350,13 @@ const _sfc_main$i = /* @__PURE__ */ defineComponent({
     const settingUpScheduler = ref(false);
     const { data: connectionRes, pending, error, refresh } = ([__temp, __restore] = withAsyncContext(() => useFetch(
       "/api/admin/plugins/shopark/connection/status",
-      "$tjPgf7xHye"
+      "$qVjSe-M8Sa"
       /* nuxt-injected */
     )), __temp = await __temp, __restore(), __temp);
     const connection = computed(() => connectionRes.value?.data);
     const { data: readinessRes, pending: readinessPending, error: readinessError, refresh: refreshReadiness } = ([__temp, __restore] = withAsyncContext(() => useFetch(
       "/api/admin/plugins/shopark/readiness/status",
-      "$Vjmg4vCove"
+      "$5D_2J7bYL4"
       /* nuxt-injected */
     )), __temp = await __temp, __restore(), __temp);
     const readiness = computed(() => readinessRes.value?.data);
@@ -34031,10 +34424,10 @@ const _sfc_main$i = /* @__PURE__ */ defineComponent({
       return Object.entries(check.detail).filter(([_, v]) => v !== void 0 && v !== null && v !== "").map(([k, v]) => `${k}: ${v}`).join("  ·  ");
     };
     return (_ctx, _push, _parent, _attrs) => {
-      const _component_UButton = _sfc_main$U;
+      const _component_UButton = _sfc_main$V;
       const _component_USkeleton = _sfc_main$o;
-      const _component_UAlert = _sfc_main$r;
-      const _component_UIcon = _sfc_main$Z;
+      const _component_UAlert = _sfc_main$C;
+      const _component_UIcon = _sfc_main$_;
       _push(`<div${ssrRenderAttrs(mergeProps({ class: "flex max-w-4xl flex-col gap-6 pb-8" }, _attrs))}><div class="flex flex-wrap items-center justify-between gap-4"><div><h1 class="text-3xl font-bold tracking-tight text-gray-900 dark:text-white">${ssrInterpolate(text2.value.title)}</h1><p class="mt-2 text-sm text-gray-500 dark:text-gray-400">${ssrInterpolate(text2.value.subtitle)}</p></div><div class="flex items-center gap-3">`);
       _push(ssrRenderComponent(_component_UButton, {
         to: "/admin/plugins/shopark/licenses",
@@ -34530,16 +34923,16 @@ const _sfc_main$h = /* @__PURE__ */ defineComponent({
       }
     }
     return (_ctx, _push, _parent, _attrs) => {
-      const _component_UButton = _sfc_main$U;
+      const _component_UButton = _sfc_main$V;
       const _component_UCard = _sfc_main$q;
-      const _component_UBadge = _sfc_main$O;
-      const _component_UInput = _sfc_main$x;
-      const _component_USelect = _sfc_main$w;
+      const _component_UBadge = _sfc_main$P;
+      const _component_UInput = _sfc_main$v;
+      const _component_USelect = _sfc_main$u;
       const _component_NuxtLink = __nuxt_component_3$3;
-      const _component_UIcon = _sfc_main$Z;
-      const _component_UModal = _sfc_main$I;
-      const _component_UFormField = _sfc_main$y;
-      const _component_UTextarea = _sfc_main$t;
+      const _component_UIcon = _sfc_main$_;
+      const _component_UModal = _sfc_main$J;
+      const _component_UFormField = _sfc_main$w;
+      const _component_UTextarea = _sfc_main$B;
       _push(ssrRenderComponent(_sfc_main$l, mergeProps({
         title: copy.value.title,
         active: "leads"
@@ -36162,7 +36555,7 @@ const _sfc_main$g = {
                                     if (_push5) {
                                       ssrRenderSlot(_ctx.$slots, "close", { ui: ui.value }, () => {
                                         if (props.close) {
-                                          _push5(ssrRenderComponent(_sfc_main$U, mergeProps({
+                                          _push5(ssrRenderComponent(_sfc_main$V, mergeProps({
                                             icon: __props.closeIcon || unref(appConfig2).ui.icons.close,
                                             color: "neutral",
                                             variant: "ghost",
@@ -36178,7 +36571,7 @@ const _sfc_main$g = {
                                     } else {
                                       return [
                                         renderSlot(_ctx.$slots, "close", { ui: ui.value }, () => [
-                                          props.close ? (openBlock(), createBlock(_sfc_main$U, mergeProps({
+                                          props.close ? (openBlock(), createBlock(_sfc_main$V, mergeProps({
                                             key: 0,
                                             icon: __props.closeIcon || unref(appConfig2).ui.icons.close,
                                             color: "neutral",
@@ -36279,7 +36672,7 @@ const _sfc_main$g = {
                                 }, {
                                   default: withCtx(() => [
                                     renderSlot(_ctx.$slots, "close", { ui: ui.value }, () => [
-                                      props.close ? (openBlock(), createBlock(_sfc_main$U, mergeProps({
+                                      props.close ? (openBlock(), createBlock(_sfc_main$V, mergeProps({
                                         key: 0,
                                         icon: __props.closeIcon || unref(appConfig2).ui.icons.close,
                                         color: "neutral",
@@ -36394,7 +36787,7 @@ const _sfc_main$g = {
                               }, {
                                 default: withCtx(() => [
                                   renderSlot(_ctx.$slots, "close", { ui: ui.value }, () => [
-                                    props.close ? (openBlock(), createBlock(_sfc_main$U, mergeProps({
+                                    props.close ? (openBlock(), createBlock(_sfc_main$V, mergeProps({
                                       key: 0,
                                       icon: __props.closeIcon || unref(appConfig2).ui.icons.close,
                                       color: "neutral",
@@ -36524,7 +36917,7 @@ const _sfc_main$g = {
                             }, {
                               default: withCtx(() => [
                                 renderSlot(_ctx.$slots, "close", { ui: ui.value }, () => [
-                                  props.close ? (openBlock(), createBlock(_sfc_main$U, mergeProps({
+                                  props.close ? (openBlock(), createBlock(_sfc_main$V, mergeProps({
                                     key: 0,
                                     icon: __props.closeIcon || unref(appConfig2).ui.icons.close,
                                     color: "neutral",
@@ -36836,7 +37229,7 @@ const _sfc_main$f = /* @__PURE__ */ defineComponent({
           filter: customerFilter.value
         }))
       },
-      "$wYdNvcAxK_"
+      "$PLMEFl3IQj"
       /* nuxt-injected */
     )), __temp = await __temp, __restore(), __temp);
     const customerRows = computed(() => customersRes.value?.data?.list || []);
@@ -36870,7 +37263,7 @@ const _sfc_main$f = /* @__PURE__ */ defineComponent({
           status: selectedStatus.value === "all" ? "" : selectedStatus.value
         }))
       },
-      "$69Or2X1mC9"
+      "$JP5rDHk_wi"
       /* nuxt-injected */
     )), __temp = await __temp, __restore(), __temp);
     const rows = computed(() => res.value?.data?.list || []);
@@ -37275,16 +37668,16 @@ const _sfc_main$f = /* @__PURE__ */ defineComponent({
       return Number.isNaN(d.getTime()) ? String(val) : d.toLocaleString();
     }
     return (_ctx, _push, _parent, _attrs) => {
-      const _component_UButton = _sfc_main$U;
-      const _component_UFormField = _sfc_main$y;
-      const _component_UInput = _sfc_main$x;
-      const _component_USelect = _sfc_main$w;
+      const _component_UButton = _sfc_main$V;
+      const _component_UFormField = _sfc_main$w;
+      const _component_UInput = _sfc_main$v;
+      const _component_USelect = _sfc_main$u;
       const _component_USkeleton = _sfc_main$o;
-      const _component_UBadge = _sfc_main$O;
-      const _component_UPagination = _sfc_main$A;
+      const _component_UBadge = _sfc_main$P;
+      const _component_UPagination = _sfc_main$y;
       const _component_USlideover = _sfc_main$g;
-      const _component_UModal = _sfc_main$I;
-      const _component_UTextarea = _sfc_main$t;
+      const _component_UModal = _sfc_main$J;
+      const _component_UTextarea = _sfc_main$B;
       _push(`<div${ssrRenderAttrs(mergeProps({ class: "space-y-6 pb-10" }, _attrs))}><div class="flex flex-wrap items-center justify-between gap-4"><div><h1 class="text-3xl font-bold tracking-tight text-gray-900 dark:text-white">${ssrInterpolate(text2.value.title)}</h1><p class="mt-2 text-sm text-gray-500 dark:text-gray-400">${ssrInterpolate(text2.value.subtitle)}</p></div><div class="flex flex-wrap items-center gap-2.5">`);
       _push(ssrRenderComponent(_component_UButton, {
         to: "/admin/plugins/shopark/stores",
@@ -39268,7 +39661,7 @@ const _sfc_main$e = /* @__PURE__ */ defineComponent({
     const canEdit = computed(() => hasPerm("plugin:shopark:settings:edit"));
     const { data: response, pending, error, refresh } = ([__temp, __restore] = withAsyncContext(() => useFetch(
       "/api/admin/plugins/shopark/settings/status",
-      "$UW3QfdeIP1"
+      "$GwZjIrj8tY"
       /* nuxt-injected */
     )), __temp = await __temp, __restore(), __temp);
     const defaultTheme = ref("");
@@ -39302,12 +39695,12 @@ const _sfc_main$e = /* @__PURE__ */ defineComponent({
       }
     }
     return (_ctx, _push, _parent, _attrs) => {
-      const _component_UButton = _sfc_main$U;
+      const _component_UButton = _sfc_main$V;
       const _component_USkeleton = _sfc_main$o;
-      const _component_UAlert = _sfc_main$r;
+      const _component_UAlert = _sfc_main$C;
       const _component_UCard = _sfc_main$q;
-      const _component_UFormField = _sfc_main$y;
-      const _component_USelect = _sfc_main$w;
+      const _component_UFormField = _sfc_main$w;
+      const _component_USelect = _sfc_main$u;
       _push(ssrRenderComponent(_sfc_main$l, mergeProps({
         title: text2.value.settings,
         active: "settings"
@@ -39827,7 +40220,7 @@ const _sfc_main$d = /* @__PURE__ */ defineComponent({
           currency: selectedCurrency.value === "all" ? void 0 : selectedCurrency.value
         }))
       },
-      "$JO6rfFrlN1"
+      "$_VZWtW5j4R"
       /* nuxt-injected */
     )), __temp = await __temp, __restore(), __temp);
     const summary = computed(() => res.value?.data?.summary || {
@@ -40021,16 +40414,16 @@ const _sfc_main$d = /* @__PURE__ */ defineComponent({
       return formatTime(iso);
     };
     return (_ctx, _push, _parent, _attrs) => {
-      const _component_UButton = _sfc_main$U;
-      const _component_UAlert = _sfc_main$r;
-      const _component_UIcon = _sfc_main$Z;
-      const _component_UFormField = _sfc_main$y;
-      const _component_UInput = _sfc_main$x;
-      const _component_USelect = _sfc_main$w;
+      const _component_UButton = _sfc_main$V;
+      const _component_UAlert = _sfc_main$C;
+      const _component_UIcon = _sfc_main$_;
+      const _component_UFormField = _sfc_main$w;
+      const _component_UInput = _sfc_main$v;
+      const _component_USelect = _sfc_main$u;
       const _component_USkeleton = _sfc_main$o;
-      const _component_UBadge = _sfc_main$O;
+      const _component_UBadge = _sfc_main$P;
       const _component_NuxtLink = __nuxt_component_3$3;
-      const _component_UPagination = _sfc_main$A;
+      const _component_UPagination = _sfc_main$y;
       _push(ssrRenderComponent(_sfc_main$l, mergeProps({
         title: text2.value.title,
         active: "stores"
@@ -41085,7 +41478,7 @@ const _sfc_main$b = /* @__PURE__ */ defineComponent({
   __ssrInlineRender: true,
   async setup(__props) {
     let __temp, __restore;
-    const RichEditor = defineAsyncComponent(() => import('./RichEditor-Db8V3ccy.mjs'));
+    const RichEditor = defineAsyncComponent(() => import('./RichEditor-BDSr1AcN.mjs'));
     const copyItem = (item) => ({
       id: item?.id || "",
       name: item?.name || "",
@@ -41311,7 +41704,7 @@ const _sfc_main$b = /* @__PURE__ */ defineComponent({
         query: { page, pageSize: pageSize2, keyword, status },
         watch: [page]
       },
-      "$3IE78m9YsJ"
+      "$qXlEfv54Qy"
       /* nuxt-injected */
     )), __temp = await __temp, __restore(), __temp);
     const rows = computed(() => data.value?.data || []);
@@ -41545,16 +41938,16 @@ const _sfc_main$b = /* @__PURE__ */ defineComponent({
       }
     };
     return (_ctx, _push, _parent, _attrs) => {
-      const _component_UButton = _sfc_main$U;
-      const _component_UFormField = _sfc_main$y;
-      const _component_UInput = _sfc_main$x;
-      const _component_USelect = _sfc_main$w;
-      const _component_UTable = _sfc_main$u;
-      const _component_UIcon = _sfc_main$Z;
-      const _component_UBadge = _sfc_main$O;
-      const _component_UPagination = _sfc_main$A;
-      const _component_UModal = _sfc_main$I;
-      const _component_UTextarea = _sfc_main$t;
+      const _component_UButton = _sfc_main$V;
+      const _component_UFormField = _sfc_main$w;
+      const _component_UInput = _sfc_main$v;
+      const _component_USelect = _sfc_main$u;
+      const _component_UTable = _sfc_main$s;
+      const _component_UIcon = _sfc_main$_;
+      const _component_UBadge = _sfc_main$P;
+      const _component_UPagination = _sfc_main$y;
+      const _component_UModal = _sfc_main$J;
+      const _component_UTextarea = _sfc_main$B;
       _push(`<div${ssrRenderAttrs(mergeProps({ class: "space-y-6 pb-8" }, _attrs))}><div class="flex flex-col gap-4 md:flex-row md:items-end md:justify-between"><div><h1 class="text-3xl font-bold tracking-tight text-gray-900 dark:text-white">${ssrInterpolate(unref(text2).title)}</h1><p class="mt-2 text-sm text-gray-500 dark:text-gray-400">${ssrInterpolate(unref(text2).pageDescription)}</p></div>`);
       _push(ssrRenderComponent(_component_UButton, {
         icon: "ph:plus",
@@ -43535,7 +43928,7 @@ const manifestModules = /* @__PURE__ */ Object.assign({
   "../extensions/themes/extension.json": __vite_glob_0_2
 });
 const adminPageModules = /* @__PURE__ */ Object.assign({
-  "../extensions/apps/admin/pages/catalog.vue": _sfc_main$s,
+  "../extensions/apps/admin/pages/catalog.vue": _sfc_main$r,
   "../extensions/apps/admin/pages/telemetry.vue": _sfc_main$p,
   "../extensions/shopark/admin/pages/applications.vue": _sfc_main$j,
   "../extensions/shopark/admin/pages/connection.vue": _sfc_main$i,
@@ -44418,86 +44811,86 @@ const plugin_l1dhvtuI4uz14rq_j_0gxZAZUY0NFBfvpzjHnnEjE8Y = /* @__PURE__ */ defin
   // For type portability
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
 });
-const LazyHoxiComment = defineAsyncComponent(() => import('./HoxiComment-jo6RHBB0.mjs').then((r) => r["default"] || r.default || r));
-const LazyHoxiCommunityModal = defineAsyncComponent(() => import('./HoxiCommunityModal-Dww7UzoE.mjs').then((r) => r["default"] || r.default || r));
+const LazyHoxiComment = defineAsyncComponent(() => import('./HoxiComment-DpwpNBtJ.mjs').then((r) => r["default"] || r.default || r));
+const LazyHoxiCommunityModal = defineAsyncComponent(() => import('./HoxiCommunityModal-BFfpJ04P.mjs').then((r) => r["default"] || r.default || r));
 const LazyHoxiContainer = defineAsyncComponent(() => import('./HoxiContainer-DDAEb0_Y.mjs').then((r) => r["default"] || r.default || r));
-const LazyHoxiDownloadCard = defineAsyncComponent(() => import('./HoxiDownloadCard-BIMGmyEn.mjs').then((r) => r["default"] || r.default || r));
-const LazyHoxiHairlineLink = defineAsyncComponent(() => import('./HoxiHairlineLink-Cbs3cADR.mjs').then((r) => r["default"] || r.default || r));
-const LazyHoxiHomeReadiness = defineAsyncComponent(() => import('./HoxiHomeReadiness-CKYlvN04.mjs').then((r) => r["default"] || r.default || r));
-const LazyHoxiHomeSavingsCard = defineAsyncComponent(() => import('./HoxiHomeSavingsCard-DfLA6y-I.mjs').then((r) => r["default"] || r.default || r));
-const LazyHoxiHomeTools = defineAsyncComponent(() => import('./HoxiHomeTools-MuJaTgjI.mjs').then((r) => r["default"] || r.default || r));
-const LazyHoxiHomeWorkspaceShowcase = defineAsyncComponent(() => import('./HoxiHomeWorkspaceShowcase-Bt_-imcd.mjs').then((r) => r["default"] || r.default || r));
-const LazyHoxiLogoIcon = defineAsyncComponent(() => import('./HoxiLogoIcon-DdAyEile.mjs').then((r) => r["default"] || r.default || r));
+const LazyHoxiDownloadCard = defineAsyncComponent(() => import('./HoxiDownloadCard-Cd5agHRm.mjs').then((r) => r["default"] || r.default || r));
+const LazyHoxiHairlineLink = defineAsyncComponent(() => import('./HoxiHairlineLink-CRL7CgNZ.mjs').then((r) => r["default"] || r.default || r));
+const LazyHoxiHomeReadiness = defineAsyncComponent(() => import('./HoxiHomeReadiness-Bdnkac-I.mjs').then((r) => r["default"] || r.default || r));
+const LazyHoxiHomeSavingsCard = defineAsyncComponent(() => import('./HoxiHomeSavingsCard-D7cGWbw5.mjs').then((r) => r["default"] || r.default || r));
+const LazyHoxiHomeTools = defineAsyncComponent(() => import('./HoxiHomeTools-DgHV9zdR.mjs').then((r) => r["default"] || r.default || r));
+const LazyHoxiHomeWorkspaceShowcase = defineAsyncComponent(() => import('./HoxiHomeWorkspaceShowcase-DynrpuR_.mjs').then((r) => r["default"] || r.default || r));
+const LazyHoxiLogoIcon = defineAsyncComponent(() => import('./HoxiLogoIcon-DAIqCGzt.mjs').then((r) => r["default"] || r.default || r));
 const LazyHoxiMeta = defineAsyncComponent(() => import('./HoxiMeta-BgAl7LvM.mjs').then((r) => r["default"] || r.default || r));
-const LazyHoxiModelCard = defineAsyncComponent(() => import('./HoxiModelCard-CcHtcFAG.mjs').then((r) => r["default"] || r.default || r));
-const LazyHoxiModelFilters = defineAsyncComponent(() => import('./HoxiModelFilters-CCFQvZjx.mjs').then((r) => r["default"] || r.default || r));
-const LazyHoxiModelMini = defineAsyncComponent(() => import('./HoxiModelMini-UEV9iFMQ.mjs').then((r) => r["default"] || r.default || r));
-const LazyHoxiModelTable = defineAsyncComponent(() => import('./HoxiModelTable-GaE0a2SN.mjs').then((r) => r["default"] || r.default || r));
-const LazyHoxiNewsletterBox = defineAsyncComponent(() => import('./HoxiNewsletterBox-Cm3eiEYz.mjs').then((r) => r["default"] || r.default || r));
+const LazyHoxiModelCard = defineAsyncComponent(() => import('./HoxiModelCard-Dq_Q-fqV.mjs').then((r) => r["default"] || r.default || r));
+const LazyHoxiModelFilters = defineAsyncComponent(() => import('./HoxiModelFilters-OQzq1fzZ.mjs').then((r) => r["default"] || r.default || r));
+const LazyHoxiModelMini = defineAsyncComponent(() => import('./HoxiModelMini-DdSLuwaF.mjs').then((r) => r["default"] || r.default || r));
+const LazyHoxiModelTable = defineAsyncComponent(() => import('./HoxiModelTable-Cw_ADeae.mjs').then((r) => r["default"] || r.default || r));
+const LazyHoxiNewsletterBox = defineAsyncComponent(() => import('./HoxiNewsletterBox-Bh26v5Jo.mjs').then((r) => r["default"] || r.default || r));
 const LazyHoxiPageHeader = defineAsyncComponent(() => import('./HoxiPageHeader-BFh30DFm.mjs').then((r) => r["default"] || r.default || r));
-const LazyHoxiParticleCanvas = defineAsyncComponent(() => import('./HoxiParticleCanvas-BBRQF5da.mjs').then((r) => r["default"] || r.default || r));
+const LazyHoxiParticleCanvas = defineAsyncComponent(() => import('./HoxiParticleCanvas-D_gJWvRa.mjs').then((r) => r["default"] || r.default || r));
 const LazyHoxiParticleHero = defineAsyncComponent(() => import('./HoxiParticleHero-C65EeQIv.mjs').then((r) => r["default"] || r.default || r));
-const LazyHoxiPostItem = defineAsyncComponent(() => import('./HoxiPostItem-RFUgbJfj.mjs').then((r) => r["default"] || r.default || r));
+const LazyHoxiPostItem = defineAsyncComponent(() => import('./HoxiPostItem-CbVQfhVo.mjs').then((r) => r["default"] || r.default || r));
 const LazyHoxiReadinessProgress = defineAsyncComponent(() => import('./HoxiReadinessProgress-BZl9C8v0.mjs').then((r) => r["default"] || r.default || r));
-const LazyHoxiReadinessQuestion = defineAsyncComponent(() => import('./HoxiReadinessQuestion-Dnzx63oe.mjs').then((r) => r["default"] || r.default || r));
+const LazyHoxiReadinessQuestion = defineAsyncComponent(() => import('./HoxiReadinessQuestion-CE9Bzti0.mjs').then((r) => r["default"] || r.default || r));
 const LazyHoxiReadinessRadar = defineAsyncComponent(() => import('./HoxiReadinessRadar-Bkw4--UY.mjs').then((r) => r["default"] || r.default || r));
-const LazyHoxiReadinessReport = defineAsyncComponent(() => import('./HoxiReadinessReport-zi5IJ1VT.mjs').then((r) => r["default"] || r.default || r));
-const LazyHoxiSectionLabel = defineAsyncComponent(() => import('./HoxiSectionLabel-Bqx_PQy2.mjs').then((r) => r["default"] || r.default || r));
-const LazyHoxiSiteBuilderStorePreview = defineAsyncComponent(() => import('./HoxiSiteBuilderStorePreview-DaSsxknm.mjs').then((r) => r["default"] || r.default || r));
-const LazyHoxiTag = defineAsyncComponent(() => import('./HoxiTag-B6cIBM9_.mjs').then((r) => r["default"] || r.default || r));
-const LazyHoxiToolBrandMark = defineAsyncComponent(() => import('./HoxiToolBrandMark-DuYZ45vL.mjs').then((r) => r["default"] || r.default || r));
-const LazyHoxiToolDetailModal = defineAsyncComponent(() => import('./HoxiToolDetailModal-CxLDAtHU.mjs').then((r) => r["default"] || r.default || r));
+const LazyHoxiReadinessReport = defineAsyncComponent(() => import('./HoxiReadinessReport-BPwPDCqm.mjs').then((r) => r["default"] || r.default || r));
+const LazyHoxiSectionLabel = defineAsyncComponent(() => import('./HoxiSectionLabel--Hw3fZ0U.mjs').then((r) => r["default"] || r.default || r));
+const LazyHoxiSiteBuilderStorePreview = defineAsyncComponent(() => import('./HoxiSiteBuilderStorePreview-PYpfnNQs.mjs').then((r) => r["default"] || r.default || r));
+const LazyHoxiTag = defineAsyncComponent(() => import('./HoxiTag-CNEnbYeC.mjs').then((r) => r["default"] || r.default || r));
+const LazyHoxiToolBrandMark = defineAsyncComponent(() => import('./HoxiToolBrandMark-DuoQU8JO.mjs').then((r) => r["default"] || r.default || r));
+const LazyHoxiToolDetailModal = defineAsyncComponent(() => import('./HoxiToolDetailModal-BAI1FqA_.mjs').then((r) => r["default"] || r.default || r));
 const LazyHoxiValueBar = defineAsyncComponent(() => import('./HoxiValueBar-nKN9Q0nQ.mjs').then((r) => r["default"] || r.default || r));
 const LazyHoxiVendorDot = defineAsyncComponent(() => import('./HoxiVendorDot-BLwK_ZsG.mjs').then((r) => r["default"] || r.default || r));
-const LazyHoxiProjectRunPanel = defineAsyncComponent(() => import('./HoxiProjectRunPanel-CdstzylX.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseA = defineAsyncComponent(() => import('./A-BWDytR_1.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseAccordion = defineAsyncComponent(() => import('./Accordion-B-LUPyfX.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseAccordionItem = defineAsyncComponent(() => import('./AccordionItem-Bu66CI3c.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseBadge = defineAsyncComponent(() => import('./Badge-Dy5cGo33.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseBlockquote = defineAsyncComponent(() => import('./Blockquote-nwmnZ-7y.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseCallout = defineAsyncComponent(() => import('./Callout-wvAe0yE8.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseCard = defineAsyncComponent(() => import('./Card-an5aL0hf.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseCardGroup = defineAsyncComponent(() => import('./CardGroup-CszOOw4N.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseCode = defineAsyncComponent(() => import('./Code-B8gIyzyG.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseCodeCollapse = defineAsyncComponent(() => import('./CodeCollapse-BeG_qgSU.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseCodeGroup = defineAsyncComponent(() => import('./CodeGroup-NbQJChG6.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseCodeIcon = defineAsyncComponent(() => import('./CodeIcon-Btsn2BdW.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseCodePreview = defineAsyncComponent(() => import('./CodePreview-CMXHjqgW.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseCodeTree = defineAsyncComponent(() => import('./CodeTree-dr3P4fVp.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseCollapsible = defineAsyncComponent(() => import('./Collapsible-CBrAHleU.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseEm = defineAsyncComponent(() => import('./Em-DkSQ-rmC.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseField = defineAsyncComponent(() => import('./Field-_lH16kgF.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseFieldGroup = defineAsyncComponent(() => import('./FieldGroup-3iY4zfst.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseH1 = defineAsyncComponent(() => import('./H1-BmtWn_nY.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseH2 = defineAsyncComponent(() => import('./H2-CCoPkiph.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseH3 = defineAsyncComponent(() => import('./H3-BCVEXt-L.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseH4 = defineAsyncComponent(() => import('./H4-BQSn-hAu.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseHr = defineAsyncComponent(() => import('./Hr-Bq-6HaWX.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseIcon = defineAsyncComponent(() => import('./Icon-CD5L291W.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseImg = defineAsyncComponent(() => import('./Img-CMpk_H-T.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseKbd = defineAsyncComponent(() => import('./Kbd-BAnHbM_K.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseLi = defineAsyncComponent(() => import('./Li-CbaEDEOI.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseOl = defineAsyncComponent(() => import('./Ol-hWpxXdJA.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseP = defineAsyncComponent(() => import('./P-B9De6Goz.mjs').then((r) => r["default"] || r.default || r));
-const LazyProsePre = defineAsyncComponent(() => import('./Pre-DyxJ67Jf.mjs').then((r) => r["default"] || r.default || r));
+const LazyHoxiProjectRunPanel = defineAsyncComponent(() => import('./HoxiProjectRunPanel-BX9ztgbW.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseA = defineAsyncComponent(() => import('./A-BbFirn2_.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseAccordion = defineAsyncComponent(() => import('./Accordion-BJ3Aqj78.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseAccordionItem = defineAsyncComponent(() => import('./AccordionItem-36TXxUso.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseBadge = defineAsyncComponent(() => import('./Badge-CqR9x99r.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseBlockquote = defineAsyncComponent(() => import('./Blockquote-ODmY3lFJ.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseCallout = defineAsyncComponent(() => import('./Callout-q-1GsHzc.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseCard = defineAsyncComponent(() => import('./Card-BkiPNQXu.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseCardGroup = defineAsyncComponent(() => import('./CardGroup-V7knnDtc.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseCode = defineAsyncComponent(() => import('./Code-BXX3b7tw.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseCodeCollapse = defineAsyncComponent(() => import('./CodeCollapse-yj248EIR.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseCodeGroup = defineAsyncComponent(() => import('./CodeGroup-BN5gFNR3.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseCodeIcon = defineAsyncComponent(() => import('./CodeIcon-ChxQMpuh.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseCodePreview = defineAsyncComponent(() => import('./CodePreview-DmHCRCVW.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseCodeTree = defineAsyncComponent(() => import('./CodeTree-BAUelxgM.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseCollapsible = defineAsyncComponent(() => import('./Collapsible-BTBN-XZ4.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseEm = defineAsyncComponent(() => import('./Em-CsH6Yul_.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseField = defineAsyncComponent(() => import('./Field-CXyWyvFl.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseFieldGroup = defineAsyncComponent(() => import('./FieldGroup-DVrlT8sw.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseH1 = defineAsyncComponent(() => import('./H1-DBSGKTit.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseH2 = defineAsyncComponent(() => import('./H2-Bizs1ZAn.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseH3 = defineAsyncComponent(() => import('./H3-BUf1cZBL.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseH4 = defineAsyncComponent(() => import('./H4-BnA59DFa.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseHr = defineAsyncComponent(() => import('./Hr-1dAxXa9t.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseIcon = defineAsyncComponent(() => import('./Icon-BedGp399.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseImg = defineAsyncComponent(() => import('./Img-CNK1JO8Q.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseKbd = defineAsyncComponent(() => import('./Kbd-B2TRa3Fu.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseLi = defineAsyncComponent(() => import('./Li-Dq3L5MZR.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseOl = defineAsyncComponent(() => import('./Ol-DOw3iIq0.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseP = defineAsyncComponent(() => import('./P-Cu8u90ik.mjs').then((r) => r["default"] || r.default || r));
+const LazyProsePre = defineAsyncComponent(() => import('./Pre-D9_5QPD0.mjs').then((r) => r["default"] || r.default || r));
 const LazyProseScript = defineAsyncComponent(() => import('./Script-jaEfny7w.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseSteps = defineAsyncComponent(() => import('./Steps-iw5e8LUv.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseStrong = defineAsyncComponent(() => import('./Strong-BLLXqgdU.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseTable = defineAsyncComponent(() => import('./Table-DPcM4ViZ.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseTabs = defineAsyncComponent(() => import('./Tabs-XCmla_Rl.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseTabsItem = defineAsyncComponent(() => import('./TabsItem-CrLL2ugt.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseTbody = defineAsyncComponent(() => import('./Tbody-Kp30qwmJ.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseTd = defineAsyncComponent(() => import('./Td-E740rfFg.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseTh = defineAsyncComponent(() => import('./Th-DM8reVWl.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseThead = defineAsyncComponent(() => import('./Thead-tVdfcqB9.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseTr = defineAsyncComponent(() => import('./Tr-DkAmcs-j.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseUl = defineAsyncComponent(() => import('./Ul-C7j5nIlt.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseCaution = defineAsyncComponent(() => import('./Caution-BZNfbI6O.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseNote = defineAsyncComponent(() => import('./Note-Bnlh9kS5.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseTip = defineAsyncComponent(() => import('./Tip-C6BZpzDh.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseWarning = defineAsyncComponent(() => import('./Warning-Dp4uSq8j.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseH5 = defineAsyncComponent(() => import('./ProseH5-BHrkVeGf.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseH6 = defineAsyncComponent(() => import('./ProseH6-IP-M1Anx.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseSteps = defineAsyncComponent(() => import('./Steps-Csqm_lI3.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseStrong = defineAsyncComponent(() => import('./Strong-DSjVmyV1.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseTable = defineAsyncComponent(() => import('./Table-oWzwEd8Y.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseTabs = defineAsyncComponent(() => import('./Tabs-CY__vWVZ.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseTabsItem = defineAsyncComponent(() => import('./TabsItem-DnPFtK39.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseTbody = defineAsyncComponent(() => import('./Tbody-CsrQqD1A.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseTd = defineAsyncComponent(() => import('./Td-0kajdlv6.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseTh = defineAsyncComponent(() => import('./Th-CPMufHNm.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseThead = defineAsyncComponent(() => import('./Thead-auPM9SKU.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseTr = defineAsyncComponent(() => import('./Tr-CNupQ1OJ.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseUl = defineAsyncComponent(() => import('./Ul-BWzpC93K.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseCaution = defineAsyncComponent(() => import('./Caution-CVcrOabG.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseNote = defineAsyncComponent(() => import('./Note-3dRLQNYC.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseTip = defineAsyncComponent(() => import('./Tip-CdJZa2zh.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseWarning = defineAsyncComponent(() => import('./Warning-KDCiR615.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseH5 = defineAsyncComponent(() => import('./ProseH5-BNynsNzq.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseH6 = defineAsyncComponent(() => import('./ProseH6-DyVkeshD.mjs').then((r) => r["default"] || r.default || r));
 const LazyIcon = defineAsyncComponent(() => Promise.resolve().then(() => index).then((r) => r["default"] || r.default || r));
 const lazyGlobalComponents = [
   ["HoxiComment", LazyHoxiComment],
@@ -47344,14 +47737,14 @@ const _sfc_main$9 = {
           if (_push2) {
             ssrRenderSlot(_ctx.$slots, "leading", { ui: ui.value }, () => {
               if (__props.avatar) {
-                _push2(ssrRenderComponent(_sfc_main$X, mergeProps({
+                _push2(ssrRenderComponent(_sfc_main$Y, mergeProps({
                   size: unref(uiProp)?.avatarSize || ui.value.avatarSize()
                 }, __props.avatar, {
                   "data-slot": "avatar",
                   class: ui.value.avatar({ class: unref(uiProp)?.avatar })
                 }), null, _parent2, _scopeId));
               } else if (__props.icon) {
-                _push2(ssrRenderComponent(_sfc_main$Z, {
+                _push2(ssrRenderComponent(_sfc_main$_, {
                   name: __props.icon,
                   "data-slot": "icon",
                   class: ui.value.icon({ class: unref(uiProp)?.icon })
@@ -47437,13 +47830,13 @@ const _sfc_main$9 = {
                   }, {
                     default: withCtx((_, _push3, _parent3, _scopeId2) => {
                       if (_push3) {
-                        _push3(ssrRenderComponent(_sfc_main$U, mergeProps({
+                        _push3(ssrRenderComponent(_sfc_main$V, mergeProps({
                           size: "xs",
                           color: __props.color
                         }, { ref_for: true }, action), null, _parent3, _scopeId2));
                       } else {
                         return [
-                          createVNode(_sfc_main$U, mergeProps({
+                          createVNode(_sfc_main$V, mergeProps({
                             size: "xs",
                             color: __props.color
                           }, { ref_for: true }, action), null, 16, ["color"])
@@ -47475,13 +47868,13 @@ const _sfc_main$9 = {
                     }, {
                       default: withCtx((_, _push3, _parent3, _scopeId2) => {
                         if (_push3) {
-                          _push3(ssrRenderComponent(_sfc_main$U, mergeProps({
+                          _push3(ssrRenderComponent(_sfc_main$V, mergeProps({
                             size: "xs",
                             color: __props.color
                           }, { ref_for: true }, action), null, _parent3, _scopeId2));
                         } else {
                           return [
-                            createVNode(_sfc_main$U, mergeProps({
+                            createVNode(_sfc_main$V, mergeProps({
                               size: "xs",
                               color: __props.color
                             }, { ref_for: true }, action), null, 16, ["color"])
@@ -47502,7 +47895,7 @@ const _sfc_main$9 = {
                     if (_push3) {
                       ssrRenderSlot(_ctx.$slots, "close", { ui: ui.value }, () => {
                         if (__props.close) {
-                          _push3(ssrRenderComponent(_sfc_main$U, mergeProps({
+                          _push3(ssrRenderComponent(_sfc_main$V, mergeProps({
                             icon: __props.closeIcon || unref(appConfig2).ui.icons.close,
                             color: "neutral",
                             variant: "link",
@@ -47520,7 +47913,7 @@ const _sfc_main$9 = {
                     } else {
                       return [
                         renderSlot(_ctx.$slots, "close", { ui: ui.value }, () => [
-                          __props.close ? (openBlock(), createBlock(_sfc_main$U, mergeProps({
+                          __props.close ? (openBlock(), createBlock(_sfc_main$V, mergeProps({
                             key: 0,
                             icon: __props.closeIcon || unref(appConfig2).ui.icons.close,
                             color: "neutral",
@@ -47560,13 +47953,13 @@ const _sfc_main$9 = {
           } else {
             return [
               renderSlot(_ctx.$slots, "leading", { ui: ui.value }, () => [
-                __props.avatar ? (openBlock(), createBlock(_sfc_main$X, mergeProps({
+                __props.avatar ? (openBlock(), createBlock(_sfc_main$Y, mergeProps({
                   key: 0,
                   size: unref(uiProp)?.avatarSize || ui.value.avatarSize()
                 }, __props.avatar, {
                   "data-slot": "avatar",
                   class: ui.value.avatar({ class: unref(uiProp)?.avatar })
-                }), null, 16, ["size", "class"])) : __props.icon ? (openBlock(), createBlock(_sfc_main$Z, {
+                }), null, 16, ["size", "class"])) : __props.icon ? (openBlock(), createBlock(_sfc_main$_, {
                   key: 1,
                   name: __props.icon,
                   "data-slot": "icon",
@@ -47620,7 +48013,7 @@ const _sfc_main$9 = {
                         }, ["stop"])
                       }, {
                         default: withCtx(() => [
-                          createVNode(_sfc_main$U, mergeProps({
+                          createVNode(_sfc_main$V, mergeProps({
                             size: "xs",
                             color: __props.color
                           }, { ref_for: true }, action), null, 16, ["color"])
@@ -47646,7 +48039,7 @@ const _sfc_main$9 = {
                       }, ["stop"])
                     }, {
                       default: withCtx(() => [
-                        createVNode(_sfc_main$U, mergeProps({
+                        createVNode(_sfc_main$V, mergeProps({
                           size: "xs",
                           color: __props.color
                         }, { ref_for: true }, action), null, 16, ["color"])
@@ -47661,7 +48054,7 @@ const _sfc_main$9 = {
                 }, {
                   default: withCtx(() => [
                     renderSlot(_ctx.$slots, "close", { ui: ui.value }, () => [
-                      __props.close ? (openBlock(), createBlock(_sfc_main$U, mergeProps({
+                      __props.close ? (openBlock(), createBlock(_sfc_main$V, mergeProps({
                         key: 0,
                         icon: __props.closeIcon || unref(appConfig2).ui.icons.close,
                         color: "neutral",
@@ -48314,9 +48707,9 @@ const __nuxt_component_1 = defineComponent({
   }
 });
 const layouts = {
-  admin: defineAsyncComponent(() => import('./admin-i5aUbsGj.mjs').then((m) => m.default || m)),
-  default: defineAsyncComponent(() => import('./default-BaX4ucL7.mjs').then((m) => m.default || m)),
-  empty: defineAsyncComponent(() => import('./empty-DXhOpjg4.mjs').then((m) => m.default || m))
+  admin: defineAsyncComponent(() => import('./admin-BOvhcVxr.mjs').then((m) => m.default || m)),
+  default: defineAsyncComponent(() => import('./default-BMNPsqBZ.mjs').then((m) => m.default || m)),
+  empty: defineAsyncComponent(() => import('./empty-D0_lTQhg.mjs').then((m) => m.default || m))
 };
 const routeRulesMatcher = _routeRulesMatcher;
 const LayoutLoader = defineComponent({
@@ -48559,8 +48952,8 @@ const _sfc_main$5 = /* @__PURE__ */ defineComponent({
   setup(__props) {
     const { isOpen: isOpen2, title: title2, description: description2, confirmText: confirmText2, cancelText: cancelText2, confirmColor: confirmColor2, accept, cancel } = useConfirm();
     return (_ctx, _push, _parent, _attrs) => {
-      const _component_UModal = _sfc_main$I;
-      const _component_UButton = _sfc_main$U;
+      const _component_UModal = _sfc_main$J;
+      const _component_UButton = _sfc_main$V;
       _push(ssrRenderComponent(_component_UModal, mergeProps({
         open: unref(isOpen2),
         "onUpdate:open": ($event) => isRef(isOpen2) ? isOpen2.value = $event : null,
@@ -48732,9 +49125,9 @@ const _sfc_main$4 = /* @__PURE__ */ defineComponent({
       }
     };
     return (_ctx, _push, _parent, _attrs) => {
-      const _component_UModal = _sfc_main$I;
-      const _component_UIcon = _sfc_main$Z;
-      const _component_UButton = _sfc_main$U;
+      const _component_UModal = _sfc_main$J;
+      const _component_UIcon = _sfc_main$_;
+      const _component_UButton = _sfc_main$V;
       _push(ssrRenderComponent(_component_UModal, mergeProps({
         open: Boolean(unref(notice)),
         dismissible: false,
@@ -48886,6 +49279,7 @@ const _sfc_main$3 = /* @__PURE__ */ defineComponent({
     const threads = ref([]);
     const activeToken = ref("");
     const activeTicketId = ref(void 0);
+    const activeReadTicket = ref(null);
     const activeCategory = ref("presales");
     const activeSceneTitle = ref("");
     const activeSceneContext = ref({});
@@ -48955,6 +49349,7 @@ const _sfc_main$3 = /* @__PURE__ */ defineComponent({
             const tb = new Date(b.lastRepliedAt || b.createdAt || 0).getTime();
             return tb - ta;
           });
+          hasUnread.value = threads.value.some((thread) => (thread.unreadCount || 0) > 0);
         }
       } catch {
       }
@@ -48989,6 +49384,7 @@ const _sfc_main$3 = /* @__PURE__ */ defineComponent({
           activeTicketNo.value = tk.ticketNo;
           activeToken.value = effectiveToken;
           activeTicketId.value = tk.id;
+          activeReadTicket.value = tk;
           if (tk.contactEmail) {
             guestEmail.value = tk.contactEmail;
             contactSaved.value = true;
@@ -49003,14 +49399,14 @@ const _sfc_main$3 = /* @__PURE__ */ defineComponent({
             status: tk.status,
             createdAt: tk.createdAt,
             lastRepliedAt: tk.lastRepliedAt,
-            lastRepliedBy: tk.lastRepliedBy
+            lastRepliedBy: tk.lastRepliedBy,
+            unreadCount: tk.unreadCount,
+            readState: tk.readState
           });
           if (nextMsgs.length > prevCount) {
             scrollToBottom();
-            if (!isOpen2.value && tk.lastRepliedBy === "admin") {
-              hasUnread.value = true;
-            }
           }
+          hasUnread.value = threads.value.some((thread) => (thread.unreadCount || 0) > 0);
         }
       } catch {
       } finally {
@@ -49021,12 +49417,12 @@ const _sfc_main$3 = /* @__PURE__ */ defineComponent({
       activeTicketNo.value = "";
       activeToken.value = "";
       activeTicketId.value = void 0;
+      activeReadTicket.value = null;
       messages2.value = [];
       pendingAttachments.value = [];
       errorText.value = "";
     };
     const applyOpenOptions = async () => {
-      hasUnread.value = false;
       await syncMemberThreads();
       const opts = options.value;
       if (opts?.category) activeCategory.value = opts.category;
@@ -49169,7 +49565,7 @@ const _sfc_main$1 = /* @__PURE__ */ defineComponent({
     const retry = () => clearError({ redirect: route.fullPath || "/" });
     return (_ctx, _push, _parent, _attrs) => {
       const _component_UApp = __nuxt_component_0;
-      const _component_UButton = _sfc_main$U;
+      const _component_UButton = _sfc_main$V;
       const _component_PageRequestError = PageRequestError;
       const _component_ErrorDiagnostics = __nuxt_component_4$1;
       _push(ssrRenderComponent(_component_UApp, _attrs, {
@@ -49352,5 +49748,5 @@ let entry;
 }
 const entry_default = ((ssrContext) => entry(ssrContext));
 
-export { useAppConfig as $, ADMIN_PERMISSIONS as A, hasAllPermissions as B, _sfc_main$m as C, publishedOptionalThemes as D, useLocaleRouter as E, useProductPricing as F, useCurrencyFormat as G, _sfc_main$q as H, useRoute as I, stripLocalePrefix as J, themeAdminLocaleEnModules as K, themeAdminLocaleZhModules as L, useHead as M, useExtensions as N, setResponseStatus as O, __nuxt_component_3$3 as P, _export_sfc as Q, useAdminSession as R, firstAllowedAdminRoute as S, PageRequestError as T, useVModel as U, useForwardExpose as V, useFormControl as W, Primitive as X, VisuallyHiddenInput_default as Y, createContext as Z, _sfc_main$O as _, useToast as a, SUB_OPEN_KEYS as a$, useComponentUI as a0, useForwardPropsEmits as a1, reactivePick as a2, useFormField as a3, tv as a4, Label_default as a5, usePrimitiveElement as a6, useDirection as a7, PopperRoot_default as a8, createEventHook as a9, getFocusIntent as aA, refAutoReset as aB, handleAndDispatchCustomEvent$1 as aC, useParentElement as aD, MAP_KEY_TO_FOCUS_INTENT as aE, getActiveElement as aF, getNextMatch as aG, useResizeObserver as aH, RovingFocusGroup_default as aI, RovingFocusItem_default as aJ, useNuxtApp as aK, useRequestURL as aL, useLocaleCurrency as aM, createSharedComposable as aN, getOpenState as aO, PopperContentPropsDefaultValue as aP, isPointerInGraceArea as aQ, isMouseEvent as aR, FIRST_LAST_KEYS as aS, LAST_KEYS as aT, focusFirst$1 as aU, SELECTION_KEYS$1 as aV, ITEM_SELECT as aW, isIndeterminate$1 as aX, getCheckedState as aY, reactiveOmit as aZ, SUB_CLOSE_KEYS as a_, PopperAnchor_default as aa, useBodyScrollLock as ab, useFocusGuards as ac, useHideOthers as ad, useForwardProps as ae, FocusScope_default as af, DismissableLayer_default as ag, PopperContent_default as ah, PopperArrow_default as ai, useId as aj, Presence_default as ak, Teleport_default as al, useLocale as am, usePortal as an, useFieldGroup as ao, useComponentIcons as ap, createReusableTemplate as aq, isArrayOfArray as ar, compare as as, get as at, _sfc_main$X as au, _sfc_main$Y as av, looseToNumber as aw, getDisplayValue as ax, useCollection as ay, useTypeahead as az, useAdminPermissions as b, useEmitAsProps as b0, _sfc_main$V as b1, pickLinkProps as b2, _sfc_main$W as b3, omit as b4, useI18n as b5, tryOnScopeDispose$1 as b6, injectTooltipProviderContext as b7, useTimeoutFn as b8, VisuallyHidden_default as b9, useCustomerAuth as bA, usePageResourceState as bB, __nuxt_component_3$2 as bC, createError as bD, useCollectionPageJsonLd as bE, useSupportChat as bF, useSwitchLocalePath as bG, refThrottled as bH, useDebounceFn as bI, useActiveElement as bJ, _sfc_main$o as bK, useLocalizedSettings as bL, __nuxt_component_1$2 as bM, useCookie as bN, _sfc_main$g as bO, themeLayoutLoaders as bP, runtimeExtensionSettingPrefixes as ba, runtimeExtensionSettingKeys as bb, __nuxt_component_0$1 as bc, usePageFailureLog as bd, useRequestEvent as be, useActiveTheme as bf, __nuxt_component_4$1 as bg, isPathLocaleAllowed as bh, themePageModules as bi, corePageModules as bj, pageLayoutMeta as bk, useUserSession as bl, __nuxt_component_2$2 as bm, useState as bn, isValueEqualOrExist as bo, transformUI as bp, useEventListener$1 as bq, useRuntimeConfig as br, resolveBaseURL as bs, ImageComponent as bt, DialogRoot_default as bu, DialogTrigger_default as bv, DialogPortal_default as bw, useClipboard as bx, useSeoMeta as by, useJsonLd as bz, useSettings as c, _sfc_main$U as d, entry_default as default, _sfc_main$u as e, _sfc_main$I as f, _sfc_main$x as g, _sfc_main$t as h, useConfirm as i, _sfc_main$Z as j, _sfc_main$y as k, useFormatTime as l, useAdminExtensions as m, moduleViewCode as n, moduleEditCode as o, _sfc_main$w as p, navigateTo as q, useRouter as r, useRequestFetch as s, useAsyncData as t, useI18n$1 as u, _sfc_main$r as v, themeExtensionPermissionCode as w, usePagination as x, useFetch as y, _sfc_main$A as z };
+export { useComponentUI as $, ADMIN_PERMISSIONS as A, hasAllPermissions as B, _sfc_main$m as C, publishedOptionalThemes as D, useLocaleRouter as E, useProductPricing as F, useCurrencyFormat as G, _sfc_main$q as H, useRoute as I, stripLocalePrefix as J, themeAdminLocaleEnModules as K, themeAdminLocaleZhModules as L, useHead as M, useExtensions as N, setResponseStatus as O, __nuxt_component_3$3 as P, _export_sfc as Q, useAdminSession as R, firstAllowedAdminRoute as S, useVModel as T, useForwardExpose as U, useFormControl as V, Primitive as W, VisuallyHiddenInput_default as X, createContext as Y, useAppConfig as Z, _sfc_main$P as _, useToast as a, reactiveOmit as a$, useForwardPropsEmits as a0, reactivePick as a1, useFormField as a2, tv as a3, Label_default as a4, usePrimitiveElement as a5, useDirection as a6, PopperRoot_default as a7, createEventHook as a8, PopperAnchor_default as a9, refAutoReset as aA, handleAndDispatchCustomEvent$1 as aB, useParentElement as aC, MAP_KEY_TO_FOCUS_INTENT as aD, getActiveElement as aE, getNextMatch as aF, useResizeObserver as aG, RovingFocusGroup_default as aH, RovingFocusItem_default as aI, useNuxtApp as aJ, PageRequestError as aK, useRefundLabels as aL, __nuxt_component_10 as aM, useRequestURL as aN, useLocaleCurrency as aO, createSharedComposable as aP, getOpenState as aQ, PopperContentPropsDefaultValue as aR, isPointerInGraceArea as aS, isMouseEvent as aT, FIRST_LAST_KEYS as aU, LAST_KEYS as aV, focusFirst$1 as aW, SELECTION_KEYS$1 as aX, ITEM_SELECT as aY, isIndeterminate$1 as aZ, getCheckedState as a_, useBodyScrollLock as aa, useFocusGuards as ab, useHideOthers as ac, useForwardProps as ad, FocusScope_default as ae, DismissableLayer_default as af, PopperContent_default as ag, PopperArrow_default as ah, useId as ai, Presence_default as aj, Teleport_default as ak, useLocale as al, usePortal as am, useFieldGroup as an, useComponentIcons as ao, createReusableTemplate as ap, isArrayOfArray as aq, compare as ar, get as as, _sfc_main$Y as at, _sfc_main$Z as au, looseToNumber as av, getDisplayValue as aw, useCollection as ax, useTypeahead as ay, getFocusIntent as az, useAdminPermissions as b, SUB_CLOSE_KEYS as b0, SUB_OPEN_KEYS as b1, useEmitAsProps as b2, _sfc_main$W as b3, pickLinkProps as b4, _sfc_main$X as b5, omit as b6, useI18n as b7, tryOnScopeDispose$1 as b8, injectTooltipProviderContext as b9, useSeoMeta as bA, useJsonLd as bB, useCustomerAuth as bC, usePageResourceState as bD, __nuxt_component_3$2 as bE, createError as bF, useCollectionPageJsonLd as bG, useSupportChat as bH, useSwitchLocalePath as bI, refThrottled as bJ, useDebounceFn as bK, useActiveElement as bL, _sfc_main$o as bM, useLocalizedSettings as bN, __nuxt_component_1$2 as bO, useCookie as bP, _sfc_main$g as bQ, themeLayoutLoaders as bR, useTimeoutFn as ba, VisuallyHidden_default as bb, runtimeExtensionSettingPrefixes as bc, runtimeExtensionSettingKeys as bd, __nuxt_component_0$1 as be, usePageFailureLog as bf, useRequestEvent as bg, useActiveTheme as bh, __nuxt_component_4$1 as bi, isPathLocaleAllowed as bj, themePageModules as bk, corePageModules as bl, pageLayoutMeta as bm, useUserSession as bn, __nuxt_component_2$2 as bo, useState as bp, isValueEqualOrExist as bq, transformUI as br, useEventListener$1 as bs, useRuntimeConfig as bt, resolveBaseURL as bu, ImageComponent as bv, DialogRoot_default as bw, DialogTrigger_default as bx, DialogPortal_default as by, useClipboard as bz, useSettings as c, _sfc_main$V as d, entry_default as default, _sfc_main$s as e, _sfc_main$J as f, _sfc_main$v as g, _sfc_main$B as h, useConfirm as i, _sfc_main$_ as j, _sfc_main$w as k, useFormatTime as l, useAdminExtensions as m, moduleViewCode as n, moduleEditCode as o, _sfc_main$u as p, navigateTo as q, useRouter as r, useRequestFetch as s, useAsyncData as t, useI18n$1 as u, _sfc_main$C as v, themeExtensionPermissionCode as w, usePagination as x, useFetch as y, _sfc_main$y as z };
 //# sourceMappingURL=server.mjs.map

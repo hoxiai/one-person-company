@@ -3,10 +3,9 @@ import fs from 'node:fs';
 import path from 'node:path';
 import 'node:crypto';
 import 'drizzle-orm';
+import 'node:http2';
 import 'zod';
 import 'crypto';
-import 'fs';
-import 'path';
 import '@nuxthub/blob';
 import 'node:http';
 import 'node:https';
@@ -25,12 +24,15 @@ import 'drizzle-orm/mysql-core';
 import 'maxmind';
 import 'node:os';
 import 'node:fs/promises';
+import 'fs';
+import 'path';
 import 'node:url';
 import '@iconify/utils';
 import 'consola';
 import 'jose';
 import '@adonisjs/hash';
 import '@adonisjs/hash/drivers/scrypt';
+import 'node:zlib';
 import 'node:child_process';
 
 const delete_delete = defineEventHandler(async (event) => {

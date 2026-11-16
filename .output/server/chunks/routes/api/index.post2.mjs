@@ -1,11 +1,10 @@
-import { d as defineEventHandler, aj as resolveClientIp, ak as checkIpRateLimit, e as createError, b8 as getUserSession, du as getCookie, r as readBody, y as normalizeTicketAttachments, b as db, u as tickets, x as ticketMessages, e2 as diagnoseTicketIssue } from '../../nitro/nitro.mjs';
+import { d as defineEventHandler, an as resolveClientIp, ao as checkIpRateLimit, e as createError, aP as getUserSession, dJ as getCookie, r as readBody, z as normalizeTicketAttachments, b as db, v as tickets, y as ticketMessages, ej as diagnoseTicketIssue, ei as notifyCustomerMessage } from '../../nitro/nitro.mjs';
 import crypto from 'node:crypto';
 import { eq, and, or, inArray, desc, asc } from 'drizzle-orm';
+import 'node:http2';
+import 'node:fs';
 import 'zod';
 import 'crypto';
-import 'fs';
-import 'path';
-import 'node:fs';
 import 'node:path';
 import '@nuxthub/blob';
 import 'node:http';
@@ -25,12 +24,15 @@ import 'drizzle-orm/mysql-core';
 import 'maxmind';
 import 'node:os';
 import 'node:fs/promises';
+import 'fs';
+import 'path';
 import 'node:url';
 import '@iconify/utils';
 import 'consola';
 import 'jose';
 import '@adonisjs/hash';
 import '@adonisjs/hash/drivers/scrypt';
+import 'node:zlib';
 import 'node:child_process';
 
 const ALLOWED_CATEGORIES = /* @__PURE__ */ new Set([
@@ -128,7 +130,7 @@ const index_post = defineEventHandler(async (event) => {
     }
     if (existingTicket) {
       const now = /* @__PURE__ */ new Date();
-      await db.insert(ticketMessages).values({
+      const [customerMessage2] = await db.insert(ticketMessages).values({
         ticketId: existingTicket.id,
         senderType: "user",
         senderId: userId || existingTicket.userId || null,
@@ -136,7 +138,7 @@ const index_post = defineEventHandler(async (event) => {
         content: effectiveContent,
         attachments,
         createdAt: now
-      });
+      }).returning();
       const diagnosis2 = await diagnoseTicketIssue({
         category: existingTicket.category || category,
         title: existingTicket.title || derivedTitle,
@@ -173,6 +175,7 @@ const index_post = defineEventHandler(async (event) => {
         updatedAt: now
       }).where(eq(tickets.id, existingTicket.id));
       const messages = await db.select().from(ticketMessages).where(eq(ticketMessages.ticketId, existingTicket.id)).orderBy(asc(ticketMessages.createdAt));
+      await notifyCustomerMessage(existingTicket.id, customerMessage2.id);
       return {
         code: 200,
         message: "\u6D88\u606F\u53D1\u9001\u6210\u529F",
@@ -227,7 +230,7 @@ const index_post = defineEventHandler(async (event) => {
     updatedAt: /* @__PURE__ */ new Date()
   }).returning();
   const ticketId = createdTicket == null ? void 0 : createdTicket.id;
-  await db.insert(ticketMessages).values({
+  const [customerMessage] = await db.insert(ticketMessages).values({
     ticketId,
     senderType: "user",
     senderId: userId || null,
@@ -235,7 +238,7 @@ const index_post = defineEventHandler(async (event) => {
     content: effectiveContent,
     attachments,
     createdAt: /* @__PURE__ */ new Date()
-  });
+  }).returning();
   if (diagnosis.matched && diagnosis.botReply) {
     await db.insert(ticketMessages).values({
       ticketId,
@@ -247,6 +250,7 @@ const index_post = defineEventHandler(async (event) => {
       createdAt: new Date(Date.now() + 1e3)
     });
   }
+  await notifyCustomerMessage(ticketId, customerMessage.id);
   return {
     code: 200,
     message: "\u54A8\u8BE2\u63D0\u4EA4\u6210\u529F",

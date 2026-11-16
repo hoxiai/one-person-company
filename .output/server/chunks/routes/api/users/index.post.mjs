@@ -1,11 +1,10 @@
-import { d as defineEventHandler, b8 as getUserSession, e as createError, r as readBody, du as getCookie, e2 as diagnoseTicketIssue, b as db, u as tickets, x as ticketMessages } from '../../../nitro/nitro.mjs';
+import { d as defineEventHandler, aP as getUserSession, e as createError, r as readBody, dJ as getCookie, ej as diagnoseTicketIssue, b as db, v as tickets, y as ticketMessages, ei as notifyCustomerMessage } from '../../../nitro/nitro.mjs';
 import crypto from 'node:crypto';
 import 'drizzle-orm';
+import 'node:http2';
+import 'node:fs';
 import 'zod';
 import 'crypto';
-import 'fs';
-import 'path';
-import 'node:fs';
 import 'node:path';
 import '@nuxthub/blob';
 import 'node:http';
@@ -25,12 +24,15 @@ import 'drizzle-orm/mysql-core';
 import 'maxmind';
 import 'node:os';
 import 'node:fs/promises';
+import 'fs';
+import 'path';
 import 'node:url';
 import '@iconify/utils';
 import 'consola';
 import 'jose';
 import '@adonisjs/hash';
 import '@adonisjs/hash/drivers/scrypt';
+import 'node:zlib';
 import 'node:child_process';
 
 const index_post = defineEventHandler(async (event) => {
@@ -90,7 +92,7 @@ const index_post = defineEventHandler(async (event) => {
     updatedAt: /* @__PURE__ */ new Date()
   }).returning();
   const ticketId = createdTicket == null ? void 0 : createdTicket.id;
-  await db.insert(ticketMessages).values({
+  const [customerMessage] = await db.insert(ticketMessages).values({
     ticketId,
     senderType: "user",
     senderId: userId,
@@ -98,7 +100,7 @@ const index_post = defineEventHandler(async (event) => {
     content,
     attachments,
     createdAt: /* @__PURE__ */ new Date()
-  });
+  }).returning();
   if (diagnosis.matched && diagnosis.botReply) {
     await db.insert(ticketMessages).values({
       ticketId,
@@ -111,6 +113,7 @@ const index_post = defineEventHandler(async (event) => {
       // 稍晚1秒体现先后次序
     });
   }
+  await notifyCustomerMessage(ticketId, customerMessage.id);
   return {
     code: 200,
     message: "\u5DE5\u5355\u63D0\u4EA4\u6210\u529F",

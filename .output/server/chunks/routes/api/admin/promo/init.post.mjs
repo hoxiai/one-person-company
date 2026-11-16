@@ -1,11 +1,10 @@
-import { d as defineEventHandler, bf as ensureDefaultPromoTiers } from '../../../../nitro/nitro.mjs';
+import { d as defineEventHandler, bo as ensureDefaultPromoTiers } from '../../../../nitro/nitro.mjs';
 import 'node:crypto';
 import 'drizzle-orm';
+import 'node:http2';
+import 'node:fs';
 import 'zod';
 import 'crypto';
-import 'fs';
-import 'path';
-import 'node:fs';
 import 'node:path';
 import '@nuxthub/blob';
 import 'node:http';
@@ -25,12 +24,15 @@ import 'drizzle-orm/mysql-core';
 import 'maxmind';
 import 'node:os';
 import 'node:fs/promises';
+import 'fs';
+import 'path';
 import 'node:url';
 import '@iconify/utils';
 import 'consola';
 import 'jose';
 import '@adonisjs/hash';
 import '@adonisjs/hash/drivers/scrypt';
+import 'node:zlib';
 import 'node:child_process';
 
 const init_post = defineEventHandler(async () => {

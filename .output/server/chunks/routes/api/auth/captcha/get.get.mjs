@@ -1,11 +1,10 @@
-import { d as defineEventHandler, aj as resolveClientIp, ak as checkIpRateLimit, e as createError, dk as createCaptchaChallengeToken, dl as generateCaptchaBackgroundWithSlot, dm as generateCaptchaPiece, dn as PUZZLE_PATH, dp as CAPTCHA_BACKGROUNDS } from '../../../../nitro/nitro.mjs';
+import { d as defineEventHandler, an as resolveClientIp, ao as checkIpRateLimit, e as createError, dA as createCaptchaChallengeToken, dB as generateCaptchaBackgroundWithSlot, dC as generateCaptchaPiece, dD as PUZZLE_PATH, dE as CAPTCHA_BACKGROUNDS } from '../../../../nitro/nitro.mjs';
 import 'node:crypto';
 import 'drizzle-orm';
+import 'node:http2';
+import 'node:fs';
 import 'zod';
 import 'crypto';
-import 'fs';
-import 'path';
-import 'node:fs';
 import 'node:path';
 import '@nuxthub/blob';
 import 'node:http';
@@ -25,12 +24,15 @@ import 'drizzle-orm/mysql-core';
 import 'maxmind';
 import 'node:os';
 import 'node:fs/promises';
+import 'fs';
+import 'path';
 import 'node:url';
 import '@iconify/utils';
 import 'consola';
 import 'jose';
 import '@adonisjs/hash';
 import '@adonisjs/hash/drivers/scrypt';
+import 'node:zlib';
 import 'node:child_process';
 
 const get_get = defineEventHandler((event) => {

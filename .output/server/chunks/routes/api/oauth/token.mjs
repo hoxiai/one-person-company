@@ -1,11 +1,10 @@
-import { d as defineEventHandler, e5 as applyMcpPublicCors, aj as resolveClientIp, ak as checkIpRateLimit, r as readBody, er as verifyMcpAuthorizationCodeEnvelope, es as verifyPkceS256, b as db, d0 as userTokens, d7 as MCP_OAUTH_CODE_TOKEN_NAME, et as isValidPkceCodeVerifier, eu as computePkceS256Challenge, en as hashMcpOAuthSecret, v as users, eh as normalizeMcpScopes, ek as MCP_DEFAULT_SCOPES, ev as generateMcpAccessToken, ew as generateMcpRefreshToken, d8 as MCP_OAUTH_REFRESH_TOKEN_NAME, e6 as resolveMcpServerOrigin, ex as setResponseHeaders, ey as MCP_ACCESS_TOKEN_TTL_SECONDS, ez as MCP_REFRESH_TOKEN_TTL_MS, e7 as setResponseStatus } from '../../../nitro/nitro.mjs';
+import { d as defineEventHandler, em as applyMcpPublicCors, an as resolveClientIp, ao as checkIpRateLimit, r as readBody, eI as verifyMcpAuthorizationCodeEnvelope, eJ as verifyPkceS256, b as db, df as userTokens, dm as MCP_OAUTH_CODE_TOKEN_NAME, eK as isValidPkceCodeVerifier, eL as computePkceS256Challenge, eE as hashMcpOAuthSecret, w as users, ey as normalizeMcpScopes, eB as MCP_DEFAULT_SCOPES, eM as generateMcpAccessToken, eN as generateMcpRefreshToken, dn as MCP_OAUTH_REFRESH_TOKEN_NAME, en as resolveMcpServerOrigin, eO as setResponseHeaders, eP as MCP_ACCESS_TOKEN_TTL_SECONDS, eQ as MCP_REFRESH_TOKEN_TTL_MS, eo as setResponseStatus } from '../../../nitro/nitro.mjs';
 import { and, eq } from 'drizzle-orm';
 import 'node:crypto';
+import 'node:http2';
+import 'node:fs';
 import 'zod';
 import 'crypto';
-import 'fs';
-import 'path';
-import 'node:fs';
 import 'node:path';
 import '@nuxthub/blob';
 import 'node:http';
@@ -25,12 +24,15 @@ import 'drizzle-orm/mysql-core';
 import 'maxmind';
 import 'node:os';
 import 'node:fs/promises';
+import 'fs';
+import 'path';
 import 'node:url';
 import '@iconify/utils';
 import 'consola';
 import 'jose';
 import '@adonisjs/hash';
 import '@adonisjs/hash/drivers/scrypt';
+import 'node:zlib';
 import 'node:child_process';
 
 function oauthError(event, statusCode, error, description) {

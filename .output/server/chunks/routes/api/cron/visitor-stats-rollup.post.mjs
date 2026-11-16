@@ -1,11 +1,10 @@
-import { d as defineEventHandler, c as getRequestLocale, dD as useRuntimeConfig, cP as getHeader, ds as logger, e as createError, L as getConfiguredTimezone, a5 as resolveRollupSiteHost, a3 as getRequestHost, e0 as runVisitorRollupMaintenance } from '../../../nitro/nitro.mjs';
+import { d as defineEventHandler, c as getRequestLocale, dS as useRuntimeConfig, cY as getHeader, dH as logger, e as createError, P as getConfiguredTimezone, a9 as resolveRollupSiteHost, a7 as getRequestHost, eg as runVisitorRollupMaintenance } from '../../../nitro/nitro.mjs';
 import 'node:crypto';
 import 'drizzle-orm';
+import 'node:http2';
+import 'node:fs';
 import 'zod';
 import 'crypto';
-import 'fs';
-import 'path';
-import 'node:fs';
 import 'node:path';
 import '@nuxthub/blob';
 import 'node:http';
@@ -25,12 +24,15 @@ import 'drizzle-orm/mysql-core';
 import 'maxmind';
 import 'node:os';
 import 'node:fs/promises';
+import 'fs';
+import 'path';
 import 'node:url';
 import '@iconify/utils';
 import 'consola';
 import 'jose';
 import '@adonisjs/hash';
 import '@adonisjs/hash/drivers/scrypt';
+import 'node:zlib';
 import 'node:child_process';
 
 const visitorStatsRollup_post = defineEventHandler(async (event) => {

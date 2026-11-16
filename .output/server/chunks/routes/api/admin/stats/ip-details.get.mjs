@@ -1,11 +1,10 @@
-import { d as defineEventHandler, c as getRequestLocale, g as getQuery, e as createError, L as getConfiguredTimezone, cm as parseStatsRange, ct as visitorEvents, b as db, q as products, v as users, cx as toIsoTimestampOrEpoch, cA as visitorSourceLabel, a4 as isVisitorRollupEnabled, a5 as resolveRollupSiteHost, a3 as getRequestHost, a6 as ensureRollupRange, cB as VISITOR_REPORT_ACTIVITY_EVENTS, cC as loadRollupVisitorTouches, ci as loadRollupPaidOverlay, cf as zonedDateKeysBetween, a9 as loadVisitorReport, aa as createRollupBackgroundScheduler } from '../../../../nitro/nitro.mjs';
+import { d as defineEventHandler, c as getRequestLocale, g as getQuery, e as createError, P as getConfiguredTimezone, cv as parseStatsRange, cC as visitorEvents, b as db, q as products, w as users, cG as toIsoTimestampOrEpoch, cJ as visitorSourceLabel, a8 as isVisitorRollupEnabled, a9 as resolveRollupSiteHost, a7 as getRequestHost, aa as ensureRollupRange, cK as VISITOR_REPORT_ACTIVITY_EVENTS, cL as loadRollupVisitorTouches, cr as loadRollupPaidOverlay, co as zonedDateKeysBetween, ad as loadVisitorReport, ae as createRollupBackgroundScheduler } from '../../../../nitro/nitro.mjs';
 import { sql, eq, and, gte, lt, count, desc, inArray } from 'drizzle-orm';
 import 'node:crypto';
+import 'node:http2';
+import 'node:fs';
 import 'zod';
 import 'crypto';
-import 'fs';
-import 'path';
-import 'node:fs';
 import 'node:path';
 import '@nuxthub/blob';
 import 'node:http';
@@ -25,12 +24,15 @@ import 'drizzle-orm/mysql-core';
 import 'maxmind';
 import 'node:os';
 import 'node:fs/promises';
+import 'fs';
+import 'path';
 import 'node:url';
 import '@iconify/utils';
 import 'consola';
 import 'jose';
 import '@adonisjs/hash';
 import '@adonisjs/hash/drivers/scrypt';
+import 'node:zlib';
 import 'node:child_process';
 
 const ipDetails_get = defineEventHandler(async (event) => {

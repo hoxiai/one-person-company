@@ -1,11 +1,10 @@
-import { d as defineEventHandler, f as getRouterParam, e as createError, g as getQuery, b8 as getUserSession, b as db, u as tickets, x as ticketMessages } from '../../../nitro/nitro.mjs';
+import { d as defineEventHandler, f as getRouterParam, e as createError, g as getQuery, aP as getUserSession, b as db, v as tickets, y as ticketMessages, A as ticketUnreadCounts, B as serializeTicketReadState } from '../../../nitro/nitro.mjs';
 import crypto from 'node:crypto';
 import { eq, asc } from 'drizzle-orm';
+import 'node:http2';
+import 'node:fs';
 import 'zod';
 import 'crypto';
-import 'fs';
-import 'path';
-import 'node:fs';
 import 'node:path';
 import '@nuxthub/blob';
 import 'node:http';
@@ -25,12 +24,15 @@ import 'drizzle-orm/mysql-core';
 import 'maxmind';
 import 'node:os';
 import 'node:fs/promises';
+import 'fs';
+import 'path';
 import 'node:url';
 import '@iconify/utils';
 import 'consola';
 import 'jose';
 import '@adonisjs/hash';
 import '@adonisjs/hash/drivers/scrypt';
+import 'node:zlib';
 import 'node:child_process';
 
 function tokensMatch(expected, provided) {
@@ -41,7 +43,6 @@ function tokensMatch(expected, provided) {
   return crypto.timingSafeEqual(a, b);
 }
 const _ticketNo__get = defineEventHandler(async (event) => {
-  var _a;
   const ticketNo = String(getRouterParam(event, "ticketNo") || "").trim().toUpperCase();
   if (!ticketNo || !/^TK-\d{8}-\d{4}$/.test(ticketNo)) {
     throw createError({ statusCode: 400, statusMessage: "\u65E0\u6548\u7684\u54A8\u8BE2\u5355\u53F7" });
@@ -57,7 +58,7 @@ const _ticketNo__get = defineEventHandler(async (event) => {
     throw createError({ statusCode: 404, statusMessage: "\u672A\u627E\u5230\u8BE5\u54A8\u8BE2\u8BB0\u5F55" });
   }
   const isOwnerBySession = Boolean(
-    userId && (ticket.userId === userId || !ticket.userId && userEmail && ((_a = ticket.contactEmail) == null ? void 0 : _a.toLowerCase()) === userEmail)
+    userId && (ticket.userId === userId || !ticket.userId && userEmail && String(ticket.contactEmail || "").toLowerCase() === userEmail)
   );
   const isOwnerByToken = tokensMatch(ticket.accessToken, token);
   if (!isOwnerBySession && !isOwnerByToken) {
@@ -65,10 +66,11 @@ const _ticketNo__get = defineEventHandler(async (event) => {
   }
   const messages = await db.select().from(ticketMessages).where(eq(ticketMessages.ticketId, ticket.id)).orderBy(asc(ticketMessages.createdAt));
   const { accessToken: _omit, ...safeTicket } = ticket;
+  const unreadCounts = await ticketUnreadCounts([ticket.id], "user");
   return {
     code: 200,
     data: {
-      ticket: safeTicket,
+      ticket: { ...safeTicket, readState: serializeTicketReadState(ticket), unreadCount: unreadCounts.get(ticket.id) || 0 },
       messages
     }
   };

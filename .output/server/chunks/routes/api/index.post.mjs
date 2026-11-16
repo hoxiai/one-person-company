@@ -1,11 +1,10 @@
-import { d as defineEventHandler, dW as getRequestIP, dX as checkCommentRateLimit, e as createError, b8 as getUserSession, r as readBody, b as db, c$ as oauthAccounts, dY as sanitizeComment, dZ as getRequestHeader, w as settings, C as comments, D as syncPostCommentCount, E as getCommentAvatarUrl } from '../../nitro/nitro.mjs';
+import { d as defineEventHandler, e9 as getRequestIP, ea as checkCommentRateLimit, e as createError, aP as getUserSession, r as readBody, b as db, de as oauthAccounts, eb as sanitizeComment, ec as getRequestHeader, x as settings, G as comments, H as syncPostCommentCount, I as getCommentAvatarUrl } from '../../nitro/nitro.mjs';
 import { and, eq } from 'drizzle-orm';
 import 'node:crypto';
+import 'node:http2';
+import 'node:fs';
 import 'zod';
 import 'crypto';
-import 'fs';
-import 'path';
-import 'node:fs';
 import 'node:path';
 import '@nuxthub/blob';
 import 'node:http';
@@ -25,12 +24,15 @@ import 'drizzle-orm/mysql-core';
 import 'maxmind';
 import 'node:os';
 import 'node:fs/promises';
+import 'fs';
+import 'path';
 import 'node:url';
 import '@iconify/utils';
 import 'consola';
 import 'jose';
 import '@adonisjs/hash';
 import '@adonisjs/hash/drivers/scrypt';
+import 'node:zlib';
 import 'node:child_process';
 
 const index_post = defineEventHandler(async (event) => {

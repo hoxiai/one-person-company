@@ -1,11 +1,10 @@
-import { d as defineEventHandler, g as getQuery, A as getRequestURL, dy as sendRedirect, eh as normalizeMcpScopes, e as createError, ei as resolveAndValidateMcpClient, ej as isValidPkceCodeChallenge, b8 as getUserSession, ek as MCP_DEFAULT_SCOPES, el as MCP_SCOPE_DEFINITIONS, dL as requireUserSession, r as readBody, b as db, d0 as userTokens, d7 as MCP_OAUTH_CODE_TOKEN_NAME, em as createMcpAuthorizationCodeEnvelope, en as hashMcpOAuthSecret } from '../../../nitro/nitro.mjs';
+import { d as defineEventHandler, g as getQuery, E as getRequestURL, dN as sendRedirect, ey as normalizeMcpScopes, e as createError, ez as resolveAndValidateMcpClient, eA as isValidPkceCodeChallenge, aP as getUserSession, eB as MCP_DEFAULT_SCOPES, eC as MCP_SCOPE_DEFINITIONS, d_ as requireUserSession, r as readBody, b as db, df as userTokens, dm as MCP_OAUTH_CODE_TOKEN_NAME, eD as createMcpAuthorizationCodeEnvelope, eE as hashMcpOAuthSecret } from '../../../nitro/nitro.mjs';
 import { and, eq } from 'drizzle-orm';
 import 'node:crypto';
+import 'node:http2';
+import 'node:fs';
 import 'zod';
 import 'crypto';
-import 'fs';
-import 'path';
-import 'node:fs';
 import 'node:path';
 import '@nuxthub/blob';
 import 'node:http';
@@ -25,12 +24,15 @@ import 'drizzle-orm/mysql-core';
 import 'maxmind';
 import 'node:os';
 import 'node:fs/promises';
+import 'fs';
+import 'path';
 import 'node:url';
 import '@iconify/utils';
 import 'consola';
 import 'jose';
 import '@adonisjs/hash';
 import '@adonisjs/hash/drivers/scrypt';
+import 'node:zlib';
 import 'node:child_process';
 
 const authorize = defineEventHandler(async (event) => {

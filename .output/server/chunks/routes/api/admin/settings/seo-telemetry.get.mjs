@@ -1,11 +1,10 @@
-import { d as defineEventHandler, g as getQuery, a3 as getRequestHost, b$ as AI_CRAWLER_SIGNATURES, a as accessLogs, b as db, w as settings, W as logs, c1 as detectAiCrawler, cd as isGeoCorpusRequestPath, t as toIsoTimestamp, a4 as isVisitorRollupEnabled, a5 as resolveRollupSiteHost, L as getConfiguredTimezone, N as shiftZonedDay, ce as zonedDayStartUtc, cf as zonedDateKeysBetween, cg as ensureRollupDays, ch as loadRollupAggregates, ci as loadRollupPaidOverlay, cj as buildRollupGeoConversions, ck as buildVisitorGeoConversions, a9 as loadVisitorReport } from '../../../../nitro/nitro.mjs';
+import { d as defineEventHandler, g as getQuery, a7 as getRequestHost, c8 as AI_CRAWLER_SIGNATURES, a as accessLogs, b as db, x as settings, _ as logs, ca as detectAiCrawler, cm as isGeoCorpusRequestPath, t as toIsoTimestamp, a8 as isVisitorRollupEnabled, a9 as resolveRollupSiteHost, P as getConfiguredTimezone, R as shiftZonedDay, cn as zonedDayStartUtc, co as zonedDateKeysBetween, cp as ensureRollupDays, cq as loadRollupAggregates, cr as loadRollupPaidOverlay, cs as buildRollupGeoConversions, ct as buildVisitorGeoConversions, ad as loadVisitorReport } from '../../../../nitro/nitro.mjs';
 import { or, sql, and, gte, desc, eq } from 'drizzle-orm';
 import 'node:crypto';
+import 'node:http2';
+import 'node:fs';
 import 'zod';
 import 'crypto';
-import 'fs';
-import 'path';
-import 'node:fs';
 import 'node:path';
 import '@nuxthub/blob';
 import 'node:http';
@@ -25,12 +24,15 @@ import 'drizzle-orm/mysql-core';
 import 'maxmind';
 import 'node:os';
 import 'node:fs/promises';
+import 'fs';
+import 'path';
 import 'node:url';
 import '@iconify/utils';
 import 'consola';
 import 'jose';
 import '@adonisjs/hash';
 import '@adonisjs/hash/drivers/scrypt';
+import 'node:zlib';
 import 'node:child_process';
 
 const loadSeoGeoConversions = async (days, host, baseCurrency, sinceDate, untilDate) => {

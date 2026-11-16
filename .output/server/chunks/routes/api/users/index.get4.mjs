@@ -1,11 +1,10 @@
-import { d as defineEventHandler, dL as requireUserSession, b as db, d0 as userTokens, d1 as apiTokenScope, el as MCP_SCOPE_DEFINITIONS } from '../../../nitro/nitro.mjs';
+import { d as defineEventHandler, d_ as requireUserSession, b as db, df as userTokens, dg as apiTokenScope, eC as MCP_SCOPE_DEFINITIONS } from '../../../nitro/nitro.mjs';
 import { desc } from 'drizzle-orm';
 import 'node:crypto';
+import 'node:http2';
+import 'node:fs';
 import 'zod';
 import 'crypto';
-import 'fs';
-import 'path';
-import 'node:fs';
 import 'node:path';
 import '@nuxthub/blob';
 import 'node:http';
@@ -25,12 +24,15 @@ import 'drizzle-orm/mysql-core';
 import 'maxmind';
 import 'node:os';
 import 'node:fs/promises';
+import 'fs';
+import 'path';
 import 'node:url';
 import '@iconify/utils';
 import 'consola';
 import 'jose';
 import '@adonisjs/hash';
 import '@adonisjs/hash/drivers/scrypt';
+import 'node:zlib';
 import 'node:child_process';
 
 const index_get = defineEventHandler(async (event) => {

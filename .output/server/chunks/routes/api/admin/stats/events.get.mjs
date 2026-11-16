@@ -1,11 +1,10 @@
-import { d as defineEventHandler, c as getRequestLocale, g as getQuery, a3 as getRequestHost, L as getConfiguredTimezone, cm as parseStatsRange, cv as clampStatsPage, cw as clampStatsPageSize, ct as visitorEvents, b as db, cx as toIsoTimestampOrEpoch, cy as isExternalReferrer, cz as formatSourceBrand } from '../../../../nitro/nitro.mjs';
+import { d as defineEventHandler, c as getRequestLocale, g as getQuery, a7 as getRequestHost, P as getConfiguredTimezone, cv as parseStatsRange, cE as clampStatsPage, cF as clampStatsPageSize, cC as visitorEvents, b as db, cG as toIsoTimestampOrEpoch, cH as isExternalReferrer, cI as formatSourceBrand } from '../../../../nitro/nitro.mjs';
 import { or, sql, and, gte, lt, count, desc } from 'drizzle-orm';
 import 'node:crypto';
+import 'node:http2';
+import 'node:fs';
 import 'zod';
 import 'crypto';
-import 'fs';
-import 'path';
-import 'node:fs';
 import 'node:path';
 import '@nuxthub/blob';
 import 'node:http';
@@ -25,12 +24,15 @@ import 'drizzle-orm/mysql-core';
 import 'maxmind';
 import 'node:os';
 import 'node:fs/promises';
+import 'fs';
+import 'path';
 import 'node:url';
 import '@iconify/utils';
 import 'consola';
 import 'jose';
 import '@adonisjs/hash';
 import '@adonisjs/hash/drivers/scrypt';
+import 'node:zlib';
 import 'node:child_process';
 
 const events_get = defineEventHandler(async (event) => {

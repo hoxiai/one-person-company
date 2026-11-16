@@ -93,7 +93,7 @@ curl -sS -X POST "$HOXI_GATEWAY_URL/api/hoxi/tools/run" -H "Content-Type: applic
   ```bash
   curl -sS -X POST "https://hoxi.ai/api/hoxi/tools/inspect" -H "Content-Type: application/json" -d '{"provider":"ahrefs","endpoint":"/v3/site-explorer/backlinks"}'
   ```
-- **Run（需携带 Hoxi 令牌 `hox_dt_...` 或 `apay_mcp_...`）**：
+- **Run（需携带 Hoxi 令牌 `hox_dt_...` 或 `hox_mcp_...`）**：
   ```bash
   curl -sS -X POST "https://hoxi.ai/api/hoxi/tools/run" -H "Authorization: Bearer $HOXI_TOKEN" -H "Content-Type: application/json" -d '{"provider":"ahrefs","endpoint":"/v3/site-explorer/backlinks","body":{"target":"example.com"}}'
   ```
@@ -102,13 +102,13 @@ curl -sS -X POST "$HOXI_GATEWAY_URL/api/hoxi/tools/run" -H "Content-Type: applic
 
 ## 四、与一人公司垂直运营 Skill 的闭环联动
 
-`amazon-ops`、`tiktok-shop-ops`、`shopify-ops`、`ads-growth-ops`、`xiaohongshu-ops`、`1688-ops`、`shopark-ops` 等领域技能属于 **Skills 技能市场可选扩展包**（并非预装内置技能，可在桌面端「技能」面板一键安装到 `~/.hoxi/skills/`）。当用户已安装并执行跨境电商、独立站、社媒种草或买量投放任务时，可将 `tools` 作为 **前置真实数据源** 与这些技能组合：
+`amazon-ops`、`tiktok-shop-ops`、`shopify-ops`、`ads-growth-ops`、`xiaohongshu-ops` 等领域技能属于 **Skills 技能市场可选扩展包**（并非预装内置技能，可在桌面端「技能」面板一键安装到 `~/.hoxi/skills/`）。当用户已安装并执行跨境电商、独立站、社媒种草或买量投放任务时，可将 `tools` 作为 **前置真实数据源** 与这些技能组合：
 
 1. **配合 `/amazon-ops`（亚马逊运营）**：
    先用 `tools` 调用 `dataforseo` / `apify` 拉取竞品 ASIN 差评（VOC）与搜索词数据 → 交由 `amazon-ops` 生成 COSMO 五点描述、A+ 脚本与 250B Search Terms → 经 `hoxi_browser`（Chrome Link）填入卖家后台。
 2. **配合 `/tiktok-shop-ops`（TikTok 小店与带货）**：
    先用 `tools` 调用 `apify` / `anyapi` 拉取同类目热门带货视频数据与达人信息 → 交由 `tiktok-shop-ops` 拆解黄金前 3 秒钩子、生成挂车脚本与达人建联 DM。
-3. **配合 `/shopify-ops` & `/ads-growth-ops` & `/shopark-ops`（独立站与出海买量）**：
+3. **配合 `/shopify-ops` & `/ads-growth-ops`（独立站与出海买量）**：
    先用 `tools` 调用 `ahrefs` / `dataforseo` / `apollo` 获取高转化长尾词、竞品外链与潜客决策人邮箱 → 生成高转化着陆页与 Meta/Google 广告测试矩阵。
-4. **配合 `/xiaohongshu-ops` & `/1688-ops`（国内种草与源头货盘）**：
-   结合 `tools` 行业趋势数据与本地合规校验，完成从 1688 源头拿样定价到小红书 KFS 矩阵种草的全链路闭环。
+4. **配合 `/xiaohongshu-ops`（国内内容种草）**：
+   结合 `tools` 行业趋势数据与本地合规校验，完成从选题调研到小红书 KFS 矩阵种草的全链路闭环。

@@ -1,11 +1,10 @@
-import { d as defineEventHandler, b8 as getUserSession, e as createError, f as getRouterParam, u as tickets, b as db, x as ticketMessages } from '../../../../nitro/nitro.mjs';
+import { d as defineEventHandler, aP as getUserSession, e as createError, f as getRouterParam, v as tickets, b as db, y as ticketMessages, A as ticketUnreadCounts, B as serializeTicketReadState } from '../../../../nitro/nitro.mjs';
 import { or, eq, and, asc } from 'drizzle-orm';
 import 'node:crypto';
+import 'node:http2';
+import 'node:fs';
 import 'zod';
 import 'crypto';
-import 'fs';
-import 'path';
-import 'node:fs';
 import 'node:path';
 import '@nuxthub/blob';
 import 'node:http';
@@ -25,12 +24,15 @@ import 'drizzle-orm/mysql-core';
 import 'maxmind';
 import 'node:os';
 import 'node:fs/promises';
+import 'fs';
+import 'path';
 import 'node:url';
 import '@iconify/utils';
 import 'consola';
 import 'jose';
 import '@adonisjs/hash';
 import '@adonisjs/hash/drivers/scrypt';
+import 'node:zlib';
 import 'node:child_process';
 
 const _id__get = defineEventHandler(async (event) => {
@@ -53,10 +55,11 @@ const _id__get = defineEventHandler(async (event) => {
   }
   const messages = await db.select().from(ticketMessages).where(eq(ticketMessages.ticketId, ticketId)).orderBy(asc(ticketMessages.createdAt));
   const { accessToken: _omit, ...safeTicket } = ticket;
+  const unreadCounts = await ticketUnreadCounts([ticketId], "user");
   return {
     code: 200,
     data: {
-      ticket: safeTicket,
+      ticket: { ...safeTicket, readState: serializeTicketReadState(ticket), unreadCount: unreadCounts.get(ticketId) || 0 },
       messages
     }
   };

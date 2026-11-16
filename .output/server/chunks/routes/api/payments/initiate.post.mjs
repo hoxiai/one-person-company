@@ -1,11 +1,10 @@
-import { d as defineEventHandler, aL as requireTrustedRequestOrigin, c as getRequestLocale, r as readBody, eK as resolveOrderAccess, O as ORDER_PAY_STATUS, b as db, a0 as paymentMethods, aN as getSiteLocaleConfig, aO as resolveRequestLocale, eQ as isPaymentMethodAvailableForLocale, eR as resolvePaymentPluginConfig, eW as resolvePaymentMethodCurrencies, eS as isPaymentMethodCurrencySupported, dW as getRequestIP, eX as getRequestHeaders, eY as executeCreateScript, I as orders, aK as reconcileOrder } from '../../../nitro/nitro.mjs';
-import fs from 'fs';
-import path from 'path';
+import { d as defineEventHandler, aU as requireTrustedRequestOrigin, c as getRequestLocale, r as readBody, e_ as resolveOrderAccess, S as ORDER_PAY_STATUS, b as db, a4 as paymentMethods, aW as getSiteLocaleConfig, aX as resolveRequestLocale, f4 as isPaymentMethodAvailableForLocale, fa as getPaymentAdapter, fb as resolvePaymentMethodCurrencies, f6 as isPaymentMethodCurrencySupported, e9 as getRequestIP, fc as getRequestHeaders, M as orders, aN as reconcileOrder } from '../../../nitro/nitro.mjs';
 import { z } from 'zod';
 import { eq, and, ne } from 'drizzle-orm';
 import 'node:crypto';
-import 'crypto';
+import 'node:http2';
 import 'node:fs';
+import 'crypto';
 import 'node:path';
 import '@nuxthub/blob';
 import 'node:http';
@@ -25,12 +24,15 @@ import 'drizzle-orm/mysql-core';
 import 'maxmind';
 import 'node:os';
 import 'node:fs/promises';
+import 'fs';
+import 'path';
 import 'node:url';
 import '@iconify/utils';
 import 'consola';
 import 'jose';
 import '@adonisjs/hash';
 import '@adonisjs/hash/drivers/scrypt';
+import 'node:zlib';
 import 'node:child_process';
 
 const bodySchema = z.object({
@@ -93,20 +95,11 @@ const initiate_post = defineEventHandler(async (event) => {
     if (!isPaymentMethodAvailableForLocale(method, requestLocale, localeConfig)) {
       return { code: 1, message: messages.methodUnavailableForLocale };
     }
-    let createScript = method.create || "";
-    if (!createScript.trim()) {
-      const localCreateScriptPath = path.join(process.cwd(), "payments", method.code, "create.js");
-      const localCreateScriptLowerPath = path.join(process.cwd(), "payments", String(method.code).toLowerCase(), "create.js");
-      if (fs.existsSync(localCreateScriptPath)) {
-        createScript = fs.readFileSync(localCreateScriptPath, "utf-8");
-      } else if (fs.existsSync(localCreateScriptLowerPath)) {
-        createScript = fs.readFileSync(localCreateScriptLowerPath, "utf-8");
-      }
-    }
-    if (!createScript.trim()) {
+    const adapter = getPaymentAdapter(method);
+    if (!adapter.supports.create) {
       return { code: 1, message: messages.createScriptMissing(method.code) };
     }
-    const configJson = resolvePaymentPluginConfig(method.code, method.configJson);
+    const configJson = adapter.config;
     const methodCurrencies = resolvePaymentMethodCurrencies(configJson);
     const orderCurrency = String(order.currency || "").trim().toUpperCase();
     if (orderCurrency && !isPaymentMethodCurrencySupported(configJson, orderCurrency)) {
@@ -129,7 +122,7 @@ const initiate_post = defineEventHandler(async (event) => {
       }
     } catch {
     }
-    const result = await executeCreateScript(createScript, {
+    const result = await adapter.create({
       order: {
         id: order.id,
         amount: order.amount,
@@ -150,7 +143,7 @@ const initiate_post = defineEventHandler(async (event) => {
       callbackUrl,
       returnUrl,
       cancelUrl
-    }, configJson);
+    });
     if (!result.ok || !result.paymentUrl && !result.qrCodeText) {
       await db.update(orders).set({ payMethod: method.code }).where(and(eq(orders.id, order.id), ne(orders.payStatus, ORDER_PAY_STATUS.PAID)));
       const reconciled = await reconcileOrder(order.id, "initiate-retry");

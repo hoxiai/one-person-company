@@ -1,11 +1,10 @@
-import { d as defineEventHandler, c as getRequestLocale, f as getRouterParam, e as createError, b as db, I as orders, O as ORDER_PAY_STATUS, aJ as ORDER_STATUS, aw as readMinimalCheckoutBridgeMeta, ay as settlePaidTopup, az as recoverCreditedApayTopup, av as isMinimalCheckoutRelayOrder, aA as fulfillMinimalCheckoutRelay, aB as fulfillOrder, aC as settlePromoCommission, aD as emitEvent, s as setAuditMeta } from '../../../../../nitro/nitro.mjs';
+import { d as defineEventHandler, c as getRequestLocale, f as getRouterParam, e as createError, b as db, M as orders, ax as getOrderRefund, S as ORDER_PAY_STATUS, aM as ORDER_STATUS, aD as readMinimalCheckoutBridgeMeta, aF as settlePaidTopup, aG as recoverCreditedApayTopup, aC as isMinimalCheckoutRelayOrder, aH as fulfillMinimalCheckoutRelay, aI as fulfillOrder, aJ as settlePromoCommission, aK as emitEvent, s as setAuditMeta } from '../../../../../nitro/nitro.mjs';
 import { eq } from 'drizzle-orm';
 import 'node:crypto';
+import 'node:http2';
+import 'node:fs';
 import 'zod';
 import 'crypto';
-import 'fs';
-import 'path';
-import 'node:fs';
 import 'node:path';
 import '@nuxthub/blob';
 import 'node:http';
@@ -25,12 +24,15 @@ import 'drizzle-orm/mysql-core';
 import 'maxmind';
 import 'node:os';
 import 'node:fs/promises';
+import 'fs';
+import 'path';
 import 'node:url';
 import '@iconify/utils';
 import 'consola';
 import 'jose';
 import '@adonisjs/hash';
 import '@adonisjs/hash/drivers/scrypt';
+import 'node:zlib';
 import 'node:child_process';
 
 const fulfill_post = defineEventHandler(async (event) => {
@@ -51,6 +53,8 @@ const fulfill_post = defineEventHandler(async (event) => {
     });
   }
   const order = existing[0];
+  const refund = await getOrderRefund(id);
+  if (refund && !["rejected", "failed"].includes(refund.status)) throw createError({ statusCode: 409, message: locale === "zh" ? "\u9000\u6B3E\u6D41\u7A0B\u4E2D\u7684\u8BA2\u5355\u4E0D\u53EF\u91CD\u65B0\u5C65\u7EA6" : "Orders in the refund workflow cannot be fulfilled again" });
   if (order.payStatus !== ORDER_PAY_STATUS.PAID) {
     throw createError({
       statusCode: 400,

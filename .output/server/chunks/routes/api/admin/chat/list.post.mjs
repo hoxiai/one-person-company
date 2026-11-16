@@ -1,11 +1,10 @@
-import { d as defineEventHandler, r as readBody, g as getQuery, b as db, u as tickets, v as users, w as settings, x as ticketMessages, y as normalizeTicketAttachments } from '../../../../nitro/nitro.mjs';
+import { d as defineEventHandler, r as readBody, g as getQuery, b as db, u as ticketReadColumns, v as tickets, w as users, x as settings, y as ticketMessages, z as normalizeTicketAttachments, A as ticketUnreadCounts, B as serializeTicketReadState } from '../../../../nitro/nitro.mjs';
 import { eq, desc, inArray } from 'drizzle-orm';
 import 'node:crypto';
+import 'node:http2';
+import 'node:fs';
 import 'zod';
 import 'crypto';
-import 'fs';
-import 'path';
-import 'node:fs';
 import 'node:path';
 import '@nuxthub/blob';
 import 'node:http';
@@ -25,16 +24,19 @@ import 'drizzle-orm/mysql-core';
 import 'maxmind';
 import 'node:os';
 import 'node:fs/promises';
+import 'fs';
+import 'path';
 import 'node:url';
 import '@iconify/utils';
 import 'consola';
 import 'jose';
 import '@adonisjs/hash';
 import '@adonisjs/hash/drivers/scrypt';
+import 'node:zlib';
 import 'node:child_process';
 
 const listHandler = defineEventHandler(async (event) => {
-  var _a, _b, _c, _d, _e, _f;
+  var _a, _b, _c, _d, _e;
   const body = await readBody(event).catch(() => ({}));
   const query = getQuery(event);
   const page = Math.max(Number((_b = (_a = body == null ? void 0 : body.page) != null ? _a : query.page) != null ? _b : 1) || 1, 1);
@@ -57,11 +59,12 @@ const listHandler = defineEventHandler(async (event) => {
       priority: tickets.priority,
       lastRepliedAt: tickets.lastRepliedAt,
       lastRepliedBy: tickets.lastRepliedBy,
-      createdAt: tickets.createdAt
+      createdAt: tickets.createdAt,
+      ...ticketReadColumns
     }).from(tickets).leftJoin(users, eq(tickets.userId, users.id)).orderBy(desc(tickets.lastRepliedAt)).limit(limit).offset(offset),
     db.select({ key: settings.key, value: settings.value }).from(settings).where(inArray(settings.key, ["site_name", "currency"]))
   ]);
-  const settingMap = new Map(siteSettings.map((s) => [s.key, s.value]));
+  const settingMap = new Map(siteSettings.map((s) => [String(s.key), String(s.value || "")]));
   const storeName = String(settingMap.get("site_name") || "APay").trim() || "APay";
   const currency = String(settingMap.get("currency") || "USD").trim().toUpperCase() || "USD";
   const ticketIds = rows.map((r) => r.id).filter(Boolean);
@@ -77,16 +80,16 @@ const listHandler = defineEventHandler(async (event) => {
       for (const m of msgRows) {
         if (!latestMsgMap.has(m.ticketId)) {
           const hasAttachments = Boolean((_e = normalizeTicketAttachments(m.attachments)) == null ? void 0 : _e.length);
-          const preview = ((_f = m.content) == null ? void 0 : _f.trim()) || (hasAttachments ? "[\u56FE\u7247\u9644\u4EF6]" : "");
+          const preview = String(m.content || "").trim() || (hasAttachments ? "[\u56FE\u7247\u9644\u4EF6]" : "");
           latestMsgMap.set(m.ticketId, preview);
         }
       }
     } catch {
     }
   }
+  const unreadCounts = await ticketUnreadCounts(ticketIds, "admin");
   const list = rows.map((row) => {
-    const isPending = row.status === "open" || row.status === "in_progress";
-    const unread = isPending && row.lastRepliedBy === "user" ? 1 : 0;
+    const unreadCount = unreadCounts.get(row.id) || 0;
     const userName = row.contactName || row.userNickname || row.contactEmail || row.userEmail || "";
     const visitorId = row.visitorId || row.ticketNo || `ticket_${row.id}`;
     const lastTime = row.lastRepliedAt || row.createdAt;
@@ -98,7 +101,9 @@ const listHandler = defineEventHandler(async (event) => {
       userName,
       visitorId,
       visitorName: userName || visitorId,
-      unread,
+      unread: unreadCount > 0 ? 1 : 0,
+      unreadCount,
+      readState: serializeTicketReadState(row),
       lastMsg: latestMsgMap.get(row.id) || row.title,
       lastMsgAt,
       status: row.status,

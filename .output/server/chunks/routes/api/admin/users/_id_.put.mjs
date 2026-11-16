@@ -1,11 +1,10 @@
-import { d as defineEventHandler, c as getRequestLocale, f as getRouterParam, e as createError, d2 as PASSWORD_MIN_LENGTH, r as readBody, b as db, v as users, d3 as validateEmail, d4 as normalizeEmail, l as hashPassword, d5 as revokeEmailVerifyTokens } from '../../../../nitro/nitro.mjs';
+import { d as defineEventHandler, c as getRequestLocale, f as getRouterParam, e as createError, dh as PASSWORD_MIN_LENGTH, r as readBody, b as db, w as users, di as validateEmail, dj as normalizeEmail, l as hashPassword, dk as revokeEmailVerifyTokens } from '../../../../nitro/nitro.mjs';
 import { eq, and, ne } from 'drizzle-orm';
 import 'node:crypto';
+import 'node:http2';
+import 'node:fs';
 import 'zod';
 import 'crypto';
-import 'fs';
-import 'path';
-import 'node:fs';
 import 'node:path';
 import '@nuxthub/blob';
 import 'node:http';
@@ -25,12 +24,15 @@ import 'drizzle-orm/mysql-core';
 import 'maxmind';
 import 'node:os';
 import 'node:fs/promises';
+import 'fs';
+import 'path';
 import 'node:url';
 import '@iconify/utils';
 import 'consola';
 import 'jose';
 import '@adonisjs/hash';
 import '@adonisjs/hash/drivers/scrypt';
+import 'node:zlib';
 import 'node:child_process';
 
 const _id__put = defineEventHandler(async (event) => {

@@ -1,12 +1,11 @@
-import { d as defineEventHandler, g as getQuery, bq as normalizeAppKey, br as normalizeReleaseChannel, f5 as normalizeReleaseLang, f9 as checkReleaseUpgrade, bB as getBundledReleasesForApp, e7 as setResponseStatus, fa as buildTauriUpdateManifest } from '../../../nitro/nitro.mjs';
+import { d as defineEventHandler, g as getQuery, bz as normalizeAppKey, bA as normalizeReleaseChannel, fl as normalizeReleaseLang, fo as checkReleaseUpgrade, bK as getBundledReleasesForApp, eo as setResponseStatus, fp as buildTauriUpdateManifest } from '../../../nitro/nitro.mjs';
 import appcastHandler from './appcast.xml.get.mjs';
 import 'node:crypto';
 import 'drizzle-orm';
+import 'node:http2';
+import 'node:fs';
 import 'zod';
 import 'crypto';
-import 'fs';
-import 'path';
-import 'node:fs';
 import 'node:path';
 import '@nuxthub/blob';
 import 'node:http';
@@ -26,12 +25,15 @@ import 'drizzle-orm/mysql-core';
 import 'maxmind';
 import 'node:os';
 import 'node:fs/promises';
+import 'fs';
+import 'path';
 import 'node:url';
 import '@iconify/utils';
 import 'consola';
 import 'jose';
 import '@adonisjs/hash';
 import '@adonisjs/hash/drivers/scrypt';
+import 'node:zlib';
 import 'node:child_process';
 
 const check_get = defineEventHandler(async (event) => {

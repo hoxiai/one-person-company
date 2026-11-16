@@ -1,11 +1,10 @@
-import { d as defineEventHandler, aL as requireTrustedRequestOrigin, c as getRequestLocale, dL as requireUserSession, e as createError, r as readBody, d3 as validateEmail, b as db, v as users, an as verifyPassword, d4 as normalizeEmail, dT as getEmailVerifySendCooldown, d5 as revokeEmailVerifyTokens, dU as issueEmailVerification, dM as overwriteSessionUser } from '../../../nitro/nitro.mjs';
+import { d as defineEventHandler, aU as requireTrustedRequestOrigin, c as getRequestLocale, d_ as requireUserSession, e as createError, r as readBody, di as validateEmail, b as db, w as users, ar as verifyPassword, dj as normalizeEmail, e6 as getEmailVerifySendCooldown, dk as revokeEmailVerifyTokens, e7 as issueEmailVerification, d$ as overwriteSessionUser } from '../../../nitro/nitro.mjs';
 import { eq } from 'drizzle-orm';
 import 'node:crypto';
+import 'node:http2';
+import 'node:fs';
 import 'zod';
 import 'crypto';
-import 'fs';
-import 'path';
-import 'node:fs';
 import 'node:path';
 import '@nuxthub/blob';
 import 'node:http';
@@ -25,12 +24,15 @@ import 'drizzle-orm/mysql-core';
 import 'maxmind';
 import 'node:os';
 import 'node:fs/promises';
+import 'fs';
+import 'path';
 import 'node:url';
 import '@iconify/utils';
 import 'consola';
 import 'jose';
 import '@adonisjs/hash';
 import '@adonisjs/hash/drivers/scrypt';
+import 'node:zlib';
 import 'node:child_process';
 
 const email_put = defineEventHandler(async (event) => {

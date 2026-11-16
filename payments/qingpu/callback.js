@@ -179,10 +179,13 @@ const amount = order && matchesSettlementOrder && !matchesOriginalOrder
   : sourceAmount;
 
 const expectedPayStatus = eventName === "minimal.checkout.refunded" ? "refunded" : "paid";
+const storedTradeNo = order && order.tradeNo ? String(order.tradeNo) : "";
+// Keep the relay reference for new orders while accepting verified legacy native references.
+const tradeReferenceMatches = !storedTradeNo || storedTradeNo === String(data.orderId || "") || storedTradeNo === String(data.tradeNo || "");
 if (!Number.isFinite(amount) || amount < 0
   || !Number.isFinite(rawCallbackAmount) || rawCallbackAmount < 0
   || data.payStatus !== expectedPayStatus
-  || !matchesCallbackActualAmount
+  || !matchesCallbackActualAmount || !tradeReferenceMatches
   || (order && !matchesOriginalOrder && !matchesSettlementOrder)) {
   return { isSignValid: false, orderId, status: "failed", responseBody: "fail: refund/payment facts mismatch" };
 }
@@ -190,7 +193,7 @@ if (!Number.isFinite(amount) || amount < 0
 return {
   isSignValid: true,
   orderId,
-  tradeNo: data.tradeNo ? String(data.tradeNo) : (data.orderId ? String(data.orderId) : undefined),
+  tradeNo: storedTradeNo || (data.orderId ? String(data.orderId) : undefined),
   status: eventName === "minimal.checkout.refunded" ? "refunded" : "paid",
   amount,
   responseBody: "success",

@@ -1,1 +1,0 @@
-import{m as o,c as t,r as n,aG as s,o as m}from"./Cx_4mMK2.js";const r=o({__name:"HoxiContainer",props:{width:{default:"wide"}},setup(e){return(a,p)=>(m(),t("div",{class:s(e.width==="prose"?"max-w-[720px] mx-auto px-4 md:px-6":"max-w-[1280px] mx-auto px-4 md:px-6")},[n(a.$slots,"default")],2))}}),i=Object.assign(r,{__name:"HoxiContainer"});export{i as default};

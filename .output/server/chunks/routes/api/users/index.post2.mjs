@@ -1,10 +1,10 @@
-import { d as defineEventHandler, c as getRequestLocale, d_ as requireUserSession, e as createError, r as readBody, b as db, df as userTokens, dg as apiTokenScope, ey as normalizeMcpScopes, eB as MCP_DEFAULT_SCOPES, eM as generateMcpAccessToken, fI as API_TOKEN_PREFIX, fJ as isSingleUseTokenName } from '../../../nitro/nitro.mjs';
-import crypto from 'crypto';
-import { z } from 'zod';
-import { count, and, eq } from 'drizzle-orm';
-import 'node:crypto';
+import { d as defineEventHandler, aP as getUserSession, e as createError, r as readBody, dW as getCookie, ex as diagnoseTicketIssue, b as db, v as tickets, y as ticketMessages, ew as notifyCustomerMessage } from '../../../nitro/nitro.mjs';
+import crypto from 'node:crypto';
+import 'drizzle-orm';
 import 'node:http2';
 import 'node:fs';
+import 'zod';
+import 'crypto';
 import 'node:path';
 import '@nuxthub/blob';
 import 'node:http';
@@ -29,75 +29,97 @@ import 'path';
 import 'node:url';
 import '@iconify/utils';
 import 'consola';
-import 'jose';
 import '@adonisjs/hash';
 import '@adonisjs/hash/drivers/scrypt';
+import 'jose';
 import 'node:zlib';
 import 'node:child_process';
 
-const bodySchema = z.object({
-  name: z.string().trim().min(1).max(100).refine((val) => !isSingleUseTokenName(val), {
-    message: "Reserved token name"
-  }),
-  // Preset expiry windows only — an arbitrary client-supplied date would let
-  // a caller mint a token that outlives any reasonable review cadence.
-  expiresInDays: z.union([z.literal(30), z.literal(90), z.literal(365), z.null()]).optional(),
-  kind: z.enum(["api", "mcp"]).optional().default("api"),
-  scopes: z.array(z.string()).max(20).optional()
-});
-const MAX_ACTIVE_TOKENS = 20;
 const index_post = defineEventHandler(async (event) => {
-  const locale = getRequestLocale(event);
-  const session = await requireUserSession(event);
-  const userId = session.user.id;
-  if (event.context.authenticatedFromToken || session.employee) {
-    throw createError({
-      statusCode: 403,
-      message: locale === "zh" ? "\u8BF7\u4F7F\u7528\u4E3B\u8D26\u53F7\u7F51\u9875\u767B\u5F55\u4F1A\u8BDD\u7BA1\u7406 API Token" : "Manage API tokens from an owner web login session, not via a token or sub-account"
-    });
+  const session = await getUserSession(event).catch(() => null);
+  const user = session == null ? void 0 : session.user;
+  const userId = user == null ? void 0 : user.id;
+  if (!userId) {
+    throw createError({ statusCode: 401, statusMessage: "Unauthorized" });
   }
-  const parsed = bodySchema.safeParse(await readBody(event));
-  if (!parsed.success) {
-    throw createError({
-      statusCode: 400,
-      message: locale === "zh" ? "\u8BF7\u6C42\u53C2\u6570\u65E0\u6548" : "Invalid request"
-    });
+  const body = await readBody(event);
+  const title = String(body.title || "").trim();
+  const content = String(body.content || "").trim();
+  const category = String(body.category || "other").trim();
+  const priority = String(body.priority || "normal").trim();
+  const contactInfo = String(body.contactInfo || "").trim().slice(0, 190);
+  const visitorCookie = getCookie(event, "apay_vid") || "";
+  const visitorId = String(body.visitorId || visitorCookie || "").trim().slice(0, 64);
+  const context = body.context && typeof body.context === "object" ? body.context : null;
+  const attachments = Array.isArray(body.attachments) ? body.attachments : null;
+  if (!title) {
+    throw createError({ statusCode: 400, statusMessage: "\u5DE5\u5355\u6807\u9898\u4E0D\u80FD\u4E3A\u7A7A" });
   }
-  const { name, expiresInDays, kind, scopes } = parsed.data;
-  const [{ value: activeCount }] = await db.select({ value: count() }).from(userTokens).where(and(apiTokenScope(userId), eq(userTokens.revoked, false)));
-  if (activeCount >= MAX_ACTIVE_TOKENS) {
-    throw createError({
-      statusCode: 400,
-      message: locale === "zh" ? `\u6700\u591A\u53EA\u80FD\u521B\u5EFA ${MAX_ACTIVE_TOKENS} \u4E2A\u6709\u6548 Token\uFF0C\u8BF7\u5148\u540A\u9500\u4E00\u4E9B` : `You can have at most ${MAX_ACTIVE_TOKENS} active tokens \u2014 revoke one first`
-    });
+  if (!content) {
+    throw createError({ statusCode: 400, statusMessage: "\u5DE5\u5355\u5185\u5BB9\u63CF\u8FF0\u4E0D\u80FD\u4E3A\u7A7A" });
   }
-  const isMcpScoped = kind === "mcp" || Array.isArray(scopes) && scopes.length > 0;
-  const resolvedScopes = isMcpScoped ? normalizeMcpScopes(scopes).length > 0 ? normalizeMcpScopes(scopes) : [...MCP_DEFAULT_SCOPES] : null;
-  const mcpGenerated = isMcpScoped ? generateMcpAccessToken() : null;
-  const rawToken = mcpGenerated ? mcpGenerated.rawToken : `${API_TOKEN_PREFIX}${crypto.randomBytes(32).toString("base64url")}`;
-  const storedToken = mcpGenerated ? mcpGenerated.tokenHash : rawToken;
-  const expiresAt = expiresInDays ? new Date(Date.now() + expiresInDays * 86400 * 1e3) : null;
-  const inserted = await db.insert(userTokens).values({
+  const dateStr = (/* @__PURE__ */ new Date()).toISOString().slice(0, 10).replace(/-/g, "");
+  const randomSuffix = Math.floor(1e3 + Math.random() * 9e3);
+  const ticketNo = `TK-${dateStr}-${randomSuffix}`;
+  const accessToken = crypto.randomBytes(16).toString("hex");
+  const diagnosis = await diagnoseTicketIssue({
+    category,
+    title,
+    content,
+    context
+  });
+  const initialStatus = diagnosis.matched && diagnosis.suggestAutoResolved ? "auto_resolved" : "open";
+  const finalPriority = diagnosis.suggestPriority || priority;
+  const lastRepliedBy = diagnosis.matched ? "bot" : "user";
+  const userName = (user == null ? void 0 : user.nickName) || (user == null ? void 0 : user.nickname) || (user == null ? void 0 : user.email) || "\u7528\u6237";
+  const userEmail = (user == null ? void 0 : user.email) ? String(user.email).trim().toLowerCase() : null;
+  const [createdTicket] = await db.insert(tickets).values({
+    ticketNo,
     userId,
-    token: storedToken,
-    name,
-    scopes: resolvedScopes,
-    clientId: isMcpScoped ? "manual-mcp-token" : null,
-    clientName: isMcpScoped ? "MCP Personal Token" : null,
-    expiresAt
+    visitorId: visitorId || null,
+    contactName: userName,
+    contactEmail: userEmail,
+    contactInfo: contactInfo || null,
+    accessToken,
+    category,
+    title,
+    status: initialStatus,
+    priority: finalPriority,
+    context,
+    lastRepliedAt: /* @__PURE__ */ new Date(),
+    lastRepliedBy,
+    createdAt: /* @__PURE__ */ new Date(),
+    updatedAt: /* @__PURE__ */ new Date()
   }).returning();
+  const ticketId = createdTicket == null ? void 0 : createdTicket.id;
+  const [customerMessage] = await db.insert(ticketMessages).values({
+    ticketId,
+    senderType: "user",
+    senderId: userId,
+    senderName: userName,
+    content,
+    attachments,
+    createdAt: /* @__PURE__ */ new Date()
+  }).returning();
+  if (diagnosis.matched && diagnosis.botReply) {
+    await db.insert(ticketMessages).values({
+      ticketId,
+      senderType: "bot",
+      senderId: null,
+      senderName: "\u667A\u80FD\u8BCA\u65AD\u52A9\u624B",
+      content: diagnosis.botReply,
+      attachments: null,
+      createdAt: new Date(Date.now() + 1e3)
+      // 稍晚1秒体现先后次序
+    });
+  }
+  await notifyCustomerMessage(ticketId, customerMessage.id);
   return {
-    // The raw token is only ever returned here, at creation — it cannot be
-    // retrieved again afterwards (list/GET never selects userTokens.token).
-    token: rawToken,
+    code: 200,
+    message: "\u5DE5\u5355\u63D0\u4EA4\u6210\u529F",
     data: {
-      id: inserted[0].id,
-      name: inserted[0].name,
-      scopes: inserted[0].scopes,
-      clientId: inserted[0].clientId,
-      clientName: inserted[0].clientName,
-      expiresAt: inserted[0].expiresAt,
-      createdAt: inserted[0].createdAt
+      ...createdTicket,
+      autoDiagnosed: diagnosis.matched
     }
   };
 });

@@ -1,4 +1,4 @@
-import { d as defineEventHandler, c as getRequestLocale, g as getQuery, e as createError, P as getConfiguredTimezone, cv as parseStatsRange, cC as visitorEvents, b as db, q as products, w as users, cG as toIsoTimestampOrEpoch, cJ as visitorSourceLabel, a8 as isVisitorRollupEnabled, a9 as resolveRollupSiteHost, a7 as getRequestHost, aa as ensureRollupRange, cK as VISITOR_REPORT_ACTIVITY_EVENTS, cL as loadRollupVisitorTouches, cr as loadRollupPaidOverlay, co as zonedDateKeysBetween, ad as loadVisitorReport, ae as createRollupBackgroundScheduler } from '../../../../nitro/nitro.mjs';
+import { d as defineEventHandler, c as getRequestLocale, g as getQuery, e as createError, P as getConfiguredTimezone, cx as parseStatsRange, cF as visitorEvents, b as db, q as products, S as getRequestHost, w as users, cJ as toIsoTimestampOrEpoch, cM as visitorSourceLabel, a8 as isVisitorRollupEnabled, a9 as resolveRollupSiteHost, aa as ensureRollupRange, cN as VISITOR_REPORT_ACTIVITY_EVENTS, cO as loadRollupVisitorTouches, ct as loadRollupPaidOverlay, cq as zonedDateKeysBetween, ad as loadVisitorReport, ae as createRollupBackgroundScheduler } from '../../../../nitro/nitro.mjs';
 import { sql, eq, and, gte, lt, count, desc, inArray } from 'drizzle-orm';
 import 'node:crypto';
 import 'node:http2';
@@ -29,9 +29,9 @@ import 'path';
 import 'node:url';
 import '@iconify/utils';
 import 'consola';
-import 'jose';
 import '@adonisjs/hash';
 import '@adonisjs/hash/drivers/scrypt';
+import 'jose';
 import 'node:zlib';
 import 'node:child_process';
 
@@ -120,8 +120,9 @@ const ipDetails_get = defineEventHandler(async (event) => {
     }).from(visitorEvents).leftJoin(products, eq(visitorEvents.productId, products.id)).where(eventFilter).orderBy(desc(visitorEvents.createdAt)).limit(100)
   ]);
   const listedVisitorIds = visitorRows.map((item) => item.visitorId);
+  const requestHost = getRequestHost(event, { xForwardedHost: true });
   const loadIpContext = async () => {
-    const siteHost = isVisitorRollupEnabled() ? await resolveRollupSiteHost(getRequestHost(event)) : null;
+    const siteHost = isVisitorRollupEnabled() ? await resolveRollupSiteHost(requestHost) : null;
     if (siteHost) {
       await ensureRollupRange(rangeStart, rangeEnd, { timezone, siteHost }, { schedule: createRollupBackgroundScheduler(event) });
       const ipVisitorRows = await db.selectDistinct({ visitorId: visitorEvents.visitorId }).from(visitorEvents).where(and(eventFilter, inArray(visitorEvents.eventName, VISITOR_REPORT_ACTIVITY_EVENTS.map((name) => sql`${name}`))));
@@ -133,7 +134,7 @@ const ipDetails_get = defineEventHandler(async (event) => {
       const paid = overlay.entries.filter((entry) => entry.positive && entry.visitorId && ipVisitorIds.has(entry.visitorId)).length;
       return { touches, paid };
     }
-    const report = await loadVisitorReport(rangeStart, rangeEnd, getRequestHost(event));
+    const report = await loadVisitorReport(rangeStart, rangeEnd, requestHost);
     const ipVisitors = report.rows.filter((row) => row.events.some((item) => isLocal ? item.ip === null : item.ip === ip));
     return {
       touches: new Map(report.rows.map((row) => [row.visitorId, { first: row.first, last: row.last, firstReferrer: row.firstReferrer, lastReferrer: row.lastReferrer }])),

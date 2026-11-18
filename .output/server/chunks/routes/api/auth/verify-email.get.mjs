@@ -1,4 +1,4 @@
-import { d as defineEventHandler, g as getQuery, dI as sendLocalizedRedirect, b as db, df as userTokens, dl as EMAIL_VERIFY_TOKEN_NAME, w as users, M as orders, aP as getUserSession, m as setUserSession } from '../../../nitro/nitro.mjs';
+import { d as defineEventHandler, g as getQuery, dV as sendLocalizedRedirect, b as db, dj as userTokens, dt as EMAIL_VERIFY_TOKEN_NAME, w as users, M as orders, aP as getUserSession, m as setUserSession } from '../../../nitro/nitro.mjs';
 import { eq, and, isNull } from 'drizzle-orm';
 import 'node:crypto';
 import 'node:http2';
@@ -29,13 +29,14 @@ import 'path';
 import 'node:url';
 import '@iconify/utils';
 import 'consola';
-import 'jose';
 import '@adonisjs/hash';
 import '@adonisjs/hash/drivers/scrypt';
+import 'jose';
 import 'node:zlib';
 import 'node:child_process';
 
 const verifyEmail_get = defineEventHandler(async (event) => {
+  var _a;
   const query = getQuery(event);
   const token = query.token;
   const lang = query.lang || query.locale;
@@ -49,7 +50,7 @@ const verifyEmail_get = defineEventHandler(async (event) => {
   }
   const userList = await db.select().from(users).where(eq(users.id, tokenRecord.userId)).limit(1);
   const user = userList[0];
-  if (!user) {
+  if (!user || Number((_a = user.status) != null ? _a : 1) !== 1) {
     return sendLocalizedRedirect(event, "/auth/login?verified=invalid", lang);
   }
   if (user.emailVerifiedAt) {

@@ -1,4 +1,4 @@
-import { Q as _export_sfc, b as useAdminPermissions, P as __nuxt_component_3$3, j as _sfc_main$_ } from './server.mjs';
+import { Q as _export_sfc, b as useAdminPermissions, P as __nuxt_component_3$4, j as _sfc_main$10 } from './server.mjs';
 import { defineComponent, computed, createVNode, resolveDynamicComponent, unref, withCtx, createTextVNode, toDisplayString, useSSRContext } from 'vue';
 import { ssrRenderList, ssrRenderVNode, ssrRenderComponent, ssrInterpolate } from 'vue/server-renderer';
 
@@ -29,7 +29,7 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
   emits: ["select"],
   setup(__props, { emit: __emit }) {
     const emit = __emit;
-    const NuxtLink = __nuxt_component_3$3;
+    const NuxtLink = __nuxt_component_3$4;
     const { hasPerm } = useAdminPermissions();
     const visibleTabs = computed(
       () => SETTINGS_NAV_TABS.filter((tab) => {
@@ -42,7 +42,7 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
       if (!tab.route) emit("select", tab.id);
     };
     return (_ctx, _push, _parent, _attrs) => {
-      const _component_UIcon = _sfc_main$_;
+      const _component_UIcon = _sfc_main$10;
       _push(`<!--[--><div class="settings-nav-scroll block lg:hidden overflow-x-auto pb-2 -mx-4 px-4 sm:mx-0 sm:px-0" data-v-905193c6><nav class="flex space-x-2" data-v-905193c6><!--[-->`);
       ssrRenderList(visibleTabs.value, (tab) => {
         ssrRenderVNode(_push, createVNode(resolveDynamicComponent(tab.route ? unref(NuxtLink) : "button"), {

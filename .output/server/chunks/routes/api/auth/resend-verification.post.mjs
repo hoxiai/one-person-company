@@ -1,4 +1,4 @@
-import { d as defineEventHandler, aU as requireTrustedRequestOrigin, c as getRequestLocale, d_ as requireUserSession, e as createError, b as db, w as users, e6 as getEmailVerifySendCooldown, dk as revokeEmailVerifyTokens, e7 as issueEmailVerification, e8 as EMAIL_VERIFY_SEND_COOLDOWN_SECONDS } from '../../../nitro/nitro.mjs';
+import { d as defineEventHandler, aU as requireTrustedRequestOrigin, c as getRequestLocale, eb as requireUserSession, e as createError, b as db, w as users, dQ as isUserStatusActive, dR as createAccountUnavailableError, ek as getEmailVerifySendCooldown, ds as revokeEmailVerifyTokens, el as issueEmailVerification, em as EMAIL_VERIFY_SEND_COOLDOWN_SECONDS } from '../../../nitro/nitro.mjs';
 import { eq } from 'drizzle-orm';
 import 'node:crypto';
 import 'node:http2';
@@ -29,9 +29,9 @@ import 'path';
 import 'node:url';
 import '@iconify/utils';
 import 'consola';
-import 'jose';
 import '@adonisjs/hash';
 import '@adonisjs/hash/drivers/scrypt';
+import 'jose';
 import 'node:zlib';
 import 'node:child_process';
 
@@ -70,6 +70,9 @@ const resendVerification_post = defineEventHandler(async (event) => {
       statusCode: 404,
       message: messages.userNotFound
     });
+  }
+  if (!isUserStatusActive(userRecord.status)) {
+    throw createAccountUnavailableError(userRecord.status, locale, 403);
   }
   if (userRecord.emailVerifiedAt) {
     return {

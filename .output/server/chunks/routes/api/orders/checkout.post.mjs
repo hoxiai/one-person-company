@@ -1,4 +1,4 @@
-import { d as defineEventHandler, aU as requireTrustedRequestOrigin, e0 as mergePromoTracking, e2 as readPromoTracking, e1 as capturePromoTracking, e9 as getRequestIP, e as createError, r as readBody, d_ as requireUserSession, b as db, w as users, av as clearUserSession, x as settings, dX as ensureVisitorId, q as products, aX as resolveRequestLocale, aW as getSiteLocaleConfig, eR as getProductPricingContext, eS as quoteProductPrice, eT as ProductPricingError, eU as roundPrice, a_ as getMinimalCheckoutAdminConfig, eV as stripReservedOrderMeta, a$ as buildMinimalCheckoutBridgeMeta, b0 as mergeMinimalCheckoutMeta, aC as isMinimalCheckoutRelayOrder, eW as MINIMAL_CHECKOUT_SOURCE, aH as fulfillMinimalCheckoutRelay, aI as fulfillOrder, aK as emitEvent, eX as getSubscriptionEntitlement, M as orders, S as ORDER_PAY_STATUS, b1 as prepareOrderMetaForInsert, b2 as ensureTopupRecordForOrder, aE as createOrderAttribution, dv as trackVisitorEvent, aM as ORDER_STATUS, aB as getAffectedRows, aF as settlePaidTopup, c as getRequestLocale, ak as getLocalizedSettingValue, F as sendEmail, eY as createNotification } from '../../../nitro/nitro.mjs';
+import { d as defineEventHandler, aU as requireTrustedRequestOrigin, ed as mergePromoTracking, ef as readPromoTracking, ee as capturePromoTracking, en as getRequestIP, e as createError, r as readBody, eb as requireUserSession, b as db, w as users, av as clearUserSession, x as settings, e8 as ensureVisitorId, q as products, aX as resolveRequestLocale, aW as getSiteLocaleConfig, f3 as getProductPricingContext, f4 as quoteProductPrice, f5 as ProductPricingError, f6 as roundPrice, a_ as getMinimalCheckoutAdminConfig, f7 as stripReservedOrderMeta, a$ as buildMinimalCheckoutBridgeMeta, b0 as mergeMinimalCheckoutMeta, aC as isMinimalCheckoutRelayOrder, f8 as MINIMAL_CHECKOUT_SOURCE, aH as fulfillMinimalCheckoutRelay, aI as fulfillOrder, aK as emitEvent, f9 as isMultiSeatSubscriptionProduct, fa as resolveCheckoutCurrentSubscriptionLevel, fb as getSubscriptionEntitlement, M as orders, a2 as ORDER_PAY_STATUS, fc as matchesCheckoutSubscriptionTarget, b1 as prepareOrderMetaForInsert, b2 as ensureTopupRecordForOrder, aE as createOrderAttribution, dG as trackVisitorEvent, aM as ORDER_STATUS, aB as getAffectedRows, aF as settlePaidTopup, c as getRequestLocale, ak as getLocalizedSettingValue, F as sendEmail, fd as createNotification } from '../../../nitro/nitro.mjs';
 import { eq, and, or, isNull, gte, desc } from 'drizzle-orm';
 import crypto from 'crypto';
 import { z } from 'zod';
@@ -29,9 +29,9 @@ import 'path';
 import 'node:url';
 import '@iconify/utils';
 import 'consola';
-import 'jose';
 import '@adonisjs/hash';
 import '@adonisjs/hash/drivers/scrypt';
+import 'jose';
 import 'node:zlib';
 import 'node:child_process';
 
@@ -129,7 +129,7 @@ const createPendingOrderNotification = async (event, input) => {
   });
 };
 const checkout_post = defineEventHandler(async (event) => {
-  var _a2, _b2, _c, _d, _e;
+  var _a2, _b2, _c, _d, _e, _f;
   try {
     const siteUrl = requireTrustedRequestOrigin(event);
     const locale = getPreferredLocale(event);
@@ -380,8 +380,12 @@ const checkout_post = defineEventHandler(async (event) => {
     if (product.type === "subscription" && userId) {
       const productLevel = productMetaData == null ? void 0 : productMetaData.level;
       if (productLevel !== void 0) {
-        const entitlement = await getSubscriptionEntitlement(Number(userId));
-        const currentLevel = (_d = entitlement == null ? void 0 : entitlement.level) != null ? _d : 0;
+        const isMultiSeat = await isMultiSeatSubscriptionProduct(productMetaData, finalMetaData);
+        const currentLevel = isMultiSeat ? await resolveCheckoutCurrentSubscriptionLevel({
+          userId: Number(userId),
+          productMetaData,
+          orderMetaData: finalMetaData
+        }) : (_e = (_d = await getSubscriptionEntitlement(Number(userId))) == null ? void 0 : _d.level) != null ? _e : 0;
         if (Number(productLevel) < Number(currentLevel)) {
           throw createError({
             statusCode: 409,
@@ -429,8 +433,6 @@ const checkout_post = defineEventHandler(async (event) => {
           eq(orders.productId, productId),
           eq(orders.visitorId, visitorId),
           // 必须是同一个访客
-          // 同浏览器切换账号时 visitorId 不变:登录用户只接手自己或匿名时建的单,
-          // 匿名访客只复用匿名单,别人的待支付单不能被改挂到自己名下
           userId ? or(eq(orders.userId, userId), isNull(orders.userId)) : isNull(orders.userId),
           gte(orders.createdAt, oneHourAgo)
           // 必须是1小时内的订单
@@ -438,7 +440,7 @@ const checkout_post = defineEventHandler(async (event) => {
       ).orderBy(desc(orders.createdAt)).limit(1);
       if (existingPendingOrders.length > 0) {
         const pendingOrder = existingPendingOrders[0];
-        if (pendingOrder.amount === totalAmount && pendingOrder.currency === currencyQuote.currency && matchesCurrencySnapshot(pendingOrder.metaData, currencySnapshot)) {
+        if (pendingOrder.amount === totalAmount && pendingOrder.currency === currencyQuote.currency && matchesCurrencySnapshot(pendingOrder.metaData, currencySnapshot) && matchesCheckoutSubscriptionTarget(pendingOrder.metaData, finalMetaData)) {
           const relayOrderMeta2 = buildRelayOrderMeta(pendingOrder.id);
           const updates = {
             source: "minimal_checkout",
@@ -486,7 +488,7 @@ const checkout_post = defineEventHandler(async (event) => {
               isFreeOrder2 = true;
             } else {
               const latestRows = await db.select({ payStatus: orders.payStatus }).from(orders).where(eq(orders.id, pendingOrder.id)).limit(1);
-              if (((_e = latestRows[0]) == null ? void 0 : _e.payStatus) === ORDER_PAY_STATUS.PAID) {
+              if (((_f = latestRows[0]) == null ? void 0 : _f.payStatus) === ORDER_PAY_STATUS.PAID) {
                 isFreeOrder2 = true;
               } else {
                 throw createError({
@@ -538,17 +540,13 @@ const checkout_post = defineEventHandler(async (event) => {
         currency: currencyQuote.currency,
         source: "minimal_checkout",
         externalOrderId: orderId,
-        // 履约状态：0 元单视为已支付、紧接着履约，与复用分支和支付回调同口径先置处理中
         status: isFreeOrder ? ORDER_STATUS.PROCESSING : ORDER_STATUS.NONE,
         payStatus: isFreeOrder ? ORDER_PAY_STATUS.PAID : ORDER_PAY_STATUS.PENDING,
-        // 0 元直接视为已支付
         paidAt: isFreeOrder ? /* @__PURE__ */ new Date() : null,
         contactEmail,
         payMethod: parsedBody.payMethod || "none",
-        // Ensure payMethod is set here so Webhook can find it later
         visitorId,
         userId,
-        // Link to registered user if logged in
         metaData: prepareOrderMetaForInsert(relayOrderMeta),
         createdAt: /* @__PURE__ */ new Date()
       };
@@ -603,7 +601,6 @@ const checkout_post = defineEventHandler(async (event) => {
         message: messages.orderCreated,
         data: {
           id: orderId,
-          // using orderId as checkoutId for now
           amount: totalAmount,
           currency: currencyQuote.currency,
           isFreeOrder

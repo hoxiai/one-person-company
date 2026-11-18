@@ -1,5 +1,5 @@
-import { d as defineEventHandler, aP as getUserSession, g as getQuery, D as notifications, dJ as getCookie, b as db } from '../../../nitro/nitro.mjs';
-import { eq, isNull, and, count, desc } from 'drizzle-orm';
+import { d as defineEventHandler, c as getRequestLocale, eb as requireUserSession, e as createError, fO as getAccountDeletionSummaryForUser } from '../../../nitro/nitro.mjs';
+import 'drizzle-orm';
 import 'node:crypto';
 import 'node:http2';
 import 'node:fs';
@@ -29,74 +29,30 @@ import 'path';
 import 'node:url';
 import '@iconify/utils';
 import 'consola';
-import 'jose';
 import '@adonisjs/hash';
 import '@adonisjs/hash/drivers/scrypt';
+import 'jose';
 import 'node:zlib';
 import 'node:child_process';
 
-const normalizeNotificationData = (value) => {
-  if (!value) return {};
-  if (typeof value === "string") {
-    try {
-      return JSON.parse(value);
-    } catch {
-      return {};
-    }
-  }
-  if (typeof value === "object") {
-    return value;
-  }
-  return {};
-};
-const resolveNotificationTargetPath = (data) => {
-  if (typeof data.targetPath === "string" && data.targetPath.trim()) {
-    return data.targetPath.trim();
-  }
-  const orderId = typeof data.orderId === "string" ? data.orderId.trim() : "";
-  if (!orderId) return null;
-  if (data.payStatus === "pending") {
-    return `/payment/${orderId}`;
-  }
-  return `/user/orders/${orderId}`;
-};
 const index_get = defineEventHandler(async (event) => {
-  var _a, _b;
-  const session = await getUserSession(event).catch(() => null);
-  const userId = (_a = session == null ? void 0 : session.user) == null ? void 0 : _a.id;
-  const query = getQuery(event);
-  const page = parseInt(query.page) || 1;
-  const pageSize = parseInt(query.pageSize) || 20;
-  const offset = (page - 1) * pageSize;
-  const unreadOnly = query.unread === "1";
-  const conditions = [];
-  if (userId) {
-    conditions.push(eq(notifications.userId, userId));
-  } else {
-    const visitorId = getCookie(event, "visitor_id") || getCookie(event, "visitorId") || "";
-    if (visitorId) {
-      conditions.push(eq(notifications.visitorId, visitorId), isNull(notifications.userId));
-    } else {
-      return { data: [], total: 0, page, pageSize };
-    }
+  const locale = getRequestLocale(event);
+  const isZh = String(locale).toLowerCase().startsWith("zh");
+  const session = await requireUserSession(event);
+  if (event.context.authenticatedFromToken || session.employee) {
+    throw createError({
+      statusCode: 403,
+      message: isZh ? "\u8BF7\u4F7F\u7528\u672C\u4EBA\u7F51\u9875\u767B\u5F55\u4F1A\u8BDD\u67E5\u770B\u6216\u7BA1\u7406\u8D26\u53F7\u6CE8\u9500\u72B6\u6001" : "Please use an owner web browser session to view or manage account deletion"
+    });
   }
-  if (unreadOnly) {
-    conditions.push(eq(notifications.isRead, false));
+  const userId = Number(session.user.id);
+  if (!Number.isInteger(userId) || userId <= 0) {
+    throw createError({
+      statusCode: 401,
+      message: isZh ? "\u672A\u627E\u5230\u6709\u6548\u767B\u5F55\u4F1A\u8BDD" : "Invalid user session"
+    });
   }
-  const filter = and(...conditions);
-  const totalResult = await db.select({ value: count() }).from(notifications).where(filter);
-  const total = ((_b = totalResult[0]) == null ? void 0 : _b.value) || 0;
-  const rows = await db.select().from(notifications).where(filter).orderBy(desc(notifications.createdAt)).limit(pageSize).offset(offset);
-  const data = rows.map((row) => {
-    const normalizedData = normalizeNotificationData(row.data);
-    return {
-      ...row,
-      data: normalizedData,
-      targetPath: resolveNotificationTargetPath(normalizedData),
-      createdAt: row.createdAt ? new Date(row.createdAt).toISOString() : null
-    };
-  });
-  return { data, total, page, pageSize };
+  return await getAccountDeletionSummaryForUser(userId, locale);
 });
 
 export { index_get as default };

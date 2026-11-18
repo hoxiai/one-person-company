@@ -1,4 +1,4 @@
-import { d as defineEventHandler, em as applyMcpPublicCors, an as resolveClientIp, ao as checkIpRateLimit, r as readBody, eI as verifyMcpAuthorizationCodeEnvelope, eJ as verifyPkceS256, b as db, df as userTokens, dm as MCP_OAUTH_CODE_TOKEN_NAME, eK as isValidPkceCodeVerifier, eL as computePkceS256Challenge, eE as hashMcpOAuthSecret, w as users, ey as normalizeMcpScopes, eB as MCP_DEFAULT_SCOPES, eM as generateMcpAccessToken, eN as generateMcpRefreshToken, dn as MCP_OAUTH_REFRESH_TOKEN_NAME, en as resolveMcpServerOrigin, eO as setResponseHeaders, eP as MCP_ACCESS_TOKEN_TTL_SECONDS, eQ as MCP_REFRESH_TOKEN_TTL_MS, eo as setResponseStatus } from '../../../nitro/nitro.mjs';
+import { d as defineEventHandler, eA as applyMcpPublicCors, an as resolveClientIp, ao as checkIpRateLimit, r as readBody, eW as verifyMcpAuthorizationCodeEnvelope, eX as verifyPkceS256, b as db, dj as userTokens, du as MCP_OAUTH_CODE_TOKEN_NAME, eY as isValidPkceCodeVerifier, eZ as computePkceS256Challenge, eS as hashMcpOAuthSecret, w as users, eM as normalizeMcpScopes, eP as MCP_DEFAULT_SCOPES, e_ as generateMcpAccessToken, e$ as generateMcpRefreshToken, dv as MCP_OAUTH_REFRESH_TOKEN_NAME, eB as resolveMcpServerOrigin, f0 as setResponseHeaders, f1 as MCP_ACCESS_TOKEN_TTL_SECONDS, f2 as MCP_REFRESH_TOKEN_TTL_MS, eC as setResponseStatus } from '../../../nitro/nitro.mjs';
 import { and, eq } from 'drizzle-orm';
 import 'node:crypto';
 import 'node:http2';
@@ -29,9 +29,9 @@ import 'path';
 import 'node:url';
 import '@iconify/utils';
 import 'consola';
-import 'jose';
 import '@adonisjs/hash';
 import '@adonisjs/hash/drivers/scrypt';
+import 'jose';
 import 'node:zlib';
 import 'node:child_process';
 
@@ -47,6 +47,7 @@ function oauthError(event, statusCode, error, description) {
   };
 }
 const token = defineEventHandler(async (event) => {
+  var _a, _b;
   if (applyMcpPublicCors(event)) return null;
   if (event.method !== "POST") {
     return oauthError(event, 405, "invalid_request", "Method must be POST");
@@ -130,7 +131,7 @@ const token = defineEventHandler(async (event) => {
       resolvedClientName = record.clientName || "MCP OAuth Client";
     }
     const userRows = await db.select().from(users).where(eq(users.id, record.userId)).limit(1);
-    if (!userRows[0] || userRows[0].status === 0) {
+    if (!userRows[0] || Number((_a = userRows[0].status) != null ? _a : 1) !== 1) {
       return oauthError(event, 400, "invalid_grant", "User account is unavailable");
     }
     const authUser = userRows[0];
@@ -201,7 +202,7 @@ const token = defineEventHandler(async (event) => {
       return oauthError(event, 400, "invalid_grant", "client_id mismatch");
     }
     const userRows = await db.select().from(users).where(eq(users.id, record.userId)).limit(1);
-    if (!userRows[0] || userRows[0].status === 0) {
+    if (!userRows[0] || Number((_b = userRows[0].status) != null ? _b : 1) !== 1) {
       return oauthError(event, 400, "invalid_grant", "User account is unavailable");
     }
     const originalScopes = normalizeMcpScopes(record.scopes);

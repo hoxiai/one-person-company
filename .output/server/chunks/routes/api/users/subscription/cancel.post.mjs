@@ -1,5 +1,5 @@
-import { d as defineEventHandler, c as getRequestLocale, d_ as requireUserSession, e as createError, b as db, U as subscriptions } from '../../../../nitro/nitro.mjs';
-import { and, eq, or, isNull, gt, desc } from 'drizzle-orm';
+import { d as defineEventHandler, c as getRequestLocale, eb as requireUserSession, e as createError, r as readBody, T as subscriptions, b as db } from '../../../../nitro/nitro.mjs';
+import { eq, or, isNull, gt, and, desc } from 'drizzle-orm';
 import 'node:crypto';
 import 'node:http2';
 import 'node:fs';
@@ -29,9 +29,9 @@ import 'path';
 import 'node:url';
 import '@iconify/utils';
 import 'consola';
-import 'jose';
 import '@adonisjs/hash';
 import '@adonisjs/hash/drivers/scrypt';
+import 'jose';
 import 'node:zlib';
 import 'node:child_process';
 
@@ -51,11 +51,17 @@ const cancel_post = defineEventHandler(async (event) => {
     throw createError({ statusCode: 401, message: messages.unauthorized });
   }
   const userId = session.user.id;
-  const existing = await db.select().from(subscriptions).where(and(
+  const body = await readBody(event).catch(() => null);
+  const requestedSubId = typeof (body == null ? void 0 : body.subscriptionId) === "string" ? body.subscriptionId.trim() : "";
+  const conditions = [
     eq(subscriptions.userId, userId),
     eq(subscriptions.status, "active"),
     or(isNull(subscriptions.currentPeriodEnd), gt(subscriptions.currentPeriodEnd, /* @__PURE__ */ new Date()))
-  )).orderBy(desc(subscriptions.currentPeriodEnd)).limit(1);
+  ];
+  if (requestedSubId) {
+    conditions.push(eq(subscriptions.id, requestedSubId));
+  }
+  const existing = await db.select().from(subscriptions).where(and(...conditions)).orderBy(desc(subscriptions.currentPeriodEnd)).limit(1);
   if (!existing.length) {
     throw createError({ statusCode: 404, message: messages.noActiveSubscription });
   }
@@ -66,7 +72,7 @@ const cancel_post = defineEventHandler(async (event) => {
       updatedAt: /* @__PURE__ */ new Date()
     }).where(eq(subscriptions.id, sub.id));
   }
-  return { success: true, message: messages.cancelled };
+  return { success: true, subscriptionId: sub.id, message: messages.cancelled };
 });
 
 export { cancel_post as default };

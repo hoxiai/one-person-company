@@ -1,5 +1,5 @@
-import { d as defineEventHandler, g as getQuery, P as getConfiguredTimezone, cv as parseStatsRange, cE as clampStatsPage, cF as clampStatsPageSize, cC as visitorEvents, b as db } from '../../../../nitro/nitro.mjs';
-import { or, sql, and, gte, lt, eq, count, desc } from 'drizzle-orm';
+import { d as defineEventHandler, g as getQuery, P as getConfiguredTimezone, cx as parseStatsRange, cH as clampStatsPage, cI as clampStatsPageSize, cF as visitorEvents, b as db } from '../../../../nitro/nitro.mjs';
+import { or, sql, and, eq, gte, lt, desc, count } from 'drizzle-orm';
 import 'node:crypto';
 import 'node:http2';
 import 'node:fs';
@@ -29,9 +29,9 @@ import 'path';
 import 'node:url';
 import '@iconify/utils';
 import 'consola';
-import 'jose';
 import '@adonisjs/hash';
 import '@adonisjs/hash/drivers/scrypt';
+import 'jose';
 import 'node:zlib';
 import 'node:child_process';
 
@@ -61,13 +61,12 @@ const pageVisits_get = defineEventHandler(async (event) => {
     sql`LOWER(COALESCE(${visitorEvents.os}, '')) LIKE ${pattern}`
   ) : void 0;
   const filter = and(
+    eq(visitorEvents.eventName, "page_view"),
     gte(visitorEvents.createdAt, rangeStart),
     lt(visitorEvents.createdAt, rangeEnd),
-    eq(visitorEvents.eventName, "page_view"),
     searchFilter
   );
-  const [{ value: totalItems }] = await db.select({ value: count() }).from(visitorEvents).where(filter);
-  const items = await db.select({
+  const queryItems = () => db.select({
     id: visitorEvents.id,
     visitorId: visitorEvents.visitorId,
     userId: visitorEvents.userId,
@@ -88,6 +87,19 @@ const pageVisits_get = defineEventHandler(async (event) => {
     os: visitorEvents.os,
     createdAt: visitorEvents.createdAt
   }).from(visitorEvents).where(filter).orderBy(desc(visitorEvents.createdAt)).limit(pageSize).offset(offset);
+  const queryTotal = async () => {
+    var _a;
+    const rows = await db.select({ value: count() }).from(visitorEvents).where(filter);
+    return Number(((_a = rows[0]) == null ? void 0 : _a.value) || 0);
+  };
+  let items;
+  let totalItems;
+  if (offset === 0) {
+    items = await queryItems();
+    totalItems = items.length < pageSize ? items.length : await queryTotal();
+  } else {
+    [totalItems, items] = await Promise.all([queryTotal(), queryItems()]);
+  }
   return {
     range: {
       preset,
@@ -98,8 +110,8 @@ const pageVisits_get = defineEventHandler(async (event) => {
     pagination: {
       page,
       pageSize,
-      totalItems: Number(totalItems || 0),
-      totalPages: Math.max(1, Math.ceil(Number(totalItems || 0) / pageSize))
+      totalItems,
+      totalPages: Math.max(1, Math.ceil(totalItems / pageSize))
     },
     items: items.map((item) => ({
       id: item.id,

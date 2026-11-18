@@ -1,5 +1,5 @@
-import { d as defineEventHandler, c as getRequestLocale, g as getQuery, w as users, M as orders, cV as userWallets, b as db, dq as getTopupRules, N as aggregateOrderAccountingTotals, dr as compareCurrencySpendTotals, e as createError, ds as normalizeAccountingCurrency, x as settings, a1 as getCurrencyTotal } from '../../../nitro/nitro.mjs';
-import { sql, or, like, isNotNull, isNull, and, count, desc, asc, eq, inArray } from 'drizzle-orm';
+import { d as defineEventHandler, c as getRequestLocale, g as getQuery, w as users, M as orders, cY as userWallets, b as db, dl as accountDeletionRequests, dA as getTopupRules, N as aggregateOrderAccountingTotals, dB as compareCurrencySpendTotals, e as createError, dC as normalizeAccountingCurrency, x as settings, a4 as getCurrencyTotal } from '../../../nitro/nitro.mjs';
+import { sql, or, like, eq, isNotNull, isNull, and, count, desc, asc, inArray } from 'drizzle-orm';
 import 'node:crypto';
 import 'node:http2';
 import 'node:fs';
@@ -29,9 +29,9 @@ import 'path';
 import 'node:url';
 import '@iconify/utils';
 import 'consola';
-import 'jose';
 import '@adonisjs/hash';
 import '@adonisjs/hash/drivers/scrypt';
+import 'jose';
 import 'node:zlib';
 import 'node:child_process';
 
@@ -89,7 +89,7 @@ async function resolveSpendCurrency(requestedCurrency, fallbackCurrency = "USD")
   }
   return fallback;
 }
-function formatUserResponseRow(user, metrics) {
+function formatUserResponseRow(user, metrics, pendingDeletionRequestId = null) {
   const cashBalance = Number(user.cashBalance || 0) / 1e8;
   const grantBalance = Number(user.grantBalance || 0) / 1e8;
   return {
@@ -101,6 +101,7 @@ function formatUserResponseRow(user, metrics) {
     status: user.status,
     lastLoginAt: user.lastLoginAt,
     emailVerifiedAt: user.emailVerifiedAt,
+    pendingDeletionRequestId,
     cashBalance,
     grantBalance,
     availableBalance: cashBalance + grantBalance,
@@ -113,7 +114,7 @@ function formatUserResponseRow(user, metrics) {
   };
 }
 const index_get = defineEventHandler(async (event) => {
-  var _a, _b, _c, _d, _e;
+  var _a, _b, _c, _d, _e, _f, _g, _h;
   const locale = getRequestLocale(event);
   const query = getQuery(event);
   const page = Math.max(parseInt(query.page) || 1, 1);
@@ -122,6 +123,7 @@ const index_get = defineEventHandler(async (event) => {
   const keyword = String(query.search || query.q || query.keyword || "").trim();
   const hasSpending = String(query.hasSpending || "").trim();
   const emailVerified = String(query.emailVerified || "").trim();
+  const statusFilter = String(query.status || "").trim();
   const sortBy = String(query.sortBy || query.sort || "").trim();
   const sortOrder = String(query.sortOrder || query.order || "desc").trim().toLowerCase() === "asc" ? "asc" : "desc";
   const likePattern = keyword ? `%${keyword.toLowerCase()}%` : "";
@@ -143,6 +145,13 @@ const index_get = defineEventHandler(async (event) => {
       like(idLower, likePattern)
     ));
   }
+  if (statusFilter === "active" || statusFilter === "1") {
+    conditions.push(eq(users.status, 1));
+  } else if (statusFilter === "disabled" || statusFilter === "0") {
+    conditions.push(eq(users.status, 0));
+  } else if (statusFilter === "archived" || statusFilter === "-1") {
+    conditions.push(eq(users.status, -1));
+  }
   if (emailVerified === "verified" || emailVerified === "true") {
     conditions.push(isNotNull(users.emailVerifiedAt));
   } else if (emailVerified === "unverified" || emailVerified === "false") {
@@ -159,15 +168,18 @@ const index_get = defineEventHandler(async (event) => {
     const cashSumExpr = sql`coalesce(sum(${userWallets.cashBalance}), 0)`;
     const grantSumExpr = sql`coalesce(sum(${userWallets.grantBalance}), 0)`;
     const totalBalanceExpr = sql`(${cashSumExpr} + ${grantSumExpr})`;
-    const [globalUserStatsRows, globalWalletStatsRows, topupRules] = await Promise.all([
+    const [globalUserStatsRows, globalWalletStatsRows, pendingDeletionRows, topupRules] = await Promise.all([
       db.select({
         totalUsers: count(),
-        verifiedUsers: sql`coalesce(sum(case when ${users.emailVerifiedAt} is not null then 1 else 0 end), 0)`
+        verifiedUsers: sql`coalesce(sum(case when ${users.emailVerifiedAt} is not null then 1 else 0 end), 0)`,
+        archivedUsers: sql`coalesce(sum(case when ${users.status} = -1 then 1 else 0 end), 0)`,
+        disabledUsers: sql`coalesce(sum(case when ${users.status} = 0 then 1 else 0 end), 0)`
       }).from(users),
       db.select({
         totalCashBalance: cashSumExpr,
         totalGrantBalance: grantSumExpr
       }).from(userWallets),
+      db.select({ pendingCount: count() }).from(accountDeletionRequests).where(eq(accountDeletionRequests.status, "pending")).catch(() => [{ pendingCount: 0 }]),
       getTopupRules()
     ]);
     const spendCurrency = await resolveSpendCurrency(
@@ -177,13 +189,19 @@ const index_get = defineEventHandler(async (event) => {
     const emptyMetrics = createEmptyOrderMetrics(spendCurrency);
     const globalTotalUsers = Number(((_a = globalUserStatsRows[0]) == null ? void 0 : _a.totalUsers) || 0);
     const globalVerifiedUsers = Number(((_b = globalUserStatsRows[0]) == null ? void 0 : _b.verifiedUsers) || 0);
-    const globalCashBalance = Number(((_c = globalWalletStatsRows[0]) == null ? void 0 : _c.totalCashBalance) || 0) / 1e8;
-    const globalGrantBalance = Number(((_d = globalWalletStatsRows[0]) == null ? void 0 : _d.totalGrantBalance) || 0) / 1e8;
+    const globalArchivedUsers = Number(((_c = globalUserStatsRows[0]) == null ? void 0 : _c.archivedUsers) || 0);
+    const globalDisabledUsers = Number(((_d = globalUserStatsRows[0]) == null ? void 0 : _d.disabledUsers) || 0);
+    const pendingDeletionCount = Number(((_e = pendingDeletionRows[0]) == null ? void 0 : _e.pendingCount) || 0);
+    const globalCashBalance = Number(((_f = globalWalletStatsRows[0]) == null ? void 0 : _f.totalCashBalance) || 0) / 1e8;
+    const globalGrantBalance = Number(((_g = globalWalletStatsRows[0]) == null ? void 0 : _g.totalGrantBalance) || 0) / 1e8;
     const globalTotalBalance = globalCashBalance + globalGrantBalance;
     const summary = {
       totalUsers: globalTotalUsers,
       verifiedUsers: globalVerifiedUsers,
       unverifiedUsers: Math.max(0, globalTotalUsers - globalVerifiedUsers),
+      archivedUsers: globalArchivedUsers,
+      disabledUsers: globalDisabledUsers,
+      pendingDeletionCount,
       totalCashBalance: globalCashBalance,
       totalGrantBalance: globalGrantBalance,
       totalBalance: globalTotalBalance,
@@ -192,7 +210,7 @@ const index_get = defineEventHandler(async (event) => {
     };
     if (!isSpendSort) {
       const totalResult = await db.select({ total: count() }).from(users).where(whereClause);
-      const total2 = Number(((_e = totalResult[0]) == null ? void 0 : _e.total) || 0);
+      const total2 = Number(((_h = totalResult[0]) == null ? void 0 : _h.total) || 0);
       const totalOrdersCountExpr = sql`(
         select count(*) from ${orders}
         where ${orders.userId} = ${users.id}
@@ -250,9 +268,27 @@ const index_get = defineEventHandler(async (event) => {
         sql`${orders.payStatus} != 'deleted'`,
         sql`${orders.status} != 'deleted'`
       )) : [];
+      const pendingMap2 = /* @__PURE__ */ new Map();
+      if (userIds.length > 0) {
+        const pendingRows = await db.select({
+          id: accountDeletionRequests.id,
+          userId: accountDeletionRequests.userId
+        }).from(accountDeletionRequests).where(and(
+          inArray(accountDeletionRequests.userId, userIds),
+          eq(accountDeletionRequests.status, "pending")
+        )).catch(() => []);
+        for (const r of pendingRows) pendingMap2.set(Number(r.userId), Number(r.id));
+      }
       const orderMetricsMap2 = buildUserOrderMetricsMap(orderRows, spendCurrency);
       const finalUsers2 = paginatedUsers.map(
-        (user) => formatUserResponseRow(user, orderMetricsMap2.get(user.id) || emptyMetrics)
+        (user) => {
+          var _a2;
+          return formatUserResponseRow(
+            user,
+            orderMetricsMap2.get(user.id) || emptyMetrics,
+            (_a2 = pendingMap2.get(user.id)) != null ? _a2 : null
+          );
+        }
       );
       return {
         data: finalUsers2,
@@ -344,9 +380,27 @@ const index_get = defineEventHandler(async (event) => {
         sql`${orders.status} != 'deleted'`
       ))
     ]);
+    const pendingMap = /* @__PURE__ */ new Map();
+    if (sortedIds.length > 0) {
+      const pendingRows = await db.select({
+        id: accountDeletionRequests.id,
+        userId: accountDeletionRequests.userId
+      }).from(accountDeletionRequests).where(and(
+        inArray(accountDeletionRequests.userId, sortedIds),
+        eq(accountDeletionRequests.status, "pending")
+      )).catch(() => []);
+      for (const r of pendingRows) pendingMap.set(Number(r.userId), Number(r.id));
+    }
     const userById = new Map(pageUserRows.map((row) => [row.id, row]));
     const orderMetricsMap = buildUserOrderMetricsMap(pageOrderRows, spendCurrency);
-    const finalUsers = sortedIds.map((id) => userById.get(id)).filter((row) => Boolean(row)).map((user) => formatUserResponseRow(user, orderMetricsMap.get(user.id) || emptyMetrics));
+    const finalUsers = sortedIds.map((id) => userById.get(id)).filter((row) => Boolean(row)).map((user) => {
+      var _a2;
+      return formatUserResponseRow(
+        user,
+        orderMetricsMap.get(user.id) || emptyMetrics,
+        (_a2 = pendingMap.get(user.id)) != null ? _a2 : null
+      );
+    });
     return {
       data: finalUsers,
       total,

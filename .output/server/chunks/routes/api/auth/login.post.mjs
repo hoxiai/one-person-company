@@ -1,4 +1,4 @@
-import { d as defineEventHandler, c as getRequestLocale, dT as validateLoginAuthorization, an as resolveClientIp, ao as checkIpRateLimit, e as createError, r as readBody, dU as getUserLoginSecurityState, aq as consumeCaptchaTicket, b as db, w as users, ar as verifyPassword, dV as clearUserLoginFailure, dW as issueLoginSession, dv as trackVisitorEvent, dX as ensureVisitorId, dY as recordUserLoginFailure } from '../../../nitro/nitro.mjs';
+import { d as defineEventHandler, c as getRequestLocale, e4 as validateLoginAuthorization, an as resolveClientIp, ao as checkIpRateLimit, e as createError, r as readBody, e5 as getUserLoginSecurityState, aq as consumeCaptchaTicket, b as db, w as users, dQ as isUserStatusActive, dR as createAccountUnavailableError, ar as verifyPassword, e6 as clearUserLoginFailure, e7 as issueLoginSession, dG as trackVisitorEvent, e8 as ensureVisitorId, e9 as recordUserLoginFailure } from '../../../nitro/nitro.mjs';
 import { eq } from 'drizzle-orm';
 import 'node:crypto';
 import 'node:http2';
@@ -29,9 +29,9 @@ import 'path';
 import 'node:url';
 import '@iconify/utils';
 import 'consola';
-import 'jose';
 import '@adonisjs/hash';
 import '@adonisjs/hash/drivers/scrypt';
+import 'jose';
 import 'node:zlib';
 import 'node:child_process';
 
@@ -116,6 +116,9 @@ const login_post = defineEventHandler(async (event) => {
   }
   const user = existingUsers[0];
   if (!user.passwordHash) {
+    if (!isUserStatusActive(user.status)) {
+      throw createAccountUnavailableError(user.status, locale, 403);
+    }
     throw createError({
       statusCode: 401,
       message: messages.thirdPartyLogin
@@ -124,6 +127,9 @@ const login_post = defineEventHandler(async (event) => {
   const isValid = await verifyPassword(user.passwordHash, password);
   if (!isValid) {
     handleAuthFailure(messages.invalidCredentials);
+  }
+  if (!isUserStatusActive(user.status)) {
+    throw createAccountUnavailableError(user.status, locale, 403);
   }
   clearUserLoginFailure(ip, email);
   const loginResult = await issueLoginSession(event, user, "password");

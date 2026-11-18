@@ -1,8 +1,8 @@
-import { d as defineEventHandler, c as getRequestLocale, b as db, a4 as paymentMethods, b5 as applyLocalPaymentPluginDefaults, r as readBody, e as createError } from '../../../nitro/nitro.mjs';
+import { d as defineEventHandler, c as getRequestLocale, b as db, $ as paymentMethods, b6 as readLocalPaymentPluginTemplates, b7 as applyLocalPaymentPluginDefaults, r as readBody, b4 as normalizePaymentPluginOverrides, e as createError } from '../../../nitro/nitro.mjs';
 import fs from 'fs';
 import path from 'path';
-import 'node:crypto';
 import 'drizzle-orm';
+import 'node:crypto';
 import 'node:http2';
 import 'node:fs';
 import 'zod';
@@ -29,9 +29,9 @@ import 'node:fs/promises';
 import 'node:url';
 import '@iconify/utils';
 import 'consola';
-import 'jose';
 import '@adonisjs/hash';
 import '@adonisjs/hash/drivers/scrypt';
+import 'jose';
 import 'node:zlib';
 import 'node:child_process';
 
@@ -44,29 +44,29 @@ const index = defineEventHandler(async (event) => {
     if (fs.existsSync(paymentsDir)) {
       localPlugins = fs.readdirSync(paymentsDir).filter((item) => {
         const itemPath = path.join(paymentsDir, item);
-        return fs.statSync(itemPath).isDirectory();
+        try {
+          return fs.statSync(itemPath).isDirectory();
+        } catch {
+          return false;
+        }
       });
     }
-    const mergedMethods = dbMethods.map((method) => applyLocalPaymentPluginDefaults({ ...method }));
+    const localPluginLowerSet = new Set(localPlugins.map((code) => code.toLowerCase()));
+    const mergedMethods = dbMethods.map((method) => {
+      const localTemplates = readLocalPaymentPluginTemplates(method.code);
+      const hasLocalFiles = localTemplates.hasLocalFiles || localPluginLowerSet.has(String(method.code || "").toLowerCase());
+      return applyLocalPaymentPluginDefaults({
+        ...method,
+        info: method.info || localTemplates.info || "",
+        create: method.create || localTemplates.create || "",
+        callback: method.callback || localTemplates.callback || "",
+        hasLocalFiles
+      });
+    });
     for (const pluginCode of localPlugins) {
-      const existsInDb = dbMethods.find((m) => m.code === pluginCode);
+      const existsInDb = dbMethods.some((m) => String(m.code || "").toLowerCase() === pluginCode.toLowerCase());
       if (!existsInDb) {
-        let info = "";
-        let create = "";
-        let callback = "";
-        let configJson = "{}";
-        try {
-          const infoPath = path.join(paymentsDir, pluginCode, "info.html");
-          if (fs.existsSync(infoPath)) info = fs.readFileSync(infoPath, "utf-8");
-          const callbackPath = path.join(paymentsDir, pluginCode, "callback.js");
-          if (fs.existsSync(callbackPath)) callback = fs.readFileSync(callbackPath, "utf-8");
-          const createPath = path.join(paymentsDir, pluginCode, "create.js");
-          if (fs.existsSync(createPath)) create = fs.readFileSync(createPath, "utf-8");
-          const configPath = path.join(paymentsDir, pluginCode, "config.json");
-          if (fs.existsSync(configPath)) configJson = fs.readFileSync(configPath, "utf-8");
-        } catch (e) {
-          console.error(`Error reading local plugin ${pluginCode}:`, e);
-        }
+        const localTemplates = readLocalPaymentPluginTemplates(pluginCode);
         mergedMethods.push(applyLocalPaymentPluginDefaults({
           id: null,
           // Null ID indicates it's not in DB yet
@@ -75,16 +75,14 @@ const index = defineEventHandler(async (event) => {
           iconUrl: "",
           isActive: false,
           supportedLocales: "",
-          configJson,
-          info,
-          create,
-          callback,
+          configJson: localTemplates.configJson || "{}",
+          info: localTemplates.info || "",
+          create: localTemplates.create || "",
+          callback: localTemplates.callback || "",
           createdAt: /* @__PURE__ */ new Date(),
-          isLocalOnly: true
-          // custom flag for frontend
+          isLocalOnly: true,
+          hasLocalFiles: true
         }));
-      } else {
-        existsInDb.hasLocalFiles = true;
       }
     }
     return mergedMethods;
@@ -96,12 +94,13 @@ const index = defineEventHandler(async (event) => {
     delete insertData.createdAt;
     delete insertData.isLocalOnly;
     delete insertData.hasLocalFiles;
-    if (insertData.info === void 0) insertData.info = null;
-    if (insertData.create === void 0) insertData.create = null;
-    if (insertData.callback === void 0) insertData.callback = null;
-    insertData.supportedLocales = String(insertData.supportedLocales || "").trim() || null;
+    if (!Object.hasOwn(insertData, "info")) insertData.info = null;
+    if (!Object.hasOwn(insertData, "create")) insertData.create = null;
+    if (!Object.hasOwn(insertData, "callback")) insertData.callback = null;
+    const normalizedData = normalizePaymentPluginOverrides(insertData.code, insertData);
+    normalizedData.supportedLocales = String(normalizedData.supportedLocales || "").trim() || null;
     try {
-      return await db.insert(paymentMethods).values(insertData).returning();
+      return await db.insert(paymentMethods).values(normalizedData).returning();
     } catch (e) {
       console.error("Database insert error:", e);
       throw createError({

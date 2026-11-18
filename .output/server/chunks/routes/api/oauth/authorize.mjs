@@ -1,5 +1,5 @@
-import { d as defineEventHandler, g as getQuery, E as getRequestURL, dN as sendRedirect, ey as normalizeMcpScopes, e as createError, ez as resolveAndValidateMcpClient, eA as isValidPkceCodeChallenge, aP as getUserSession, eB as MCP_DEFAULT_SCOPES, eC as MCP_SCOPE_DEFINITIONS, d_ as requireUserSession, r as readBody, b as db, df as userTokens, dm as MCP_OAUTH_CODE_TOKEN_NAME, eD as createMcpAuthorizationCodeEnvelope, eE as hashMcpOAuthSecret } from '../../../nitro/nitro.mjs';
-import { and, eq } from 'drizzle-orm';
+import { d as defineEventHandler, g as getQuery, E as getRequestURL, d_ as sendRedirect, eM as normalizeMcpScopes, e as createError, eN as resolveAndValidateMcpClient, eO as isValidPkceCodeChallenge, aP as getUserSession, eP as MCP_DEFAULT_SCOPES, eQ as MCP_SCOPE_DEFINITIONS, eb as requireUserSession, b as db, w as users, r as readBody, dj as userTokens, du as MCP_OAUTH_CODE_TOKEN_NAME, eR as createMcpAuthorizationCodeEnvelope, eS as hashMcpOAuthSecret } from '../../../nitro/nitro.mjs';
+import { eq, and } from 'drizzle-orm';
 import 'node:crypto';
 import 'node:http2';
 import 'node:fs';
@@ -29,13 +29,14 @@ import 'path';
 import 'node:url';
 import '@iconify/utils';
 import 'consola';
-import 'jose';
 import '@adonisjs/hash';
 import '@adonisjs/hash/drivers/scrypt';
+import 'jose';
 import 'node:zlib';
 import 'node:child_process';
 
 const authorize = defineEventHandler(async (event) => {
+  var _a;
   if (event.method === "GET") {
     const query = getQuery(event);
     const mode = String(query.mode || "").trim();
@@ -94,6 +95,13 @@ const authorize = defineEventHandler(async (event) => {
       throw createError({
         statusCode: 403,
         message: "Please use an owner web browser session to approve MCP authorization"
+      });
+    }
+    const userRows = await db.select({ status: users.status }).from(users).where(eq(users.id, userId)).limit(1);
+    if (!userRows[0] || Number((_a = userRows[0].status) != null ? _a : 1) !== 1) {
+      throw createError({
+        statusCode: 403,
+        message: "User account is unavailable"
       });
     }
     const body = await readBody(event).catch(() => ({}));

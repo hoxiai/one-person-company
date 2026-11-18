@@ -1,4 +1,4 @@
-import { d as defineEventHandler, d_ as requireUserSession, b as db, w as users, d$ as overwriteSessionUser } from '../../../nitro/nitro.mjs';
+import { d as defineEventHandler, eb as requireUserSession, b as db, w as users, dQ as isUserStatusActive, av as clearUserSession, dR as createAccountUnavailableError, c as getRequestLocale, ec as overwriteSessionUser } from '../../../nitro/nitro.mjs';
 import { eq } from 'drizzle-orm';
 import 'node:crypto';
 import 'node:http2';
@@ -29,9 +29,9 @@ import 'path';
 import 'node:url';
 import '@iconify/utils';
 import 'consola';
-import 'jose';
 import '@adonisjs/hash';
 import '@adonisjs/hash/drivers/scrypt';
+import 'jose';
 import 'node:zlib';
 import 'node:child_process';
 
@@ -53,6 +53,11 @@ const me_get = defineEventHandler(async (event) => {
   const dbUser = userRows[0];
   if (!dbUser) {
     return { user: session.user };
+  }
+  if (!isUserStatusActive(dbUser.status)) {
+    await clearUserSession(event).catch(() => {
+    });
+    throw createAccountUnavailableError(dbUser.status, getRequestLocale(event), 401);
   }
   const emailVerified = Boolean(dbUser.emailVerifiedAt);
   const updatedUser = {

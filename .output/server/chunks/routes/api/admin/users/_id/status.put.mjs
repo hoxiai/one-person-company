@@ -1,4 +1,4 @@
-import { d as defineEventHandler, c as getRequestLocale, f as getRouterParam, e as createError, r as readBody, b as db, w as users, dp as loadActiveProxyAdapter } from '../../../../../nitro/nitro.mjs';
+import { d as defineEventHandler, c as getRequestLocale, f as getRouterParam, e as createError, r as readBody, b as db, w as users, dp as isUserStatusArchived, dw as revokeAllUserCredentials, dx as loadActiveProxyAdapter } from '../../../../../nitro/nitro.mjs';
 import { eq } from 'drizzle-orm';
 import 'node:crypto';
 import 'node:http2';
@@ -29,9 +29,9 @@ import 'path';
 import 'node:url';
 import '@iconify/utils';
 import 'consola';
-import 'jose';
 import '@adonisjs/hash';
 import '@adonisjs/hash/drivers/scrypt';
+import 'jose';
 import 'node:zlib';
 import 'node:child_process';
 
@@ -41,12 +41,14 @@ const status_put = defineEventHandler(async (event) => {
     userIdRequired: "\u7528\u6237 ID \u4E0D\u80FD\u4E3A\u7A7A",
     invalidStatus: "\u72B6\u6001\u5FC5\u987B\u4E3A 0\uFF08\u7981\u7528\uFF09\u6216 1\uFF08\u542F\u7528\uFF09",
     userNotFound: "\u7528\u6237\u4E0D\u5B58\u5728",
+    archivedImmutable: "\u8BE5\u5BA2\u6237\u8D26\u53F7\u5DF2\u6CE8\u9500\u5C01\u5B58\uFF0C\u4E0D\u652F\u6301\u91CD\u65B0\u542F\u7528\u6216\u5207\u6362\u72B6\u6001",
     updated: "\u5BA2\u6237\u72B6\u6001\u5DF2\u66F4\u65B0",
     failed: "\u66F4\u65B0\u5BA2\u6237\u72B6\u6001\u5931\u8D25"
   } : {
     userIdRequired: "User ID is required",
     invalidStatus: "Status must be 0 (disabled) or 1 (active)",
     userNotFound: "User not found",
+    archivedImmutable: "Archived deleted accounts cannot be re-enabled or modified",
     updated: "Customer status updated successfully",
     failed: "Failed to update customer status"
   };
@@ -65,7 +67,13 @@ const status_put = defineEventHandler(async (event) => {
     if (!userRows[0]) {
       throw createError({ statusCode: 404, message: messages.userNotFound });
     }
+    if (isUserStatusArchived(userRows[0].status)) {
+      throw createError({ statusCode: 400, message: messages.archivedImmutable });
+    }
     await db.update(users).set({ status }).where(eq(users.id, userId));
+    if (status === 0) {
+      await revokeAllUserCredentials(userId, "disabled");
+    }
     try {
       const adapter = await loadActiveProxyAdapter();
       if (adapter == null ? void 0 : adapter.syncUserStatus) {

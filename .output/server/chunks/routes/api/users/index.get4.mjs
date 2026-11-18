@@ -1,5 +1,5 @@
-import { d as defineEventHandler, d_ as requireUserSession, b as db, df as userTokens, dg as apiTokenScope, eC as MCP_SCOPE_DEFINITIONS } from '../../../nitro/nitro.mjs';
-import { desc } from 'drizzle-orm';
+import { d as defineEventHandler, aP as getUserSession, e as createError, g as getQuery, v as tickets, b as db, A as ticketUnreadCounts, B as serializeTicketReadState } from '../../../nitro/nitro.mjs';
+import { or, eq, and, count, desc } from 'drizzle-orm';
 import 'node:crypto';
 import 'node:http2';
 import 'node:fs';
@@ -29,29 +29,56 @@ import 'path';
 import 'node:url';
 import '@iconify/utils';
 import 'consola';
-import 'jose';
 import '@adonisjs/hash';
 import '@adonisjs/hash/drivers/scrypt';
+import 'jose';
 import 'node:zlib';
 import 'node:child_process';
 
 const index_get = defineEventHandler(async (event) => {
-  const session = await requireUserSession(event);
-  const userId = session.user.id;
-  const rows = await db.select({
-    id: userTokens.id,
-    name: userTokens.name,
-    scopes: userTokens.scopes,
-    clientId: userTokens.clientId,
-    clientName: userTokens.clientName,
-    lastUsedAt: userTokens.lastUsedAt,
-    expiresAt: userTokens.expiresAt,
-    revoked: userTokens.revoked,
-    createdAt: userTokens.createdAt
-  }).from(userTokens).where(apiTokenScope(userId)).orderBy(desc(userTokens.createdAt));
+  var _a;
+  const session = await getUserSession(event).catch(() => null);
+  const user = session == null ? void 0 : session.user;
+  const userId = user == null ? void 0 : user.id;
+  const userEmail = (user == null ? void 0 : user.email) ? String(user.email).trim().toLowerCase() : "";
+  if (!userId) {
+    throw createError({ statusCode: 401, statusMessage: "Unauthorized" });
+  }
+  const query = getQuery(event);
+  const page = Math.max(parseInt(query.page) || 1, 1);
+  const pageSize = Math.min(Math.max(parseInt(query.pageSize) || 15, 1), 50);
+  const offset = (page - 1) * pageSize;
+  const status = typeof query.status === "string" && query.status.trim() ? query.status.trim() : "";
+  const category = typeof query.category === "string" && query.category.trim() ? query.category.trim() : "";
+  const ownerCondition = userEmail ? or(eq(tickets.userId, userId), eq(tickets.contactEmail, userEmail)) : eq(tickets.userId, userId);
+  const conditions = [ownerCondition];
+  if (status) {
+    conditions.push(eq(tickets.status, status));
+  }
+  if (category) {
+    conditions.push(eq(tickets.category, category));
+  }
+  const whereClause = and(...conditions);
+  const [totalResult, list] = await Promise.all([
+    db.select({ total: count() }).from(tickets).where(whereClause),
+    db.select().from(tickets).where(whereClause).orderBy(desc(tickets.lastRepliedAt)).limit(pageSize).offset(offset)
+  ]);
+  const total = Number(((_a = totalResult[0]) == null ? void 0 : _a.total) || 0);
+  const unreadCounts = await ticketUnreadCounts(list.map((item) => item.id), "user");
+  const safeList = list.map(({ accessToken: _omit, ...item }) => ({
+    ...item,
+    readState: serializeTicketReadState(item),
+    unreadCount: unreadCounts.get(item.id) || 0
+  }));
   return {
-    data: rows,
-    supportedScopes: MCP_SCOPE_DEFINITIONS
+    code: 200,
+    data: safeList,
+    pagination: {
+      page,
+      pageSize,
+      total,
+      totalPages: Math.ceil(total / pageSize)
+    }
   };
 });
 

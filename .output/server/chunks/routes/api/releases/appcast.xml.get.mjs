@@ -1,6 +1,6 @@
-import { d as defineEventHandler, g as getQuery, bz as normalizeAppKey, bA as normalizeReleaseChannel, fl as normalizeReleaseLang, bK as getBundledReleasesForApp, fm as listReleases, bH as listReleaseApps, c9 as resolveServerSeoContext, E as getRequestURL, fn as buildSparkleAppcastXml, aO as setHeader } from '../../../nitro/nitro.mjs';
-import 'node:crypto';
+import { d as defineEventHandler, g as getQuery, bB as normalizeAppKey, bC as normalizeReleaseChannel, fC as normalizeReleaseLang, bM as getBundledReleasesForApp, fD as listReleases, bJ as listReleaseApps, cb as resolveServerSeoContext, E as getRequestURL, fE as buildSparkleAppcastXml, aO as setHeader } from '../../../nitro/nitro.mjs';
 import 'drizzle-orm';
+import 'node:crypto';
 import 'node:http2';
 import 'node:fs';
 import 'zod';
@@ -29,9 +29,9 @@ import 'path';
 import 'node:url';
 import '@iconify/utils';
 import 'consola';
-import 'jose';
 import '@adonisjs/hash';
 import '@adonisjs/hash/drivers/scrypt';
+import 'jose';
 import 'node:zlib';
 import 'node:child_process';
 

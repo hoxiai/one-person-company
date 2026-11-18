@@ -1,4 +1,4 @@
-import { d as defineEventHandler, bW as extensionManifests, bX as readExtensionMigrationStatus, bY as readEnabledExtensionIds, e as createError, r as readBody, bZ as migrateExtensionDatabase, s as setAuditMeta, b_ as normalizeEnabledExtensionIds, b as db, x as settings, b$ as ENABLED_EXTENSIONS_SETTING_KEY, bu as invalidatePublicSettingsCache } from '../../../../nitro/nitro.mjs';
+import { d as defineEventHandler, bY as extensionManifests, bZ as readExtensionMigrationStatus, b_ as readEnabledExtensionIds, e as createError, r as readBody, b$ as migrateExtensionDatabase, s as setAuditMeta, c0 as normalizeEnabledExtensionIds, b as db, x as settings, c1 as ENABLED_EXTENSIONS_SETTING_KEY, bw as invalidatePublicSettingsCache } from '../../../../nitro/nitro.mjs';
 import { eq } from 'drizzle-orm';
 import 'node:crypto';
 import 'node:http2';
@@ -29,9 +29,9 @@ import 'path';
 import 'node:url';
 import '@iconify/utils';
 import 'consola';
-import 'jose';
 import '@adonisjs/hash';
 import '@adonisjs/hash/drivers/scrypt';
+import 'jose';
 import 'node:zlib';
 import 'node:child_process';
 

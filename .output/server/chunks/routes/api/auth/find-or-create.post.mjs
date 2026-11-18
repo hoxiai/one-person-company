@@ -1,4 +1,4 @@
-import { d as defineEventHandler, c as getRequestLocale, an as resolveClientIp, ao as checkIpRateLimit, e as createError, r as readBody, di as validateEmail, b as db, w as users, l as hashPassword, aK as emitEvent, dF as getIntegrationToken, x as settings } from '../../../nitro/nitro.mjs';
+import { d as defineEventHandler, c as getRequestLocale, an as resolveClientIp, ao as checkIpRateLimit, e as createError, r as readBody, dq as validateEmail, b as db, w as users, dQ as isUserStatusActive, dR as createAccountUnavailableError, l as hashPassword, aK as emitEvent, dS as getIntegrationToken, x as settings } from '../../../nitro/nitro.mjs';
 import { timingSafeEqual } from 'node:crypto';
 import { eq, like } from 'drizzle-orm';
 import 'node:http2';
@@ -29,9 +29,9 @@ import 'path';
 import 'node:url';
 import '@iconify/utils';
 import 'consola';
-import 'jose';
 import '@adonisjs/hash';
 import '@adonisjs/hash/drivers/scrypt';
+import 'jose';
 import 'node:zlib';
 import 'node:child_process';
 
@@ -112,6 +112,9 @@ const findOrCreate_post = defineEventHandler(async (event) => {
   const existingUsers = await db.select().from(users).where(eq(users.email, email)).limit(1);
   if (existingUsers.length > 0) {
     user = existingUsers[0];
+    if (!isUserStatusActive(user.status)) {
+      throw createAccountUnavailableError(user.status, locale, 403);
+    }
     created = false;
   } else {
     let passwordHash = null;
@@ -133,6 +136,9 @@ const findOrCreate_post = defineEventHandler(async (event) => {
       }
       console.warn(`[find-or-create] concurrent insert for ${email}, resolved to existing user #${racedUsers[0].id}`);
       user = racedUsers[0];
+      if (!isUserStatusActive(user.status)) {
+        throw createAccountUnavailableError(user.status, locale, 403);
+      }
       created = false;
     }
   }

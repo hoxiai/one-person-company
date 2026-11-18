@@ -1,4 +1,4 @@
-import { d as defineEventHandler, c as getRequestLocale, g as getQuery, P as getConfiguredTimezone, cv as parseStatsRange, cE as clampStatsPage, cF as clampStatsPageSize, e as createError, a8 as isVisitorRollupEnabled, a9 as resolveRollupSiteHost, a7 as getRequestHost, aa as ensureRollupRange, cQ as loadRollupVisitorList, ad as loadVisitorReport, cR as matchesVisitorReportRow, b as db, w as users, cJ as visitorSourceLabel, cI as formatSourceBrand, ae as createRollupBackgroundScheduler } from '../../../../nitro/nitro.mjs';
+import { d as defineEventHandler, c as getRequestLocale, g as getQuery, P as getConfiguredTimezone, cx as parseStatsRange, cH as clampStatsPage, cI as clampStatsPageSize, e as createError, S as getRequestHost, a8 as isVisitorRollupEnabled, a9 as resolveRollupSiteHost, aa as ensureRollupRange, cT as loadRollupVisitorList, ad as loadVisitorReport, cU as matchesVisitorReportRow, b as db, w as users, cM as visitorSourceLabel, cL as formatSourceBrand, ae as createRollupBackgroundScheduler } from '../../../../nitro/nitro.mjs';
 import { inArray } from 'drizzle-orm';
 import 'node:crypto';
 import 'node:http2';
@@ -29,9 +29,9 @@ import 'path';
 import 'node:url';
 import '@iconify/utils';
 import 'consola';
-import 'jose';
 import '@adonisjs/hash';
 import '@adonisjs/hash/drivers/scrypt';
+import 'jose';
 import 'node:zlib';
 import 'node:child_process';
 
@@ -50,7 +50,8 @@ const visitors_get = defineEventHandler(async (event) => {
     throw createError({ statusCode: 400, statusMessage: "Invalid analytics event filter" });
   }
   const search = stringQuery("search");
-  const siteHost = isVisitorRollupEnabled() ? await resolveRollupSiteHost(getRequestHost(event)) : null;
+  const requestHost = getRequestHost(event, { xForwardedHost: true });
+  const siteHost = isVisitorRollupEnabled() ? await resolveRollupSiteHost(requestHost) : null;
   if (siteHost) {
     const ensured = await ensureRollupRange(rangeStart, rangeEnd, { timezone, siteHost }, { schedule: createRollupBackgroundScheduler(event) });
     const list = await loadRollupVisitorList({
@@ -75,7 +76,7 @@ const visitors_get = defineEventHandler(async (event) => {
       }
     };
   }
-  const report = await loadVisitorReport(rangeStart, rangeEnd, getRequestHost(event));
+  const report = await loadVisitorReport(rangeStart, rangeEnd, requestHost);
   const baseFilter = {
     attribution,
     type,

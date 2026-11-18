@@ -1,4 +1,4 @@
-import { d as defineEventHandler, g as getQuery, a7 as getRequestHost, c8 as AI_CRAWLER_SIGNATURES, a as accessLogs, b as db, x as settings, _ as logs, ca as detectAiCrawler, cm as isGeoCorpusRequestPath, t as toIsoTimestamp, a8 as isVisitorRollupEnabled, a9 as resolveRollupSiteHost, P as getConfiguredTimezone, R as shiftZonedDay, cn as zonedDayStartUtc, co as zonedDateKeysBetween, cp as ensureRollupDays, cq as loadRollupAggregates, cr as loadRollupPaidOverlay, cs as buildRollupGeoConversions, ct as buildVisitorGeoConversions, ad as loadVisitorReport } from '../../../../nitro/nitro.mjs';
+import { d as defineEventHandler, g as getQuery, S as getRequestHost, ca as AI_CRAWLER_SIGNATURES, a as accessLogs, b as db, x as settings, Z as logs, cc as detectAiCrawler, co as isGeoCorpusRequestPath, t as toIsoTimestamp, a8 as isVisitorRollupEnabled, a9 as resolveRollupSiteHost, P as getConfiguredTimezone, R as shiftZonedDay, cp as zonedDayStartUtc, cq as zonedDateKeysBetween, cr as ensureRollupDays, cs as loadRollupAggregates, ct as loadRollupPaidOverlay, cu as buildRollupGeoConversions, cv as buildVisitorGeoConversions, ad as loadVisitorReport, ae as createRollupBackgroundScheduler } from '../../../../nitro/nitro.mjs';
 import { or, sql, and, gte, desc, eq } from 'drizzle-orm';
 import 'node:crypto';
 import 'node:http2';
@@ -29,20 +29,20 @@ import 'path';
 import 'node:url';
 import '@iconify/utils';
 import 'consola';
-import 'jose';
 import '@adonisjs/hash';
 import '@adonisjs/hash/drivers/scrypt';
+import 'jose';
 import 'node:zlib';
 import 'node:child_process';
 
-const loadSeoGeoConversions = async (days, host, baseCurrency, sinceDate, untilDate) => {
+const loadSeoGeoConversions = async (event, days, host, baseCurrency, sinceDate, untilDate) => {
   const siteHost = isVisitorRollupEnabled() ? await resolveRollupSiteHost(host) : null;
   if (siteHost) {
     const timezone = await getConfiguredTimezone();
     const now = /* @__PURE__ */ new Date();
     const periodStart = shiftZonedDay(zonedDayStartUtc(now, timezone), -(days - 1), timezone);
     const dateKeys = zonedDateKeysBetween(periodStart, now, timezone);
-    await ensureRollupDays(dateKeys, { timezone, siteHost });
+    await ensureRollupDays(dateKeys, { timezone, siteHost }, { schedule: createRollupBackgroundScheduler(event) });
     const [aggregates, overlay] = await Promise.all([
       loadRollupAggregates(dateKeys, { sets: [], samples: false }),
       loadRollupPaidOverlay(periodStart, now, dateKeys, timezone)
@@ -55,7 +55,7 @@ const seoTelemetry_get = defineEventHandler(async (event) => {
   const query = event && typeof event.query === "object" && event.query ? event.query : getQuery(event);
   const host = (() => {
     try {
-      return getRequestHost(event) || "localhost";
+      return getRequestHost(event, { xForwardedHost: true }) || "localhost";
     } catch {
       return "localhost";
     }
@@ -183,7 +183,7 @@ const seoTelemetry_get = defineEventHandler(async (event) => {
   const topPaths = Array.from(pathStatsMap.values()).sort((a, b) => b.hits - a.hits).slice(0, 12);
   const settingsMap = new Map(settingRows.map((row) => [row.key, row.value]));
   const baseCurrency = String(settingsMap.get("currency") || settingsMap.get("base_currency") || "USD").trim().toUpperCase() || "USD";
-  const geoConversions = await loadSeoGeoConversions(days, host, baseCurrency, sinceDate, untilDate);
+  const geoConversions = await loadSeoGeoConversions(event, days, host, baseCurrency, sinceDate, untilDate);
   const indexNowLogs = rawIndexNowLogs.map((item) => {
     let parsedDetails = null;
     if (item.details) {

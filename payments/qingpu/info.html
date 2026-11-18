@@ -118,29 +118,64 @@ body {
   const externalLink = document.getElementById('qingpu-external-link');
 
   let pollingTimer = null;
+  let fastConfirmTimer = null;
+  let completed = false;
+  let checkingStatus = false;
+  let checkoutOrigin = '';
 
-  function stopPolling() {
+  function cleanup() {
     if (pollingTimer) {
       clearInterval(pollingTimer);
       pollingTimer = null;
     }
+    if (fastConfirmTimer) {
+      clearTimeout(fastConfirmTimer);
+      fastConfirmTimer = null;
+    }
+    window.removeEventListener('message', handleCheckoutMessage);
+  }
+
+  async function verifyOrderPaidOnce() {
+    if (completed || checkingStatus) return false;
+    checkingStatus = true;
+    try {
+      const response = await fetch('/api/orders/status?orderId=' + encodeURIComponent(orderId), {
+        credentials: 'same-origin'
+      });
+      const res = await response.json();
+      if (!completed && res.code === 0 && res.data?.payStatus === 'paid') {
+        completed = true;
+        cleanup();
+        window.dispatchEvent(new CustomEvent('order-success', { detail: { orderId } }));
+        return true;
+      }
+    } catch (err) {
+      // 网络瞬断交由下一轮轮询重试
+    } finally {
+      checkingStatus = false;
+    }
+    return false;
+  }
+
+  function handleCheckoutMessage(event) {
+    if (completed || !checkoutOrigin || event.origin !== checkoutOrigin) return;
+    const payload = event.data;
+    if (!payload || typeof payload !== 'object') return;
+    if (payload.externalOrderId && String(payload.externalOrderId) !== orderId) return;
+
+    if (payload.type === 'payment:success') {
+      verifyOrderPaidOnce().then(function (confirmed) {
+        if (!confirmed && !completed) {
+          if (fastConfirmTimer) clearTimeout(fastConfirmTimer);
+          fastConfirmTimer = setTimeout(verifyOrderPaidOnce, 700);
+        }
+      });
+    }
   }
 
   function startPolling() {
-    stopPolling();
-    pollingTimer = setInterval(async () => {
-      try {
-        const response = await fetch('/api/orders/status?orderId=' + encodeURIComponent(orderId), {
-          credentials: 'same-origin'
-        });
-        const res = await response.json();
-        if (res.code === 0 && res.data?.payStatus === 'paid') {
-          stopPolling();
-          window.dispatchEvent(new CustomEvent('order-success', { detail: { orderId } }));
-          window.location.href = '/callback/mini/' + orderId;
-        }
-      } catch (err) {}
-    }, 2000);
+    if (pollingTimer) clearInterval(pollingTimer);
+    pollingTimer = setInterval(verifyOrderPaidOnce, 2000);
   }
 
   async function initQingpuCheckout() {
@@ -148,14 +183,15 @@ body {
     if (errorBox) errorBox.style.display = 'none';
 
     try {
+      const encodedOrderId = encodeURIComponent(orderId);
       const response = await fetch('/api/payments/initiate', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           orderId,
           methodCode: 'qingpu',
-          returnUrl: window.location.origin + '/callback/mini/' + orderId,
-          cancelUrl: window.location.origin + '/callback/cancel?orderId=' + encodeURIComponent(orderId)
+          returnUrl: window.location.origin + '/callback/' + encodedOrderId,
+          cancelUrl: window.location.origin + '/callback/cancel?orderId=' + encodedOrderId
         })
       });
 
@@ -166,10 +202,18 @@ body {
         throw new Error(result.message || '获取收银台地址失败');
       }
 
+      try {
+        checkoutOrigin = new URL(paymentUrl, window.location.origin).origin;
+      } catch (e) {
+        checkoutOrigin = '';
+      }
+
       if (!paymentUrl.includes('platform=')) {
         const sep = paymentUrl.includes('?') ? '&' : '?';
         paymentUrl += sep + 'platform=mini';
       }
+
+      window.addEventListener('message', handleCheckoutMessage);
 
       iframeEl.src = paymentUrl;
       iframeEl.onload = function () {
@@ -195,10 +239,10 @@ body {
   initQingpuCheckout();
 
   window.addEventListener('order-success', function () {
-    stopPolling();
+    cleanup();
   });
   window.addEventListener('order-error', function () {
-    stopPolling();
+    cleanup();
   });
 })();
 </script>

@@ -1,4 +1,4 @@
-import { d as defineEventHandler, c as getRequestLocale, f as getRouterParam, e as createError, dh as PASSWORD_MIN_LENGTH, r as readBody, b as db, w as users, di as validateEmail, dj as normalizeEmail, l as hashPassword, dk as revokeEmailVerifyTokens } from '../../../../nitro/nitro.mjs';
+import { d as defineEventHandler, c as getRequestLocale, f as getRouterParam, e as createError, dn as PASSWORD_MIN_LENGTH, r as readBody, b as db, w as users, dp as isUserStatusArchived, dq as validateEmail, dr as normalizeEmail, l as hashPassword, ds as revokeEmailVerifyTokens } from '../../../../nitro/nitro.mjs';
 import { eq, and, ne } from 'drizzle-orm';
 import 'node:crypto';
 import 'node:http2';
@@ -29,9 +29,9 @@ import 'path';
 import 'node:url';
 import '@iconify/utils';
 import 'consola';
-import 'jose';
 import '@adonisjs/hash';
 import '@adonisjs/hash/drivers/scrypt';
+import 'jose';
 import 'node:zlib';
 import 'node:child_process';
 
@@ -72,6 +72,12 @@ const _id__put = defineEventHandler(async (event) => {
     const currentUser = userRows[0];
     if (!currentUser) {
       throw createError({ statusCode: 404, message: messages.userNotFound });
+    }
+    if (isUserStatusArchived(currentUser.status)) {
+      throw createError({
+        statusCode: 400,
+        message: locale === "zh" ? "\u8BE5\u5BA2\u6237\u8D26\u53F7\u5DF2\u6CE8\u9500\u5C01\u5B58\uFF0C\u4E0D\u652F\u6301\u4FEE\u6539\u90AE\u7BB1\u3001\u6635\u79F0\u6216\u5BC6\u7801" : "Archived deleted accounts cannot be modified"
+      });
     }
     const updateData = {};
     let emailChanged = false;

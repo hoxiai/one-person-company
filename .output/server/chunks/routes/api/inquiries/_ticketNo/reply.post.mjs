@@ -1,4 +1,4 @@
-import { d as defineEventHandler, an as resolveClientIp, ao as checkIpRateLimit, e as createError, f as getRouterParam, r as readBody, g as getQuery, z as normalizeTicketAttachments, aP as getUserSession, b as db, v as tickets, y as ticketMessages, ei as notifyCustomerMessage } from '../../../../nitro/nitro.mjs';
+import { d as defineEventHandler, an as resolveClientIp, ao as checkIpRateLimit, e as createError, f as getRouterParam, r as readBody, g as getQuery, z as normalizeTicketAttachments, aP as getUserSession, b as db, v as tickets, y as ticketMessages, ew as notifyCustomerMessage } from '../../../../nitro/nitro.mjs';
 import crypto from 'node:crypto';
 import { eq } from 'drizzle-orm';
 import 'node:http2';
@@ -29,9 +29,9 @@ import 'path';
 import 'node:url';
 import '@iconify/utils';
 import 'consola';
-import 'jose';
 import '@adonisjs/hash';
 import '@adonisjs/hash/drivers/scrypt';
+import 'jose';
 import 'node:zlib';
 import 'node:child_process';
 

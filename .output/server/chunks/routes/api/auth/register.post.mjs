@@ -1,4 +1,4 @@
-import { d as defineEventHandler, dT as validateLoginAuthorization, aU as requireTrustedRequestOrigin, c as getRequestLocale, an as resolveClientIp, ao as checkIpRateLimit, e as createError, r as readBody, e0 as mergePromoTracking, e1 as capturePromoTracking, e2 as readPromoTracking, dh as PASSWORD_MIN_LENGTH, di as validateEmail, b as db, w as users, l as hashPassword, aV as ensurePromoMember, e3 as bindInviteRelation, e4 as requestPromoAgentJoin, aK as emitEvent, e5 as promoAgentRelations, X as promoInviteRelations, bi as promoMembers, dW as issueLoginSession, dv as trackVisitorEvent, dX as ensureVisitorId, df as userTokens, dl as EMAIL_VERIFY_TOKEN_NAME, ak as getLocalizedSettingValue, F as sendEmail } from '../../../nitro/nitro.mjs';
+import { d as defineEventHandler, e4 as validateLoginAuthorization, aU as requireTrustedRequestOrigin, c as getRequestLocale, an as resolveClientIp, ao as checkIpRateLimit, e as createError, r as readBody, ed as mergePromoTracking, ee as capturePromoTracking, ef as readPromoTracking, dn as PASSWORD_MIN_LENGTH, dq as validateEmail, b as db, w as users, dp as isUserStatusArchived, l as hashPassword, aV as ensurePromoMember, eg as bindInviteRelation, eh as requestPromoAgentJoin, aK as emitEvent, ei as promoAgentRelations, W as promoInviteRelations, bk as promoMembers, e7 as issueLoginSession, dG as trackVisitorEvent, e8 as ensureVisitorId, dj as userTokens, dt as EMAIL_VERIFY_TOKEN_NAME, ak as getLocalizedSettingValue, F as sendEmail, ej as ACCOUNT_ARCHIVED_CODE } from '../../../nitro/nitro.mjs';
 import { eq } from 'drizzle-orm';
 import 'node:crypto';
 import 'node:http2';
@@ -29,9 +29,9 @@ import 'path';
 import 'node:url';
 import '@iconify/utils';
 import 'consola';
-import 'jose';
 import '@adonisjs/hash';
 import '@adonisjs/hash/drivers/scrypt';
+import 'jose';
 import 'node:zlib';
 import 'node:child_process';
 
@@ -91,6 +91,14 @@ const register_post = defineEventHandler(async (event) => {
   const email = emailValidation.normalizedEmail;
   const existingUser = await db.select().from(users).where(eq(users.email, email)).limit(1);
   if (existingUser.length > 0) {
+    if (isUserStatusArchived(existingUser[0].status)) {
+      throw createError({
+        statusCode: 403,
+        statusMessage: ACCOUNT_ARCHIVED_CODE,
+        message: locale === "zh" ? "\u8BE5\u90AE\u7BB1\u5173\u8054\u7684\u8D26\u53F7\u5DF2\u6CE8\u9500\u5C01\u5B58\uFF0C\u4E0D\u53EF\u91CD\u65B0\u6CE8\u518C" : "This email belongs to a permanently archived account and cannot be re-registered",
+        data: { code: ACCOUNT_ARCHIVED_CODE }
+      });
+    }
     throw createError({
       statusCode: 409,
       message: messages.userExists

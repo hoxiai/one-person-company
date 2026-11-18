@@ -1,5 +1,5 @@
-import { d as defineEventHandler, aP as getUserSession, e as createError, g as getQuery, v as tickets, b as db, A as ticketUnreadCounts, B as serializeTicketReadState } from '../../../nitro/nitro.mjs';
-import { or, eq, and, count, desc } from 'drizzle-orm';
+import { d as defineEventHandler, c as getRequestLocale, aP as getUserSession, b as db, q as products, T as subscriptions } from '../../../nitro/nitro.mjs';
+import { eq, and, or, isNull, gt, desc } from 'drizzle-orm';
 import 'node:crypto';
 import 'node:http2';
 import 'node:fs';
@@ -29,56 +29,81 @@ import 'path';
 import 'node:url';
 import '@iconify/utils';
 import 'consola';
-import 'jose';
 import '@adonisjs/hash';
 import '@adonisjs/hash/drivers/scrypt';
+import 'jose';
 import 'node:zlib';
 import 'node:child_process';
 
 const index_get = defineEventHandler(async (event) => {
   var _a;
+  const locale = getRequestLocale(event);
   const session = await getUserSession(event).catch(() => null);
-  const user = session == null ? void 0 : session.user;
-  const userId = user == null ? void 0 : user.id;
-  const userEmail = (user == null ? void 0 : user.email) ? String(user.email).trim().toLowerCase() : "";
-  if (!userId) {
-    throw createError({ statusCode: 401, statusMessage: "Unauthorized" });
+  if (!(session == null ? void 0 : session.user)) {
+    return { data: null, list: [] };
   }
-  const query = getQuery(event);
-  const page = Math.max(parseInt(query.page) || 1, 1);
-  const pageSize = Math.min(Math.max(parseInt(query.pageSize) || 15, 1), 50);
-  const offset = (page - 1) * pageSize;
-  const status = typeof query.status === "string" && query.status.trim() ? query.status.trim() : "";
-  const category = typeof query.category === "string" && query.category.trim() ? query.category.trim() : "";
-  const ownerCondition = userEmail ? or(eq(tickets.userId, userId), eq(tickets.contactEmail, userEmail)) : eq(tickets.userId, userId);
-  const conditions = [ownerCondition];
-  if (status) {
-    conditions.push(eq(tickets.status, status));
+  const userId = session.user.id;
+  const subRows = await db.select({
+    id: subscriptions.id,
+    status: subscriptions.status,
+    interval: subscriptions.interval,
+    intervalCount: subscriptions.intervalCount,
+    amount: subscriptions.amount,
+    currency: subscriptions.currency,
+    currentPeriodStart: subscriptions.currentPeriodStart,
+    currentPeriodEnd: subscriptions.currentPeriodEnd,
+    cancelAtPeriodEnd: subscriptions.cancelAtPeriodEnd,
+    createdAt: subscriptions.createdAt,
+    metaData: subscriptions.metaData,
+    productId: products.id,
+    productName: products.name,
+    productSlug: products.slug,
+    productType: products.type,
+    productMetaData: products.metaData
+  }).from(subscriptions).leftJoin(products, eq(subscriptions.productId, products.id)).where(and(
+    eq(subscriptions.userId, userId),
+    eq(subscriptions.status, "active"),
+    or(isNull(subscriptions.currentPeriodEnd), gt(subscriptions.currentPeriodEnd, /* @__PURE__ */ new Date()))
+  )).orderBy(desc(subscriptions.currentPeriodEnd)).limit(100);
+  if (!subRows.length) {
+    return { data: null, list: [] };
   }
-  if (category) {
-    conditions.push(eq(tickets.category, category));
-  }
-  const whereClause = and(...conditions);
-  const [totalResult, list] = await Promise.all([
-    db.select({ total: count() }).from(tickets).where(whereClause),
-    db.select().from(tickets).where(whereClause).orderBy(desc(tickets.lastRepliedAt)).limit(pageSize).offset(offset)
-  ]);
-  const total = Number(((_a = totalResult[0]) == null ? void 0 : _a.total) || 0);
-  const unreadCounts = await ticketUnreadCounts(list.map((item) => item.id), "user");
-  const safeList = list.map(({ accessToken: _omit, ...item }) => ({
-    ...item,
-    readState: serializeTicketReadState(item),
-    unreadCount: unreadCounts.get(item.id) || 0
-  }));
-  return {
-    code: 200,
-    data: safeList,
-    pagination: {
-      page,
-      pageSize,
-      total,
-      totalPages: Math.ceil(total / pageSize)
+  const list = subRows.map((sub) => {
+    let productMeta = {};
+    if (sub.productMetaData) {
+      try {
+        productMeta = typeof sub.productMetaData === "string" ? JSON.parse(sub.productMetaData) : sub.productMetaData;
+      } catch {
+      }
     }
+    let subMeta = {};
+    if (sub.metaData) {
+      try {
+        subMeta = typeof sub.metaData === "string" ? JSON.parse(sub.metaData) : sub.metaData;
+      } catch {
+      }
+    }
+    return {
+      id: sub.id,
+      status: sub.status,
+      productId: sub.productId,
+      tier: productMeta.level || 0,
+      grantAmount: productMeta.grant_amount || 0,
+      planName: sub.productName || (locale === "zh" ? "\u672A\u77E5\u5957\u9910" : "Unknown"),
+      interval: sub.interval,
+      intervalCount: sub.intervalCount,
+      amount: sub.amount,
+      currency: sub.currency,
+      currentPeriodStart: sub.currentPeriodStart,
+      currentPeriodEnd: sub.currentPeriodEnd,
+      cancelAtPeriodEnd: sub.cancelAtPeriodEnd,
+      createdAt: sub.createdAt,
+      metaData: subMeta
+    };
+  });
+  return {
+    data: (_a = list[0]) != null ? _a : null,
+    list
   };
 });
 

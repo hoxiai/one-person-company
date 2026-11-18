@@ -1,5 +1,5 @@
-import { d as defineEventHandler, c as getRequestLocale, aP as getUserSession, b as db, q as products, U as subscriptions } from '../../../nitro/nitro.mjs';
-import { eq, and, or, isNull, gt, desc } from 'drizzle-orm';
+import { d as defineEventHandler, aP as getUserSession, g as getQuery, D as notifications, dW as getCookie, b as db } from '../../../nitro/nitro.mjs';
+import { eq, isNull, and, count, desc } from 'drizzle-orm';
 import 'node:crypto';
 import 'node:http2';
 import 'node:fs';
@@ -29,68 +29,74 @@ import 'path';
 import 'node:url';
 import '@iconify/utils';
 import 'consola';
-import 'jose';
 import '@adonisjs/hash';
 import '@adonisjs/hash/drivers/scrypt';
+import 'jose';
 import 'node:zlib';
 import 'node:child_process';
 
-const index_get = defineEventHandler(async (event) => {
-  const locale = getRequestLocale(event);
-  const session = await getUserSession(event).catch(() => null);
-  if (!(session == null ? void 0 : session.user)) {
-    return { data: null };
-  }
-  const userId = session.user.id;
-  const subRows = await db.select({
-    id: subscriptions.id,
-    status: subscriptions.status,
-    interval: subscriptions.interval,
-    intervalCount: subscriptions.intervalCount,
-    amount: subscriptions.amount,
-    currency: subscriptions.currency,
-    currentPeriodStart: subscriptions.currentPeriodStart,
-    currentPeriodEnd: subscriptions.currentPeriodEnd,
-    cancelAtPeriodEnd: subscriptions.cancelAtPeriodEnd,
-    createdAt: subscriptions.createdAt,
-    productId: products.id,
-    productName: products.name,
-    productSlug: products.slug,
-    productType: products.type,
-    productMetaData: products.metaData
-  }).from(subscriptions).leftJoin(products, eq(subscriptions.productId, products.id)).where(and(
-    eq(subscriptions.userId, userId),
-    eq(subscriptions.status, "active"),
-    or(isNull(subscriptions.currentPeriodEnd), gt(subscriptions.currentPeriodEnd, /* @__PURE__ */ new Date()))
-  )).orderBy(desc(subscriptions.currentPeriodEnd)).limit(1);
-  if (!subRows.length) {
-    return { data: null };
-  }
-  const sub = subRows[0];
-  let productMeta = {};
-  if (sub.productMetaData) {
+const normalizeNotificationData = (value) => {
+  if (!value) return {};
+  if (typeof value === "string") {
     try {
-      productMeta = typeof sub.productMetaData === "string" ? JSON.parse(sub.productMetaData) : sub.productMetaData;
+      return JSON.parse(value);
     } catch {
+      return {};
     }
   }
-  return {
-    data: {
-      id: sub.id,
-      status: sub.status,
-      tier: productMeta.level || 0,
-      grantAmount: productMeta.grant_amount || 0,
-      planName: sub.productName || (locale === "zh" ? "\u672A\u77E5\u5957\u9910" : "Unknown"),
-      interval: sub.interval,
-      intervalCount: sub.intervalCount,
-      amount: sub.amount,
-      currency: sub.currency,
-      currentPeriodStart: sub.currentPeriodStart,
-      currentPeriodEnd: sub.currentPeriodEnd,
-      cancelAtPeriodEnd: sub.cancelAtPeriodEnd,
-      createdAt: sub.createdAt
+  if (typeof value === "object") {
+    return value;
+  }
+  return {};
+};
+const resolveNotificationTargetPath = (data) => {
+  if (typeof data.targetPath === "string" && data.targetPath.trim()) {
+    return data.targetPath.trim();
+  }
+  const orderId = typeof data.orderId === "string" ? data.orderId.trim() : "";
+  if (!orderId) return null;
+  if (data.payStatus === "pending") {
+    return `/payment/${orderId}`;
+  }
+  return `/user/orders/${orderId}`;
+};
+const index_get = defineEventHandler(async (event) => {
+  var _a, _b;
+  const session = await getUserSession(event).catch(() => null);
+  const userId = (_a = session == null ? void 0 : session.user) == null ? void 0 : _a.id;
+  const query = getQuery(event);
+  const page = parseInt(query.page) || 1;
+  const pageSize = parseInt(query.pageSize) || 20;
+  const offset = (page - 1) * pageSize;
+  const unreadOnly = query.unread === "1";
+  const conditions = [];
+  if (userId) {
+    conditions.push(eq(notifications.userId, userId));
+  } else {
+    const visitorId = getCookie(event, "visitor_id") || getCookie(event, "visitorId") || "";
+    if (visitorId) {
+      conditions.push(eq(notifications.visitorId, visitorId), isNull(notifications.userId));
+    } else {
+      return { data: [], total: 0, page, pageSize };
     }
-  };
+  }
+  if (unreadOnly) {
+    conditions.push(eq(notifications.isRead, false));
+  }
+  const filter = and(...conditions);
+  const totalResult = await db.select({ value: count() }).from(notifications).where(filter);
+  const total = ((_b = totalResult[0]) == null ? void 0 : _b.value) || 0;
+  const rows = await db.select().from(notifications).where(filter).orderBy(desc(notifications.createdAt)).limit(pageSize).offset(offset);
+  const data = rows.map((row) => {
+    const normalizedData = normalizeNotificationData(row.data);
+    return {
+      ...row,
+      data: normalizedData,
+      targetPath: resolveNotificationTargetPath(normalizedData),
+      createdAt: row.createdAt ? new Date(row.createdAt).toISOString() : null
+    };
+  });
+  return { data, total, page, pageSize };
 });
 
 export { index_get as default };

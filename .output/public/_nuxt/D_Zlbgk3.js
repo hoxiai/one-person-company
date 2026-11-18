@@ -1,0 +1,1 @@
+import{q as o}from"./CnYtAntH.js";import{m as r,aK as a}from"./BalTViiK.js";import"./DGuwjjjZ.js";import"./C3zinu_D.js";import"./CfYFMnge.js";const u=r({__name:"topups",async setup(p){let t,e;return[t,e]=a(()=>o("/admin/orders?tab=topups",{replace:!0})),await t,e(),()=>{}}});export{u as default};

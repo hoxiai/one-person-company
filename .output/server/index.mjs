@@ -29,9 +29,9 @@ import 'path';
 import 'node:url';
 import '@iconify/utils';
 import 'consola';
+import 'node:zlib';
 import '@adonisjs/hash';
 import '@adonisjs/hash/drivers/scrypt';
 import 'jose';
-import 'node:zlib';
 import 'node:child_process';
 //# sourceMappingURL=index.mjs.map

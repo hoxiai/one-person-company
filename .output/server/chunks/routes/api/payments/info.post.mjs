@@ -29,10 +29,10 @@ import 'node:fs/promises';
 import 'node:url';
 import '@iconify/utils';
 import 'consola';
+import 'node:zlib';
 import '@adonisjs/hash';
 import '@adonisjs/hash/drivers/scrypt';
 import 'jose';
-import 'node:zlib';
 import 'node:child_process';
 
 const info_post = defineEventHandler(async (event) => {

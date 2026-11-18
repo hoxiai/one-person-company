@@ -29,10 +29,10 @@ import 'path';
 import 'node:url';
 import '@iconify/utils';
 import 'consola';
+import 'node:zlib';
 import '@adonisjs/hash';
 import '@adonisjs/hash/drivers/scrypt';
 import 'jose';
-import 'node:zlib';
 import 'node:child_process';
 
 const USERNAME_REGEX = /^[a-zA-Z0-9_.-]{3,32}$/;

@@ -48,10 +48,10 @@ import 'path';
 import 'node:url';
 import '@iconify/utils';
 import 'consola';
+import 'node:zlib';
 import '@adonisjs/hash';
 import '@adonisjs/hash/drivers/scrypt';
 import 'jose';
-import 'node:zlib';
 import 'node:child_process';
 import 'vue-bundle-renderer/runtime';
 import 'unhead/server';
@@ -5617,7 +5617,7 @@ const cfg0 = defineAppConfig({
   }
 });
 const inlineConfig = {
-  "appVersion": "1.0.41",
+  "appVersion": "1.0.42",
   "nuxt": {},
   "ui": {
     "colors": {
@@ -28626,7 +28626,7 @@ const themeAdminManifestModules = {
   })).map(([file, module]) => [file.replace("/", "../"), module]))
 };
 const themeAdminPageModules = {
-  ...Object.fromEntries(Object.entries(/* @__PURE__ */ Object.assign({ "/themes/hoxi/admin/pages/cheap.vue": () => import('./cheap-83ze2GyV.mjs'), "/themes/hoxi/admin/pages/clients.vue": () => import('./clients-CROuLqb6.mjs'), "/themes/hoxi/admin/pages/coding-plans.vue": () => import('./coding-plans-CscdFoa5.mjs'), "/themes/hoxi/admin/pages/free-tiers.vue": () => import('./free-tiers-BE5K5cyi.mjs'), "/themes/hoxi/admin/pages/models.vue": () => import('./models-DVZSBSxM.mjs'), "/themes/hoxi/admin/pages/projects.vue": () => import('./projects-WiC7QPv0.mjs'), "/themes/hoxi/admin/pages/rewards.vue": () => import('./rewards-DDQPm24P.mjs'), "/themes/hoxi/admin/pages/skills.vue": () => import('./skills-Bpxag1Zp.mjs'), "/themes/hoxi/admin/pages/tools.vue": () => import('./tools-C92QkMw1.mjs'), "/themes/hoxi/admin/pages/work-apps.vue": () => import('./work-apps-CL7CdmmG.mjs') })).map(([file, module]) => [file.replace("/", "../"), module]))
+  ...Object.fromEntries(Object.entries(/* @__PURE__ */ Object.assign({ "/themes/hoxi/admin/pages/cheap.vue": () => import('./cheap-83ze2GyV.mjs'), "/themes/hoxi/admin/pages/clients.vue": () => import('./clients-CROuLqb6.mjs'), "/themes/hoxi/admin/pages/coding-plans.vue": () => import('./coding-plans-CscdFoa5.mjs'), "/themes/hoxi/admin/pages/free-tiers.vue": () => import('./free-tiers-BE5K5cyi.mjs'), "/themes/hoxi/admin/pages/models.vue": () => import('./models-DVZSBSxM.mjs'), "/themes/hoxi/admin/pages/projects.vue": () => import('./projects-WiC7QPv0.mjs'), "/themes/hoxi/admin/pages/rewards.vue": () => import('./rewards-DDQPm24P.mjs'), "/themes/hoxi/admin/pages/skills.vue": () => import('./skills-Bpxag1Zp.mjs'), "/themes/hoxi/admin/pages/tools.vue": () => import('./tools-C92QkMw1.mjs'), "/themes/hoxi/admin/pages/work-apps.vue": () => import('./work-apps-D50qiNf8.mjs') })).map(([file, module]) => [file.replace("/", "../"), module]))
 };
 const themeAdminLocaleEnModules = {
   ...Object.fromEntries(Object.entries(/* @__PURE__ */ Object.assign({

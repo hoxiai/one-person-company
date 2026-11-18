@@ -30,10 +30,10 @@ import 'path';
 import 'node:url';
 import '@iconify/utils';
 import 'consola';
+import 'node:zlib';
 import '@adonisjs/hash';
 import '@adonisjs/hash/drivers/scrypt';
 import 'jose';
-import 'node:zlib';
 import 'node:child_process';
 
 const QUERY_NOTIFY_METHODS = /* @__PURE__ */ new Set(["qixiangpay", "zpay"]);

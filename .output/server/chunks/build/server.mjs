@@ -987,6 +987,16 @@ const _routes = [
     component: () => import('./_...slug_-CFjZEaTA.mjs')
   },
   {
+    name: "user-plugins-slug___ja",
+    path: "/ja/user/plugins/:slug(.*)*",
+    component: () => import('./_...slug_-CFjZEaTA.mjs')
+  },
+  {
+    name: "user-plugins-slug___ko",
+    path: "/ko/user/plugins/:slug(.*)*",
+    component: () => import('./_...slug_-CFjZEaTA.mjs')
+  },
+  {
     name: "admin-cards",
     path: "/admin/cards",
     component: () => import('./cards--oEi3YZW.mjs')
@@ -1129,6 +1139,16 @@ const _routes = [
   {
     name: "slug___zh-HK",
     path: "/zh-HK/:slug(.*)*",
+    component: () => import('./_...slug_-BGqZSc7w.mjs')
+  },
+  {
+    name: "slug___ja",
+    path: "/ja/:slug(.*)*",
+    component: () => import('./_...slug_-BGqZSc7w.mjs')
+  },
+  {
+    name: "slug___ko",
+    path: "/ko/:slug(.*)*",
     component: () => import('./_...slug_-BGqZSc7w.mjs')
   }
 ];
@@ -5617,7 +5637,7 @@ const cfg0 = defineAppConfig({
   }
 });
 const inlineConfig = {
-  "appVersion": "1.0.46",
+  "appVersion": "1.0.47",
   "nuxt": {},
   "ui": {
     "colors": {
@@ -14568,7 +14588,9 @@ _sfc_main$X.setup = (props, ctx) => {
 const localeCodes = [
   "en",
   "zh",
-  "zh-HK"
+  "zh-HK",
+  "ja",
+  "ko"
 ];
 const localeLoaders = {
   en: [
@@ -14624,6 +14646,42 @@ const localeLoaders = {
       ),
       cache: true
     }
+  ],
+  ja: [
+    {
+      key: "locale_common_46json_f27ff91c",
+      load: () => import(
+        './common-BQOHkU-t.mjs'
+        /* webpackChunkName: "locale_common_46json_f27ff91c" */
+      ),
+      cache: true
+    },
+    {
+      key: "locale_site_46json_88fb82cf",
+      load: () => import(
+        './site-CTFgQ-4W.mjs'
+        /* webpackChunkName: "locale_site_46json_88fb82cf" */
+      ),
+      cache: true
+    }
+  ],
+  ko: [
+    {
+      key: "locale_common_46json_3acdfc34",
+      load: () => import(
+        './common-B0A0a5hE.mjs'
+        /* webpackChunkName: "locale_common_46json_3acdfc34" */
+      ),
+      cache: true
+    },
+    {
+      key: "locale_site_46json_f26317be",
+      load: () => import(
+        './site-CGCxQBae.mjs'
+        /* webpackChunkName: "locale_site_46json_f26317be" */
+      ),
+      cache: true
+    }
   ]
 };
 const vueI18nConfigs = [];
@@ -14675,6 +14733,38 @@ const normalizedLocales = [
     ],
     name: "香港繁體",
     language: "zh-HK"
+  },
+  {
+    code: "ja",
+    iso: "ja-JP",
+    files: [
+      {
+        path: "/Users/hugh/code/hoxi/apay/locales/ja/common.json",
+        cache: void 0
+      },
+      {
+        path: "/Users/hugh/code/hoxi/apay/locales/ja/site.json",
+        cache: void 0
+      }
+    ],
+    name: "日本語",
+    language: "ja-JP"
+  },
+  {
+    code: "ko",
+    iso: "ko-KR",
+    files: [
+      {
+        path: "/Users/hugh/code/hoxi/apay/locales/ko/common.json",
+        cache: void 0
+      },
+      {
+        path: "/Users/hugh/code/hoxi/apay/locales/ko/site.json",
+        cache: void 0
+      }
+    ],
+    name: "한국어",
+    language: "ko-KR"
   }
 ];
 const NUXT_I18N_MODULE_ID = "@nuxtjs/i18n";

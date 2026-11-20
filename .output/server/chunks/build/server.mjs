@@ -5617,7 +5617,7 @@ const cfg0 = defineAppConfig({
   }
 });
 const inlineConfig = {
-  "appVersion": "1.0.44",
+  "appVersion": "1.0.45",
   "nuxt": {},
   "ui": {
     "colors": {
@@ -18718,39 +18718,70 @@ const useProductJsonLd = (key, product) => {
     if (!item?.name) return null;
     const slug = String(item.slug || route.params.slug || "");
     const path = localePath2(`/products/${slug}`);
-    const images = [item.imageUrl, ...Array.isArray(item.images) ? item.images : [], ...Array.isArray(item.imageUrls) ? item.imageUrls : []].map((value) => String(value || "").trim()).filter(Boolean);
+    const fallbackImage = String(getLocalizedSetting("site_logo") || "").trim();
+    const images = [
+      item.imageUrl,
+      ...Array.isArray(item.images) ? item.images : [],
+      ...Array.isArray(item.imageUrls) ? item.imageUrls : [],
+      ...fallbackImage ? [fallbackImage] : []
+    ].map((value) => String(value || "").trim()).filter(Boolean);
+    const uniqueImages = [...new Set(images)];
     const name2 = String(item.name);
     const quote = productQuote({ price: item.price, metaData: item.metaData });
+    const availability = item.isActive === false ? "https://schema.org/OutOfStock" : "https://schema.org/InStock";
     const inLanguage = SEO_LOCALE_LANGUAGE[locale.value] || locale.value;
     const meta = resolveEntityMeta(item.metaData, locale.value);
     const keySpecs = normalizeGeoKeySpecs(meta.keySpecs);
     const faqs = normalizeGeoFaqs(meta.faqs);
+    const description2 = String(meta.tldr || item.description || item.content || "").replace(/<[^>]+>/g, " ").trim() || void 0;
+    const isSoftware = meta.schemaType === "SoftwareApplication" || ["subscription", "saas", "software"].includes(String(item.type || "").toLowerCase());
+    const siteName = getLocalizedSetting("site_name", "APay");
+    const primaryNode = isSoftware ? {
+      "@type": "SoftwareApplication",
+      "@id": `${path}#software`,
+      url: path,
+      name: name2,
+      description: description2,
+      applicationCategory: cleanPlainText(meta.applicationCategory) || "BusinessApplication",
+      operatingSystem: cleanPlainText(meta.operatingSystem) || "Web",
+      image: uniqueImages.length ? uniqueImages : void 0,
+      inLanguage,
+      offers: {
+        "@type": "Offer",
+        url: path,
+        price: quote.amount,
+        priceCurrency: quote.currency,
+        availability
+      }
+    } : {
+      "@type": "Product",
+      "@id": `${path}#product`,
+      name: name2,
+      description: description2,
+      image: uniqueImages.length ? uniqueImages : void 0,
+      brand: { "@type": "Brand", name: siteName },
+      inLanguage,
+      ...keySpecs.length ? {
+        additionalProperty: keySpecs.map((spec) => ({
+          "@type": "PropertyValue",
+          name: spec.label,
+          value: spec.value
+        }))
+      } : {},
+      offers: {
+        "@type": "Offer",
+        url: path,
+        price: quote.amount,
+        priceCurrency: quote.currency,
+        availability
+      }
+    };
     const nodes = [
-      {
-        "@type": "Product",
-        "@id": `${path}#product`,
-        name: name2,
-        description: String(meta.tldr || item.description || item.content || "").replace(/<[^>]+>/g, " ").trim() || void 0,
-        image: [...new Set(images)].length ? [...new Set(images)] : void 0,
-        inLanguage,
-        ...keySpecs.length ? {
-          additionalProperty: keySpecs.map((spec) => ({
-            "@type": "PropertyValue",
-            name: spec.label,
-            value: spec.value
-          }))
-        } : {},
-        offers: {
-          "@type": "Offer",
-          url: path,
-          price: quote.amount,
-          priceCurrency: quote.currency
-        }
-      },
+      primaryNode,
       {
         "@type": "BreadcrumbList",
         itemListElement: [
-          { "@type": "ListItem", position: 1, name: getLocalizedSetting("site_name", "APay"), item: localePath2("/") },
+          { "@type": "ListItem", position: 1, name: siteName, item: localePath2("/") },
           { "@type": "ListItem", position: 2, name: name2, item: path }
         ]
       }

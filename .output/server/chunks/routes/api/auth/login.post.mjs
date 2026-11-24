@@ -1,4 +1,4 @@
-import { d as defineEventHandler, c as getRequestLocale, e4 as validateLoginAuthorization, an as resolveClientIp, ao as checkIpRateLimit, e as createError, r as readBody, e5 as getUserLoginSecurityState, aq as consumeCaptchaTicket, b as db, w as users, dQ as isUserStatusActive, dR as createAccountUnavailableError, ar as verifyPassword, e6 as clearUserLoginFailure, e7 as issueLoginSession, dG as trackVisitorEvent, e8 as ensureVisitorId, e9 as recordUserLoginFailure } from '../../../nitro/nitro.mjs';
+import { d as defineEventHandler, c as getRequestLocale, e2 as validateLoginAuthorization, an as resolveClientIp, ao as checkIpRateLimit, e as createError, r as readBody, e3 as getUserLoginSecurityState, aq as consumeCaptchaTicket, b as db, w as users, dO as isUserStatusActive, dP as createAccountUnavailableError, ar as verifyPassword, e4 as clearUserLoginFailure, e5 as issueLoginSession, dG as trackVisitorEvent, e6 as ensureVisitorId, e7 as recordUserLoginFailure } from '../../../nitro/nitro.mjs';
 import { eq } from 'drizzle-orm';
 import 'node:crypto';
 import 'node:http2';
@@ -75,7 +75,7 @@ const login_post = defineEventHandler(async (event) => {
     throw createError({
       statusCode: 429,
       message: locale === "zh" ? `\u767B\u5F55\u5931\u8D25\u6B21\u6570\u8FC7\u591A\uFF0C\u5DF2\u88AB\u4E34\u65F6\u9501\u5B9A\uFF0C\u8BF7 ${minutes} \u5206\u949F\u540E\u518D\u8BD5` : `Too many failed attempts. Temporarily locked. Please try again in ${minutes} minute(s)`,
-      data: { needCaptcha: true, isLocked: true }
+      data: { needCaptcha: false, isLocked: true }
     });
   }
   if (secState.requiresCaptcha) {
@@ -101,13 +101,14 @@ const login_post = defineEventHandler(async (event) => {
       throw createError({
         statusCode: 429,
         message: locale === "zh" ? "\u5BC6\u7801\u9519\u8BEF\u6B21\u6570\u8FC7\u591A\uFF0C\u5DF2\u88AB\u9501\u5B9A 15 \u5206\u949F" : "Too many failed attempts. Locked for 15 minutes",
-        data: { needCaptcha: true, isLocked: true }
+        data: { needCaptcha: false, isLocked: true }
       });
     }
     throw createError({
       statusCode: 401,
       message,
-      data: { needCaptcha: failState.requiresCaptcha }
+      // 密码错误时先让用户看到报错并修改密码，不要立即弹滑块；下次提交时再由前置检查返回 403 + needCaptcha: true
+      data: { needCaptcha: false }
     });
   };
   const existingUsers = await db.select().from(users).where(eq(users.email, email)).limit(1);

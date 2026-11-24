@@ -75,7 +75,7 @@ const login_post = defineEventHandler(async (event) => {
     throw createError({
       statusCode: 429,
       message: locale === "zh" ? `\u5C1D\u8BD5\u8FC7\u4E8E\u9891\u7E41\uFF0C\u8D26\u53F7\u5DF2\u88AB\u4E34\u65F6\u9501\u5B9A\uFF0C\u8BF7 ${minutes} \u5206\u949F\u540E\u518D\u8BD5` : `Too many attempts. Account locked. Please try again in ${minutes} minute(s)`,
-      data: { needCaptcha: true, isLocked: true }
+      data: { needCaptcha: false, isLocked: true }
     });
   }
   if (secState.requiresCaptcha) {
@@ -102,13 +102,14 @@ const login_post = defineEventHandler(async (event) => {
       throw createError({
         statusCode: 429,
         message: locale === "zh" ? "\u5BC6\u7801\u9519\u8BEF\u6B21\u6570\u8FC7\u591A\uFF0C\u8D26\u53F7\u5DF2\u88AB\u9501\u5B9A 15 \u5206\u949F" : "Too many failed attempts. Account locked for 15 minutes",
-        data: { needCaptcha: true, isLocked: true }
+        data: { needCaptcha: false, isLocked: true }
       });
     }
     throw createError({
       statusCode: 401,
       message: locale === "zh" ? "\u7528\u6237\u540D\u6216\u5BC6\u7801\u9519\u8BEF" : "Invalid credentials",
-      data: { needCaptcha: failState.requiresCaptcha }
+      // 密码错误时先让用户看到报错并修改密码，不要立即弹滑块；下次提交时再由前置检查返回 403 + needCaptcha: true
+      data: { needCaptcha: false }
     });
   };
   const [user] = await db.select().from(admins).where(eq(admins.username, username)).limit(1);

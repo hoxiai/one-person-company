@@ -1,5 +1,5 @@
-import { fu as defineCachedEventHandler, g as getQuery, q as products, b as db } from '../../nitro/nitro.mjs';
-import { and, eq, count, desc } from 'drizzle-orm';
+import { d as defineEventHandler, g as getQuery, bB as normalizeAppKey, bC as normalizeReleaseChannel, fA as normalizeReleaseLang, bM as getBundledReleasesForApp, fB as listReleases, fF as pickLatestReleaseForTarget, fD as checkReleaseUpgrade, bJ as listReleaseApps } from '../../nitro/nitro.mjs';
+import 'drizzle-orm';
 import 'node:crypto';
 import 'node:http2';
 import 'node:fs';
@@ -35,32 +35,63 @@ import '@adonisjs/hash/drivers/scrypt';
 import 'jose';
 import 'node:child_process';
 
-const index_get = defineCachedEventHandler(async (event) => {
-  var _a;
+const index_get = defineEventHandler(async (event) => {
   const query = getQuery(event);
-  const page = Math.max(parseInt(query.page) || 1, 1);
-  const pageSize = Math.min(Math.max(parseInt(query.pageSize) || 100, 1), 200);
-  const offset = (page - 1) * pageSize;
-  const isPublicCondition = and(eq(products.status, "active"), eq(products.isActive, true));
-  const totalResult = await db.select({ value: count() }).from(products).where(isPublicCondition);
-  const total = ((_a = totalResult[0]) == null ? void 0 : _a.value) || 0;
-  const result = await db.select().from(products).where(isPublicCondition).orderBy(desc(products.sortOrder), desc(products.id)).limit(pageSize).offset(offset);
+  const rawApp = String(query.app || query.appKey || query.scope || "default").trim();
+  const appKey = rawApp === "all" ? "all" : normalizeAppKey(rawApp, "default");
+  const channel = query.channel === "all" ? "all" : normalizeReleaseChannel(query.channel);
+  const lang = normalizeReleaseLang(
+    typeof query.lang === "string" ? query.lang : typeof query.locale === "string" ? query.locale : "zh"
+  );
+  const limit = Math.min(100, Math.max(1, Number(query.limit) || 30));
+  const pkg = typeof query.package === "string" ? query.package.trim() : void 0;
+  const platform = typeof query.platform === "string" ? query.platform.trim() : typeof query.os === "string" ? query.os.trim() : void 0;
+  const arch = typeof query.arch === "string" ? query.arch.trim() : void 0;
+  const currentVersion = typeof query.version === "string" ? query.version.trim() : void 0;
+  const bundledFallback = appKey !== "all" ? getBundledReleasesForApp(appKey) : void 0;
+  const items = await listReleases({
+    appKey,
+    channel,
+    lang,
+    includeWithdrawn: false,
+    includeInactive: false,
+    limit,
+    bundledFallback
+  });
+  const targetMatch = pkg || platform || arch ? pickLatestReleaseForTarget(items, { package: pkg, platform, arch }) : null;
+  const latest = targetMatch ? targetMatch.release : items[0] || null;
+  const upgrade = appKey !== "all" && (currentVersion || pkg || platform || arch) ? await checkReleaseUpgrade({
+    appKey,
+    channel: channel === "all" ? "stable" : channel,
+    currentVersion,
+    lang,
+    package: pkg,
+    platform,
+    arch,
+    bundledFallback
+  }) : void 0;
+  const includeApps = query.includeApps === "1" || query.includeApps === "true";
+  const apps = includeApps ? await listReleaseApps() : void 0;
   return {
-    data: result,
-    total,
-    page,
-    pageSize
+    code: 0,
+    msg: "ok",
+    appKey,
+    channel,
+    lang,
+    latest,
+    releases: items,
+    ...upgrade ? { upgrade } : {},
+    ...apps ? { apps } : {},
+    data: {
+      appKey,
+      channel,
+      lang,
+      latest,
+      releases: items,
+      ...upgrade ? { upgrade } : {},
+      ...apps ? { apps } : {}
+    }
   };
-}, {
-  maxAge: 60,
-  // cache for 60 seconds
-  swr: true,
-  // serve stale content while revalidating
-  name: "products-list",
-  getKey: (event) => {
-    const query = getQuery(event);
-    return `page-${query.page || 1}-size-${query.pageSize || 100}`;
-  }
 });
 
 export { index_get as default };

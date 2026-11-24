@@ -1,4 +1,4 @@
-import { d as defineEventHandler, aU as requireTrustedRequestOrigin, c as getRequestLocale, eb as requireUserSession, e as createError, b as db, w as users, dQ as isUserStatusActive, dR as createAccountUnavailableError, ek as getEmailVerifySendCooldown, ds as revokeEmailVerifyTokens, el as issueEmailVerification, em as EMAIL_VERIFY_SEND_COOLDOWN_SECONDS } from '../../../nitro/nitro.mjs';
+import { d as defineEventHandler, aU as requireTrustedRequestOrigin, c as getRequestLocale, e9 as requireUserSession, e as createError, b as db, w as users, dO as isUserStatusActive, dP as createAccountUnavailableError, ei as getEmailVerifySendCooldown, ds as revokeEmailVerifyTokens, ej as issueEmailVerification, ek as EMAIL_VERIFY_SEND_COOLDOWN_SECONDS } from '../../../nitro/nitro.mjs';
 import { eq } from 'drizzle-orm';
 import 'node:crypto';
 import 'node:http2';

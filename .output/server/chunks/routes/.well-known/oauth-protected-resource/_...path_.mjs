@@ -1,4 +1,4 @@
-import { d as defineEventHandler, eA as applyMcpPublicCors, eB as resolveMcpServerOrigin, g9 as MCP_SUPPORTED_SCOPES } from '../../../nitro/nitro.mjs';
+import { d as defineEventHandler, ey as applyMcpPublicCors, ez as resolveMcpServerOrigin, g5 as MCP_SUPPORTED_SCOPES } from '../../../nitro/nitro.mjs';
 import 'drizzle-orm';
 import 'node:crypto';
 import 'node:http2';

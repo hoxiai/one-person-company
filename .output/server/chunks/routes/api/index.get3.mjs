@@ -1,5 +1,5 @@
-import { d as defineEventHandler, g as getQuery, e as createError, aP as getUserSession, e8 as ensureVisitorId, b as db, ey as likes } from '../../nitro/nitro.mjs';
-import { sql, and, eq, or, isNull } from 'drizzle-orm';
+import { fs as defineCachedEventHandler, ft as resolvePostRequestLocaleHint, b as db, bf as postCategories, fu as resolvePostLocaleContext, fv as localizePostCategory } from '../../nitro/nitro.mjs';
+import { eq, asc } from 'drizzle-orm';
 import 'node:crypto';
 import 'node:http2';
 import 'node:fs';
@@ -35,48 +35,22 @@ import '@adonisjs/hash/drivers/scrypt';
 import 'jose';
 import 'node:child_process';
 
-const index_get = defineEventHandler(async (event) => {
-  const query = getQuery(event);
-  const targetType = String(query.targetType || "").trim().toLowerCase();
-  const targetId = String(query.targetId || "").trim();
-  if (!targetType || !targetId) {
-    throw createError({
-      statusCode: 400,
-      statusMessage: "targetType and targetId are required"
-    });
-  }
-  const session = await getUserSession(event).catch(() => null);
-  const user = session == null ? void 0 : session.user;
-  const userId = (user == null ? void 0 : user.id) ? Number(user.id) : null;
-  const visitorId = ensureVisitorId(event);
-  const [countRow] = await db.select({ count: sql`count(*)` }).from(likes).where(and(eq(likes.targetType, targetType), eq(likes.targetId, targetId)));
-  const totalCount = Number((countRow == null ? void 0 : countRow.count) || 0);
-  let hasLiked = false;
-  if (userId) {
-    const userLikes = await db.select({ id: likes.id }).from(likes).where(
-      and(
-        eq(likes.targetType, targetType),
-        eq(likes.targetId, targetId),
-        or(eq(likes.userId, userId), and(isNull(likes.userId), eq(likes.visitorId, visitorId)))
-      )
-    ).limit(1);
-    hasLiked = userLikes.length > 0;
-  } else {
-    const visitorLikes = await db.select({ id: likes.id }).from(likes).where(
-      and(
-        eq(likes.targetType, targetType),
-        eq(likes.targetId, targetId),
-        eq(likes.visitorId, visitorId),
-        isNull(likes.userId)
-      )
-    ).limit(1);
-    hasLiked = visitorLikes.length > 0;
-  }
+const index_get = defineCachedEventHandler(async (event) => {
+  const rows = await db.select().from(postCategories).where(eq(postCategories.isActive, true)).orderBy(asc(postCategories.sort), asc(postCategories.id));
+  const localeContext = await resolvePostLocaleContext(event);
+  const locale = localeContext.isMultiLocaleEnabled ? localeContext.locale : localeContext.defaultLocale;
   return {
-    success: true,
-    count: totalCount,
-    hasLiked
+    data: rows.map((row) => ({
+      ...localizePostCategory(row, locale),
+      sort: row.sort
+    }))
   };
+}, {
+  maxAge: 60,
+  swr: true,
+  name: "post-categories",
+  varies: ["cookie", "accept-language", "referer", "x-apay-ssr-path", "host", "x-forwarded-host"],
+  getKey: (event) => `post-categories-l-${resolvePostRequestLocaleHint(event)}`
 });
 
 export { index_get as default };

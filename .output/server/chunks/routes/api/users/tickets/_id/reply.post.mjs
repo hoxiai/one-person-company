@@ -1,4 +1,4 @@
-import { d as defineEventHandler, aP as getUserSession, e as createError, f as getRouterParam, v as tickets, b as db, r as readBody, z as normalizeTicketAttachments, y as ticketMessages, ew as notifyCustomerMessage } from '../../../../../nitro/nitro.mjs';
+import { d as defineEventHandler, aP as getUserSession, e as createError, f as getRouterParam, v as tickets, b as db, r as readBody, z as normalizeTicketAttachments, y as ticketMessages, eu as notifyCustomerMessage } from '../../../../../nitro/nitro.mjs';
 import { or, eq, and } from 'drizzle-orm';
 import 'node:crypto';
 import 'node:http2';

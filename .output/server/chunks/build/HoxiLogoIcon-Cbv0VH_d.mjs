@@ -1,6 +1,6 @@
 import { mergeProps, useSSRContext } from 'vue';
 import { ssrRenderAttrs } from 'vue/server-renderer';
-import { gl as publicAssetsURL } from '../nitro/nitro.mjs';
+import { gp as publicAssetsURL } from '../nitro/nitro.mjs';
 import { Q as _export_sfc } from './server.mjs';
 import 'drizzle-orm';
 import 'node:crypto';

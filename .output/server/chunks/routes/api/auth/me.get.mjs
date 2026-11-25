@@ -1,4 +1,4 @@
-import { d as defineEventHandler, e9 as requireUserSession, b as db, w as users, dO as isUserStatusActive, av as clearUserSession, dP as createAccountUnavailableError, c as getRequestLocale, ea as overwriteSessionUser } from '../../../nitro/nitro.mjs';
+import { d as defineEventHandler, ec as requireUserSession, b as db, w as users, dQ as isUserStatusActive, av as clearUserSession, dR as createAccountUnavailableError, c as getRequestLocale, ed as overwriteSessionUser } from '../../../nitro/nitro.mjs';
 import { eq } from 'drizzle-orm';
 import 'node:crypto';
 import 'node:http2';
@@ -45,6 +45,7 @@ const me_get = defineEventHandler(async (event) => {
   const userRows = await db.select({
     id: users.id,
     email: users.email,
+    username: users.username,
     nickname: users.nickname,
     avatarUrl: users.avatarUrl,
     status: users.status,
@@ -64,6 +65,7 @@ const me_get = defineEventHandler(async (event) => {
     ...session.user,
     id: dbUser.id,
     email: dbUser.email,
+    username: dbUser.username || null,
     nickname: dbUser.nickname,
     avatarUrl: dbUser.avatarUrl,
     emailVerified,

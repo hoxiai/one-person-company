@@ -1,4 +1,4 @@
-import { d as defineEventHandler, c as getRequestLocale, an as resolveClientIp, ao as checkIpRateLimit, e as createError, r as readBody, dq as validateEmail, b as db, w as users, dO as isUserStatusActive, dP as createAccountUnavailableError, l as hashPassword, aK as emitEvent, dQ as getIntegrationToken, x as settings } from '../../../nitro/nitro.mjs';
+import { d as defineEventHandler, c as getRequestLocale, an as resolveClientIp, ao as checkIpRateLimit, e as createError, r as readBody, dq as validateEmail, b as db, w as users, dQ as isUserStatusActive, dR as createAccountUnavailableError, l as hashPassword, aK as emitEvent, dS as getIntegrationToken, x as settings } from '../../../nitro/nitro.mjs';
 import { timingSafeEqual } from 'node:crypto';
 import { eq, like } from 'drizzle-orm';
 import 'node:http2';

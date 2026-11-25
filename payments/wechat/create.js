@@ -16,7 +16,7 @@ const serialNo = config.serialNo || config.serial_no || "";
 const privateKey = normalizePem(config.privateKey || config.private_key || "");
 const currency = (config.currency || "CNY").toUpperCase();
 const baseUrl = (config.baseUrl || "https://api.mch.weixin.qq.com").replace(/\/+$/, "");
-const descriptionPrefix = config.descriptionPrefix || "APayShop Order";
+const descriptionPrefix = config.descriptionPrefix || "APay Order";
 const tradeType = String(config.tradeType || "auto").toLowerCase();
 
 if (!appid || !mchid || !serialNo || !privateKey) {
@@ -89,7 +89,7 @@ const callWechatApi = async (targetEndpoint, payloadBody) => {
       Accept: "application/json",
       "Content-Type": "application/json",
       Authorization: authHeader,
-      "User-Agent": "APayShop-WechatPay/1.0",
+      "User-Agent": "APay-WechatPay/1.0",
     },
     body: rawJson,
   });

@@ -1,4 +1,4 @@
-import { fc as createFreeOrderCompletionHandler } from '../../../nitro/nitro.mjs';
+import { fg as createFreeOrderCompletionHandler } from '../../../nitro/nitro.mjs';
 import 'drizzle-orm';
 import 'node:crypto';
 import 'node:http2';

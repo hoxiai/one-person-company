@@ -1,4 +1,4 @@
-import { d as defineEventHandler, c as getRequestLocale, f as getRouterParam, e as createError, U as topups, b as db, M as orders, q as products, w as users, d9 as balanceLogs, da as BALANCE_SCALE, db as getTopupManagementActions } from '../../../../nitro/nitro.mjs';
+import { d as defineEventHandler, c as getRequestLocale, f as getRouterParam, e as createError, U as topups, b as db, M as orders, q as products, w as users, d9 as balanceLogs, da as BALANCE_SCALE, db as getTopupArchiveVersion, dc as getTopupManagementActions } from '../../../../nitro/nitro.mjs';
 import { or, eq, inArray, desc } from 'drizzle-orm';
 import 'node:crypto';
 import 'node:http2';
@@ -115,6 +115,7 @@ const _id__get = defineEventHandler(async (event) => {
       creditAmount: Number(row.creditAmountCents || 0) / BALANCE_SCALE,
       shortfall: Number(row.shortfallCents || 0) / BALANCE_SCALE,
       managementActions: getTopupManagementActions(row),
+      archiveVersion: getTopupArchiveVersion(row),
       balanceLogs: logs.map((l) => ({
         ...l,
         amount: Number(l.amountCents || 0) / BALANCE_SCALE,

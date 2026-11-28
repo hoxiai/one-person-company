@@ -1,4 +1,4 @@
-import { d as defineEventHandler, e4 as validateLoginAuthorization, aU as requireTrustedRequestOrigin, c as getRequestLocale, an as resolveClientIp, ao as checkIpRateLimit, e as createError, r as readBody, ee as mergePromoTracking, ef as capturePromoTracking, eg as readPromoTracking, dn as PASSWORD_MIN_LENGTH, dq as validateEmail, dO as validateUsername, dP as getUsernameErrorMessage, b as db, w as users, dp as isUserStatusArchived, l as hashPassword, eh as isUniqueConstraintError, aV as ensurePromoMember, ei as bindInviteRelation, ej as requestPromoAgentJoin, aK as emitEvent, ek as promoAgentRelations, W as promoInviteRelations, bk as promoMembers, e8 as issueLoginSession, dG as trackVisitorEvent, e9 as ensureVisitorId, dj as userTokens, dt as EMAIL_VERIFY_TOKEN_NAME, ak as getLocalizedSettingValue, F as sendEmail, el as ACCOUNT_ARCHIVED_CODE } from '../../../nitro/nitro.mjs';
+import { d as defineEventHandler, e3 as validateLoginAuthorization, aU as requireTrustedRequestOrigin, c as getRequestLocale, an as resolveClientIp, ao as checkIpRateLimit, e as createError, r as readBody, ec as mergePromoTracking, ed as capturePromoTracking, ee as readPromoTracking, dp as PASSWORD_MIN_LENGTH, dr as validateEmail, b as db, w as users, dq as isUserStatusArchived, l as hashPassword, aV as ensurePromoMember, ef as bindInviteRelation, eg as requestPromoAgentJoin, aK as emitEvent, eh as promoAgentRelations, W as promoInviteRelations, bk as promoMembers, e6 as issueLoginSession, dH as trackVisitorEvent, e7 as ensureVisitorId, dk as userTokens, du as EMAIL_VERIFY_TOKEN_NAME, ak as getLocalizedSettingValue, F as sendEmail, ei as ACCOUNT_ARCHIVED_CODE } from '../../../nitro/nitro.mjs';
 import { eq } from 'drizzle-orm';
 import 'node:crypto';
 import 'node:http2';
@@ -63,7 +63,7 @@ const register_post = defineEventHandler(async (event) => {
     });
   }
   const body = await readBody(event);
-  const { email: rawEmail, password, nickname, username: rawUsername, inviteCode } = body;
+  const { email: rawEmail, password, nickname, inviteCode } = body;
   const promoTracking = mergePromoTracking(
     readPromoTracking(event),
     await capturePromoTracking(event)
@@ -89,17 +89,6 @@ const register_post = defineEventHandler(async (event) => {
     });
   }
   const email = emailValidation.normalizedEmail;
-  let normalizedUsername = null;
-  if (rawUsername !== void 0 && rawUsername !== null && String(rawUsername).trim() !== "") {
-    const usernameValidation = validateUsername(String(rawUsername));
-    if (!usernameValidation.valid || !usernameValidation.normalizedUsername) {
-      throw createError({
-        statusCode: 400,
-        message: getUsernameErrorMessage(usernameValidation.errorKey, locale)
-      });
-    }
-    normalizedUsername = usernameValidation.normalizedUsername;
-  }
   const existingUser = await db.select().from(users).where(eq(users.email, email)).limit(1);
   if (existingUser.length > 0) {
     if (isUserStatusArchived(existingUser[0].status)) {
@@ -115,40 +104,12 @@ const register_post = defineEventHandler(async (event) => {
       message: messages.userExists
     });
   }
-  if (normalizedUsername) {
-    const existingByUsername = await db.select({ id: users.id }).from(users).where(eq(users.username, normalizedUsername)).limit(1);
-    if (existingByUsername.length > 0) {
-      throw createError({
-        statusCode: 409,
-        message: getUsernameErrorMessage("username_taken", locale)
-      });
-    }
-  }
   const passwordHash = await hashPassword(password);
-  let newUser;
-  try {
-    newUser = await db.insert(users).values({
-      email,
-      username: normalizedUsername,
-      passwordHash,
-      nickname: nickname || normalizedUsername || email.split("@")[0]
-    }).returning();
-  } catch (insertErr) {
-    if (normalizedUsername && isUniqueConstraintError(insertErr)) {
-      const takenByUsername = await db.select({ id: users.id }).from(users).where(eq(users.username, normalizedUsername)).limit(1);
-      if (takenByUsername.length > 0) {
-        throw createError({
-          statusCode: 409,
-          message: getUsernameErrorMessage("username_taken", locale)
-        });
-      }
-      throw createError({
-        statusCode: 409,
-        message: messages.userExists
-      });
-    }
-    throw insertErr;
-  }
+  const newUser = await db.insert(users).values({
+    email,
+    passwordHash,
+    nickname: nickname || email.split("@")[0]
+  }).returning();
   const user = newUser[0];
   await ensurePromoMember(user.id);
   const resolvedInviteCode = String(inviteCode || promoTracking.inviteCode || promoTracking.promoCode || "").trim();
@@ -224,7 +185,6 @@ const register_post = defineEventHandler(async (event) => {
     user: {
       id: user.id,
       email: user.email,
-      username: user.username || null,
       nickname: user.nickname,
       emailVerified: false,
       emailVerifiedAt: null

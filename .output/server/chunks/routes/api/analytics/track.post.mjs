@@ -1,4 +1,4 @@
-import { d as defineEventHandler, c as getRequestLocale, r as readBody, e as createError, dE as isTrackableVisitorPath, dF as isBotRequest, aP as getUserSession, dG as trackVisitorEvent } from '../../../nitro/nitro.mjs';
+import { d as defineEventHandler, c as getRequestLocale, r as readBody, e as createError, dF as isTrackableVisitorPath, dG as isBotRequest, aP as getUserSession, dH as trackVisitorEvent } from '../../../nitro/nitro.mjs';
 import 'drizzle-orm';
 import 'node:crypto';
 import 'node:http2';

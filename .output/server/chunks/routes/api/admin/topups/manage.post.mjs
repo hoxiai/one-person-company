@@ -1,4 +1,4 @@
-import { d as defineEventHandler, e as createError, dc as adminHasPermission, r as readBody, dd as manageTopupRecord, s as setAuditMeta, de as TOPUP_MANAGEMENT_ACTIONS } from '../../../../nitro/nitro.mjs';
+import { d as defineEventHandler, e as createError, dd as adminHasPermission, r as readBody, de as manageTopupRecord, s as setAuditMeta, df as TOPUP_MANAGEMENT_ACTIONS } from '../../../../nitro/nitro.mjs';
 import { z } from 'zod';
 import 'drizzle-orm';
 import 'node:crypto';
@@ -36,10 +36,11 @@ import 'jose';
 import 'node:child_process';
 
 const inputSchema = z.object({
-  action: z.enum(TOPUP_MANAGEMENT_ACTIONS),
+  action: z.enum([...TOPUP_MANAGEMENT_ACTIONS, "archive_reviewed"]),
   ids: z.array(z.number().int().positive()).min(1).max(50),
-  reason: z.string().trim().min(1).max(500)
-});
+  reason: z.string().trim().min(1).max(500),
+  expectedArchiveVersion: z.string().regex(/^[a-f0-9]{64}$/).optional()
+}).refine((input) => input.action === "archive_reviewed" ? input.expectedArchiveVersion !== void 0 && input.ids.length === 1 : input.expectedArchiveVersion === void 0);
 const manage_post = defineEventHandler(async (event) => {
   const admin = event.context.admin;
   if (!(admin == null ? void 0 : admin.id)) throw createError({ statusCode: 401, message: "Administrator authentication required" });
@@ -48,11 +49,17 @@ const manage_post = defineEventHandler(async (event) => {
   }
   const input = inputSchema.safeParse(await readBody(event));
   if (!input.success) throw createError({ statusCode: 400, message: "Choose 1\u201350 records, an action and a reason (up to 500 characters)" });
-  const { action, reason } = input.data;
+  const { action, reason, expectedArchiveVersion } = input.data;
   const results = [];
   for (const id of new Set(input.data.ids)) {
     try {
-      results.push(await manageTopupRecord(id, action, reason, Number(admin.id)));
+      results.push(await manageTopupRecord(
+        id,
+        action === "archive_reviewed" ? "archive" : action,
+        reason,
+        Number(admin.id),
+        expectedArchiveVersion
+      ));
     } catch (error) {
       console.error(`[topups.manage] ${action} failed for record ${id}`, error);
       results.push({ id, outcome: "failed", reason: "failed" });

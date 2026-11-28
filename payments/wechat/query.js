@@ -48,7 +48,7 @@ try {
     headers: {
       Accept: "application/json",
       Authorization: authorization,
-      "User-Agent": "APay-WechatPay/1.0",
+      "User-Agent": "APayShop-WechatPay/1.0",
     },
   });
 

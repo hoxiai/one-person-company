@@ -1,5 +1,5 @@
-import { d as defineEventHandler, c as getRequestLocale, e4 as validateLoginAuthorization, an as resolveClientIp, ao as checkIpRateLimit, e as createError, r as readBody, e5 as getUserLoginSecurityState, aq as consumeCaptchaTicket, b as db, w as users, e6 as normalizeUsername, dQ as isUserStatusActive, dR as createAccountUnavailableError, ar as verifyPassword, e7 as clearUserLoginFailure, e8 as issueLoginSession, dG as trackVisitorEvent, e9 as ensureVisitorId, ea as recordUserLoginFailure } from '../../../nitro/nitro.mjs';
-import { eq, or } from 'drizzle-orm';
+import { d as defineEventHandler, c as getRequestLocale, e3 as validateLoginAuthorization, an as resolveClientIp, ao as checkIpRateLimit, e as createError, r as readBody, e4 as getUserLoginSecurityState, aq as consumeCaptchaTicket, b as db, w as users, dP as isUserStatusActive, dQ as createAccountUnavailableError, ar as verifyPassword, e5 as clearUserLoginFailure, e6 as issueLoginSession, dH as trackVisitorEvent, e7 as ensureVisitorId, e8 as recordUserLoginFailure } from '../../../nitro/nitro.mjs';
+import { eq } from 'drizzle-orm';
 import 'node:crypto';
 import 'node:http2';
 import 'node:fs';
@@ -40,15 +40,15 @@ const login_post = defineEventHandler(async (event) => {
   await validateLoginAuthorization(event);
   const ip = resolveClientIp(event);
   const messages = locale === "zh" ? {
-    emailPasswordRequired: "\u90AE\u7BB1/\u7528\u6237\u540D\u548C\u5BC6\u7801\u4E0D\u80FD\u4E3A\u7A7A",
-    invalidCredentials: "\u8D26\u53F7\u6216\u5BC6\u7801\u9519\u8BEF",
+    emailPasswordRequired: "\u90AE\u7BB1\u548C\u5BC6\u7801\u4E0D\u80FD\u4E3A\u7A7A",
+    invalidCredentials: "\u90AE\u7BB1\u6216\u5BC6\u7801\u9519\u8BEF",
     thirdPartyLogin: "\u8BE5\u8D26\u53F7\u4F7F\u7528\u7B2C\u4E09\u65B9\u767B\u5F55",
     rateLimited: "\u767B\u5F55\u5C1D\u8BD5\u8FC7\u4E8E\u9891\u7E41\uFF0C\u8BF7\u7A0D\u540E\u518D\u8BD5",
     needCaptcha: "\u8BF7\u5148\u5B8C\u6210\u5B89\u5168\u9A8C\u8BC1",
     captchaExpired: "\u5B89\u5168\u9A8C\u8BC1\u5DF2\u8FC7\u671F\u6216\u65E0\u6548\uFF0C\u8BF7\u91CD\u65B0\u9A8C\u8BC1"
   } : {
-    emailPasswordRequired: "Email/username and password are required",
-    invalidCredentials: "Invalid email/username or password",
+    emailPasswordRequired: "Email and password are required",
+    invalidCredentials: "Invalid email or password",
     thirdPartyLogin: "This account uses third-party login",
     rateLimited: "Too many login attempts, please try again later",
     needCaptcha: "Please complete the security verification",
@@ -62,16 +62,14 @@ const login_post = defineEventHandler(async (event) => {
     });
   }
   const body = await readBody(event);
-  const { email, identifier, username, password, captchaTicket } = body || {};
-  const rawIdentifier = String(identifier || email || username || "").trim();
-  const normalizedIdentifier = rawIdentifier.toLowerCase();
-  if (!rawIdentifier || !password) {
+  const { email, password, captchaTicket } = body || {};
+  if (!email || !password) {
     throw createError({
       statusCode: 400,
       message: messages.emailPasswordRequired
     });
   }
-  const secState = getUserLoginSecurityState(ip, normalizedIdentifier);
+  const secState = getUserLoginSecurityState(ip, email);
   if (secState.isLocked) {
     const minutes = Math.ceil(secState.lockRemainingMs / 6e4) || 1;
     throw createError({
@@ -98,7 +96,7 @@ const login_post = defineEventHandler(async (event) => {
     }
   }
   const handleAuthFailure = (message) => {
-    const failState = recordUserLoginFailure(ip, normalizedIdentifier);
+    const failState = recordUserLoginFailure(ip, email);
     if (failState.isLocked) {
       throw createError({
         statusCode: 429,
@@ -113,10 +111,7 @@ const login_post = defineEventHandler(async (event) => {
       data: { needCaptcha: false }
     });
   };
-  const isEmailLookup = normalizedIdentifier.includes("@");
-  const existingUsers = isEmailLookup ? await db.select().from(users).where(
-    normalizedIdentifier === rawIdentifier ? eq(users.email, normalizedIdentifier) : or(eq(users.email, normalizedIdentifier), eq(users.email, rawIdentifier))
-  ).limit(1) : await db.select().from(users).where(eq(users.username, normalizeUsername(rawIdentifier))).limit(1);
+  const existingUsers = await db.select().from(users).where(eq(users.email, email)).limit(1);
   if (existingUsers.length === 0) {
     handleAuthFailure(messages.invalidCredentials);
   }
@@ -137,7 +132,7 @@ const login_post = defineEventHandler(async (event) => {
   if (!isUserStatusActive(user.status)) {
     throw createAccountUnavailableError(user.status, locale, 403);
   }
-  clearUserLoginFailure(ip, normalizedIdentifier);
+  clearUserLoginFailure(ip, email);
   const loginResult = await issueLoginSession(event, user, "password");
   await trackVisitorEvent(event, {
     visitorId: ensureVisitorId(event),
@@ -151,7 +146,6 @@ const login_post = defineEventHandler(async (event) => {
     user: {
       id: user.id,
       email: user.email,
-      username: user.username || null,
       nickname: user.nickname,
       emailVerified: Boolean(user.emailVerifiedAt),
       emailVerifiedAt: user.emailVerifiedAt || null

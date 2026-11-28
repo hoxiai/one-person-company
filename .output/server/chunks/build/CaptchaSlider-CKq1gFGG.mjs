@@ -1,4 +1,4 @@
-import { u as useI18n, f as _sfc_main$L, j as _sfc_main$10 } from './server.mjs';
+import { u as useI18n$1, f as _sfc_main$L, j as _sfc_main$10 } from './server.mjs';
 import { defineComponent, ref, computed, watch, mergeProps, isRef, unref, withCtx, createVNode, toDisplayString, openBlock, createBlock, createCommentVNode, createTextVNode, useSSRContext } from 'vue';
 import { ssrRenderComponent, ssrInterpolate, ssrRenderAttr, ssrIncludeBooleanAttr, ssrRenderStyle } from 'vue/server-renderer';
 
@@ -17,7 +17,7 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
     const moveBlockLeft = ref(0);
     const errorMsg = ref("");
     const containerRef = ref(null);
-    const { locale } = useI18n();
+    const { locale } = useI18n$1();
     const isZh = computed(() => (locale.value || "").startsWith("zh"));
     let isDragging = false;
     let startX = 0;

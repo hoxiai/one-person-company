@@ -1,6 +1,6 @@
 import process from 'node:process';globalThis._importMeta_=globalThis._importMeta_||{url:"file:///_entry.js",env:process.env};import * as vue from 'vue';
-import { computed, useSlots, useId as useId$1, useAttrs, unref, mergeProps, withCtx, openBlock, createBlock, createVNode, resolveDynamicComponent, renderSlot, createTextVNode, toDisplayString as toDisplayString$1, createCommentVNode, hasInjectionContext, inject, getCurrentInstance, ref, watch, nextTick, toValue, defineComponent, h, createElementBlock, Fragment, renderList, provide, watchPostEffect, customRef, shallowRef, toRefs, watchEffect, toRef as toRef$1, camelize as camelize$1, reactive, normalizeStyle, mergeDefaults, Teleport, useModel, mergeModels, markRaw, toHandlerKey, getCurrentScope, onScopeDispose, shallowReadonly, toHandlers, cloneVNode, isRef, normalizeProps, guardReactiveProps, readonly, useTemplateRef, withKeys, withModifiers, resolveComponent, Comment, withAsyncContext, onServerPrefetch, defineAsyncComponent, createSlots, resolveDirective, createElementVNode, effectScope, withDirectives, vModelCheckbox, useSSRContext, toRaw, shallowReactive, Suspense, createApp, Text, onErrorCaptured, isReadonly, isShallow, isReactive } from 'vue';
-import { gI as serialize, gJ as defu, gK as createPricingContext, eE as setResponseStatus$1, E as getRequestURL, gL as isEqual$1, e as createError$1, gM as SEO_LOCALE_LANGUAGE, gN as getErrorRequestId, gO as resolveActiveTheme, gP as upperFirst, f6 as quoteProductPrice, gQ as defuFn, gR as REFUND_EFFECTS_COMPLETE, gS as resolveLocalizedSetting, gT as parse$1, es as getRequestHeader, gU as errorRecord, gV as errorData, gW as appendResponseHeader, gX as sanitizeStatusCode, gY as getContext, dZ as setCookie, dW as getCookie, dX as deleteCookie, cd as normalizeGeoKeySpecs, ce as normalizeGeoFaqs, cf as normalizeGeoRelatedLinks, fv as getRequestHeaders, gZ as htmlToCleanMarkdown, g_ as $fetch$1, g$ as baseURL, h0 as hash, h1 as createHooks, h2 as getRequestProtocol, h3 as executeAsync, h4 as normalizeSiteOrigin, h5 as filterSeoLocales, h6 as stripLocalePrefix$1, ci as classifySeoRoute, cj as seoRouteRegistry, h7 as localePathForSeo, h8 as isMarkdownMirrorPath, h9 as safeJsonLd, ha as localeDomainUrl, hb as themeHostConfigs } from '../nitro/nitro.mjs';
+import { computed, useSlots, useId as useId$1, useAttrs, unref, mergeProps, withCtx, openBlock, createBlock, createVNode, resolveDynamicComponent, renderSlot, createTextVNode, toDisplayString as toDisplayString$1, createCommentVNode, hasInjectionContext, inject, getCurrentInstance, ref, watch, nextTick, toValue, defineComponent, h, createElementBlock, Fragment, renderList, provide, watchPostEffect, customRef, shallowRef, toRefs, watchEffect, toRef as toRef$1, camelize as camelize$1, reactive, normalizeStyle, mergeDefaults, Teleport, useModel, mergeModels, markRaw, toHandlerKey, getCurrentScope, onScopeDispose, toHandlers, shallowReadonly, cloneVNode, isRef, normalizeProps, guardReactiveProps, readonly, useTemplateRef, withKeys, withModifiers, resolveComponent, Comment, withAsyncContext, onServerPrefetch, defineAsyncComponent, createSlots, resolveDirective, createElementVNode, effectScope, withDirectives, vModelCheckbox, useSSRContext, toRaw, shallowReactive, Suspense, createApp, Text, onErrorCaptured, isReadonly, isShallow, isReactive } from 'vue';
+import { gF as serialize, gG as defu, gH as createPricingContext, eB as setResponseStatus$1, E as getRequestURL, gI as isEqual$1, e as createError$1, gJ as SEO_LOCALE_LANGUAGE, gK as getErrorRequestId, gL as resolveActiveTheme, gM as upperFirst, f3 as quoteProductPrice, gN as defuFn, gO as REFUND_EFFECTS_COMPLETE, gP as resolveLocalizedSetting, gQ as parse$1, ep as getRequestHeader, gR as errorRecord, gS as errorData, gT as appendResponseHeader, gU as sanitizeStatusCode, gV as getContext, dY as setCookie, dV as getCookie, dW as deleteCookie, cd as normalizeGeoKeySpecs, ce as normalizeGeoFaqs, cf as normalizeGeoRelatedLinks, fs as getRequestHeaders, gW as htmlToCleanMarkdown, gX as $fetch$1, gY as baseURL, gZ as hash, g_ as createHooks, g$ as getRequestProtocol, h0 as executeAsync, h1 as normalizeSiteOrigin, h2 as filterSeoLocales, h3 as stripLocalePrefix$1, ci as classifySeoRoute, cj as seoRouteRegistry, h4 as localePathForSeo, h5 as isMarkdownMirrorPath, h6 as safeJsonLd, h7 as localeDomainUrl, h8 as themeHostConfigs } from '../nitro/nitro.mjs';
 import { useRoute as useRoute$1, useRouter as useRouter$1, RouterView, isNavigationFailure, createMemoryHistory, createRouter, START_LOCATION } from 'vue-router';
 import { Icon, getIcon, loadIcon as loadIcon$1, _api, addAPIProvider, setCustomIconsLoader } from '@iconify/vue';
 import { getIconCSS } from '@iconify/utils/lib/css/icon';
@@ -777,7 +777,7 @@ const createError = (error) => {
   });
   return nuxtError;
 };
-const unhead_k2P3m_ZDyjlr2mMYnoDPwavjsDN8hBlk9cFai0bbopU = /* @__PURE__ */ defineNuxtPlugin({
+const unhead__3VNFp9kmynTJbNp16cirTiPsy4Z8pY5jZVZPsTbsuw = /* @__PURE__ */ defineNuxtPlugin({
   name: "nuxt:head",
   enforce: "pre",
   setup(nuxtApp) {
@@ -897,259 +897,259 @@ const _routes = [
     name: "admin-posts-categories",
     path: "/admin/posts/categories",
     meta: __nuxt_page_meta$v || {},
-    component: () => import('./categories-BVe6dk63.mjs')
+    component: () => import('./categories-KIpFHGEL.mjs')
   },
   {
     name: "admin-posts-create",
     path: "/admin/posts/create",
     meta: __nuxt_page_meta$u || {},
-    component: () => import('./create-CpQ6nwq_.mjs')
+    component: () => import('./create-CJ4kTbSD.mjs')
   },
   {
     name: "admin-products-create",
     path: "/admin/products/create",
     meta: __nuxt_page_meta$t || {},
-    component: () => import('./create-kHz03pJN.mjs')
+    component: () => import('./create-BEosl38b.mjs')
   },
   {
     name: "admin-settings-authorization",
     path: "/admin/settings/authorization",
     meta: __nuxt_page_meta$s || {},
-    component: () => import('./authorization-sCopyuEJ.mjs')
+    component: () => import('./authorization-DJuPlJbB.mjs')
   },
   {
     name: "admin-settings-extensions",
     path: "/admin/settings/extensions",
     meta: __nuxt_page_meta$r || {},
-    component: () => import('./extensions-BdITlEzL.mjs')
+    component: () => import('./extensions-DjLHdWSF.mjs')
   },
   {
     name: "admin-settings-manages",
     path: "/admin/settings/manages",
     meta: __nuxt_page_meta$q || {},
-    component: () => import('./manages-CpPFZauM.mjs')
+    component: () => import('./manages-CY_ZfBzh.mjs')
   },
   {
     name: "admin-settings-product-presets",
     path: "/admin/settings/product-presets",
     meta: __nuxt_page_meta$p || {},
-    component: () => import('./product-presets-BTL5WXKu.mjs')
+    component: () => import('./product-presets-loh3UT1_.mjs')
   },
   {
     name: "admin-settings-releases",
     path: "/admin/settings/releases",
     meta: __nuxt_page_meta$o || {},
-    component: () => import('./releases-_66lOxFc.mjs')
+    component: () => import('./releases-BhPeaZjK.mjs')
   },
   {
     name: "admin-settings-themes",
     path: "/admin/settings/themes",
     meta: __nuxt_page_meta$n || {},
-    component: () => import('./themes-kEZ7opFw.mjs')
+    component: () => import('./themes-D4T3B5qX.mjs')
   },
   {
     name: "admin-posts-id",
     path: "/admin/posts/:id()",
     meta: __nuxt_page_meta$m || {},
-    component: () => import('./_id_-f90p5BuE.mjs')
+    component: () => import('./_id_-Ci8rGNo8.mjs')
   },
   {
     name: "admin-products-id",
     path: "/admin/products/:id()",
     meta: __nuxt_page_meta$l || {},
-    component: () => import('./_id_-CwkGw5IF.mjs')
+    component: () => import('./_id_-Cl6Vt74J.mjs')
   },
   {
     name: "admin-extensions-slug",
     path: "/admin/extensions/:slug(.*)*",
     meta: __nuxt_page_meta$k || {},
-    component: () => import('./_...slug_-BkYWqDYF.mjs')
+    component: () => import('./_...slug_-CBhTlIJx.mjs')
   },
   {
     name: "admin-plugins-slug",
     path: "/admin/plugins/:slug(.*)*",
     meta: __nuxt_page_meta$j || {},
-    component: () => import('./_...slug_-Wklk6tA2.mjs')
+    component: () => import('./_...slug_-DvnUn52P.mjs')
   },
   {
     name: "user-plugins-slug___en",
     path: "/user/plugins/:slug(.*)*",
-    component: () => import('./_...slug_-CFjZEaTA.mjs')
+    component: () => import('./_...slug_-C8Ez762A.mjs')
   },
   {
     name: "user-plugins-slug___zh",
     path: "/zh/user/plugins/:slug(.*)*",
-    component: () => import('./_...slug_-CFjZEaTA.mjs')
+    component: () => import('./_...slug_-C8Ez762A.mjs')
   },
   {
     name: "user-plugins-slug___zh-HK",
     path: "/zh-HK/user/plugins/:slug(.*)*",
-    component: () => import('./_...slug_-CFjZEaTA.mjs')
+    component: () => import('./_...slug_-C8Ez762A.mjs')
   },
   {
     name: "user-plugins-slug___ja",
     path: "/ja/user/plugins/:slug(.*)*",
-    component: () => import('./_...slug_-CFjZEaTA.mjs')
+    component: () => import('./_...slug_-C8Ez762A.mjs')
   },
   {
     name: "user-plugins-slug___ko",
     path: "/ko/user/plugins/:slug(.*)*",
-    component: () => import('./_...slug_-CFjZEaTA.mjs')
+    component: () => import('./_...slug_-C8Ez762A.mjs')
   },
   {
     name: "admin-cards",
     path: "/admin/cards",
-    component: () => import('./cards--oEi3YZW.mjs')
+    component: () => import('./cards-xoFDPwsc.mjs')
   },
   {
     name: "admin-comments",
     path: "/admin/comments",
     meta: __nuxt_page_meta$i || {},
-    component: () => import('./comments-B66HBi3o.mjs')
+    component: () => import('./comments-CLWmW_Hv.mjs')
   },
   {
     name: "admin-customers",
     path: "/admin/customers",
     meta: __nuxt_page_meta$h || {},
-    component: () => import('./customers-Dou_j1yC.mjs')
+    component: () => import('./customers-ZXKkHjF4.mjs')
   },
   {
     name: "admin-dashboard",
     path: "/admin/dashboard",
     meta: __nuxt_page_meta$g || {},
-    component: () => import('./dashboard-BfGQYS6a.mjs')
+    component: () => import('./dashboard-Bm0tSpTD.mjs')
   },
   {
     name: "admin-login",
     path: "/admin/login",
     meta: __nuxt_page_meta$f || {},
-    component: () => import('./login-BSa4dBr6.mjs')
+    component: () => import('./login-Dw5blIgh.mjs')
   },
   {
     name: "admin-logs",
     path: "/admin/logs",
     meta: __nuxt_page_meta$e || {},
-    component: () => import('./logs-C2acQIhx.mjs')
+    component: () => import('./logs-DKQ6UqIm.mjs')
   },
   {
     name: "admin-newsletter",
     path: "/admin/newsletter",
     meta: __nuxt_page_meta$d || {},
-    component: () => import('./newsletter-B3NuBLmw.mjs')
+    component: () => import('./newsletter-DDS_U2GM.mjs')
   },
   {
     name: "admin-orders",
     path: "/admin/orders",
     meta: __nuxt_page_meta$c || {},
-    component: () => import('./orders-DpQyaX30.mjs')
+    component: () => import('./orders-ZJBEiDLR.mjs')
   },
   {
     name: "admin-payments",
     path: "/admin/payments",
     meta: __nuxt_page_meta$b || {},
-    component: () => import('./payments-CuFBRVca.mjs')
+    component: () => import('./payments-BxkLlePD.mjs')
   },
   {
     name: "admin-posts",
     path: "/admin/posts",
     meta: __nuxt_page_meta$a || {},
-    component: () => import('./index-CZHhXaoA.mjs')
+    component: () => import('./index-BrHHmyPG.mjs')
   },
   {
     name: "admin-products",
     path: "/admin/products",
     meta: __nuxt_page_meta$9 || {},
-    component: () => import('./index-CPZoCSYw.mjs')
+    component: () => import('./index-DJ4P15VB.mjs')
   },
   {
     name: "admin-profile",
     path: "/admin/profile",
     meta: __nuxt_page_meta$8 || {},
-    component: () => import('./profile-BQL-vT8J.mjs')
+    component: () => import('./profile-BVAPllZz.mjs')
   },
   {
     name: "admin-promo",
     path: "/admin/promo",
     meta: __nuxt_page_meta$7 || {},
-    component: () => import('./promo-NdpnSTWk.mjs')
+    component: () => import('./promo-BYSAzxya.mjs')
   },
   {
     name: "admin-releases",
     path: "/admin/releases",
     meta: __nuxt_page_meta$6 || {},
-    component: () => import('./releases-Jq3vBNjn.mjs')
+    component: () => import('./releases-Dr962_oY.mjs')
   },
   {
     name: "admin-settings",
     path: "/admin/settings",
     meta: __nuxt_page_meta$5 || {},
-    component: () => import('./index-CkJqBYCz.mjs')
+    component: () => import('./index-DMqRQRiE.mjs')
   },
   {
     name: "admin-setup",
     path: "/admin/setup",
     meta: __nuxt_page_meta$4 || {},
-    component: () => import('./setup-DG2HDtTw.mjs')
+    component: () => import('./setup-nl4y46h_.mjs')
   },
   {
     name: "admin-stats",
     path: "/admin/stats",
     meta: __nuxt_page_meta$3 || {},
-    component: () => import('./stats-CAFJI4lJ.mjs')
+    component: () => import('./stats-BKUInA4a.mjs')
   },
   {
     name: "admin-subscriptions",
     path: "/admin/subscriptions",
-    component: () => import('./subscriptions-DiCO1NNL.mjs')
+    component: () => import('./subscriptions-DdGVyeAH.mjs')
   },
   {
     name: "admin-tickets",
     path: "/admin/tickets",
     meta: __nuxt_page_meta$2 || {},
-    component: () => import('./tickets-DD5Kx5Ze.mjs')
+    component: () => import('./tickets-bdNxdR2q.mjs')
   },
   {
     name: "admin-topups",
     path: "/admin/topups",
-    component: () => import('./topups-Cd3THBLQ.mjs')
+    component: () => import('./topups-xwDNOghc.mjs')
   },
   {
     name: "admin-visitors",
     path: "/admin/stats/visitors",
     meta: __nuxt_page_meta$1 || {},
     alias: ["/admin/visitors"],
-    component: () => import('./visitors-D8qzbaKH.mjs')
+    component: () => import('./visitors-BFQ76kby.mjs')
   },
   {
     name: "admin",
     path: "/admin",
     meta: __nuxt_page_meta || {},
-    component: () => import('./index-CJR4IOkR.mjs')
+    component: () => import('./index-B-1Pvxba.mjs')
   },
   {
     name: "slug___en",
     path: "/:slug(.*)*",
-    component: () => import('./_...slug_-BGqZSc7w.mjs')
+    component: () => import('./_...slug_-on3J2dzk.mjs')
   },
   {
     name: "slug___zh",
     path: "/zh/:slug(.*)*",
-    component: () => import('./_...slug_-BGqZSc7w.mjs')
+    component: () => import('./_...slug_-on3J2dzk.mjs')
   },
   {
     name: "slug___zh-HK",
     path: "/zh-HK/:slug(.*)*",
-    component: () => import('./_...slug_-BGqZSc7w.mjs')
+    component: () => import('./_...slug_-on3J2dzk.mjs')
   },
   {
     name: "slug___ja",
     path: "/ja/:slug(.*)*",
-    component: () => import('./_...slug_-BGqZSc7w.mjs')
+    component: () => import('./_...slug_-on3J2dzk.mjs')
   },
   {
     name: "slug___ko",
     path: "/ko/:slug(.*)*",
-    component: () => import('./_...slug_-BGqZSc7w.mjs')
+    component: () => import('./_...slug_-on3J2dzk.mjs')
   }
 ];
 const _wrapInTransition = (props, children) => {
@@ -3613,7 +3613,7 @@ function resolveValue(obj, path) {
   }
   return last;
 }
-const VERSION$1 = "10.0.8";
+const VERSION$2 = "10.0.8";
 const NOT_REOSLVED = -1;
 const DEFAULT_LOCALE = "en-US";
 const MISSING_RESOLVE_VALUE = "";
@@ -3653,7 +3653,7 @@ const getFallbackContext = () => _fallbackContext;
 let _cid = 0;
 function createCoreContext(options = {}) {
   const onWarn = isFunction(options.onWarn) ? options.onWarn : warn;
-  const version2 = isString(options.version) ? options.version : VERSION$1;
+  const version2 = isString(options.version) ? options.version : VERSION$2;
   const locale = isString(options.locale) || isFunction(options.locale) ? options.locale : DEFAULT_LOCALE;
   const _locale = isFunction(locale) ? DEFAULT_LOCALE : locale;
   const fallbackLocale = isArray$1(options.fallbackLocale) || isPlainObject(options.fallbackLocale) || isString(options.fallbackLocale) || options.fallbackLocale === false ? options.fallbackLocale : _locale;
@@ -4283,8 +4283,8 @@ function getMessageContextOptions(context2, locale, message, options) {
   }
   return ctxOptions;
 }
-const VERSION = "10.0.8";
-const I18nErrorCodes = {
+const VERSION$1 = "10.0.8";
+const I18nErrorCodes$1 = {
   // composer module errors
   UNEXPECTED_RETURN_TYPE: CORE_ERROR_CODES_EXTEND_POINT,
   // 24
@@ -4299,16 +4299,16 @@ const I18nErrorCodes = {
   NOT_INSTALLED_WITH_PROVIDE: 31,
   // unexpected error
   UNEXPECTED_ERROR: 32};
-function createI18nError(code, ...args) {
+function createI18nError$1(code, ...args) {
   return createCompileError(code, null, void 0);
 }
-const TranslateVNodeSymbol = /* @__PURE__ */ makeSymbol("__translateVNode");
-const DatetimePartsSymbol = /* @__PURE__ */ makeSymbol("__datetimeParts");
-const NumberPartsSymbol = /* @__PURE__ */ makeSymbol("__numberParts");
-const SetPluralRulesSymbol = makeSymbol("__setPluralRules");
-const InejctWithOptionSymbol = /* @__PURE__ */ makeSymbol("__injectWithOption");
-const DisposeSymbol = /* @__PURE__ */ makeSymbol("__dispose");
-function handleFlatJson(obj) {
+const TranslateVNodeSymbol$1 = /* @__PURE__ */ makeSymbol("__translateVNode");
+const DatetimePartsSymbol$1 = /* @__PURE__ */ makeSymbol("__datetimeParts");
+const NumberPartsSymbol$1 = /* @__PURE__ */ makeSymbol("__numberParts");
+const SetPluralRulesSymbol$1 = makeSymbol("__setPluralRules");
+const InejctWithOptionSymbol$1 = /* @__PURE__ */ makeSymbol("__injectWithOption");
+const DisposeSymbol$1 = /* @__PURE__ */ makeSymbol("__dispose");
+function handleFlatJson$1(obj) {
   if (!isObject$3(obj)) {
     return obj;
   }
@@ -4321,7 +4321,7 @@ function handleFlatJson(obj) {
     }
     if (!key.includes(".")) {
       if (isObject$3(obj[key])) {
-        handleFlatJson(obj[key]);
+        handleFlatJson$1(obj[key]);
       }
     } else {
       const subKeys = key.split(".");
@@ -4354,14 +4354,14 @@ function handleFlatJson(obj) {
       if (!isMessageAST(currentObj)) {
         const target = currentObj[subKeys[lastIndex]];
         if (isObject$3(target)) {
-          handleFlatJson(target);
+          handleFlatJson$1(target);
         }
       }
     }
   }
   return obj;
 }
-function getLocaleMessages(locale, options) {
+function getLocaleMessages$1(locale, options) {
   const { messages: messages2, __i18n, messageResolver, flatJson } = options;
   const ret = isPlainObject(messages2) ? messages2 : isArray$1(__i18n) ? create() : { [locale]: create() };
   if (isArray$1(__i18n)) {
@@ -4382,19 +4382,19 @@ function getLocaleMessages(locale, options) {
   if (messageResolver == null && flatJson) {
     for (const key in ret) {
       if (hasOwn(ret, key)) {
-        handleFlatJson(ret[key]);
+        handleFlatJson$1(ret[key]);
       }
     }
   }
   return ret;
 }
-function getComponentOptions(instance) {
+function getComponentOptions$1(instance) {
   return instance.type;
 }
-function adjustI18nResources(gl, options, componentOptions) {
+function adjustI18nResources$1(gl, options, componentOptions) {
   let messages2 = isObject$3(options.messages) ? options.messages : create();
   if ("__i18nGlobal" in componentOptions) {
-    messages2 = getLocaleMessages(gl.locale.value, {
+    messages2 = getLocaleMessages$1(gl.locale.value, {
       messages: messages2,
       __i18n: componentOptions.__i18nGlobal
     });
@@ -4424,24 +4424,24 @@ function adjustI18nResources(gl, options, componentOptions) {
     }
   }
 }
-function createTextNode(key) {
+function createTextNode$1(key) {
   return createVNode(Text, null, key, 0);
 }
-const DEVTOOLS_META = "__INTLIFY_META__";
-const NOOP_RETURN_ARRAY = () => [];
-const NOOP_RETURN_FALSE = () => false;
-let composerID = 0;
-function defineCoreMissingHandler(missing) {
+const DEVTOOLS_META$1 = "__INTLIFY_META__";
+const NOOP_RETURN_ARRAY$1 = () => [];
+const NOOP_RETURN_FALSE$1 = () => false;
+let composerID$1 = 0;
+function defineCoreMissingHandler$1(missing) {
   return ((ctx, locale, key, type) => {
     return missing(locale, key, getCurrentInstance() || void 0, type);
   });
 }
-const getMetaInfo = /* @__NO_SIDE_EFFECTS__ */ () => {
+const getMetaInfo$1 = /* @__NO_SIDE_EFFECTS__ */ () => {
   const instance = getCurrentInstance();
   let meta = null;
-  return instance && (meta = getComponentOptions(instance)[DEVTOOLS_META]) ? { [DEVTOOLS_META]: meta } : null;
+  return instance && (meta = getComponentOptions$1(instance)[DEVTOOLS_META$1]) ? { [DEVTOOLS_META$1]: meta } : null;
 };
-function createComposer(options = {}) {
+function createComposer$1(options = {}) {
   const { __root, __injectWithOption } = options;
   const _isGlobal = __root === void 0;
   const flatJson = options.flatJson;
@@ -4455,7 +4455,7 @@ function createComposer(options = {}) {
     // prettier-ignore
     __root && _inheritLocale ? __root.fallbackLocale.value : isString(options.fallbackLocale) || isArray$1(options.fallbackLocale) || isPlainObject(options.fallbackLocale) || options.fallbackLocale === false ? options.fallbackLocale : _locale.value
   );
-  const _messages = _ref(getLocaleMessages(_locale.value, options));
+  const _messages = _ref(getLocaleMessages$1(_locale.value, options));
   const _datetimeFormats = _ref(isPlainObject(options.datetimeFormats) ? options.datetimeFormats : { [_locale.value]: {} });
   const _numberFormats = _ref(isPlainObject(options.numberFormats) ? options.numberFormats : { [_locale.value]: {} });
   let _missingWarn = __root ? __root.missingWarn : isBoolean(options.missingWarn) || isRegExp(options.missingWarn) ? options.missingWarn : true;
@@ -4463,7 +4463,7 @@ function createComposer(options = {}) {
   let _fallbackRoot = __root ? __root.fallbackRoot : isBoolean(options.fallbackRoot) ? options.fallbackRoot : true;
   let _fallbackFormat = !!options.fallbackFormat;
   let _missing = isFunction(options.missing) ? options.missing : null;
-  let _runtimeMissing = isFunction(options.missing) ? defineCoreMissingHandler(options.missing) : null;
+  let _runtimeMissing = isFunction(options.missing) ? defineCoreMissingHandler$1(options.missing) : null;
   let _postTranslation = isFunction(options.postTranslation) ? options.postTranslation : null;
   let _warnHtmlMessage = __root ? __root.warnHtmlMessage : isBoolean(options.warnHtmlMessage) ? options.warnHtmlMessage : true;
   let _escapeParameter = !!options.escapeParameter;
@@ -4473,7 +4473,7 @@ function createComposer(options = {}) {
   const getCoreContext = () => {
     _isGlobal && setFallbackContext(null);
     const ctxOptions = {
-      version: VERSION,
+      version: VERSION$1,
       locale: _locale.value,
       fallbackLocale: _fallbackLocale.value,
       messages: _messages.value,
@@ -4542,7 +4542,7 @@ function createComposer(options = {}) {
   }
   function setMissingHandler(handler) {
     if (handler !== null) {
-      _runtimeMissing = defineCoreMissingHandler(handler);
+      _runtimeMissing = defineCoreMissingHandler$1(handler);
     }
     _missing = handler;
     _context.missing = _runtimeMissing;
@@ -4568,7 +4568,7 @@ function createComposer(options = {}) {
     } else if (successCondition(ret)) {
       return ret;
     } else {
-      throw createI18nError(I18nErrorCodes.UNEXPECTED_RETURN_TYPE);
+      throw createI18nError$1(I18nErrorCodes$1.UNEXPECTED_RETURN_TYPE);
     }
   };
   function t(...args) {
@@ -4577,7 +4577,7 @@ function createComposer(options = {}) {
   function rt(...args) {
     const [arg1, arg2, arg3] = args;
     if (arg3 && !isObject$3(arg3)) {
-      throw createI18nError(I18nErrorCodes.INVALID_ARGUMENT);
+      throw createI18nError$1(I18nErrorCodes$1.INVALID_ARGUMENT);
     }
     return t(...[arg1, arg2, assign({ resolvedMessage: true }, arg3 || {})]);
   }
@@ -4588,7 +4588,7 @@ function createComposer(options = {}) {
     return wrapWithDeps((context2) => Reflect.apply(number, null, [context2, ...args]), () => parseNumberArgs(...args), "number format", (root) => Reflect.apply(root.n, root, [...args]), () => MISSING_RESOLVE_VALUE, (val) => isString(val));
   }
   function normalize(values) {
-    return values.map((val) => isString(val) || isNumber$1(val) || isBoolean(val) ? createTextNode(String(val)) : val);
+    return values.map((val) => isString(val) || isNumber$1(val) || isBoolean(val) ? createTextNode$1(String(val)) : val);
   }
   const interpolate = (val) => val;
   const processor = {
@@ -4607,13 +4607,13 @@ function createComposer(options = {}) {
         _context2.processor = null;
       }
       return ret;
-    }, () => parseTranslateArgs(...args), "translate", (root) => root[TranslateVNodeSymbol](...args), (key) => [createTextNode(key)], (val) => isArray$1(val));
+    }, () => parseTranslateArgs(...args), "translate", (root) => root[TranslateVNodeSymbol$1](...args), (key) => [createTextNode$1(key)], (val) => isArray$1(val));
   }
   function numberParts(...args) {
-    return wrapWithDeps((context2) => Reflect.apply(number, null, [context2, ...args]), () => parseNumberArgs(...args), "number format", (root) => root[NumberPartsSymbol](...args), NOOP_RETURN_ARRAY, (val) => isString(val) || isArray$1(val));
+    return wrapWithDeps((context2) => Reflect.apply(number, null, [context2, ...args]), () => parseNumberArgs(...args), "number format", (root) => root[NumberPartsSymbol$1](...args), NOOP_RETURN_ARRAY$1, (val) => isString(val) || isArray$1(val));
   }
   function datetimeParts(...args) {
-    return wrapWithDeps((context2) => Reflect.apply(datetime, null, [context2, ...args]), () => parseDateTimeArgs(...args), "datetime format", (root) => root[DatetimePartsSymbol](...args), NOOP_RETURN_ARRAY, (val) => isString(val) || isArray$1(val));
+    return wrapWithDeps((context2) => Reflect.apply(datetime, null, [context2, ...args]), () => parseDateTimeArgs(...args), "datetime format", (root) => root[DatetimePartsSymbol$1](...args), NOOP_RETURN_ARRAY$1, (val) => isString(val) || isArray$1(val));
   }
   function setPluralRules(rules) {
     _pluralRules = rules;
@@ -4630,7 +4630,7 @@ function createComposer(options = {}) {
       return isMessageAST(resolved) || isMessageFunction(resolved) || isString(resolved);
     }, () => [key], "translate exists", (root) => {
       return Reflect.apply(root.te, root, [key, locale2]);
-    }, NOOP_RETURN_FALSE, (val) => isBoolean(val));
+    }, NOOP_RETURN_FALSE$1, (val) => isBoolean(val));
   }
   function resolveMessages(key) {
     let messages22 = null;
@@ -4657,7 +4657,7 @@ function createComposer(options = {}) {
       const _message = { [locale2]: message };
       for (const key in _message) {
         if (hasOwn(_message, key)) {
-          handleFlatJson(_message[key]);
+          handleFlatJson$1(_message[key]);
         }
       }
       message = _message[locale2];
@@ -4671,7 +4671,7 @@ function createComposer(options = {}) {
     if (flatJson) {
       for (const key in _message) {
         if (hasOwn(_message, key)) {
-          handleFlatJson(_message[key]);
+          handleFlatJson$1(_message[key]);
         }
       }
     }
@@ -4705,9 +4705,9 @@ function createComposer(options = {}) {
     _context.numberFormats = _numberFormats.value;
     clearNumberFormat(_context, locale2, format2);
   }
-  composerID++;
+  composerID$1++;
   const composer = {
-    id: composerID,
+    id: composerID$1,
     locale,
     fallbackLocale,
     get inheritLocale() {
@@ -4783,7 +4783,7 @@ function createComposer(options = {}) {
     setPostTranslationHandler,
     getMissingHandler,
     setMissingHandler,
-    [SetPluralRulesSymbol]: setPluralRules
+    [SetPluralRulesSymbol$1]: setPluralRules
   };
   {
     composer.datetimeFormats = datetimeFormats;
@@ -4799,14 +4799,14 @@ function createComposer(options = {}) {
     composer.getNumberFormat = getNumberFormat;
     composer.setNumberFormat = setNumberFormat;
     composer.mergeNumberFormat = mergeNumberFormat;
-    composer[InejctWithOptionSymbol] = __injectWithOption;
-    composer[TranslateVNodeSymbol] = translateVNode;
-    composer[DatetimePartsSymbol] = datetimeParts;
-    composer[NumberPartsSymbol] = numberParts;
+    composer[InejctWithOptionSymbol$1] = __injectWithOption;
+    composer[TranslateVNodeSymbol$1] = translateVNode;
+    composer[DatetimePartsSymbol$1] = datetimeParts;
+    composer[NumberPartsSymbol$1] = numberParts;
   }
   return composer;
 }
-const baseFormatProps = {
+const baseFormatProps$1 = {
   tag: {
     type: [String, Object]
   },
@@ -4824,7 +4824,7 @@ const baseFormatProps = {
     type: Object
   }
 };
-function getInterpolateArg({ slots }, keys) {
+function getInterpolateArg$1({ slots }, keys) {
   if (keys.length === 1 && keys[0] === "default") {
     const ret = slots.default ? slots.default() : [];
     return ret.reduce((slot, current) => {
@@ -4844,7 +4844,7 @@ function getInterpolateArg({ slots }, keys) {
     }, create());
   }
 }
-function getFragmentableTag() {
+function getFragmentableTag$1() {
   return Fragment;
 }
 const TranslationImpl = /* @__PURE__ */ defineComponent({
@@ -4859,12 +4859,12 @@ const TranslationImpl = /* @__PURE__ */ defineComponent({
       type: [Number, String],
       validator: (val) => isNumber$1(val) || !isNaN(val)
     }
-  }, baseFormatProps),
+  }, baseFormatProps$1),
   /* eslint-enable */
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   setup(props, context2) {
     const { slots, attrs } = context2;
-    const i18n = props.i18n || useI18n({
+    const i18n = props.i18n || useI18n$1({
       useScope: props.scope,
       __useComponent: true
     });
@@ -4877,19 +4877,19 @@ const TranslationImpl = /* @__PURE__ */ defineComponent({
       if (props.plural !== void 0) {
         options.plural = isString(props.plural) ? +props.plural : props.plural;
       }
-      const arg = getInterpolateArg(context2, keys);
-      const children = i18n[TranslateVNodeSymbol](props.keypath, arg, options);
+      const arg = getInterpolateArg$1(context2, keys);
+      const children = i18n[TranslateVNodeSymbol$1](props.keypath, arg, options);
       const assignedAttrs = assign(create(), attrs);
-      const tag = isString(props.tag) || isObject$3(props.tag) ? props.tag : getFragmentableTag();
+      const tag = isString(props.tag) || isObject$3(props.tag) ? props.tag : getFragmentableTag$1();
       return h(tag, assignedAttrs, children);
     };
   }
 });
 const Translation = TranslationImpl;
-function isVNode(target) {
+function isVNode$1(target) {
   return isArray$1(target) && !isString(target[0]);
 }
-function renderFormatter(props, context2, slotKeys, partFormatter) {
+function renderFormatter$1(props, context2, slotKeys, partFormatter) {
   const { slots, attrs } = context2;
   return () => {
     const options = { part: true };
@@ -4913,7 +4913,7 @@ function renderFormatter(props, context2, slotKeys, partFormatter) {
       children = parts.map((part, index2) => {
         const slot = slots[part.type];
         const node = slot ? slot({ [part.type]: part.value, index: index2, parts }) : [part.value];
-        if (isVNode(node)) {
+        if (isVNode$1(node)) {
           node[0].key = `${part.type}-${index2}`;
         }
         return node;
@@ -4922,7 +4922,7 @@ function renderFormatter(props, context2, slotKeys, partFormatter) {
       children = [parts];
     }
     const assignedAttrs = assign(create(), attrs);
-    const tag = isString(props.tag) || isObject$3(props.tag) ? props.tag : getFragmentableTag();
+    const tag = isString(props.tag) || isObject$3(props.tag) ? props.tag : getFragmentableTag$1();
     return h(tag, assignedAttrs, children);
   };
 }
@@ -4937,17 +4937,17 @@ const NumberFormatImpl = /* @__PURE__ */ defineComponent({
     format: {
       type: [String, Object]
     }
-  }, baseFormatProps),
+  }, baseFormatProps$1),
   /* eslint-enable */
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   setup(props, context2) {
-    const i18n = props.i18n || useI18n({
+    const i18n = props.i18n || useI18n$1({
       useScope: props.scope,
       __useComponent: true
     });
-    return renderFormatter(props, context2, NUMBER_FORMAT_OPTIONS_KEYS, (...args) => (
+    return renderFormatter$1(props, context2, NUMBER_FORMAT_OPTIONS_KEYS, (...args) => (
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      i18n[NumberPartsSymbol](...args)
+      i18n[NumberPartsSymbol$1](...args)
     ));
   }
 });
@@ -4963,22 +4963,22 @@ const DatetimeFormatImpl = /* @__PURE__ */ defineComponent({
     format: {
       type: [String, Object]
     }
-  }, baseFormatProps),
+  }, baseFormatProps$1),
   /* eslint-enable */
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   setup(props, context2) {
-    const i18n = props.i18n || useI18n({
+    const i18n = props.i18n || useI18n$1({
       useScope: props.scope,
       __useComponent: true
     });
-    return renderFormatter(props, context2, DATETIME_FORMAT_OPTIONS_KEYS, (...args) => (
+    return renderFormatter$1(props, context2, DATETIME_FORMAT_OPTIONS_KEYS, (...args) => (
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      i18n[DatetimePartsSymbol](...args)
+      i18n[DatetimePartsSymbol$1](...args)
     ));
   }
 });
 const DatetimeFormat = DatetimeFormatImpl;
-function getComposer$1(i18n, instance) {
+function getComposer$1$1(i18n, instance) {
   const i18nInternal = i18n;
   if (i18n.mode === "composition") {
     return i18nInternal.__getInstance(instance) || i18n.global;
@@ -4991,9 +4991,9 @@ function vTDirective(i18n) {
   const _process = (binding) => {
     const { instance, value } = binding;
     if (!instance || !instance.$) {
-      throw createI18nError(I18nErrorCodes.UNEXPECTED_ERROR);
+      throw createI18nError$1(I18nErrorCodes$1.UNEXPECTED_ERROR);
     }
-    const composer = getComposer$1(i18n, instance.$);
+    const composer = getComposer$1$1(i18n, instance.$);
     const parsedValue = parseValue(value);
     return [
       Reflect.apply(composer.t, composer, [...makeParams(parsedValue)]),
@@ -5036,11 +5036,11 @@ function parseValue(value) {
     return { path: value };
   } else if (isPlainObject(value)) {
     if (!("path" in value)) {
-      throw createI18nError(I18nErrorCodes.REQUIRED_VALUE, "path");
+      throw createI18nError$1(I18nErrorCodes$1.REQUIRED_VALUE, "path");
     }
     return value;
   } else {
-    throw createI18nError(I18nErrorCodes.INVALID_VALUE);
+    throw createI18nError$1(I18nErrorCodes$1.INVALID_VALUE);
   }
 }
 function makeParams(value) {
@@ -5070,7 +5070,7 @@ function apply(app, i18n, ...options) {
     app.directive("t", vTDirective(i18n));
   }
 }
-const I18nInjectionKey = /* @__PURE__ */ makeSymbol("global-vue-i18n");
+const I18nInjectionKey$1 = /* @__PURE__ */ makeSymbol("global-vue-i18n");
 function createI18n(options = {}, VueI18nLegacy) {
   const __globalInjection = isBoolean(options.globalInjection) ? options.globalInjection : true;
   const __instances = /* @__PURE__ */ new Map();
@@ -5131,20 +5131,20 @@ function createI18n(options = {}, VueI18nLegacy) {
   };
   return i18n;
 }
-function useI18n(options = {}) {
+function useI18n$1(options = {}) {
   const instance = getCurrentInstance();
   if (instance == null) {
-    throw createI18nError(I18nErrorCodes.MUST_BE_CALL_SETUP_TOP);
+    throw createI18nError$1(I18nErrorCodes$1.MUST_BE_CALL_SETUP_TOP);
   }
   if (!instance.isCE && instance.appContext.app != null && !instance.appContext.app.__VUE_I18N_SYMBOL__) {
-    throw createI18nError(I18nErrorCodes.NOT_INSTALLED);
+    throw createI18nError$1(I18nErrorCodes$1.NOT_INSTALLED);
   }
-  const i18n = getI18nInstance(instance);
-  const gl = getGlobalComposer(i18n);
-  const componentOptions = getComponentOptions(instance);
-  const scope = getScope(options, componentOptions);
+  const i18n = getI18nInstance$1(instance);
+  const gl = getGlobalComposer$1(i18n);
+  const componentOptions = getComponentOptions$1(instance);
+  const scope = getScope$1(options, componentOptions);
   if (scope === "global") {
-    adjustI18nResources(gl, options, componentOptions);
+    adjustI18nResources$1(gl, options, componentOptions);
     return gl;
   }
   if (scope === "parent") {
@@ -5164,9 +5164,9 @@ function useI18n(options = {}) {
     if (gl) {
       composerOptions.__root = gl;
     }
-    composer = createComposer(composerOptions);
+    composer = createComposer$1(composerOptions);
     if (i18nInternal.__composerExtend) {
-      composer[DisposeSymbol] = i18nInternal.__composerExtend(composer);
+      composer[DisposeSymbol$1] = i18nInternal.__composerExtend(composer);
     }
     i18nInternal.__setInstance(instance, composer);
   }
@@ -5174,29 +5174,29 @@ function useI18n(options = {}) {
 }
 function createGlobal(options, legacyMode, VueI18nLegacy) {
   const scope = effectScope();
-  const obj = scope.run(() => createComposer(options));
+  const obj = scope.run(() => createComposer$1(options));
   if (obj == null) {
-    throw createI18nError(I18nErrorCodes.UNEXPECTED_ERROR);
+    throw createI18nError$1(I18nErrorCodes$1.UNEXPECTED_ERROR);
   }
   return [scope, obj];
 }
-function getI18nInstance(instance) {
-  const i18n = inject(!instance.isCE ? instance.appContext.app.__VUE_I18N_SYMBOL__ : I18nInjectionKey);
+function getI18nInstance$1(instance) {
+  const i18n = inject(!instance.isCE ? instance.appContext.app.__VUE_I18N_SYMBOL__ : I18nInjectionKey$1);
   if (!i18n) {
-    throw createI18nError(!instance.isCE ? I18nErrorCodes.UNEXPECTED_ERROR : I18nErrorCodes.NOT_INSTALLED_WITH_PROVIDE);
+    throw createI18nError$1(!instance.isCE ? I18nErrorCodes$1.UNEXPECTED_ERROR : I18nErrorCodes$1.NOT_INSTALLED_WITH_PROVIDE);
   }
   return i18n;
 }
-function getScope(options, componentOptions) {
+function getScope$1(options, componentOptions) {
   return isEmptyObject(options) ? "__i18n" in componentOptions ? "local" : "global" : !options.useScope ? "local" : options.useScope;
 }
-function getGlobalComposer(i18n) {
+function getGlobalComposer$1(i18n) {
   return i18n.mode === "composition" ? i18n.global : i18n.global.__composer;
 }
 function getComposer$3(i18n, target, useComponent = false) {
   let composer = null;
   const root = target.root;
-  let current = getParentComponentInstance(target, useComponent);
+  let current = getParentComponentInstance$1(target, useComponent);
   while (current != null) {
     const i18nInternal = i18n;
     if (i18n.mode === "composition") {
@@ -5212,7 +5212,7 @@ function getComposer$3(i18n, target, useComponent = false) {
   }
   return composer;
 }
-function getParentComponentInstance(target, useComponent = false) {
+function getParentComponentInstance$1(target, useComponent = false) {
   if (target == null) {
     return null;
   }
@@ -5229,7 +5229,7 @@ function injectGlobalFields(app, composer) {
   globalExportProps.forEach((prop) => {
     const desc = Object.getOwnPropertyDescriptor(composer, prop);
     if (!desc) {
-      throw createI18nError(I18nErrorCodes.UNEXPECTED_ERROR);
+      throw createI18nError$1(I18nErrorCodes$1.UNEXPECTED_ERROR);
     }
     const wrap = isRef(desc.value) ? {
       get() {
@@ -5250,7 +5250,7 @@ function injectGlobalFields(app, composer) {
   globalExportMethods.forEach((method) => {
     const desc = Object.getOwnPropertyDescriptor(composer, method);
     if (!desc || !desc.value) {
-      throw createI18nError(I18nErrorCodes.UNEXPECTED_ERROR);
+      throw createI18nError$1(I18nErrorCodes$1.UNEXPECTED_ERROR);
     }
     Object.defineProperty(app.config.globalProperties, `$${method}`, desc);
   });
@@ -5496,7 +5496,7 @@ const useAdminSession = () => {
   return { admin: adminRef, loadAdmin, resetAdmin };
 };
 const useAdminPermissions = () => {
-  const { locale } = useI18n();
+  const { locale } = useI18n$1();
   const { admin: adminRef, loadAdmin, resetAdmin } = useAdminSession();
   const permissions = computed(() => adminRef.value?.permissions);
   const isSuper = computed(() => isSuperAdmin(adminRef.value?.username));
@@ -5637,7 +5637,7 @@ const cfg0 = defineAppConfig({
   }
 });
 const inlineConfig = {
-  "appVersion": "1.0.49",
+  "appVersion": "1.0.50",
   "nuxt": {},
   "ui": {
     "colors": {
@@ -12787,7 +12787,7 @@ const _sfc_main$10 = {
 const _sfc_setup$10 = _sfc_main$10.setup;
 _sfc_main$10.setup = (props, ctx) => {
   const ssrContext = useSSRContext();
-  (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("../node_modules/@nuxt/ui/dist/runtime/components/Icon.vue");
+  (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("../../../../../Users/hugh/code/hoxi/apay/node_modules/@nuxt/ui/dist/runtime/components/Icon.vue");
   return _sfc_setup$10 ? _sfc_setup$10(props, ctx) : void 0;
 };
 function omit(data, keys) {
@@ -13241,7 +13241,7 @@ const _sfc_main$$ = /* @__PURE__ */ Object.assign({ inheritAttrs: false }, {
 const _sfc_setup$$ = _sfc_main$$.setup;
 _sfc_main$$.setup = (props, ctx) => {
   const ssrContext = useSSRContext();
-  (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("../node_modules/@nuxt/ui/dist/runtime/components/Chip.vue");
+  (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("../../../../../Users/hugh/code/hoxi/apay/node_modules/@nuxt/ui/dist/runtime/components/Chip.vue");
   return _sfc_setup$$ ? _sfc_setup$$(props, ctx) : void 0;
 };
 const theme$k = {
@@ -13430,7 +13430,7 @@ const _sfc_main$_ = /* @__PURE__ */ Object.assign({ inheritAttrs: false }, {
 const _sfc_setup$_ = _sfc_main$_.setup;
 _sfc_main$_.setup = (props, ctx) => {
   const ssrContext = useSSRContext();
-  (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("../node_modules/@nuxt/ui/dist/runtime/components/Avatar.vue");
+  (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("../../../../../Users/hugh/code/hoxi/apay/node_modules/@nuxt/ui/dist/runtime/components/Avatar.vue");
   return _sfc_setup$_ ? _sfc_setup$_(props, ctx) : void 0;
 };
 const firstNonUndefined = (...args) => args.find((arg) => arg !== void 0);
@@ -13783,7 +13783,7 @@ const _sfc_main$Z = {
 const _sfc_setup$Z = _sfc_main$Z.setup;
 _sfc_main$Z.setup = (props, ctx) => {
   const ssrContext = useSSRContext();
-  (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("../node_modules/@nuxt/ui/dist/runtime/components/LinkBase.vue");
+  (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("../../../../../Users/hugh/code/hoxi/apay/node_modules/@nuxt/ui/dist/runtime/components/LinkBase.vue");
   return _sfc_setup$Z ? _sfc_setup$Z(props, ctx) : void 0;
 };
 const theme$j = {
@@ -13983,7 +13983,7 @@ const _sfc_main$Y = /* @__PURE__ */ Object.assign({ inheritAttrs: false }, {
 const _sfc_setup$Y = _sfc_main$Y.setup;
 _sfc_main$Y.setup = (props, ctx) => {
   const ssrContext = useSSRContext();
-  (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("../node_modules/@nuxt/ui/dist/runtime/components/Link.vue");
+  (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("../../../../../Users/hugh/code/hoxi/apay/node_modules/@nuxt/ui/dist/runtime/components/Link.vue");
   return _sfc_setup$Y ? _sfc_setup$Y(props, ctx) : void 0;
 };
 const theme$i = {
@@ -14582,7 +14582,7 @@ const _sfc_main$X = {
 const _sfc_setup$X = _sfc_main$X.setup;
 _sfc_main$X.setup = (props, ctx) => {
   const ssrContext = useSSRContext();
-  (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("../node_modules/@nuxt/ui/dist/runtime/components/Button.vue");
+  (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("../../../../../Users/hugh/code/hoxi/apay/node_modules/@nuxt/ui/dist/runtime/components/Button.vue");
   return _sfc_setup$X ? _sfc_setup$X(props, ctx) : void 0;
 };
 const localeCodes = [
@@ -14595,90 +14595,90 @@ const localeCodes = [
 const localeLoaders = {
   en: [
     {
-      key: "locale_common_46json_d9ff944b",
+      key: "locale_common_46json_db40a803",
       load: () => import(
         './common-CwWEomJY.mjs'
-        /* webpackChunkName: "locale_common_46json_d9ff944b" */
+        /* webpackChunkName: "locale_common_46json_db40a803" */
       ),
       cache: true
     },
     {
-      key: "locale_site_46json_28d78c77",
+      key: "locale_site_46json_00914a0b",
       load: () => import(
         './site-CotAxWow.mjs'
-        /* webpackChunkName: "locale_site_46json_28d78c77" */
+        /* webpackChunkName: "locale_site_46json_00914a0b" */
       ),
       cache: true
     }
   ],
   zh: [
     {
-      key: "locale_common_46json_a17ebeb8",
+      key: "locale_common_46json_81e47eeb",
       load: () => import(
         './common-BJmwMvwu.mjs'
-        /* webpackChunkName: "locale_common_46json_a17ebeb8" */
+        /* webpackChunkName: "locale_common_46json_81e47eeb" */
       ),
       cache: true
     },
     {
-      key: "locale_site_46json_3077d684",
+      key: "locale_site_46json_90c974bf",
       load: () => import(
         './site-sEvoiAml.mjs'
-        /* webpackChunkName: "locale_site_46json_3077d684" */
+        /* webpackChunkName: "locale_site_46json_90c974bf" */
       ),
       cache: true
     }
   ],
   "zh-HK": [
     {
-      key: "locale_common_46json_f71e1f73",
+      key: "locale_common_46json_de03ae2e",
       load: () => import(
         './common-C_WujmcQ.mjs'
-        /* webpackChunkName: "locale_common_46json_f71e1f73" */
+        /* webpackChunkName: "locale_common_46json_de03ae2e" */
       ),
       cache: true
     },
     {
-      key: "locale_site_46json_3e67f01a",
+      key: "locale_site_46json_1ada2624",
       load: () => import(
         './site-DmHw1A-e.mjs'
-        /* webpackChunkName: "locale_site_46json_3e67f01a" */
+        /* webpackChunkName: "locale_site_46json_1ada2624" */
       ),
       cache: true
     }
   ],
   ja: [
     {
-      key: "locale_common_46json_f27ff91c",
+      key: "locale_common_46json_6a86a36c",
       load: () => import(
         './common-BQOHkU-t.mjs'
-        /* webpackChunkName: "locale_common_46json_f27ff91c" */
+        /* webpackChunkName: "locale_common_46json_6a86a36c" */
       ),
       cache: true
     },
     {
-      key: "locale_site_46json_88fb82cf",
+      key: "locale_site_46json_2ee87e4f",
       load: () => import(
         './site-CTFgQ-4W.mjs'
-        /* webpackChunkName: "locale_site_46json_88fb82cf" */
+        /* webpackChunkName: "locale_site_46json_2ee87e4f" */
       ),
       cache: true
     }
   ],
   ko: [
     {
-      key: "locale_common_46json_3acdfc34",
+      key: "locale_common_46json_30ad4415",
       load: () => import(
         './common-B0A0a5hE.mjs'
-        /* webpackChunkName: "locale_common_46json_3acdfc34" */
+        /* webpackChunkName: "locale_common_46json_30ad4415" */
       ),
       cache: true
     },
     {
-      key: "locale_site_46json_f26317be",
+      key: "locale_site_46json_02800ba9",
       load: () => import(
         './site-CGCxQBae.mjs'
-        /* webpackChunkName: "locale_site_46json_f26317be" */
+        /* webpackChunkName: "locale_site_46json_02800ba9" */
       ),
       cache: true
     }
@@ -14691,11 +14691,11 @@ const normalizedLocales = [
     iso: "en-US",
     files: [
       {
-        path: "/Users/hugh/code/hoxi/apay/locales/en/common.json",
+        path: "/private/tmp/hoxi-deploy-ws/apay/locales/en/common.json",
         cache: void 0
       },
       {
-        path: "/Users/hugh/code/hoxi/apay/locales/en/site.json",
+        path: "/private/tmp/hoxi-deploy-ws/apay/locales/en/site.json",
         cache: void 0
       }
     ],
@@ -14707,11 +14707,11 @@ const normalizedLocales = [
     iso: "zh-CN",
     files: [
       {
-        path: "/Users/hugh/code/hoxi/apay/locales/zh/common.json",
+        path: "/private/tmp/hoxi-deploy-ws/apay/locales/zh/common.json",
         cache: void 0
       },
       {
-        path: "/Users/hugh/code/hoxi/apay/locales/zh/site.json",
+        path: "/private/tmp/hoxi-deploy-ws/apay/locales/zh/site.json",
         cache: void 0
       }
     ],
@@ -14723,11 +14723,11 @@ const normalizedLocales = [
     iso: "zh-HK",
     files: [
       {
-        path: "/Users/hugh/code/hoxi/apay/locales/zh-HK/common.json",
+        path: "/private/tmp/hoxi-deploy-ws/apay/locales/zh-HK/common.json",
         cache: void 0
       },
       {
-        path: "/Users/hugh/code/hoxi/apay/locales/zh-HK/site.json",
+        path: "/private/tmp/hoxi-deploy-ws/apay/locales/zh-HK/site.json",
         cache: void 0
       }
     ],
@@ -14739,11 +14739,11 @@ const normalizedLocales = [
     iso: "ja-JP",
     files: [
       {
-        path: "/Users/hugh/code/hoxi/apay/locales/ja/common.json",
+        path: "/private/tmp/hoxi-deploy-ws/apay/locales/ja/common.json",
         cache: void 0
       },
       {
-        path: "/Users/hugh/code/hoxi/apay/locales/ja/site.json",
+        path: "/private/tmp/hoxi-deploy-ws/apay/locales/ja/site.json",
         cache: void 0
       }
     ],
@@ -14755,11 +14755,11 @@ const normalizedLocales = [
     iso: "ko-KR",
     files: [
       {
-        path: "/Users/hugh/code/hoxi/apay/locales/ko/common.json",
+        path: "/private/tmp/hoxi-deploy-ws/apay/locales/ko/common.json",
         cache: void 0
       },
       {
-        path: "/Users/hugh/code/hoxi/apay/locales/ko/site.json",
+        path: "/private/tmp/hoxi-deploy-ws/apay/locales/ko/site.json",
         cache: void 0
       }
     ],
@@ -15081,7 +15081,7 @@ function isVueI18n(target) {
 function getI18nTarget(i18n) {
   return isI18nInstance(i18n) ? i18n.global : i18n;
 }
-function getComposer(i18n) {
+function getComposer$1(i18n) {
   const target = getI18nTarget(i18n);
   if (isComposer(target)) return target;
   if (isVueI18n(target)) return target.__composer;
@@ -15608,7 +15608,7 @@ function createHeadContext(options) {
   const locale = unref(nuxtApp.$i18n.locale);
   const locales = unref(nuxtApp.$i18n.locales).map((x) => isString(x) ? { code: x } : x);
   const currentLocale = locales.find((l) => l.code === locale) || { code: locale };
-  const baseUrl = joinURL(unref(getComposer(nuxtApp.$i18n).baseUrl), nuxtApp.$config.app.baseURL);
+  const baseUrl = joinURL(unref(getComposer$1(nuxtApp.$i18n).baseUrl), nuxtApp.$config.app.baseURL);
   const runtimeI18n = nuxtApp.$config.public.i18n;
   if (!baseUrl) {
     console.warn("I18n `baseUrl` is required to generate valid SEO tag links.");
@@ -15960,7 +15960,7 @@ const _sfc_main$W = /* @__PURE__ */ defineComponent({
   __name: "[order_id]",
   __ssrInlineRender: true,
   setup(__props) {
-    const { t } = useI18n();
+    const { t } = useI18n$1();
     const { localePath: localePath2 } = useLocaleRouter();
     const { formatDateTime } = useFormatTime();
     const { open: openSupport } = useSupportChat();
@@ -16462,7 +16462,7 @@ const _sfc_main$V = /* @__PURE__ */ defineComponent({
   __name: "cancel",
   __ssrInlineRender: true,
   setup(__props) {
-    const { t } = useI18n();
+    const { t } = useI18n$1();
     useHead(() => ({
       title: t("site.payment.cancelledPageTitle"),
       meta: [
@@ -16551,7 +16551,7 @@ const normalizeCurrencyCode$1 = (value) => {
   return /^[A-Z]{3}$/.test(currency) ? currency : "USD";
 };
 const useCurrencyFormat = () => {
-  const { locale } = useI18n();
+  const { locale } = useI18n$1();
   const formatCurrencyAmount = (amountValue, currencyValue) => {
     const amount = Number(amountValue || 0);
     const currency = normalizeCurrencyCode$1(currencyValue);
@@ -16573,7 +16573,7 @@ const useCurrencyFormat = () => {
   return { formatCurrencyAmount, formatCurrencyTotals };
 };
 const useProductPricing = () => {
-  const { locale } = useI18n();
+  const { locale } = useI18n$1();
   const { getSetting } = useSettings();
   const { formatCurrencyAmount } = useCurrencyFormat();
   const context2 = computed(() => createPricingContext(getSetting("currency", "USD"), getSetting("locale_currency_bindings", "{}")));
@@ -16617,6 +16617,778 @@ _sfc_main$U.setup = (props, ctx) => {
   return _sfc_setup$U ? _sfc_setup$U(props, ctx) : void 0;
 };
 const __nuxt_component_2$1 = Object.assign(_sfc_main$U, { __name: "ProductPrice" });
+const VERSION = "10.0.8";
+const I18nErrorCodes = {
+  // composer module errors
+  UNEXPECTED_RETURN_TYPE: CORE_ERROR_CODES_EXTEND_POINT,
+  // 24
+  // legacy module errors
+  INVALID_ARGUMENT: 25,
+  // i18n module errors
+  MUST_BE_CALL_SETUP_TOP: 26,
+  NOT_INSTALLED: 27,
+  NOT_INSTALLED_WITH_PROVIDE: 31,
+  // unexpected error
+  UNEXPECTED_ERROR: 32};
+function createI18nError(code, ...args) {
+  return createCompileError(code, null, void 0);
+}
+const TranslateVNodeSymbol = /* @__PURE__ */ makeSymbol("__translateVNode");
+const DatetimePartsSymbol = /* @__PURE__ */ makeSymbol("__datetimeParts");
+const NumberPartsSymbol = /* @__PURE__ */ makeSymbol("__numberParts");
+const SetPluralRulesSymbol = makeSymbol("__setPluralRules");
+const InejctWithOptionSymbol = /* @__PURE__ */ makeSymbol("__injectWithOption");
+const DisposeSymbol = /* @__PURE__ */ makeSymbol("__dispose");
+function handleFlatJson(obj) {
+  if (!isObject$3(obj)) {
+    return obj;
+  }
+  if (isMessageAST(obj)) {
+    return obj;
+  }
+  for (const key in obj) {
+    if (!hasOwn(obj, key)) {
+      continue;
+    }
+    if (!key.includes(".")) {
+      if (isObject$3(obj[key])) {
+        handleFlatJson(obj[key]);
+      }
+    } else {
+      const subKeys = key.split(".");
+      const lastIndex = subKeys.length - 1;
+      let currentObj = obj;
+      let hasStringValue = false;
+      for (let i = 0; i < lastIndex; i++) {
+        if (subKeys[i] === "__proto__") {
+          throw new Error(`unsafe key: ${subKeys[i]}`);
+        }
+        if (!(subKeys[i] in currentObj)) {
+          currentObj[subKeys[i]] = create();
+        }
+        if (!isObject$3(currentObj[subKeys[i]])) {
+          hasStringValue = true;
+          break;
+        }
+        currentObj = currentObj[subKeys[i]];
+      }
+      if (!hasStringValue) {
+        if (!isMessageAST(currentObj)) {
+          currentObj[subKeys[lastIndex]] = obj[key];
+          delete obj[key];
+        } else {
+          if (!AST_NODE_PROPS_KEYS.includes(subKeys[lastIndex])) {
+            delete obj[key];
+          }
+        }
+      }
+      if (!isMessageAST(currentObj)) {
+        const target = currentObj[subKeys[lastIndex]];
+        if (isObject$3(target)) {
+          handleFlatJson(target);
+        }
+      }
+    }
+  }
+  return obj;
+}
+function getLocaleMessages(locale, options) {
+  const { messages: messages2, __i18n, messageResolver, flatJson } = options;
+  const ret = isPlainObject(messages2) ? messages2 : isArray$1(__i18n) ? create() : { [locale]: create() };
+  if (isArray$1(__i18n)) {
+    __i18n.forEach((custom) => {
+      if ("locale" in custom && "resource" in custom) {
+        const { locale: locale2, resource } = custom;
+        if (locale2) {
+          ret[locale2] = ret[locale2] || create();
+          deepCopy(resource, ret[locale2]);
+        } else {
+          deepCopy(resource, ret);
+        }
+      } else {
+        isString(custom) && deepCopy(JSON.parse(custom), ret);
+      }
+    });
+  }
+  if (messageResolver == null && flatJson) {
+    for (const key in ret) {
+      if (hasOwn(ret, key)) {
+        handleFlatJson(ret[key]);
+      }
+    }
+  }
+  return ret;
+}
+function getComponentOptions(instance) {
+  return instance.type;
+}
+function adjustI18nResources(gl, options, componentOptions) {
+  let messages2 = isObject$3(options.messages) ? options.messages : create();
+  if ("__i18nGlobal" in componentOptions) {
+    messages2 = getLocaleMessages(gl.locale.value, {
+      messages: messages2,
+      __i18n: componentOptions.__i18nGlobal
+    });
+  }
+  const locales = Object.keys(messages2);
+  if (locales.length) {
+    locales.forEach((locale) => {
+      gl.mergeLocaleMessage(locale, messages2[locale]);
+    });
+  }
+  {
+    if (isObject$3(options.datetimeFormats)) {
+      const locales2 = Object.keys(options.datetimeFormats);
+      if (locales2.length) {
+        locales2.forEach((locale) => {
+          gl.mergeDateTimeFormat(locale, options.datetimeFormats[locale]);
+        });
+      }
+    }
+    if (isObject$3(options.numberFormats)) {
+      const locales2 = Object.keys(options.numberFormats);
+      if (locales2.length) {
+        locales2.forEach((locale) => {
+          gl.mergeNumberFormat(locale, options.numberFormats[locale]);
+        });
+      }
+    }
+  }
+}
+function createTextNode(key) {
+  return createVNode(Text, null, key, 0);
+}
+const DEVTOOLS_META = "__INTLIFY_META__";
+const NOOP_RETURN_ARRAY = () => [];
+const NOOP_RETURN_FALSE = () => false;
+let composerID = 0;
+function defineCoreMissingHandler(missing) {
+  return ((ctx, locale, key, type) => {
+    return missing(locale, key, getCurrentInstance() || void 0, type);
+  });
+}
+const getMetaInfo = /* @__NO_SIDE_EFFECTS__ */ () => {
+  const instance = getCurrentInstance();
+  let meta = null;
+  return instance && (meta = getComponentOptions(instance)[DEVTOOLS_META]) ? { [DEVTOOLS_META]: meta } : null;
+};
+function createComposer(options = {}) {
+  const { __root, __injectWithOption } = options;
+  const _isGlobal = __root === void 0;
+  const flatJson = options.flatJson;
+  const _ref = shallowRef;
+  let _inheritLocale = isBoolean(options.inheritLocale) ? options.inheritLocale : true;
+  const _locale = _ref(
+    // prettier-ignore
+    __root && _inheritLocale ? __root.locale.value : isString(options.locale) ? options.locale : DEFAULT_LOCALE
+  );
+  const _fallbackLocale = _ref(
+    // prettier-ignore
+    __root && _inheritLocale ? __root.fallbackLocale.value : isString(options.fallbackLocale) || isArray$1(options.fallbackLocale) || isPlainObject(options.fallbackLocale) || options.fallbackLocale === false ? options.fallbackLocale : _locale.value
+  );
+  const _messages = _ref(getLocaleMessages(_locale.value, options));
+  const _datetimeFormats = _ref(isPlainObject(options.datetimeFormats) ? options.datetimeFormats : { [_locale.value]: {} });
+  const _numberFormats = _ref(isPlainObject(options.numberFormats) ? options.numberFormats : { [_locale.value]: {} });
+  let _missingWarn = __root ? __root.missingWarn : isBoolean(options.missingWarn) || isRegExp(options.missingWarn) ? options.missingWarn : true;
+  let _fallbackWarn = __root ? __root.fallbackWarn : isBoolean(options.fallbackWarn) || isRegExp(options.fallbackWarn) ? options.fallbackWarn : true;
+  let _fallbackRoot = __root ? __root.fallbackRoot : isBoolean(options.fallbackRoot) ? options.fallbackRoot : true;
+  let _fallbackFormat = !!options.fallbackFormat;
+  let _missing = isFunction(options.missing) ? options.missing : null;
+  let _runtimeMissing = isFunction(options.missing) ? defineCoreMissingHandler(options.missing) : null;
+  let _postTranslation = isFunction(options.postTranslation) ? options.postTranslation : null;
+  let _warnHtmlMessage = __root ? __root.warnHtmlMessage : isBoolean(options.warnHtmlMessage) ? options.warnHtmlMessage : true;
+  let _escapeParameter = !!options.escapeParameter;
+  const _modifiers = __root ? __root.modifiers : isPlainObject(options.modifiers) ? options.modifiers : {};
+  let _pluralRules = options.pluralRules || __root && __root.pluralRules;
+  let _context;
+  const getCoreContext = () => {
+    _isGlobal && setFallbackContext(null);
+    const ctxOptions = {
+      version: VERSION,
+      locale: _locale.value,
+      fallbackLocale: _fallbackLocale.value,
+      messages: _messages.value,
+      modifiers: _modifiers,
+      pluralRules: _pluralRules,
+      missing: _runtimeMissing === null ? void 0 : _runtimeMissing,
+      missingWarn: _missingWarn,
+      fallbackWarn: _fallbackWarn,
+      fallbackFormat: _fallbackFormat,
+      unresolving: true,
+      postTranslation: _postTranslation === null ? void 0 : _postTranslation,
+      warnHtmlMessage: _warnHtmlMessage,
+      escapeParameter: _escapeParameter,
+      messageResolver: options.messageResolver,
+      messageCompiler: options.messageCompiler,
+      __meta: { framework: "vue" }
+    };
+    {
+      ctxOptions.datetimeFormats = _datetimeFormats.value;
+      ctxOptions.numberFormats = _numberFormats.value;
+      ctxOptions.__datetimeFormatters = isPlainObject(_context) ? _context.__datetimeFormatters : void 0;
+      ctxOptions.__numberFormatters = isPlainObject(_context) ? _context.__numberFormatters : void 0;
+    }
+    const ctx = createCoreContext(ctxOptions);
+    _isGlobal && setFallbackContext(ctx);
+    return ctx;
+  };
+  _context = getCoreContext();
+  updateFallbackLocale(_context, _locale.value, _fallbackLocale.value);
+  function trackReactivityValues() {
+    return [
+      _locale.value,
+      _fallbackLocale.value,
+      _messages.value,
+      _datetimeFormats.value,
+      _numberFormats.value
+    ];
+  }
+  const locale = computed({
+    get: () => _locale.value,
+    set: (val) => {
+      _locale.value = val;
+      _context.locale = _locale.value;
+    }
+  });
+  const fallbackLocale = computed({
+    get: () => _fallbackLocale.value,
+    set: (val) => {
+      _fallbackLocale.value = val;
+      _context.fallbackLocale = _fallbackLocale.value;
+      updateFallbackLocale(_context, _locale.value, val);
+    }
+  });
+  const messages2 = computed(() => _messages.value);
+  const datetimeFormats = /* @__PURE__ */ computed(() => _datetimeFormats.value);
+  const numberFormats = /* @__PURE__ */ computed(() => _numberFormats.value);
+  function getPostTranslationHandler() {
+    return isFunction(_postTranslation) ? _postTranslation : null;
+  }
+  function setPostTranslationHandler(handler) {
+    _postTranslation = handler;
+    _context.postTranslation = handler;
+  }
+  function getMissingHandler() {
+    return _missing;
+  }
+  function setMissingHandler(handler) {
+    if (handler !== null) {
+      _runtimeMissing = defineCoreMissingHandler(handler);
+    }
+    _missing = handler;
+    _context.missing = _runtimeMissing;
+  }
+  const wrapWithDeps = (fn, argumentParser, warnType, fallbackSuccess, fallbackFail, successCondition) => {
+    trackReactivityValues();
+    let ret;
+    try {
+      if ("production" !== "production" || false) ;
+      if (!_isGlobal) {
+        _context.fallbackContext = __root ? getFallbackContext() : void 0;
+      }
+      ret = fn(_context);
+    } finally {
+      if (!_isGlobal) {
+        _context.fallbackContext = void 0;
+      }
+    }
+    if (warnType !== "translate exists" && // for not `te` (e.g `t`)
+    isNumber$1(ret) && ret === NOT_REOSLVED || warnType === "translate exists" && !ret) {
+      const [key, arg2] = argumentParser();
+      return __root && _fallbackRoot ? fallbackSuccess(__root) : fallbackFail(key);
+    } else if (successCondition(ret)) {
+      return ret;
+    } else {
+      throw createI18nError(I18nErrorCodes.UNEXPECTED_RETURN_TYPE);
+    }
+  };
+  function t(...args) {
+    return wrapWithDeps((context2) => Reflect.apply(translate$1, null, [context2, ...args]), () => parseTranslateArgs(...args), "translate", (root) => Reflect.apply(root.t, root, [...args]), (key) => key, (val) => isString(val));
+  }
+  function rt(...args) {
+    const [arg1, arg2, arg3] = args;
+    if (arg3 && !isObject$3(arg3)) {
+      throw createI18nError(I18nErrorCodes.INVALID_ARGUMENT);
+    }
+    return t(...[arg1, arg2, assign({ resolvedMessage: true }, arg3 || {})]);
+  }
+  function d(...args) {
+    return wrapWithDeps((context2) => Reflect.apply(datetime, null, [context2, ...args]), () => parseDateTimeArgs(...args), "datetime format", (root) => Reflect.apply(root.d, root, [...args]), () => MISSING_RESOLVE_VALUE, (val) => isString(val));
+  }
+  function n(...args) {
+    return wrapWithDeps((context2) => Reflect.apply(number, null, [context2, ...args]), () => parseNumberArgs(...args), "number format", (root) => Reflect.apply(root.n, root, [...args]), () => MISSING_RESOLVE_VALUE, (val) => isString(val));
+  }
+  function normalize(values) {
+    return values.map((val) => isString(val) || isNumber$1(val) || isBoolean(val) ? createTextNode(String(val)) : val);
+  }
+  const interpolate = (val) => val;
+  const processor = {
+    normalize,
+    interpolate,
+    type: "vnode"
+  };
+  function translateVNode(...args) {
+    return wrapWithDeps((context2) => {
+      let ret;
+      const _context2 = context2;
+      try {
+        _context2.processor = processor;
+        ret = Reflect.apply(translate$1, null, [_context2, ...args]);
+      } finally {
+        _context2.processor = null;
+      }
+      return ret;
+    }, () => parseTranslateArgs(...args), "translate", (root) => root[TranslateVNodeSymbol](...args), (key) => [createTextNode(key)], (val) => isArray$1(val));
+  }
+  function numberParts(...args) {
+    return wrapWithDeps((context2) => Reflect.apply(number, null, [context2, ...args]), () => parseNumberArgs(...args), "number format", (root) => root[NumberPartsSymbol](...args), NOOP_RETURN_ARRAY, (val) => isString(val) || isArray$1(val));
+  }
+  function datetimeParts(...args) {
+    return wrapWithDeps((context2) => Reflect.apply(datetime, null, [context2, ...args]), () => parseDateTimeArgs(...args), "datetime format", (root) => root[DatetimePartsSymbol](...args), NOOP_RETURN_ARRAY, (val) => isString(val) || isArray$1(val));
+  }
+  function setPluralRules(rules) {
+    _pluralRules = rules;
+    _context.pluralRules = _pluralRules;
+  }
+  function te(key, locale2) {
+    return wrapWithDeps(() => {
+      if (!key) {
+        return false;
+      }
+      const targetLocale = isString(locale2) ? locale2 : _locale.value;
+      const message = getLocaleMessage(targetLocale);
+      const resolved = _context.messageResolver(message, key);
+      return isMessageAST(resolved) || isMessageFunction(resolved) || isString(resolved);
+    }, () => [key], "translate exists", (root) => {
+      return Reflect.apply(root.te, root, [key, locale2]);
+    }, NOOP_RETURN_FALSE, (val) => isBoolean(val));
+  }
+  function resolveMessages(key) {
+    let messages22 = null;
+    const locales = fallbackWithLocaleChain(_context, _fallbackLocale.value, _locale.value);
+    for (let i = 0; i < locales.length; i++) {
+      const targetLocaleMessages = _messages.value[locales[i]] || {};
+      const messageValue = _context.messageResolver(targetLocaleMessages, key);
+      if (messageValue != null) {
+        messages22 = messageValue;
+        break;
+      }
+    }
+    return messages22;
+  }
+  function tm(key) {
+    const messages22 = resolveMessages(key);
+    return messages22 != null ? messages22 : __root ? __root.tm(key) || {} : {};
+  }
+  function getLocaleMessage(locale2) {
+    return _messages.value[locale2] || {};
+  }
+  function setLocaleMessage(locale2, message) {
+    if (flatJson) {
+      const _message = { [locale2]: message };
+      for (const key in _message) {
+        if (hasOwn(_message, key)) {
+          handleFlatJson(_message[key]);
+        }
+      }
+      message = _message[locale2];
+    }
+    _messages.value[locale2] = message;
+    _context.messages = _messages.value;
+  }
+  function mergeLocaleMessage(locale2, message) {
+    _messages.value[locale2] = _messages.value[locale2] || {};
+    const _message = { [locale2]: message };
+    if (flatJson) {
+      for (const key in _message) {
+        if (hasOwn(_message, key)) {
+          handleFlatJson(_message[key]);
+        }
+      }
+    }
+    message = _message[locale2];
+    deepCopy(message, _messages.value[locale2]);
+    _context.messages = _messages.value;
+  }
+  function getDateTimeFormat(locale2) {
+    return _datetimeFormats.value[locale2] || {};
+  }
+  function setDateTimeFormat(locale2, format2) {
+    _datetimeFormats.value[locale2] = format2;
+    _context.datetimeFormats = _datetimeFormats.value;
+    clearDateTimeFormat(_context, locale2, format2);
+  }
+  function mergeDateTimeFormat(locale2, format2) {
+    _datetimeFormats.value[locale2] = assign(_datetimeFormats.value[locale2] || {}, format2);
+    _context.datetimeFormats = _datetimeFormats.value;
+    clearDateTimeFormat(_context, locale2, format2);
+  }
+  function getNumberFormat(locale2) {
+    return _numberFormats.value[locale2] || {};
+  }
+  function setNumberFormat(locale2, format2) {
+    _numberFormats.value[locale2] = format2;
+    _context.numberFormats = _numberFormats.value;
+    clearNumberFormat(_context, locale2, format2);
+  }
+  function mergeNumberFormat(locale2, format2) {
+    _numberFormats.value[locale2] = assign(_numberFormats.value[locale2] || {}, format2);
+    _context.numberFormats = _numberFormats.value;
+    clearNumberFormat(_context, locale2, format2);
+  }
+  composerID++;
+  const composer = {
+    id: composerID,
+    locale,
+    fallbackLocale,
+    get inheritLocale() {
+      return _inheritLocale;
+    },
+    set inheritLocale(val) {
+      _inheritLocale = val;
+      if (val && __root) {
+        _locale.value = __root.locale.value;
+        _fallbackLocale.value = __root.fallbackLocale.value;
+        updateFallbackLocale(_context, _locale.value, _fallbackLocale.value);
+      }
+    },
+    get availableLocales() {
+      return Object.keys(_messages.value).sort();
+    },
+    messages: messages2,
+    get modifiers() {
+      return _modifiers;
+    },
+    get pluralRules() {
+      return _pluralRules || {};
+    },
+    get isGlobal() {
+      return _isGlobal;
+    },
+    get missingWarn() {
+      return _missingWarn;
+    },
+    set missingWarn(val) {
+      _missingWarn = val;
+      _context.missingWarn = _missingWarn;
+    },
+    get fallbackWarn() {
+      return _fallbackWarn;
+    },
+    set fallbackWarn(val) {
+      _fallbackWarn = val;
+      _context.fallbackWarn = _fallbackWarn;
+    },
+    get fallbackRoot() {
+      return _fallbackRoot;
+    },
+    set fallbackRoot(val) {
+      _fallbackRoot = val;
+    },
+    get fallbackFormat() {
+      return _fallbackFormat;
+    },
+    set fallbackFormat(val) {
+      _fallbackFormat = val;
+      _context.fallbackFormat = _fallbackFormat;
+    },
+    get warnHtmlMessage() {
+      return _warnHtmlMessage;
+    },
+    set warnHtmlMessage(val) {
+      _warnHtmlMessage = val;
+      _context.warnHtmlMessage = val;
+    },
+    get escapeParameter() {
+      return _escapeParameter;
+    },
+    set escapeParameter(val) {
+      _escapeParameter = val;
+      _context.escapeParameter = val;
+    },
+    t,
+    getLocaleMessage,
+    setLocaleMessage,
+    mergeLocaleMessage,
+    getPostTranslationHandler,
+    setPostTranslationHandler,
+    getMissingHandler,
+    setMissingHandler,
+    [SetPluralRulesSymbol]: setPluralRules
+  };
+  {
+    composer.datetimeFormats = datetimeFormats;
+    composer.numberFormats = numberFormats;
+    composer.rt = rt;
+    composer.te = te;
+    composer.tm = tm;
+    composer.d = d;
+    composer.n = n;
+    composer.getDateTimeFormat = getDateTimeFormat;
+    composer.setDateTimeFormat = setDateTimeFormat;
+    composer.mergeDateTimeFormat = mergeDateTimeFormat;
+    composer.getNumberFormat = getNumberFormat;
+    composer.setNumberFormat = setNumberFormat;
+    composer.mergeNumberFormat = mergeNumberFormat;
+    composer[InejctWithOptionSymbol] = __injectWithOption;
+    composer[TranslateVNodeSymbol] = translateVNode;
+    composer[DatetimePartsSymbol] = datetimeParts;
+    composer[NumberPartsSymbol] = numberParts;
+  }
+  return composer;
+}
+const baseFormatProps = {
+  tag: {
+    type: [String, Object]
+  },
+  locale: {
+    type: String
+  },
+  scope: {
+    type: String,
+    // NOTE: avoid https://github.com/microsoft/rushstack/issues/1050
+    validator: (val) => val === "parent" || val === "global",
+    default: "parent"
+    /* ComponentI18nScope */
+  },
+  i18n: {
+    type: Object
+  }
+};
+function getInterpolateArg({ slots }, keys) {
+  if (keys.length === 1 && keys[0] === "default") {
+    const ret = slots.default ? slots.default() : [];
+    return ret.reduce((slot, current) => {
+      return [
+        ...slot,
+        // prettier-ignore
+        ...current.type === Fragment ? current.children : [current]
+      ];
+    }, []);
+  } else {
+    return keys.reduce((arg, key) => {
+      const slot = slots[key];
+      if (slot) {
+        arg[key] = slot();
+      }
+      return arg;
+    }, create());
+  }
+}
+function getFragmentableTag() {
+  return Fragment;
+}
+/* @__PURE__ */ defineComponent({
+  /* eslint-disable */
+  name: "i18n-t",
+  props: assign({
+    keypath: {
+      type: String,
+      required: true
+    },
+    plural: {
+      type: [Number, String],
+      validator: (val) => isNumber$1(val) || !isNaN(val)
+    }
+  }, baseFormatProps),
+  /* eslint-enable */
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  setup(props, context2) {
+    const { slots, attrs } = context2;
+    const i18n = props.i18n || useI18n({
+      useScope: props.scope,
+      __useComponent: true
+    });
+    return () => {
+      const keys = Object.keys(slots).filter((key) => key !== "_");
+      const options = create();
+      if (props.locale) {
+        options.locale = props.locale;
+      }
+      if (props.plural !== void 0) {
+        options.plural = isString(props.plural) ? +props.plural : props.plural;
+      }
+      const arg = getInterpolateArg(context2, keys);
+      const children = i18n[TranslateVNodeSymbol](props.keypath, arg, options);
+      const assignedAttrs = assign(create(), attrs);
+      const tag = isString(props.tag) || isObject$3(props.tag) ? props.tag : getFragmentableTag();
+      return h(tag, assignedAttrs, children);
+    };
+  }
+});
+function isVNode(target) {
+  return isArray$1(target) && !isString(target[0]);
+}
+function renderFormatter(props, context2, slotKeys, partFormatter) {
+  const { slots, attrs } = context2;
+  return () => {
+    const options = { part: true };
+    let overrides = create();
+    if (props.locale) {
+      options.locale = props.locale;
+    }
+    if (isString(props.format)) {
+      options.key = props.format;
+    } else if (isObject$3(props.format)) {
+      if (isString(props.format.key)) {
+        options.key = props.format.key;
+      }
+      overrides = Object.keys(props.format).reduce((options2, prop) => {
+        return slotKeys.includes(prop) ? assign(create(), options2, { [prop]: props.format[prop] }) : options2;
+      }, create());
+    }
+    const parts = partFormatter(...[props.value, options, overrides]);
+    let children = [options.key];
+    if (isArray$1(parts)) {
+      children = parts.map((part, index2) => {
+        const slot = slots[part.type];
+        const node = slot ? slot({ [part.type]: part.value, index: index2, parts }) : [part.value];
+        if (isVNode(node)) {
+          node[0].key = `${part.type}-${index2}`;
+        }
+        return node;
+      });
+    } else if (isString(parts)) {
+      children = [parts];
+    }
+    const assignedAttrs = assign(create(), attrs);
+    const tag = isString(props.tag) || isObject$3(props.tag) ? props.tag : getFragmentableTag();
+    return h(tag, assignedAttrs, children);
+  };
+}
+/* @__PURE__ */ defineComponent({
+  /* eslint-disable */
+  name: "i18n-n",
+  props: assign({
+    value: {
+      type: Number,
+      required: true
+    },
+    format: {
+      type: [String, Object]
+    }
+  }, baseFormatProps),
+  /* eslint-enable */
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  setup(props, context2) {
+    const i18n = props.i18n || useI18n({
+      useScope: props.scope,
+      __useComponent: true
+    });
+    return renderFormatter(props, context2, NUMBER_FORMAT_OPTIONS_KEYS, (...args) => (
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      i18n[NumberPartsSymbol](...args)
+    ));
+  }
+});
+/* @__PURE__ */ defineComponent({
+  /* eslint-disable */
+  name: "i18n-d",
+  props: assign({
+    value: {
+      type: [Number, Date],
+      required: true
+    },
+    format: {
+      type: [String, Object]
+    }
+  }, baseFormatProps),
+  /* eslint-enable */
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  setup(props, context2) {
+    const i18n = props.i18n || useI18n({
+      useScope: props.scope,
+      __useComponent: true
+    });
+    return renderFormatter(props, context2, DATETIME_FORMAT_OPTIONS_KEYS, (...args) => (
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      i18n[DatetimePartsSymbol](...args)
+    ));
+  }
+});
+const I18nInjectionKey = /* @__PURE__ */ makeSymbol("global-vue-i18n");
+function useI18n(options = {}) {
+  const instance = getCurrentInstance();
+  if (instance == null) {
+    throw createI18nError(I18nErrorCodes.MUST_BE_CALL_SETUP_TOP);
+  }
+  if (!instance.isCE && instance.appContext.app != null && !instance.appContext.app.__VUE_I18N_SYMBOL__) {
+    throw createI18nError(I18nErrorCodes.NOT_INSTALLED);
+  }
+  const i18n = getI18nInstance(instance);
+  const gl = getGlobalComposer(i18n);
+  const componentOptions = getComponentOptions(instance);
+  const scope = getScope(options, componentOptions);
+  if (scope === "global") {
+    adjustI18nResources(gl, options, componentOptions);
+    return gl;
+  }
+  if (scope === "parent") {
+    let composer2 = getComposer(i18n, instance, options.__useComponent);
+    if (composer2 == null) {
+      composer2 = gl;
+    }
+    return composer2;
+  }
+  const i18nInternal = i18n;
+  let composer = i18nInternal.__getInstance(instance);
+  if (composer == null) {
+    const composerOptions = assign({}, options);
+    if ("__i18n" in componentOptions) {
+      composerOptions.__i18n = componentOptions.__i18n;
+    }
+    if (gl) {
+      composerOptions.__root = gl;
+    }
+    composer = createComposer(composerOptions);
+    if (i18nInternal.__composerExtend) {
+      composer[DisposeSymbol] = i18nInternal.__composerExtend(composer);
+    }
+    i18nInternal.__setInstance(instance, composer);
+  }
+  return composer;
+}
+function getI18nInstance(instance) {
+  const i18n = inject(!instance.isCE ? instance.appContext.app.__VUE_I18N_SYMBOL__ : I18nInjectionKey);
+  if (!i18n) {
+    throw createI18nError(!instance.isCE ? I18nErrorCodes.UNEXPECTED_ERROR : I18nErrorCodes.NOT_INSTALLED_WITH_PROVIDE);
+  }
+  return i18n;
+}
+function getScope(options, componentOptions) {
+  return isEmptyObject(options) ? "__i18n" in componentOptions ? "local" : "global" : !options.useScope ? "local" : options.useScope;
+}
+function getGlobalComposer(i18n) {
+  return i18n.mode === "composition" ? i18n.global : i18n.global.__composer;
+}
+function getComposer(i18n, target, useComponent = false) {
+  let composer = null;
+  const root = target.root;
+  let current = getParentComponentInstance(target, useComponent);
+  while (current != null) {
+    const i18nInternal = i18n;
+    if (i18n.mode === "composition") {
+      composer = i18nInternal.__getInstance(current);
+    }
+    if (composer != null) {
+      break;
+    }
+    if (root === current) {
+      break;
+    }
+    current = current.parent;
+  }
+  return composer;
+}
+function getParentComponentInstance(target, useComponent = false) {
+  if (target == null) {
+    return null;
+  }
+  return !useComponent ? target.parent : target.vnode.ctx || target.parent;
+}
+registerMessageCompiler(compile);
+registerMessageResolver(resolveValue);
+registerLocaleFallbacker(fallbackWithLocaleChain);
 const useLocalizedProduct = () => {
   const { locale } = useI18n();
   const getLocalizedProduct = (product) => {
@@ -16681,7 +17453,7 @@ const useLocalizedProduct = () => {
 };
 const useLocalizedSettings = () => {
   const { settings } = useSettings();
-  const { locale } = useI18n();
+  const { locale } = useI18n$1();
   const getLocalizedSetting = (key, defaultValue = "") => {
     return resolveLocalizedSetting(settings.value, key, locale.value, defaultValue);
   };
@@ -16710,7 +17482,7 @@ const _sfc_main$T = /* @__PURE__ */ defineComponent({
       {
         key: "homepage-products"
       },
-      "$4dgFQntf6Z"
+      "$KyZ0dQsNx6"
       /* nuxt-injected */
     )), __temp = await __temp, __restore(), __temp);
     const products = computed(() => {
@@ -17463,7 +18235,7 @@ const _sfc_main$R = {
 const _sfc_setup$R = _sfc_main$R.setup;
 _sfc_main$R.setup = (props, ctx) => {
   const ssrContext = useSSRContext();
-  (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("../node_modules/@nuxt/ui/dist/runtime/components/Badge.vue");
+  (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("../../../../../Users/hugh/code/hoxi/apay/node_modules/@nuxt/ui/dist/runtime/components/Badge.vue");
   return _sfc_setup$R ? _sfc_setup$R(props, ctx) : void 0;
 };
 const toastMaxInjectionKey = /* @__PURE__ */ Symbol("nuxt-ui.toast-max");
@@ -17568,7 +18340,7 @@ const _sfc_main$Q = /* @__PURE__ */ defineComponent({
   setup(__props, { emit: __emit }) {
     const props = __props;
     const emit = __emit;
-    const { t, locale } = useI18n();
+    const { t, locale } = useI18n$1();
     const toast = useToast();
     useRouter();
     useLocaleRouter();
@@ -18066,7 +18838,7 @@ const parseBindings = (value) => {
   }
 };
 const useLocaleCurrency = () => {
-  const { locale } = useI18n();
+  const { locale } = useI18n$1();
   const { getSetting } = useSettings();
   const baseCurrency = computed(() => normalizeCurrencyCode(getSetting("currency", "USD"), "USD"));
   const bindings = computed(() => parseBindings(getSetting("locale_currency_bindings", "{}")));
@@ -18118,7 +18890,7 @@ const _sfc_main$P = /* @__PURE__ */ defineComponent({
   __ssrInlineRender: true,
   async setup(__props) {
     let __temp, __restore;
-    const { t, locale } = useI18n();
+    const { t, locale } = useI18n$1();
     useToast();
     const { localePath: localePath2 } = useLocaleRouter();
     const { formatDateTime } = useFormatTime();
@@ -18148,7 +18920,7 @@ const _sfc_main$P = /* @__PURE__ */ defineComponent({
         lazy: true,
         query: { orderId }
       },
-      "$Ew-Rd7HrTp"
+      "$L7QsUuM0pn"
       /* nuxt-injected */
     )), __temp = await __temp, __restore(), __temp);
     const pending = computed(() => status.value === "pending");
@@ -18799,7 +19571,7 @@ const useJsonLd = (key, nodes) => {
 };
 const useProductJsonLd = (key, product) => {
   const route = useRoute();
-  const { locale } = useI18n();
+  const { locale } = useI18n$1();
   const { productQuote } = useProductPricing();
   const { getLocalizedSetting } = useLocalizedSettings();
   const localePath2 = useLocalePath();
@@ -18896,7 +19668,7 @@ const useProductJsonLd = (key, product) => {
 };
 const useFaqPageJsonLd = (key, items) => {
   const route = useRoute();
-  const { locale } = useI18n();
+  const { locale } = useI18n$1();
   useJsonLd(key, computed(() => {
     const rawItems = toValue(items);
     if (!Array.isArray(rawItems) || !rawItems.length) return null;
@@ -18929,7 +19701,7 @@ const _sfc_main$O = /* @__PURE__ */ defineComponent({
   async setup(__props) {
     let __temp, __restore;
     const router = useRouter();
-    const { t } = useI18n();
+    const { t } = useI18n$1();
     const { open: openSupport } = useSupportChat();
     useHead({
       title: "Simple, Transparent Pricing",
@@ -18949,7 +19721,7 @@ const _sfc_main$O = /* @__PURE__ */ defineComponent({
       {
         query: { limit: 100 }
       },
-      "$aX-Js4G2c7"
+      "$dtPtNKBApB"
       /* nuxt-injected */
     )), __temp = await __temp, __restore(), __temp);
     const plans = computed(() => {
@@ -19607,7 +20379,7 @@ const _sfc_main$N = {
 const _sfc_setup$N = _sfc_main$N.setup;
 _sfc_main$N.setup = (props, ctx) => {
   const ssrContext = useSSRContext();
-  (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("../node_modules/@nuxt/ui/dist/runtime/components/Carousel.vue");
+  (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("../../../../../Users/hugh/code/hoxi/apay/node_modules/@nuxt/ui/dist/runtime/components/Carousel.vue");
   return _sfc_setup$N ? _sfc_setup$N(props, ctx) : void 0;
 };
 function useLike(options) {
@@ -19707,7 +20479,7 @@ const _sfc_main$M = /* @__PURE__ */ defineComponent({
     const props = __props;
     const emit = __emit;
     const toast = useToast();
-    const { t } = useI18n();
+    const { t } = useI18n$1();
     const isAnimating = ref(false);
     const { count: count2, hasLiked, loading } = useLike({
       targetType: () => props.targetType,
@@ -20602,7 +21374,7 @@ const _sfc_main$L = {
 const _sfc_setup$L = _sfc_main$L.setup;
 _sfc_main$L.setup = (props, ctx) => {
   const ssrContext = useSSRContext();
-  (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("../node_modules/@nuxt/ui/dist/runtime/components/Modal.vue");
+  (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("../../../../../Users/hugh/code/hoxi/apay/node_modules/@nuxt/ui/dist/runtime/components/Modal.vue");
   return _sfc_setup$L ? _sfc_setup$L(props, ctx) : void 0;
 };
 const useAuthRedirect = () => {
@@ -20629,7 +21401,7 @@ const useCheckout = () => {
   const { getSetting } = useSettings();
   const { loggedIn } = useCustomerAuth();
   const { localePath: localePath2 } = useLocaleRouter();
-  const { locale, t } = useI18n();
+  const { locale, t } = useI18n$1();
   const isCreatingOrder = ref(false);
   const isOrderModalOpen = ref(false);
   const orderId = ref(null);
@@ -20923,7 +21695,7 @@ const _sfc_main$J = /* @__PURE__ */ defineComponent({
   },
   setup(__props) {
     const props = __props;
-    const { t } = useI18n();
+    const { t } = useI18n$1();
     const route = useRoute();
     useNuxtApp();
     const event = useRequestEvent();
@@ -21033,7 +21805,7 @@ const _sfc_main$I = /* @__PURE__ */ defineComponent({
   },
   setup(__props) {
     const props = __props;
-    const { t } = useI18n();
+    const { t } = useI18n$1();
     const retry = async () => {
       if (props.retry) await props.retry();
     };
@@ -21135,7 +21907,7 @@ const _sfc_main$H = /* @__PURE__ */ defineComponent({
   __ssrInlineRender: true,
   async setup(__props) {
     let __temp, __restore;
-    const { locale } = useI18n();
+    const { locale } = useI18n$1();
     const route = useRoute$1();
     const slugParam = route.params.slug;
     const routeSlug = String(Array.isArray(slugParam) ? slugParam.at(-1) || "" : slugParam || "");
@@ -21157,7 +21929,7 @@ const _sfc_main$H = /* @__PURE__ */ defineComponent({
           return data;
         }
       },
-      "$9o_oWQ69Tr"
+      "$6AXmJOWAOm"
       /* nuxt-injected */
     )), __temp = await __temp, __restore(), __temp);
     const { pending, requestFailed } = usePageResourceState(productData, status, error);
@@ -21499,7 +22271,7 @@ const __vite_glob_0_6 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.def
 }, Symbol.toStringTag, { value: "Module" }));
 const text = (value) => String(value ?? "").replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
 const useCollectionPageJsonLd = (key, options) => {
-  const { locale } = useI18n();
+  const { locale } = useI18n$1();
   const localePath2 = useLocalePath();
   useJsonLd(key, computed(() => {
     const collectionPath = localePath2(options.path);
@@ -21558,7 +22330,7 @@ const _sfc_main$G = /* @__PURE__ */ defineComponent({
     const { getLocalizedProduct } = useLocalizedProduct();
     const { data: productsData, status } = ([__temp, __restore] = withAsyncContext(() => useFetch(
       "/api/products",
-      "$YBDH_o94tM"
+      "$rVRykh7Mgs"
       /* nuxt-injected */
     )), __temp = await __temp, __restore(), __temp);
     const pending = computed(() => status.value === "pending");
@@ -21936,7 +22708,7 @@ const _sfc_main$F = {
 const _sfc_setup$F = _sfc_main$F.setup;
 _sfc_main$F.setup = (props, ctx) => {
   const ssrContext = useSSRContext();
-  (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("../node_modules/@nuxt/ui/dist/runtime/components/FormField.vue");
+  (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("../../../../../Users/hugh/code/hoxi/apay/node_modules/@nuxt/ui/dist/runtime/components/FormField.vue");
   return _sfc_setup$F ? _sfc_setup$F(props, ctx) : void 0;
 };
 const theme$d = {
@@ -22478,7 +23250,7 @@ const _sfc_main$E = /* @__PURE__ */ Object.assign({ inheritAttrs: false }, {
 const _sfc_setup$E = _sfc_main$E.setup;
 _sfc_main$E.setup = (props, ctx) => {
   const ssrContext = useSSRContext();
-  (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("../node_modules/@nuxt/ui/dist/runtime/components/Textarea.vue");
+  (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("../../../../../Users/hugh/code/hoxi/apay/node_modules/@nuxt/ui/dist/runtime/components/Textarea.vue");
   return _sfc_setup$E ? _sfc_setup$E(props, ctx) : void 0;
 };
 const theme$c = {
@@ -22995,7 +23767,7 @@ const _sfc_main$D = /* @__PURE__ */ Object.assign({ inheritAttrs: false }, {
 const _sfc_setup$D = _sfc_main$D.setup;
 _sfc_main$D.setup = (props, ctx) => {
   const ssrContext = useSSRContext();
-  (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("../node_modules/@nuxt/ui/dist/runtime/components/Input.vue");
+  (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("../../../../../Users/hugh/code/hoxi/apay/node_modules/@nuxt/ui/dist/runtime/components/Input.vue");
   return _sfc_setup$D ? _sfc_setup$D(props, ctx) : void 0;
 };
 const isOpen = ref(false);
@@ -23104,7 +23876,7 @@ const _sfc_main$C = /* @__PURE__ */ defineComponent({
   __name: "AccountDeletionPanel",
   __ssrInlineRender: true,
   setup(__props) {
-    const { locale } = useI18n();
+    const { locale } = useI18n$1();
     const toast = useToast();
     const { confirm } = useConfirm();
     const { formatDateTime } = useFormatTime();
@@ -23682,7 +24454,7 @@ const _sfc_main$B = /* @__PURE__ */ defineComponent({
   __name: "index",
   __ssrInlineRender: true,
   async setup(__props) {
-    const { locale } = useI18n();
+    const { locale } = useI18n$1();
     const localePath2 = useLocalePath();
     useRouter();
     const { getLocalizedSetting } = useLocalizedSettings();
@@ -23828,7 +24600,7 @@ const _sfc_main$A = /* @__PURE__ */ defineComponent({
   async setup(__props) {
     let __temp, __restore;
     const route = useRoute();
-    const { locale } = useI18n();
+    const { locale } = useI18n$1();
     const toast = useToast();
     const { getLocalizedSetting } = useLocalizedSettings();
     const isZh = computed(() => locale.value.startsWith("zh"));
@@ -23852,7 +24624,7 @@ const _sfc_main$A = /* @__PURE__ */ defineComponent({
       {
         query: inspectQuery
       },
-      "$pPXMBKFvwq"
+      "$H8uKV4m24-"
       /* nuxt-injected */
     )), __temp = await __temp, __restore(), __temp);
     const errorMessage = computed(() => {
@@ -24550,7 +25322,7 @@ const _sfc_main$z = {
 const _sfc_setup$z = _sfc_main$z.setup;
 _sfc_main$z.setup = (props, ctx) => {
   const ssrContext = useSSRContext();
-  (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("../node_modules/@nuxt/ui/dist/runtime/components/Alert.vue");
+  (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("../../../../../Users/hugh/code/hoxi/apay/node_modules/@nuxt/ui/dist/runtime/components/Alert.vue");
   return _sfc_setup$z ? _sfc_setup$z(props, ctx) : void 0;
 };
 const en = {
@@ -24670,7 +25442,7 @@ const ru = {
   all: "Все"
 };
 function useRefundLabels() {
-  const { locale } = useI18n();
+  const { locale } = useI18n$1();
   return computed(() => locale.value === "zh-HK" ? hk : locale.value.startsWith("zh") ? zh : locale.value.startsWith("ru") ? ru : en);
 }
 const _sfc_main$y = /* @__PURE__ */ defineComponent({
@@ -24696,7 +25468,7 @@ const _sfc_main$y = /* @__PURE__ */ defineComponent({
     const url = computed(() => `/api/${props.admin ? "admin" : "users"}/orders/${encodeURIComponent(props.orderId)}/refund`);
     const { data, error, status, refresh } = ([__temp, __restore] = withAsyncContext(() => useFetch(
       url,
-      "$4oRhP53neQ"
+      "$B9iX4R2zQh"
       /* nuxt-injected */
     )), __temp = await __temp, __restore(), __temp);
     const refund = computed(() => data.value?.data);
@@ -24926,7 +25698,7 @@ const _sfc_main$x = /* @__PURE__ */ defineComponent({
   __ssrInlineRender: true,
   async setup(__props) {
     let __temp, __restore;
-    const { t } = useI18n();
+    const { t } = useI18n$1();
     const { formatDateTime } = useFormatTime();
     const { formatCurrencyAmount } = useCurrencyFormat();
     const { localePath: localePath2 } = useLocaleRouter();
@@ -24951,7 +25723,7 @@ const _sfc_main$x = /* @__PURE__ */ defineComponent({
           }
         }
       },
-      "$adhb_KOdy4"
+      "$G2dQIH4N8x"
       /* nuxt-injected */
     )), __temp = await __temp, __restore(), __temp);
     const pending = computed(() => status.value === "pending");
@@ -25874,7 +26646,7 @@ const _sfc_main$w = {
 const _sfc_setup$w = _sfc_main$w.setup;
 _sfc_main$w.setup = (props, ctx) => {
   const ssrContext = useSSRContext();
-  (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("../node_modules/@nuxt/ui/dist/runtime/components/Pagination.vue");
+  (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("../../../../../Users/hugh/code/hoxi/apay/node_modules/@nuxt/ui/dist/runtime/components/Pagination.vue");
   return _sfc_setup$w ? _sfc_setup$w(props, ctx) : void 0;
 };
 function usePagination(defaultPageSize = 15) {
@@ -25948,7 +26720,7 @@ const _sfc_main$v = /* @__PURE__ */ defineComponent({
           }
         }
       },
-      "$x-p2w6sV05"
+      "$YC42qJ1Hi7"
       /* nuxt-injected */
     )), __temp = await __temp, __restore(), __temp);
     const orders = computed(() => ordersData.value?.data || []);
@@ -27759,7 +28531,7 @@ const _sfc_main$u = /* @__PURE__ */ Object.assign({ inheritAttrs: false }, {
 const _sfc_setup$u = _sfc_main$u.setup;
 _sfc_main$u.setup = (props, ctx) => {
   const ssrContext = useSSRContext();
-  (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("../node_modules/@nuxt/ui/dist/runtime/components/Select.vue");
+  (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("../../../../../Users/hugh/code/hoxi/apay/node_modules/@nuxt/ui/dist/runtime/components/Select.vue");
   return _sfc_setup$u ? _sfc_setup$u(props, ctx) : void 0;
 };
 const _sfc_main$t = /* @__PURE__ */ defineComponent({
@@ -27769,7 +28541,7 @@ const _sfc_main$t = /* @__PURE__ */ defineComponent({
     let __temp, __restore;
     const { getLocalizedSetting } = useLocalizedSettings();
     const { formatDate } = useFormatTime();
-    const { locale } = useI18n();
+    const { locale } = useI18n$1();
     const localePath2 = useLocalePath();
     const toast = useToast();
     const { confirm } = useConfirm();
@@ -27838,7 +28610,7 @@ const _sfc_main$t = /* @__PURE__ */ defineComponent({
           }
         }
       },
-      "$AuQQrL_UyF"
+      "$PYBrNnYHT2"
       /* nuxt-injected */
     )), __temp = await __temp, __restore(), __temp);
     const tokens = computed(() => tokensData.value?.data || []);
@@ -28738,7 +29510,7 @@ const corePageModules = Object.fromEntries(Object.entries(/* @__PURE__ */ Object
   "/core/pages/user/tokens/index.vue": __vite_glob_0_12
 })).map(([file, module]) => [file.replace("/", "../"), module]));
 const themePageModules = {
-  ...Object.fromEntries(Object.entries(/* @__PURE__ */ Object.assign({ "/themes/hoxi/pages/about.vue": () => import('./about-k3kV1Ycu.mjs'), "/themes/hoxi/pages/account/delete.vue": () => import('./delete-UN1mGzut.mjs'), "/themes/hoxi/pages/auth/authorize-desktop/done.vue": () => import('./done-2Vs8lq-N.mjs'), "/themes/hoxi/pages/auth/authorize-desktop/index.vue": () => import('./index-BZqu95Rk.mjs'), "/themes/hoxi/pages/auth/login.vue": () => import('./login-Dx5ueuQJ.mjs'), "/themes/hoxi/pages/auth/mobile-bridge.vue": () => import('./mobile-bridge-BCNfgtgP.mjs'), "/themes/hoxi/pages/auth/register.vue": () => import('./register-Cnj3Aqyx.mjs'), "/themes/hoxi/pages/blog/[slug].vue": () => import('./_slug_-DQ838uyD.mjs'), "/themes/hoxi/pages/blog/category/[slug].vue": () => import('./_slug_-Bm7kqGC8.mjs'), "/themes/hoxi/pages/blog/index.vue": () => import('./index-CbwReVCo.mjs'), "/themes/hoxi/pages/coding-plans/[slug].vue": () => import('./_slug_-DtrigL68.mjs'), "/themes/hoxi/pages/coding-plans/index.vue": () => import('./index-DOjOnSjl.mjs'), "/themes/hoxi/pages/compare.vue": () => import('./compare-BPfmy4MK.mjs'), "/themes/hoxi/pages/download.vue": () => import('./download-DvODaHMw.mjs'), "/themes/hoxi/pages/gateways/[slug].vue": () => import('./_slug_-Dzci--7i.mjs'), "/themes/hoxi/pages/gateways/index.vue": () => import('./index-BJHAXi68.mjs'), "/themes/hoxi/pages/index.vue": () => import('./index-D6o5MKwN.mjs'), "/themes/hoxi/pages/models/[slug].vue": () => import('./_slug_-kGGHkAtK.mjs'), "/themes/hoxi/pages/models/index.vue": () => import('./index-Cuzww4qg.mjs'), "/themes/hoxi/pages/one-person-company.vue": () => import('./one-person-company-BMg68yY9.mjs'), "/themes/hoxi/pages/privacy.vue": () => import('./privacy-DwjmsX-w.mjs'), "/themes/hoxi/pages/projects/[slug].vue": () => import('./_slug_-CvwfvKug.mjs'), "/themes/hoxi/pages/projects/index.vue": () => import('./index-Bk_L8KUV.mjs'), "/themes/hoxi/pages/readiness/[hash].vue": () => import('./_hash_-jOXOZleI.mjs'), "/themes/hoxi/pages/readiness/index.vue": () => import('./index-7XYqOrIx.mjs'), "/themes/hoxi/pages/refactoring-the-self.vue": () => import('./refactoring-the-self-CPjON8j0.mjs'), "/themes/hoxi/pages/savings.vue": () => import('./savings-DUtdoeMo.mjs'), "/themes/hoxi/pages/site-builder/index.vue": () => import('./index-Co59N_-f.mjs'), "/themes/hoxi/pages/site-builder/preview/[id].vue": () => import('./_id_-BcO7zfyl.mjs'), "/themes/hoxi/pages/skills.vue": () => import('./skills-BGgZ2Xw4.mjs'), "/themes/hoxi/pages/terms.vue": () => import('./terms-9z5k6xcj.mjs'), "/themes/hoxi/pages/tools.vue": () => import('./tools-wIJf1y-B.mjs'), "/themes/hoxi/pages/user/account.vue": () => import('./account-C4jIxzbV.mjs'), "/themes/hoxi/pages/user/billing.vue": () => import('./billing-BjN7Kqgx.mjs'), "/themes/hoxi/pages/user/dashboard.vue": () => import('./dashboard-ChkGPZY0.mjs'), "/themes/hoxi/pages/user/index.vue": () => import('./index-CjkSoVF9.mjs'), "/themes/hoxi/pages/user/keys.vue": () => import('./keys-9Ty2iOoq.mjs'), "/themes/hoxi/pages/user/layout.vue": () => import('./layout-DldYCbvC.mjs').then((n) => n.l), "/themes/hoxi/pages/user/models.vue": () => import('./models-CZJmapZR.mjs'), "/themes/hoxi/pages/user/rewards.vue": () => import('./rewards-BO6n2vsP.mjs'), "/themes/hoxi/pages/user/tickets.vue": () => import('./tickets-9CXfbOZQ.mjs') })).map(([file, module]) => [file.replace("/", "../"), module]))
+  ...Object.fromEntries(Object.entries(/* @__PURE__ */ Object.assign({ "/themes/hoxi/pages/about.vue": () => import('./about-DLdbTOMd.mjs'), "/themes/hoxi/pages/account/delete.vue": () => import('./delete-DoigF1II.mjs'), "/themes/hoxi/pages/auth/authorize-desktop/done.vue": () => import('./done-2Vs8lq-N.mjs'), "/themes/hoxi/pages/auth/authorize-desktop/index.vue": () => import('./index-Bn9R7Kyw.mjs'), "/themes/hoxi/pages/auth/login.vue": () => import('./login-BeC-9Rpo.mjs'), "/themes/hoxi/pages/auth/mobile-bridge.vue": () => import('./mobile-bridge-NQwvXPxi.mjs'), "/themes/hoxi/pages/auth/register.vue": () => import('./register-CGdG4VNO.mjs'), "/themes/hoxi/pages/blog/[slug].vue": () => import('./_slug_-Ble70M7G.mjs'), "/themes/hoxi/pages/blog/category/[slug].vue": () => import('./_slug_-ntJUbQw9.mjs'), "/themes/hoxi/pages/blog/index.vue": () => import('./index-IZB5xsgb.mjs'), "/themes/hoxi/pages/coding-plans/[slug].vue": () => import('./_slug_-CYaI3kOu.mjs'), "/themes/hoxi/pages/coding-plans/index.vue": () => import('./index-hC0Bqo4l.mjs'), "/themes/hoxi/pages/compare.vue": () => import('./compare-D2EfMdG_.mjs'), "/themes/hoxi/pages/download.vue": () => import('./download-pvt0ZSY9.mjs'), "/themes/hoxi/pages/gateways/[slug].vue": () => import('./_slug_-Dw60yTks.mjs'), "/themes/hoxi/pages/gateways/index.vue": () => import('./index-dLHr4BGQ.mjs'), "/themes/hoxi/pages/index.vue": () => import('./index-DAPTTSH5.mjs'), "/themes/hoxi/pages/models/[slug].vue": () => import('./_slug_-D-yv1M5G.mjs'), "/themes/hoxi/pages/models/index.vue": () => import('./index-7-2Q2_e2.mjs'), "/themes/hoxi/pages/one-person-company.vue": () => import('./one-person-company-DSFfLnzi.mjs'), "/themes/hoxi/pages/privacy.vue": () => import('./privacy-ABYk6pHV.mjs'), "/themes/hoxi/pages/projects/[slug].vue": () => import('./_slug_-CEQKoQIn.mjs'), "/themes/hoxi/pages/projects/index.vue": () => import('./index-C9DsYBpf.mjs'), "/themes/hoxi/pages/readiness/[hash].vue": () => import('./_hash_-CO0EZDro.mjs'), "/themes/hoxi/pages/readiness/index.vue": () => import('./index-SXcI2YB2.mjs'), "/themes/hoxi/pages/refactoring-the-self.vue": () => import('./refactoring-the-self-hb94Vt_C.mjs'), "/themes/hoxi/pages/savings.vue": () => import('./savings-CTJ2FNl1.mjs'), "/themes/hoxi/pages/site-builder/index.vue": () => import('./index-CTcABR4-.mjs'), "/themes/hoxi/pages/site-builder/preview/[id].vue": () => import('./_id_-iHcfZ5cM.mjs'), "/themes/hoxi/pages/skills.vue": () => import('./skills-D_x3WuGY.mjs'), "/themes/hoxi/pages/terms.vue": () => import('./terms-Cg7VNzLQ.mjs'), "/themes/hoxi/pages/tools.vue": () => import('./tools-DWbR8v6O.mjs'), "/themes/hoxi/pages/user/account.vue": () => import('./account-Ckdbt6pk.mjs'), "/themes/hoxi/pages/user/billing.vue": () => import('./billing-ZAUL984K.mjs'), "/themes/hoxi/pages/user/dashboard.vue": () => import('./dashboard-Szflv1cK.mjs'), "/themes/hoxi/pages/user/index.vue": () => import('./index-CiBsQxl5.mjs'), "/themes/hoxi/pages/user/keys.vue": () => import('./keys-CWoVaMjN.mjs'), "/themes/hoxi/pages/user/layout.vue": () => import('./layout-B0UZ5KZO.mjs').then((n) => n.l), "/themes/hoxi/pages/user/models.vue": () => import('./models-4QhjZIzt.mjs'), "/themes/hoxi/pages/user/rewards.vue": () => import('./rewards-DaZMDKSm.mjs'), "/themes/hoxi/pages/user/tickets.vue": () => import('./tickets-G72w5orI.mjs') })).map(([file, module]) => [file.replace("/", "../"), module]))
 };
 const themeAdminManifestModules = {
   ...Object.fromEntries(Object.entries(/* @__PURE__ */ Object.assign({
@@ -28746,7 +29518,7 @@ const themeAdminManifestModules = {
   })).map(([file, module]) => [file.replace("/", "../"), module]))
 };
 const themeAdminPageModules = {
-  ...Object.fromEntries(Object.entries(/* @__PURE__ */ Object.assign({ "/themes/hoxi/admin/pages/cheap.vue": () => import('./cheap-83ze2GyV.mjs'), "/themes/hoxi/admin/pages/clients.vue": () => import('./clients-CROuLqb6.mjs'), "/themes/hoxi/admin/pages/coding-plans.vue": () => import('./coding-plans-CscdFoa5.mjs'), "/themes/hoxi/admin/pages/free-tiers.vue": () => import('./free-tiers-jGuScAEq.mjs'), "/themes/hoxi/admin/pages/models.vue": () => import('./models-DVZSBSxM.mjs'), "/themes/hoxi/admin/pages/projects.vue": () => import('./projects-BtgQ8HK7.mjs'), "/themes/hoxi/admin/pages/rewards.vue": () => import('./rewards-D460TosA.mjs'), "/themes/hoxi/admin/pages/skills.vue": () => import('./skills-DKXOUHrj.mjs'), "/themes/hoxi/admin/pages/tools.vue": () => import('./tools-CRvusnst.mjs'), "/themes/hoxi/admin/pages/work-apps.vue": () => import('./work-apps-CYc5ooHy.mjs') })).map(([file, module]) => [file.replace("/", "../"), module]))
+  ...Object.fromEntries(Object.entries(/* @__PURE__ */ Object.assign({ "/themes/hoxi/admin/pages/cheap.vue": () => import('./cheap-Da9BYVfC.mjs'), "/themes/hoxi/admin/pages/clients.vue": () => import('./clients-hbbL5-O_.mjs'), "/themes/hoxi/admin/pages/coding-plans.vue": () => import('./coding-plans-CCmd_eqj.mjs'), "/themes/hoxi/admin/pages/free-tiers.vue": () => import('./free-tiers-t8jENI8l.mjs'), "/themes/hoxi/admin/pages/models.vue": () => import('./models-V6McapR2.mjs'), "/themes/hoxi/admin/pages/projects.vue": () => import('./projects-vpVZSIux.mjs'), "/themes/hoxi/admin/pages/rewards.vue": () => import('./rewards-DqEpzito.mjs'), "/themes/hoxi/admin/pages/skills.vue": () => import('./skills-Xng0RbNu.mjs'), "/themes/hoxi/admin/pages/tools.vue": () => import('./tools-Cu0x-hJ1.mjs'), "/themes/hoxi/admin/pages/work-apps.vue": () => import('./work-apps-C2tqzmH3.mjs') })).map(([file, module]) => [file.replace("/", "../"), module]))
 };
 const themeAdminLocaleEnModules = {
   ...Object.fromEntries(Object.entries(/* @__PURE__ */ Object.assign({
@@ -28759,7 +29531,7 @@ const themeAdminLocaleZhModules = {
   })).map(([file, module]) => [file.replace("/", "../"), module]))
 };
 const themeLayoutLoaders = {
-  "hoxi": () => import('./default-Ck9yjpDn.mjs')
+  "hoxi": () => import('./default-Defh6iAY.mjs')
 };
 const pageLayoutMeta = { "../core/pages/payment/[order_id].vue": { "layout": false }, "../core/pages/user/mcp-authorize/index.vue": { "directoryLayout": false } };
 const useActiveTheme = (options = {}) => {
@@ -29773,7 +30545,7 @@ const _sfc_main$s = /* @__PURE__ */ Object.assign({ inheritAttrs: false }, {
 const _sfc_setup$s = _sfc_main$s.setup;
 _sfc_main$s.setup = (props, ctx) => {
   const ssrContext = useSSRContext();
-  (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("../node_modules/@nuxt/ui/dist/runtime/components/Table.vue");
+  (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("../../../../../Users/hugh/code/hoxi/apay/node_modules/@nuxt/ui/dist/runtime/components/Table.vue");
   return _sfc_setup$s ? _sfc_setup$s(props, ctx) : void 0;
 };
 const _sfc_main$r = /* @__PURE__ */ defineComponent({
@@ -29781,7 +30553,7 @@ const _sfc_main$r = /* @__PURE__ */ defineComponent({
   __ssrInlineRender: true,
   async setup(__props) {
     let __temp, __restore;
-    const RichEditor = defineAsyncComponent(() => import('./RichEditor-BPF1ayqo.mjs'));
+    const RichEditor = defineAsyncComponent(() => import('./RichEditor-CQD7iqHv.mjs'));
     const copyItem = (item) => ({
       id: item?.id || "",
       name: item?.name || "",
@@ -29797,7 +30569,7 @@ const _sfc_main$r = /* @__PURE__ */ defineComponent({
       settings: { siteURL: item?.settings.siteURL || "", adminURL: item?.settings.adminURL || "", gateway: item?.settings.gateway || "" },
       seo: { title: item?.seo.title || "", keywords: item?.seo.keywords || "", description: item?.seo.description || "" }
     });
-    const { locale } = useI18n();
+    const { locale } = useI18n$1();
     const toast = useToast();
     const isZh = computed(() => locale.value.startsWith("zh"));
     const dictionary = {
@@ -30014,7 +30786,7 @@ const _sfc_main$r = /* @__PURE__ */ defineComponent({
         query: { page, pageSize: pageSize2, keyword, status },
         watch: [page]
       },
-      "$ojh5-4eTVU"
+      "$F2I460m0Zv"
       /* nuxt-injected */
     )), __temp = await __temp, __restore(), __temp);
     const rows = computed(() => data.value?.data || []);
@@ -32255,7 +33027,7 @@ const _sfc_main$q = {
 const _sfc_setup$q = _sfc_main$q.setup;
 _sfc_main$q.setup = (props, ctx) => {
   const ssrContext = useSSRContext();
-  (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("../node_modules/@nuxt/ui/dist/runtime/components/Card.vue");
+  (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("../../../../../Users/hugh/code/hoxi/apay/node_modules/@nuxt/ui/dist/runtime/components/Card.vue");
   return _sfc_setup$q ? _sfc_setup$q(props, ctx) : void 0;
 };
 const _sfc_main$p = /* @__PURE__ */ defineComponent({
@@ -32263,7 +33035,7 @@ const _sfc_main$p = /* @__PURE__ */ defineComponent({
   __ssrInlineRender: true,
   async setup(__props) {
     let __temp, __restore;
-    const { t, locale } = useI18n();
+    const { t, locale } = useI18n$1();
     const isZh = computed(() => locale.value.startsWith("zh"));
     const windowDays = ref(30);
     const errorMsg = ref("");
@@ -32279,7 +33051,7 @@ const _sfc_main$p = /* @__PURE__ */ defineComponent({
           errorMsg.value = "";
         }
       },
-      "$YybSFpNyT3"
+      "$ybh2QzGOMl"
       /* nuxt-injected */
     )), __temp = await __temp, __restore(), __temp);
     const apps = computed(() => telemetry.value?.apps || []);
@@ -32576,7 +33348,7 @@ const _sfc_main$o = {
 const _sfc_setup$o = _sfc_main$o.setup;
 _sfc_main$o.setup = (props, ctx) => {
   const ssrContext = useSSRContext();
-  (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("../node_modules/@nuxt/ui/dist/runtime/components/Skeleton.vue");
+  (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("../../../../../Users/hugh/code/hoxi/apay/node_modules/@nuxt/ui/dist/runtime/components/Skeleton.vue");
   return _sfc_setup$o ? _sfc_setup$o(props, ctx) : void 0;
 };
 const theme$5 = {
@@ -32822,7 +33594,7 @@ const _sfc_main$n = {
 const _sfc_setup$n = _sfc_main$n.setup;
 _sfc_main$n.setup = (props, ctx) => {
   const ssrContext = useSSRContext();
-  (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("../node_modules/@nuxt/ui/dist/runtime/components/Empty.vue");
+  (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("../../../../../Users/hugh/code/hoxi/apay/node_modules/@nuxt/ui/dist/runtime/components/Empty.vue");
   return _sfc_setup$n ? _sfc_setup$n(props, ctx) : void 0;
 };
 const theme$4 = {
@@ -33284,7 +34056,7 @@ const _sfc_main$m = /* @__PURE__ */ Object.assign({ inheritAttrs: false }, {
 const _sfc_setup$m = _sfc_main$m.setup;
 _sfc_main$m.setup = (props, ctx) => {
   const ssrContext = useSSRContext();
-  (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("../node_modules/@nuxt/ui/dist/runtime/components/Checkbox.vue");
+  (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("../../../../../Users/hugh/code/hoxi/apay/node_modules/@nuxt/ui/dist/runtime/components/Checkbox.vue");
   return _sfc_setup$m ? _sfc_setup$m(props, ctx) : void 0;
 };
 const messages = {
@@ -33410,7 +34182,7 @@ const _sfc_main$l = /* @__PURE__ */ defineComponent({
   },
   async setup(__props) {
     let __temp, __restore;
-    const { locale } = useI18n();
+    const { locale } = useI18n$1();
     const text2 = computed(() => locale.value.startsWith("zh") ? messages.zh : messages.en);
     const { hasPerm, loadAdmin } = useAdminPermissions();
     [__temp, __restore] = withAsyncContext(() => loadAdmin()), await __temp, __restore();
@@ -33450,7 +34222,7 @@ const _sfc_main$k = /* @__PURE__ */ defineComponent({
   async setup(__props) {
     let __temp, __restore;
     const props = __props;
-    const { locale } = useI18n();
+    const { locale } = useI18n$1();
     const text2 = computed(() => locale.value.startsWith("zh") ? messages.zh : messages.en);
     const title2 = computed(() => text2.value[props.kind]);
     const { hasPerm, loadAdmin } = useAdminPermissions();
@@ -33458,7 +34230,7 @@ const _sfc_main$k = /* @__PURE__ */ defineComponent({
     const canEdit = computed(() => hasPerm(`plugin:shopark:${props.kind}:edit`));
     const { data: response, pending, error, refresh } = ([__temp, __restore] = withAsyncContext(() => useFetch(
       `/api/admin/plugins/shopark/${props.kind}/list`,
-      "$WDxUA-yKV2"
+      "$XOCfXoe-uz"
       /* nuxt-injected */
     )), __temp = await __temp, __restore(), __temp);
     const keyword = ref("");
@@ -34459,7 +35231,7 @@ const _sfc_main$i = /* @__PURE__ */ defineComponent({
   __ssrInlineRender: true,
   async setup(__props) {
     let __temp, __restore;
-    const { locale } = useI18n();
+    const { locale } = useI18n$1();
     const toast = useToast();
     const isZh = computed(() => String(locale.value || "").startsWith("zh"));
     const text2 = computed(() => isZh.value ? {
@@ -34516,13 +35288,13 @@ const _sfc_main$i = /* @__PURE__ */ defineComponent({
     const settingUpScheduler = ref(false);
     const { data: connectionRes, pending, error, refresh } = ([__temp, __restore] = withAsyncContext(() => useFetch(
       "/api/admin/plugins/shopark/connection/status",
-      "$qVtDTTj1j6"
+      "$e8F5PAhCSl"
       /* nuxt-injected */
     )), __temp = await __temp, __restore(), __temp);
     const connection = computed(() => connectionRes.value?.data);
     const { data: readinessRes, pending: readinessPending, error: readinessError, refresh: refreshReadiness } = ([__temp, __restore] = withAsyncContext(() => useFetch(
       "/api/admin/plugins/shopark/readiness/status",
-      "$kVfV9mTrQH"
+      "$pXYq8yWClF"
       /* nuxt-injected */
     )), __temp = await __temp, __restore(), __temp);
     const readiness = computed(() => readinessRes.value?.data);
@@ -34773,7 +35545,7 @@ const _sfc_main$h = /* @__PURE__ */ defineComponent({
   __name: "leads",
   __ssrInlineRender: true,
   setup(__props) {
-    const { locale } = useI18n();
+    const { locale } = useI18n$1();
     const toast = useToast();
     const isZh = computed(() => locale.value.startsWith("zh"));
     const copy = computed(() => isZh.value ? {
@@ -37140,7 +37912,7 @@ const _sfc_main$g = {
 const _sfc_setup$g = _sfc_main$g.setup;
 _sfc_main$g.setup = (props, ctx) => {
   const ssrContext = useSSRContext();
-  (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("../node_modules/@nuxt/ui/dist/runtime/components/Slideover.vue");
+  (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("../../../../../Users/hugh/code/hoxi/apay/node_modules/@nuxt/ui/dist/runtime/components/Slideover.vue");
   return _sfc_setup$g ? _sfc_setup$g(props, ctx) : void 0;
 };
 const pageLimit = 20;
@@ -37149,7 +37921,7 @@ const _sfc_main$f = /* @__PURE__ */ defineComponent({
   __ssrInlineRender: true,
   async setup(__props) {
     let __temp, __restore;
-    const { locale } = useI18n();
+    const { locale } = useI18n$1();
     const route = useRoute();
     const toast = useToast();
     const isZh = computed(() => String(locale.value || "").startsWith("zh"));
@@ -37413,7 +38185,7 @@ const _sfc_main$f = /* @__PURE__ */ defineComponent({
           filter: customerFilter.value
         }))
       },
-      "$a0WqTvQhTE"
+      "$Z0l6ii3sRp"
       /* nuxt-injected */
     )), __temp = await __temp, __restore(), __temp);
     const customerRows = computed(() => customersRes.value?.data?.list || []);
@@ -37447,7 +38219,7 @@ const _sfc_main$f = /* @__PURE__ */ defineComponent({
           status: selectedStatus.value === "all" ? "" : selectedStatus.value
         }))
       },
-      "$-Iyd7uGV1q"
+      "$mqGgbyEvf6"
       /* nuxt-injected */
     )), __temp = await __temp, __restore(), __temp);
     const rows = computed(() => res.value?.data?.list || []);
@@ -40055,14 +40827,14 @@ const _sfc_main$e = /* @__PURE__ */ defineComponent({
   __ssrInlineRender: true,
   async setup(__props) {
     let __temp, __restore;
-    const { locale } = useI18n();
+    const { locale } = useI18n$1();
     const text2 = computed(() => locale.value.startsWith("zh") ? messages.zh : messages.en);
     const { hasPerm, loadAdmin } = useAdminPermissions();
     [__temp, __restore] = withAsyncContext(() => loadAdmin()), await __temp, __restore();
     const canEdit = computed(() => hasPerm("plugin:shopark:settings:edit"));
     const { data: response, pending, error, refresh } = ([__temp, __restore] = withAsyncContext(() => useFetch(
       "/api/admin/plugins/shopark/settings/status",
-      "$RVzSWEa1eJ"
+      "$JM7W8QQJzf"
       /* nuxt-injected */
     )), __temp = await __temp, __restore(), __temp);
     const defaultTheme = ref("");
@@ -40438,7 +41210,7 @@ const _sfc_main$d = /* @__PURE__ */ defineComponent({
   __ssrInlineRender: true,
   async setup(__props) {
     let __temp, __restore;
-    const { locale } = useI18n();
+    const { locale } = useI18n$1();
     const isZh = computed(() => String(locale.value || "").startsWith("zh"));
     const text2 = computed(() => isZh.value ? {
       title: "店铺与经营管理",
@@ -40621,7 +41393,7 @@ const _sfc_main$d = /* @__PURE__ */ defineComponent({
           currency: selectedCurrency.value === "all" ? void 0 : selectedCurrency.value
         }))
       },
-      "$sqeENRsMix"
+      "$1dixE137-E"
       /* nuxt-injected */
     )), __temp = await __temp, __restore(), __temp);
     const summary = computed(() => res.value?.data?.summary || {
@@ -41879,7 +42651,7 @@ const _sfc_main$b = /* @__PURE__ */ defineComponent({
   __ssrInlineRender: true,
   async setup(__props) {
     let __temp, __restore;
-    const RichEditor = defineAsyncComponent(() => import('./RichEditor-BPF1ayqo.mjs'));
+    const RichEditor = defineAsyncComponent(() => import('./RichEditor-CQD7iqHv.mjs'));
     const copyItem = (item) => ({
       id: item?.id || "",
       name: item?.name || "",
@@ -41898,7 +42670,7 @@ const _sfc_main$b = /* @__PURE__ */ defineComponent({
       settings: { siteURL: item?.settings.siteURL || "", adminURL: item?.settings.adminURL || "", gateway: item?.settings.gateway || "" },
       seo: { title: item?.seo.title || "", keywords: item?.seo.keywords || "", description: item?.seo.description || "" }
     });
-    const { locale } = useI18n();
+    const { locale } = useI18n$1();
     const toast = useToast();
     const isZh = computed(() => locale.value.startsWith("zh"));
     const dictionary = {
@@ -42105,7 +42877,7 @@ const _sfc_main$b = /* @__PURE__ */ defineComponent({
         query: { page, pageSize: pageSize2, keyword, status },
         watch: [page]
       },
-      "$dVbPXednsQ"
+      "$fDW6bac2wJ"
       /* nuxt-injected */
     )), __temp = await __temp, __restore(), __temp);
     const rows = computed(() => data.value?.data || []);
@@ -44880,7 +45652,7 @@ const plugin = /* @__PURE__ */ defineNuxtPlugin({
     return { provide: { router } };
   }
 });
-const session_server_fi7D7q_WjeXZl2Hh05GOWPuIxZQWSnpY3ifY_sSGHJo = /* @__PURE__ */ defineNuxtPlugin({
+const session_server__rpglqVfQUJpq_YjTdmlVmQyPOG1dDcDiCEgmp1eL_c = /* @__PURE__ */ defineNuxtPlugin({
   name: "session-fetch-plugin",
   enforce: "pre",
   async setup(nuxtApp) {
@@ -44900,7 +45672,7 @@ const reducers = [
   ["Ref", (data) => isRef(data) && data.value],
   ["Reactive", (data) => isReactive(data) && toRaw(data)]
 ];
-const revive_payload_server_MVtmlZaQpj6ApFmshWfUWl5PehCebzaBf2NuRMiIbms = /* @__PURE__ */ defineNuxtPlugin({
+const revive_payload_server_Wl0Ez4UigXafsz9R6pZCefSicOajXBp1JqT536mBrk8 = /* @__PURE__ */ defineNuxtPlugin({
   name: "nuxt:revive-payload:server",
   setup() {
     for (const [reducer, fn] of reducers) {
@@ -44908,7 +45680,7 @@ const revive_payload_server_MVtmlZaQpj6ApFmshWfUWl5PehCebzaBf2NuRMiIbms = /* @__
     }
   }
 });
-const switch_locale_path_ssr_NflG9_QeVcJ1jVig0vCfxB_cZhpEMQ9U2ujRUiYbbVw = /* @__PURE__ */ defineNuxtPlugin({
+const switch_locale_path_ssr_sYBxq1Xkm7_zw9ZM76AW8TCshXrS2RlpiRlBrAsV6qI = /* @__PURE__ */ defineNuxtPlugin({
   name: "i18n:plugin:switch-locale-path-ssr",
   dependsOn: ["i18n:plugin"],
   setup(_nuxt) {
@@ -44932,7 +45704,7 @@ const switch_locale_path_ssr_NflG9_QeVcJ1jVig0vCfxB_cZhpEMQ9U2ujRUiYbbVw = /* @_
     });
   }
 });
-const route_locale_detect__HPHJq3Jg7gwhwgKEI8tQavopSAjmrCSPXl9HgL2h9U = /* @__PURE__ */ defineNuxtPlugin({
+const route_locale_detect_gl7ozWW4Qf4ik6XeHzrS9eJFhMcH0KzINYphDqd_MaI = /* @__PURE__ */ defineNuxtPlugin({
   name: "i18n:plugin:route-locale-detect",
   dependsOn: ["i18n:plugin"],
   async setup(_nuxt) {
@@ -44978,23 +45750,23 @@ function extendI18n(i18n, { extendComposer, extendComposerInstance }) {
   i18n.install = (app, ...options) => {
     const pluginOptions = assign({}, options[0]);
     pluginOptions.__composerExtend = (c) => {
-      extendComposerInstance(c, getComposer(i18n));
+      extendComposerInstance(c, getComposer$1(i18n));
       return () => {
       };
     };
     if (i18n.mode === "legacy") {
       pluginOptions.__vueI18nExtend = (vueI18n) => {
-        extendComposerInstance(vueI18n, getComposer(vueI18n));
+        extendComposerInstance(vueI18n, getComposer$1(vueI18n));
         return () => {
         };
       };
     }
     Reflect.apply(installI18n, i18n, [app, pluginOptions]);
-    const globalComposer = getComposer(i18n);
+    const globalComposer = getComposer$1(i18n);
     scope.run(() => {
       extendComposer(globalComposer);
       if (i18n.mode === "legacy" && isVueI18n(i18n.global)) {
-        extendComposerInstance(i18n.global, getComposer(i18n.global));
+        extendComposerInstance(i18n.global, getComposer$1(i18n.global));
       }
     });
     if (i18n.mode === "composition" && app.config.globalProperties.$i18n != null) {
@@ -45009,7 +45781,7 @@ function extendI18n(i18n, { extendComposer, extendComposerInstance }) {
     }
   };
 }
-const i18n_EI7LsD1KYQADczz5hrChviGQCdVM8yUkvFEZLJpmnvM = /* @__PURE__ */ defineNuxtPlugin({
+const i18n_0AT5aPG0JfxHgKCAnEt80TSMiEmlC57aZLFLvR4y0ps = /* @__PURE__ */ defineNuxtPlugin({
   name: "i18n:plugin",
   parallel: parallelPlugin,
   async setup(_nuxt) {
@@ -45152,7 +45924,7 @@ const i18n_EI7LsD1KYQADczz5hrChviGQCdVM8yUkvFEZLJpmnvM = /* @__PURE__ */ defineN
   }
 });
 const preference = "dark";
-const plugin_server_9Ca9_HhnjAGwBWpwAydRauMHxWoxTDY60BrArRnXN_A = /* @__PURE__ */ defineNuxtPlugin((nuxtApp) => {
+const plugin_server_eQgWEsSYsZi_m5QXwryCJbcBwJG9LcOBb2726kRk6JQ = /* @__PURE__ */ defineNuxtPlugin((nuxtApp) => {
   const colorMode = nuxtApp.ssrContext?.islandContext ? ref({}) : useState("color-mode", () => reactive({
     preference,
     value: preference,
@@ -45174,7 +45946,7 @@ const plugin_server_9Ca9_HhnjAGwBWpwAydRauMHxWoxTDY60BrArRnXN_A = /* @__PURE__ *
   });
   nuxtApp.provide("colorMode", colorMode);
 });
-const plugin_MeUvTuoKUi51yb_kBguab6hdcExVXeTtZtTg9TZZBB8 = /* @__PURE__ */ defineNuxtPlugin({
+const plugin_peKrKkWJ2FyNvD61rDdF27fS5F7ZwHRCbYKEEM_pTKM = /* @__PURE__ */ defineNuxtPlugin({
   name: "@nuxt/icon",
   setup() {
     const configs = /* @__PURE__ */ useRuntimeConfig();
@@ -45216,87 +45988,87 @@ const plugin_MeUvTuoKUi51yb_kBguab6hdcExVXeTtZtTg9TZZBB8 = /* @__PURE__ */ defin
   // For type portability
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
 });
-const LazyHoxiComment = defineAsyncComponent(() => import('./HoxiComment-BgozWRKB.mjs').then((r) => r["default"] || r.default || r));
-const LazyHoxiCommunityModal = defineAsyncComponent(() => import('./HoxiCommunityModal-C24dd-Al.mjs').then((r) => r["default"] || r.default || r));
+const LazyHoxiComment = defineAsyncComponent(() => import('./HoxiComment-XrFrwfBu.mjs').then((r) => r["default"] || r.default || r));
+const LazyHoxiCommunityModal = defineAsyncComponent(() => import('./HoxiCommunityModal-wLFBuTnb.mjs').then((r) => r["default"] || r.default || r));
 const LazyHoxiContainer = defineAsyncComponent(() => import('./HoxiContainer-DDAEb0_Y.mjs').then((r) => r["default"] || r.default || r));
-const LazyHoxiDownloadCard = defineAsyncComponent(() => import('./HoxiDownloadCard-CEQb9NmB.mjs').then((r) => r["default"] || r.default || r));
-const LazyHoxiHairlineLink = defineAsyncComponent(() => import('./HoxiHairlineLink-DxzXNpvl.mjs').then((r) => r["default"] || r.default || r));
-const LazyHoxiHomeReadiness = defineAsyncComponent(() => import('./HoxiHomeReadiness-Bl0pPF4g.mjs').then((r) => r["default"] || r.default || r));
-const LazyHoxiHomeSavingsCard = defineAsyncComponent(() => import('./HoxiHomeSavingsCard-BzY-j9au.mjs').then((r) => r["default"] || r.default || r));
-const LazyHoxiHomeTools = defineAsyncComponent(() => import('./HoxiHomeTools-CxHEUxIF.mjs').then((r) => r["default"] || r.default || r));
-const LazyHoxiHomeWorkspaceShowcase = defineAsyncComponent(() => import('./HoxiHomeWorkspaceShowcase-Bg68J7-2.mjs').then((r) => r["default"] || r.default || r));
-const LazyHoxiLogoIcon = defineAsyncComponent(() => import('./HoxiLogoIcon-Cbv0VH_d.mjs').then((r) => r["default"] || r.default || r));
+const LazyHoxiDownloadCard = defineAsyncComponent(() => import('./HoxiDownloadCard-CAdHBCJl.mjs').then((r) => r["default"] || r.default || r));
+const LazyHoxiHairlineLink = defineAsyncComponent(() => import('./HoxiHairlineLink-D576zmJv.mjs').then((r) => r["default"] || r.default || r));
+const LazyHoxiHomeReadiness = defineAsyncComponent(() => import('./HoxiHomeReadiness-D2dBdG2u.mjs').then((r) => r["default"] || r.default || r));
+const LazyHoxiHomeSavingsCard = defineAsyncComponent(() => import('./HoxiHomeSavingsCard-BX4tL8I_.mjs').then((r) => r["default"] || r.default || r));
+const LazyHoxiHomeTools = defineAsyncComponent(() => import('./HoxiHomeTools-B_msIy4i.mjs').then((r) => r["default"] || r.default || r));
+const LazyHoxiHomeWorkspaceShowcase = defineAsyncComponent(() => import('./HoxiHomeWorkspaceShowcase-79xD-tsa.mjs').then((r) => r["default"] || r.default || r));
+const LazyHoxiLogoIcon = defineAsyncComponent(() => import('./HoxiLogoIcon-BAn9zW4m.mjs').then((r) => r["default"] || r.default || r));
 const LazyHoxiMeta = defineAsyncComponent(() => import('./HoxiMeta-BgAl7LvM.mjs').then((r) => r["default"] || r.default || r));
-const LazyHoxiModelCard = defineAsyncComponent(() => import('./HoxiModelCard-D9tT9u3N.mjs').then((r) => r["default"] || r.default || r));
-const LazyHoxiModelFilters = defineAsyncComponent(() => import('./HoxiModelFilters-Ko2hPiXe.mjs').then((r) => r["default"] || r.default || r));
-const LazyHoxiModelMini = defineAsyncComponent(() => import('./HoxiModelMini-Dx97-2FT.mjs').then((r) => r["default"] || r.default || r));
-const LazyHoxiModelTable = defineAsyncComponent(() => import('./HoxiModelTable-DmpQsl9m.mjs').then((r) => r["default"] || r.default || r));
-const LazyHoxiNewsletterBox = defineAsyncComponent(() => import('./HoxiNewsletterBox-CgEB6Sa0.mjs').then((r) => r["default"] || r.default || r));
+const LazyHoxiModelCard = defineAsyncComponent(() => import('./HoxiModelCard-BtFm9dSL.mjs').then((r) => r["default"] || r.default || r));
+const LazyHoxiModelFilters = defineAsyncComponent(() => import('./HoxiModelFilters-B2eBRboC.mjs').then((r) => r["default"] || r.default || r));
+const LazyHoxiModelMini = defineAsyncComponent(() => import('./HoxiModelMini-CafdNkYs.mjs').then((r) => r["default"] || r.default || r));
+const LazyHoxiModelTable = defineAsyncComponent(() => import('./HoxiModelTable-BLeFNtfB.mjs').then((r) => r["default"] || r.default || r));
+const LazyHoxiNewsletterBox = defineAsyncComponent(() => import('./HoxiNewsletterBox-DJSIwjgS.mjs').then((r) => r["default"] || r.default || r));
 const LazyHoxiPageHeader = defineAsyncComponent(() => import('./HoxiPageHeader-BFh30DFm.mjs').then((r) => r["default"] || r.default || r));
-const LazyHoxiParticleCanvas = defineAsyncComponent(() => import('./HoxiParticleCanvas-nW4jOTm4.mjs').then((r) => r["default"] || r.default || r));
+const LazyHoxiParticleCanvas = defineAsyncComponent(() => import('./HoxiParticleCanvas-2v_7GLC1.mjs').then((r) => r["default"] || r.default || r));
 const LazyHoxiParticleHero = defineAsyncComponent(() => import('./HoxiParticleHero-C65EeQIv.mjs').then((r) => r["default"] || r.default || r));
-const LazyHoxiPostItem = defineAsyncComponent(() => import('./HoxiPostItem-Iv2qd7FW.mjs').then((r) => r["default"] || r.default || r));
+const LazyHoxiPostItem = defineAsyncComponent(() => import('./HoxiPostItem-pPl6VqDr.mjs').then((r) => r["default"] || r.default || r));
 const LazyHoxiReadinessProgress = defineAsyncComponent(() => import('./HoxiReadinessProgress-BZl9C8v0.mjs').then((r) => r["default"] || r.default || r));
-const LazyHoxiReadinessQuestion = defineAsyncComponent(() => import('./HoxiReadinessQuestion-jsKusGyA.mjs').then((r) => r["default"] || r.default || r));
+const LazyHoxiReadinessQuestion = defineAsyncComponent(() => import('./HoxiReadinessQuestion-CD2xOGWg.mjs').then((r) => r["default"] || r.default || r));
 const LazyHoxiReadinessRadar = defineAsyncComponent(() => import('./HoxiReadinessRadar-Bkw4--UY.mjs').then((r) => r["default"] || r.default || r));
-const LazyHoxiReadinessReport = defineAsyncComponent(() => import('./HoxiReadinessReport-QaLjNdN9.mjs').then((r) => r["default"] || r.default || r));
-const LazyHoxiSectionLabel = defineAsyncComponent(() => import('./HoxiSectionLabel-Cv4g6RWU.mjs').then((r) => r["default"] || r.default || r));
-const LazyHoxiSiteBuilderStorePreview = defineAsyncComponent(() => import('./HoxiSiteBuilderStorePreview-BYp7IIA_.mjs').then((r) => r["default"] || r.default || r));
-const LazyHoxiTag = defineAsyncComponent(() => import('./HoxiTag-BKjedtA0.mjs').then((r) => r["default"] || r.default || r));
-const LazyHoxiToolBrandMark = defineAsyncComponent(() => import('./HoxiToolBrandMark-B-TM4MOQ.mjs').then((r) => r["default"] || r.default || r));
-const LazyHoxiToolDetailModal = defineAsyncComponent(() => import('./HoxiToolDetailModal-D-7gug7J.mjs').then((r) => r["default"] || r.default || r));
+const LazyHoxiReadinessReport = defineAsyncComponent(() => import('./HoxiReadinessReport-BYZeK1Ai.mjs').then((r) => r["default"] || r.default || r));
+const LazyHoxiSectionLabel = defineAsyncComponent(() => import('./HoxiSectionLabel-BaczzRQO.mjs').then((r) => r["default"] || r.default || r));
+const LazyHoxiSiteBuilderStorePreview = defineAsyncComponent(() => import('./HoxiSiteBuilderStorePreview-BsAmY7Yo.mjs').then((r) => r["default"] || r.default || r));
+const LazyHoxiTag = defineAsyncComponent(() => import('./HoxiTag-CMHOk35U.mjs').then((r) => r["default"] || r.default || r));
+const LazyHoxiToolBrandMark = defineAsyncComponent(() => import('./HoxiToolBrandMark-y4IPFQJf.mjs').then((r) => r["default"] || r.default || r));
+const LazyHoxiToolDetailModal = defineAsyncComponent(() => import('./HoxiToolDetailModal-DD-JA_GF.mjs').then((r) => r["default"] || r.default || r));
 const LazyHoxiValueBar = defineAsyncComponent(() => import('./HoxiValueBar-nKN9Q0nQ.mjs').then((r) => r["default"] || r.default || r));
 const LazyHoxiVendorDot = defineAsyncComponent(() => import('./HoxiVendorDot-BLwK_ZsG.mjs').then((r) => r["default"] || r.default || r));
 const LazyHoxiWordmark = defineAsyncComponent(() => import('./HoxiWordmark-DuDKSELP.mjs').then((r) => r["default"] || r.default || r));
-const LazyHoxiProjectRunPanel = defineAsyncComponent(() => import('./HoxiProjectRunPanel-3UBSqov2.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseA = defineAsyncComponent(() => import('./A-DSYHt3qv.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseAccordion = defineAsyncComponent(() => import('./Accordion-BAUKZwxJ.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseAccordionItem = defineAsyncComponent(() => import('./AccordionItem-CMAEUMi4.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseBadge = defineAsyncComponent(() => import('./Badge-CC_jn9ys.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseBlockquote = defineAsyncComponent(() => import('./Blockquote-COisHlCg.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseCallout = defineAsyncComponent(() => import('./Callout-C9iPUTaV.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseCard = defineAsyncComponent(() => import('./Card-zFJYdgI3.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseCardGroup = defineAsyncComponent(() => import('./CardGroup-Caxi_lNA.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseCode = defineAsyncComponent(() => import('./Code-Bc6TTzoy.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseCodeCollapse = defineAsyncComponent(() => import('./CodeCollapse-C48ggSHV.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseCodeGroup = defineAsyncComponent(() => import('./CodeGroup-Cb82Sy4Q.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseCodeIcon = defineAsyncComponent(() => import('./CodeIcon-DwBXC4ls.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseCodePreview = defineAsyncComponent(() => import('./CodePreview-DCkQb9Hk.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseCodeTree = defineAsyncComponent(() => import('./CodeTree-DGgao6mv.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseCollapsible = defineAsyncComponent(() => import('./Collapsible-DtVaJYub.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseEm = defineAsyncComponent(() => import('./Em-DrqJkS8q.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseField = defineAsyncComponent(() => import('./Field-3zk6RUjR.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseFieldGroup = defineAsyncComponent(() => import('./FieldGroup-BDz2CSTO.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseH1 = defineAsyncComponent(() => import('./H1-BSQwQHwS.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseH2 = defineAsyncComponent(() => import('./H2-Pt_Xmhei.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseH3 = defineAsyncComponent(() => import('./H3-m8m9yOwU.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseH4 = defineAsyncComponent(() => import('./H4-BklW-Pcs.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseHr = defineAsyncComponent(() => import('./Hr-BtsmCI4j.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseIcon = defineAsyncComponent(() => import('./Icon-DdRxviD-.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseImg = defineAsyncComponent(() => import('./Img-BCYAS3az.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseKbd = defineAsyncComponent(() => import('./Kbd-jZQ_q8Of.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseLi = defineAsyncComponent(() => import('./Li-DJnTCVVY.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseOl = defineAsyncComponent(() => import('./Ol-CBX-Fqwc.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseP = defineAsyncComponent(() => import('./P-CsrIrfqc.mjs').then((r) => r["default"] || r.default || r));
-const LazyProsePre = defineAsyncComponent(() => import('./Pre-MIFEFQdO.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseScript = defineAsyncComponent(() => import('./Script-BOX32BRp.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseSteps = defineAsyncComponent(() => import('./Steps-Uwh2ZRVf.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseStrong = defineAsyncComponent(() => import('./Strong-BHkDw5ag.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseTable = defineAsyncComponent(() => import('./Table-DvC3O_yX.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseTabs = defineAsyncComponent(() => import('./Tabs-C-OEDf8j.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseTabsItem = defineAsyncComponent(() => import('./TabsItem-B_DJEbHK.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseTbody = defineAsyncComponent(() => import('./Tbody-DUcudIh4.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseTd = defineAsyncComponent(() => import('./Td-DBiBHvUo.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseTh = defineAsyncComponent(() => import('./Th-BEzU8EMA.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseThead = defineAsyncComponent(() => import('./Thead-CEsWNnk8.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseTr = defineAsyncComponent(() => import('./Tr-ClUFQMya.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseUl = defineAsyncComponent(() => import('./Ul-D5xe69Xa.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseCaution = defineAsyncComponent(() => import('./Caution-CdevKI9w.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseNote = defineAsyncComponent(() => import('./Note-Brfz26WI.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseTip = defineAsyncComponent(() => import('./Tip-G0QI8D9v.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseWarning = defineAsyncComponent(() => import('./Warning-DwCUP7t_.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseH5 = defineAsyncComponent(() => import('./ProseH5-DyakESxA.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseH6 = defineAsyncComponent(() => import('./ProseH6-DxsuWark.mjs').then((r) => r["default"] || r.default || r));
+const LazyHoxiProjectRunPanel = defineAsyncComponent(() => import('./HoxiProjectRunPanel-CErkaagf.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseA = defineAsyncComponent(() => import('./A-BUGnFF7G.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseAccordion = defineAsyncComponent(() => import('./Accordion-Bp0HW00g.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseAccordionItem = defineAsyncComponent(() => import('./AccordionItem-6Q7gj5YA.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseBadge = defineAsyncComponent(() => import('./Badge-DAQMBezH.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseBlockquote = defineAsyncComponent(() => import('./Blockquote-Dm9oZ3v5.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseCallout = defineAsyncComponent(() => import('./Callout-D1quDVas.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseCard = defineAsyncComponent(() => import('./Card-C5SwWvIh.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseCardGroup = defineAsyncComponent(() => import('./CardGroup-DEwJsizP.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseCode = defineAsyncComponent(() => import('./Code-DbWKxlb7.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseCodeCollapse = defineAsyncComponent(() => import('./CodeCollapse-V89746I0.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseCodeGroup = defineAsyncComponent(() => import('./CodeGroup-z0T_Jyxn.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseCodeIcon = defineAsyncComponent(() => import('./CodeIcon-CG7lxX2V.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseCodePreview = defineAsyncComponent(() => import('./CodePreview-CQqvbc7g.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseCodeTree = defineAsyncComponent(() => import('./CodeTree-CyN4G3Ic.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseCollapsible = defineAsyncComponent(() => import('./Collapsible-C4jOqPsK.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseEm = defineAsyncComponent(() => import('./Em-KU8MdmEX.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseField = defineAsyncComponent(() => import('./Field-D5XJJ_Ft.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseFieldGroup = defineAsyncComponent(() => import('./FieldGroup-BVS6kKc8.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseH1 = defineAsyncComponent(() => import('./H1-yFE6g6Gb.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseH2 = defineAsyncComponent(() => import('./H2-CtXBov-2.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseH3 = defineAsyncComponent(() => import('./H3-DyeaDgmW.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseH4 = defineAsyncComponent(() => import('./H4-DJsoI_vS.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseHr = defineAsyncComponent(() => import('./Hr-BPOTkVoo.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseIcon = defineAsyncComponent(() => import('./Icon-DO_RyFi3.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseImg = defineAsyncComponent(() => import('./Img-Bl49k0d0.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseKbd = defineAsyncComponent(() => import('./Kbd-B_E75aCW.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseLi = defineAsyncComponent(() => import('./Li-2cNrMYO4.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseOl = defineAsyncComponent(() => import('./Ol-JK85S9u7.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseP = defineAsyncComponent(() => import('./P-CP__JPuX.mjs').then((r) => r["default"] || r.default || r));
+const LazyProsePre = defineAsyncComponent(() => import('./Pre-BC1sVTgn.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseScript = defineAsyncComponent(() => import('./Script-DOAkb3PD.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseSteps = defineAsyncComponent(() => import('./Steps-BQUhK192.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseStrong = defineAsyncComponent(() => import('./Strong-DUMSidZG.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseTable = defineAsyncComponent(() => import('./Table-CmfODZab.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseTabs = defineAsyncComponent(() => import('./Tabs-CdoVBa2P.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseTabsItem = defineAsyncComponent(() => import('./TabsItem-DQabprmM.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseTbody = defineAsyncComponent(() => import('./Tbody-DctgJdt5.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseTd = defineAsyncComponent(() => import('./Td-CQHv6xWx.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseTh = defineAsyncComponent(() => import('./Th-rg82FQ75.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseThead = defineAsyncComponent(() => import('./Thead-cbDJgJ4u.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseTr = defineAsyncComponent(() => import('./Tr-DKEYcuwb.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseUl = defineAsyncComponent(() => import('./Ul-DRGGz19k.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseCaution = defineAsyncComponent(() => import('./Caution-C6y9cMFB.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseNote = defineAsyncComponent(() => import('./Note-DIepMBdU.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseTip = defineAsyncComponent(() => import('./Tip-DB5peleI.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseWarning = defineAsyncComponent(() => import('./Warning-DpH6w97i.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseH5 = defineAsyncComponent(() => import('./ProseH5-BUaS2ZER.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseH6 = defineAsyncComponent(() => import('./ProseH6-KgtYumJ4.mjs').then((r) => r["default"] || r.default || r));
 const LazyIcon = defineAsyncComponent(() => Promise.resolve().then(() => index).then((r) => r["default"] || r.default || r));
 const lazyGlobalComponents = [
   ["HoxiComment", LazyHoxiComment],
@@ -47194,7 +47966,7 @@ const MotionPlugin = {
     app.component("MotionGroup", MotionGroupComponent);
   }
 };
-const motion_F8atB0kBNE8FIgT_ajBXU_q0VzJ7X_J9WFqahA8C37U = /* @__PURE__ */ defineNuxtPlugin(
+const motion_3QMwPRoXjzOZ0uNCMh068GGdXbRJwIVgi5iXNt4uOQU = /* @__PURE__ */ defineNuxtPlugin(
   (nuxtApp) => {
     const config = /* @__PURE__ */ useRuntimeConfig();
     nuxtApp.vueApp.use(MotionPlugin, config.public.motion);
@@ -47214,7 +47986,7 @@ function generateShades(key, value, prefix) {
 function generateColor(key, shade) {
   return `--ui-${key}: var(--ui-color-${key}-${shade});`;
 }
-const colors_E7kSti5pGZ28QhUUurq6gGRU3l65WuXO_KJC3GQgzFo = /* @__PURE__ */ defineNuxtPlugin(() => {
+const colors_HEWUa3RpqdvNoQoPQyYGGa_00hdPzlL6hjluq9PhpvY = /* @__PURE__ */ defineNuxtPlugin(() => {
   const appConfig2 = useAppConfig();
   useNuxtApp();
   const root = computed(() => {
@@ -47274,6 +48046,16 @@ const i18n_seo_im8SQ1ePLoUivIUo65pX2ilaAPZtc0aGSNATIOvFBFY = /* @__PURE__ */ def
       i18nEnabledSetting: getSetting("i18n_enabled"),
       defaultLocale: resolvedDefaultLocale.value
     }));
+    const allLocaleCodes = computed(() => localeEntries.value.map((item) => item.code));
+    const enabledLocaleCodes = computed(() => new Set(enabledLocaleEntries.value.map((item) => item.code)));
+    const isAssetLikePath = (path) => ["/uploads", "/assets", "/images", "/fonts", "/downloads", "/themes", "/res"].some((prefix) => path === prefix || path.startsWith(`${prefix}/`)) || /^\/(?:favicon(?:\.[^/]+)?|icon\.png|logo\.(?:svg|png|webp))(?:$|[?#])/i.test(path);
+    const localizedSingleDomainPath = (rawPath, code = locale.value) => {
+      const barePath = stripLocalePrefix$1(rawPath || "/", allLocaleCodes.value);
+      if (enabledLocaleEntries.value.length > 1 && enabledLocaleCodes.value.has(code) && resolvedDefaultLocale.value && code !== resolvedDefaultLocale.value) {
+        return localePathForSeo(barePath, code, resolvedDefaultLocale.value);
+      }
+      return barePath;
+    };
     const absoluteUrl = (path) => {
       const candidate = new URL(path || "/", origin.value);
       const url = new URL(candidate.pathname, origin.value);
@@ -47284,15 +48066,25 @@ const i18n_seo_im8SQ1ePLoUivIUo65pX2ilaAPZtc0aGSNATIOvFBFY = /* @__PURE__ */ def
     const absoluteEntityUrl = (value) => new URL(value, origin.value).toString();
     const pageUrl = (path, code = locale.value) => {
       const owned = localeDomainUrl(path, code, routing, origin.value);
-      if (!owned) return absoluteUrl(path);
+      if (!owned) return absoluteUrl(localizedSingleDomainPath(path, code));
       const url = new URL(owned);
       url.search = "";
       url.hash = "";
       return url.toString();
     };
-    const pageEntityUrl = (value) => localeDomainUrl(value, locale.value, routing, origin.value) || absoluteEntityUrl(value);
+    const pageEntityUrl = (value) => {
+      const owned = localeDomainUrl(value, locale.value, routing, origin.value);
+      if (owned) return owned;
+      if (value.startsWith("/") && !isAssetLikePath(value)) {
+        const hashIdx = value.indexOf("#");
+        const pathname = hashIdx >= 0 ? value.slice(0, hashIdx) : value;
+        const hash2 = hashIdx >= 0 ? value.slice(hashIdx) : "";
+        return `${absoluteEntityUrl(localizedSingleDomainPath(pathname, locale.value))}${hash2}`;
+      }
+      return absoluteEntityUrl(value);
+    };
     const localePath2 = (code) => switchLocalePath2(code) || (route.path === "/" ? "/" : "");
-    const routePath = computed(() => stripLocalePrefix$1(route.path, localeEntries.value.map((item) => item.code)));
+    const routePath = computed(() => stripLocalePrefix$1(route.path, allLocaleCodes.value));
     const routePolicy = computed(() => classifySeoRoute(seoRouteRegistry, activeTheme.value, routePath.value));
     const entityNodes = computed(() => Object.values(entityRegistry.value).flat());
     const isIndexable = computed(() => routePolicy.value.kind === "public" && Boolean(origin.value) && (!routePolicy.value.source || entityNodes.value.length > 0));
@@ -47520,12 +48312,12 @@ const site_favicon_p91YUrwwpKbpdoP959K8cxK8lht5CSKY8bby3FeBwmg = /* @__PURE__ */
 const visitor_bzYqoTgfgdiFBpsUB9FnVMsOmhbiNiZgAlaB_Te76l4 = /* @__PURE__ */ defineNuxtPlugin((nuxtApp) => {
   return;
 });
-const prerender_server_sqIxOBipVr4FbVMA9kqWL0wT8FPop6sKAXLVfifsJzk = /* @__PURE__ */ defineNuxtPlugin(async () => {
+const prerender_server_ChUJHaO4v8rRcq1tdMK5GhvxYAXJzRCk8_zgaVPak_M = /* @__PURE__ */ defineNuxtPlugin(async () => {
   {
     return;
   }
 });
-const ssg_detect_IpHCGcQQ_IR5Rl99qyukWoMA9fJGfuTYyoksTzy81cs = /* @__PURE__ */ defineNuxtPlugin({
+const ssg_detect_lW1PP1PGc90822uoRvl0FhfkrRUaxm1iXAfh3TDi0Uo = /* @__PURE__ */ defineNuxtPlugin({
   name: "i18n:plugin:ssg-detect",
   dependsOn: ["i18n:plugin", "i18n:plugin:route-locale-detect"],
   enforce: "post",
@@ -47535,24 +48327,24 @@ const ssg_detect_IpHCGcQQ_IR5Rl99qyukWoMA9fJGfuTYyoksTzy81cs = /* @__PURE__ */ d
   }
 });
 const plugins = [
-  unhead_k2P3m_ZDyjlr2mMYnoDPwavjsDN8hBlk9cFai0bbopU,
+  unhead__3VNFp9kmynTJbNp16cirTiPsy4Z8pY5jZVZPsTbsuw,
   plugin,
-  session_server_fi7D7q_WjeXZl2Hh05GOWPuIxZQWSnpY3ifY_sSGHJo,
-  revive_payload_server_MVtmlZaQpj6ApFmshWfUWl5PehCebzaBf2NuRMiIbms,
-  switch_locale_path_ssr_NflG9_QeVcJ1jVig0vCfxB_cZhpEMQ9U2ujRUiYbbVw,
-  route_locale_detect__HPHJq3Jg7gwhwgKEI8tQavopSAjmrCSPXl9HgL2h9U,
-  i18n_EI7LsD1KYQADczz5hrChviGQCdVM8yUkvFEZLJpmnvM,
-  plugin_server_9Ca9_HhnjAGwBWpwAydRauMHxWoxTDY60BrArRnXN_A,
-  plugin_MeUvTuoKUi51yb_kBguab6hdcExVXeTtZtTg9TZZBB8,
+  session_server__rpglqVfQUJpq_YjTdmlVmQyPOG1dDcDiCEgmp1eL_c,
+  revive_payload_server_Wl0Ez4UigXafsz9R6pZCefSicOajXBp1JqT536mBrk8,
+  switch_locale_path_ssr_sYBxq1Xkm7_zw9ZM76AW8TCshXrS2RlpiRlBrAsV6qI,
+  route_locale_detect_gl7ozWW4Qf4ik6XeHzrS9eJFhMcH0KzINYphDqd_MaI,
+  i18n_0AT5aPG0JfxHgKCAnEt80TSMiEmlC57aZLFLvR4y0ps,
+  plugin_server_eQgWEsSYsZi_m5QXwryCJbcBwJG9LcOBb2726kRk6JQ,
+  plugin_peKrKkWJ2FyNvD61rDdF27fS5F7ZwHRCbYKEEM_pTKM,
   components_plugin_6Zv1Fd4QhntRBtqXqU59FYFLmGi9tFwWqnQrlnPULoI,
-  motion_F8atB0kBNE8FIgT_ajBXU_q0VzJ7X_J9WFqahA8C37U,
-  colors_E7kSti5pGZ28QhUUurq6gGRU3l65WuXO_KJC3GQgzFo,
+  motion_3QMwPRoXjzOZ0uNCMh068GGdXbRJwIVgi5iXNt4uOQU,
+  colors_HEWUa3RpqdvNoQoPQyYGGa_00hdPzlL6hjluq9PhpvY,
   i18n_seo_im8SQ1ePLoUivIUo65pX2ilaAPZtc0aGSNATIOvFBFY,
   seo_social_hRyxoTMwB8QTlgYiH4Kxv60zWaLBAsZzX8gvfFCrOEM,
   site_favicon_p91YUrwwpKbpdoP959K8cxK8lht5CSKY8bby3FeBwmg,
   visitor_bzYqoTgfgdiFBpsUB9FnVMsOmhbiNiZgAlaB_Te76l4,
-  prerender_server_sqIxOBipVr4FbVMA9kqWL0wT8FPop6sKAXLVfifsJzk,
-  ssg_detect_IpHCGcQQ_IR5Rl99qyukWoMA9fJGfuTYyoksTzy81cs
+  prerender_server_ChUJHaO4v8rRcq1tdMK5GhvxYAXJzRCk8_zgaVPak_M,
+  ssg_detect_lW1PP1PGc90822uoRvl0FhfkrRUaxm1iXAfh3TDi0Uo
 ];
 const theme$2 = {
   "slots": {
@@ -48027,7 +48819,7 @@ const _sfc_main$a = {
 const _sfc_setup$a = _sfc_main$a.setup;
 _sfc_main$a.setup = (props, ctx) => {
   const ssrContext = useSSRContext();
-  (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("../node_modules/@nuxt/ui/dist/runtime/components/Progress.vue");
+  (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("../../../../../Users/hugh/code/hoxi/apay/node_modules/@nuxt/ui/dist/runtime/components/Progress.vue");
   return _sfc_setup$a ? _sfc_setup$a(props, ctx) : void 0;
 };
 const theme$1 = {
@@ -48503,7 +49295,7 @@ const _sfc_main$9 = {
 const _sfc_setup$9 = _sfc_main$9.setup;
 _sfc_main$9.setup = (props, ctx) => {
   const ssrContext = useSSRContext();
-  (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("../node_modules/@nuxt/ui/dist/runtime/components/Toast.vue");
+  (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("../../../../../Users/hugh/code/hoxi/apay/node_modules/@nuxt/ui/dist/runtime/components/Toast.vue");
   return _sfc_setup$9 ? _sfc_setup$9(props, ctx) : void 0;
 };
 const theme = {
@@ -48770,7 +49562,7 @@ const _sfc_main$8 = /* @__PURE__ */ Object.assign(__default__$1, {
 const _sfc_setup$8 = _sfc_main$8.setup;
 _sfc_main$8.setup = (props, ctx) => {
   const ssrContext = useSSRContext();
-  (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("../node_modules/@nuxt/ui/dist/runtime/components/Toaster.vue");
+  (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("../../../../../Users/hugh/code/hoxi/apay/node_modules/@nuxt/ui/dist/runtime/components/Toaster.vue");
   return _sfc_setup$8 ? _sfc_setup$8(props, ctx) : void 0;
 };
 const UToaster = Object.assign(_sfc_main$8, { __name: "UToaster" });
@@ -48890,7 +49682,7 @@ const _sfc_main$7 = {
 const _sfc_setup$7 = _sfc_main$7.setup;
 _sfc_main$7.setup = (props, ctx) => {
   const ssrContext = useSSRContext();
-  (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("../node_modules/@nuxt/ui/dist/runtime/components/OverlayProvider.vue");
+  (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("../../../../../Users/hugh/code/hoxi/apay/node_modules/@nuxt/ui/dist/runtime/components/OverlayProvider.vue");
   return _sfc_setup$7 ? _sfc_setup$7(props, ctx) : void 0;
 };
 const __default__ = {
@@ -48983,7 +49775,7 @@ const _sfc_main$6 = /* @__PURE__ */ Object.assign(__default__, {
 const _sfc_setup$6 = _sfc_main$6.setup;
 _sfc_main$6.setup = (props, ctx) => {
   const ssrContext = useSSRContext();
-  (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("../node_modules/@nuxt/ui/dist/runtime/components/App.vue");
+  (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("../../../../../Users/hugh/code/hoxi/apay/node_modules/@nuxt/ui/dist/runtime/components/App.vue");
   return _sfc_setup$6 ? _sfc_setup$6(props, ctx) : void 0;
 };
 const __nuxt_component_0 = Object.assign(_sfc_main$6, { __name: "UApp" });
@@ -49119,9 +49911,9 @@ const __nuxt_component_1 = defineComponent({
   }
 });
 const layouts = {
-  admin: defineAsyncComponent(() => import('./admin-C546uvVx.mjs').then((m) => m.default || m)),
-  default: defineAsyncComponent(() => import('./default-DY3x1OyJ.mjs').then((m) => m.default || m)),
-  empty: defineAsyncComponent(() => import('./empty-LXGN-TMV.mjs').then((m) => m.default || m))
+  admin: defineAsyncComponent(() => import('./admin-GiG46uM_.mjs').then((m) => m.default || m)),
+  default: defineAsyncComponent(() => import('./default-c7bNsAqm.mjs').then((m) => m.default || m)),
+  empty: defineAsyncComponent(() => import('./empty-BY0Lmu9n.mjs').then((m) => m.default || m))
 };
 const routeRulesMatcher = _routeRulesMatcher;
 const LayoutLoader = defineComponent({
@@ -49471,7 +50263,7 @@ const _sfc_main$4 = /* @__PURE__ */ defineComponent({
   __name: "SessionReplacedModal",
   __ssrInlineRender: true,
   setup(__props) {
-    const { locale } = useI18n();
+    const { locale } = useI18n$1();
     const { notice, resetNotice } = useWebSessionMonitor();
     const { logout } = useCustomerAuth();
     const localePath2 = useLocalePath();
@@ -49766,7 +50558,7 @@ const _sfc_main$3 = /* @__PURE__ */ defineComponent({
     const { getSetting } = useSettings();
     const { loggedIn } = useUserSession();
     const route = useRoute();
-    const { locale } = useI18n();
+    const { locale } = useI18n$1();
     ref(false);
     const scrollContainerRef = ref(null);
     ref(null);
@@ -50054,7 +50846,7 @@ const _sfc_main$1 = /* @__PURE__ */ defineComponent({
     error: {}
   },
   setup(__props) {
-    const { t } = useI18n();
+    const { t } = useI18n$1();
     const route = useRoute();
     const retry = () => clearError({ redirect: route.fullPath || "/" });
     return (_ctx, _push, _parent, _attrs) => {
@@ -50219,7 +51011,7 @@ const _sfc_main = {
 const _sfc_setup = _sfc_main.setup;
 _sfc_main.setup = (props, ctx) => {
   const ssrContext = useSSRContext();
-  (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("../node_modules/nuxt/dist/app/components/nuxt-root.vue");
+  (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("../../../../../Users/hugh/code/hoxi/apay/node_modules/nuxt/dist/app/components/nuxt-root.vue");
   return _sfc_setup ? _sfc_setup(props, ctx) : void 0;
 };
 let entry;
@@ -50242,5 +51034,5 @@ let entry;
 }
 const entry_default = ((ssrContext) => entry(ssrContext));
 
-export { useComponentUI as $, ADMIN_PERMISSIONS as A, hasAllPermissions as B, _sfc_main$m as C, publishedOptionalThemes as D, useLocaleRouter as E, useProductPricing as F, useCurrencyFormat as G, _sfc_main$q as H, useRoute as I, stripLocalePrefix as J, themeAdminLocaleEnModules as K, themeAdminLocaleZhModules as L, useHead as M, useExtensions as N, setResponseStatus as O, __nuxt_component_3$4 as P, _export_sfc as Q, useAdminSession as R, firstAllowedAdminRoute as S, useVModel as T, useForwardExpose as U, useFormControl as V, Primitive as W, VisuallyHiddenInput_default as X, createContext as Y, useAppConfig as Z, _sfc_main$R as _, useToast as a, reactiveOmit as a$, useForwardPropsEmits as a0, reactivePick as a1, useFormField as a2, tv as a3, Label_default as a4, usePrimitiveElement as a5, useDirection as a6, PopperRoot_default as a7, createEventHook as a8, PopperAnchor_default as a9, refAutoReset as aA, handleAndDispatchCustomEvent$1 as aB, useParentElement as aC, MAP_KEY_TO_FOCUS_INTENT as aD, getActiveElement as aE, getNextMatch as aF, useResizeObserver as aG, RovingFocusGroup_default as aH, RovingFocusItem_default as aI, useNuxtApp as aJ, PageRequestError as aK, useRefundLabels as aL, __nuxt_component_10 as aM, useRequestURL as aN, useLocaleCurrency as aO, createSharedComposable as aP, getOpenState as aQ, PopperContentPropsDefaultValue as aR, isPointerInGraceArea as aS, isMouseEvent as aT, FIRST_LAST_KEYS as aU, LAST_KEYS as aV, focusFirst$1 as aW, SELECTION_KEYS$1 as aX, ITEM_SELECT as aY, isIndeterminate$1 as aZ, getCheckedState as a_, useBodyScrollLock as aa, useFocusGuards as ab, useHideOthers as ac, useForwardProps as ad, FocusScope_default as ae, DismissableLayer_default as af, PopperContent_default as ag, PopperArrow_default as ah, useId as ai, Presence_default as aj, Teleport_default as ak, useLocale as al, usePortal as am, useFieldGroup as an, useComponentIcons as ao, createReusableTemplate as ap, isArrayOfArray as aq, compare as ar, get as as, _sfc_main$_ as at, _sfc_main$$ as au, looseToNumber as av, getDisplayValue as aw, useCollection as ax, useTypeahead as ay, getFocusIntent as az, useAdminPermissions as b, SUB_CLOSE_KEYS as b0, SUB_OPEN_KEYS as b1, useEmitAsProps as b2, _sfc_main$Y as b3, pickLinkProps as b4, _sfc_main$Z as b5, omit as b6, tryOnScopeDispose$1 as b7, injectTooltipProviderContext as b8, useTimeoutFn as b9, useJsonLd as bA, useCustomerAuth as bB, usePageResourceState as bC, __nuxt_component_3$3 as bD, createError as bE, useCollectionPageJsonLd as bF, useSupportChat as bG, useSwitchLocalePath as bH, refThrottled as bI, useDebounceFn as bJ, useActiveElement as bK, _sfc_main$o as bL, useLocalizedSettings as bM, __nuxt_component_1$2 as bN, useCookie as bO, _sfc_main$g as bP, themeLayoutLoaders as bQ, VisuallyHidden_default as ba, runtimeExtensionSettingPrefixes as bb, runtimeExtensionSettingKeys as bc, __nuxt_component_0$1 as bd, usePageFailureLog as be, useRequestEvent as bf, useActiveTheme as bg, __nuxt_component_4$1 as bh, isPathLocaleAllowed as bi, themePageModules as bj, corePageModules as bk, pageLayoutMeta as bl, useUserSession as bm, __nuxt_component_2$2 as bn, useState as bo, isValueEqualOrExist as bp, transformUI as bq, useEventListener$1 as br, useRuntimeConfig as bs, resolveBaseURL as bt, ImageComponent as bu, DialogRoot_default as bv, DialogTrigger_default as bw, DialogPortal_default as bx, useClipboard as by, useSeoMeta as bz, useSettings as c, _sfc_main$X as d, entry_default as default, _sfc_main$s as e, _sfc_main$L as f, _sfc_main$D as g, _sfc_main$E as h, useConfirm as i, _sfc_main$10 as j, _sfc_main$F as k, useFormatTime as l, useAdminExtensions as m, moduleViewCode as n, moduleEditCode as o, _sfc_main$u as p, navigateTo as q, useRouter as r, useRequestFetch as s, useAsyncData as t, useI18n as u, _sfc_main$z as v, themeExtensionPermissionCode as w, usePagination as x, useFetch as y, _sfc_main$w as z };
+export { useComponentUI as $, ADMIN_PERMISSIONS as A, hasAllPermissions as B, _sfc_main$m as C, publishedOptionalThemes as D, useLocaleRouter as E, useProductPricing as F, useCurrencyFormat as G, _sfc_main$q as H, useRoute as I, stripLocalePrefix as J, themeAdminLocaleEnModules as K, themeAdminLocaleZhModules as L, useHead as M, useExtensions as N, setResponseStatus as O, __nuxt_component_3$4 as P, _export_sfc as Q, useAdminSession as R, firstAllowedAdminRoute as S, useVModel as T, useForwardExpose as U, useFormControl as V, Primitive as W, VisuallyHiddenInput_default as X, createContext as Y, useAppConfig as Z, _sfc_main$R as _, useToast as a, reactiveOmit as a$, useForwardPropsEmits as a0, reactivePick as a1, useFormField as a2, tv as a3, Label_default as a4, usePrimitiveElement as a5, useDirection as a6, PopperRoot_default as a7, createEventHook as a8, PopperAnchor_default as a9, refAutoReset as aA, handleAndDispatchCustomEvent$1 as aB, useParentElement as aC, MAP_KEY_TO_FOCUS_INTENT as aD, getActiveElement as aE, getNextMatch as aF, useResizeObserver as aG, RovingFocusGroup_default as aH, RovingFocusItem_default as aI, useNuxtApp as aJ, PageRequestError as aK, useRefundLabels as aL, __nuxt_component_10 as aM, useRequestURL as aN, useLocaleCurrency as aO, createSharedComposable as aP, getOpenState as aQ, PopperContentPropsDefaultValue as aR, isPointerInGraceArea as aS, isMouseEvent as aT, FIRST_LAST_KEYS as aU, LAST_KEYS as aV, focusFirst$1 as aW, SELECTION_KEYS$1 as aX, ITEM_SELECT as aY, isIndeterminate$1 as aZ, getCheckedState as a_, useBodyScrollLock as aa, useFocusGuards as ab, useHideOthers as ac, useForwardProps as ad, FocusScope_default as ae, DismissableLayer_default as af, PopperContent_default as ag, PopperArrow_default as ah, useId as ai, Presence_default as aj, Teleport_default as ak, useLocale as al, usePortal as am, useFieldGroup as an, useComponentIcons as ao, createReusableTemplate as ap, isArrayOfArray as aq, compare as ar, get as as, _sfc_main$_ as at, _sfc_main$$ as au, looseToNumber as av, getDisplayValue as aw, useCollection as ax, useTypeahead as ay, getFocusIntent as az, useAdminPermissions as b, SUB_CLOSE_KEYS as b0, SUB_OPEN_KEYS as b1, useEmitAsProps as b2, _sfc_main$Y as b3, pickLinkProps as b4, _sfc_main$Z as b5, omit as b6, useI18n as b7, tryOnScopeDispose$1 as b8, injectTooltipProviderContext as b9, useSeoMeta as bA, useJsonLd as bB, useCustomerAuth as bC, usePageResourceState as bD, __nuxt_component_3$3 as bE, createError as bF, useCollectionPageJsonLd as bG, useSupportChat as bH, useSwitchLocalePath as bI, refThrottled as bJ, useDebounceFn as bK, useActiveElement as bL, _sfc_main$o as bM, useLocalizedSettings as bN, __nuxt_component_1$2 as bO, useCookie as bP, _sfc_main$g as bQ, themeLayoutLoaders as bR, useTimeoutFn as ba, VisuallyHidden_default as bb, runtimeExtensionSettingPrefixes as bc, runtimeExtensionSettingKeys as bd, __nuxt_component_0$1 as be, usePageFailureLog as bf, useRequestEvent as bg, useActiveTheme as bh, __nuxt_component_4$1 as bi, isPathLocaleAllowed as bj, themePageModules as bk, corePageModules as bl, pageLayoutMeta as bm, useUserSession as bn, __nuxt_component_2$2 as bo, useState as bp, isValueEqualOrExist as bq, transformUI as br, useEventListener$1 as bs, useRuntimeConfig as bt, resolveBaseURL as bu, ImageComponent as bv, DialogRoot_default as bw, DialogTrigger_default as bx, DialogPortal_default as by, useClipboard as bz, useSettings as c, _sfc_main$X as d, entry_default as default, _sfc_main$s as e, _sfc_main$L as f, _sfc_main$D as g, _sfc_main$E as h, useConfirm as i, _sfc_main$10 as j, _sfc_main$F as k, useFormatTime as l, useAdminExtensions as m, moduleViewCode as n, moduleEditCode as o, _sfc_main$u as p, navigateTo as q, useRouter as r, useRequestFetch as s, useAsyncData as t, useI18n$1 as u, _sfc_main$z as v, themeExtensionPermissionCode as w, usePagination as x, useFetch as y, _sfc_main$w as z };
 //# sourceMappingURL=server.mjs.map

@@ -157,7 +157,7 @@ const dashboard_get = defineEventHandler(async (event) => {
       or(isNull(subscriptions.currentPeriodEnd), gt(subscriptions.currentPeriodEnd, now))
     ))),
     safeCount(db.select({ count: sql`count(*)` }).from(users)),
-    safeCount(db.select({ count: sql`count(*)` }).from(topups).where(inArray(topups.status, ["paid", "crediting", "credit_failed", "review_required"]))),
+    safeCount(db.select({ count: sql`count(*)` }).from(topups).where(and(isNull(topups.archivedAt), inArray(topups.status, ["paid", "crediting", "credit_failed", "review_required"])))),
     safeCount(db.select({ count: sql`count(*)` }).from(tickets).where(inArray(tickets.status, ["open", "in_progress"]))),
     safeCount(db.select({ count: sql`count(*)` }).from(users).where(and(gte(users.createdAt, periodStart), lt(users.createdAt, now)))),
     safeCount(db.select({ count: sql`count(*)` }).from(newsletterSubscribers).where(eq(newsletterSubscribers.status, "active"))),
@@ -210,7 +210,7 @@ const dashboard_get = defineEventHandler(async (event) => {
     errorLogs24hCount > 0 ? safeRows(db.select({ id: logs.id, message: logs.message, source: logs.source, createdAt: logs.createdAt }).from(logs).where(and(eq(logs.level, "error"), gte(logs.createdAt, since24h))).orderBy(desc(logs.createdAt)).limit(20)) : Promise.resolve([]),
     paymentFailures24hCount > 0 ? safeRows(db.select({ id: paymentFailures.id, orderId: paymentFailures.orderId, reason: paymentFailures.reason, payMethod: paymentFailures.payMethod, createdAt: paymentFailures.createdAt }).from(paymentFailures).where(gte(paymentFailures.createdAt, since24h)).orderBy(desc(paymentFailures.createdAt)).limit(20)) : Promise.resolve([]),
     failedEmails24hCount > 0 ? safeRows(db.select({ id: emailLogs.id, provider: emailLogs.provider, error: emailLogs.error, createdAt: emailLogs.createdAt }).from(emailLogs).where(and(eq(emailLogs.status, "failed"), gte(emailLogs.createdAt, since24h))).orderBy(desc(emailLogs.createdAt)).limit(15)) : Promise.resolve([]),
-    pendingTopups > 0 ? safeRows(db.select({ id: topups.id, orderId: topups.orderId, status: topups.status, lastError: topups.lastError, updatedAt: topups.updatedAt, createdAt: topups.createdAt }).from(topups).where(inArray(topups.status, ["credit_failed", "review_required"])).orderBy(desc(topups.updatedAt)).limit(10)) : Promise.resolve([])
+    pendingTopups > 0 ? safeRows(db.select({ id: topups.id, orderId: topups.orderId, status: topups.status, lastError: topups.lastError, updatedAt: topups.updatedAt, createdAt: topups.createdAt }).from(topups).where(and(isNull(topups.archivedAt), inArray(topups.status, ["credit_failed", "review_required"]))).orderBy(desc(topups.updatedAt)).limit(10)) : Promise.resolve([])
   ]);
   const baseCurrency = baseQuote.baseCurrency;
   const latestPaidDate = (_a = latestPaidOrderRows[0]) == null ? void 0 : _a.paidAt;

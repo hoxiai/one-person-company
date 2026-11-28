@@ -897,259 +897,259 @@ const _routes = [
     name: "admin-posts-categories",
     path: "/admin/posts/categories",
     meta: __nuxt_page_meta$v || {},
-    component: () => import('./categories-KIpFHGEL.mjs')
+    component: () => import('./categories-DaWlXiBF.mjs')
   },
   {
     name: "admin-posts-create",
     path: "/admin/posts/create",
     meta: __nuxt_page_meta$u || {},
-    component: () => import('./create-CJ4kTbSD.mjs')
+    component: () => import('./create-wUsQhXnA.mjs')
   },
   {
     name: "admin-products-create",
     path: "/admin/products/create",
     meta: __nuxt_page_meta$t || {},
-    component: () => import('./create-BEosl38b.mjs')
+    component: () => import('./create-1kazknJX.mjs')
   },
   {
     name: "admin-settings-authorization",
     path: "/admin/settings/authorization",
     meta: __nuxt_page_meta$s || {},
-    component: () => import('./authorization-DJuPlJbB.mjs')
+    component: () => import('./authorization-DF_IOFiW.mjs')
   },
   {
     name: "admin-settings-extensions",
     path: "/admin/settings/extensions",
     meta: __nuxt_page_meta$r || {},
-    component: () => import('./extensions-DjLHdWSF.mjs')
+    component: () => import('./extensions-ub6vGuXo.mjs')
   },
   {
     name: "admin-settings-manages",
     path: "/admin/settings/manages",
     meta: __nuxt_page_meta$q || {},
-    component: () => import('./manages-CY_ZfBzh.mjs')
+    component: () => import('./manages-B4GyQVxh.mjs')
   },
   {
     name: "admin-settings-product-presets",
     path: "/admin/settings/product-presets",
     meta: __nuxt_page_meta$p || {},
-    component: () => import('./product-presets-loh3UT1_.mjs')
+    component: () => import('./product-presets-1p10QpDD.mjs')
   },
   {
     name: "admin-settings-releases",
     path: "/admin/settings/releases",
     meta: __nuxt_page_meta$o || {},
-    component: () => import('./releases-BhPeaZjK.mjs')
+    component: () => import('./releases-DsyaJ8eT.mjs')
   },
   {
     name: "admin-settings-themes",
     path: "/admin/settings/themes",
     meta: __nuxt_page_meta$n || {},
-    component: () => import('./themes-D4T3B5qX.mjs')
+    component: () => import('./themes-gxD-Vdru.mjs')
   },
   {
     name: "admin-posts-id",
     path: "/admin/posts/:id()",
     meta: __nuxt_page_meta$m || {},
-    component: () => import('./_id_-Ci8rGNo8.mjs')
+    component: () => import('./_id_-DdufBdju.mjs')
   },
   {
     name: "admin-products-id",
     path: "/admin/products/:id()",
     meta: __nuxt_page_meta$l || {},
-    component: () => import('./_id_-Cl6Vt74J.mjs')
+    component: () => import('./_id_-Dou4xtDu.mjs')
   },
   {
     name: "admin-extensions-slug",
     path: "/admin/extensions/:slug(.*)*",
     meta: __nuxt_page_meta$k || {},
-    component: () => import('./_...slug_-CBhTlIJx.mjs')
+    component: () => import('./_...slug_-CP6HmVng.mjs')
   },
   {
     name: "admin-plugins-slug",
     path: "/admin/plugins/:slug(.*)*",
     meta: __nuxt_page_meta$j || {},
-    component: () => import('./_...slug_-DvnUn52P.mjs')
+    component: () => import('./_...slug_-BRcvzm9m.mjs')
   },
   {
     name: "user-plugins-slug___en",
     path: "/user/plugins/:slug(.*)*",
-    component: () => import('./_...slug_-C8Ez762A.mjs')
+    component: () => import('./_...slug_-BWS_Iutf.mjs')
   },
   {
     name: "user-plugins-slug___zh",
     path: "/zh/user/plugins/:slug(.*)*",
-    component: () => import('./_...slug_-C8Ez762A.mjs')
+    component: () => import('./_...slug_-BWS_Iutf.mjs')
   },
   {
     name: "user-plugins-slug___zh-HK",
     path: "/zh-HK/user/plugins/:slug(.*)*",
-    component: () => import('./_...slug_-C8Ez762A.mjs')
+    component: () => import('./_...slug_-BWS_Iutf.mjs')
   },
   {
     name: "user-plugins-slug___ja",
     path: "/ja/user/plugins/:slug(.*)*",
-    component: () => import('./_...slug_-C8Ez762A.mjs')
+    component: () => import('./_...slug_-BWS_Iutf.mjs')
   },
   {
     name: "user-plugins-slug___ko",
     path: "/ko/user/plugins/:slug(.*)*",
-    component: () => import('./_...slug_-C8Ez762A.mjs')
+    component: () => import('./_...slug_-BWS_Iutf.mjs')
   },
   {
     name: "admin-cards",
     path: "/admin/cards",
-    component: () => import('./cards-xoFDPwsc.mjs')
+    component: () => import('./cards-B63EpePY.mjs')
   },
   {
     name: "admin-comments",
     path: "/admin/comments",
     meta: __nuxt_page_meta$i || {},
-    component: () => import('./comments-CLWmW_Hv.mjs')
+    component: () => import('./comments-B_Xfw0vD.mjs')
   },
   {
     name: "admin-customers",
     path: "/admin/customers",
     meta: __nuxt_page_meta$h || {},
-    component: () => import('./customers-ZXKkHjF4.mjs')
+    component: () => import('./customers-Bn5yHEGD.mjs')
   },
   {
     name: "admin-dashboard",
     path: "/admin/dashboard",
     meta: __nuxt_page_meta$g || {},
-    component: () => import('./dashboard-Bm0tSpTD.mjs')
+    component: () => import('./dashboard-Cf4gzM0L.mjs')
   },
   {
     name: "admin-login",
     path: "/admin/login",
     meta: __nuxt_page_meta$f || {},
-    component: () => import('./login-Dw5blIgh.mjs')
+    component: () => import('./login-CxMNFdXv.mjs')
   },
   {
     name: "admin-logs",
     path: "/admin/logs",
     meta: __nuxt_page_meta$e || {},
-    component: () => import('./logs-DKQ6UqIm.mjs')
+    component: () => import('./logs-B3DUzfuJ.mjs')
   },
   {
     name: "admin-newsletter",
     path: "/admin/newsletter",
     meta: __nuxt_page_meta$d || {},
-    component: () => import('./newsletter-DDS_U2GM.mjs')
+    component: () => import('./newsletter-DfpxsJ1F.mjs')
   },
   {
     name: "admin-orders",
     path: "/admin/orders",
     meta: __nuxt_page_meta$c || {},
-    component: () => import('./orders-ZJBEiDLR.mjs')
+    component: () => import('./orders-CURFR1g8.mjs')
   },
   {
     name: "admin-payments",
     path: "/admin/payments",
     meta: __nuxt_page_meta$b || {},
-    component: () => import('./payments-BxkLlePD.mjs')
+    component: () => import('./payments-CHSHQwR-.mjs')
   },
   {
     name: "admin-posts",
     path: "/admin/posts",
     meta: __nuxt_page_meta$a || {},
-    component: () => import('./index-BrHHmyPG.mjs')
+    component: () => import('./index-pE-tg4WX.mjs')
   },
   {
     name: "admin-products",
     path: "/admin/products",
     meta: __nuxt_page_meta$9 || {},
-    component: () => import('./index-DJ4P15VB.mjs')
+    component: () => import('./index-C8lLk57_.mjs')
   },
   {
     name: "admin-profile",
     path: "/admin/profile",
     meta: __nuxt_page_meta$8 || {},
-    component: () => import('./profile-BVAPllZz.mjs')
+    component: () => import('./profile-v32PCXhI.mjs')
   },
   {
     name: "admin-promo",
     path: "/admin/promo",
     meta: __nuxt_page_meta$7 || {},
-    component: () => import('./promo-BYSAzxya.mjs')
+    component: () => import('./promo-CG7lzumY.mjs')
   },
   {
     name: "admin-releases",
     path: "/admin/releases",
     meta: __nuxt_page_meta$6 || {},
-    component: () => import('./releases-Dr962_oY.mjs')
+    component: () => import('./releases-B4y-HO_y.mjs')
   },
   {
     name: "admin-settings",
     path: "/admin/settings",
     meta: __nuxt_page_meta$5 || {},
-    component: () => import('./index-DMqRQRiE.mjs')
+    component: () => import('./index-DYz0cQDa.mjs')
   },
   {
     name: "admin-setup",
     path: "/admin/setup",
     meta: __nuxt_page_meta$4 || {},
-    component: () => import('./setup-nl4y46h_.mjs')
+    component: () => import('./setup-BNSDm0MC.mjs')
   },
   {
     name: "admin-stats",
     path: "/admin/stats",
     meta: __nuxt_page_meta$3 || {},
-    component: () => import('./stats-BKUInA4a.mjs')
+    component: () => import('./stats-5_SjzCxf.mjs')
   },
   {
     name: "admin-subscriptions",
     path: "/admin/subscriptions",
-    component: () => import('./subscriptions-DdGVyeAH.mjs')
+    component: () => import('./subscriptions-DGYZFrqO.mjs')
   },
   {
     name: "admin-tickets",
     path: "/admin/tickets",
     meta: __nuxt_page_meta$2 || {},
-    component: () => import('./tickets-bdNxdR2q.mjs')
+    component: () => import('./tickets-j7NXRTna.mjs')
   },
   {
     name: "admin-topups",
     path: "/admin/topups",
-    component: () => import('./topups-xwDNOghc.mjs')
+    component: () => import('./topups-BFCpOBVN.mjs')
   },
   {
     name: "admin-visitors",
     path: "/admin/stats/visitors",
     meta: __nuxt_page_meta$1 || {},
     alias: ["/admin/visitors"],
-    component: () => import('./visitors-BFQ76kby.mjs')
+    component: () => import('./visitors-Dg3qGS6_.mjs')
   },
   {
     name: "admin",
     path: "/admin",
     meta: __nuxt_page_meta || {},
-    component: () => import('./index-B-1Pvxba.mjs')
+    component: () => import('./index-B3vm9SWG.mjs')
   },
   {
     name: "slug___en",
     path: "/:slug(.*)*",
-    component: () => import('./_...slug_-on3J2dzk.mjs')
+    component: () => import('./_...slug_-CYt7SrUM.mjs')
   },
   {
     name: "slug___zh",
     path: "/zh/:slug(.*)*",
-    component: () => import('./_...slug_-on3J2dzk.mjs')
+    component: () => import('./_...slug_-CYt7SrUM.mjs')
   },
   {
     name: "slug___zh-HK",
     path: "/zh-HK/:slug(.*)*",
-    component: () => import('./_...slug_-on3J2dzk.mjs')
+    component: () => import('./_...slug_-CYt7SrUM.mjs')
   },
   {
     name: "slug___ja",
     path: "/ja/:slug(.*)*",
-    component: () => import('./_...slug_-on3J2dzk.mjs')
+    component: () => import('./_...slug_-CYt7SrUM.mjs')
   },
   {
     name: "slug___ko",
     path: "/ko/:slug(.*)*",
-    component: () => import('./_...slug_-on3J2dzk.mjs')
+    component: () => import('./_...slug_-CYt7SrUM.mjs')
   }
 ];
 const _wrapInTransition = (props, children) => {
@@ -5637,7 +5637,7 @@ const cfg0 = defineAppConfig({
   }
 });
 const inlineConfig = {
-  "appVersion": "1.0.50",
+  "appVersion": "1.0.51",
   "nuxt": {},
   "ui": {
     "colors": {
@@ -14595,90 +14595,90 @@ const localeCodes = [
 const localeLoaders = {
   en: [
     {
-      key: "locale_common_46json_db40a803",
+      key: "locale_common_46json_6b365dac",
       load: () => import(
         './common-CwWEomJY.mjs'
-        /* webpackChunkName: "locale_common_46json_db40a803" */
+        /* webpackChunkName: "locale_common_46json_6b365dac" */
       ),
       cache: true
     },
     {
-      key: "locale_site_46json_00914a0b",
+      key: "locale_site_46json_e5d1d5ff",
       load: () => import(
         './site-CotAxWow.mjs'
-        /* webpackChunkName: "locale_site_46json_00914a0b" */
+        /* webpackChunkName: "locale_site_46json_e5d1d5ff" */
       ),
       cache: true
     }
   ],
   zh: [
     {
-      key: "locale_common_46json_81e47eeb",
+      key: "locale_common_46json_6ee3f052",
       load: () => import(
         './common-BJmwMvwu.mjs'
-        /* webpackChunkName: "locale_common_46json_81e47eeb" */
+        /* webpackChunkName: "locale_common_46json_6ee3f052" */
       ),
       cache: true
     },
     {
-      key: "locale_site_46json_90c974bf",
+      key: "locale_site_46json_d1d963d2",
       load: () => import(
         './site-sEvoiAml.mjs'
-        /* webpackChunkName: "locale_site_46json_90c974bf" */
+        /* webpackChunkName: "locale_site_46json_d1d963d2" */
       ),
       cache: true
     }
   ],
   "zh-HK": [
     {
-      key: "locale_common_46json_de03ae2e",
+      key: "locale_common_46json_af4e739c",
       load: () => import(
         './common-C_WujmcQ.mjs'
-        /* webpackChunkName: "locale_common_46json_de03ae2e" */
+        /* webpackChunkName: "locale_common_46json_af4e739c" */
       ),
       cache: true
     },
     {
-      key: "locale_site_46json_1ada2624",
+      key: "locale_site_46json_f2f6c563",
       load: () => import(
         './site-DmHw1A-e.mjs'
-        /* webpackChunkName: "locale_site_46json_1ada2624" */
+        /* webpackChunkName: "locale_site_46json_f2f6c563" */
       ),
       cache: true
     }
   ],
   ja: [
     {
-      key: "locale_common_46json_6a86a36c",
+      key: "locale_common_46json_3dd99b1c",
       load: () => import(
         './common-BQOHkU-t.mjs'
-        /* webpackChunkName: "locale_common_46json_6a86a36c" */
+        /* webpackChunkName: "locale_common_46json_3dd99b1c" */
       ),
       cache: true
     },
     {
-      key: "locale_site_46json_2ee87e4f",
+      key: "locale_site_46json_035607e0",
       load: () => import(
         './site-CTFgQ-4W.mjs'
-        /* webpackChunkName: "locale_site_46json_2ee87e4f" */
+        /* webpackChunkName: "locale_site_46json_035607e0" */
       ),
       cache: true
     }
   ],
   ko: [
     {
-      key: "locale_common_46json_30ad4415",
+      key: "locale_common_46json_13c425a9",
       load: () => import(
         './common-B0A0a5hE.mjs'
-        /* webpackChunkName: "locale_common_46json_30ad4415" */
+        /* webpackChunkName: "locale_common_46json_13c425a9" */
       ),
       cache: true
     },
     {
-      key: "locale_site_46json_02800ba9",
+      key: "locale_site_46json_9d674325",
       load: () => import(
         './site-CGCxQBae.mjs'
-        /* webpackChunkName: "locale_site_46json_02800ba9" */
+        /* webpackChunkName: "locale_site_46json_9d674325" */
       ),
       cache: true
     }
@@ -14691,11 +14691,11 @@ const normalizedLocales = [
     iso: "en-US",
     files: [
       {
-        path: "/private/tmp/hoxi-deploy-ws/apay/locales/en/common.json",
+        path: "/private/tmp/hoxi-deploy-ws-1051/apay/locales/en/common.json",
         cache: void 0
       },
       {
-        path: "/private/tmp/hoxi-deploy-ws/apay/locales/en/site.json",
+        path: "/private/tmp/hoxi-deploy-ws-1051/apay/locales/en/site.json",
         cache: void 0
       }
     ],
@@ -14707,11 +14707,11 @@ const normalizedLocales = [
     iso: "zh-CN",
     files: [
       {
-        path: "/private/tmp/hoxi-deploy-ws/apay/locales/zh/common.json",
+        path: "/private/tmp/hoxi-deploy-ws-1051/apay/locales/zh/common.json",
         cache: void 0
       },
       {
-        path: "/private/tmp/hoxi-deploy-ws/apay/locales/zh/site.json",
+        path: "/private/tmp/hoxi-deploy-ws-1051/apay/locales/zh/site.json",
         cache: void 0
       }
     ],
@@ -14723,11 +14723,11 @@ const normalizedLocales = [
     iso: "zh-HK",
     files: [
       {
-        path: "/private/tmp/hoxi-deploy-ws/apay/locales/zh-HK/common.json",
+        path: "/private/tmp/hoxi-deploy-ws-1051/apay/locales/zh-HK/common.json",
         cache: void 0
       },
       {
-        path: "/private/tmp/hoxi-deploy-ws/apay/locales/zh-HK/site.json",
+        path: "/private/tmp/hoxi-deploy-ws-1051/apay/locales/zh-HK/site.json",
         cache: void 0
       }
     ],
@@ -14739,11 +14739,11 @@ const normalizedLocales = [
     iso: "ja-JP",
     files: [
       {
-        path: "/private/tmp/hoxi-deploy-ws/apay/locales/ja/common.json",
+        path: "/private/tmp/hoxi-deploy-ws-1051/apay/locales/ja/common.json",
         cache: void 0
       },
       {
-        path: "/private/tmp/hoxi-deploy-ws/apay/locales/ja/site.json",
+        path: "/private/tmp/hoxi-deploy-ws-1051/apay/locales/ja/site.json",
         cache: void 0
       }
     ],
@@ -14755,11 +14755,11 @@ const normalizedLocales = [
     iso: "ko-KR",
     files: [
       {
-        path: "/private/tmp/hoxi-deploy-ws/apay/locales/ko/common.json",
+        path: "/private/tmp/hoxi-deploy-ws-1051/apay/locales/ko/common.json",
         cache: void 0
       },
       {
-        path: "/private/tmp/hoxi-deploy-ws/apay/locales/ko/site.json",
+        path: "/private/tmp/hoxi-deploy-ws-1051/apay/locales/ko/site.json",
         cache: void 0
       }
     ],
@@ -17482,7 +17482,7 @@ const _sfc_main$T = /* @__PURE__ */ defineComponent({
       {
         key: "homepage-products"
       },
-      "$KyZ0dQsNx6"
+      "$VQc0C0ETip"
       /* nuxt-injected */
     )), __temp = await __temp, __restore(), __temp);
     const products = computed(() => {
@@ -18920,7 +18920,7 @@ const _sfc_main$P = /* @__PURE__ */ defineComponent({
         lazy: true,
         query: { orderId }
       },
-      "$L7QsUuM0pn"
+      "$SSTcmg_BjA"
       /* nuxt-injected */
     )), __temp = await __temp, __restore(), __temp);
     const pending = computed(() => status.value === "pending");
@@ -19721,7 +19721,7 @@ const _sfc_main$O = /* @__PURE__ */ defineComponent({
       {
         query: { limit: 100 }
       },
-      "$dtPtNKBApB"
+      "$qHW0TweRG4"
       /* nuxt-injected */
     )), __temp = await __temp, __restore(), __temp);
     const plans = computed(() => {
@@ -21929,7 +21929,7 @@ const _sfc_main$H = /* @__PURE__ */ defineComponent({
           return data;
         }
       },
-      "$6AXmJOWAOm"
+      "$gw7gRN9YFk"
       /* nuxt-injected */
     )), __temp = await __temp, __restore(), __temp);
     const { pending, requestFailed } = usePageResourceState(productData, status, error);
@@ -22330,7 +22330,7 @@ const _sfc_main$G = /* @__PURE__ */ defineComponent({
     const { getLocalizedProduct } = useLocalizedProduct();
     const { data: productsData, status } = ([__temp, __restore] = withAsyncContext(() => useFetch(
       "/api/products",
-      "$rVRykh7Mgs"
+      "$iuFxkxgI9w"
       /* nuxt-injected */
     )), __temp = await __temp, __restore(), __temp);
     const pending = computed(() => status.value === "pending");
@@ -24624,7 +24624,7 @@ const _sfc_main$A = /* @__PURE__ */ defineComponent({
       {
         query: inspectQuery
       },
-      "$H8uKV4m24-"
+      "$4UWhoh5jSL"
       /* nuxt-injected */
     )), __temp = await __temp, __restore(), __temp);
     const errorMessage = computed(() => {
@@ -25468,7 +25468,7 @@ const _sfc_main$y = /* @__PURE__ */ defineComponent({
     const url = computed(() => `/api/${props.admin ? "admin" : "users"}/orders/${encodeURIComponent(props.orderId)}/refund`);
     const { data, error, status, refresh } = ([__temp, __restore] = withAsyncContext(() => useFetch(
       url,
-      "$B9iX4R2zQh"
+      "$tw57BjFOuu"
       /* nuxt-injected */
     )), __temp = await __temp, __restore(), __temp);
     const refund = computed(() => data.value?.data);
@@ -25723,7 +25723,7 @@ const _sfc_main$x = /* @__PURE__ */ defineComponent({
           }
         }
       },
-      "$G2dQIH4N8x"
+      "$uX0T4yumiy"
       /* nuxt-injected */
     )), __temp = await __temp, __restore(), __temp);
     const pending = computed(() => status.value === "pending");
@@ -26720,7 +26720,7 @@ const _sfc_main$v = /* @__PURE__ */ defineComponent({
           }
         }
       },
-      "$YC42qJ1Hi7"
+      "$9NCJyI7f46"
       /* nuxt-injected */
     )), __temp = await __temp, __restore(), __temp);
     const orders = computed(() => ordersData.value?.data || []);
@@ -28610,7 +28610,7 @@ const _sfc_main$t = /* @__PURE__ */ defineComponent({
           }
         }
       },
-      "$PYBrNnYHT2"
+      "$NDdN1QlSLG"
       /* nuxt-injected */
     )), __temp = await __temp, __restore(), __temp);
     const tokens = computed(() => tokensData.value?.data || []);
@@ -29510,7 +29510,7 @@ const corePageModules = Object.fromEntries(Object.entries(/* @__PURE__ */ Object
   "/core/pages/user/tokens/index.vue": __vite_glob_0_12
 })).map(([file, module]) => [file.replace("/", "../"), module]));
 const themePageModules = {
-  ...Object.fromEntries(Object.entries(/* @__PURE__ */ Object.assign({ "/themes/hoxi/pages/about.vue": () => import('./about-DLdbTOMd.mjs'), "/themes/hoxi/pages/account/delete.vue": () => import('./delete-DoigF1II.mjs'), "/themes/hoxi/pages/auth/authorize-desktop/done.vue": () => import('./done-2Vs8lq-N.mjs'), "/themes/hoxi/pages/auth/authorize-desktop/index.vue": () => import('./index-Bn9R7Kyw.mjs'), "/themes/hoxi/pages/auth/login.vue": () => import('./login-BeC-9Rpo.mjs'), "/themes/hoxi/pages/auth/mobile-bridge.vue": () => import('./mobile-bridge-NQwvXPxi.mjs'), "/themes/hoxi/pages/auth/register.vue": () => import('./register-CGdG4VNO.mjs'), "/themes/hoxi/pages/blog/[slug].vue": () => import('./_slug_-Ble70M7G.mjs'), "/themes/hoxi/pages/blog/category/[slug].vue": () => import('./_slug_-ntJUbQw9.mjs'), "/themes/hoxi/pages/blog/index.vue": () => import('./index-IZB5xsgb.mjs'), "/themes/hoxi/pages/coding-plans/[slug].vue": () => import('./_slug_-CYaI3kOu.mjs'), "/themes/hoxi/pages/coding-plans/index.vue": () => import('./index-hC0Bqo4l.mjs'), "/themes/hoxi/pages/compare.vue": () => import('./compare-D2EfMdG_.mjs'), "/themes/hoxi/pages/download.vue": () => import('./download-pvt0ZSY9.mjs'), "/themes/hoxi/pages/gateways/[slug].vue": () => import('./_slug_-Dw60yTks.mjs'), "/themes/hoxi/pages/gateways/index.vue": () => import('./index-dLHr4BGQ.mjs'), "/themes/hoxi/pages/index.vue": () => import('./index-DAPTTSH5.mjs'), "/themes/hoxi/pages/models/[slug].vue": () => import('./_slug_-D-yv1M5G.mjs'), "/themes/hoxi/pages/models/index.vue": () => import('./index-7-2Q2_e2.mjs'), "/themes/hoxi/pages/one-person-company.vue": () => import('./one-person-company-DSFfLnzi.mjs'), "/themes/hoxi/pages/privacy.vue": () => import('./privacy-ABYk6pHV.mjs'), "/themes/hoxi/pages/projects/[slug].vue": () => import('./_slug_-CEQKoQIn.mjs'), "/themes/hoxi/pages/projects/index.vue": () => import('./index-C9DsYBpf.mjs'), "/themes/hoxi/pages/readiness/[hash].vue": () => import('./_hash_-CO0EZDro.mjs'), "/themes/hoxi/pages/readiness/index.vue": () => import('./index-SXcI2YB2.mjs'), "/themes/hoxi/pages/refactoring-the-self.vue": () => import('./refactoring-the-self-hb94Vt_C.mjs'), "/themes/hoxi/pages/savings.vue": () => import('./savings-CTJ2FNl1.mjs'), "/themes/hoxi/pages/site-builder/index.vue": () => import('./index-CTcABR4-.mjs'), "/themes/hoxi/pages/site-builder/preview/[id].vue": () => import('./_id_-iHcfZ5cM.mjs'), "/themes/hoxi/pages/skills.vue": () => import('./skills-D_x3WuGY.mjs'), "/themes/hoxi/pages/terms.vue": () => import('./terms-Cg7VNzLQ.mjs'), "/themes/hoxi/pages/tools.vue": () => import('./tools-DWbR8v6O.mjs'), "/themes/hoxi/pages/user/account.vue": () => import('./account-Ckdbt6pk.mjs'), "/themes/hoxi/pages/user/billing.vue": () => import('./billing-ZAUL984K.mjs'), "/themes/hoxi/pages/user/dashboard.vue": () => import('./dashboard-Szflv1cK.mjs'), "/themes/hoxi/pages/user/index.vue": () => import('./index-CiBsQxl5.mjs'), "/themes/hoxi/pages/user/keys.vue": () => import('./keys-CWoVaMjN.mjs'), "/themes/hoxi/pages/user/layout.vue": () => import('./layout-B0UZ5KZO.mjs').then((n) => n.l), "/themes/hoxi/pages/user/models.vue": () => import('./models-4QhjZIzt.mjs'), "/themes/hoxi/pages/user/rewards.vue": () => import('./rewards-DaZMDKSm.mjs'), "/themes/hoxi/pages/user/tickets.vue": () => import('./tickets-G72w5orI.mjs') })).map(([file, module]) => [file.replace("/", "../"), module]))
+  ...Object.fromEntries(Object.entries(/* @__PURE__ */ Object.assign({ "/themes/hoxi/pages/about.vue": () => import('./about-CJoPVJG7.mjs'), "/themes/hoxi/pages/account/delete.vue": () => import('./delete-BTkuSN0U.mjs'), "/themes/hoxi/pages/auth/authorize-desktop/done.vue": () => import('./done-2Vs8lq-N.mjs'), "/themes/hoxi/pages/auth/authorize-desktop/index.vue": () => import('./index-aDHrf2cT.mjs'), "/themes/hoxi/pages/auth/login.vue": () => import('./login-cPdCoS1_.mjs'), "/themes/hoxi/pages/auth/mobile-bridge.vue": () => import('./mobile-bridge-D-IWihts.mjs'), "/themes/hoxi/pages/auth/register.vue": () => import('./register-Bej5VMTU.mjs'), "/themes/hoxi/pages/blog/[slug].vue": () => import('./_slug_-C0MT0zDF.mjs'), "/themes/hoxi/pages/blog/category/[slug].vue": () => import('./_slug_-uHuXQvii.mjs'), "/themes/hoxi/pages/blog/index.vue": () => import('./index-DsKQ_hKu.mjs'), "/themes/hoxi/pages/coding-plans/[slug].vue": () => import('./_slug_-Dpe8qNIH.mjs'), "/themes/hoxi/pages/coding-plans/index.vue": () => import('./index-Cm9K-Vga.mjs'), "/themes/hoxi/pages/compare.vue": () => import('./compare-C6IXchSR.mjs'), "/themes/hoxi/pages/download.vue": () => import('./download-bGmJyJyC.mjs'), "/themes/hoxi/pages/gateways/[slug].vue": () => import('./_slug_-DW9-8qOU.mjs'), "/themes/hoxi/pages/gateways/index.vue": () => import('./index-DTvdnTx7.mjs'), "/themes/hoxi/pages/index.vue": () => import('./index-BagJpAqe.mjs'), "/themes/hoxi/pages/models/[slug].vue": () => import('./_slug_-BxWGJohF.mjs'), "/themes/hoxi/pages/models/index.vue": () => import('./index-BLOIz-CT.mjs'), "/themes/hoxi/pages/one-person-company.vue": () => import('./one-person-company-phuXKmOt.mjs'), "/themes/hoxi/pages/privacy.vue": () => import('./privacy-t71ITmTU.mjs'), "/themes/hoxi/pages/projects/[slug].vue": () => import('./_slug_-BI8vqokg.mjs'), "/themes/hoxi/pages/projects/index.vue": () => import('./index-VZQGTmt3.mjs'), "/themes/hoxi/pages/readiness/[hash].vue": () => import('./_hash_-DgPB6ri-.mjs'), "/themes/hoxi/pages/readiness/index.vue": () => import('./index-BZn4VD6Z.mjs'), "/themes/hoxi/pages/refactoring-the-self.vue": () => import('./refactoring-the-self-D560h3wc.mjs'), "/themes/hoxi/pages/savings.vue": () => import('./savings-Djhls1N4.mjs'), "/themes/hoxi/pages/site-builder/index.vue": () => import('./index-CqMyRMO9.mjs'), "/themes/hoxi/pages/site-builder/preview/[id].vue": () => import('./_id_-BhfEYsJr.mjs'), "/themes/hoxi/pages/skills.vue": () => import('./skills-D69lTaIa.mjs'), "/themes/hoxi/pages/terms.vue": () => import('./terms-C1Rur-C6.mjs'), "/themes/hoxi/pages/tools.vue": () => import('./tools-XJpoHKCm.mjs'), "/themes/hoxi/pages/user/account.vue": () => import('./account-BLENDcAS.mjs'), "/themes/hoxi/pages/user/billing.vue": () => import('./billing-DUELQC2k.mjs'), "/themes/hoxi/pages/user/dashboard.vue": () => import('./dashboard-Bo5my1Cf.mjs'), "/themes/hoxi/pages/user/index.vue": () => import('./index-DwuMoVg7.mjs'), "/themes/hoxi/pages/user/keys.vue": () => import('./keys-CFdDVI63.mjs'), "/themes/hoxi/pages/user/layout.vue": () => import('./layout-B0UZ5KZO.mjs').then((n) => n.l), "/themes/hoxi/pages/user/models.vue": () => import('./models-BPGG5qzl.mjs'), "/themes/hoxi/pages/user/rewards.vue": () => import('./rewards-4ZRz7Tzi.mjs'), "/themes/hoxi/pages/user/tickets.vue": () => import('./tickets-DCwMWpZ-.mjs') })).map(([file, module]) => [file.replace("/", "../"), module]))
 };
 const themeAdminManifestModules = {
   ...Object.fromEntries(Object.entries(/* @__PURE__ */ Object.assign({
@@ -29518,7 +29518,7 @@ const themeAdminManifestModules = {
   })).map(([file, module]) => [file.replace("/", "../"), module]))
 };
 const themeAdminPageModules = {
-  ...Object.fromEntries(Object.entries(/* @__PURE__ */ Object.assign({ "/themes/hoxi/admin/pages/cheap.vue": () => import('./cheap-Da9BYVfC.mjs'), "/themes/hoxi/admin/pages/clients.vue": () => import('./clients-hbbL5-O_.mjs'), "/themes/hoxi/admin/pages/coding-plans.vue": () => import('./coding-plans-CCmd_eqj.mjs'), "/themes/hoxi/admin/pages/free-tiers.vue": () => import('./free-tiers-t8jENI8l.mjs'), "/themes/hoxi/admin/pages/models.vue": () => import('./models-V6McapR2.mjs'), "/themes/hoxi/admin/pages/projects.vue": () => import('./projects-vpVZSIux.mjs'), "/themes/hoxi/admin/pages/rewards.vue": () => import('./rewards-DqEpzito.mjs'), "/themes/hoxi/admin/pages/skills.vue": () => import('./skills-Xng0RbNu.mjs'), "/themes/hoxi/admin/pages/tools.vue": () => import('./tools-Cu0x-hJ1.mjs'), "/themes/hoxi/admin/pages/work-apps.vue": () => import('./work-apps-C2tqzmH3.mjs') })).map(([file, module]) => [file.replace("/", "../"), module]))
+  ...Object.fromEntries(Object.entries(/* @__PURE__ */ Object.assign({ "/themes/hoxi/admin/pages/cheap.vue": () => import('./cheap-C9YMFbGL.mjs'), "/themes/hoxi/admin/pages/clients.vue": () => import('./clients-DcZL6FNW.mjs'), "/themes/hoxi/admin/pages/coding-plans.vue": () => import('./coding-plans-CaLfDFUg.mjs'), "/themes/hoxi/admin/pages/free-tiers.vue": () => import('./free-tiers-Ck31LE_5.mjs'), "/themes/hoxi/admin/pages/models.vue": () => import('./models-DxpzBYP1.mjs'), "/themes/hoxi/admin/pages/projects.vue": () => import('./projects-CR1J3tBI.mjs'), "/themes/hoxi/admin/pages/rewards.vue": () => import('./rewards-DvIiJTWM.mjs'), "/themes/hoxi/admin/pages/skills.vue": () => import('./skills-CoylPKJ3.mjs'), "/themes/hoxi/admin/pages/tools.vue": () => import('./tools-BPOukHAD.mjs'), "/themes/hoxi/admin/pages/work-apps.vue": () => import('./work-apps-Cl1o_1OZ.mjs') })).map(([file, module]) => [file.replace("/", "../"), module]))
 };
 const themeAdminLocaleEnModules = {
   ...Object.fromEntries(Object.entries(/* @__PURE__ */ Object.assign({
@@ -29531,7 +29531,7 @@ const themeAdminLocaleZhModules = {
   })).map(([file, module]) => [file.replace("/", "../"), module]))
 };
 const themeLayoutLoaders = {
-  "hoxi": () => import('./default-Defh6iAY.mjs')
+  "hoxi": () => import('./default-lP-9xnEL.mjs')
 };
 const pageLayoutMeta = { "../core/pages/payment/[order_id].vue": { "layout": false }, "../core/pages/user/mcp-authorize/index.vue": { "directoryLayout": false } };
 const useActiveTheme = (options = {}) => {
@@ -30553,7 +30553,7 @@ const _sfc_main$r = /* @__PURE__ */ defineComponent({
   __ssrInlineRender: true,
   async setup(__props) {
     let __temp, __restore;
-    const RichEditor = defineAsyncComponent(() => import('./RichEditor-CQD7iqHv.mjs'));
+    const RichEditor = defineAsyncComponent(() => import('./RichEditor-CZgvzwMP.mjs'));
     const copyItem = (item) => ({
       id: item?.id || "",
       name: item?.name || "",
@@ -30786,7 +30786,7 @@ const _sfc_main$r = /* @__PURE__ */ defineComponent({
         query: { page, pageSize: pageSize2, keyword, status },
         watch: [page]
       },
-      "$F2I460m0Zv"
+      "$mZtiur6m6q"
       /* nuxt-injected */
     )), __temp = await __temp, __restore(), __temp);
     const rows = computed(() => data.value?.data || []);
@@ -33051,7 +33051,7 @@ const _sfc_main$p = /* @__PURE__ */ defineComponent({
           errorMsg.value = "";
         }
       },
-      "$ybh2QzGOMl"
+      "$TlSJJGjDBz"
       /* nuxt-injected */
     )), __temp = await __temp, __restore(), __temp);
     const apps = computed(() => telemetry.value?.apps || []);
@@ -34230,7 +34230,7 @@ const _sfc_main$k = /* @__PURE__ */ defineComponent({
     const canEdit = computed(() => hasPerm(`plugin:shopark:${props.kind}:edit`));
     const { data: response, pending, error, refresh } = ([__temp, __restore] = withAsyncContext(() => useFetch(
       `/api/admin/plugins/shopark/${props.kind}/list`,
-      "$XOCfXoe-uz"
+      "$KO8KouSvLP"
       /* nuxt-injected */
     )), __temp = await __temp, __restore(), __temp);
     const keyword = ref("");
@@ -35288,13 +35288,13 @@ const _sfc_main$i = /* @__PURE__ */ defineComponent({
     const settingUpScheduler = ref(false);
     const { data: connectionRes, pending, error, refresh } = ([__temp, __restore] = withAsyncContext(() => useFetch(
       "/api/admin/plugins/shopark/connection/status",
-      "$e8F5PAhCSl"
+      "$gqAIuTHdhA"
       /* nuxt-injected */
     )), __temp = await __temp, __restore(), __temp);
     const connection = computed(() => connectionRes.value?.data);
     const { data: readinessRes, pending: readinessPending, error: readinessError, refresh: refreshReadiness } = ([__temp, __restore] = withAsyncContext(() => useFetch(
       "/api/admin/plugins/shopark/readiness/status",
-      "$pXYq8yWClF"
+      "$231QXAugU-"
       /* nuxt-injected */
     )), __temp = await __temp, __restore(), __temp);
     const readiness = computed(() => readinessRes.value?.data);
@@ -38185,7 +38185,7 @@ const _sfc_main$f = /* @__PURE__ */ defineComponent({
           filter: customerFilter.value
         }))
       },
-      "$Z0l6ii3sRp"
+      "$e-uA1oIpLC"
       /* nuxt-injected */
     )), __temp = await __temp, __restore(), __temp);
     const customerRows = computed(() => customersRes.value?.data?.list || []);
@@ -38219,7 +38219,7 @@ const _sfc_main$f = /* @__PURE__ */ defineComponent({
           status: selectedStatus.value === "all" ? "" : selectedStatus.value
         }))
       },
-      "$mqGgbyEvf6"
+      "$kMXtWHbFRi"
       /* nuxt-injected */
     )), __temp = await __temp, __restore(), __temp);
     const rows = computed(() => res.value?.data?.list || []);
@@ -40834,7 +40834,7 @@ const _sfc_main$e = /* @__PURE__ */ defineComponent({
     const canEdit = computed(() => hasPerm("plugin:shopark:settings:edit"));
     const { data: response, pending, error, refresh } = ([__temp, __restore] = withAsyncContext(() => useFetch(
       "/api/admin/plugins/shopark/settings/status",
-      "$JM7W8QQJzf"
+      "$SVv6YFpxR6"
       /* nuxt-injected */
     )), __temp = await __temp, __restore(), __temp);
     const defaultTheme = ref("");
@@ -41393,7 +41393,7 @@ const _sfc_main$d = /* @__PURE__ */ defineComponent({
           currency: selectedCurrency.value === "all" ? void 0 : selectedCurrency.value
         }))
       },
-      "$1dixE137-E"
+      "$n1juDLE9pM"
       /* nuxt-injected */
     )), __temp = await __temp, __restore(), __temp);
     const summary = computed(() => res.value?.data?.summary || {
@@ -42651,7 +42651,7 @@ const _sfc_main$b = /* @__PURE__ */ defineComponent({
   __ssrInlineRender: true,
   async setup(__props) {
     let __temp, __restore;
-    const RichEditor = defineAsyncComponent(() => import('./RichEditor-CQD7iqHv.mjs'));
+    const RichEditor = defineAsyncComponent(() => import('./RichEditor-CZgvzwMP.mjs'));
     const copyItem = (item) => ({
       id: item?.id || "",
       name: item?.name || "",
@@ -42877,7 +42877,7 @@ const _sfc_main$b = /* @__PURE__ */ defineComponent({
         query: { page, pageSize: pageSize2, keyword, status },
         watch: [page]
       },
-      "$fDW6bac2wJ"
+      "$--rEin_sq5"
       /* nuxt-injected */
     )), __temp = await __temp, __restore(), __temp);
     const rows = computed(() => data.value?.data || []);
@@ -45988,87 +45988,87 @@ const plugin_peKrKkWJ2FyNvD61rDdF27fS5F7ZwHRCbYKEEM_pTKM = /* @__PURE__ */ defin
   // For type portability
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
 });
-const LazyHoxiComment = defineAsyncComponent(() => import('./HoxiComment-XrFrwfBu.mjs').then((r) => r["default"] || r.default || r));
-const LazyHoxiCommunityModal = defineAsyncComponent(() => import('./HoxiCommunityModal-wLFBuTnb.mjs').then((r) => r["default"] || r.default || r));
+const LazyHoxiComment = defineAsyncComponent(() => import('./HoxiComment-qsoShWbt.mjs').then((r) => r["default"] || r.default || r));
+const LazyHoxiCommunityModal = defineAsyncComponent(() => import('./HoxiCommunityModal-BtxN_PKr.mjs').then((r) => r["default"] || r.default || r));
 const LazyHoxiContainer = defineAsyncComponent(() => import('./HoxiContainer-DDAEb0_Y.mjs').then((r) => r["default"] || r.default || r));
-const LazyHoxiDownloadCard = defineAsyncComponent(() => import('./HoxiDownloadCard-CAdHBCJl.mjs').then((r) => r["default"] || r.default || r));
-const LazyHoxiHairlineLink = defineAsyncComponent(() => import('./HoxiHairlineLink-D576zmJv.mjs').then((r) => r["default"] || r.default || r));
-const LazyHoxiHomeReadiness = defineAsyncComponent(() => import('./HoxiHomeReadiness-D2dBdG2u.mjs').then((r) => r["default"] || r.default || r));
-const LazyHoxiHomeSavingsCard = defineAsyncComponent(() => import('./HoxiHomeSavingsCard-BX4tL8I_.mjs').then((r) => r["default"] || r.default || r));
-const LazyHoxiHomeTools = defineAsyncComponent(() => import('./HoxiHomeTools-B_msIy4i.mjs').then((r) => r["default"] || r.default || r));
-const LazyHoxiHomeWorkspaceShowcase = defineAsyncComponent(() => import('./HoxiHomeWorkspaceShowcase-79xD-tsa.mjs').then((r) => r["default"] || r.default || r));
-const LazyHoxiLogoIcon = defineAsyncComponent(() => import('./HoxiLogoIcon-BAn9zW4m.mjs').then((r) => r["default"] || r.default || r));
+const LazyHoxiDownloadCard = defineAsyncComponent(() => import('./HoxiDownloadCard-Cjgcz5GY.mjs').then((r) => r["default"] || r.default || r));
+const LazyHoxiHairlineLink = defineAsyncComponent(() => import('./HoxiHairlineLink-BCyEGu7d.mjs').then((r) => r["default"] || r.default || r));
+const LazyHoxiHomeReadiness = defineAsyncComponent(() => import('./HoxiHomeReadiness-Tbq6O-M6.mjs').then((r) => r["default"] || r.default || r));
+const LazyHoxiHomeSavingsCard = defineAsyncComponent(() => import('./HoxiHomeSavingsCard-CKvzJ8CG.mjs').then((r) => r["default"] || r.default || r));
+const LazyHoxiHomeTools = defineAsyncComponent(() => import('./HoxiHomeTools-DCuSk4Ts.mjs').then((r) => r["default"] || r.default || r));
+const LazyHoxiHomeWorkspaceShowcase = defineAsyncComponent(() => import('./HoxiHomeWorkspaceShowcase-DTjdtGxS.mjs').then((r) => r["default"] || r.default || r));
+const LazyHoxiLogoIcon = defineAsyncComponent(() => import('./HoxiLogoIcon-CrK2KvFu.mjs').then((r) => r["default"] || r.default || r));
 const LazyHoxiMeta = defineAsyncComponent(() => import('./HoxiMeta-BgAl7LvM.mjs').then((r) => r["default"] || r.default || r));
-const LazyHoxiModelCard = defineAsyncComponent(() => import('./HoxiModelCard-BtFm9dSL.mjs').then((r) => r["default"] || r.default || r));
-const LazyHoxiModelFilters = defineAsyncComponent(() => import('./HoxiModelFilters-B2eBRboC.mjs').then((r) => r["default"] || r.default || r));
-const LazyHoxiModelMini = defineAsyncComponent(() => import('./HoxiModelMini-CafdNkYs.mjs').then((r) => r["default"] || r.default || r));
-const LazyHoxiModelTable = defineAsyncComponent(() => import('./HoxiModelTable-BLeFNtfB.mjs').then((r) => r["default"] || r.default || r));
-const LazyHoxiNewsletterBox = defineAsyncComponent(() => import('./HoxiNewsletterBox-DJSIwjgS.mjs').then((r) => r["default"] || r.default || r));
+const LazyHoxiModelCard = defineAsyncComponent(() => import('./HoxiModelCard-BvfYYrFc.mjs').then((r) => r["default"] || r.default || r));
+const LazyHoxiModelFilters = defineAsyncComponent(() => import('./HoxiModelFilters-DrPJmX_M.mjs').then((r) => r["default"] || r.default || r));
+const LazyHoxiModelMini = defineAsyncComponent(() => import('./HoxiModelMini-BWYFmuxg.mjs').then((r) => r["default"] || r.default || r));
+const LazyHoxiModelTable = defineAsyncComponent(() => import('./HoxiModelTable-qTrrJlEY.mjs').then((r) => r["default"] || r.default || r));
+const LazyHoxiNewsletterBox = defineAsyncComponent(() => import('./HoxiNewsletterBox-D4D1NFTs.mjs').then((r) => r["default"] || r.default || r));
 const LazyHoxiPageHeader = defineAsyncComponent(() => import('./HoxiPageHeader-BFh30DFm.mjs').then((r) => r["default"] || r.default || r));
-const LazyHoxiParticleCanvas = defineAsyncComponent(() => import('./HoxiParticleCanvas-2v_7GLC1.mjs').then((r) => r["default"] || r.default || r));
+const LazyHoxiParticleCanvas = defineAsyncComponent(() => import('./HoxiParticleCanvas-CeC4QaQe.mjs').then((r) => r["default"] || r.default || r));
 const LazyHoxiParticleHero = defineAsyncComponent(() => import('./HoxiParticleHero-C65EeQIv.mjs').then((r) => r["default"] || r.default || r));
-const LazyHoxiPostItem = defineAsyncComponent(() => import('./HoxiPostItem-pPl6VqDr.mjs').then((r) => r["default"] || r.default || r));
+const LazyHoxiPostItem = defineAsyncComponent(() => import('./HoxiPostItem-QUxvUgEj.mjs').then((r) => r["default"] || r.default || r));
 const LazyHoxiReadinessProgress = defineAsyncComponent(() => import('./HoxiReadinessProgress-BZl9C8v0.mjs').then((r) => r["default"] || r.default || r));
-const LazyHoxiReadinessQuestion = defineAsyncComponent(() => import('./HoxiReadinessQuestion-CD2xOGWg.mjs').then((r) => r["default"] || r.default || r));
+const LazyHoxiReadinessQuestion = defineAsyncComponent(() => import('./HoxiReadinessQuestion-CrukWQG3.mjs').then((r) => r["default"] || r.default || r));
 const LazyHoxiReadinessRadar = defineAsyncComponent(() => import('./HoxiReadinessRadar-Bkw4--UY.mjs').then((r) => r["default"] || r.default || r));
-const LazyHoxiReadinessReport = defineAsyncComponent(() => import('./HoxiReadinessReport-BYZeK1Ai.mjs').then((r) => r["default"] || r.default || r));
-const LazyHoxiSectionLabel = defineAsyncComponent(() => import('./HoxiSectionLabel-BaczzRQO.mjs').then((r) => r["default"] || r.default || r));
-const LazyHoxiSiteBuilderStorePreview = defineAsyncComponent(() => import('./HoxiSiteBuilderStorePreview-BsAmY7Yo.mjs').then((r) => r["default"] || r.default || r));
-const LazyHoxiTag = defineAsyncComponent(() => import('./HoxiTag-CMHOk35U.mjs').then((r) => r["default"] || r.default || r));
-const LazyHoxiToolBrandMark = defineAsyncComponent(() => import('./HoxiToolBrandMark-y4IPFQJf.mjs').then((r) => r["default"] || r.default || r));
-const LazyHoxiToolDetailModal = defineAsyncComponent(() => import('./HoxiToolDetailModal-DD-JA_GF.mjs').then((r) => r["default"] || r.default || r));
+const LazyHoxiReadinessReport = defineAsyncComponent(() => import('./HoxiReadinessReport-mJcC1H71.mjs').then((r) => r["default"] || r.default || r));
+const LazyHoxiSectionLabel = defineAsyncComponent(() => import('./HoxiSectionLabel-DVTX81q6.mjs').then((r) => r["default"] || r.default || r));
+const LazyHoxiSiteBuilderStorePreview = defineAsyncComponent(() => import('./HoxiSiteBuilderStorePreview-DnM5ZIEt.mjs').then((r) => r["default"] || r.default || r));
+const LazyHoxiTag = defineAsyncComponent(() => import('./HoxiTag-Ds4mfCa-.mjs').then((r) => r["default"] || r.default || r));
+const LazyHoxiToolBrandMark = defineAsyncComponent(() => import('./HoxiToolBrandMark-B03zwszw.mjs').then((r) => r["default"] || r.default || r));
+const LazyHoxiToolDetailModal = defineAsyncComponent(() => import('./HoxiToolDetailModal-CTX3b0TD.mjs').then((r) => r["default"] || r.default || r));
 const LazyHoxiValueBar = defineAsyncComponent(() => import('./HoxiValueBar-nKN9Q0nQ.mjs').then((r) => r["default"] || r.default || r));
 const LazyHoxiVendorDot = defineAsyncComponent(() => import('./HoxiVendorDot-BLwK_ZsG.mjs').then((r) => r["default"] || r.default || r));
 const LazyHoxiWordmark = defineAsyncComponent(() => import('./HoxiWordmark-DuDKSELP.mjs').then((r) => r["default"] || r.default || r));
-const LazyHoxiProjectRunPanel = defineAsyncComponent(() => import('./HoxiProjectRunPanel-CErkaagf.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseA = defineAsyncComponent(() => import('./A-BUGnFF7G.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseAccordion = defineAsyncComponent(() => import('./Accordion-Bp0HW00g.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseAccordionItem = defineAsyncComponent(() => import('./AccordionItem-6Q7gj5YA.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseBadge = defineAsyncComponent(() => import('./Badge-DAQMBezH.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseBlockquote = defineAsyncComponent(() => import('./Blockquote-Dm9oZ3v5.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseCallout = defineAsyncComponent(() => import('./Callout-D1quDVas.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseCard = defineAsyncComponent(() => import('./Card-C5SwWvIh.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseCardGroup = defineAsyncComponent(() => import('./CardGroup-DEwJsizP.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseCode = defineAsyncComponent(() => import('./Code-DbWKxlb7.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseCodeCollapse = defineAsyncComponent(() => import('./CodeCollapse-V89746I0.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseCodeGroup = defineAsyncComponent(() => import('./CodeGroup-z0T_Jyxn.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseCodeIcon = defineAsyncComponent(() => import('./CodeIcon-CG7lxX2V.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseCodePreview = defineAsyncComponent(() => import('./CodePreview-CQqvbc7g.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseCodeTree = defineAsyncComponent(() => import('./CodeTree-CyN4G3Ic.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseCollapsible = defineAsyncComponent(() => import('./Collapsible-C4jOqPsK.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseEm = defineAsyncComponent(() => import('./Em-KU8MdmEX.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseField = defineAsyncComponent(() => import('./Field-D5XJJ_Ft.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseFieldGroup = defineAsyncComponent(() => import('./FieldGroup-BVS6kKc8.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseH1 = defineAsyncComponent(() => import('./H1-yFE6g6Gb.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseH2 = defineAsyncComponent(() => import('./H2-CtXBov-2.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseH3 = defineAsyncComponent(() => import('./H3-DyeaDgmW.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseH4 = defineAsyncComponent(() => import('./H4-DJsoI_vS.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseHr = defineAsyncComponent(() => import('./Hr-BPOTkVoo.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseIcon = defineAsyncComponent(() => import('./Icon-DO_RyFi3.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseImg = defineAsyncComponent(() => import('./Img-Bl49k0d0.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseKbd = defineAsyncComponent(() => import('./Kbd-B_E75aCW.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseLi = defineAsyncComponent(() => import('./Li-2cNrMYO4.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseOl = defineAsyncComponent(() => import('./Ol-JK85S9u7.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseP = defineAsyncComponent(() => import('./P-CP__JPuX.mjs').then((r) => r["default"] || r.default || r));
-const LazyProsePre = defineAsyncComponent(() => import('./Pre-BC1sVTgn.mjs').then((r) => r["default"] || r.default || r));
+const LazyHoxiProjectRunPanel = defineAsyncComponent(() => import('./HoxiProjectRunPanel-BotK0BSF.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseA = defineAsyncComponent(() => import('./A-BWkQryGe.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseAccordion = defineAsyncComponent(() => import('./Accordion-kX3UEjUg.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseAccordionItem = defineAsyncComponent(() => import('./AccordionItem-BpVgnFX-.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseBadge = defineAsyncComponent(() => import('./Badge-DUBow1xS.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseBlockquote = defineAsyncComponent(() => import('./Blockquote-DwVFzFqz.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseCallout = defineAsyncComponent(() => import('./Callout-C-3irRxV.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseCard = defineAsyncComponent(() => import('./Card-CKICfy2L.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseCardGroup = defineAsyncComponent(() => import('./CardGroup-VvtjNar0.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseCode = defineAsyncComponent(() => import('./Code-oPMH6Hsk.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseCodeCollapse = defineAsyncComponent(() => import('./CodeCollapse-XygOqJU_.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseCodeGroup = defineAsyncComponent(() => import('./CodeGroup-B5L6Hh-B.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseCodeIcon = defineAsyncComponent(() => import('./CodeIcon-CPLXSeAw.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseCodePreview = defineAsyncComponent(() => import('./CodePreview-DIbBfpmL.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseCodeTree = defineAsyncComponent(() => import('./CodeTree-CytAcMiZ.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseCollapsible = defineAsyncComponent(() => import('./Collapsible-CU-yTTra.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseEm = defineAsyncComponent(() => import('./Em-CS09T-0y.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseField = defineAsyncComponent(() => import('./Field-BukDhmVO.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseFieldGroup = defineAsyncComponent(() => import('./FieldGroup-yQl26UI5.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseH1 = defineAsyncComponent(() => import('./H1-Bjl52vl9.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseH2 = defineAsyncComponent(() => import('./H2-CRwpWX4W.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseH3 = defineAsyncComponent(() => import('./H3-BQ91UBFv.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseH4 = defineAsyncComponent(() => import('./H4-CJq_A6Am.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseHr = defineAsyncComponent(() => import('./Hr-B-B78f-g.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseIcon = defineAsyncComponent(() => import('./Icon-Cvi7emN6.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseImg = defineAsyncComponent(() => import('./Img-DdQuYluf.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseKbd = defineAsyncComponent(() => import('./Kbd-CSwlVIbO.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseLi = defineAsyncComponent(() => import('./Li-C71wwY-A.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseOl = defineAsyncComponent(() => import('./Ol-BHTxkI0Q.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseP = defineAsyncComponent(() => import('./P-Be0PB0V0.mjs').then((r) => r["default"] || r.default || r));
+const LazyProsePre = defineAsyncComponent(() => import('./Pre-qEKqBgiz.mjs').then((r) => r["default"] || r.default || r));
 const LazyProseScript = defineAsyncComponent(() => import('./Script-DOAkb3PD.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseSteps = defineAsyncComponent(() => import('./Steps-BQUhK192.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseStrong = defineAsyncComponent(() => import('./Strong-DUMSidZG.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseTable = defineAsyncComponent(() => import('./Table-CmfODZab.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseTabs = defineAsyncComponent(() => import('./Tabs-CdoVBa2P.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseTabsItem = defineAsyncComponent(() => import('./TabsItem-DQabprmM.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseTbody = defineAsyncComponent(() => import('./Tbody-DctgJdt5.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseTd = defineAsyncComponent(() => import('./Td-CQHv6xWx.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseTh = defineAsyncComponent(() => import('./Th-rg82FQ75.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseThead = defineAsyncComponent(() => import('./Thead-cbDJgJ4u.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseTr = defineAsyncComponent(() => import('./Tr-DKEYcuwb.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseUl = defineAsyncComponent(() => import('./Ul-DRGGz19k.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseCaution = defineAsyncComponent(() => import('./Caution-C6y9cMFB.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseNote = defineAsyncComponent(() => import('./Note-DIepMBdU.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseTip = defineAsyncComponent(() => import('./Tip-DB5peleI.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseWarning = defineAsyncComponent(() => import('./Warning-DpH6w97i.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseH5 = defineAsyncComponent(() => import('./ProseH5-BUaS2ZER.mjs').then((r) => r["default"] || r.default || r));
-const LazyProseH6 = defineAsyncComponent(() => import('./ProseH6-KgtYumJ4.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseSteps = defineAsyncComponent(() => import('./Steps-D74cEFQd.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseStrong = defineAsyncComponent(() => import('./Strong-sPRrRy6Y.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseTable = defineAsyncComponent(() => import('./Table-eUkslG1h.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseTabs = defineAsyncComponent(() => import('./Tabs-D5jj-X4f.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseTabsItem = defineAsyncComponent(() => import('./TabsItem-C_XmvDbf.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseTbody = defineAsyncComponent(() => import('./Tbody-CBTf8IWA.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseTd = defineAsyncComponent(() => import('./Td-CMj-Qhpw.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseTh = defineAsyncComponent(() => import('./Th-BTuCTtI6.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseThead = defineAsyncComponent(() => import('./Thead-CbknL-vU.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseTr = defineAsyncComponent(() => import('./Tr-Cf2MCVou.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseUl = defineAsyncComponent(() => import('./Ul-BjKRK7BF.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseCaution = defineAsyncComponent(() => import('./Caution-DCVo1uw0.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseNote = defineAsyncComponent(() => import('./Note-BWsA6MsM.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseTip = defineAsyncComponent(() => import('./Tip-Dg4bN5bZ.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseWarning = defineAsyncComponent(() => import('./Warning-DlpMsixd.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseH5 = defineAsyncComponent(() => import('./ProseH5-CKPyb-pv.mjs').then((r) => r["default"] || r.default || r));
+const LazyProseH6 = defineAsyncComponent(() => import('./ProseH6-j3XWwC14.mjs').then((r) => r["default"] || r.default || r));
 const LazyIcon = defineAsyncComponent(() => Promise.resolve().then(() => index).then((r) => r["default"] || r.default || r));
 const lazyGlobalComponents = [
   ["HoxiComment", LazyHoxiComment],
@@ -49911,9 +49911,9 @@ const __nuxt_component_1 = defineComponent({
   }
 });
 const layouts = {
-  admin: defineAsyncComponent(() => import('./admin-GiG46uM_.mjs').then((m) => m.default || m)),
-  default: defineAsyncComponent(() => import('./default-c7bNsAqm.mjs').then((m) => m.default || m)),
-  empty: defineAsyncComponent(() => import('./empty-BY0Lmu9n.mjs').then((m) => m.default || m))
+  admin: defineAsyncComponent(() => import('./admin-C4cyAnac.mjs').then((m) => m.default || m)),
+  default: defineAsyncComponent(() => import('./default-CCjGMFR0.mjs').then((m) => m.default || m)),
+  empty: defineAsyncComponent(() => import('./empty-LHKcXY8A.mjs').then((m) => m.default || m))
 };
 const routeRulesMatcher = _routeRulesMatcher;
 const LayoutLoader = defineComponent({

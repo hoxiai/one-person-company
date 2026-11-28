@@ -1,4 +1,4 @@
-import { d as defineEventHandler, ea as requireUserSession, b as db, dk as userTokens, dl as apiTokenScope, eP as MCP_SCOPE_DEFINITIONS } from '../../../nitro/nitro.mjs';
+import { d as defineEventHandler, ed as requireUserSession, b as db, dk as userTokens, dl as apiTokenScope, eT as MCP_SCOPE_DEFINITIONS } from '../../../nitro/nitro.mjs';
 import { desc } from 'drizzle-orm';
 import 'node:crypto';
 import 'node:http2';

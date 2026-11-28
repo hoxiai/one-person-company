@@ -1,4 +1,4 @@
-import { b as db, gr as purgeHoxiUserOwnedData, gs as createDrizzleAccountDeletionStore, gt as ensureHoxiWorkMcpToolsRegistered, gu as ensureRewardOutboxWorkerStarted, gv as startAaDailySyncWorker, gw as startProjectDailySyncWorker, gx as stopRewardOutboxWorker, gy as stopAaDailySyncWorker, gz as stopProjectDailySyncWorker } from '../nitro/nitro.mjs';
+import { b as db, gw as purgeHoxiUserOwnedData, gx as createDrizzleAccountDeletionStore, gy as ensureHoxiWorkMcpToolsRegistered, gz as ensureRewardOutboxWorkerStarted, gA as startAaDailySyncWorker, gB as startProjectDailySyncWorker, gC as stopRewardOutboxWorker, gD as stopAaDailySyncWorker, gE as stopProjectDailySyncWorker } from '../nitro/nitro.mjs';
 import 'drizzle-orm';
 import 'node:crypto';
 import 'node:http2';

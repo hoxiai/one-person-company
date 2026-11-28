@@ -1,4 +1,4 @@
-import { ft as defineCachedEventHandler, b as db, q as products } from '../../../nitro/nitro.mjs';
+import { fy as defineCachedEventHandler, b as db, q as products } from '../../../nitro/nitro.mjs';
 import { and, eq } from 'drizzle-orm';
 import 'node:crypto';
 import 'node:http2';

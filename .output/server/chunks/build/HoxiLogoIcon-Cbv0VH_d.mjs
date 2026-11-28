@@ -1,0 +1,82 @@
+import { mergeProps, useSSRContext } from 'vue';
+import { ssrRenderAttrs } from 'vue/server-renderer';
+import { gr as publicAssetsURL } from '../nitro/nitro.mjs';
+import { Q as _export_sfc } from './server.mjs';
+import 'drizzle-orm';
+import 'node:crypto';
+import 'node:http2';
+import 'node:fs';
+import 'zod';
+import 'crypto';
+import 'node:path';
+import '@nuxthub/blob';
+import 'node:http';
+import 'node:https';
+import 'node:events';
+import 'node:buffer';
+import 'node:async_hooks';
+import 'postgres';
+import 'drizzle-orm/postgres-js';
+import 'drizzle-orm/d1';
+import 'node:module';
+import 'mysql2/promise';
+import 'drizzle-orm/mysql2';
+import 'drizzle-orm/pg-core';
+import 'drizzle-orm/sqlite-core';
+import 'drizzle-orm/mysql-core';
+import 'maxmind';
+import 'node:os';
+import 'node:fs/promises';
+import 'fs';
+import 'path';
+import 'node:url';
+import '@iconify/utils';
+import 'consola';
+import 'node:zlib';
+import '@adonisjs/hash';
+import '@adonisjs/hash/drivers/scrypt';
+import 'jose';
+import 'node:child_process';
+import 'vue-router';
+import '@iconify/vue';
+import '@iconify/utils/lib/css/icon';
+import 'perfect-debounce';
+import 'tailwind-variants';
+import '@vue/shared';
+import 'embla-carousel-vue';
+import 'aria-hidden';
+import '@floating-ui/vue';
+import '@tanstack/vue-table';
+import '@tanstack/vue-virtual';
+import 'framesync';
+import 'popmotion';
+import 'style-value-types';
+import 'tailwindcss/colors';
+import '../routes/renderer.mjs';
+import 'vue-bundle-renderer/runtime';
+import 'unhead/server';
+import 'devalue';
+import 'unhead/plugins';
+import 'unhead/utils';
+
+const _imports_0 = publicAssetsURL("/themes/hoxi/logo.svg");
+const _sfc_main = {};
+function _sfc_ssrRender(_ctx, _push, _parent, _attrs) {
+  _push(`<img${ssrRenderAttrs(mergeProps({
+    src: _imports_0,
+    alt: "",
+    width: "64",
+    height: "64",
+    class: "shrink-0"
+  }, _attrs))}>`);
+}
+const _sfc_setup = _sfc_main.setup;
+_sfc_main.setup = (props, ctx) => {
+  const ssrContext = useSSRContext();
+  (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("themes/hoxi/components/HoxiLogoIcon.vue");
+  return _sfc_setup ? _sfc_setup(props, ctx) : void 0;
+};
+const HoxiLogoIcon = /* @__PURE__ */ Object.assign(_export_sfc(_sfc_main, [["ssrRender", _sfc_ssrRender]]), { __name: "HoxiLogoIcon" });
+
+export { HoxiLogoIcon as default };
+//# sourceMappingURL=HoxiLogoIcon-Cbv0VH_d.mjs.map

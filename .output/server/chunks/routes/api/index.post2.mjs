@@ -1,4 +1,4 @@
-import { d as defineEventHandler, an as resolveClientIp, ao as checkIpRateLimit, e as createError, aP as getUserSession, dV as getCookie, r as readBody, z as normalizeTicketAttachments, b as db, v as tickets, y as ticketMessages, ew as diagnoseTicketIssue, ev as notifyCustomerMessage } from '../../nitro/nitro.mjs';
+import { d as defineEventHandler, an as resolveClientIp, ao as checkIpRateLimit, e as createError, aP as getUserSession, dX as getCookie, r as readBody, z as normalizeTicketAttachments, b as db, v as tickets, y as ticketMessages, eA as diagnoseTicketIssue, ez as notifyCustomerMessage } from '../../nitro/nitro.mjs';
 import crypto from 'node:crypto';
 import { eq, and, or, inArray, desc, asc } from 'drizzle-orm';
 import 'node:http2';

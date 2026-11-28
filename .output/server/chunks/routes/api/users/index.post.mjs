@@ -1,4 +1,4 @@
-import { d as defineEventHandler, c as getRequestLocale, ea as requireUserSession, e as createError, an as resolveClientIp, ao as checkIpRateLimit, r as readBody, fM as submitAccountDeletionRequest, at as recordOperationFromEvent } from '../../../nitro/nitro.mjs';
+import { d as defineEventHandler, c as getRequestLocale, ed as requireUserSession, e as createError, an as resolveClientIp, ao as checkIpRateLimit, r as readBody, fR as submitAccountDeletionRequest, at as recordOperationFromEvent } from '../../../nitro/nitro.mjs';
 import 'drizzle-orm';
 import 'node:crypto';
 import 'node:http2';

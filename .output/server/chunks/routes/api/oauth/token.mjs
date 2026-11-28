@@ -1,4 +1,4 @@
-import { d as defineEventHandler, ez as applyMcpPublicCors, an as resolveClientIp, ao as checkIpRateLimit, r as readBody, eV as verifyMcpAuthorizationCodeEnvelope, eW as verifyPkceS256, b as db, dk as userTokens, dv as MCP_OAUTH_CODE_TOKEN_NAME, eX as isValidPkceCodeVerifier, eY as computePkceS256Challenge, eR as hashMcpOAuthSecret, w as users, eL as normalizeMcpScopes, eO as MCP_DEFAULT_SCOPES, eZ as generateMcpAccessToken, e_ as generateMcpRefreshToken, dw as MCP_OAUTH_REFRESH_TOKEN_NAME, eA as resolveMcpServerOrigin, e$ as setResponseHeaders, f0 as MCP_ACCESS_TOKEN_TTL_SECONDS, f1 as MCP_REFRESH_TOKEN_TTL_MS, eB as setResponseStatus } from '../../../nitro/nitro.mjs';
+import { d as defineEventHandler, eD as applyMcpPublicCors, an as resolveClientIp, ao as checkIpRateLimit, r as readBody, eZ as verifyMcpAuthorizationCodeEnvelope, e_ as verifyPkceS256, b as db, dk as userTokens, dv as MCP_OAUTH_CODE_TOKEN_NAME, e$ as isValidPkceCodeVerifier, f0 as computePkceS256Challenge, eV as hashMcpOAuthSecret, w as users, eP as normalizeMcpScopes, eS as MCP_DEFAULT_SCOPES, f1 as generateMcpAccessToken, f2 as generateMcpRefreshToken, dw as MCP_OAUTH_REFRESH_TOKEN_NAME, eE as resolveMcpServerOrigin, f3 as setResponseHeaders, f4 as MCP_ACCESS_TOKEN_TTL_SECONDS, f5 as MCP_REFRESH_TOKEN_TTL_MS, eF as setResponseStatus, eH as getActiveThemeName, f6 as themeEventLoaders } from '../../../nitro/nitro.mjs';
 import { and, eq } from 'drizzle-orm';
 import 'node:crypto';
 import 'node:http2';
@@ -35,6 +35,40 @@ import '@adonisjs/hash/drivers/scrypt';
 import 'jose';
 import 'node:child_process';
 
+const RESERVED_OAUTH_TOKEN_FIELDS = /* @__PURE__ */ new Set([
+  "access_token",
+  "token_type",
+  "expires_in",
+  "refresh_token",
+  "scope",
+  "mcp_url",
+  "user"
+]);
+async function loadThemeOAuthTokenEnrichment(params) {
+  var _a;
+  try {
+    const activeTheme = (await getActiveThemeName().catch(() => "")).trim().toLowerCase();
+    if (!activeTheme) return {};
+    const loader = (_a = themeEventLoaders) == null ? void 0 : _a[activeTheme];
+    if (typeof loader !== "function") return {};
+    const mod = await loader();
+    if (typeof (mod == null ? void 0 : mod.enrichOAuthTokenResponse) !== "function") return {};
+    const extra = await Promise.race([
+      Promise.resolve(mod.enrichOAuthTokenResponse(params)),
+      new Promise((resolve) => setTimeout(() => resolve(null), 5e3))
+    ]);
+    if (!extra || typeof extra !== "object" || Array.isArray(extra)) return {};
+    const safeExtra = {};
+    for (const [key, value] of Object.entries(extra)) {
+      if (!RESERVED_OAUTH_TOKEN_FIELDS.has(key) && value !== void 0) {
+        safeExtra[key] = value;
+      }
+    }
+    return safeExtra;
+  } catch {
+    return {};
+  }
+}
 function oauthError(event, statusCode, error, description) {
   setResponseStatus(event, statusCode);
   setResponseHeaders(event, {
@@ -47,7 +81,7 @@ function oauthError(event, statusCode, error, description) {
   };
 }
 const token = defineEventHandler(async (event) => {
-  var _a, _b;
+  var _a, _b, _c, _d, _e, _f, _g, _h;
   if (applyMcpPublicCors(event)) return null;
   if (event.method !== "POST") {
     return oauthError(event, 405, "invalid_request", "Method must be POST");
@@ -162,11 +196,23 @@ const token = defineEventHandler(async (event) => {
       expiresAt: refreshExpiresAt
     });
     const origin = resolveMcpServerOrigin(event);
+    const themeExtra = await loadThemeOAuthTokenEnrichment({
+      userId: Number(authUser.id),
+      user: {
+        id: Number(authUser.id),
+        email: (_b = authUser.email) != null ? _b : null,
+        nickname: (_c = authUser.nickname) != null ? _c : null,
+        avatarUrl: (_d = authUser.avatarUrl) != null ? _d : null
+      },
+      origin,
+      scopes: finalScopes
+    });
     setResponseHeaders(event, {
       "Cache-Control": "no-store",
       "Pragma": "no-cache"
     });
     return {
+      ...themeExtra,
       access_token: accessToken.rawToken,
       token_type: "Bearer",
       expires_in: MCP_ACCESS_TOKEN_TTL_SECONDS,
@@ -202,7 +248,7 @@ const token = defineEventHandler(async (event) => {
       return oauthError(event, 400, "invalid_grant", "client_id mismatch");
     }
     const userRows = await db.select().from(users).where(eq(users.id, record.userId)).limit(1);
-    if (!userRows[0] || Number((_b = userRows[0].status) != null ? _b : 1) !== 1) {
+    if (!userRows[0] || Number((_e = userRows[0].status) != null ? _e : 1) !== 1) {
       return oauthError(event, 400, "invalid_grant", "User account is unavailable");
     }
     const originalScopes = normalizeMcpScopes(record.scopes);
@@ -235,16 +281,36 @@ const token = defineEventHandler(async (event) => {
       clientName: record.clientName,
       expiresAt: refreshExpiresAt
     });
+    const refreshUser = userRows[0];
+    const origin = resolveMcpServerOrigin(event);
+    const themeExtra = await loadThemeOAuthTokenEnrichment({
+      userId: Number(refreshUser.id),
+      user: {
+        id: Number(refreshUser.id),
+        email: (_f = refreshUser.email) != null ? _f : null,
+        nickname: (_g = refreshUser.nickname) != null ? _g : null,
+        avatarUrl: (_h = refreshUser.avatarUrl) != null ? _h : null
+      },
+      origin,
+      scopes: finalScopes
+    });
     setResponseHeaders(event, {
       "Cache-Control": "no-store",
       "Pragma": "no-cache"
     });
     return {
+      ...themeExtra,
       access_token: newAccessToken.rawToken,
       token_type: "Bearer",
       expires_in: MCP_ACCESS_TOKEN_TTL_SECONDS,
       refresh_token: newRefreshToken.rawToken,
-      scope: finalScopes.join(" ")
+      scope: finalScopes.join(" "),
+      mcp_url: `${origin}/api/mcp`,
+      user: {
+        id: refreshUser.id,
+        email: refreshUser.email,
+        nickname: refreshUser.nickname
+      }
     };
   }
   return oauthError(event, 400, "unsupported_grant_type", "Supported grant_types: authorization_code, refresh_token");

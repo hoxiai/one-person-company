@@ -1,4 +1,4 @@
-import { d as defineEventHandler, g as getQuery, E as getRequestURL, dZ as sendRedirect, eL as normalizeMcpScopes, e as createError, eM as resolveAndValidateMcpClient, eN as isValidPkceCodeChallenge, aP as getUserSession, eO as MCP_DEFAULT_SCOPES, eP as MCP_SCOPE_DEFINITIONS, ea as requireUserSession, b as db, w as users, r as readBody, dk as userTokens, dv as MCP_OAUTH_CODE_TOKEN_NAME, eQ as createMcpAuthorizationCodeEnvelope, eR as hashMcpOAuthSecret } from '../../../nitro/nitro.mjs';
+import { d as defineEventHandler, g as getQuery, E as getRequestURL, d$ as sendRedirect, eP as normalizeMcpScopes, e as createError, eQ as resolveAndValidateMcpClient, eR as isValidPkceCodeChallenge, aP as getUserSession, eS as MCP_DEFAULT_SCOPES, eT as MCP_SCOPE_DEFINITIONS, ed as requireUserSession, b as db, w as users, r as readBody, dk as userTokens, dv as MCP_OAUTH_CODE_TOKEN_NAME, eU as createMcpAuthorizationCodeEnvelope, eV as hashMcpOAuthSecret } from '../../../nitro/nitro.mjs';
 import { eq, and } from 'drizzle-orm';
 import 'node:crypto';
 import 'node:http2';
